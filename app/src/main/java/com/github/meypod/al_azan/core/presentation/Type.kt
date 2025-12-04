@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.ui.theme
+package com.github.meypod.al_azan.core.presentation
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
