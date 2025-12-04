@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Use the app ic_launcher background color for the splash background -->
+    <item android:drawable="@color/ic_launcher_background" />
+</layer-list>
