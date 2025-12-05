@@ -6,6 +6,7 @@
 
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="windowSplashScreenBackground">@drawable/launch_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
 
