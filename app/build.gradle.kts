@@ -62,6 +62,8 @@ dependencies {
   implementation(libs.androidx.material3.adaptive.navigation3)
   implementation(libs.kotlinx.serialization.core)
 
+  implementation(libs.tencent.mmkv)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)

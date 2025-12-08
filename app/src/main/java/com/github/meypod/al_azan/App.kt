@@ -3,6 +3,7 @@ package com.github.meypod.al_azan
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.tencent.mmkv.MMKV
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -15,6 +16,7 @@ class App : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        MMKV.initialize(this);
 //        createNotificationChannels(applicationContext)
     }
 }
