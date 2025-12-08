@@ -64,6 +64,8 @@ dependencies {
 
   implementation(libs.tencent.mmkv)
 
+  implementation(libs.batoulapps.adhan)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
