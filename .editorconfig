@@ -5,10 +5,14 @@
 # It includes editor-specific config options for IntelliJ IDEA.
 #
 # If any option is wrong, PR are welcome
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
 
 [{*.kt,*.kts}]
 indent_style = space
-insert_final_newline = true
 max_line_length = 100
 indent_size = 2
 ij_continuation_indent_size = 4
