@@ -1,0 +1,265 @@
+{
+  "SETTINGS_STORAGE": {
+    "state": {
+      "THEME_COLOR": "default",
+      "SELECTED_LOCALE": "fa",
+      "SELECTED_ARABIC_CALENDAR": "islamic-civil",
+      "SELECTED_LOCALE_FOR_ARABIC_CALENDAR": "",
+      "SELECTED_SECONDARY_CALENDAR": "persian",
+      "APP_INITIAL_CONFIG_DONE": false,
+      "APP_INTRO_DONE": true,
+      "SAVED_ADHAN_AUDIO_ENTRIES": [
+        {
+          "id": "masjid_an_nabawi",
+          "filepath": 1,
+          "label": "",
+          "internal": true
+        },
+        {
+          "id": "abdul_basit_abdus_samad",
+          "remoteUri": "https://github.com/meypod/audio_files/raw/main/adhan/abdul_basit_abdus_samad.mp3",
+          "label": "",
+          "internal": true
+        },
+        {
+          "id": "ragheb_mustafa_ghalwash",
+          "remoteUri": "https://github.com/meypod/audio_files/raw/main/adhan/ragheb_mustafa_ghalwash.mp3",
+          "label": "",
+          "internal": true
+        },
+        {
+          "id": "moazen_zade",
+          "remoteUri": "https://github.com/meypod/audio_files/raw/main/adhan/moazen_zade.mp3",
+          "label": "",
+          "internal": true
+        }
+      ],
+      "SAVED_USER_AUDIO_ENTRIES": [],
+      "SELECTED_ADHAN_ENTRIES": {
+        "default": {
+          "id": "masjid_an_nabawi",
+          "filepath": 1,
+          "label": "",
+          "internal": true
+        }
+      },
+      "HIDDEN_PRAYERS": [],
+      "ADHAN_VOLUME": 70,
+      "HIDDEN_WIDGET_PRAYERS": [
+        "tahajjud",
+        "isha",
+        "asr"
+      ],
+      "SHOW_WIDGET": false,
+      "SHOW_WIDGET_COUNTDOWN": false,
+      "ADAPTIVE_WIDGETS": false,
+      "IS_24_HOUR_FORMAT": true,
+      "NUMBERING_SYSTEM": "",
+      "HIGHLIGHT_CURRENT_PRAYER": false,
+      "CALC_SETTINGS_HASH": "37cffac742eab0ce336ad5a2972e8445183865a787fa9785dc2d9227b0c1b82b",
+      "ALARM_SETTINGS_HASH": "c352498dd6f8ab5cf41fd1d9703d63e3a73c3f2a9a8d022df384d943d0237290",
+      "REMINDER_SETTINGS_HASH": "640eb1b73edb86c40360ddd1b770354cf733e0790a65a107716186a7595d28f7",
+      "DELIVERED_ALARM_TIMESTAMPS": {
+        "widget-update-notification": 1765204380000,
+        "widget-update-notification-nextday": 1765139400000,
+        "pre-adhan-trigger-notification": 1765197600642,
+        "adhan-trigger-notification": 1765201200057,
+        "reminder-reminder_1745932214236": 1765201800069
+      },
+      "IS_PLAYING_AUDIO": false,
+      "DONT_ASK_PERMISSION_NOTIFICATIONS": false,
+      "DONT_ASK_PERMISSION_ALARM": false,
+      "DONT_ASK_PERMISSION_PHONE_STATE": false,
+      "DEV_MODE": true,
+      "QIBLA_FINDER_UNDERSTOOD": true,
+      "QIBLA_FINDER_ORIENTATION_LOCKED": true,
+      "VOLUME_BUTTON_STOPS_ADHAN": false,
+      "PREFER_EXTERNAL_AUDIO_DEVICE": false,
+      "BYPASS_DND": true,
+      "COUNTER_HISTORY_VISIBLE": false,
+      "RAMADAN_REMINDED_YEAR": "1444 هـ",
+      "RAMADAN_REMINDER_DONT_SHOW": false,
+      "ADVANCED_CUSTOM_ADHAN": false,
+      "USE_DIFFERENT_ALARM_TYPE": false,
+      "HIJRI_MONTHLY_VIEW": false
+    },
+    "version": 11
+  },
+  "CALC_SETTINGS_STORAGE": {
+    "state": {
+      "LOCATION_LAT": 35.6628073,
+      "LOCATION_LONG": 51.0620525,
+      "LOCATION": {
+        "id": "favorite_city_1694315809709",
+        "label": "Tehran",
+        "lat": 35.69439,
+        "long": 51.42151
+      },
+      "CALCULATION_METHOD_KEY": "Jafari",
+      "ASR_CALCULATION": "shafi",
+      "SHAFAQ": "general",
+      "POLAR_RESOLUTION": "Unresolved",
+      "MIDNIGHT_METHOD": "SunsetToFajr",
+      "ROUNDING_METHOD": "",
+      "FAJR_ADJUSTMENT": -3,
+      "SUNRISE_ADJUSTMENT": 0,
+      "DHUHR_ADJUSTMENT": 0,
+      "ASR_ADJUSTMENT": 0,
+      "SUNSET_ADJUSTMENT": 0,
+      "MAGHRIB_ADJUSTMENT": 0,
+      "ISHA_ADJUSTMENT": 0,
+      "MIDNIGHT_ADJUSTMENT": 0,
+      "HIJRI_DATE_ADJUSTMENT": 0
+    },
+    "version": 6
+  },
+  "ALARM_SETTINGS_STORAGE": {
+    "state": {
+      "SHOW_NEXT_PRAYER_TIME": false,
+      "DONT_NOTIFY_UPCOMING": false,
+      "PRE_ALARM_MINUTES_BEFORE": 60,
+      "DONT_TURN_ON_SCREEN": false,
+      "VIBRATION_MODE": 1,
+      "FAJR_SOUND": true,
+      "FAJR_NOTIFY": true,
+      "SUNRISE_SOUND": false,
+      "SUNRISE_NOTIFY": false,
+      "DHUHR_SOUND": true,
+      "DHUHR_NOTIFY": true,
+      "ASR_SOUND": false,
+      "ASR_NOTIFY": false,
+      "MAGHRIB_SOUND": true,
+      "MAGHRIB_NOTIFY": true,
+      "ISHA_SOUND": false,
+      "ISHA_NOTIFY": false,
+      "MIDNIGHT_SOUND": false,
+      "MIDNIGHT_NOTIFY": false,
+      "TAHAJJUD_SOUND": false,
+      "TAHAJJUD_NOTIFY": false,
+      "SUNSET_SOUND": false,
+      "SUNSET_NOTIFY": false
+    },
+    "version": 3
+  },
+  "COUNTER_STORAGE": {
+    "state": {
+      "counters": [
+        {
+          "count": 4,
+          "id": "fajr",
+          "lastCount": 5,
+          "lastModified": 1694075658254
+        },
+        {
+          "id": "dhuhr",
+          "count": 2,
+          "lastCount": 3,
+          "lastModified": 1682015780915
+        },
+        {
+          "id": "asr",
+          "count": 2,
+          "lastCount": 3,
+          "lastModified": 1682015781247
+        },
+        {
+          "id": "maghrib",
+          "count": 2,
+          "lastCount": 3,
+          "lastModified": 1682015781725
+        },
+        {
+          "id": "isha",
+          "count": 2,
+          "lastCount": 3,
+          "lastModified": 1682015782206
+        },
+        {
+          "count": 0,
+          "id": "fast",
+          "lastCount": 1,
+          "lastModified": 1690461036596
+        },
+        {
+          "count": 0,
+          "id": "counter_1764365125916",
+          "label": "ذکر",
+          "lastCount": 100,
+          "lastModified": 1764365258562
+        }
+      ]
+    },
+    "version": 0
+  },
+  "REMINDER_STORAGE": {
+    "state": {
+      "REMINDERS": [
+        {
+          "id": "reminder_1745932214236",
+          "enabled": true,
+          "duration": 600000,
+          "durationModifier": 1,
+          "prayer": "maghrib",
+          "days": true,
+          "label": "شکر",
+          "sound": {
+            "filepath": null,
+            "label": "پیش فرض (اعلان)",
+            "notif": true,
+            "id": "default",
+            "index": 0
+          }
+        }
+      ],
+      "SHOW_NEXT_PRAYER_TIME": false
+    },
+    "version": 2
+  },
+  "FAVORITE_LOCATIONS_STORAGE": {
+    "state": {
+      "locations": [
+        {
+          "id": "favorite_city_1694315809709",
+          "label": "Tehran",
+          "country": {
+            "code": "IR",
+            "names": "Iran,ایران,إيران,İran,ईरान,Иран,ইরান",
+            "name": "Iran",
+            "selectedName": "Iran"
+          },
+          "city": {
+            "name": "Tehran",
+            "names": "Tehran,THR,Taekhran,Tahran,Techerane,Teera,Teerao,Teerã,Teerão,Tegeran,Teheran,Teherana,Teheranas,Teherano,Teherán,Teherāna,Tehrano,Tekheran,Téhéran,de hei lan,teharan,teharana,tehelan,teheran,tehran,teirani,thran,thrn,thrwn,tihiran,tihran,Τεχεράνη,Тæхран,Тегеран,Техеран,Теҳрон,Թեհրան,טהראן,טהרן,تهران,تهرون,تِهران,تِهِرَن,تہران,طهران,ܛܗܪܐܢ,तेहरान,তেহরান,தெஹ்ரான்,เตหะราน,ཏེ་ཧི་རན​།,თეირანი,ቴህራን,テヘラン,德黑兰,德黑蘭,테헤란",
+            "lat": "35.69439",
+            "lng": "51.42151",
+            "country": "IR",
+            "selectedName": "tehran"
+          },
+          "lat": 35.69439,
+          "long": 51.42151
+        },
+        {
+          "id": "favorite_city_1759308235959",
+          "label": "بندر عباس",
+          "country": {
+            "code": "IR",
+            "names": "Iran,ایران,إيران,İran,ईरान,Иран,ইরান",
+            "name": "Iran",
+            "selectedName": "ایران"
+          },
+          "city": {
+            "name": "Bandar Abbas",
+            "names": "Bandar Abbas,BND,Bandar Abas,Bandar Abbas - بندر عباس,Bandar Abbás,Bandar `Abbas,Bandar `Abbasi,Bandar ‘Abbās,Bandar ‘Abbāsī,Bandar-Abbas,Bandar-Abbasz,Bandar-Abbos,Bandar-Abbász,Bandar-e Abbas,Bandar-e `Abbas,Bandar-e ‘Abbās,Bandare Abasas,Bander Abbas,Bantar Ampas,Bendehr-Abas,Bender Abas,Bender Abbas,Bender Ebbas,Bender-Abbas,Bəndər Abbas,Cambarao,Cambarão,Gombroon,Gumrun,Port Comorao,Port Comorão,a ba si gang,ban dar xab bas,bandaleuabaseu,bandara abbasa,bandara-e-abbasa,bender-abasi,bndr ʻbʼs,bndr ʿbas,gumbrun,Μπαντάρ Αμπάς,Бандар-Аббос,Бендер Абас,Бендер-Аббас,Бендэр-Абас,Բանդեր Աբբաս,בנדר עבאס,بندر عباس,بندرعباس,بَندَر عَبّاسی,بَندَرِ عَبّاس,بەندەر عەباس,گُمبرُّن,बंदर-ए-अब्बास,বন্দর আব্বাস,บันดาร์อับบาส,ბენდერ-აბასი,バンダレ・アッバース,阿巴斯港,반다르아바스",
+            "lat": "27.1865",
+            "lng": "56.2808",
+            "country": "IR",
+            "selectedName": "بندر عباس"
+          },
+          "lat": 27.1865,
+          "long": 56.2808
+        }
+      ]
+    },
+    "version": 0
+  }
+}
