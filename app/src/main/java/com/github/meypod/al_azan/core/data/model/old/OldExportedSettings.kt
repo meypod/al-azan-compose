@@ -8,7 +8,7 @@ data class OldExportedSettings(
     @SerialName("SETTINGS_STORAGE")
     var settingsStorage: OldSettings,
     @SerialName("CALC_SETTINGS_STORAGE")
-    var calcSettingsStorage: OldCalcSettings,
+    var calcSettingsStorage: OldCalculationSettings,
     @SerialName("ALARM_SETTINGS_STORAGE")
     var alarmSettingsStorage: OldAlarmSettings,
     @SerialName("COUNTER_STORAGE")
