@@ -8,13 +8,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OldCalcSettings(
-    val state: OldCalcSettingsState,
+data class OldCalculationSettings(
+    val state: OldCalculationSettingsState,
     val version: Int,
 )
 
 @Serializable
-data class OldCalcSettingsState(
+data class OldCalculationSettingsState(
     @SerialName("LOCATION_LAT") val locationLat: Double? = null,
     @SerialName("LOCATION_LONG") val locationLong: Double? = null,
     @SerialName("LOCATION") val location: OldCalcLocation? = null,
