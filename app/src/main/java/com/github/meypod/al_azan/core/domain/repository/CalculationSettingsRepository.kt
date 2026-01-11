@@ -4,7 +4,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettin
 import kotlinx.coroutines.flow.Flow
 
 interface CalculationSettingsRepository {
-  val calculationSettings: Flow<CalculationSettings>
+  val data: Flow<CalculationSettings>
 
   suspend fun fetch(): CalculationSettings
 

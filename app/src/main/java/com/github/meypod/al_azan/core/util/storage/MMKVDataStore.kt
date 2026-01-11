@@ -12,6 +12,9 @@ import kotlinx.serialization.json.Json
 /**
  * A datastore-like api for mmkv
  * Does not detect cross-process changes
+ *
+ * Make sure to instantiate this inside [Dispatchers.IO] if you don't want your main thread to be
+ * blocked briefly as it loads the data synchronously the first time it gets initialized
  */
 class MMKVDataStore<T>(
     private val mmkv: MMKV,
@@ -32,8 +35,6 @@ class MMKVDataStore<T>(
       defaultValue
     }
   }
-
-  suspend fun read(): T = withContext(Dispatchers.IO) { _state.value }
 
   suspend fun update(transform: suspend (T) -> T) {
     val newValue = transform(_state.value)

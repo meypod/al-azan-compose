@@ -12,9 +12,9 @@ data class OldExportedSettings(
     @SerialName("ALARM_SETTINGS_STORAGE")
     var alarmSettingsStorage: OldAlarmSettings,
     @SerialName("COUNTER_STORAGE")
-    var counterSettingsStorage: OldCounterSettings,
+    var counterStoreStorage: OldCounterStore,
     @SerialName("REMINDER_STORAGE")
-    var reminderSettingsStorage: OldReminderSettings,
+    var reminderSettingsStorage: OldReminderStore,
     @SerialName("FAVORITE_LOCATIONS_STORAGE")
-    var favoriteLocationsSettingsStorage: OldFavoriteLocationsSettings,
+    var favoriteLocationsStorage: OldFavoriteLocationsStore,
 )

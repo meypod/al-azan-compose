@@ -1,0 +1,4 @@
+package com.github.meypod.al_azan.core.data.repository.old;
+
+class OldAlarmSettingsRepositoryImpl {
+}

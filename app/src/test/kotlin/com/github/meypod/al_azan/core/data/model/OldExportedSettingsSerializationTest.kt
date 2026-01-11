@@ -92,8 +92,8 @@ class OldExportedSettingsSerializationTest {
         assertTrue(alarmState.ishaNotify is OldPrayerAlarmSettings.Bool)
         assertEquals(false, (alarmState.ishaNotify as OldPrayerAlarmSettings.Bool).value)
         // Counter storage
-        assertEquals(7, parsed.counterSettingsStorage.state.counters.size)
-        val counters = parsed.counterSettingsStorage.state.counters
+        assertEquals(7, parsed.counterStoreStorage.state.counters.size)
+        val counters = parsed.counterStoreStorage.state.counters
         assertEquals("fajr", counters[0].id)
         assertEquals(4, counters[0].count)
         assertEquals(5, counters[0].lastCount)
@@ -129,8 +129,8 @@ class OldExportedSettingsSerializationTest {
         }
 
         // Favorite locations
-        assertEquals(2, parsed.favoriteLocationsSettingsStorage.state.locations.size)
-        val favs = parsed.favoriteLocationsSettingsStorage.state.locations
+        assertEquals(2, parsed.favoriteLocationsStorage.state.locations.size)
+        val favs = parsed.favoriteLocationsStorage.state.locations
         assertEquals("favorite_city_1694315809709", favs[0].id)
         assertEquals("Tehran", favs[0].label)
         assertEquals(35.69439, favs[0].lat)
@@ -202,7 +202,7 @@ class OldExportedSettingsSerializationTest {
         assertEquals(false, s.hijriMonthlyView)
 
         // Counter storage
-        val counters = parsed.counterSettingsStorage.state.counters
+        val counters = parsed.counterStoreStorage.state.counters
         assertEquals(7, counters.size)
         assertEquals("fajr", counters[0].id); assertEquals(4, counters[0].count); assertEquals(5, counters[0].lastCount)
         assertEquals("dhuhr", counters[1].id); assertEquals(2, counters[1].count)
@@ -284,7 +284,7 @@ class OldExportedSettingsSerializationTest {
         assertEquals(-3, c.fajrAdjustment)
 
         // Favorite locations mapping (2 entries)
-        val favs = parsed.favoriteLocationsSettingsStorage.state.locations
+        val favs = parsed.favoriteLocationsStorage.state.locations
         assertEquals(2, favs.size)
         assertEquals("favorite_city_1694315809709", favs[0].id)
         assertEquals("Tehran", favs[0].label)

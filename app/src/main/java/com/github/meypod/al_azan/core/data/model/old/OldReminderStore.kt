@@ -13,13 +13,13 @@ import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class OldReminderSettings(
-    val state: OldReminderSettingsState,
+data class OldReminderStore(
+    val state: OldReminderStoreState,
     val version: Int,
 )
 
 @Serializable
-data class OldReminderSettingsState(
+data class OldReminderStoreState(
     @SerialName("REMINDERS") val reminders: List<OldReminder> = emptyList(),
 )
 

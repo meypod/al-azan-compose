@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class CalculationSettingsRepositoryImpl(
     private val calcSettingsDatastore: MMKVDataStore<CalculationSettings>
 ) : CalculationSettingsRepository {
-  override val calculationSettings: Flow<CalculationSettings>
+  override val data: Flow<CalculationSettings>
     get() = calcSettingsDatastore.data
 
   override suspend fun fetch(): CalculationSettings {
