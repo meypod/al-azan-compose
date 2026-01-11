@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.domain.model
+package com.github.meypod.al_azan.core.domain.model.adhan
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
