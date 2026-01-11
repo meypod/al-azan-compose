@@ -1,9 +1,9 @@
 package com.github.meypod.al_azan.core.data.model
 
 import com.github.meypod.al_azan.core.data.model.old.*
-import com.github.meypod.al_azan.core.domain.model.AdhanKey
-import com.github.meypod.al_azan.core.domain.model.Prayer
-import com.github.meypod.al_azan.core.domain.model.WidgetCityNamePos
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.presentation.model.WidgetCityNamePos
 import io.github.meypod.adhan_kotlin.MidnightMethod
 import junit.framework.TestCase.assertEquals
 import org.junit.Assert.assertTrue

@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.domain.model
+package com.github.meypod.al_azan.core.domain.model.geo
 
 import kotlinx.serialization.Serializable
 

@@ -1,6 +1,6 @@
 package com.github.meypod.al_azan.core.data.model.old
 
-import com.github.meypod.al_azan.core.domain.model.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
