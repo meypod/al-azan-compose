@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 class OldCalculationSettingsRepositoryImpl(
     private val oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>
 ) : CalculationSettingsRepository {
-  override val calculationSettings: Flow<CalculationSettings> =
+  override val data: Flow<CalculationSettings> =
       oldCalcSettingsDatastore.data.map {
           CalculationSettings(
               location = it.state.location?.toCalcLocationDetail(),
@@ -20,7 +20,7 @@ class OldCalculationSettingsRepositoryImpl(
       }
 
   override suspend fun fetch(): CalculationSettings {
-    return calculationSettings.first()
+    return data.first()
   }
 
   override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings) {
