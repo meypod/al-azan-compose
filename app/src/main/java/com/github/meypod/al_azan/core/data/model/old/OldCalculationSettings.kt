@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.data.model.old
 
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
@@ -20,88 +21,7 @@ import kotlinx.serialization.Serializable
 data class OldCalculationSettings(
     val state: OldCalculationSettingsState,
     val version: Int,
-) {
-
-  fun getCalculationParameters(): CalculationParameters {
-    val st = state
-
-    val fajrAngle = st.fajrAngleOverride?.toDouble() ?: 0.0
-    val ishaAngle = st.ishaAngleOverride?.toDouble() ?: 0.0
-    val maghribAngle = st.maghribAngleOverride?.toDouble() ?: 0.0
-    val ishaInterval = st.ishaIntervalOverride ?: 0
-
-    val method =
-        st.calculationMethodKey?.let { key ->
-          try {
-            CalculationMethod.valueOf(key.uppercase())
-          } catch (_: Exception) {
-            CalculationMethod.OTHER
-          }
-        } ?: CalculationMethod.OTHER
-
-    val madhab =
-        when (st.asrCalculation?.lowercase()) {
-          "hanafi" -> Madhab.HANAFI
-          else -> Madhab.SHAFI
-        }
-
-    val highLatitudeRule =
-        when (st.highLatitudeRule?.lowercase()) {
-          "middleofthenight" -> HighLatitudeRule.MIDDLE_OF_THE_NIGHT
-          "seventhofthenight" -> HighLatitudeRule.SEVENTH_OF_THE_NIGHT
-          "twilightangle" -> HighLatitudeRule.TWILIGHT_ANGLE
-
-          else -> null
-        }
-
-    val prayerAdjustments =
-        PrayerAdjustments(
-            fajr = st.fajrAdjustment,
-            sunrise = st.sunriseAdjustment,
-            dhuhr = st.dhuhrAdjustment,
-            asr = st.asrAdjustment,
-            sunset = st.sunsetAdjustment,
-            maghrib = st.maghribAdjustment,
-            isha = st.ishaAdjustment,
-        )
-
-    val rounding =
-        when (st.roundingMethod?.lowercase()) {
-          "nearest" -> Rounding.NEAREST
-          "up" -> Rounding.UP
-          else -> Rounding.NEAREST
-        }
-
-    val shafaq =
-        when (st.shafaq?.lowercase()) {
-          "general" -> Shafaq.GENERAL
-          "ahmer" -> Shafaq.AHMER
-          "abyad" -> Shafaq.ABYAD
-          else -> Shafaq.GENERAL
-        }
-
-    val polarCircleResolution = when(st.polarResolution?.lowercase()) {
-      "aqrabbalad" -> PolarCircleResolution.AqrabBalad
-      "aqrabyaum" -> PolarCircleResolution.AqrabYaum
-      else -> PolarCircleResolution.Unresolved
-    }
-
-    return CalculationParameters(
-        fajrAngle = fajrAngle,
-        ishaAngle = ishaAngle,
-        ishaInterval = ishaInterval,
-        maghribAngle = maghribAngle,
-        method = method,
-        madhab = madhab,
-        highLatitudeRule = highLatitudeRule,
-        prayerAdjustments = prayerAdjustments,
-        methodAdjustments = PrayerAdjustments(),
-        rounding = rounding,
-        shafaq = shafaq,
-        polarCircleResolution = polarCircleResolution,
-    )
-  }
-}
+)
 
 @Serializable
 data class OldCalculationSettingsState(
@@ -141,7 +61,92 @@ data class OldCalculationSettingsState(
     @SerialName("ISHA_ADJUSTMENT") val ishaAdjustment: Int,
     @SerialName("MIDNIGHT_ADJUSTMENT") val midnightAdjustment: Int,
     @SerialName("HIJRI_DATE_ADJUSTMENT") val hijriDateAdjustment: Int,
-)
+) {
+
+  fun getCalculationParameters(): CalculationParameters {
+
+    val fajrAngle = this.fajrAngleOverride?.toDouble() ?: 0.0
+    val ishaAngle = this.ishaAngleOverride?.toDouble() ?: 0.0
+    val maghribAngle = this.maghribAngleOverride?.toDouble() ?: 0.0
+    val ishaInterval = this.ishaIntervalOverride ?: 0
+
+    val method =
+        this.calculationMethodKey?.let { key ->
+          try {
+            CalculationMethod.valueOf(key.uppercase())
+          } catch (_: Exception) {
+            CalculationMethod.OTHER
+          }
+        } ?: CalculationMethod.OTHER
+
+    val madhab =
+        when (this.asrCalculation?.lowercase()) {
+          "hanafi" -> Madhab.HANAFI
+          else -> Madhab.SHAFI
+        }
+
+    val highLatitudeRule =
+        when (this.highLatitudeRule?.lowercase()) {
+          "middleofthenight" -> HighLatitudeRule.MIDDLE_OF_THE_NIGHT
+          "seventhofthenight" -> HighLatitudeRule.SEVENTH_OF_THE_NIGHT
+          "twilightangle" -> HighLatitudeRule.TWILIGHT_ANGLE
+
+          else -> null
+        }
+
+    val prayerAdjustments =
+        PrayerAdjustments(
+            fajr = this.fajrAdjustment,
+            sunrise = this.sunriseAdjustment,
+            dhuhr = this.dhuhrAdjustment,
+            asr = this.asrAdjustment,
+            sunset = this.sunsetAdjustment,
+            maghrib = this.maghribAdjustment,
+            isha = this.ishaAdjustment,
+        )
+
+    val rounding =
+        when (this.roundingMethod?.lowercase()) {
+          "nearest" -> Rounding.NEAREST
+          "up" -> Rounding.UP
+          else -> Rounding.NEAREST
+        }
+
+    val shafaq =
+        when (this.shafaq?.lowercase()) {
+          "general" -> Shafaq.GENERAL
+          "ahmer" -> Shafaq.AHMER
+          "abyad" -> Shafaq.ABYAD
+          else -> Shafaq.GENERAL
+        }
+
+    val polarCircleResolution = when (this.polarResolution?.lowercase()) {
+      "aqrabbalad" -> PolarCircleResolution.AqrabBalad
+      "aqrabyaum" -> PolarCircleResolution.AqrabYaum
+      else -> PolarCircleResolution.Unresolved
+    }
+
+    return CalculationParameters(
+        fajrAngle = fajrAngle,
+        ishaAngle = ishaAngle,
+        ishaInterval = ishaInterval,
+        maghribAngle = maghribAngle,
+        method = method,
+        madhab = madhab,
+        highLatitudeRule = highLatitudeRule,
+        prayerAdjustments = prayerAdjustments,
+        methodAdjustments = PrayerAdjustments(),
+        rounding = rounding,
+        shafaq = shafaq,
+        polarCircleResolution = polarCircleResolution,
+    )
+  }
+
+  fun toCalculationSettings() = CalculationSettings(
+      location = this.location?.toCalcLocationDetail(),
+      parameters = this.getCalculationParameters(),
+  )
+}
 
 @Serializable
 data class OldCalcLocation(
