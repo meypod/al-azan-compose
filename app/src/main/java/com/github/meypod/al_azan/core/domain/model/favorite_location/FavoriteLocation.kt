@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.domain.model.favorite_locations
+package com.github.meypod.al_azan.core.domain.model.favorite_location
 
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import kotlinx.serialization.Serializable
