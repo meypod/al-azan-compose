@@ -1,23 +1,30 @@
-package com.github.meypod.al_azan.core.data.repository
+package com.github.meypod.al_azan.core.data.repository.old
 
+import com.github.meypod.al_azan.core.data.model.old.OldCounterStore
+import com.github.meypod.al_azan.core.data.model.old.toCounter
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
-class CounterRepositoryImpl(
-    private val counterStoreDatastore: MMKVDataStore<List<Counter>>
+class OldCounterRepositoryImpl(
+    oldCounterStoreDatastore: MMKVDataStore<OldCounterStore>
 ) : CounterRepository {
   override val data: Flow<List<Counter>> =
-      counterStoreDatastore.data
+      oldCounterStoreDatastore.data.map { oldCounterStore ->
+        oldCounterStore.state.counters.map {
+          it.toCounter()
+        }
+      }
 
   override suspend fun fetch(): List<Counter> {
     return data.first()
   }
 
   override suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>) {
-    counterStoreDatastore.update(transform)
+    throw RuntimeException("Unsupported operation")
   }
 }
 

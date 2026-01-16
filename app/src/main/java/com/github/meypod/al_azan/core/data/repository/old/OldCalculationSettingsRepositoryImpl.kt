@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldCalculationSettingsRepositoryImpl(
-    private val oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>
+    oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>
 ) : CalculationSettingsRepository {
   override val data: Flow<CalculationSettings> =
       oldCalcSettingsDatastore.data.map {
