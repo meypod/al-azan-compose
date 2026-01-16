@@ -1,5 +1,8 @@
 package com.github.meypod.al_azan.core.data.model.old
 
+import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
+import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -49,7 +52,34 @@ data class OldAlarmSettingsState(
     @SerialName("TAHAJJUD_NOTIFY") val tahajjudNotify: OldPrayerAlarmSettings? = null,
     @SerialName("SUNSET_SOUND") val sunsetSound: OldPrayerAlarmSettings? = null,
     @SerialName("SUNSET_NOTIFY") val sunsetNotify: OldPrayerAlarmSettings? = null,
-)
+) {
+  fun toAlarmSettings() = AlarmSettings(
+      showNextPrayerTime = this.showNextPrayerTime,
+      dontNotifyUpcoming = this.dontNotifyUpcoming,
+      preAlarmMinutesBefore = this.preAlarmMinutesBefore,
+      dontTurnOnScreen = this.dontTurnOnScreen,
+      vibrationMode = this.vibrationMode.toVibrationMode(),
+      //
+      fajrSound = this.fajrSound.toPrayerAlarmSettings(),
+      fajrNotify = this.fajrNotify.toPrayerAlarmSettings(),
+      sunriseSound = this.sunriseSound.toPrayerAlarmSettings(),
+      sunriseNotify = this.sunriseNotify.toPrayerAlarmSettings(),
+      dhuhrSound = this.dhuhrSound.toPrayerAlarmSettings(),
+      dhuhrNotify = this.dhuhrNotify.toPrayerAlarmSettings(),
+      asrSound = this.asrSound.toPrayerAlarmSettings(),
+      asrNotify = this.asrNotify.toPrayerAlarmSettings(),
+      maghribSound = this.maghribSound.toPrayerAlarmSettings(),
+      maghribNotify = this.maghribNotify.toPrayerAlarmSettings(),
+      ishaSound = this.ishaSound.toPrayerAlarmSettings(),
+      ishaNotify = this.ishaNotify.toPrayerAlarmSettings(),
+      midnightSound = this.midnightSound.toPrayerAlarmSettings(),
+      midnightNotify = this.midnightNotify.toPrayerAlarmSettings(),
+      tahajjudSound = this.tahajjudSound.toPrayerAlarmSettings(),
+      tahajjudNotify = this.tahajjudNotify.toPrayerAlarmSettings(),
+      sunsetSound = this.sunsetSound.toPrayerAlarmSettings(),
+      sunsetNotify = this.sunsetNotify.toPrayerAlarmSettings(),
+  )
+}
 
 @Serializable(with = OldPrayerAlarmSettingsSerializer::class)
 sealed interface OldPrayerAlarmSettings {
@@ -61,6 +91,13 @@ sealed interface OldPrayerAlarmSettings {
   ) : OldPrayerAlarmSettings
 }
 
+fun OldPrayerAlarmSettings?.toPrayerAlarmSettings() =
+    when (this) {
+      is OldPrayerAlarmSettings.Bool -> PrayerAlarmSettings.Bool(this.value)
+      is OldPrayerAlarmSettings.ByWeekDay -> PrayerAlarmSettings.ByWeekDay(this.days)
+      null -> PrayerAlarmSettings.Bool(false)
+    }
+
 object OldPrayerAlarmSettingsSerializer : KSerializer<OldPrayerAlarmSettings?> {
   private val elementSerializer = JsonElement.serializer()
 
@@ -69,11 +106,11 @@ object OldPrayerAlarmSettingsSerializer : KSerializer<OldPrayerAlarmSettings?> {
   override fun deserialize(decoder: Decoder): OldPrayerAlarmSettings? {
     val jsonDecoder =
         decoder as? JsonDecoder
-            ?: throw SerializationException(
-                "OldPrayerAlarmSettings can be deserialized only by JSON"
-            )
+          ?: throw SerializationException(
+              "OldPrayerAlarmSettings can be deserialized only by JSON",
+          )
     return when (val elem = jsonDecoder.decodeSerializableValue(elementSerializer)) {
-      is JsonNull -> null
+      is JsonNull -> OldPrayerAlarmSettings.Bool(false)
       is JsonPrimitive -> {
         if (elem.isString) {
           null
@@ -83,10 +120,13 @@ object OldPrayerAlarmSettingsSerializer : KSerializer<OldPrayerAlarmSettings?> {
           throw SerializationException("Unsupported primitive for OldPrayerAlarmSettings: $elem")
         }
       }
+
       is JsonObject -> {
-        val map = elem.mapValues { (_, v) -> v.jsonPrimitive.boolean }.mapKeys { it.key.toInt() }
+        val map = elem.mapValues { (_, v) -> v.jsonPrimitive.booleanOrNull ?: false }
+            .mapKeys { it.key.toInt() }
         OldPrayerAlarmSettings.ByWeekDay(map)
       }
+
       else -> throw SerializationException("Unsupported JSON for OldPrayerAlarmSettings: $elem")
     }
   }
@@ -94,17 +134,17 @@ object OldPrayerAlarmSettingsSerializer : KSerializer<OldPrayerAlarmSettings?> {
   override fun serialize(encoder: Encoder, value: OldPrayerAlarmSettings?) {
     val jsonEncoder =
         encoder as? JsonEncoder
-            ?: throw SerializationException("OldPrayerAlarmSettings can be serialized only by JSON")
+          ?: throw SerializationException("OldPrayerAlarmSettings can be serialized only by JSON")
 
     val outElem: JsonElement =
         when (value) {
           is OldPrayerAlarmSettings.Bool -> JsonPrimitive(value.value)
           is OldPrayerAlarmSettings.ByWeekDay ->
-              JsonObject(
-                  value.days.mapKeys { it.key.toString() }.mapValues { JsonPrimitive(it.value) }
-              )
+            JsonObject(
+                value.days.mapKeys { it.key.toString() }.mapValues { JsonPrimitive(it.value) },
+            )
+
           null -> JsonNull
-          else -> throw SerializationException("Unknown OldPrayerAlarmSettings subtype: $value")
         }
 
     jsonEncoder.encodeSerializableValue(elementSerializer, outElem)
@@ -120,11 +160,9 @@ object OldVibrationModeSerializer : KSerializer<OldVibrationMode> {
   override fun deserialize(decoder: Decoder): OldVibrationMode {
     val jsonDecoder =
         decoder as? JsonDecoder
-            ?: throw SerializationException("OldVibrationMode can be deserialized only by JSON")
+          ?: throw SerializationException("OldVibrationMode can be deserialized only by JSON")
 
-    val elem = jsonDecoder.decodeSerializableValue(elementSerializer)
-
-    return when (elem) {
+    return when (val elem = jsonDecoder.decodeSerializableValue(elementSerializer)) {
       is JsonPrimitive -> {
         if (elem.isString) {
           val name = elem.content
@@ -135,11 +173,12 @@ object OldVibrationModeSerializer : KSerializer<OldVibrationMode> {
           }
         } else {
           val num = elem.content.toIntOrNull()
-              ?: throw SerializationException("Unsupported primitive for OldVibrationMode: $elem")
-          OldVibrationMode.values().getOrNull(num)
-              ?: throw SerializationException("Invalid ordinal for OldVibrationMode: $num")
+            ?: throw SerializationException("Unsupported primitive for OldVibrationMode: $elem")
+          OldVibrationMode.entries.getOrNull(num)
+            ?: throw SerializationException("Invalid ordinal for OldVibrationMode: $num")
         }
       }
+
       else -> throw SerializationException("Unsupported JSON for OldVibrationMode: $elem")
     }
   }
@@ -147,7 +186,7 @@ object OldVibrationModeSerializer : KSerializer<OldVibrationMode> {
   override fun serialize(encoder: Encoder, value: OldVibrationMode) {
     val jsonEncoder =
         encoder as? JsonEncoder
-            ?: throw SerializationException("OldVibrationMode can be serialized only by JSON")
+          ?: throw SerializationException("OldVibrationMode can be serialized only by JSON")
 
     val outElem: JsonElement = JsonPrimitive(value.name)
 
@@ -160,4 +199,11 @@ enum class OldVibrationMode {
   Off,
   Once,
   Continuous,
+}
+
+fun OldVibrationMode?.toVibrationMode() = when (this) {
+  OldVibrationMode.Off -> VibrationMode.Off
+  OldVibrationMode.Once -> VibrationMode.Once
+  OldVibrationMode.Continuous -> VibrationMode.Continuous
+  else -> VibrationMode.Once
 }

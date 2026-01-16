@@ -13,10 +13,7 @@ class OldCalculationSettingsRepositoryImpl(
 ) : CalculationSettingsRepository {
   override val data: Flow<CalculationSettings> =
       oldCalcSettingsDatastore.data.map {
-          CalculationSettings(
-              location = it.state.location?.toCalcLocationDetail(),
-              parameters = it.getCalculationParameters(),
-          )
+        it.state.toCalculationSettings()
       }
 
   override suspend fun fetch(): CalculationSettings {
