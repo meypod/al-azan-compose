@@ -22,26 +22,32 @@ class MMKVDataStore<T>(
     private val serializer: KSerializer<T>,
     private val defaultValue: T,
     private val json: Json = Json { ignoreUnknownKeys = true },
-) {
+): SimpleJsonDataStore<T> {
   private val _state: MutableStateFlow<T> = MutableStateFlow(loadSync())
 
-  val data: StateFlow<T> = _state.asStateFlow()
+  override val data: StateFlow<T> = _state.asStateFlow()
 
   private fun loadSync(): T {
     val raw = mmkv.decodeString(key, null) ?: return defaultValue
     return try {
       json.decodeFromString(serializer, raw)
     } catch (e: Exception) {
-      defaultValue
+      throw RuntimeException("Unknown error when decoding stored data", e)
     }
   }
 
-  suspend fun update(transform: suspend (T) -> T) {
+  override suspend fun update(transform: suspend (T) -> T) {
     val newValue = transform(_state.value)
-    val serialized = withContext(Dispatchers.Default) { json.encodeToString(serializer, newValue) }
     withContext(Dispatchers.IO) {
+      val serialized = json.encodeToString(serializer, newValue)
       mmkv.encode(key, serialized)
       _state.value = newValue
+    }
+  }
+
+  override suspend fun getVersionedDataJsonString(): String {
+    return withContext(Dispatchers.IO) {
+      mmkv.decodeString(key) ?: json.encodeToString(serializer, defaultValue)
     }
   }
 }
