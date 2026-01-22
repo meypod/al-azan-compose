@@ -70,7 +70,7 @@ class MMKVDataStoreVersioned<T>(
     }
   }
 
-  override suspend fun getVersionedDataJsonString(): String {
+  override suspend fun getStoredJsonString(): String {
     return withContext(Dispatchers.IO) {
       mmkv.decodeString(key) ?: serializeForStorage(defaultValue)
     }

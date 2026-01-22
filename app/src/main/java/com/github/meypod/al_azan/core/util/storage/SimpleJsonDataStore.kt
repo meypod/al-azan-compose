@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.StateFlow
 interface SimpleJsonDataStore<T> {
   val data: StateFlow<T>
   suspend fun update(transform: suspend (T) -> T)
-  suspend fun getVersionedDataJsonString(): String
+  suspend fun getStoredJsonString(): String
 }
