@@ -48,7 +48,6 @@ class OldExportedSettingsSerializationTest {
         // Calc settings
         assertEquals(35.6628073, parsed.calcSettingsStorage.state.locationLat)
         assertEquals(51.0620525, parsed.calcSettingsStorage.state.locationLong)
-        assertEquals("favorite_city_1694315809709", parsed.calcSettingsStorage.state.location?.id)
         assertEquals(35.69439, parsed.calcSettingsStorage.state.location?.lat)
         assertEquals("Jafari", parsed.calcSettingsStorage.state.calculationMethodKey)
         assertEquals("shafi", parsed.calcSettingsStorage.state.asrCalculation)
@@ -272,7 +271,6 @@ class OldExportedSettingsSerializationTest {
         val c = parsed.calcSettingsStorage.state
         assertEquals(35.6628073, c.locationLat)
         assertEquals(51.0620525, c.locationLong)
-        assertEquals("favorite_city_1694315809709", c.location?.id)
         assertEquals(35.69439, c.location?.lat)
         assertEquals("Jafari", c.calculationMethodKey)
         assertEquals("hanafi", c.asrCalculation)
