@@ -9,18 +9,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldCalculationSettingsRepositoryImpl(
-    oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>
+    oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>,
 ) : CalculationSettingsRepository {
-  override val data: Flow<CalculationSettings> =
-      oldCalcSettingsDatastore.data.map {
-        it.state.toCalculationSettings()
-      }
+    override val data: Flow<CalculationSettings> =
+        oldCalcSettingsDatastore.data.map {
+            it.state.toCalculationSettings()
+        }
 
-  override suspend fun fetch(): CalculationSettings {
-    return data.first()
-  }
+    override suspend fun fetch(): CalculationSettings = data.first()
 
-  override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings) {
-    throw RuntimeException("Unsupported operation")
-  }
+    override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings): Unit =
+        throw RuntimeException("Unsupported operation")
 }

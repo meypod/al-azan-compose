@@ -18,63 +18,70 @@ import kotlinx.serialization.json.jsonPrimitive
 
 @Serializable(with = PrayerAlarmSettingsSerializer::class)
 sealed interface PrayerAlarmSettings {
-  data class Bool(val value: Boolean) : PrayerAlarmSettings
+    data class Bool(
+        val value: Boolean,
+    ) : PrayerAlarmSettings
 
-  data class ByWeekDay(
-      /** map of weekDayIndex -> enabled; missing keys = disabled */
-      val days: Map<Int, Boolean> = emptyMap(),
-  ) : PrayerAlarmSettings {
-    fun get(weekDayIndex: Int) = days.getOrDefault(weekDayIndex, false)
-  }
+    data class ByWeekDay(
+        /** map of weekDayIndex -> enabled; missing keys = disabled */
+        val days: Map<Int, Boolean> = emptyMap(),
+    ) : PrayerAlarmSettings {
+        fun get(weekDayIndex: Int) = days.getOrDefault(weekDayIndex, false)
+    }
 }
 
 object PrayerAlarmSettingsSerializer : KSerializer<PrayerAlarmSettings> {
-  private val elementSerializer = JsonElement.serializer()
+    private val elementSerializer = JsonElement.serializer()
 
-  override val descriptor: SerialDescriptor = elementSerializer.descriptor
+    override val descriptor: SerialDescriptor = elementSerializer.descriptor
 
-  override fun deserialize(decoder: Decoder): PrayerAlarmSettings {
-    val jsonDecoder =
-        decoder as? JsonDecoder
-          ?: throw SerializationException(
-              "PrayerAlarmSettings can be deserialized only by JSON",
-          )
-    return when (val elem = jsonDecoder.decodeSerializableValue(elementSerializer)) {
-      is JsonNull -> PrayerAlarmSettings.Bool(false)
-      is JsonPrimitive -> {
-        if (elem.isString) {
-          PrayerAlarmSettings.Bool(false)
-        } else if (elem.booleanOrNull != null) {
-          PrayerAlarmSettings.Bool(elem.boolean)
-        } else {
-          throw SerializationException("Unsupported primitive for PrayerAlarmSettings: $elem")
+    override fun deserialize(decoder: Decoder): PrayerAlarmSettings {
+        val jsonDecoder =
+            decoder as? JsonDecoder
+                ?: throw SerializationException(
+                    "PrayerAlarmSettings can be deserialized only by JSON",
+                )
+        return when (val elem = jsonDecoder.decodeSerializableValue(elementSerializer)) {
+            is JsonNull -> PrayerAlarmSettings.Bool(false)
+
+            is JsonPrimitive -> {
+                if (elem.isString) {
+                    PrayerAlarmSettings.Bool(false)
+                } else if (elem.booleanOrNull != null) {
+                    PrayerAlarmSettings.Bool(elem.boolean)
+                } else {
+                    throw SerializationException("Unsupported primitive for PrayerAlarmSettings: $elem")
+                }
+            }
+
+            is JsonObject -> {
+                val map = elem.mapValues { (_, v) -> v.jsonPrimitive.booleanOrNull ?: false }
+                    .mapKeys { it.key.toInt() }
+                PrayerAlarmSettings.ByWeekDay(map)
+            }
+
+            else -> throw SerializationException("Unsupported JSON for PrayerAlarmSettings: $elem")
         }
-      }
-
-      is JsonObject -> {
-        val map = elem.mapValues { (_, v) -> v.jsonPrimitive.booleanOrNull ?: false }
-            .mapKeys { it.key.toInt() }
-        PrayerAlarmSettings.ByWeekDay(map)
-      }
-
-      else -> throw SerializationException("Unsupported JSON for PrayerAlarmSettings: $elem")
     }
-  }
 
-  override fun serialize(encoder: Encoder, value: PrayerAlarmSettings) {
-    val jsonEncoder =
-        encoder as? JsonEncoder
-          ?: throw SerializationException("PrayerAlarmSettings can be serialized only by JSON")
+    override fun serialize(
+        encoder: Encoder,
+        value: PrayerAlarmSettings,
+    ) {
+        val jsonEncoder =
+            encoder as? JsonEncoder
+                ?: throw SerializationException("PrayerAlarmSettings can be serialized only by JSON")
 
-    val outElem: JsonElement =
-        when (value) {
-          is PrayerAlarmSettings.Bool -> JsonPrimitive(value.value)
-          is PrayerAlarmSettings.ByWeekDay ->
-            JsonObject(
-                value.days.mapKeys { it.key.toString() }.mapValues { JsonPrimitive(it.value) },
-            )
-        }
+        val outElem: JsonElement =
+            when (value) {
+                is PrayerAlarmSettings.Bool -> JsonPrimitive(value.value)
 
-    jsonEncoder.encodeSerializableValue(elementSerializer, outElem)
-  }
+                is PrayerAlarmSettings.ByWeekDay ->
+                    JsonObject(
+                        value.days.mapKeys { it.key.toString() }.mapValues { JsonPrimitive(it.value) },
+                    )
+            }
+
+        jsonEncoder.encodeSerializableValue(elementSerializer, outElem)
+    }
 }

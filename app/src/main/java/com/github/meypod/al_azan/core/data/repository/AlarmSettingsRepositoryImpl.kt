@@ -8,14 +8,14 @@ import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
 import kotlinx.coroutines.flow.Flow
 
 class AlarmSettingsRepositoryImpl(
-  private val alarmSettingsDatastore: MMKVDataStore<AlarmSettings>,
+    private val alarmSettingsDatastore: MMKVDataStore<AlarmSettings>,
 ) : AlarmSettingsRepository {
-  override val data: Flow<AlarmSettings>
-    get() = alarmSettingsDatastore.data
+    override val data: Flow<AlarmSettings>
+        get() = alarmSettingsDatastore.data
 
-  override suspend fun fetch(): AlarmSettings = alarmSettingsDatastore.data.value
+    override suspend fun fetch(): AlarmSettings = alarmSettingsDatastore.data.value
 
-  override suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings) {
-    alarmSettingsDatastore.update(transform)
-  }
+    override suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings) {
+        alarmSettingsDatastore.update(transform)
+    }
 }

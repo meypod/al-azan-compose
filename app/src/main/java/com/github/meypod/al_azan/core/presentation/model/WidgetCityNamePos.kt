@@ -5,8 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class WidgetCityNamePos {
-  @SerialName("top_start")
-  TopStart,
-  @SerialName("top_end")
-  TopEnd,
+    @SerialName("top_start")
+    TopStart,
+
+    @SerialName("top_end")
+    TopEnd,
 }

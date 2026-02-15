@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 class ReminderRepositoryImpl(
-  private val reminderStoreDatastore: MMKVDataStore<List<Reminder>>,
+    private val reminderStoreDatastore: MMKVDataStore<List<Reminder>>,
 ) : ReminderRepository {
-  override val data: Flow<List<Reminder>>
-    get() = reminderStoreDatastore.data
+    override val data: Flow<List<Reminder>>
+        get() = reminderStoreDatastore.data
 
-  override suspend fun fetch(): List<Reminder> = data.first()
+    override suspend fun fetch(): List<Reminder> = data.first()
 
-  override suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>) {
-    reminderStoreDatastore.update(transform)
-  }
+    override suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>) {
+        reminderStoreDatastore.update(transform)
+    }
 }

@@ -10,15 +10,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldSetttingsRepositoryImpl(
-  oldSettingsDatastore: MMKVDataStore<OldSettings>,
+    oldSettingsDatastore: MMKVDataStore<OldSettings>,
 ) : SettingsRepository {
-  override val data: Flow<Settings> =
-    oldSettingsDatastore.data.map {
-      it.state.toSettings()
-    }
+    override val data: Flow<Settings> =
+        oldSettingsDatastore.data.map {
+            it.state.toSettings()
+        }
 
-  override suspend fun fetch(): Settings = data.first()
+    override suspend fun fetch(): Settings = data.first()
 
-  override suspend fun update(transform: suspend (t: Settings) -> Settings): Unit =
-    throw RuntimeException("Unsupported operation")
+    override suspend fun update(transform: suspend (t: Settings) -> Settings): Unit = throw RuntimeException("Unsupported operation")
 }

@@ -16,36 +16,36 @@ import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun IntroNavigation(modifier: Modifier = Modifier) {
-  val introBackstack =
-      rememberNavBackStack(
-          configuration =
-              SavedStateConfiguration {
-                serializersModule = SerializersModule {
-                  polymorphic(NavKey::class) {
-                    subclass(
-                        Route.Intro.LanguageSelection::class,
-                        Route.Intro.LanguageSelection.serializer(),
-                    )
-                  }
-                }
-              },
-          Route.Intro.LanguageSelection,
-      )
+    val introBackstack =
+        rememberNavBackStack(
+            configuration =
+                SavedStateConfiguration {
+                    serializersModule = SerializersModule {
+                        polymorphic(NavKey::class) {
+                            subclass(
+                                Route.Intro.LanguageSelection::class,
+                                Route.Intro.LanguageSelection.serializer(),
+                            )
+                        }
+                    }
+                },
+            Route.Intro.LanguageSelection,
+        )
 
-  NavDisplay(
-      backStack = introBackstack,
-      modifier = modifier,
-      entryDecorators =
-          listOf(
-              rememberSaveableStateHolderNavEntryDecorator(),
-              rememberViewModelStoreNavEntryDecorator(),
-          ),
-      entryProvider =
-          entryProvider {
-            entry<Route.Intro.LanguageSelection> {
-              // todo
-              Text("Intro")
-            }
-          },
-  )
+    NavDisplay(
+        backStack = introBackstack,
+        modifier = modifier,
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+        entryProvider =
+            entryProvider {
+                entry<Route.Intro.LanguageSelection> {
+                    // todo
+                    Text("Intro")
+                }
+            },
+    )
 }

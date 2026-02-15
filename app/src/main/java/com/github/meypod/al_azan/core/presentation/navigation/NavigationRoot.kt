@@ -16,33 +16,33 @@ import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
-  val rootBackStack =
-      rememberNavBackStack(
-          configuration =
-              SavedStateConfiguration {
-                serializersModule = SerializersModule {
-                  polymorphic(NavKey::class) {
-                    subclass(Route.Intro::class, Route.Intro.serializer())
-                    subclass(Route.Main::class, Route.Main.serializer())
-                  }
-                }
-              },
-          Route.Main,
-      )
+    val rootBackStack =
+        rememberNavBackStack(
+            configuration =
+                SavedStateConfiguration {
+                    serializersModule = SerializersModule {
+                        polymorphic(NavKey::class) {
+                            subclass(Route.Intro::class, Route.Intro.serializer())
+                            subclass(Route.Main::class, Route.Main.serializer())
+                        }
+                    }
+                },
+            Route.Main,
+        )
 
-  NavDisplay(
-      modifier = modifier,
-      backStack = rootBackStack,
-      entryDecorators =
-          listOf(
-              rememberSaveableStateHolderNavEntryDecorator(),
-              rememberViewModelStoreNavEntryDecorator(),
-          ),
-      entryProvider =
-          entryProvider {
-            entry<Route.Intro> { IntroNavigation() }
+    NavDisplay(
+        modifier = modifier,
+        backStack = rootBackStack,
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+        entryProvider =
+            entryProvider {
+                entry<Route.Intro> { IntroNavigation() }
 
-            entry<Route.Main> { MainNavigation() }
-          },
-  )
+                entry<Route.Main> { MainNavigation() }
+            },
+    )
 }

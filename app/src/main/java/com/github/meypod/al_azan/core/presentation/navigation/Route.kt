@@ -4,18 +4,17 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface Route: NavKey {
+sealed interface Route : NavKey {
 
     @Serializable
-    data object Intro: Route {
+    data object Intro : Route {
         @Serializable
-        data object LanguageSelection: Route
+        data object LanguageSelection : Route
     }
 
     @Serializable
-    data object Main: Route {
+    data object Main : Route {
         @Serializable
-        data object Home: Route
+        data object Home : Route
     }
-
 }

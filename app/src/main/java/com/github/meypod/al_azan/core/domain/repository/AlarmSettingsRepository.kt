@@ -4,9 +4,9 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import kotlinx.coroutines.flow.Flow
 
 interface AlarmSettingsRepository {
-  val data: Flow<AlarmSettings>
+    val data: Flow<AlarmSettings>
 
-  suspend fun fetch(): AlarmSettings
+    suspend fun fetch(): AlarmSettings
 
-  suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings)
+    suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings)
 }

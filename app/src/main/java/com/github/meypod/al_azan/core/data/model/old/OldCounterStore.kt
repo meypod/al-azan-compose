@@ -24,12 +24,11 @@ data class OldCounter(
     val lastCount: Int? = null,
 )
 
-fun OldCounter.toCounter(): Counter {
-  return Counter(
-      this.id,
-      this.label,
-      this.count,
-      this.lastModified,
-      this.lastCount,
-  )
-}
+fun OldCounter.toCounter(): Counter =
+    Counter(
+        this.id,
+        this.label,
+        this.count,
+        this.lastModified,
+        this.lastCount,
+    )

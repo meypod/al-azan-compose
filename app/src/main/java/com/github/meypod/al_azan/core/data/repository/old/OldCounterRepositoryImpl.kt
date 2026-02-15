@@ -10,21 +10,17 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldCounterRepositoryImpl(
-    oldCounterStoreDatastore: MMKVDataStore<OldCounterStore>
+    oldCounterStoreDatastore: MMKVDataStore<OldCounterStore>,
 ) : CounterRepository {
-  override val data: Flow<List<Counter>> =
-      oldCounterStoreDatastore.data.map { oldCounterStore ->
-        oldCounterStore.state.counters.map {
-          it.toCounter()
+    override val data: Flow<List<Counter>> =
+        oldCounterStoreDatastore.data.map { oldCounterStore ->
+            oldCounterStore.state.counters.map {
+                it.toCounter()
+            }
         }
-      }
 
-  override suspend fun fetch(): List<Counter> {
-    return data.first()
-  }
+    override suspend fun fetch(): List<Counter> = data.first()
 
-  override suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>) {
-    throw RuntimeException("Unsupported operation")
-  }
+    override suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>): Unit =
+        throw RuntimeException("Unsupported operation")
 }
-

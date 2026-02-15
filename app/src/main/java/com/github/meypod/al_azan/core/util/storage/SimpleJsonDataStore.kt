@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
  * T must be [kotlinx.serialization.Serializable]
  */
 interface SimpleJsonDataStore<T> {
-  val data: StateFlow<T>
-  suspend fun update(transform: suspend (T) -> T)
-  suspend fun getStoredJsonString(): String
+    val data: StateFlow<T>
+    suspend fun update(transform: suspend (T) -> T)
+    suspend fun getStoredJsonString(): String
 }

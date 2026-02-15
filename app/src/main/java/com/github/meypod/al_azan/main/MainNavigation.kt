@@ -16,36 +16,36 @@ import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun MainNavigation(modifier: Modifier = Modifier) {
-  val mainBackstack =
-      rememberNavBackStack(
-          configuration =
-              SavedStateConfiguration {
-                serializersModule = SerializersModule {
-                  polymorphic(NavKey::class) {
-                    subclass(
-                        Route.Main.Home::class,
-                        Route.Main.Home.serializer(),
-                    )
-                  }
-                }
-              },
-          Route.Main.Home,
-      )
+    val mainBackstack =
+        rememberNavBackStack(
+            configuration =
+                SavedStateConfiguration {
+                    serializersModule = SerializersModule {
+                        polymorphic(NavKey::class) {
+                            subclass(
+                                Route.Main.Home::class,
+                                Route.Main.Home.serializer(),
+                            )
+                        }
+                    }
+                },
+            Route.Main.Home,
+        )
 
-  NavDisplay(
-      backStack = mainBackstack,
-      modifier = modifier,
-      entryDecorators =
-          listOf(
-              rememberSaveableStateHolderNavEntryDecorator(),
-              rememberViewModelStoreNavEntryDecorator(),
-          ),
-      entryProvider =
-          entryProvider {
-            entry<Route.Main.Home> {
-              // todo
-              Text("Home")
-            }
-          },
-  )
+    NavDisplay(
+        backStack = mainBackstack,
+        modifier = modifier,
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+        entryProvider =
+            entryProvider {
+                entry<Route.Main.Home> {
+                    // todo
+                    Text("Home")
+                }
+            },
+    )
 }
