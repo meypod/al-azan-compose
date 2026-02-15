@@ -7,27 +7,36 @@ import kotlinx.serialization.Serializable
 enum class Prayer {
   @SerialName("fajr")
   Fajr,
+
   @SerialName("sunrise")
   Sunrise,
+
   @SerialName("dhuhr")
   Dhuhr,
+
   @SerialName("asr")
   Asr,
+
   @SerialName("sunset")
   Sunset,
+
   @SerialName("maghrib")
   Maghrib,
+
   @SerialName("isha")
   Isha,
+
   /** middle of the night */
   @SerialName("midnight")
   Midnight,
+
   /** last third of the night */
   @SerialName("tahajjud")
-  Tahajjud
+  Tahajjud,
 }
 
-val PRAYERS_IN_ORDER = listOf<Prayer>(
+val PRAYERS_IN_ORDER =
+  listOf<Prayer>(
     Prayer.Fajr,
     Prayer.Sunrise,
     Prayer.Dhuhr,
@@ -39,11 +48,12 @@ val PRAYERS_IN_ORDER = listOf<Prayer>(
     Prayer.Midnight,
     /** last third of the night */
     Prayer.Tahajjud,
-)
+  )
 
-val NON_PRAYERS_IN_ORDER = listOf<Prayer>(
+val NON_PRAYERS_IN_ORDER =
+  listOf<Prayer>(
     Prayer.Sunrise,
     Prayer.Sunset,
     Prayer.Midnight,
     Prayer.Tahajjud,
-)
+  )

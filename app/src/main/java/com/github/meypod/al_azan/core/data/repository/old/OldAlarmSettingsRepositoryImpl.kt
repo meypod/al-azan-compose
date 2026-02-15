@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.data.repository.old;
+package com.github.meypod.al_azan.core.data.repository.old
 
 import com.github.meypod.al_azan.core.data.model.old.OldAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
@@ -9,18 +9,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldAlarmSettingsRepositoryImpl(
-    oldAlarmSettingsDatastore: MMKVDataStore<OldAlarmSettings>
+  oldAlarmSettingsDatastore: MMKVDataStore<OldAlarmSettings>,
 ) : AlarmSettingsRepository {
   override val data: Flow<AlarmSettings> =
-      oldAlarmSettingsDatastore.data.map {
-        it.state.toAlarmSettings()
-      }
+    oldAlarmSettingsDatastore.data.map {
+      it.state.toAlarmSettings()
+    }
 
-  override suspend fun fetch(): AlarmSettings {
-    return data.first()
-  }
+  override suspend fun fetch(): AlarmSettings = data.first()
 
-  override suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings) {
+  override suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings): Unit =
     throw RuntimeException("Unsupported operation")
-  }
 }
