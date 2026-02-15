@@ -17,12 +17,12 @@ import kotlinx.serialization.json.Json
  * blocked briefly as it loads the data synchronously the first time it gets initialized
  */
 class MMKVDataStore<T>(
-    private val mmkv: MMKV,
-    private val key: String,
-    private val serializer: KSerializer<T>,
-    private val defaultValue: T,
-    private val json: Json = Json { ignoreUnknownKeys = true },
-): SimpleJsonDataStore<T> {
+  private val mmkv: MMKV,
+  private val key: String,
+  private val serializer: KSerializer<T>,
+  private val defaultValue: T,
+  private val json: Json = Json { ignoreUnknownKeys = true },
+) : SimpleJsonDataStore<T> {
   private val _state: MutableStateFlow<T> = MutableStateFlow(loadSync())
 
   override val data: StateFlow<T> = _state.asStateFlow()
@@ -45,9 +45,8 @@ class MMKVDataStore<T>(
     }
   }
 
-  override suspend fun getStoredJsonString(): String {
-    return withContext(Dispatchers.IO) {
+  override suspend fun getStoredJsonString(): String =
+    withContext(Dispatchers.IO) {
       mmkv.decodeString(key) ?: json.encodeToString(serializer, defaultValue)
     }
-  }
 }

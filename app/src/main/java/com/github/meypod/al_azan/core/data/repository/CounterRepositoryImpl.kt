@@ -7,17 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 class CounterRepositoryImpl(
-    private val counterStoreDatastore: MMKVDataStore<List<Counter>>
+  private val counterStoreDatastore: MMKVDataStore<List<Counter>>,
 ) : CounterRepository {
   override val data: Flow<List<Counter>> =
-      counterStoreDatastore.data
+    counterStoreDatastore.data
 
-  override suspend fun fetch(): List<Counter> {
-    return data.first()
-  }
+  override suspend fun fetch(): List<Counter> = data.first()
 
   override suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>) {
     counterStoreDatastore.update(transform)
   }
 }
-
