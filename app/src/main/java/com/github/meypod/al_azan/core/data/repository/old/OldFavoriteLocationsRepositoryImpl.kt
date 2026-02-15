@@ -10,18 +10,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldFavoriteLocationsRepositoryImpl(
-    oldFavoriteLocationsDatastore: MMKVDataStore<OldFavoriteLocationsStore>
+    oldFavoriteLocationsDatastore: MMKVDataStore<OldFavoriteLocationsStore>,
 ) : FavoriteLocationsRepository {
-  override val data: Flow<List<FavoriteLocation>> =
-      oldFavoriteLocationsDatastore.data.map { store ->
-        store.state.locations.map { it.toFavoriteLocation() }
-      }
+    override val data: Flow<List<FavoriteLocation>> =
+        oldFavoriteLocationsDatastore.data.map { store ->
+            store.state.locations.map { it.toFavoriteLocation() }
+        }
 
-  override suspend fun fetch(): List<FavoriteLocation> {
-    return data.first()
-  }
+    override suspend fun fetch(): List<FavoriteLocation> = data.first()
 
-  override suspend fun update(transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>) {
-    throw RuntimeException("Unsupported operation")
-  }
+    override suspend fun update(transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>): Unit =
+        throw RuntimeException("Unsupported operation")
 }

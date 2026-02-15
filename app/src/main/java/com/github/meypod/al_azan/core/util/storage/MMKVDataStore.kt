@@ -17,36 +17,36 @@ import kotlinx.serialization.json.Json
  * blocked briefly as it loads the data synchronously the first time it gets initialized
  */
 class MMKVDataStore<T>(
-  private val mmkv: MMKV,
-  private val key: String,
-  private val serializer: KSerializer<T>,
-  private val defaultValue: T,
-  private val json: Json = Json { ignoreUnknownKeys = true },
+    private val mmkv: MMKV,
+    private val key: String,
+    private val serializer: KSerializer<T>,
+    private val defaultValue: T,
+    private val json: Json = Json { ignoreUnknownKeys = true },
 ) : SimpleJsonDataStore<T> {
-  private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
+    private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
 
-  override val data: StateFlow<T> = state.asStateFlow()
+    override val data: StateFlow<T> = state.asStateFlow()
 
-  private fun loadSync(): T {
-    val raw = mmkv.decodeString(key, null) ?: return defaultValue
-    return try {
-      json.decodeFromString(serializer, raw)
-    } catch (e: Exception) {
-      throw RuntimeException("Unknown error when decoding stored data", e)
+    private fun loadSync(): T {
+        val raw = mmkv.decodeString(key, null) ?: return defaultValue
+        return try {
+            json.decodeFromString(serializer, raw)
+        } catch (e: Exception) {
+            throw RuntimeException("Unknown error when decoding stored data", e)
+        }
     }
-  }
 
-  override suspend fun update(transform: suspend (T) -> T) {
-    val newValue = transform(state.value)
-    withContext(Dispatchers.IO) {
-      val serialized = json.encodeToString(serializer, newValue)
-      mmkv.encode(key, serialized)
-      state.value = newValue
+    override suspend fun update(transform: suspend (T) -> T) {
+        val newValue = transform(state.value)
+        withContext(Dispatchers.IO) {
+            val serialized = json.encodeToString(serializer, newValue)
+            mmkv.encode(key, serialized)
+            state.value = newValue
+        }
     }
-  }
 
-  override suspend fun getStoredJsonString(): String =
-    withContext(Dispatchers.IO) {
-      mmkv.decodeString(key) ?: json.encodeToString(serializer, defaultValue)
-    }
+    override suspend fun getStoredJsonString(): String =
+        withContext(Dispatchers.IO) {
+            mmkv.decodeString(key) ?: json.encodeToString(serializer, defaultValue)
+        }
 }

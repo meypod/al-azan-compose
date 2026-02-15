@@ -27,52 +27,51 @@ class MMKVDataStoreVersioned<T>(
     private val version: Int = 1,
     private val migrate: (storedVersion: Int, currentVersion: Int, storedData: JsonObject) -> JsonObject,
 ) : SimpleJsonDataStore<T> {
-  private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
+    private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
 
-  override val data: StateFlow<T> = state.asStateFlow()
+    override val data: StateFlow<T> = state.asStateFlow()
 
-  private fun loadSync(): T {
-    var jsonString = mmkv.decodeString(key, null) ?: return defaultValue
-    return try {
-      val element = json.decodeFromString<JsonElement>(jsonString)
-      if (element !is JsonObject) {
-        return defaultValue
-      }
-      val storedData = element["state"]
-      val storedVersion: Int = element["version"]?.jsonPrimitive?.int ?: version
-      if (storedData !is JsonObject) {
-        return defaultValue
-      }
-      if (storedVersion < version) {
-        val newState = migrate(storedVersion, version, storedData)
-        jsonString = json.encodeToString(newState)
-        mmkv.encode(key, jsonString)
-        json.decodeFromJsonElement(serializer, newState)
-      } else {
-        json.decodeFromJsonElement(serializer, storedData)
-      }
-    } catch (e: Exception) {
-      throw RuntimeException("Unknown error when decoding stored data", e)
+    private fun loadSync(): T {
+        var jsonString = mmkv.decodeString(key, null) ?: return defaultValue
+        return try {
+            val element = json.decodeFromString<JsonElement>(jsonString)
+            if (element !is JsonObject) {
+                return defaultValue
+            }
+            val storedData = element["state"]
+            val storedVersion: Int = element["version"]?.jsonPrimitive?.int ?: version
+            if (storedData !is JsonObject) {
+                return defaultValue
+            }
+            if (storedVersion < version) {
+                val newState = migrate(storedVersion, version, storedData)
+                jsonString = json.encodeToString(newState)
+                mmkv.encode(key, jsonString)
+                json.decodeFromJsonElement(serializer, newState)
+            } else {
+                json.decodeFromJsonElement(serializer, storedData)
+            }
+        } catch (e: Exception) {
+            throw RuntimeException("Unknown error when decoding stored data", e)
+        }
     }
-  }
 
-  private fun serializeForStorage(value: T): String {
-    val versionedStore = VersionedData(value, version)
-    val serialized = json.encodeToString(VersionedData.serializer(serializer), versionedStore)
-    return serialized
-  }
-
-  override suspend fun update(transform: suspend (T) -> T) {
-    val newValue = transform(state.value)
-    withContext(Dispatchers.IO) {
-      mmkv.encode(key, serializeForStorage(newValue))
-      state.value = newValue
+    private fun serializeForStorage(value: T): String {
+        val versionedStore = VersionedData(value, version)
+        val serialized = json.encodeToString(VersionedData.serializer(serializer), versionedStore)
+        return serialized
     }
-  }
 
-  override suspend fun getStoredJsonString(): String {
-    return withContext(Dispatchers.IO) {
-      mmkv.decodeString(key) ?: serializeForStorage(defaultValue)
+    override suspend fun update(transform: suspend (T) -> T) {
+        val newValue = transform(state.value)
+        withContext(Dispatchers.IO) {
+            mmkv.encode(key, serializeForStorage(newValue))
+            state.value = newValue
+        }
     }
-  }
+
+    override suspend fun getStoredJsonString(): String =
+        withContext(Dispatchers.IO) {
+            mmkv.decodeString(key) ?: serializeForStorage(defaultValue)
+        }
 }

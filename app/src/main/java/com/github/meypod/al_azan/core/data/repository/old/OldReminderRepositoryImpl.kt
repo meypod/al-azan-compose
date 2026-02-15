@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class OldReminderRepositoryImpl(
-  oldReminderStoreDatastore: MMKVDataStore<OldReminderStore>,
+    oldReminderStoreDatastore: MMKVDataStore<OldReminderStore>,
 ) : ReminderRepository {
-  override val data: Flow<List<Reminder>> =
-    oldReminderStoreDatastore.data.map {
-      it.state.reminders.map { reminder -> reminder.toReminder() }
-    }
+    override val data: Flow<List<Reminder>> =
+        oldReminderStoreDatastore.data.map {
+            it.state.reminders.map { reminder -> reminder.toReminder() }
+        }
 
-  override suspend fun fetch(): List<Reminder> = data.first()
+    override suspend fun fetch(): List<Reminder> = data.first()
 
-  override suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>): Unit =
-    throw RuntimeException("Unsupported operation")
+    override suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>): Unit =
+        throw RuntimeException("Unsupported operation")
 }

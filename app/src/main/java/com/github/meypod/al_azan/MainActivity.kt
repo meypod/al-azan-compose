@@ -16,16 +16,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    installSplashScreen()
-    super.onCreate(savedInstanceState)
-    enableEdgeToEdge()
-    setContent {
-      AlAzanTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-          NavigationRoot(modifier = Modifier.padding(paddingValues))
+    override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            AlAzanTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
+                    NavigationRoot(modifier = Modifier.padding(paddingValues))
+                }
+            }
         }
-      }
     }
-  }
 }

@@ -6,14 +6,14 @@ import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
 import kotlinx.coroutines.flow.Flow
 
 class CalculationSettingsRepositoryImpl(
-  private val calcSettingsDatastore: MMKVDataStore<CalculationSettings>,
+    private val calcSettingsDatastore: MMKVDataStore<CalculationSettings>,
 ) : CalculationSettingsRepository {
-  override val data: Flow<CalculationSettings>
-    get() = calcSettingsDatastore.data
+    override val data: Flow<CalculationSettings>
+        get() = calcSettingsDatastore.data
 
-  override suspend fun fetch(): CalculationSettings = calcSettingsDatastore.data.value
+    override suspend fun fetch(): CalculationSettings = calcSettingsDatastore.data.value
 
-  override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings) {
-    calcSettingsDatastore.update(transform)
-  }
+    override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings) {
+        calcSettingsDatastore.update(transform)
+    }
 }

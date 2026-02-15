@@ -7,16 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 class FavoriteLocationsRepositoryImpl(
-  private val favoriteLocationsDatastore: MMKVDataStore<List<FavoriteLocation>>,
+    private val favoriteLocationsDatastore: MMKVDataStore<List<FavoriteLocation>>,
 ) : FavoriteLocationsRepository {
-  override val data: Flow<List<FavoriteLocation>> =
-    favoriteLocationsDatastore.data
+    override val data: Flow<List<FavoriteLocation>> =
+        favoriteLocationsDatastore.data
 
-  override suspend fun fetch(): List<FavoriteLocation> = data.first()
+    override suspend fun fetch(): List<FavoriteLocation> = data.first()
 
-  override suspend fun update(
-    transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>,
-  ) {
-    favoriteLocationsDatastore.update(transform)
-  }
+    override suspend fun update(transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>) {
+        favoriteLocationsDatastore.update(transform)
+    }
 }
