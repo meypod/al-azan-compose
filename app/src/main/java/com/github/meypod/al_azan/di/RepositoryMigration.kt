@@ -1,5 +1,7 @@
 package com.github.meypod.al_azan.di
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.github.meypod.al_azan.core.data.repository.old.OldAlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.old.OldCalculationSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.old.OldCounterRepositoryImpl
@@ -50,6 +52,12 @@ constructor(
         newCounterRepository.update { oldCounters }
         newReminderRepository.update { oldReminders }
         newFavoriteLocationsRepository.update { oldFavoriteLocations }
+
+        if (oldSettings.selectedLocale.isNotBlank()) {
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(oldSettings.selectedLocale),
+            )
+        }
     }
 }
 
