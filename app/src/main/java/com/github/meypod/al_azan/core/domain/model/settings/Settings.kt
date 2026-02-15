@@ -15,7 +15,7 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable
 data class Settings(
     val deliveredAlarmTimestamps: Map<String, Long?> = emptyMap(),
-    val themeColor: ThemeColors = ThemeColors.Default,
+    val themeColor: ThemeColor = ThemeColor.Default,
     val is24HourFormat: Boolean = true,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val numberingSystem: String? = null,
@@ -65,7 +65,7 @@ data class Settings(
 )
 
 @Serializable
-enum class ThemeColors {
+enum class ThemeColor {
     @SerialName("default")
     Default,
 

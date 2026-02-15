@@ -8,12 +8,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import com.github.meypod.al_azan.core.domain.model.settings.Settings
-import com.github.meypod.al_azan.core.domain.model.settings.ThemeColors
-import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkPrimary,
@@ -145,25 +141,28 @@ private val DarkHighContrastColorScheme = darkColorScheme(
 
 @Composable
 fun AlAzanTheme(
-    settingsRepository: SettingsRepository,
+    themeColor: ThemeColor = ThemeColor.Default,
     content: @Composable () -> Unit,
 ) {
-    val settings by settingsRepository.data.collectAsState(initial = Settings(selectedLocale = "en"))
     val darkTheme = isSystemInDarkTheme()
     val colorScheme = when {
-        settings.themeColor == ThemeColors.Dynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        themeColor == ThemeColor.Dynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
         else ->
-            when (settings.themeColor) {
-                ThemeColors.Light -> LightColorScheme
-                ThemeColors.Dark -> DarkColorScheme
-                ThemeColors.ClassicLight -> LightHighContrastColorScheme
-                ThemeColors.ClassicDark -> DarkHighContrastColorScheme
-                ThemeColors.Dynamic,
-                ThemeColors.Default,
+            when (themeColor) {
+                ThemeColor.Light -> LightColorScheme
+
+                ThemeColor.Dark -> DarkColorScheme
+
+                ThemeColor.ClassicLight -> LightHighContrastColorScheme
+
+                ThemeColor.ClassicDark -> DarkHighContrastColorScheme
+
+                ThemeColor.Dynamic,
+                ThemeColor.Default,
                 -> if (darkTheme) DarkColorScheme else LightColorScheme
             }
     }
