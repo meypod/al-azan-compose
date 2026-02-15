@@ -28,12 +28,14 @@ import io.github.meypod.adhan_kotlin.MidnightMethod
 import kotlinx.serialization.json.Json
 import javax.inject.Named
 
-private const val SETTINGS_STORAGE = "SETTINGS_STORAGE"
-private const val CALC_SETTINGS_STORAGE = "CALC_SETTINGS_STORAGE"
-private const val ALARM_SETTINGS_STORAGE = "ALARM_SETTINGS_STORAGE"
-private const val COUNTER_STORAGE = "COUNTER_STORAGE"
-private const val REMINDER_STORAGE = "REMINDER_STORAGE"
-private const val FAVORITE_LOCATIONS_STORAGE = "FAVORITE_LOCATIONS_STORAGE"
+private object StorageKeysV1 {
+    const val SETTINGS = "SETTINGS_STORAGE"
+    const val CALC_SETTINGS = "CALC_SETTINGS_STORAGE"
+    const val ALARM_SETTINGS = "ALARM_SETTINGS_STORAGE"
+    const val COUNTER = "COUNTER_STORAGE"
+    const val REMINDER = "REMINDER_STORAGE"
+    const val FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE"
+}
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -47,7 +49,7 @@ object OldRepositoryModule {
             oldSettingsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = SETTINGS_STORAGE,
+                    key = StorageKeysV1.SETTINGS,
                     serializer = OldSettings.serializer(),
                     defaultValue = OldSettings(state = OldSettingsState(selectedLocale = "en"), version = 1),
                     json = storageJson,
@@ -63,7 +65,7 @@ object OldRepositoryModule {
             oldCalcSettingsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = CALC_SETTINGS_STORAGE,
+                    key = StorageKeysV1.CALC_SETTINGS,
                     serializer = OldCalculationSettings.serializer(),
                     defaultValue =
                         OldCalculationSettings(
@@ -95,7 +97,7 @@ object OldRepositoryModule {
             oldAlarmSettingsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = ALARM_SETTINGS_STORAGE,
+                    key = StorageKeysV1.ALARM_SETTINGS,
                     serializer = OldAlarmSettings.serializer(),
                     defaultValue = OldAlarmSettings(state = OldAlarmSettingsState(), version = 1),
                     json = storageJson,
@@ -111,7 +113,7 @@ object OldRepositoryModule {
             oldCounterStoreDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = COUNTER_STORAGE,
+                    key = StorageKeysV1.COUNTER,
                     serializer = OldCounterStore.serializer(),
                     defaultValue = OldCounterStore(state = OldCounterStoreState(), version = 1),
                     json = storageJson,
@@ -127,7 +129,7 @@ object OldRepositoryModule {
             oldReminderStoreDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = REMINDER_STORAGE,
+                    key = StorageKeysV1.REMINDER,
                     serializer = OldReminderStore.serializer(),
                     defaultValue = OldReminderStore(state = OldReminderStoreState(), version = 1),
                     json = storageJson,
@@ -143,7 +145,7 @@ object OldRepositoryModule {
             oldFavoriteLocationsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = FAVORITE_LOCATIONS_STORAGE,
+                    key = StorageKeysV1.FAVORITE_LOCATIONS,
                     serializer = OldFavoriteLocationsStore.serializer(),
                     defaultValue = OldFavoriteLocationsStore(state = OldFavoriteLocationsStoreState(), version = 1),
                     json = storageJson,
