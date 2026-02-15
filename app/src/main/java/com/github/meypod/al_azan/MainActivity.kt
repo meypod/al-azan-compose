@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         val appIntroDone = runBlocking { settingsRepository.fetch().appIntroDone }
         setContent {
-            AlAzanTheme {
+            AlAzanTheme(settingsRepository = settingsRepository) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
                     NavigationRoot(modifier = Modifier.padding(paddingValues), appIntroDone)
                 }
