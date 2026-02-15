@@ -25,6 +25,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.meypod.adhan_kotlin.MidnightMethod
+import kotlinx.serialization.json.Json
+import javax.inject.Named
 
 private const val SETTINGS_STORAGE = "SETTINGS_STORAGE"
 private const val CALC_SETTINGS_STORAGE = "CALC_SETTINGS_STORAGE"
@@ -37,7 +39,10 @@ private const val FAVORITE_LOCATIONS_STORAGE = "FAVORITE_LOCATIONS_STORAGE"
 @InstallIn(SingletonComponent::class)
 object OldRepositoryModule {
     @Provides
-    fun provideOldSettingsRepository(mmkv: MMKV): OldSetttingsRepositoryImpl =
+    fun provideOldSettingsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): OldSetttingsRepositoryImpl =
         OldSetttingsRepositoryImpl(
             oldSettingsDatastore =
                 MMKVDataStore(
@@ -45,11 +50,15 @@ object OldRepositoryModule {
                     key = SETTINGS_STORAGE,
                     serializer = OldSettings.serializer(),
                     defaultValue = OldSettings(state = OldSettingsState(selectedLocale = "en"), version = 1),
+                    json = storageJson,
                 ),
         )
 
     @Provides
-    fun provideOldCalculationSettingsRepository(mmkv: MMKV): OldCalculationSettingsRepositoryImpl =
+    fun provideOldCalculationSettingsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): OldCalculationSettingsRepositoryImpl =
         OldCalculationSettingsRepositoryImpl(
             oldCalcSettingsDatastore =
                 MMKVDataStore(
@@ -73,11 +82,15 @@ object OldRepositoryModule {
                                 ),
                             version = 1,
                         ),
+                    json = storageJson,
                 ),
         )
 
     @Provides
-    fun provideOldAlarmSettingsRepository(mmkv: MMKV): OldAlarmSettingsRepositoryImpl =
+    fun provideOldAlarmSettingsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): OldAlarmSettingsRepositoryImpl =
         OldAlarmSettingsRepositoryImpl(
             oldAlarmSettingsDatastore =
                 MMKVDataStore(
@@ -85,11 +98,15 @@ object OldRepositoryModule {
                     key = ALARM_SETTINGS_STORAGE,
                     serializer = OldAlarmSettings.serializer(),
                     defaultValue = OldAlarmSettings(state = OldAlarmSettingsState(), version = 1),
+                    json = storageJson,
                 ),
         )
 
     @Provides
-    fun provideOldCounterRepository(mmkv: MMKV): OldCounterRepositoryImpl =
+    fun provideOldCounterRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): OldCounterRepositoryImpl =
         OldCounterRepositoryImpl(
             oldCounterStoreDatastore =
                 MMKVDataStore(
@@ -97,11 +114,15 @@ object OldRepositoryModule {
                     key = COUNTER_STORAGE,
                     serializer = OldCounterStore.serializer(),
                     defaultValue = OldCounterStore(state = OldCounterStoreState(), version = 1),
+                    json = storageJson,
                 ),
         )
 
     @Provides
-    fun provideOldReminderRepository(mmkv: MMKV): OldReminderRepositoryImpl =
+    fun provideOldReminderRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): OldReminderRepositoryImpl =
         OldReminderRepositoryImpl(
             oldReminderStoreDatastore =
                 MMKVDataStore(
@@ -109,11 +130,15 @@ object OldRepositoryModule {
                     key = REMINDER_STORAGE,
                     serializer = OldReminderStore.serializer(),
                     defaultValue = OldReminderStore(state = OldReminderStoreState(), version = 1),
+                    json = storageJson,
                 ),
         )
 
     @Provides
-    fun provideOldFavoriteLocationsRepository(mmkv: MMKV): OldFavoriteLocationsRepositoryImpl =
+    fun provideOldFavoriteLocationsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): OldFavoriteLocationsRepositoryImpl =
         OldFavoriteLocationsRepositoryImpl(
             oldFavoriteLocationsDatastore =
                 MMKVDataStore(
@@ -121,6 +146,7 @@ object OldRepositoryModule {
                     key = FAVORITE_LOCATIONS_STORAGE,
                     serializer = OldFavoriteLocationsStore.serializer(),
                     defaultValue = OldFavoriteLocationsStore(state = OldFavoriteLocationsStoreState(), version = 1),
+                    json = storageJson,
                 ),
         )
 }

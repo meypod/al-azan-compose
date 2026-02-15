@@ -25,6 +25,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
+import javax.inject.Named
 import javax.inject.Singleton
 
 private const val SETTINGS_STORAGE = "SETTINGS_STORAGE_V2"
@@ -39,7 +41,10 @@ private const val FAVORITE_LOCATIONS_STORAGE = "FAVORITE_LOCATIONS_STORAGE_V2"
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideNewSettingsRepository(mmkv: MMKV): SettingsRepository =
+    fun provideNewSettingsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): SettingsRepository =
         SettingsRepositoryImpl(
             settingsDatastore =
                 MMKVDataStore(
@@ -47,12 +52,16 @@ object RepositoryModule {
                     key = SETTINGS_STORAGE,
                     serializer = Settings.serializer(),
                     defaultValue = Settings(selectedLocale = "en"),
+                    json = storageJson,
                 ),
         )
 
     @Provides
     @Singleton
-    fun provideNewCalculationSettingsRepository(mmkv: MMKV): CalculationSettingsRepository =
+    fun provideNewCalculationSettingsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): CalculationSettingsRepository =
         CalculationSettingsRepositoryImpl(
             calcSettingsDatastore =
                 MMKVDataStore(
@@ -60,12 +69,16 @@ object RepositoryModule {
                     key = CALC_SETTINGS_STORAGE,
                     serializer = CalculationSettings.serializer(),
                     defaultValue = CalculationSettings(),
+                    json = storageJson,
                 ),
         )
 
     @Provides
     @Singleton
-    fun provideNewAlarmSettingsRepository(mmkv: MMKV): AlarmSettingsRepository =
+    fun provideNewAlarmSettingsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): AlarmSettingsRepository =
         AlarmSettingsRepositoryImpl(
             alarmSettingsDatastore =
                 MMKVDataStore(
@@ -73,12 +86,16 @@ object RepositoryModule {
                     key = ALARM_SETTINGS_STORAGE,
                     serializer = AlarmSettings.serializer(),
                     defaultValue = AlarmSettings(),
+                    json = storageJson,
                 ),
         )
 
     @Provides
     @Singleton
-    fun provideNewCounterRepository(mmkv: MMKV): CounterRepository =
+    fun provideNewCounterRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): CounterRepository =
         CounterRepositoryImpl(
             counterStoreDatastore =
                 MMKVDataStore(
@@ -86,12 +103,16 @@ object RepositoryModule {
                     key = COUNTER_STORAGE,
                     serializer = ListSerializer(Counter.serializer()),
                     defaultValue = emptyList(),
+                    json = storageJson,
                 ),
         )
 
     @Provides
     @Singleton
-    fun provideNewReminderRepository(mmkv: MMKV): ReminderRepository =
+    fun provideNewReminderRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): ReminderRepository =
         ReminderRepositoryImpl(
             reminderStoreDatastore =
                 MMKVDataStore(
@@ -99,12 +120,16 @@ object RepositoryModule {
                     key = REMINDER_STORAGE,
                     serializer = ListSerializer(Reminder.serializer()),
                     defaultValue = emptyList(),
+                    json = storageJson,
                 ),
         )
 
     @Provides
     @Singleton
-    fun provideNewFavoriteLocationsRepository(mmkv: MMKV): FavoriteLocationsRepository =
+    fun provideNewFavoriteLocationsRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): FavoriteLocationsRepository =
         FavoriteLocationsRepositoryImpl(
             favoriteLocationsDatastore =
                 MMKVDataStore(
@@ -112,6 +137,7 @@ object RepositoryModule {
                     key = FAVORITE_LOCATIONS_STORAGE,
                     serializer = ListSerializer(FavoriteLocation.serializer()),
                     defaultValue = emptyList(),
+                    json = storageJson,
                 ),
         )
 }
