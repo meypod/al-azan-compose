@@ -29,12 +29,14 @@ import kotlinx.serialization.json.Json
 import javax.inject.Named
 import javax.inject.Singleton
 
-private const val SETTINGS_STORAGE = "SETTINGS_STORAGE_V2"
-private const val CALC_SETTINGS_STORAGE = "CALC_SETTINGS_STORAGE_V2"
-private const val ALARM_SETTINGS_STORAGE = "ALARM_SETTINGS_STORAGE_V2"
-private const val COUNTER_STORAGE = "COUNTER_STORAGE_V2"
-private const val REMINDER_STORAGE = "REMINDER_STORAGE_V2"
-private const val FAVORITE_LOCATIONS_STORAGE = "FAVORITE_LOCATIONS_STORAGE_V2"
+private object StorageKeysV2 {
+    const val SETTINGS = "SETTINGS_STORAGE_V2"
+    const val CALC_SETTINGS = "CALC_SETTINGS_STORAGE_V2"
+    const val ALARM_SETTINGS = "ALARM_SETTINGS_STORAGE_V2"
+    const val COUNTER = "COUNTER_STORAGE_V2"
+    const val REMINDER = "REMINDER_STORAGE_V2"
+    const val FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE_V2"
+}
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -49,7 +51,7 @@ object RepositoryModule {
             settingsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = SETTINGS_STORAGE,
+                    key = StorageKeysV2.SETTINGS,
                     serializer = Settings.serializer(),
                     defaultValue = Settings(selectedLocale = "en"),
                     json = storageJson,
@@ -66,7 +68,7 @@ object RepositoryModule {
             calcSettingsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = CALC_SETTINGS_STORAGE,
+                    key = StorageKeysV2.CALC_SETTINGS,
                     serializer = CalculationSettings.serializer(),
                     defaultValue = CalculationSettings(),
                     json = storageJson,
@@ -83,7 +85,7 @@ object RepositoryModule {
             alarmSettingsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = ALARM_SETTINGS_STORAGE,
+                    key = StorageKeysV2.ALARM_SETTINGS,
                     serializer = AlarmSettings.serializer(),
                     defaultValue = AlarmSettings(),
                     json = storageJson,
@@ -100,7 +102,7 @@ object RepositoryModule {
             counterStoreDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = COUNTER_STORAGE,
+                    key = StorageKeysV2.COUNTER,
                     serializer = ListSerializer(Counter.serializer()),
                     defaultValue = emptyList(),
                     json = storageJson,
@@ -117,7 +119,7 @@ object RepositoryModule {
             reminderStoreDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = REMINDER_STORAGE,
+                    key = StorageKeysV2.REMINDER,
                     serializer = ListSerializer(Reminder.serializer()),
                     defaultValue = emptyList(),
                     json = storageJson,
@@ -134,7 +136,7 @@ object RepositoryModule {
             favoriteLocationsDatastore =
                 MMKVDataStore(
                     mmkv = mmkv,
-                    key = FAVORITE_LOCATIONS_STORAGE,
+                    key = StorageKeysV2.FAVORITE_LOCATIONS,
                     serializer = ListSerializer(FavoriteLocation.serializer()),
                     defaultValue = emptyList(),
                     json = storageJson,
