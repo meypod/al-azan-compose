@@ -15,7 +15,10 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
 @Composable
-fun NavigationRoot(modifier: Modifier = Modifier) {
+fun NavigationRoot(
+    modifier: Modifier = Modifier,
+    appIntroDone: Boolean,
+) {
     val rootBackStack =
         rememberNavBackStack(
             configuration =
@@ -27,7 +30,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         }
                     }
                 },
-            Route.Main,
+            if (appIntroDone) Route.Main else Route.Intro,
         )
 
     NavDisplay(
