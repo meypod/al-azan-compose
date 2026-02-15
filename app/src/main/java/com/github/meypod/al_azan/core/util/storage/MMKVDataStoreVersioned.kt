@@ -27,9 +27,9 @@ class MMKVDataStoreVersioned<T>(
     private val version: Int = 1,
     private val migrate: (storedVersion: Int, currentVersion: Int, storedData: JsonObject) -> JsonObject,
 ) : SimpleJsonDataStore<T> {
-  private val _state: MutableStateFlow<T> = MutableStateFlow(loadSync())
+  private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
 
-  override val data: StateFlow<T> = _state.asStateFlow()
+  override val data: StateFlow<T> = state.asStateFlow()
 
   private fun loadSync(): T {
     var jsonString = mmkv.decodeString(key, null) ?: return defaultValue
@@ -63,10 +63,10 @@ class MMKVDataStoreVersioned<T>(
   }
 
   override suspend fun update(transform: suspend (T) -> T) {
-    val newValue = transform(_state.value)
+    val newValue = transform(state.value)
     withContext(Dispatchers.IO) {
       mmkv.encode(key, serializeForStorage(newValue))
-      _state.value = newValue
+      state.value = newValue
     }
   }
 
