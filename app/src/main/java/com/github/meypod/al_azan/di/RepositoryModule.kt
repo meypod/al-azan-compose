@@ -39,10 +39,6 @@ private const val FAVORITE_LOCATIONS_STORAGE = "FAVORITE_LOCATIONS_STORAGE_V2"
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideMmkv(): MMKV = MMKV.defaultMMKV()
-
-    @Provides
-    @Singleton
     fun provideNewSettingsRepository(mmkv: MMKV): SettingsRepository =
         SettingsRepositoryImpl(
             settingsDatastore =
