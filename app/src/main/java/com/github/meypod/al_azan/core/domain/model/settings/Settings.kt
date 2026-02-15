@@ -81,6 +81,9 @@ enum class ThemeColors {
     @SerialName("classic_dark")
     ClassicDark,
 
+    @SerialName("dynamic")
+    Dynamic,
+
     ;
 
     fun isClassic(): Boolean =
