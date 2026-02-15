@@ -8,15 +8,22 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App : Application(), Configuration.Provider {
-    @Inject lateinit var workerFactory: HiltWorkerFactory
+class App :
+    Application(),
+    Configuration.Provider {
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
 
     override fun onCreate() {
         super.onCreate()
-        MMKV.initialize(this);
+        MMKV.initialize(this)
+        val mmkv = MMKV.defaultMMKV()
+        if (mmkv.contains("SETTINGS_STORAGE") && !mmkv.contains("MIGRATED_TO_V2")) {
+            // TODO
+        }
 //        createNotificationChannels(applicationContext)
     }
 }
