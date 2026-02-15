@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationRoot
@@ -38,7 +41,9 @@ class MainActivity : AppCompatActivity() {
                 // in case they decide to change it outside the app
                 languageSync.run()
             }
-            AlAzanTheme(settingsRepository = settingsRepository) {
+            val settings by settingsRepository.data.collectAsState(initial = Settings(selectedLocale = "en"))
+
+            AlAzanTheme(settings.themeColor) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
                     NavigationRoot(
                         modifier = Modifier.padding(paddingValues),

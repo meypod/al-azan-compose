@@ -4,7 +4,7 @@ import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.settings.AdhanAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
-import com.github.meypod.al_azan.core.domain.model.settings.ThemeColors
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.presentation.model.WidgetCityNamePos
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.DeserializationStrategy
@@ -198,9 +198,9 @@ fun OldSettingsState.toSettings() =
 
 fun OldThemeColors.toThemeColors() =
     when (this) {
-        OldThemeColors.Default -> ThemeColors.Default
-        OldThemeColors.Light -> ThemeColors.ClassicLight
-        OldThemeColors.Dark -> ThemeColors.ClassicDark
+        OldThemeColors.Default -> ThemeColor.Default
+        OldThemeColors.Light -> ThemeColor.ClassicLight
+        OldThemeColors.Dark -> ThemeColor.ClassicDark
     }
 
 fun OldAdhanAudioEntry.toAdhanAudioEntry() =
