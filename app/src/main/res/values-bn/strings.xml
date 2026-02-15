@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Al-Azan</string>
+    <string name="welcome_to">স্বাগতম</string>
+    <string name="choose_language">ভাষা নির্বাচন করুন</string>
+    <string name="get_started">শুরু করুন</string>
+    <string name="skip">এড়িয়ে যান</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Al-Azan</string>
+    <string name="welcome_to">Dobrodošli u</string>
+    <string name="choose_language">Odaberite jezik</string>
+    <string name="get_started">Započni</string>
+    <string name="skip">Preskoči</string>
+</resources>
