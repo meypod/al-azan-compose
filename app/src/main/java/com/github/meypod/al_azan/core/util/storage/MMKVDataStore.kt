@@ -23,9 +23,9 @@ class MMKVDataStore<T>(
   private val defaultValue: T,
   private val json: Json = Json { ignoreUnknownKeys = true },
 ) : SimpleJsonDataStore<T> {
-  private val _state: MutableStateFlow<T> = MutableStateFlow(loadSync())
+  private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
 
-  override val data: StateFlow<T> = _state.asStateFlow()
+  override val data: StateFlow<T> = state.asStateFlow()
 
   private fun loadSync(): T {
     val raw = mmkv.decodeString(key, null) ?: return defaultValue
@@ -37,11 +37,11 @@ class MMKVDataStore<T>(
   }
 
   override suspend fun update(transform: suspend (T) -> T) {
-    val newValue = transform(_state.value)
+    val newValue = transform(state.value)
     withContext(Dispatchers.IO) {
       val serialized = json.encodeToString(serializer, newValue)
       mmkv.encode(key, serialized)
-      _state.value = newValue
+      state.value = newValue
     }
   }
 
