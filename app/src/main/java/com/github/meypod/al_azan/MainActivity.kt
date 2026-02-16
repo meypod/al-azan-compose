@@ -44,12 +44,9 @@ class MainActivity : AppCompatActivity() {
             val settings by settingsRepository.data.collectAsState(initial = Settings(selectedLocale = "en"))
 
             AlAzanTheme(settings.themeColor) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-                    NavigationRoot(
-                        modifier = Modifier.padding(paddingValues),
-                        appIntroDone = appIntroDone,
-                    )
-                }
+                NavigationRoot(
+                    appIntroDone = appIntroDone,
+                )
             }
         }
     }

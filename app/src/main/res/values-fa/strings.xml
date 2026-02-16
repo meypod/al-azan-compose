@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">الأذان</string>
-    <string name="welcome_to">خوش آمدید به</string>
+    <string name="welcome">خوش آمدید</string>
     <string name="choose_language">زبان خود را انتخاب کنید</string>
     <string name="get_started">شروع کنید</string>
     <string name="skip">رد کردن</string>
