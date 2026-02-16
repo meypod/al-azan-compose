@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Al-Azan</string>
-    <string name="welcome_to">Bienvenue sur</string>
+    <string name="welcome">Bienvenue</string>
     <string name="choose_language">Choisissez votre langue</string>
     <string name="get_started">Commencer</string>
     <string name="skip">Passer</string>

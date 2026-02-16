@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Al-Azan</string>
-    <string name="welcome_to">Chào mừng đến với</string>
+    <string name="welcome">Chào mừng</string>
     <string name="choose_language">Chọn ngôn ngữ của bạn</string>
     <string name="get_started">Bắt đầu</string>
     <string name="skip">Bỏ qua</string>

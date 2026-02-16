@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Al-Azan</string>
-    <string name="welcome_to">Karibu kwenye</string>
+    <string name="welcome">Karibu</string>
     <string name="choose_language">Chagua Lugha Yako</string>
     <string name="get_started">Anza</string>
     <string name="skip">Ruka</string>
