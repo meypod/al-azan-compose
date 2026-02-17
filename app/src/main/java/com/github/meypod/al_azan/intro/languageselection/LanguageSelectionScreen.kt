@@ -73,6 +73,8 @@ fun LanguageSelectionScreen(
             SupportedLanguages.firstOrNull { it.value == uiState.selectedLocale } ?: SupportedLanguages.first()
         }
 
+    val mosquePainter = painterResource(id = R.drawable.mosque)
+
     Scaffold(
         containerColor = colorResource(R.color.intro_background),
     ) {
@@ -122,7 +124,7 @@ fun LanguageSelectionScreen(
                             },
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.mosque),
+                        painter = mosquePainter,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -132,7 +134,7 @@ fun LanguageSelectionScreen(
                         colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.5f), BlendMode.SrcIn),
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.mosque),
+                        painter = mosquePainter,
                         contentDescription = null,
                         contentScale = ContentScale.FillHeight,
                         modifier = Modifier.fillMaxWidth(),
@@ -142,7 +144,10 @@ fun LanguageSelectionScreen(
             Column(
                 modifier =
                     Modifier
-                        .drawCurvedTopPatternedBackground(pattern = patternImage, backgroundColor = colorResource(R.color.intro_curve_background))
+                        .drawCurvedTopPatternedBackground(
+                            pattern = patternImage,
+                            backgroundColor = colorResource(R.color.intro_curve_background),
+                        )
                         .navigationBarsPadding()
                         .fillMaxWidth()
                         .weight(0.45f)
