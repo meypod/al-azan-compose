@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.Route
 private val introSteps = listOf(
     Route.Intro.LanguageSelection,
     Route.Intro.RestoreBackup,
+    Route.Intro.Location,
 )
 
 @Immutable
@@ -29,5 +30,11 @@ data class IntroUiState(
     val isLastStep: Boolean
         get() {
             return step == introSteps.lastIndex
+        }
+
+    val progress: Float
+        get() {
+            if (introSteps.size <= 1) return 1f
+            return (step.toFloat() / introSteps.lastIndex.toFloat()).coerceIn(0f, 1f)
         }
 }

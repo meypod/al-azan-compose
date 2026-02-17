@@ -13,6 +13,9 @@ sealed interface Route : NavKey {
 
         @Serializable
         data object RestoreBackup : Route
+
+        @Serializable
+        data object Location : Route
     }
 
     @Serializable
