@@ -5,4 +5,8 @@
     <string name="choose_language">Wähle deine Sprache</string>
     <string name="get_started">Loslegen</string>
     <string name="skip">Überspringen</string>
+    <string name="restore_thanks_title">Danke, dass Sie uns gewählt haben</string>
+    <string name="restore_thanks_body">Damit die App korrekt funktioniert, setzen Sie bitte einige Einstellungen, damit wir Ihre Gebetszeiten genau berechnen können.</string>
+    <string name="restore_backup_hint">Wenn Sie bereits eine Sicherungsdatei haben, können Sie sie hier wiederherstellen.</string>
+    <string name="restore_backup_button">Sicherungsdatei wiederherstellen</string>
 </resources>

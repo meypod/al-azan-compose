@@ -5,4 +5,8 @@
     <string name="choose_language">ভাষা নির্বাচন করুন</string>
     <string name="get_started">শুরু করুন</string>
     <string name="skip">এড়িয়ে যান</string>
+    <string name="restore_thanks_title">আমাদের নির্বাচন করার জন্য আপনাকে ধন্যবাদ</string>
+    <string name="restore_thanks_body">অ্যাপটি সঠিকভাবে কাজ করার জন্য, আপনার নামাজের সময় সঠিকভাবে গণনা করতে অনুগ্রহ করে কয়েকটি পছন্দ সেট করুন।</string>
+    <string name="restore_backup_hint">আপনার কাছে যদি আগে থেকে ব্যাকআপ ফাইল থাকে, আপনি এখানে তা পুনরুদ্ধার করতে পারেন।</string>
+    <string name="restore_backup_button">ব্যাকআপ ফাইল পুনরুদ্ধার করুন</string>
 </resources>

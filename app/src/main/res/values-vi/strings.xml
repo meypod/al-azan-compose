@@ -5,4 +5,8 @@
     <string name="choose_language">Chọn ngôn ngữ của bạn</string>
     <string name="get_started">Bắt đầu</string>
     <string name="skip">Bỏ qua</string>
+    <string name="restore_thanks_title">Cảm ơn bạn đã chọn chúng tôi</string>
+    <string name="restore_thanks_body">Để ứng dụng hoạt động chính xác, vui lòng thiết lập một vài cài đặt để chúng tôi có thể tính giờ cầu nguyện cho bạn một cách chính xác.</string>
+    <string name="restore_backup_hint">Nếu bạn đã có tệp sao lưu, bạn có thể khôi phục nó tại đây.</string>
+    <string name="restore_backup_button">Khôi phục tệp sao lưu</string>
 </resources>

@@ -5,4 +5,8 @@
     <string name="choose_language">Odaberite jezik</string>
     <string name="get_started">Započni</string>
     <string name="skip">Preskoči</string>
+    <string name="restore_thanks_title">Hvala što ste nas odabrali</string>
+    <string name="restore_thanks_body">Da bi aplikacija ispravno radila, postavite nekoliko postavki kako bismo mogli točno izračunati vaše vrijeme molitve.</string>
+    <string name="restore_backup_hint">Ako već imate sigurnosnu kopiju, možete je ovdje vratiti.</string>
+    <string name="restore_backup_button">Vrati sigurnosnu kopiju</string>
 </resources>
