@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -103,12 +102,12 @@ fun LanguageSelectionScreen(
                             .matchParentSize()
                             .drawWithCache {
                                 val center = Offset(x = size.width / 2f, y = size.height * 0.5f)
-                                val radius = size.height * 0.6f
+                                val radius = size.height * 0.8f
                                 val brush = Brush.radialGradient(
                                     colorStops =
                                         arrayOf(
                                             0.05f to Color(0x66139554),
-                                            0.54f to Color(0x3365C088),
+                                            0.34f to Color(0x3365C088),
                                             1.0f to Color(0x1A00585A),
                                         ),
                                     center = center,
@@ -148,10 +147,9 @@ fun LanguageSelectionScreen(
                             pattern = patternImage,
                             backgroundColor = colorResource(R.color.intro_curve_background),
                         )
-                        .navigationBarsPadding()
                         .fillMaxWidth()
                         .weight(0.45f)
-                        .padding(top = 50.dp),
+                        .padding(top = 50.dp, bottom = it.calculateBottomPadding()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
