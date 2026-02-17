@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.intro
+package com.github.meypod.al_azan.intro.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
