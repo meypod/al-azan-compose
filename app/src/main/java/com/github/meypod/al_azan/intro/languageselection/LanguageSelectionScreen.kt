@@ -211,7 +211,7 @@ fun LanguageSelectionScreen(
             }
             Spacer(modifier = Modifier.height(40.dp))
             TertiaryButton(
-                onClick = { onIntroAction(IntroUiAction.OnGetStartedClick) },
+                onClick = { onIntroAction(IntroUiAction.OnNextClick) },
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 18.dp, vertical = 7.dp),

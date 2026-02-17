@@ -9,4 +9,8 @@
     <string name="restore_thanks_body">Damit die App korrekt funktioniert, setzen Sie bitte einige Einstellungen, damit wir Ihre Gebetszeiten genau berechnen können.</string>
     <string name="restore_backup_hint">Wenn Sie bereits eine Sicherungsdatei haben, können Sie sie hier wiederherstellen.</string>
     <string name="restore_backup_button">Sicherungsdatei wiederherstellen</string>
+    <string name="skip_warning_title">Die App funktioniert möglicherweise nicht korrekt, wenn Sie die Einrichtung überspringen!</string>
+    <string name="skip_warning_body">Möchten Sie wirklich überspringen?</string>
+    <string name="skip_confirm">Überspringen</string>
+    <string name="cancel">Abbrechen</string>
 </resources>

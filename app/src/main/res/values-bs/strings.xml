@@ -9,4 +9,8 @@
     <string name="restore_thanks_body">Da bi aplikacija ispravno radila, postavite nekoliko postavki kako bismo mogli točno izračunati vaše vrijeme molitve.</string>
     <string name="restore_backup_hint">Ako već imate sigurnosnu kopiju, možete je ovdje vratiti.</string>
     <string name="restore_backup_button">Vrati sigurnosnu kopiju</string>
+    <string name="skip_warning_title">Aplikacija možda neće ispravno raditi ako preskočite postavljanje!</string>
+    <string name="skip_warning_body">Da li zaista želite preskočiti?</string>
+    <string name="skip_confirm">Preskoči</string>
+    <string name="cancel">Otkaži</string>
 </resources>

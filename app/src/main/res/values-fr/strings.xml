@@ -9,4 +9,8 @@
     <string name="restore_thanks_body">Pour que l\'application fonctionne correctement, veuillez définir quelques préférences afin que nous puissions calculer précisément vos horaires de prière.</string>
     <string name="restore_backup_hint">Si vous disposez déjà d\'un fichier de sauvegarde, vous pouvez le restaurer ici.</string>
     <string name="restore_backup_button">Restaurer le fichier de sauvegarde</string>
+    <string name="skip_warning_title">L\'application pourrait ne pas fonctionner correctement si vous passez la configuration !</string>
+    <string name="skip_warning_body">Voulez-vous vraiment passer ?</string>
+    <string name="skip_confirm">Passer</string>
+    <string name="cancel">Annuler</string>
 </resources>
