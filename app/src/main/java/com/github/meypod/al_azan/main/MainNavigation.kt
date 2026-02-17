@@ -1,5 +1,7 @@
 package com.github.meypod.al_azan.main
 
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,7 +36,7 @@ fun MainNavigation(modifier: Modifier = Modifier) {
 
     NavDisplay(
         backStack = mainBackstack,
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colorScheme.background),
         entryDecorators =
             listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
