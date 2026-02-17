@@ -115,13 +115,13 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
             ) togetherWith
                 slideOutHorizontally(
                     animationSpec = tween(280),
-                    targetOffsetX = { fullWidth -> -fullWidth / 3 },
+                    targetOffsetX = { fullWidth -> -fullWidth / 2 },
                 )
         },
         popTransitionSpec = {
             slideInHorizontally(
                 animationSpec = tween(280),
-                initialOffsetX = { fullWidth -> -fullWidth / 3 },
+                initialOffsetX = { fullWidth -> -fullWidth / 2 },
             ) togetherWith
                 slideOutHorizontally(
                     animationSpec = tween(280),
@@ -131,7 +131,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
         predictivePopTransitionSpec = {
             slideInHorizontally(
                 animationSpec = tween(280),
-                initialOffsetX = { fullWidth -> -fullWidth / 3 },
+                initialOffsetX = { fullWidth -> -fullWidth / 2 },
             ) togetherWith
                 slideOutHorizontally(
                     animationSpec = tween(280),
