@@ -9,14 +9,18 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -27,6 +31,9 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.presentation.components.SecondaryButton
+import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
+import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
 import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.patternedBackground
@@ -63,10 +70,9 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
     val introViewModel = hiltViewModel<IntroViewModel>()
     val introUiState by introViewModel.uiState.collectAsStateWithLifecycle()
 
-    val onIntroAction: (IntroUiAction) -> Unit = { action ->
-        when (action) {
-            IntroUiAction.OnFinishClick -> onFinishIntro()
-            else -> introViewModel.onAction(action)
+    val onIntroUiAction: (IntroUiAction) -> Unit = remember(onFinishIntro) {
+        { action ->
+            introViewModel.onAction(action, onFinishIntro)
         }
     }
 
@@ -75,7 +81,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
         navIntents = { introViewModel.navIntents },
         onRouteVisible = { route ->
             if (route is Route) {
-                introViewModel.onAction(IntroUiAction.OnRouteVisible(route))
+                onIntroUiAction(IntroUiAction.OnRouteVisible(route))
             }
         },
         navigateTo = { route -> introBackstack.navigateTo(route) },
@@ -103,8 +109,37 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if (introUiState.step > 0) {
-                Row(horizontalArrangement = Arrangement.Center) {
-                    // TODO
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.page_padding),
+                            vertical = dimensionResource(R.dimen.element_padding),
+                        ),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    SecondaryButton(
+                        onClick = {
+                            onIntroUiAction(IntroUiAction.OnBackClick)
+                        },
+                    ) {
+                        Text(stringResource(R.string.back_button))
+                    }
+                    IntroSkipButton {
+                        onIntroUiAction(IntroUiAction.OnSkipClick)
+                    }
+                    TertiaryButton(
+                        onClick = {
+                            onIntroUiAction(IntroUiAction.OnNextClick)
+                        },
+                    ) {
+                        if (introUiState.isLastStep) {
+                            Text(stringResource(R.string.finish_button))
+                        } else {
+                            Text(stringResource(R.string.next_button))
+                        }
+                    }
                 }
             }
         },
@@ -158,7 +193,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                         LanguageSelectionScreen(
                             uiState = uiState,
                             onAction = viewModel::onAction,
-                            onIntroAction = onIntroAction,
+                            onIntroAction = onIntroUiAction,
                         )
                     }
                     entry<Route.Intro.RestoreBackup> {
@@ -167,12 +202,23 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                         RestoreBackupScreen(
                             uiState = uiState,
                             onAction = viewModel::onAction,
-                            onIntroAction = onIntroAction,
+                            onIntroAction = onIntroUiAction,
                             busy = introUiState.busy,
                         )
                     }
                 },
         )
+        if (introUiState.showSkipDialog) {
+            TimedDangerDialog(
+                title = stringResource(R.string.skip_warning_title),
+                text = stringResource(R.string.skip_warning_body),
+                confirmLabel = stringResource(R.string.skip_confirm),
+                cancelLabel = stringResource(R.string.cancel),
+                seconds = 3,
+                onConfirm = { onIntroUiAction(IntroUiAction.OnSkipConfirmed) },
+                onDismissRequest = { onIntroUiAction(IntroUiAction.OnSkipDismiss) },
+            )
+        }
     }
 }
 

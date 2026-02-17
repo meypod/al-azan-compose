@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.intro
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
 import com.github.meypod.al_azan.core.presentation.navigation.Route
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,16 +21,23 @@ class IntroViewModel
 constructor(
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
+
     private val _uiState = MutableStateFlow(IntroUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
     val navIntents = _navIntents.asSharedFlow()
 
-    fun onAction(action: IntroUiAction) {
+    fun onAction(
+        action: IntroUiAction,
+        onFinishIntro: () -> Unit,
+    ) {
         when (action) {
             IntroUiAction.OnSkipClick -> onSkipClick()
-            IntroUiAction.OnGetStartedClick -> onNextClick()
+            IntroUiAction.OnSkipConfirmed -> onSkipConfirmed()
+            IntroUiAction.OnSkipDismiss -> onSkipDismiss()
+            IntroUiAction.OnBackClick -> onBackClick()
+            IntroUiAction.OnNextClick -> onNextClick()
             IntroUiAction.OnFinishClick -> onFinishClick()
             is IntroUiAction.OnRouteVisible -> onRouteVisible(action.route)
             is IntroUiAction.OnRestoreBackup -> onRestoreBackup(action.uri)
@@ -36,15 +45,34 @@ constructor(
     }
 
     private fun onSkipClick() {
-        // todo
+        if (uiState.value.busy) return
+        _uiState.update { it.copy(showSkipDialog = true) }
+    }
+
+    private fun onSkipDismiss() {
+        _uiState.update { it.copy(showSkipDialog = false) }
+    }
+
+    private fun onSkipConfirmed() {
+        _uiState.update { it.copy(busy = true, showSkipDialog = false) }
+        viewModelScope.launch {
+            settingsRepository.update { current -> current.copy(appIntroDone = true) }
+            _uiState.update { it.copy(busy = false) }
+        }
+    }
+
+    private fun onBackClick() {
+        if (uiState.value.busy) return
+        uiState.value.previousRoute?.let {
+            _navIntents.tryEmit(NavIntent.To(it))
+        }
     }
 
     private fun onNextClick() {
-        val nextRoute: Route = when (uiState.value.step) {
-            0 -> Route.Intro.RestoreBackup
-            else -> Route.Intro.LanguageSelection
+        if (uiState.value.busy) return
+        uiState.value.nextRoute?.let {
+            _navIntents.tryEmit(NavIntent.To(it))
         }
-        _navIntents.tryEmit(NavIntent.To(nextRoute))
     }
 
     private fun onFinishClick() {

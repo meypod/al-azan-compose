@@ -9,4 +9,8 @@
     <string name="restore_thanks_body">Để ứng dụng hoạt động chính xác, vui lòng thiết lập một vài cài đặt để chúng tôi có thể tính giờ cầu nguyện cho bạn một cách chính xác.</string>
     <string name="restore_backup_hint">Nếu bạn đã có tệp sao lưu, bạn có thể khôi phục nó tại đây.</string>
     <string name="restore_backup_button">Khôi phục tệp sao lưu</string>
+    <string name="skip_warning_title">Ứng dụng có thể không hoạt động đúng nếu bạn bỏ qua thiết lập!</string>
+    <string name="skip_warning_body">Bạn có chắc muốn bỏ qua không?</string>
+    <string name="skip_confirm">Bỏ qua</string>
+    <string name="cancel">Hủy</string>
 </resources>
