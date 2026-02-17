@@ -5,4 +5,8 @@
     <string name="choose_language">Chagua Lugha Yako</string>
     <string name="get_started">Anza</string>
     <string name="skip">Ruka</string>
+    <string name="restore_thanks_title">Asante kwa kutuchagua</string>
+    <string name="restore_thanks_body">Ili programu ifanye kazi vizuri, tafadhali weka chaguo chache ili tuweze kukokotoa nyakati za sala kwa usahihi.</string>
+    <string name="restore_backup_hint">Kama tayari una faili ya chelezo, unaweza kuirejesha hapa.</string>
+    <string name="restore_backup_button">Rejesha faili ya chelezo</string>
 </resources>

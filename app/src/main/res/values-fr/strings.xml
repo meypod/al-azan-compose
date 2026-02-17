@@ -5,4 +5,8 @@
     <string name="choose_language">Choisissez votre langue</string>
     <string name="get_started">Commencer</string>
     <string name="skip">Passer</string>
+    <string name="restore_thanks_title">Merci de nous avoir choisis</string>
+    <string name="restore_thanks_body">Pour que l\'application fonctionne correctement, veuillez définir quelques préférences afin que nous puissions calculer précisément vos horaires de prière.</string>
+    <string name="restore_backup_hint">Si vous disposez déjà d\'un fichier de sauvegarde, vous pouvez le restaurer ici.</string>
+    <string name="restore_backup_button">Restaurer le fichier de sauvegarde</string>
 </resources>

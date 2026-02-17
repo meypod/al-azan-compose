@@ -5,4 +5,8 @@
     <string name="choose_language">Choose Your Language</string>
     <string name="get_started">Get Started</string>
     <string name="skip">Skip</string>
+    <string name="restore_thanks_title">Thank you for choosing us</string>
+    <string name="restore_thanks_body">To help the app work correctly, please set a few preferences so we can calculate your prayer times accurately.</string>
+    <string name="restore_backup_hint">If you already have a backup file, you can restore it here.</string>
+    <string name="restore_backup_button">Restore Backup File</string>
 </resources>

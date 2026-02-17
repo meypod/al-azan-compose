@@ -1,6 +1,5 @@
 package com.github.meypod.al_azan.intro.languageselection
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +15,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -42,24 +39,20 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.scale
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.SupportedLanguages
+import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.drawCurvedTopPatternedBackground
+import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
 import com.github.meypod.al_azan.intro.IntroSkipButton
 import com.github.meypod.al_azan.intro.IntroUiAction
 
@@ -73,15 +66,7 @@ fun LanguageSelectionScreen(
     onAction: (LanguageSelectionUiAction) -> Unit,
     onIntroAction: (IntroUiAction) -> Unit,
 ) {
-    val resources = LocalResources.current
-    val containerSize = LocalWindowInfo.current.containerDpSize
-    val density = LocalDensity.current
-    val patternImage = remember(containerSize) {
-        val original = BitmapFactory.decodeResource(resources, R.drawable.pattern)
-        val sizeDp = if (containerSize.width >= 600.dp) 150 else 140
-        val sizePx = (sizeDp * density.density).toInt().coerceAtLeast(1)
-        original.scale(sizePx, sizePx).asImageBitmap()
-    }
+    val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
     var showLanguageSheet by rememberSaveable { mutableStateOf(false) }
     val selectedLanguage =
         remember(uiState.selectedLocale) {
@@ -172,7 +157,7 @@ fun LanguageSelectionScreen(
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White,
 
-                )
+            )
             Spacer(modifier = Modifier.height(12.dp))
             OutlinedTextField(
                 value = selectedLanguage.label,
@@ -225,20 +210,11 @@ fun LanguageSelectionScreen(
                 }
             }
             Spacer(modifier = Modifier.height(40.dp))
-            Button(
+            TertiaryButton(
                 onClick = { onIntroAction(IntroUiAction.OnGetStartedClick) },
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                    ),
-                shape = RoundedCornerShape(40.dp),
-                modifier =
-                    Modifier
-                        .height(56.dp),
             ) {
                 Text(
-                    modifier = Modifier.padding(horizontal = 18.dp),
+                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 7.dp),
                     text = stringResource(R.string.get_started),
                     style = MaterialTheme.typography.titleMedium,
                 )

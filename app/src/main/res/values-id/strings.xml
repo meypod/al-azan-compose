@@ -5,4 +5,8 @@
     <string name="choose_language">Pilih Bahasa Anda</string>
     <string name="get_started">Mulai</string>
     <string name="skip">Lewati</string>
+    <string name="restore_thanks_title">Terima kasih telah memilih kami</string>
+    <string name="restore_thanks_body">Agar aplikasi berfungsi dengan benar, silakan atur beberapa preferensi sehingga kami dapat menghitung waktu sholat Anda dengan akurat.</string>
+    <string name="restore_backup_hint">Jika Anda sudah memiliki file cadangan, Anda dapat memulihkannya di sini.</string>
+    <string name="restore_backup_button">Pulihkan file cadangan</string>
 </resources>

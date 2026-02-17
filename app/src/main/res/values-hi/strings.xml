@@ -5,4 +5,8 @@
     <string name="choose_language">अपनी भाषा चुनें</string>
     <string name="get_started">शुरू करें</string>
     <string name="skip">छोड़ें</string>
+    <string name="restore_thanks_title">हमें चुनने के लिए धन्यवाद</string>
+    <string name="restore_thanks_body">ऐप के सही ढंग से काम करने के लिए, कृपया कुछ प्राथमिकताएँ सेट करें ताकि हम आपके नमाज़ के समय सटीक रूप से गणना कर सकें।</string>
+    <string name="restore_backup_hint">यदि आपके पास पहले का बैकअप फ़ाइल है, तो आप इसे यहाँ पुनर्स्थापित कर सकते हैं।</string>
+    <string name="restore_backup_button">बैकअप फ़ाइल पुनर्स्थापित करें</string>
 </resources>

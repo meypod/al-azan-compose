@@ -5,4 +5,8 @@
     <string name="choose_language">اختر لغتك</string>
     <string name="get_started">ابدأ</string>
     <string name="skip">تخطي</string>
+    <string name="restore_thanks_title">شكراً لاختياركم لنا</string>
+    <string name="restore_thanks_body">لكي يعمل التطبيق بشكل صحيح، يرجى ضبط بعض الإعدادات حتى نتمكن من حساب أوقات الصلاة بدقة.</string>
+    <string name="restore_backup_hint">إذا كان لديك ملف نسخ احتياطي مسبقاً، يمكنك استعادته هنا.</string>
+    <string name="restore_backup_button">استعادة ملف النسخة الاحتياطية</string>
 </resources>

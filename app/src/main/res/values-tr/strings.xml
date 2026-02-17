@@ -5,4 +5,8 @@
     <string name="choose_language">Dilini Seç</string>
     <string name="get_started">Başla</string>
     <string name="skip">Geç</string>
+    <string name="restore_thanks_title">Bizi tercih ettiğiniz için teşekkürler</string>
+    <string name="restore_thanks_body">Uygulamanın doğru çalışabilmesi için, namaz vakitlerinizi doğru hesaplayabilmemiz adına birkaç ayar yapmanız gerekiyor.</string>
+    <string name="restore_backup_hint">Zaten bir yedek dosyanız varsa, buradan geri yükleyebilirsiniz.</string>
+    <string name="restore_backup_button">Yedek dosyayı geri yükle</string>
 </resources>

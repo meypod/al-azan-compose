@@ -5,4 +5,8 @@
     <string name="choose_language">زبان خود را انتخاب کنید</string>
     <string name="get_started">شروع کنید</string>
     <string name="skip">رد کردن</string>
+    <string name="restore_thanks_title">از اینکه ما را انتخاب کردید متشکریم</string>
+    <string name="restore_thanks_body">برای عملکرد صحیح برنامه، لطفاً چند تنظیم را انجام دهید تا بتوانیم اوقات شرعی شما را با دقت محاسبه کنیم.</string>
+    <string name="restore_backup_hint">اگر از قبل فایل پشتیبان دارید، می‌توانید آن را اینجا بازیابی کنید.</string>
+    <string name="restore_backup_button">بازیابی فایل پشتیبان</string>
 </resources>
