@@ -1,11 +1,10 @@
 package com.github.meypod.al_azan.intro
 
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -89,6 +87,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
             introViewModel.onAction(action, onFinishIntro)
         }
     }
+    val introBackgroundColor = colorResource(R.color.intro_background)
 
     BindBackStackWithViewModel(
         currentRoute = { introBackstack.lastOrNull() },
@@ -105,37 +104,39 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
 
     NavDisplay(
         backStack = introBackstack,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(introBackgroundColor),
         contentAlignment = Alignment.Center,
         transitionSpec = {
             slideInHorizontally(
-                animationSpec = tween(300),
+                animationSpec = tween(280),
                 initialOffsetX = { fullWidth -> fullWidth },
-            ) + fadeIn(animationSpec = tween(300)) togetherWith
+            ) togetherWith
                 slideOutHorizontally(
-                    animationSpec = tween(300),
+                    animationSpec = tween(280),
                     targetOffsetX = { fullWidth -> -fullWidth / 3 },
-                ) + fadeOut(animationSpec = tween(300))
+                )
         },
         popTransitionSpec = {
             slideInHorizontally(
-                animationSpec = tween(300),
+                animationSpec = tween(280),
                 initialOffsetX = { fullWidth -> -fullWidth / 3 },
-            ) + fadeIn(animationSpec = tween(300)) togetherWith
+            ) togetherWith
                 slideOutHorizontally(
-                    animationSpec = tween(300),
+                    animationSpec = tween(280),
                     targetOffsetX = { fullWidth -> fullWidth },
-                ) + fadeOut(animationSpec = tween(300))
+                )
         },
         predictivePopTransitionSpec = {
             slideInHorizontally(
-                animationSpec = tween(300),
+                animationSpec = tween(280),
                 initialOffsetX = { fullWidth -> -fullWidth / 3 },
-            ) + fadeIn(animationSpec = tween(300)) togetherWith
+            ) togetherWith
                 slideOutHorizontally(
-                    animationSpec = tween(300),
+                    animationSpec = tween(280),
                     targetOffsetX = { fullWidth -> fullWidth },
-                ) + fadeOut(animationSpec = tween(300))
+                )
         },
         entryDecorators =
             listOf(
