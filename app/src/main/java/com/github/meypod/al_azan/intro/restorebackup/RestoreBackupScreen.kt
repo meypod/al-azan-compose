@@ -39,10 +39,11 @@ fun RestoreBackupScreen(
     uiState: RestoreBackupUiState,
     onAction: (RestoreBackupUiAction) -> Unit,
     onIntroAction: (IntroUiAction) -> Unit,
+    modifier: Modifier = Modifier,
     busy: Boolean = false,
 ) {
     Column(
-        modifier = Modifier.padding(dimensionResource(R.dimen.page_padding)),
+        modifier = modifier.padding(dimensionResource(R.dimen.page_padding)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

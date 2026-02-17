@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -102,111 +103,123 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
         canPopBack = { introBackstack.size > 1 },
     )
 
-    val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
-    val patternModifier = remember(introUiState.step > 0) {
-        Modifier
-            .fillMaxSize()
-            .let { base ->
-                if (introUiState.step > 0) {
-                    base.patternedBackground(
-                        pattern = patternImage,
-                        backgroundColor = Color(0xFF00585A),
-                        patternAlpha = 0.03f,
-                    )
-                } else {
-                    base
-                }
-            }
-    }
-    Scaffold(
+    NavDisplay(
+        backStack = introBackstack,
         modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            if (introUiState.step > 0) {
-                IntroBottomBar(
-                    uiState = introUiState,
-                    onAction = onIntroUiAction,
-                )
-            }
+        contentAlignment = Alignment.Center,
+        transitionSpec = {
+            slideInHorizontally(
+                animationSpec = tween(300),
+                initialOffsetX = { fullWidth -> fullWidth },
+            ) + fadeIn(animationSpec = tween(300)) togetherWith
+                slideOutHorizontally(
+                    animationSpec = tween(300),
+                    targetOffsetX = { fullWidth -> -fullWidth / 3 },
+                ) + fadeOut(animationSpec = tween(300))
         },
-        containerColor = Color(0xFF00585A),
-    ) { paddingValues ->
-        NavDisplay(
-            backStack = introBackstack,
-            modifier = patternModifier
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center,
-            transitionSpec = {
-                slideInHorizontally(
+        popTransitionSpec = {
+            slideInHorizontally(
+                animationSpec = tween(300),
+                initialOffsetX = { fullWidth -> -fullWidth / 3 },
+            ) + fadeIn(animationSpec = tween(300)) togetherWith
+                slideOutHorizontally(
                     animationSpec = tween(300),
-                    initialOffsetX = { fullWidth -> fullWidth },
-                ) + fadeIn(animationSpec = tween(300)) togetherWith
-                    slideOutHorizontally(
-                        animationSpec = tween(300),
-                        targetOffsetX = { fullWidth -> -fullWidth / 3 },
-                    ) + fadeOut(animationSpec = tween(300))
-            },
-            popTransitionSpec = {
-                slideInHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                ) + fadeOut(animationSpec = tween(300))
+        },
+        predictivePopTransitionSpec = {
+            slideInHorizontally(
+                animationSpec = tween(300),
+                initialOffsetX = { fullWidth -> -fullWidth / 3 },
+            ) + fadeIn(animationSpec = tween(300)) togetherWith
+                slideOutHorizontally(
                     animationSpec = tween(300),
-                    initialOffsetX = { fullWidth -> -fullWidth / 3 },
-                ) + fadeIn(animationSpec = tween(300)) togetherWith
-                    slideOutHorizontally(
-                        animationSpec = tween(300),
-                        targetOffsetX = { fullWidth -> fullWidth },
-                    ) + fadeOut(animationSpec = tween(300))
-            },
-            predictivePopTransitionSpec = {
-                slideInHorizontally(
-                    animationSpec = tween(300),
-                    initialOffsetX = { fullWidth -> -fullWidth / 3 },
-                ) + fadeIn(animationSpec = tween(300)) togetherWith
-                    slideOutHorizontally(
-                        animationSpec = tween(300),
-                        targetOffsetX = { fullWidth -> fullWidth },
-                    ) + fadeOut(animationSpec = tween(300))
-            },
-            entryDecorators =
-                listOf(
-                    rememberSaveableStateHolderNavEntryDecorator(),
-                    rememberViewModelStoreNavEntryDecorator(),
-                ),
-            entryProvider =
-                entryProvider {
-                    entry<Route.Intro.LanguageSelection> {
-                        val viewModel = hiltViewModel<LanguageSelectionViewModel>()
-                        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                        LanguageSelectionScreen(
-                            uiState = uiState,
-                            onAction = viewModel::onAction,
-                            onIntroAction = onIntroUiAction,
-                        )
-                    }
-                    entry<Route.Intro.RestoreBackup> {
-                        val viewModel = hiltViewModel<RestoreBackupViewModel>()
-                        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    targetOffsetX = { fullWidth -> fullWidth },
+                ) + fadeOut(animationSpec = tween(300))
+        },
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+        entryProvider =
+            entryProvider {
+                entry<Route.Intro.LanguageSelection> {
+                    val viewModel = hiltViewModel<LanguageSelectionViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    LanguageSelectionScreen(
+                        uiState = uiState,
+                        onAction = viewModel::onAction,
+                        onIntroAction = onIntroUiAction,
+                    )
+                }
+                entry<Route.Intro.RestoreBackup> {
+                    val viewModel = hiltViewModel<RestoreBackupViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    IntroStepScaffold(
+                        uiState = introUiState,
+                        onAction = onIntroUiAction,
+                    ) { modifier ->
                         RestoreBackupScreen(
                             uiState = uiState,
                             onAction = viewModel::onAction,
                             onIntroAction = onIntroUiAction,
+                            modifier = modifier,
                             busy = introUiState.busy,
                         )
                     }
-                    entry<Route.Intro.Location> {
+                }
+                entry<Route.Intro.Location> {
+                    IntroStepScaffold(
+                        uiState = introUiState,
+                        onAction = onIntroUiAction,
+                    ) {
                         // TODO
                     }
-                },
+                }
+            },
+    )
+    if (introUiState.showSkipDialog) {
+        TimedDangerDialog(
+            title = stringResource(R.string.skip_warning_title),
+            text = stringResource(R.string.skip_warning_body),
+            confirmLabel = stringResource(R.string.skip_confirm),
+            cancelLabel = stringResource(R.string.cancel),
+            seconds = 3,
+            onConfirm = { onIntroUiAction(IntroUiAction.OnSkipConfirmed) },
+            onDismissRequest = { onIntroUiAction(IntroUiAction.OnSkipDismiss) },
         )
-        if (introUiState.showSkipDialog) {
-            TimedDangerDialog(
-                title = stringResource(R.string.skip_warning_title),
-                text = stringResource(R.string.skip_warning_body),
-                confirmLabel = stringResource(R.string.skip_confirm),
-                cancelLabel = stringResource(R.string.cancel),
-                seconds = 3,
-                onConfirm = { onIntroUiAction(IntroUiAction.OnSkipConfirmed) },
-                onDismissRequest = { onIntroUiAction(IntroUiAction.OnSkipDismiss) },
+    }
+}
+
+@Composable
+private fun IntroStepScaffold(
+    uiState: IntroUiState,
+    onAction: (IntroUiAction) -> Unit,
+    content: @Composable (Modifier) -> Unit,
+) {
+    val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            IntroBottomBar(
+                uiState = uiState,
+                onAction = onAction,
             )
-        }
+        },
+        containerColor = colorResource(R.color.intro_background),
+    ) { paddingValues ->
+        content(
+            Modifier
+                .fillMaxSize()
+                .patternedBackground(
+                    pattern = patternImage,
+                    backgroundColor = colorResource(R.color.intro_background),
+                    patternAlpha = 0.03f,
+                )
+                .padding(paddingValues),
+        )
     }
 }
 

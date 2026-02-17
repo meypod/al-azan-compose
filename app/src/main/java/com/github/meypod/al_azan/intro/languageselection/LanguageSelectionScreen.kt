@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -21,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -41,6 +43,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,9 +59,6 @@ import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
 import com.github.meypod.al_azan.intro.IntroUiAction
 import com.github.meypod.al_azan.intro.components.IntroSkipButton
 
-private val IntroBackgroundColor = Color(0xFF00585A)
-private val IntroCurveBackgroundColor = Color(0xFF006663)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LanguageSelectionScreen(
@@ -73,153 +73,159 @@ fun LanguageSelectionScreen(
             SupportedLanguages.firstOrNull { it.value == uiState.selectedLocale } ?: SupportedLanguages.first()
         }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Scaffold(
+        containerColor = colorResource(R.color.intro_background),
     ) {
-        Spacer(Modifier.height(30.dp))
-        Text(
-            text = stringResource(R.string.welcome),
-            style = MaterialTheme.typography.displaySmall,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-        )
         Column(
-            modifier = Modifier.weight(0.55f),
-            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier.padding(top = it.calculateTopPadding()),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(
-                modifier = Modifier
-                    .offset(y = 25.dp)
-                    .graphicsLayer { clip = false },
-                contentAlignment = Alignment.BottomCenter,
+            Spacer(Modifier.height(30.dp))
+            Text(
+                text = stringResource(R.string.welcome),
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+            Column(
+                modifier = Modifier.weight(0.55f),
+                verticalArrangement = Arrangement.Bottom,
             ) {
                 Box(
                     modifier = Modifier
-                        .matchParentSize()
-                        .drawWithCache {
-                            val center = Offset(x = size.width / 2f, y = size.height * 0.5f)
-                            val radius = size.height * 0.6f
-                            val brush = Brush.radialGradient(
-                                colorStops =
-                                    arrayOf(
-                                        0.05f to Color(0x66139554),
-                                        0.54f to Color(0x3365C088),
-                                        1.0f to Color(0x1A00585A),
-                                    ),
-                                center = center,
-                                radius = radius,
-                            )
-                            onDrawBehind {
-                                drawCircle(
-                                    brush = brush,
-                                    radius = radius,
+                        .offset(y = 25.dp)
+                        .graphicsLayer { clip = false },
+                    contentAlignment = Alignment.BottomCenter,
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .drawWithCache {
+                                val center = Offset(x = size.width / 2f, y = size.height * 0.5f)
+                                val radius = size.height * 0.6f
+                                val brush = Brush.radialGradient(
+                                    colorStops =
+                                        arrayOf(
+                                            0.05f to Color(0x66139554),
+                                            0.54f to Color(0x3365C088),
+                                            1.0f to Color(0x1A00585A),
+                                        ),
                                     center = center,
+                                    radius = radius,
                                 )
-                            }
-                        },
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.mosque),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(x = 6.dp, y = 6.dp)
-                        .blur(8.dp),
-                    contentScale = ContentScale.FillHeight,
-                    colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.5f), BlendMode.SrcIn),
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.mosque),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillHeight,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        }
-        Column(
-            modifier =
-                Modifier
-                    .drawCurvedTopPatternedBackground(pattern = patternImage, backgroundColor = IntroCurveBackgroundColor)
-                    .fillMaxWidth()
-                    .weight(0.45f)
-                    .padding(top = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = stringResource(R.string.choose_language),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    shadow = Shadow(
-                        color = Color.Black.copy(alpha = 0.5f),
-                        offset = Offset(0f, 2f),
-                        blurRadius = 8f,
-                    ),
-                ),
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White,
-
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                value = selectedLanguage.label,
-                onValueChange = {},
-                readOnly = true,
-                textStyle = MaterialTheme.typography.bodyLarge,
-                enabled = false,
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
-                        contentDescription = null,
+                                onDrawBehind {
+                                    drawCircle(
+                                        brush = brush,
+                                        radius = radius,
+                                        center = center,
+                                    )
+                                }
+                            },
                     )
-                },
-                colors =
-                    TextFieldDefaults.colors(
-                        disabledTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        disabledContainerColor = Color.Transparent,
-                        disabledTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        disabledIndicatorColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f),
-                    ),
+                    Image(
+                        painter = painterResource(id = R.drawable.mosque),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(x = 6.dp, y = 6.dp)
+                            .blur(8.dp),
+                        contentScale = ContentScale.FillHeight,
+                        colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.5f), BlendMode.SrcIn),
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.mosque),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillHeight,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+            Column(
                 modifier =
                     Modifier
-                        .widthIn(max = 290.dp)
+                        .drawCurvedTopPatternedBackground(pattern = patternImage, backgroundColor = colorResource(R.color.intro_curve_background))
+                        .navigationBarsPadding()
                         .fillMaxWidth()
-                        .clickable { showLanguageSheet = true },
-                shape = RoundedCornerShape(10.dp),
-            )
-            if (showLanguageSheet) {
-                ModalBottomSheet(
-                    onDismissRequest = { showLanguageSheet = false },
-                ) {
-                    Text(
-                        text = stringResource(R.string.choose_language),
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                    )
-                    LazyColumn(
-                        contentPadding = PaddingValues(bottom = 24.dp),
+                        .weight(0.45f)
+                        .padding(top = 50.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = stringResource(R.string.choose_language),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        shadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.5f),
+                            offset = Offset(0f, 2f),
+                            blurRadius = 8f,
+                        ),
+                    ),
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White,
+
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = selectedLanguage.label,
+                    onValueChange = {},
+                    readOnly = true,
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    enabled = false,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
+                            contentDescription = null,
+                        )
+                    },
+                    colors =
+                        TextFieldDefaults.colors(
+                            disabledTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            disabledContainerColor = Color.Transparent,
+                            disabledTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            disabledIndicatorColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f),
+                        ),
+                    modifier =
+                        Modifier
+                            .widthIn(max = 290.dp)
+                            .fillMaxWidth()
+                            .clickable { showLanguageSheet = true },
+                    shape = RoundedCornerShape(10.dp),
+                )
+                if (showLanguageSheet) {
+                    ModalBottomSheet(
+                        onDismissRequest = { showLanguageSheet = false },
                     ) {
-                        items(SupportedLanguages) { language ->
-                            DropdownMenuItem(
-                                text = { Text(text = language.label) },
-                                onClick = {
-                                    onAction(LanguageSelectionUiAction.OnLanguageSelected(language.value))
-                                    showLanguageSheet = false
-                                },
-                            )
+                        Text(
+                            text = stringResource(R.string.choose_language),
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                        )
+                        LazyColumn(
+                            contentPadding = PaddingValues(bottom = 24.dp),
+                        ) {
+                            items(SupportedLanguages) { language ->
+                                DropdownMenuItem(
+                                    text = { Text(text = language.label) },
+                                    onClick = {
+                                        onAction(LanguageSelectionUiAction.OnLanguageSelected(language.value))
+                                        showLanguageSheet = false
+                                    },
+                                )
+                            }
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(40.dp))
+                TertiaryButton(
+                    onClick = { onIntroAction(IntroUiAction.OnNextClick) },
+                ) {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 18.dp, vertical = 7.dp),
+                        text = stringResource(R.string.get_started),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+                IntroSkipButton { onIntroAction(IntroUiAction.OnSkipClick) }
             }
-            Spacer(modifier = Modifier.height(40.dp))
-            TertiaryButton(
-                onClick = { onIntroAction(IntroUiAction.OnNextClick) },
-            ) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 7.dp),
-                    text = stringResource(R.string.get_started),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-            }
-            IntroSkipButton { onIntroAction(IntroUiAction.OnSkipClick) }
         }
     }
 }
