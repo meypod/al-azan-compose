@@ -53,8 +53,8 @@ import com.github.meypod.al_azan.core.presentation.SupportedLanguages
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.drawCurvedTopPatternedBackground
 import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
-import com.github.meypod.al_azan.intro.IntroSkipButton
 import com.github.meypod.al_azan.intro.IntroUiAction
+import com.github.meypod.al_azan.intro.components.IntroSkipButton
 
 private val IntroBackgroundColor = Color(0xFF00585A)
 private val IntroCurveBackgroundColor = Color(0xFF006663)

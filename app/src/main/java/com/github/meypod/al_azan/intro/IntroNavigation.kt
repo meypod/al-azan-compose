@@ -45,6 +45,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithV
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.patternedBackground
 import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
+import com.github.meypod.al_azan.intro.components.IntroSkipButton
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
