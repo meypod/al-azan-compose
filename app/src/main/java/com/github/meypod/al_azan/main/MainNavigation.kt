@@ -1,5 +1,9 @@
 package com.github.meypod.al_azan.main
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,11 +17,14 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun MainNavigation(modifier: Modifier = Modifier) {
+    val slideDirections = rememberHorizontalSlideDirections()
+
     val mainBackstack =
         rememberNavBackStack(
             configuration =
@@ -37,6 +44,36 @@ fun MainNavigation(modifier: Modifier = Modifier) {
     NavDisplay(
         backStack = mainBackstack,
         modifier = modifier.background(MaterialTheme.colorScheme.background),
+        transitionSpec = {
+            slideInHorizontally(
+                animationSpec = tween(280),
+                initialOffsetX = { fullWidth -> fullWidth * slideDirections.forwardEnter },
+            ) togetherWith
+                slideOutHorizontally(
+                    animationSpec = tween(280),
+                    targetOffsetX = { fullWidth -> fullWidth * slideDirections.forwardExit / 2 },
+                )
+        },
+        popTransitionSpec = {
+            slideInHorizontally(
+                animationSpec = tween(280),
+                initialOffsetX = { fullWidth -> fullWidth * slideDirections.backEnter / 2 },
+            ) togetherWith
+                slideOutHorizontally(
+                    animationSpec = tween(280),
+                    targetOffsetX = { fullWidth -> fullWidth * slideDirections.backExit },
+                )
+        },
+        predictivePopTransitionSpec = {
+            slideInHorizontally(
+                animationSpec = tween(280),
+                initialOffsetX = { fullWidth -> fullWidth * slideDirections.backEnter / 2 },
+            ) togetherWith
+                slideOutHorizontally(
+                    animationSpec = tween(280),
+                    targetOffsetX = { fullWidth -> fullWidth * slideDirections.backExit },
+                )
+        },
         entryDecorators =
             listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
