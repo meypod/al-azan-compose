@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -55,12 +56,20 @@ fun <T> BottomSelect(
     enabled: Boolean = true,
     onTriggerClick: () -> Boolean? = { null },
     colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
-    itemContent: @Composable (Map.Entry<String, Pair<T, String>>, () -> Unit) -> Unit = { option, onDismiss ->
+    itemContent: @Composable (Map.Entry<String, Pair<T, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
         DropdownMenuItem(
             text = { Text(option.value.second) },
             onClick = {
                 onSelect(option.value.first)
                 onDismiss()
+            },
+            trailingIcon = {
+                if (selected) {
+                    Icon(
+                        painter = painterResource(R.drawable.baseline_check_24),
+                        contentDescription = stringResource(R.string.selected),
+                    )
+                }
             },
         )
     },
@@ -163,12 +172,13 @@ fun <T> BottomSelect(
                         Modifier
                             .fillMaxWidth()
                             .padding(dimensionResource(R.dimen.element_padding)),
+                    shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
                 )
             }
 
             LazyColumn {
                 items(filteredOptions.entries.toList(), key = { it.key }) { item ->
-                    itemContent(item, onDismiss)
+                    itemContent(item, item.key == selectedKey, onDismiss)
                 }
             }
 
