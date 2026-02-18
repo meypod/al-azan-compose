@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
-import com.github.meypod.al_azan.core.presentation.SupportedLanguages
+import com.github.meypod.al_azan.core.presentation.SupportedLocales
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.drawCurvedTopPatternedBackground
@@ -56,7 +55,7 @@ fun LanguageSelectionScreen(
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
     val selectedLanguage =
         remember(uiState.selectedLocale) {
-            SupportedLanguages.firstOrNull { it.value == uiState.selectedLocale } ?: SupportedLanguages.first()
+            SupportedLocales.firstOrNull { it.value == uiState.selectedLocale } ?: SupportedLocales.first()
         }
 
     val mosquePainter = painterResource(id = R.drawable.mosque)
@@ -155,9 +154,10 @@ fun LanguageSelectionScreen(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 BottomSelect(
-                    options = SupportedLanguages,
+                    options = SupportedLocales,
                     optionKey = { it.value },
                     optionLabel = { it.label },
+                    optionSearchTag = { it.tags },
                     selectedKey = selectedLanguage.value,
                     onSelect = { onAction(LanguageSelectionUiAction.OnLanguageSelected(it.value)) },
                     searchable = true,
