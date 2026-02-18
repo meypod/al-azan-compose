@@ -51,29 +51,19 @@ fun <T> BottomSelect(
     placeholder: @Composable (() -> Unit)? = null,
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
+    optionSearchTag: ((T) -> String) = optionLabel,
     onSelect: (T) -> Unit = {},
     searchable: Boolean = false,
     enabled: Boolean = true,
     onTriggerClick: () -> Boolean? = { null },
     colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
-    itemContent: @Composable (Map.Entry<String, Pair<T, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
-        DropdownMenuItem(
-            text = { Text(option.value.second) },
-            onClick = {
-                onSelect(option.value.first)
-                onDismiss()
-            },
-            trailingIcon = {
-                if (selected) {
-                    Icon(
-                        painter = painterResource(R.drawable.baseline_check_24),
-                        contentDescription = stringResource(R.string.selected),
-                    )
-                }
-            },
-        )
+    itemContent: @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
+        DefaultBottomSelectItem(option.value.second, selected) {
+            onSelect(option.value.first)
+            onDismiss()
+        }
     },
-    extraContent: @Composable ColumnScope.(entries: Map<String, Pair<T, String>>) -> Unit = {},
+    extraContent: @Composable ColumnScope.(entries: Map<String, Triple<T, String, String>>) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
@@ -90,13 +80,13 @@ fun <T> BottomSelect(
             options,
             optionKey,
             optionLabel,
-        ) { options.associate { optionKey(it) to Pair(it, optionLabel(it)) } }
+        ) { options.associate { optionKey(it) to Triple(it, optionLabel(it), optionSearchTag(it)) } }
 
     val filteredOptions =
         remember(searchable, searchText, keyLabelOptionEntries) {
             if (searchable && searchText.isNotEmpty()) {
                 keyLabelOptionEntries.filter {
-                    it.value.second.contains(
+                    it.value.third.contains(
                         searchText,
                         ignoreCase = true,
                     )
@@ -208,6 +198,26 @@ fun <T> BottomSelect(
     }
 }
 
+@Composable
+private fun DefaultBottomSelectItem(
+    label: String,
+    selected: Boolean = false,
+    onClick: () -> Unit = {},
+) {
+    DropdownMenuItem(
+        text = { Text(label, style = MaterialTheme.typography.bodyMedium) },
+        onClick = onClick,
+        trailingIcon = {
+            if (selected) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_check_24),
+                    contentDescription = stringResource(R.string.selected),
+                )
+            }
+        },
+    )
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun BottomSelectPreview() {
@@ -220,5 +230,22 @@ private fun BottomSelectPreview() {
             selectedKey = "English",
             searchable = true,
         )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun DefaultBottomSelectItemPreview() {
+    AlAzanTheme {
+        Column {
+            DefaultBottomSelectItem(
+                "English",
+                true,
+            )
+            DefaultBottomSelectItem(
+                "Persian",
+                false,
+            )
+        }
     }
 }
