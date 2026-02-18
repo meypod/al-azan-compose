@@ -280,6 +280,19 @@ private fun IntroBottomBar(
 
 @Preview(showBackground = true)
 @Composable
+private fun IntroStepScaffoldPreview() {
+    AlAzanTheme {
+        IntroStepScaffold(
+            uiState = IntroUiState(route = Route.Intro.LanguageSelection),
+            onAction = {},
+        ) {
+            Column(it) { }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
 private fun IntroBottomBarEmptyPreview() {
     AlAzanTheme {
         IntroBottomBar(
