@@ -13,4 +13,9 @@
     <string name="skip_warning_body">آیا واقعاً می‌خواهید رد کنید؟</string>
     <string name="skip_confirm">رد کردن</string>
     <string name="cancel">لغو</string>
+    <string name="back_button">بازگشت</string>
+    <string name="next_button">بعدی</string>
+    <string name="finish_button">اتمام</string>
+    <string name="no_items_found">موردی یافت نشد</string>
+    <string name="search_placeholder">جستجو...</string>
 </resources>

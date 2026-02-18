@@ -13,4 +13,9 @@
     <string name="skip_warning_body">Möchten Sie wirklich überspringen?</string>
     <string name="skip_confirm">Überspringen</string>
     <string name="cancel">Abbrechen</string>
+    <string name="back_button">Zurück</string>
+    <string name="next_button">Weiter</string>
+    <string name="finish_button">Fertig</string>
+    <string name="no_items_found">Keine Einträge gefunden</string>
+    <string name="search_placeholder">Suchen...</string>
 </resources>

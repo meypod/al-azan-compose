@@ -1,35 +1,21 @@
 package com.github.meypod.al_azan.intro.languageselection
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -52,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.SupportedLanguages
+import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.drawCurvedTopPatternedBackground
 import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
@@ -66,7 +53,6 @@ fun LanguageSelectionScreen(
     onIntroAction: (IntroUiAction) -> Unit,
 ) {
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
-    var showLanguageSheet by rememberSaveable { mutableStateOf(false) }
     val selectedLanguage =
         remember(uiState.selectedLocale) {
             SupportedLanguages.firstOrNull { it.value == uiState.selectedLocale } ?: SupportedLanguages.first()
@@ -76,9 +62,9 @@ fun LanguageSelectionScreen(
 
     Scaffold(
         containerColor = colorResource(R.color.intro_background),
-    ) {
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(top = it.calculateTopPadding()),
+            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(Modifier.height(30.dp))
@@ -149,7 +135,7 @@ fun LanguageSelectionScreen(
                         )
                         .fillMaxWidth()
                         .weight(0.45f)
-                        .padding(top = 50.dp, bottom = it.calculateBottomPadding()),
+                        .padding(top = 50.dp, bottom = paddingValues.calculateBottomPadding()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -163,60 +149,26 @@ fun LanguageSelectionScreen(
                         ),
                     ),
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
 
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = selectedLanguage.label,
-                    onValueChange = {},
-                    readOnly = true,
-                    textStyle = MaterialTheme.typography.bodyLarge,
-                    enabled = false,
-                    trailingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
-                            contentDescription = null,
-                        )
-                    },
-                    colors =
-                        TextFieldDefaults.colors(
-                            disabledTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            disabledContainerColor = Color.Transparent,
-                            disabledTrailingIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            disabledIndicatorColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f),
-                        ),
-                    modifier =
-                        Modifier
-                            .widthIn(max = 290.dp)
-                            .fillMaxWidth()
-                            .clickable { showLanguageSheet = true },
-                    shape = RoundedCornerShape(10.dp),
+                BottomSelect(
+                    options = SupportedLanguages,
+                    optionKey = { it.value },
+                    optionLabel = { it.label },
+                    selectedKey = selectedLanguage.value,
+                    onSelect = { onAction(LanguageSelectionUiAction.OnLanguageSelected(it.value)) },
+                    searchable = true,
+                    colors = OutlinedTextFieldDefaults.colors().copy(
+                        unfocusedTextColor = Color.White,
+                        unfocusedIndicatorColor = Color.White,
+                        unfocusedTrailingIconColor = Color.White,
+                        focusedTextColor = Color.White,
+                        focusedIndicatorColor = Color.White,
+                        focusedTrailingIconColor = Color.White,
+                    ),
                 )
-                if (showLanguageSheet) {
-                    ModalBottomSheet(
-                        onDismissRequest = { showLanguageSheet = false },
-                    ) {
-                        Text(
-                            text = stringResource(R.string.choose_language),
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                        )
-                        LazyColumn(
-                            contentPadding = PaddingValues(bottom = 24.dp),
-                        ) {
-                            items(SupportedLanguages) { language ->
-                                DropdownMenuItem(
-                                    text = { Text(text = language.label) },
-                                    onClick = {
-                                        onAction(LanguageSelectionUiAction.OnLanguageSelected(language.value))
-                                        showLanguageSheet = false
-                                    },
-                                )
-                            }
-                        }
-                    }
-                }
                 Spacer(modifier = Modifier.height(40.dp))
                 TertiaryButton(
                     onClick = { onIntroAction(IntroUiAction.OnNextClick) },

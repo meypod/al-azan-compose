@@ -13,4 +13,9 @@
     <string name="skip_warning_body">Voulez-vous vraiment passer ?</string>
     <string name="skip_confirm">Passer</string>
     <string name="cancel">Annuler</string>
+    <string name="back_button">Retour</string>
+    <string name="next_button">Suivant</string>
+    <string name="finish_button">Terminer</string>
+    <string name="no_items_found">Aucun élément trouvé</string>
+    <string name="search_placeholder">Recherche...</string>
 </resources>

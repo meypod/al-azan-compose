@@ -13,4 +13,9 @@
     <string name="skip_warning_body">Bạn có chắc muốn bỏ qua không?</string>
     <string name="skip_confirm">Bỏ qua</string>
     <string name="cancel">Hủy</string>
+    <string name="back_button">Quay lại</string>
+    <string name="next_button">Tiếp theo</string>
+    <string name="finish_button">Hoàn thành</string>
+    <string name="no_items_found">Không tìm thấy mục nào</string>
+    <string name="search_placeholder">Tìm...</string>
 </resources>
