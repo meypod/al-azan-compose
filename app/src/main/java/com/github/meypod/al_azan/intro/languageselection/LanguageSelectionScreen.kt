@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -160,13 +161,8 @@ fun LanguageSelectionScreen(
                     selectedKey = selectedLanguage.value,
                     onSelect = { onAction(LanguageSelectionUiAction.OnLanguageSelected(it.value)) },
                     searchable = true,
-                    colors = OutlinedTextFieldDefaults.colors().copy(
-                        unfocusedTextColor = Color.White,
-                        unfocusedIndicatorColor = Color.White,
-                        unfocusedTrailingIconColor = Color.White,
-                        focusedTextColor = Color.White,
-                        focusedIndicatorColor = Color.White,
-                        focusedTrailingIconColor = Color.White,
+                    colors = ButtonDefaults.outlinedButtonColors().copy(
+                        contentColor = Color.White,
                     ),
                 )
                 Spacer(modifier = Modifier.height(40.dp))
