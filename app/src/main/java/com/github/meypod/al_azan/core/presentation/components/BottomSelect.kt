@@ -1,24 +1,30 @@
 package com.github.meypod.al_azan.core.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,8 +33,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,17 +47,14 @@ fun <T> BottomSelect(
     options: Iterable<T>,
     selectedKey: String?,
     modifier: Modifier = Modifier,
-    label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
     onSelect: (T) -> Unit = {},
     searchable: Boolean = false,
     enabled: Boolean = true,
     onTriggerClick: () -> Boolean? = { null },
-    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     itemContent: @Composable (Map.Entry<String, Pair<T, String>>, () -> Unit) -> Unit = { option, onDismiss ->
         DropdownMenuItem(
             text = { Text(option.value.second) },
@@ -105,44 +106,48 @@ fun <T> BottomSelect(
 
     val updatedOnTriggerClick by rememberUpdatedState(onTriggerClick)
 
-    val focusManager = LocalFocusManager.current
-
-    val triggerModifier =
-        Modifier
-            .onFocusChanged { state ->
-                if (state.hasFocus) {
-                    val newExpand = updatedOnTriggerClick() ?: true
-                    expanded = newExpand
-                }
-            }
-
     Column(modifier = modifier) {
-        OutlinedTextField(
-            value = selectedLabel,
-            onValueChange = {},
-            modifier = triggerModifier,
+        OutlinedButton(
+            modifier = Modifier.widthIn(min = 280.dp),
+            onClick = {
+                val newExpand = updatedOnTriggerClick() ?: true
+                expanded = newExpand
+            },
             enabled = enabled,
-            readOnly = true,
-            label = label,
-            placeholder = placeholder,
-            trailingIcon = {
+            shape = MaterialTheme.shapes.small,
+            contentPadding = PaddingValues(
+                start = dimensionResource(R.dimen.element_padding),
+                end = 5.dp,
+            ),
+            colors = colors,
+        ) {
+            Row(
+                modifier = Modifier.widthIn(min = 280.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (selectedLabel.isEmpty()) {
+                    placeholder?.invoke()
+                } else {
+                    Text(selectedLabel)
+                }
+
+                Spacer(
+                    Modifier.width(dimensionResource(R.dimen.element_padding)),
+                )
+
                 Icon(
                     painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
                     contentDescription = null,
                 )
-            },
-            supportingText = supportingText,
-            isError = isError,
-            colors = colors,
-            shape = MaterialTheme.shapes.medium,
-        )
+            }
+        }
         extraContent(keyLabelOptionEntries)
     }
 
     if (expanded) {
         ModalBottomSheet(
             onDismissRequest = {
-                focusManager.clearFocus()
                 expanded = false
                 searchText = ""
             },
@@ -198,12 +203,11 @@ fun <T> BottomSelect(
 private fun BottomSelectPreview() {
     AlAzanTheme {
         BottomSelect(
-            label = { Text("Choose") },
+            modifier = Modifier.width(190.dp),
             options = listOf("English", "Persian"),
             optionKey = { it },
             optionLabel = { it },
             selectedKey = "English",
-            supportingText = { Text("supporting text") },
             searchable = true,
         )
     }
