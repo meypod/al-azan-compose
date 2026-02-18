@@ -13,4 +13,9 @@
     <string name="skip_warning_body">क्या आप वाकई छोड़ना चाहते हैं?</string>
     <string name="skip_confirm">छोड़ें</string>
     <string name="cancel">रद्द करें</string>
+    <string name="back_button">वापस</string>
+    <string name="next_button">अगला</string>
+    <string name="finish_button">समाप्त</string>
+    <string name="no_items_found">कोई आइटम नहीं मिला</string>
+    <string name="search_placeholder">खोज...</string>
 </resources>

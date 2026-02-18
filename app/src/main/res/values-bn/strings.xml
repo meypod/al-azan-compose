@@ -13,4 +13,9 @@
     <string name="skip_warning_body">আপনি কি সত্যিই স্কিপ করতে চান?</string>
     <string name="skip_confirm">এড়িয়ে যান</string>
     <string name="cancel">বাতিল</string>
+    <string name="back_button">পেছনে</string>
+    <string name="next_button">পরবর্তী</string>
+    <string name="finish_button">সমাপ্ত</string>
+    <string name="no_items_found">কোনও আইটেম পাওয়া যায়নি</string>
+    <string name="search_placeholder">অনুসন্ধান...</string>
 </resources>

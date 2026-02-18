@@ -13,4 +13,9 @@
     <string name="skip_warning_body">Gerçekten atlamak istiyor musunuz?</string>
     <string name="skip_confirm">Geç</string>
     <string name="cancel">İptal</string>
+    <string name="back_button">Geri</string>
+    <string name="next_button">İleri</string>
+    <string name="finish_button">Bitir</string>
+    <string name="no_items_found">Öğe bulunamadı</string>
+    <string name="search_placeholder">Ara...</string>
 </resources>

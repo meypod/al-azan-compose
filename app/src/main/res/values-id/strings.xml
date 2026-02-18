@@ -13,4 +13,9 @@
     <string name="skip_warning_body">Apakah Anda yakin ingin melewati?</string>
     <string name="skip_confirm">Lewati</string>
     <string name="cancel">Batal</string>
+    <string name="back_button">Kembali</string>
+    <string name="next_button">Berikutnya</string>
+    <string name="finish_button">Selesai</string>
+    <string name="no_items_found">Tidak ada item yang ditemukan</string>
+    <string name="search_placeholder">Cari...</string>
 </resources>

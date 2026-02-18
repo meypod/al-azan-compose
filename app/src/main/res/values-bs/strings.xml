@@ -13,4 +13,9 @@
     <string name="skip_warning_body">Da li zaista želite preskočiti?</string>
     <string name="skip_confirm">Preskoči</string>
     <string name="cancel">Otkaži</string>
+    <string name="back_button">Nazad</string>
+    <string name="next_button">Dalje</string>
+    <string name="finish_button">Završi</string>
+    <string name="no_items_found">Nema pronađenih stavki</string>
+    <string name="search_placeholder">Pretraži...</string>
 </resources>

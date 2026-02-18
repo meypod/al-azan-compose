@@ -13,4 +13,9 @@
     <string name="skip_warning_body">هل تريد حقًا التخطي؟</string>
     <string name="skip_confirm">تخطي</string>
     <string name="cancel">إلغاء</string>
+    <string name="back_button">رجوع</string>
+    <string name="next_button">التالي</string>
+    <string name="finish_button">إنهاء</string>
+    <string name="no_items_found">لم يتم العثور على عناصر</string>
+    <string name="search_placeholder">بحث...</string>
 </resources>
