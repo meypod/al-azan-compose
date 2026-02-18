@@ -1,7 +1,7 @@
 package com.github.meypod.al_azan.core.presentation.navigation
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.github.meypod.al_azan.core.presentation.LightColorScheme
 import com.github.meypod.al_azan.intro.IntroNavigation
 import com.github.meypod.al_azan.main.MainNavigation
 import kotlinx.serialization.modules.SerializersModule
@@ -40,12 +41,14 @@ fun NavigationRoot(appIntroDone: Boolean) {
         entryProvider =
             entryProvider {
                 entry<Route.Intro> {
-                    IntroNavigation(
-                        onFinishIntro = {
-                            rootBackStack.clear()
-                            rootBackStack.add(Route.Main)
-                        },
-                    )
+                    MaterialTheme(colorScheme = LightColorScheme) {
+                        IntroNavigation(
+                            onFinishIntro = {
+                                rootBackStack.clear()
+                                rootBackStack.add(Route.Main)
+                            },
+                        )
+                    }
                 }
 
                 entry<Route.Main> { MainNavigation() }
