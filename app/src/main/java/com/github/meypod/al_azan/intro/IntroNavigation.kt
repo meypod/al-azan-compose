@@ -228,10 +228,10 @@ private fun IntroStepScaffold(
                     backgroundColor = colorResource(R.color.intro_background),
                     patternAlpha = 0.03f,
                 )
+                .padding(paddingValues)
                 .fadeScrollEdges(scrollState, Orientation.Vertical)
                 .drawVerticalScrollbar(scrollState)
                 .verticalScroll(scrollState)
-                .padding(paddingValues),
         )
     }
 }
