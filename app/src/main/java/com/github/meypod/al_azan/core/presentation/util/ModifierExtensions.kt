@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.presentation
+package com.github.meypod.al_azan.core.presentation.util
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache

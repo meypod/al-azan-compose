@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -47,8 +46,8 @@ import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
 import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
-import com.github.meypod.al_azan.core.presentation.patternedBackground
-import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
+import com.github.meypod.al_azan.core.presentation.util.patternedBackground
+import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.intro.components.IntroSkipButton
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
