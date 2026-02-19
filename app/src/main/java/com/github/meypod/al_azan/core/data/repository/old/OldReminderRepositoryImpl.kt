@@ -19,6 +19,5 @@ class OldReminderRepositoryImpl(
 
     override suspend fun fetch(): List<Reminder> = data.first()
 
-    override suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>): Unit =
-        throw RuntimeException("Unsupported operation")
+    override suspend fun update(transform: (t: List<Reminder>) -> List<Reminder>): Unit = throw RuntimeException("Unsupported operation")
 }

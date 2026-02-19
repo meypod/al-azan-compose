@@ -14,7 +14,7 @@ class CounterRepositoryImpl(
 
     override suspend fun fetch(): List<Counter> = data.first()
 
-    override suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>) {
+    override suspend fun update(transform: (t: List<Counter>) -> List<Counter>) {
         counterStoreDatastore.update(transform)
     }
 }

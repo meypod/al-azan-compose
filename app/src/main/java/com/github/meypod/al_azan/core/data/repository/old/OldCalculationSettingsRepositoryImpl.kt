@@ -18,6 +18,6 @@ class OldCalculationSettingsRepositoryImpl(
 
     override suspend fun fetch(): CalculationSettings = data.first()
 
-    override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings): Unit =
+    override suspend fun update(transform: (t: CalculationSettings) -> CalculationSettings): Unit =
         throw RuntimeException("Unsupported operation")
 }

@@ -28,6 +28,7 @@ class MMKVDataStoreVersioned<T>(
     private val migrate: (storedVersion: Int, currentVersion: Int, storedData: JsonObject) -> JsonObject,
 ) : SimpleJsonDataStore<T> {
     private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
+    private val updater = OptimisticCommitUpdater(state)
 
     override val data: StateFlow<T> = state.asStateFlow()
 
@@ -46,7 +47,11 @@ class MMKVDataStoreVersioned<T>(
             if (storedVersion < version) {
                 val newState = migrate(storedVersion, version, storedData)
                 jsonString = json.encodeToString(newState)
-                mmkv.encode(key, jsonString)
+                val success = mmkv.encode(key, jsonString)
+                if (!success) {
+                    throw IllegalStateException("MMKV.encode() returned false for key=$key")
+                }
+                mmkv.sync()
                 json.decodeFromJsonElement(serializer, newState)
             } else {
                 json.decodeFromJsonElement(serializer, storedData)
@@ -62,11 +67,15 @@ class MMKVDataStoreVersioned<T>(
         return serialized
     }
 
-    override suspend fun update(transform: suspend (T) -> T) {
-        val newValue = transform(state.value)
-        withContext(Dispatchers.IO) {
-            mmkv.encode(key, serializeForStorage(newValue))
-            state.value = newValue
+    override suspend fun update(transform: (T) -> T) {
+        updater.update(transform) { newValue ->
+            withContext(Dispatchers.IO) {
+                val success = mmkv.encode(key, serializeForStorage(newValue))
+                if (!success) {
+                    throw IllegalStateException("MMKV.encode() returned false for key=$key")
+                }
+                mmkv.sync()
+            }
         }
     }
 

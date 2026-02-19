@@ -14,7 +14,7 @@ class FavoriteLocationsRepositoryImpl(
 
     override suspend fun fetch(): List<FavoriteLocation> = data.first()
 
-    override suspend fun update(transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>) {
+    override suspend fun update(transform: (t: List<FavoriteLocation>) -> List<FavoriteLocation>) {
         favoriteLocationsDatastore.update(transform)
     }
 }

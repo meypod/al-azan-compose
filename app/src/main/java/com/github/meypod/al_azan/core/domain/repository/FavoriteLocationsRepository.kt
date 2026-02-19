@@ -8,5 +8,5 @@ interface FavoriteLocationsRepository {
 
     suspend fun fetch(): List<FavoriteLocation>
 
-    suspend fun update(transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>)
+    suspend fun update(transform: (t: List<FavoriteLocation>) -> List<FavoriteLocation>)
 }

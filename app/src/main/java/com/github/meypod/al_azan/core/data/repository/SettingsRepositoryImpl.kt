@@ -13,7 +13,7 @@ class SettingsRepositoryImpl(
 
     override suspend fun fetch(): Settings = settingsDatastore.data.value
 
-    override suspend fun update(transform: suspend (t: Settings) -> Settings) {
+    override suspend fun update(transform: (t: Settings) -> Settings) {
         settingsDatastore.update(transform)
     }
 }

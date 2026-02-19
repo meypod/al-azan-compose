@@ -8,5 +8,5 @@ interface CalculationSettingsRepository {
 
     suspend fun fetch(): CalculationSettings
 
-    suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings)
+    suspend fun update(transform: (t: CalculationSettings) -> CalculationSettings)
 }

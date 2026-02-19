@@ -8,5 +8,5 @@ interface CounterRepository {
 
     suspend fun fetch(): List<Counter>
 
-    suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>)
+    suspend fun update(transform: (t: List<Counter>) -> List<Counter>)
 }
