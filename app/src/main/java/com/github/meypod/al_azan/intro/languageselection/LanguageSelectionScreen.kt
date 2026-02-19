@@ -74,7 +74,7 @@ fun LanguageSelectionScreen(
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Column(
-                modifier = Modifier.weight(0.55f),
+                modifier = Modifier.weight(0.5f),
                 verticalArrangement = Arrangement.Bottom,
             ) {
                 Box(
@@ -134,7 +134,6 @@ fun LanguageSelectionScreen(
                             backgroundColor = colorResource(R.color.intro_curve_background),
                         )
                         .fillMaxWidth()
-                        .weight(0.45f)
                         .padding(top = 50.dp, bottom = paddingValues.calculateBottomPadding()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -184,6 +183,11 @@ fun LanguageSelectionScreen(
 @Preview(
     showBackground = true,
     backgroundColor = 0xFF00585A,
+)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF00585A,
+    fontScale = 2f,
 )
 @Preview(
     showBackground = true,
