@@ -40,8 +40,8 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.SupportedLocales
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
-import com.github.meypod.al_azan.core.presentation.drawCurvedTopPatternedBackground
-import com.github.meypod.al_azan.core.presentation.rememberPatternImageBitmap
+import com.github.meypod.al_azan.core.presentation.util.drawCurvedTopPatternedBackground
+import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.intro.IntroUiAction
 import com.github.meypod.al_azan.intro.components.IntroSkipButton
 

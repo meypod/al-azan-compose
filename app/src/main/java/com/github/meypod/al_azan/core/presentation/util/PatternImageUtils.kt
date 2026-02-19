@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.presentation
+package com.github.meypod.al_azan.core.presentation.util
 
 import android.graphics.BitmapFactory
 import androidx.annotation.DrawableRes
