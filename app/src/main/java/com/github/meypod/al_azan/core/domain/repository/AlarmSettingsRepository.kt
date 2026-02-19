@@ -8,5 +8,5 @@ interface AlarmSettingsRepository {
 
     suspend fun fetch(): AlarmSettings
 
-    suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings)
+    suspend fun update(transform: (t: AlarmSettings) -> AlarmSettings)
 }

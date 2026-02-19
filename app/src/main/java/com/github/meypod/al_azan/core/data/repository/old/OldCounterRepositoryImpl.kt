@@ -21,6 +21,5 @@ class OldCounterRepositoryImpl(
 
     override suspend fun fetch(): List<Counter> = data.first()
 
-    override suspend fun update(transform: suspend (t: List<Counter>) -> List<Counter>): Unit =
-        throw RuntimeException("Unsupported operation")
+    override suspend fun update(transform: (t: List<Counter>) -> List<Counter>): Unit = throw RuntimeException("Unsupported operation")
 }

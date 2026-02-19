@@ -19,6 +19,6 @@ class OldFavoriteLocationsRepositoryImpl(
 
     override suspend fun fetch(): List<FavoriteLocation> = data.first()
 
-    override suspend fun update(transform: suspend (t: List<FavoriteLocation>) -> List<FavoriteLocation>): Unit =
+    override suspend fun update(transform: (t: List<FavoriteLocation>) -> List<FavoriteLocation>): Unit =
         throw RuntimeException("Unsupported operation")
 }

@@ -19,5 +19,5 @@ class OldSetttingsRepositoryImpl(
 
     override suspend fun fetch(): Settings = data.first()
 
-    override suspend fun update(transform: suspend (t: Settings) -> Settings): Unit = throw RuntimeException("Unsupported operation")
+    override suspend fun update(transform: (t: Settings) -> Settings): Unit = throw RuntimeException("Unsupported operation")
 }

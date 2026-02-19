@@ -18,6 +18,5 @@ class OldAlarmSettingsRepositoryImpl(
 
     override suspend fun fetch(): AlarmSettings = data.first()
 
-    override suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings): Unit =
-        throw RuntimeException("Unsupported operation")
+    override suspend fun update(transform: (t: AlarmSettings) -> AlarmSettings): Unit = throw RuntimeException("Unsupported operation")
 }

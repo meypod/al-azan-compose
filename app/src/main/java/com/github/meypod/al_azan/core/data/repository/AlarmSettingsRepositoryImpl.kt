@@ -15,7 +15,7 @@ class AlarmSettingsRepositoryImpl(
 
     override suspend fun fetch(): AlarmSettings = alarmSettingsDatastore.data.value
 
-    override suspend fun update(transform: suspend (t: AlarmSettings) -> AlarmSettings) {
+    override suspend fun update(transform: (t: AlarmSettings) -> AlarmSettings) {
         alarmSettingsDatastore.update(transform)
     }
 }

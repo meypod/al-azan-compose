@@ -8,5 +8,5 @@ interface ReminderRepository {
 
     suspend fun fetch(): List<Reminder>
 
-    suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>)
+    suspend fun update(transform: (t: List<Reminder>) -> List<Reminder>)
 }

@@ -10,5 +10,5 @@ interface SettingsRepository {
 
     suspend fun fetch(): Settings
 
-    suspend fun update(transform: suspend (t: Settings) -> Settings)
+    suspend fun update(transform: (t: Settings) -> Settings)
 }

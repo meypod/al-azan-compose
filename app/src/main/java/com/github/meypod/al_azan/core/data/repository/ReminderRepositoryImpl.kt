@@ -14,7 +14,7 @@ class ReminderRepositoryImpl(
 
     override suspend fun fetch(): List<Reminder> = data.first()
 
-    override suspend fun update(transform: suspend (t: List<Reminder>) -> List<Reminder>) {
+    override suspend fun update(transform: (t: List<Reminder>) -> List<Reminder>) {
         reminderStoreDatastore.update(transform)
     }
 }

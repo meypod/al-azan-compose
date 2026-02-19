@@ -13,7 +13,7 @@ class CalculationSettingsRepositoryImpl(
 
     override suspend fun fetch(): CalculationSettings = calcSettingsDatastore.data.value
 
-    override suspend fun update(transform: suspend (t: CalculationSettings) -> CalculationSettings) {
+    override suspend fun update(transform: (t: CalculationSettings) -> CalculationSettings) {
         calcSettingsDatastore.update(transform)
     }
 }
