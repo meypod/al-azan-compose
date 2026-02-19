@@ -30,6 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.CornerRadius.Companion
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -237,7 +239,13 @@ private fun DrawScope.drawScrollbar(
             Size(thicknessPx, thumbSize)
         }
 
-    drawRect(color = color, topLeft = topLeft, size = size, alpha = alpha())
+    drawRoundRect(
+        color = color,
+        topLeft = topLeft,
+        size = size,
+        alpha = alpha(),
+        cornerRadius = CornerRadius(x = 7f, y = 7f),
+    )
 }
 
 private fun Modifier.drawScrollbar(
