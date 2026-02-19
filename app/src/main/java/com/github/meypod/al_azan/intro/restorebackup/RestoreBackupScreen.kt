@@ -1,7 +1,6 @@
 package com.github.meypod.al_azan.intro.restorebackup
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,12 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,8 +25,6 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.SecondaryButton
 import com.github.meypod.al_azan.intro.IntroUiAction
-import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
-import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionUiState
 
 @Composable
 fun RestoreBackupScreen(
@@ -47,8 +39,9 @@ fun RestoreBackupScreen(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Spacer(Modifier.weight(1f))
+
         Column(
-            modifier = Modifier.weight(1f, true),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -69,6 +62,8 @@ fun RestoreBackupScreen(
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
+
+        Spacer(Modifier.weight(1f))
 
         Text(
             text = stringResource(R.string.restore_backup_hint),
