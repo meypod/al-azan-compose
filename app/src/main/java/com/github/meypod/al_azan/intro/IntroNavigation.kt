@@ -5,6 +5,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -46,6 +47,8 @@ import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
 import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
+import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
+import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.intro.components.IntroSkipButton
@@ -205,6 +208,7 @@ private fun IntroStepScaffold(
     content: @Composable (Modifier) -> Unit,
 ) {
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
+    val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -224,7 +228,9 @@ private fun IntroStepScaffold(
                     backgroundColor = colorResource(R.color.intro_background),
                     patternAlpha = 0.03f,
                 )
-                .verticalScroll(rememberScrollState())
+                .fadeScrollEdges(scrollState, Orientation.Vertical)
+                .drawVerticalScrollbar(scrollState)
+                .verticalScroll(scrollState)
                 .padding(paddingValues),
         )
     }
