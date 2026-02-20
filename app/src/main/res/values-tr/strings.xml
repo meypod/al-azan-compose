@@ -17,5 +17,5 @@
     <string name="next_button">İleri</string>
     <string name="finish_button">Bitir</string>
     <string name="no_items_found">Öğe bulunamadı</string>
-    <string name="search_placeholder">Ara...</string>
+    <string name="search_placeholder">Ara…</string>
 </resources>

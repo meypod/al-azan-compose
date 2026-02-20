@@ -17,5 +17,5 @@
     <string name="next_button">Tiếp theo</string>
     <string name="finish_button">Hoàn thành</string>
     <string name="no_items_found">Không tìm thấy mục nào</string>
-    <string name="search_placeholder">Tìm...</string>
+    <string name="search_placeholder">Tìm…</string>
 </resources>

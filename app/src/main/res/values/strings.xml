@@ -17,6 +17,6 @@
     <string name="next_button">Next</string>
     <string name="finish_button">Finish</string>
     <string name="no_items_found">No items found</string>
-    <string name="search_placeholder">Search...</string>
+    <string name="search_placeholder">Search…</string>
     <string name="selected">Selected</string>
 </resources>
