@@ -1,43 +1,44 @@
 package com.github.meypod.al_azan.core.util.storage
 
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import java.util.concurrent.atomic.AtomicLong
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 /**
- * Helper to implement a minimal-lock update() with:
- * - transform() computed outside the lock
- * - commit (write to disk) serialized under a short critical section
- * - automatic retry if state changed during transform()
+ * Helper to implement an optimistic update() with:
+ * - state update performed atomically (lock-free CAS via StateFlow)
+ * - commit (write to disk) serialized on a background worker
+ * - rapid updates coalesced to the latest value
  */
 internal class OptimisticCommitUpdater<T>(
     private val state: MutableStateFlow<T>,
+    scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
+    private val commit: suspend (newValue: T) -> Unit,
 ) {
-    private val commitMutex = Mutex()
-    private val stateVersion = AtomicLong(0)
+    private val writeQueue = Channel<T>(capacity = Channel.CONFLATED)
 
-    suspend fun update(
-        transform: (T) -> T,
-        commit: suspend (newValue: T) -> Unit,
-    ) {
-        while (true) {
-            val startVersion = stateVersion.get()
-            val currentValue = state.value
-            val newValue = transform(currentValue)
-
-            val committed =
-                commitMutex.withLock {
-                    if (stateVersion.get() != startVersion) {
-                        return@withLock false
-                    }
-                    commit(newValue)
-                    state.value = newValue
-                    stateVersion.incrementAndGet()
-                    true
+    init {
+        scope.launch {
+            for (value in writeQueue) {
+                try {
+                    commit(value)
+                } catch (t: Throwable) {
+                    if (t is CancellationException) throw t
+                    // Best-effort persistence: next update will enqueue again.
                 }
-
-            if (committed) return
+            }
         }
+    }
+
+    fun update(
+        transform: (T) -> T,
+    ) {
+        state.update(transform)
+        writeQueue.trySend(state.value)
     }
 }
