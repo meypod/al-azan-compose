@@ -17,5 +17,5 @@
     <string name="next_button">Suivant</string>
     <string name="finish_button">Terminer</string>
     <string name="no_items_found">Aucun élément trouvé</string>
-    <string name="search_placeholder">Recherche...</string>
+    <string name="search_placeholder">Recherche…</string>
 </resources>

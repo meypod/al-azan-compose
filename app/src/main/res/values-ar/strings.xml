@@ -17,5 +17,5 @@
     <string name="next_button">التالي</string>
     <string name="finish_button">إنهاء</string>
     <string name="no_items_found">لم يتم العثور على عناصر</string>
-    <string name="search_placeholder">بحث...</string>
+    <string name="search_placeholder">بحث…</string>
 </resources>

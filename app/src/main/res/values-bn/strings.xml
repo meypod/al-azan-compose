@@ -17,5 +17,5 @@
     <string name="next_button">পরবর্তী</string>
     <string name="finish_button">সমাপ্ত</string>
     <string name="no_items_found">কোনও আইটেম পাওয়া যায়নি</string>
-    <string name="search_placeholder">অনুসন্ধান...</string>
+    <string name="search_placeholder">অনুসন্ধান…</string>
 </resources>
