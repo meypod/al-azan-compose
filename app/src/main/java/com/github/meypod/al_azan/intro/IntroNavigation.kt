@@ -56,6 +56,8 @@ import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
+import com.github.meypod.al_azan.main.location.LocationScreen
+import com.github.meypod.al_azan.main.location.LocationViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -179,11 +181,20 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     }
                 }
                 entry<Route.Intro.Location> {
+                    val viewModel = hiltViewModel<LocationViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
                         onAction = onIntroUiAction,
-                    ) {
-                        // TODO
+                    ) { modifier ->
+                        Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(stringResource(R.string.location_title))
+                            Text(stringResource(R.string.location_subtitle))
+                            LocationScreen(
+                                uiState = uiState,
+                                onAction = viewModel::onAction,
+                            )
+                        }
                     }
                 }
             },
@@ -231,7 +242,7 @@ private fun IntroStepScaffold(
                 .padding(paddingValues)
                 .fadeScrollEdges(scrollState, Orientation.Vertical)
                 .drawVerticalScrollbar(scrollState)
-                .verticalScroll(scrollState)
+                .verticalScroll(scrollState),
         )
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="page_padding">16dp</dimen>
+    <dimen name="card_padding">12dp</dimen>
     <dimen name="element_padding">10dp</dimen>
     <dimen name="icon_padding">6dp</dimen>
 </resources>

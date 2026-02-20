@@ -41,6 +41,7 @@ private val DarkColorScheme = darkColorScheme(
     inverseOnSurface = DarkInverseOnSurface,
     inversePrimary = DarkInversePrimary,
     surfaceTint = DarkSurfaceTint,
+    surfaceContainer = DarkSurfaceContainer,
 )
 val LightColorScheme = lightColorScheme(
     primary = LightPrimary,
@@ -72,6 +73,7 @@ val LightColorScheme = lightColorScheme(
     inverseOnSurface = LightInverseOnSurface,
     inversePrimary = LightInversePrimary,
     surfaceTint = LightSurfaceTint,
+    surfaceContainer = LightSurfaceContainer,
 )
 
 private val LightHighContrastColorScheme = lightColorScheme(

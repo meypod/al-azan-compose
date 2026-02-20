@@ -19,4 +19,15 @@
     <string name="no_items_found">No items found</string>
     <string name="search_placeholder">Search…</string>
     <string name="selected">Selected</string>
+    <string name="location_subtitle">Where are you located?</string>
+    <string name="location_description_l1">We need your location to calculate your prayer times properly.</string>
+    <string name="location_description_l2">Tap “%1$s” below to add your first location.</string>
+    <string name="location_description_l3">You can add more locations anytime.</string>
+    <string name="locations_list_title">Saved locations</string>
+    <string name="locations_list_empty_state">No locations yet. Add one to get started.</string>
+    <string name="add_new_location_button">Add New Location</string>
+    <string name="information">Information</string>
+    <string name="location_title">Location</string>
+    <string name="drag_handle_description">Drag handle</string>
+    <string name="see_options">See options</string>
 </resources>

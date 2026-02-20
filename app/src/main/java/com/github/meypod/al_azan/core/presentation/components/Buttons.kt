@@ -20,6 +20,38 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 
 @Composable
+fun PrimaryButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = ButtonDefaults.shape,
+    elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
+    border: BorderStroke? = null,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    interactionSource: MutableInteractionSource? = null,
+    content: @Composable RowScope.() -> Unit,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        shape = shape,
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
+                disabledContentColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
+            ),
+        elevation = elevation,
+        border = border,
+        contentPadding = contentPadding,
+        interactionSource = interactionSource,
+        content = content,
+    )
+}
+
+@Composable
 fun SecondaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -81,6 +113,21 @@ fun TertiaryButton(
         interactionSource = interactionSource,
         content = content,
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PrimaryButtonPreview() {
+    AlAzanTheme {
+        Row(modifier = Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            PrimaryButton(onClick = {}) {
+                Text("Button")
+            }
+            PrimaryButton(onClick = {}, enabled = false) {
+                Text("Button")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
