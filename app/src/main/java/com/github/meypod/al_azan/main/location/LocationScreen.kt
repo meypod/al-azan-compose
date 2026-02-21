@@ -10,12 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -97,7 +104,10 @@ fun LocationScreen(
                         }
                     }
                 } else {
-                    LocationList(uiState.locations)
+                    LocationList(
+                        list = uiState.locations,
+                        onAction = onAction,
+                    )
                 }
             }
         }
@@ -108,7 +118,11 @@ fun LocationScreen(
 private fun LocationListItem(
     item: FavoriteLocation,
     selected: Boolean = false,
+    onAction: (LocationUiAction) -> Unit,
+    menuExpanded: Boolean = false,
 ) {
+    var expanded by remember(item.id) { mutableStateOf(menuExpanded) }
+
     ListItem(
         modifier = Modifier.bottomBorder(MaterialTheme.colorScheme.outlineVariant, 2.dp),
         headlineContent = {
@@ -136,7 +150,49 @@ private fun LocationListItem(
                 if (selected) {
                     Icon(painterResource(R.drawable.baseline_check_24), contentDescription = stringResource(R.string.selected))
                 }
-                Icon(painterResource(R.drawable.menu_more_h), contentDescription = stringResource(R.string.see_options))
+
+                Column(horizontalAlignment = Alignment.End) {
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            painter = painterResource(R.drawable.menu_more_h),
+                            contentDescription = stringResource(R.string.see_options),
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.set_as_default)) },
+                            trailingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.baseline_check_24),
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                expanded = false
+                                onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
+                            },
+                        )
+
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.delete_location)) },
+                            trailingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.delete),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.error,
+                                )
+                            },
+                            onClick = {
+                                expanded = false
+                                onAction(LocationUiAction.OnDeleteLocationClick(item.id))
+                            },
+                        )
+                    }
+                }
             }
         },
         colors = ListItemDefaults.colors().copy(
@@ -153,10 +209,15 @@ private fun LocationListItem(
 private fun LocationList(
     list: List<FavoriteLocation>,
     selectedId: String? = null,
+    onAction: (LocationUiAction) -> Unit,
 ) {
     LazyColumn(Modifier.shadow(2.dp)) {
         items(list, key = { it.id }) {
-            LocationListItem(it, it.id == selectedId)
+            LocationListItem(
+                item = it,
+                selected = it.id == selectedId,
+                onAction = onAction,
+            )
         }
     }
 }
@@ -182,9 +243,9 @@ private val demoLocations = listOf(
 @Composable
 private fun LocationListItemPreview() {
     AlAzanTheme {
-        Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            LocationListItem(demoLocations[0])
-            LocationListItem(demoLocations[1])
+        Column(Modifier.padding(vertical = 30.dp, horizontal = 10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            LocationListItem(demoLocations[0], onAction = {}, menuExpanded = true)
+            LocationListItem(demoLocations[1], onAction = {})
         }
     }
 }
@@ -193,9 +254,9 @@ private fun LocationListItemPreview() {
 @Composable
 private fun LocationListItemDarkPreview() {
     AlAzanTheme(ThemeColor.Dark) {
-        Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            LocationListItem(demoLocations[0])
-            LocationListItem(demoLocations[1])
+        Column(Modifier.padding(vertical = 30.dp, horizontal = 10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            LocationListItem(demoLocations[0], onAction = {}, menuExpanded = true)
+            LocationListItem(demoLocations[1], onAction = {})
         }
     }
 }
@@ -205,7 +266,11 @@ private fun LocationListItemDarkPreview() {
 private fun LocationListPreview() {
     AlAzanTheme {
         Column(Modifier.padding(15.dp)) {
-            LocationList(demoLocations, "canada")
+            LocationList(
+                list = demoLocations,
+                selectedId = "canada",
+                onAction = {},
+            )
         }
     }
 }
