@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.location.components
 
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,9 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,6 +41,8 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
+import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
+import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.NewLocationDialogUiState
 
@@ -61,6 +68,11 @@ private fun NewLocationDialogContent(
     onAction: (LocationUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val configuration = LocalConfiguration.current
+    val maxDialogHeight = remember(configuration.screenHeightDp) { configuration.screenHeightDp.dp * 0.9f }
+
+    val scrollState = rememberScrollState()
+
     val (uiState, setUiState) =
         remember(countries, cities) {
             mutableStateOf(
@@ -80,13 +92,18 @@ private fun NewLocationDialogContent(
     Surface(
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(max = maxDialogHeight)
             .padding(horizontal = dimensionResource(R.dimen.page_padding)),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         Column(
-            modifier = Modifier.padding(dimensionResource(R.dimen.card_padding)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            modifier = Modifier
+                .fadeScrollEdges(scrollState, Orientation.Vertical)
+                .drawVerticalScrollbar(scrollState)
+                .verticalScroll(scrollState)
+                .padding(dimensionResource(R.dimen.card_padding)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
@@ -97,68 +114,64 @@ private fun NewLocationDialogContent(
                     contentDescription = stringResource(R.string.information),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        text = stringResource(R.string.new_location_description),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-
-                    NewLocationBullet(text = stringResource(R.string.new_location_way_search_by_city))
-                    NewLocationBullet(text = stringResource(R.string.new_location_way_find_location))
-                    NewLocationBullet(text = stringResource(R.string.new_location_way_using_coordinates))
-                }
+                Text(
+                    text = stringResource(R.string.new_location_description),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             SectionTitle(stringResource(R.string.search_by_city_title))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                FieldLabel(
-                    text = stringResource(R.string.country),
-                    modifier = Modifier.weight(1f),
-                )
-                Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
-                FieldLabel(
-                    text = stringResource(R.string.city),
-                    modifier = Modifier.weight(1f),
-                )
-            }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                BottomSelect(
-                    modifier = Modifier.weight(1f),
-                    minWidth = 0.dp,
-                    options = countries,
-                    optionKey = { it.code },
-                    optionLabel = { it.selectedName ?: it.name },
-                    optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
-                    selectedKey = uiState.selectedCountryCode,
-                    onSelect = {
-                        setUiState(
-                            uiState.copy(
-                                selectedCountryCode = it.code,
-                                selectedCityName = null,
-                            ),
-                        )
-                    },
-                    searchable = true,
-                )
+            Column {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    FieldLabel(
+                        text = stringResource(R.string.country),
+                        modifier = Modifier.weight(1f),
+                    )
+                    Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+                    FieldLabel(
+                        text = stringResource(R.string.city),
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    BottomSelect(
+                        modifier = Modifier.weight(1f),
+                        minWidth = 0.dp,
+                        options = countries,
+                        optionKey = { it.code },
+                        optionLabel = { it.selectedName ?: it.name },
+                        optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
+                        selectedKey = uiState.selectedCountryCode,
+                        onSelect = {
+                            setUiState(
+                                uiState.copy(
+                                    selectedCountryCode = it.code,
+                                    selectedCityName = null,
+                                ),
+                            )
+                        },
+                        searchable = true,
+                    )
 
-                Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+                    Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
 
-                BottomSelect(
-                    modifier = Modifier.weight(1f),
-                    minWidth = 0.dp,
-                    options = cities,
-                    optionKey = { it.name },
-                    optionLabel = { it.selectedName ?: it.name },
-                    optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
-                    selectedKey = uiState.selectedCityName,
-                    onSelect = { setUiState(uiState.copy(selectedCityName = it.name)) },
-                    searchable = true,
-                    enabled = uiState.selectedCountryCode != null,
-                )
+                    BottomSelect(
+                        modifier = Modifier.weight(1f),
+                        minWidth = 0.dp,
+                        options = cities,
+                        optionKey = { it.name },
+                        optionLabel = { it.selectedName ?: it.name },
+                        optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
+                        selectedKey = uiState.selectedCityName,
+                        onSelect = { setUiState(uiState.copy(selectedCityName = it.name)) },
+                        searchable = true,
+                        enabled = uiState.selectedCountryCode != null,
+                    )
+                }
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
@@ -182,49 +195,51 @@ private fun NewLocationDialogContent(
 
             SectionTitle(stringResource(R.string.using_coordinates_title))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                FieldLabel(
-                    text = stringResource(R.string.latitude),
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
-                FieldLabel(
-                    text = stringResource(R.string.longitude),
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center,
-                )
-            }
+            Column {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    FieldLabel(
+                        text = stringResource(R.string.latitude),
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+                    FieldLabel(
+                        text = stringResource(R.string.longitude),
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center,
+                    )
+                }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                val coordinateFieldModifier = Modifier
-                    .weight(1f)
-                    .height(40.dp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    val coordinateFieldModifier = Modifier
+                        .weight(1f)
+                        .height(40.dp)
 
-                CompactOutlinedTextField(
-                    modifier = coordinateFieldModifier,
-                    value = uiState.latitude,
-                    onValueChange = { setUiState(uiState.copy(latitude = it)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
-                    placeholder = "-",
-                )
-                Text(
-                    text = "-",
-                    modifier = Modifier.padding(horizontal = 6.dp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                CompactOutlinedTextField(
-                    modifier = coordinateFieldModifier,
-                    value = uiState.longitude,
-                    onValueChange = { setUiState(uiState.copy(longitude = it)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
-                    placeholder = "-",
-                )
+                    CompactOutlinedTextField(
+                        modifier = coordinateFieldModifier,
+                        value = uiState.latitude,
+                        onValueChange = { setUiState(uiState.copy(latitude = it)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+                        placeholder = "-",
+                    )
+                    Text(
+                        text = "-",
+                        modifier = Modifier.padding(horizontal = 6.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    CompactOutlinedTextField(
+                        modifier = coordinateFieldModifier,
+                        value = uiState.longitude,
+                        onValueChange = { setUiState(uiState.copy(longitude = it)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+                        placeholder = "-",
+                    )
+                }
             }
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -290,20 +305,8 @@ private fun FieldLabel(
     )
 }
 
-@Composable
-private fun NewLocationBullet(
-    text: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = "• $text",
-        modifier = modifier,
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-    )
-}
-
 @Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 400)
 @Composable
 private fun NewLocationDialogPreview() {
     val countries =
