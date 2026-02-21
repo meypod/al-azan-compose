@@ -282,9 +282,11 @@ private fun LocationList(
                     selected = item.id == selectedId,
                     onAction = onAction,
                     dragging = isOverlayActiveForItem,
-                    modifier = Modifier.onGloballyPositioned { coords ->
-                        reorderState.updateItemCoords(item.id, coords)
-                    },
+                    modifier = Modifier
+                        .animateItem(placementSpec = tween<IntOffset>(durationMillis = 180))
+                        .onGloballyPositioned { coords ->
+                            reorderState.updateItemCoords(item.id, coords)
+                        },
                     dragHandleModifier = Modifier
                         .onGloballyPositioned { coords ->
                             reorderState.updateHandleCoords(item.id, coords)
