@@ -34,9 +34,6 @@
     <string name="delete_location">Delete location</string>
 
     <string name="new_location_description">You can add a location in three different ways. Choose one below:</string>
-    <string name="new_location_way_search_by_city">Using search</string>
-    <string name="new_location_way_find_location">Using location services</string>
-    <string name="new_location_way_using_coordinates">Using coordinates</string>
     <string name="search_by_city_title">Using search</string>
     <string name="country">Country</string>
     <string name="city">City</string>
