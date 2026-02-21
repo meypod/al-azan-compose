@@ -3,6 +3,16 @@ package com.github.meypod.al_azan.main.location
 sealed interface LocationUiAction {
     object OnNewLocationClick : LocationUiAction
 
+    object OnNewLocationDismiss : LocationUiAction
+
+    data class OnNewLocationConfirm(
+        val state: NewLocationDialogUiState,
+    ) : LocationUiAction
+
+    object OnNewLocationFindLocationClick : LocationUiAction
+
+    object OnNewLocationPasteCoordinatesClick : LocationUiAction
+
     data class OnMoveLocation(
         val fromIndex: Int,
         val toIndex: Int,

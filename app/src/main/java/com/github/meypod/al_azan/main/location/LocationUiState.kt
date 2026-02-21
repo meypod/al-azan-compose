@@ -6,4 +6,5 @@ import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLoc
 @Immutable
 data class LocationUiState(
     val locations: List<FavoriteLocation> = emptyList(),
+    val isNewLocationDialogOpen: Boolean = false,
 )

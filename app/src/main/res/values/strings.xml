@@ -32,4 +32,19 @@
     <string name="see_options">See options</string>
     <string name="set_as_default">Set as default</string>
     <string name="delete_location">Delete location</string>
+
+    <string name="new_location_description">You can add your location in 3 different ways. Choose one below:</string>
+    <string name="new_location_way_search_by_city">Search By City</string>
+    <string name="new_location_way_find_location">Find Use My Location</string>
+    <string name="new_location_way_using_coordinates">Using Coordinates</string>
+    <string name="search_by_city_title">Search By City</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="find_location_title">Find Location</string>
+    <string name="find_location_button">Find Location</string>
+    <string name="using_coordinates_title">Using Coordinates</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="paste">Paste</string>
+    <string name="confirm">Confirm</string>
 </resources>

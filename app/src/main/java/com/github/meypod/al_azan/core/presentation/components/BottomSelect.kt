@@ -3,7 +3,7 @@ package com.github.meypod.al_azan.core.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +38,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -48,7 +49,8 @@ fun <T> BottomSelect(
     options: Iterable<T>,
     selectedKey: String?,
     modifier: Modifier = Modifier,
-    placeholder: @Composable (() -> Unit)? = null,
+    minWidth: Dp = 280.dp,
+    placeholder: String = "-",
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
     optionSearchTag: ((T) -> String) = optionLabel,
@@ -63,7 +65,6 @@ fun <T> BottomSelect(
             onDismiss()
         }
     },
-    extraContent: @Composable ColumnScope.(entries: Map<String, Triple<T, String, String>>) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
@@ -105,43 +106,43 @@ fun <T> BottomSelect(
 
     val updatedOnTriggerClick by rememberUpdatedState(onTriggerClick)
 
-    Column(modifier = modifier) {
-        OutlinedButton(
-            modifier = Modifier.widthIn(min = 280.dp),
-            onClick = {
-                val newExpand = updatedOnTriggerClick() ?: true
-                expanded = newExpand
-            },
-            enabled = enabled,
-            shape = MaterialTheme.shapes.small,
-            contentPadding = PaddingValues(
-                start = dimensionResource(R.dimen.element_padding),
-                end = 5.dp,
-            ),
-            colors = colors,
+    OutlinedButton(
+        modifier =
+            modifier
+                .width(IntrinsicSize.Min)
+                .widthIn(min = minWidth),
+        onClick = {
+            val newExpand = updatedOnTriggerClick() ?: true
+            expanded = newExpand
+        },
+        enabled = enabled,
+        shape = MaterialTheme.shapes.small,
+        contentPadding = PaddingValues(
+            start = dimensionResource(R.dimen.element_padding),
+            end = 5.dp,
+        ),
+        colors = colors,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                modifier = Modifier.widthIn(min = 280.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                if (selectedLabel.isEmpty()) {
-                    placeholder?.invoke()
-                } else {
-                    Text(selectedLabel)
-                }
-
-                Spacer(
-                    Modifier.width(dimensionResource(R.dimen.element_padding)),
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
-                    contentDescription = null,
-                )
+            if (selectedLabel.isEmpty()) {
+                Text(placeholder, color = MaterialTheme.colorScheme.surfaceVariant)
+            } else {
+                Text(selectedLabel)
             }
+
+            Spacer(
+                Modifier.width(dimensionResource(R.dimen.element_padding)),
+            )
+
+            Icon(
+                painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
+                contentDescription = null,
+            )
         }
-        extraContent(keyLabelOptionEntries)
     }
 
     if (expanded) {
