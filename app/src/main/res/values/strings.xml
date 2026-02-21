@@ -30,4 +30,6 @@
     <string name="location_title">Location</string>
     <string name="drag_handle_description">Drag handle</string>
     <string name="see_options">See options</string>
+    <string name="set_as_default">Set as default</string>
+    <string name="delete_location">Delete location</string>
 </resources>
