@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -171,7 +172,6 @@ private fun NewLocationDialogContent(
                     )
                     Spacer(Modifier.width(dimensionResource(R.dimen.icon_padding)))
                     Text(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         text = stringResource(R.string.find_location_button),
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -235,7 +235,6 @@ private fun NewLocationDialogContent(
                     )
                     Spacer(Modifier.width(dimensionResource(R.dimen.icon_padding)))
                     Text(
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp),
                         text = stringResource(R.string.paste),
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -245,33 +244,18 @@ private fun NewLocationDialogContent(
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                PrimaryButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = { onAction(LocationUiAction.OnNewLocationDismiss) },
-                ) {
-                    Text(
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        text = stringResource(R.string.cancel),
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center,
-                    )
+                TextButton(onClick = { onAction(LocationUiAction.OnNewLocationDismiss) }) {
+                    Text(text = stringResource(R.string.cancel))
                 }
-                PrimaryButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        if (!confirmEnabled) return@PrimaryButton
-                        onAction(LocationUiAction.OnNewLocationConfirm(uiState))
-                    },
+                Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+                TextButton(
+                    onClick = { onAction(LocationUiAction.OnNewLocationConfirm(uiState)) },
                     enabled = confirmEnabled,
                 ) {
-                    Text(
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        text = stringResource(R.string.confirm),
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center,
-                    )
+                    Text(text = stringResource(R.string.confirm))
                 }
             }
         }
