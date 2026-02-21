@@ -46,6 +46,7 @@ import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
+import com.github.meypod.al_azan.main.location.components.NewLocationDialog
 
 @Composable
 fun LocationScreen(
@@ -53,6 +54,14 @@ fun LocationScreen(
     onAction: (LocationUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    if (uiState.isNewLocationDialogOpen) {
+        NewLocationDialog(
+            countries = emptyList(),
+            cities = emptyList(),
+            onAction = onAction,
+        )
+    }
+
     Column(
         modifier.padding(dimensionResource(R.dimen.page_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
