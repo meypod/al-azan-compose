@@ -1,28 +1,20 @@
 package com.github.meypod.al_azan.core.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,10 +35,11 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,7 +54,7 @@ fun <T> BottomSelect(
     onSelect: (T) -> Unit = {},
     searchable: Boolean = false,
     enabled: Boolean = true,
-    onTriggerClick: () -> Boolean? = { null },
+    onTriggerClick: suspend () -> Boolean? = { null },
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     itemContent: @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
         DefaultBottomSelectItem(option.value.second, selected) {
@@ -68,6 +62,47 @@ fun <T> BottomSelect(
             onDismiss()
         }
     },
+) {
+    BottomSelectImpl(
+        options = options,
+        selectedKey = selectedKey,
+        modifier = modifier,
+        placeholder = placeholder,
+        optionKey = optionKey,
+        optionLabel = optionLabel,
+        optionSearchTag = optionSearchTag,
+        onSelect = onSelect,
+        searchable = searchable,
+        enabled = enabled,
+        onTriggerClick = onTriggerClick,
+        colors = colors,
+        itemContent = itemContent,
+        initialBusy = false,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun <T> BottomSelectImpl(
+    options: Iterable<T>,
+    selectedKey: String?,
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
+    optionKey: ((T) -> String) = { it.hashCode().toString() },
+    optionLabel: ((T) -> String) = { it.toString() },
+    optionSearchTag: ((T) -> String) = optionLabel,
+    onSelect: (T) -> Unit = {},
+    searchable: Boolean = false,
+    enabled: Boolean = true,
+    onTriggerClick: suspend () -> Boolean? = { null },
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    itemContent: @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
+        DefaultBottomSelectItem(option.value.second, selected) {
+            onSelect(option.value.first)
+            onDismiss()
+        }
+    },
+    initialBusy: Boolean,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
@@ -108,15 +143,25 @@ fun <T> BottomSelect(
         }
 
     val updatedOnTriggerClick by rememberUpdatedState(onTriggerClick)
-
+    val scope = rememberCoroutineScope()
+    val busyGate = remember { AtomicBoolean(false) }
+    var busy by remember { mutableStateOf(initialBusy) }
     val focusManager = LocalFocusManager.current
 
     val triggerModifier =
         modifier
             .onFocusChanged { state ->
-                if (state.hasFocus) {
-                    val newExpand = updatedOnTriggerClick() ?: true
-                    expanded = newExpand
+                scope.launch {
+                    if (state.hasFocus && busyGate.compareAndSet(false, true)) {
+                        busy = true
+                        try {
+                            val newExpand = updatedOnTriggerClick() ?: true
+                            expanded = newExpand
+                        } finally {
+                            busy = false
+                            busyGate.set(false)
+                        }
+                    }
                 }
             }
 
@@ -128,10 +173,17 @@ fun <T> BottomSelect(
         readOnly = true,
         placeholder = placeholder,
         trailingIcon = {
-            Icon(
-                painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
-                contentDescription = null,
-            )
+            if (busy) {
+                CircularProgressIndicator(
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.width(18.dp).height(16.dp),
+                )
+            } else {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
+                    contentDescription = null,
+                )
+            }
         },
         colors = colors,
     )
@@ -222,6 +274,22 @@ private fun BottomSelectPreview() {
             optionLabel = { it },
             selectedKey = "English",
             searchable = true,
+        )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun BottomSelectBusyPreview() {
+    AlAzanTheme {
+        BottomSelectImpl(
+            modifier = Modifier.width(190.dp),
+            options = listOf("English", "Persian"),
+            optionKey = { it },
+            optionLabel = { it },
+            selectedKey = "English",
+            searchable = true,
+            initialBusy = true,
         )
     }
 }

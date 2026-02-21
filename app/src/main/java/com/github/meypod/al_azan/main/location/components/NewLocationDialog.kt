@@ -21,11 +21,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,40 +51,37 @@ import com.github.meypod.al_azan.main.location.NewLocationDialogUiState
 
 @Composable
 fun NewLocationDialog(
-    countries: List<CountryGeoInfo>,
-    cities: List<CityGeoInfo>,
     onAction: (LocationUiAction) -> Unit,
+    getCountries: suspend () -> List<CountryGeoInfo>,
+    getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
 ) {
     Dialog(onDismissRequest = { onAction(LocationUiAction.OnNewLocationDismiss) }) {
         NewLocationDialogContent(
-            countries = countries,
-            cities = cities,
             onAction = onAction,
+            getCountries = getCountries,
+            getCities = getCities,
         )
     }
 }
 
 @Composable
 private fun NewLocationDialogContent(
-    countries: List<CountryGeoInfo>,
-    cities: List<CityGeoInfo>,
     onAction: (LocationUiAction) -> Unit,
+    getCountries: suspend () -> List<CountryGeoInfo>,
+    getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
 ) {
-    val configuration = LocalConfiguration.current
-    val maxDialogHeight = remember(configuration.screenHeightDp) { configuration.screenHeightDp.dp * 0.9f }
+    val windowInfo = LocalWindowInfo.current
+    val maxDialogHeight = remember(windowInfo.containerDpSize.height) { windowInfo.containerDpSize.height * 0.9f }
 
     val scrollState = rememberScrollState()
 
-    val (uiState, setUiState) =
-        remember(countries, cities) {
-            mutableStateOf(
-                NewLocationDialogUiState(
-                    countries = countries,
-                    cities = cities,
-                ),
-            )
-        }
+    val updatedGetCities by rememberUpdatedState(getCities)
+    val updatedGetCountries by rememberUpdatedState(getCountries)
+    var countries by remember { mutableStateOf(emptyList<CountryGeoInfo>()) }
+    var cities by remember { mutableStateOf(emptyList<CityGeoInfo>()) }
+
+    var uiState by remember { mutableStateOf(NewLocationDialogUiState()) }
 
     val latValue = remember(uiState.latitude) { uiState.latitude.trim().toDoubleOrNull() }
     val lngValue = remember(uiState.longitude) { uiState.longitude.trim().toDoubleOrNull() }
@@ -138,21 +138,25 @@ private fun NewLocationDialogContent(
                     )
                 }
                 Row(modifier = Modifier.fillMaxWidth()) {
+                    val selectModifier = Modifier.height(40.dp)
                     BottomSelect(
-                        modifier = Modifier.weight(1f),
-                        minWidth = 0.dp,
+                        modifier = selectModifier.weight(1f),
                         options = countries,
                         optionKey = { it.code },
                         optionLabel = { it.selectedName ?: it.name },
                         optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
                         selectedKey = uiState.selectedCountryCode,
                         onSelect = {
-                            setUiState(
-                                uiState.copy(
-                                    selectedCountryCode = it.code,
-                                    selectedCityName = null,
-                                ),
+                            uiState = uiState.copy(
+                                selectedCountryCode = it.code,
+                                selectedCityName = null,
                             )
+                        },
+                        onTriggerClick = {
+                            if (countries.isEmpty()) {
+                                countries = updatedGetCountries()
+                            }
+                            true
                         },
                         searchable = true,
                     )
@@ -160,14 +164,20 @@ private fun NewLocationDialogContent(
                     Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
 
                     BottomSelect(
-                        modifier = Modifier.weight(1f),
-                        minWidth = 0.dp,
+                        modifier = selectModifier.weight(1f),
                         options = cities,
                         optionKey = { it.name },
                         optionLabel = { it.selectedName ?: it.name },
                         optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
                         selectedKey = uiState.selectedCityName,
-                        onSelect = { setUiState(uiState.copy(selectedCityName = it.name)) },
+                        onSelect = { uiState = uiState.copy(selectedCityName = it.name) },
+                        onTriggerClick = {
+                            val countryCode = uiState.selectedCountryCode
+                            if (!countryCode.isNullOrBlank()) {
+                                cities = updatedGetCities(countryCode)
+                            }
+                            true
+                        },
                         searchable = true,
                         enabled = uiState.selectedCountryCode != null,
                     )
@@ -221,7 +231,7 @@ private fun NewLocationDialogContent(
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,
                         value = uiState.latitude,
-                        onValueChange = { setUiState(uiState.copy(latitude = it)) },
+                        onValueChange = { uiState = uiState.copy(latitude = it) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
@@ -234,7 +244,7 @@ private fun NewLocationDialogContent(
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,
                         value = uiState.longitude,
-                        onValueChange = { setUiState(uiState.copy(longitude = it)) },
+                        onValueChange = { uiState = uiState.copy(longitude = it) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
@@ -323,8 +333,8 @@ private fun NewLocationDialogPreview() {
     AlAzanTheme {
         Box(Modifier.padding(16.dp), contentAlignment = Alignment.Center) {
             NewLocationDialog(
-                countries = countries,
-                cities = cities,
+                getCountries = { countries },
+                getCities = { cities },
                 onAction = {},
             )
         }
