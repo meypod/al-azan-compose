@@ -55,6 +55,7 @@ fun <T> ReorderableLazyColumn(
     overlayAlpha: Float = 0.85f,
     overlayScaleTarget: Float = 1.03f,
     overlayScaleAnimMillis: Int = 100,
+    releaseAnimMillis: Int = 100,
     itemPlacementAnimMillis: Int = 180,
     itemContent: @Composable (
         item: T,
@@ -113,8 +114,8 @@ fun <T> ReorderableLazyColumn(
                                     localPointerStart = localStart,
                                 )
                             },
-                            onDragCancel = { reorderState.endDrag() },
-                            onDragEnd = { reorderState.endDrag() },
+                            onDragCancel = { reorderState.releaseDrag(releaseAnimMillis) },
+                            onDragEnd = { reorderState.releaseDrag(releaseAnimMillis) },
                             onDrag = { change, dragAmount ->
                                 change.consume()
                                 reorderState.dragBy(
@@ -155,6 +156,12 @@ fun <T> ReorderableLazyColumn(
                 LaunchedEffect(draggingKey) {
                     scaleAnim.snapTo(1f)
                     scaleAnim.animateTo(overlayScaleTarget, animationSpec = tween(durationMillis = overlayScaleAnimMillis))
+                }
+
+                LaunchedEffect(reorderState.releaseToken) {
+                    if (reorderState.isReleasing) {
+                        scaleAnim.animateTo(1f, animationSpec = tween(durationMillis = releaseAnimMillis))
+                    }
                 }
 
                 val draggedWidthDp = with(density) { draggedItemSizePx.width.toDp() }
@@ -223,8 +230,15 @@ private class ReorderState(
     private var placeholderHidden by mutableStateOf(false)
     private var popupComposed by mutableStateOf(false)
 
+    var isReleasing by mutableStateOf(false)
+        private set
+
+    var releaseToken by mutableStateOf(0)
+        private set
+
     private var scrollJob: Job? = null
     private var hidePlaceholderJob: Job? = null
+    private var releaseJob: Job? = null
 
     fun updateOnMove(onMove: (fromIndex: Int, toIndex: Int) -> Unit) {
         this.onMove = onMove
@@ -261,6 +275,9 @@ private class ReorderState(
     }
 
     fun startDrag(itemKey: Any, index: Int, localPointerStart: Offset) {
+        releaseJob?.cancel()
+        releaseJob = null
+        isReleasing = false
         draggingItemKey = itemKey
         indexByKey[itemKey] = index
         popupVisible = false
@@ -340,12 +357,55 @@ private class ReorderState(
         popupVisible = false
         placeholderHidden = false
         popupComposed = false
+        isReleasing = false
         hidePlaceholderJob?.cancel()
         hidePlaceholderJob = null
         scrollJob?.cancel()
         scrollJob = null
+        releaseJob?.cancel()
+        releaseJob = null
     }
 
+    fun releaseDrag(durationMillis: Int) {
+        val itemKey = draggingItemKey ?: return
+        if (isReleasing) return
+
+        val itemCoords = itemCoordsByKey[itemKey]
+        val itemWindow = itemCoords?.localToWindow(Offset.Zero)
+        if (itemWindow == null) {
+            endDrag()
+            return
+        }
+
+        val targetLocalTopLeft = itemWindow - containerWindowOffset
+        val targetOffset = IntOffset(targetLocalTopLeft.x.roundToInt(), targetLocalTopLeft.y.roundToInt())
+        val startOffset = draggingPopupOffset
+
+        isReleasing = true
+        releaseToken += 1
+        // Ensure placeholder stays hidden until release animation finishes.
+        placeholderHidden = true
+
+        releaseJob?.cancel()
+        releaseJob = coroutineScope.launch {
+            val progress = Animatable(0f)
+            progress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = durationMillis),
+            ) {
+                val x = lerpInt(startOffset.x, targetOffset.x, value)
+                val y = lerpInt(startOffset.y, targetOffset.y, value)
+                draggingPopupOffset = IntOffset(x, y)
+            }
+
+            endDrag()
+        }
+    }
+
+
+private fun lerpInt(start: Int, stop: Int, fraction: Float): Int {
+    return (start + (stop - start) * fraction).roundToInt()
+}
     private fun scheduleHidePlaceholder() {
         if (!popupVisible) return
         if (!popupComposed) return
