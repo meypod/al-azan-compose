@@ -193,6 +193,8 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             LocationScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
+                                getCountries = viewModel::getCountries,
+                                getCities = viewModel::getCities,
                             )
                         }
                     }

@@ -1,6 +1,9 @@
 package com.github.meypod.al_azan.main.location
 
 import androidx.lifecycle.ViewModel
+import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
+import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
+import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,7 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LocationViewModel
 @Inject
-constructor() : ViewModel() {
+constructor(
+    private val geoInfoRepository: GeoInfoRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -27,7 +32,13 @@ constructor() : ViewModel() {
         }
     }
 
-    private fun onMoveLocation(fromIndex: Int, toIndex: Int) {
+    suspend fun getCountries(): List<CountryGeoInfo> = geoInfoRepository.getCountries()
+    suspend fun getCities(countryCode: String): List<CityGeoInfo> = geoInfoRepository.getCities(countryCode)
+
+    private fun onMoveLocation(
+        fromIndex: Int,
+        toIndex: Int,
+    ) {
         if (fromIndex == toIndex) return
 
         _uiState.update { state ->

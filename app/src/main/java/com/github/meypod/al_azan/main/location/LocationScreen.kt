@@ -52,13 +52,15 @@ import com.github.meypod.al_azan.main.location.components.NewLocationDialog
 fun LocationScreen(
     uiState: LocationUiState,
     onAction: (LocationUiAction) -> Unit,
+    getCountries: suspend () -> List<CountryGeoInfo>,
+    getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
 ) {
     if (uiState.isNewLocationDialogOpen) {
         NewLocationDialog(
-            countries = emptyList(),
-            cities = emptyList(),
             onAction = onAction,
+            getCountries = getCountries,
+            getCities = getCities,
         )
     }
 
@@ -308,6 +310,8 @@ private fun LocationScreenPreview() {
         LocationScreen(
             uiState = LocationUiState(),
             onAction = {},
+            getCities = { emptyList() },
+            getCountries = { emptyList() },
         )
     }
 }
@@ -338,6 +342,8 @@ private fun LocationScreenWithLocationsPreview() {
                     else -> Unit
                 }
             },
+            getCities = { emptyList() },
+            getCountries = { emptyList() },
         )
     }
 }
