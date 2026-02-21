@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -165,6 +168,7 @@ fun LanguageSelectionScreen(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 BottomSelect(
+                    modifier = Modifier.widthIn(min=280.dp),
                     options = SupportedLocales,
                     optionKey = { it.value },
                     optionLabel = { it.label },
@@ -172,8 +176,13 @@ fun LanguageSelectionScreen(
                     selectedKey = selectedLanguage.value,
                     onSelect = { onAction(LanguageSelectionUiAction.OnLanguageSelected(it.value)) },
                     searchable = true,
-                    colors = ButtonDefaults.outlinedButtonColors().copy(
-                        contentColor = Color.White,
+                    colors = OutlinedTextFieldDefaults.colors().copy(
+                        unfocusedTextColor = Color.White,
+                        unfocusedIndicatorColor = Color.White,
+                        unfocusedTrailingIconColor = Color.White,
+                        focusedTextColor = Color.White,
+                        focusedIndicatorColor = Color.White,
+                        focusedTrailingIconColor = Color.White,
                     ),
                 )
                 Spacer(modifier = Modifier.height(40.dp))
@@ -240,7 +249,6 @@ private data class CurvedTopShape(
         density: Density,
     ): Outline = Outline.Generic(path = createCurvedTopPath(size = size, curve = curve))
 }
-
 
 @Preview(
     showBackground = true,

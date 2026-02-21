@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,22 +30,25 @@ fun CompactOutlinedTextField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     enabled: Boolean = true,
+    readOnly: Boolean = false,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val colors = OutlinedTextFieldDefaults.colors()
 
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         enabled = enabled,
+        readOnly = readOnly,
         singleLine = true,
         keyboardOptions = keyboardOptions,
         interactionSource = interactionSource,
         textStyle = textStyle.merge(
-            TextStyle(color = MaterialTheme.colorScheme.onSurface),
+            TextStyle(color = colors.unfocusedTextColor),
         ),
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
     ) { innerTextField ->
@@ -75,6 +79,7 @@ fun CompactOutlinedTextField(
                     unfocusedBorderThickness = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
                 )
             },
+            trailingIcon = trailingIcon,
         )
     }
 }

@@ -23,9 +23,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +36,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,8 +53,7 @@ fun <T> BottomSelect(
     options: Iterable<T>,
     selectedKey: String?,
     modifier: Modifier = Modifier,
-    minWidth: Dp = 280.dp,
-    placeholder: String = "-",
+    placeholder: String = "",
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
     optionSearchTag: ((T) -> String) = optionLabel,
@@ -58,7 +61,7 @@ fun <T> BottomSelect(
     searchable: Boolean = false,
     enabled: Boolean = true,
     onTriggerClick: () -> Boolean? = { null },
-    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     itemContent: @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
         DefaultBottomSelectItem(option.value.second, selected) {
             onSelect(option.value.first)
@@ -106,48 +109,37 @@ fun <T> BottomSelect(
 
     val updatedOnTriggerClick by rememberUpdatedState(onTriggerClick)
 
-    OutlinedButton(
-        modifier =
-            modifier
-                .width(IntrinsicSize.Min)
-                .widthIn(min = minWidth),
-        onClick = {
-            val newExpand = updatedOnTriggerClick() ?: true
-            expanded = newExpand
-        },
-        enabled = enabled,
-        shape = MaterialTheme.shapes.small,
-        contentPadding = PaddingValues(
-            start = dimensionResource(R.dimen.element_padding),
-            end = 5.dp,
-        ),
-        colors = colors,
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            if (selectedLabel.isEmpty()) {
-                Text(placeholder, color = MaterialTheme.colorScheme.surfaceVariant)
-            } else {
-                Text(selectedLabel)
+    val focusManager = LocalFocusManager.current
+
+    val triggerModifier =
+        modifier
+            .onFocusChanged { state ->
+                if (state.hasFocus) {
+                    val newExpand = updatedOnTriggerClick() ?: true
+                    expanded = newExpand
+                }
             }
 
-            Spacer(
-                Modifier.width(dimensionResource(R.dimen.element_padding)),
-            )
-
+    CompactOutlinedTextField(
+        value = selectedLabel,
+        onValueChange = {},
+        modifier = triggerModifier,
+        enabled = enabled,
+        readOnly = true,
+        placeholder = placeholder,
+        trailingIcon = {
             Icon(
                 painter = painterResource(R.drawable.baseline_arrow_drop_down_24),
                 contentDescription = null,
             )
-        }
-    }
+        },
+        colors = colors,
+    )
 
     if (expanded) {
         ModalBottomSheet(
             onDismissRequest = {
+                focusManager.clearFocus()
                 expanded = false
                 searchText = ""
             },
