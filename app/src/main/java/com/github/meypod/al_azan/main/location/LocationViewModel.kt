@@ -16,9 +16,23 @@ constructor() : ViewModel() {
     fun onAction(action: LocationUiAction) {
         when (action) {
             is LocationUiAction.OnNewLocationClick -> onNewLocationClick()
+            is LocationUiAction.OnMoveLocation -> onMoveLocation(action.fromIndex, action.toIndex)
             is LocationUiAction.OnSetAsDefaultClick -> onSetAsDefault(action.locationId)
             is LocationUiAction.OnDeleteLocationClick -> onDeleteLocation(action.locationId)
         }
+    }
+
+    private fun onMoveLocation(fromIndex: Int, toIndex: Int) {
+        if (fromIndex == toIndex) return
+
+        val current = _uiState.value.locations
+        if (fromIndex !in current.indices || toIndex !in current.indices) return
+
+        val mutable = current.toMutableList()
+        val item = mutable.removeAt(fromIndex)
+        mutable.add(toIndex, item)
+
+        _uiState.value = _uiState.value.copy(locations = mutable)
     }
 
     private fun onNewLocationClick() {

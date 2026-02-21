@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.location
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -20,19 +25,32 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
@@ -44,6 +62,9 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 fun LocationScreen(
@@ -120,11 +141,19 @@ private fun LocationListItem(
     selected: Boolean = false,
     onAction: (LocationUiAction) -> Unit,
     menuExpanded: Boolean = false,
+    modifier: Modifier = Modifier,
+    dragHandleModifier: Modifier = Modifier,
+    dragging: Boolean = false,
 ) {
     var expanded by remember(item.id) { mutableStateOf(menuExpanded) }
 
     ListItem(
-        modifier = Modifier.bottomBorder(MaterialTheme.colorScheme.outlineVariant, 2.dp),
+        modifier = modifier
+            .zIndex(if (dragging) 1f else 0f)
+            .graphicsLayer {
+                alpha = if (dragging) 0f else 1f
+            }
+            .bottomBorder(MaterialTheme.colorScheme.outlineVariant, 2.dp),
         headlineContent = {
             val location = item.locationDetail
             val city = location.city?.selectedName ?: location.city?.name
@@ -143,7 +172,11 @@ private fun LocationListItem(
             Text(item.locationDetail.toDisplayString())
         },
         leadingContent = {
-            Icon(painter = painterResource(R.drawable.grip), contentDescription = stringResource(R.string.drag_handle_description))
+            Icon(
+                painter = painterResource(R.drawable.grip),
+                contentDescription = stringResource(R.string.drag_handle_description),
+                modifier = dragHandleModifier,
+            )
         },
         trailingContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
@@ -211,15 +244,297 @@ private fun LocationList(
     selectedId: String? = null,
     onAction: (LocationUiAction) -> Unit,
 ) {
-    LazyColumn(Modifier.shadow(2.dp)) {
-        items(list, key = { it.id }) {
-            LocationListItem(
-                item = it,
-                selected = it.id == selectedId,
-                onAction = onAction,
-            )
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    val density = androidx.compose.ui.platform.LocalDensity.current
+
+    val reorderState = rememberLocationReorderState(
+        listState = listState,
+        onMove = { fromIndex, toIndex ->
+            onAction(LocationUiAction.OnMoveLocation(fromIndex = fromIndex, toIndex = toIndex))
+        },
+        coroutineScope = coroutineScope,
+    )
+
+    Box(
+        modifier = Modifier.onGloballyPositioned { coords ->
+            reorderState.updateContainerCoords(coords)
+        },
+    ) {
+        LazyColumn(
+            modifier = Modifier.shadow(2.dp),
+            state = listState,
+        ) {
+            itemsIndexed(
+                items = list,
+                key = { _, item -> item.id },
+            ) { index, item ->
+                val isOverlayActiveForItem = reorderState.isOverlayActiveFor(item.id)
+                LocationListItem(
+                    item = item,
+                    selected = item.id == selectedId,
+                    onAction = onAction,
+                    dragging = isOverlayActiveForItem,
+                    modifier = Modifier.onGloballyPositioned { coords ->
+                        reorderState.updateItemCoords(item.id, coords)
+                    },
+                    dragHandleModifier = Modifier
+                        .onGloballyPositioned { coords ->
+                            reorderState.updateHandleCoords(item.id, coords)
+                        }
+                        .pointerInput(item.id) {
+                            detectDragGesturesAfterLongPress(
+                                onDragStart = { localStart ->
+                                    reorderState.startDrag(itemId = item.id, index = index, localPointerStart = localStart)
+                                },
+                                onDragCancel = { reorderState.endDrag() },
+                                onDragEnd = { reorderState.endDrag() },
+                                onDrag = { change, dragAmount ->
+                                    change.consume()
+                                    reorderState.dragBy(
+                                        itemId = item.id,
+                                        deltaX = dragAmount.x,
+                                        deltaY = dragAmount.y,
+                                        localPointerPosition = change.position,
+                                    )
+                                },
+                            )
+                        },
+                )
+            }
+        }
+
+        val draggingId = reorderState.draggingItemId
+        val draggedItem = if (draggingId == null) null else list.firstOrNull { it.id == draggingId }
+        val draggedItemSizePx = if (draggingId == null) null else reorderState.itemSizePx(draggingId)
+        val showOverlay = draggingId != null && draggedItem != null && reorderState.popupVisible && draggedItemSizePx != null
+        if (showOverlay) {
+            Popup(
+                alignment = Alignment.TopStart,
+                offset = reorderState.draggingPopupOffset,
+                properties = PopupProperties(
+                    focusable = false,
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                    clippingEnabled = false,
+                ),
+            ) {
+                val draggedWidthDp = with(density) { draggedItemSizePx.width.toDp() }
+                val draggedHeightDp = with(density) { draggedItemSizePx.height.toDp() }
+                LocationListItem(
+                    item = draggedItem,
+                    selected = draggedItem.id == selectedId,
+                    onAction = {},
+                    modifier = Modifier.graphicsLayer {
+                        alpha = 0.85f
+                        scaleX = 1.03f
+                        scaleY = 1.03f
+                    }
+                        .width(draggedWidthDp)
+                        .height(draggedHeightDp),
+                )
+            }
         }
     }
+}
+
+private class LocationReorderState(
+    private val listState: LazyListState,
+    private val coroutineScope: kotlinx.coroutines.CoroutineScope,
+) {
+    private var onMove: (fromIndex: Int, toIndex: Int) -> Unit = { _, _ -> }
+
+    private val itemCoordsById = linkedMapOf<String, androidx.compose.ui.layout.LayoutCoordinates>()
+    private val handleCoordsById = linkedMapOf<String, androidx.compose.ui.layout.LayoutCoordinates>()
+    private val itemSizeById = linkedMapOf<String, IntSize>()
+
+    private var containerWindowOffset by mutableStateOf(androidx.compose.ui.geometry.Offset.Zero)
+
+    var draggingIndex by mutableIntStateOf(-1)
+        private set
+
+    var draggingItemId by mutableStateOf<String?>(null)
+        private set
+
+    var draggingPopupOffset by mutableStateOf(IntOffset.Zero)
+        private set
+
+    private var draggingGrabOffsetInItem by mutableStateOf(androidx.compose.ui.geometry.Offset.Zero)
+
+    var popupVisible by mutableStateOf(false)
+        private set
+
+    private var placeholderHidden by mutableStateOf(false)
+
+    var draggingOffsetY by mutableFloatStateOf(0f)
+        private set
+
+    private var scrollJob: Job? = null
+    private var hidePlaceholderJob: Job? = null
+
+    fun updateOnMove(onMove: (fromIndex: Int, toIndex: Int) -> Unit) {
+        this.onMove = onMove
+    }
+
+    fun updateContainerCoords(coords: androidx.compose.ui.layout.LayoutCoordinates) {
+        containerWindowOffset = coords.localToWindow(androidx.compose.ui.geometry.Offset.Zero)
+    }
+
+    fun updateItemCoords(itemId: String, coords: androidx.compose.ui.layout.LayoutCoordinates) {
+        itemCoordsById[itemId] = coords
+        itemSizeById[itemId] = coords.size
+    }
+
+    fun itemSizePx(itemId: String): IntSize? = itemSizeById[itemId]
+
+    fun isOverlayActiveFor(itemId: String): Boolean {
+        return placeholderHidden && draggingItemId == itemId
+    }
+
+    private fun scheduleHidePlaceholder() {
+        if (placeholderHidden) return
+        hidePlaceholderJob?.cancel()
+        hidePlaceholderJob = coroutineScope.launch {
+            withFrameNanos { }
+            placeholderHidden = true
+        }
+    }
+
+    fun updateHandleCoords(itemId: String, coords: androidx.compose.ui.layout.LayoutCoordinates) {
+        handleCoordsById[itemId] = coords
+    }
+
+    fun startDrag(itemId: String, index: Int, localPointerStart: androidx.compose.ui.geometry.Offset) {
+        draggingItemId = itemId
+        draggingIndex = index
+        draggingOffsetY = 0f
+        popupVisible = false
+        placeholderHidden = false
+        hidePlaceholderJob?.cancel()
+        hidePlaceholderJob = null
+
+        val itemCoords = itemCoordsById[itemId]
+        val handleCoords = handleCoordsById[itemId]
+        val itemWindow = itemCoords?.localToWindow(androidx.compose.ui.geometry.Offset.Zero)
+        val handleWindow = handleCoords?.localToWindow(localPointerStart)
+        val itemSize = itemSizeById[itemId]
+
+        if (itemWindow != null && handleWindow != null) {
+            draggingGrabOffsetInItem = handleWindow - itemWindow
+            val topLeft = handleWindow - draggingGrabOffsetInItem
+            val localTopLeft = topLeft - containerWindowOffset
+            draggingPopupOffset = IntOffset(localTopLeft.x.roundToInt(), localTopLeft.y.roundToInt())
+            popupVisible = itemSize != null
+        } else if (itemWindow != null) {
+            draggingGrabOffsetInItem = androidx.compose.ui.geometry.Offset.Zero
+            val localTopLeft = itemWindow - containerWindowOffset
+            draggingPopupOffset = IntOffset(localTopLeft.x.roundToInt(), localTopLeft.y.roundToInt())
+            popupVisible = itemSize != null
+        } else {
+            draggingGrabOffsetInItem = androidx.compose.ui.geometry.Offset.Zero
+            draggingPopupOffset = if (handleWindow != null) {
+                val localTopLeft = handleWindow - containerWindowOffset
+                IntOffset(localTopLeft.x.roundToInt(), localTopLeft.y.roundToInt())
+            } else {
+                IntOffset.Zero
+            }
+        }
+
+        if (popupVisible) scheduleHidePlaceholder()
+    }
+
+    fun dragBy(itemId: String, deltaX: Float, deltaY: Float, localPointerPosition: androidx.compose.ui.geometry.Offset) {
+        val currentIndex = draggingIndex
+        if (currentIndex < 0) return
+
+        val currentItemInfo = listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == currentIndex }
+            ?: return
+
+        draggingOffsetY += deltaY
+
+        val handleCoords = handleCoordsById[itemId]
+        val pointerWindow = handleCoords?.localToWindow(localPointerPosition)
+        if (pointerWindow != null) {
+            val topLeft = pointerWindow - draggingGrabOffsetInItem
+            val localTopLeft = topLeft - containerWindowOffset
+            draggingPopupOffset = IntOffset(localTopLeft.x.roundToInt(), localTopLeft.y.roundToInt())
+            if (itemSizeById[itemId] != null) popupVisible = true
+            if (popupVisible) scheduleHidePlaceholder()
+        } else {
+            draggingPopupOffset = draggingPopupOffset + IntOffset(deltaX.toInt(), deltaY.toInt())
+        }
+
+        val currentItemStart = currentItemInfo.offset + draggingOffsetY
+        val currentItemEnd = currentItemStart + currentItemInfo.size
+        val currentItemCenter = currentItemStart + currentItemInfo.size / 2f
+
+        val target = listState.layoutInfo.visibleItemsInfo.firstOrNull { itemInfo ->
+            itemInfo.index != currentIndex &&
+                currentItemCenter >= itemInfo.offset &&
+                currentItemCenter <= (itemInfo.offset + itemInfo.size)
+        }
+
+        if (target != null) {
+            val targetIndex = target.index
+            onMove(currentIndex, targetIndex)
+            draggingIndex = targetIndex
+            draggingOffsetY += (currentItemInfo.offset - target.offset)
+        }
+
+        maybeAutoScroll(currentItemStart, currentItemEnd)
+    }
+
+    fun endDrag() {
+        draggingIndex = -1
+        draggingItemId = null
+        draggingOffsetY = 0f
+        draggingPopupOffset = IntOffset.Zero
+        draggingGrabOffsetInItem = androidx.compose.ui.geometry.Offset.Zero
+        popupVisible = false
+        placeholderHidden = false
+        hidePlaceholderJob?.cancel()
+        hidePlaceholderJob = null
+        scrollJob?.cancel()
+        scrollJob = null
+    }
+
+    private fun maybeAutoScroll(currentItemStart: Float, currentItemEnd: Float) {
+        val viewportStart = listState.layoutInfo.viewportStartOffset
+        val viewportEnd = listState.layoutInfo.viewportEndOffset
+        val edgePx = 80f
+        val scrollDelta = when {
+            currentItemStart < viewportStart + edgePx -> -18f
+            currentItemEnd > viewportEnd - edgePx -> 18f
+            else -> 0f
+        }
+
+        if (scrollDelta == 0f) {
+            scrollJob?.cancel()
+            scrollJob = null
+            return
+        }
+
+        if (scrollJob?.isActive == true) return
+        scrollJob = coroutineScope.launch {
+            listState.scrollBy(scrollDelta)
+        }
+    }
+}
+
+@Composable
+private fun rememberLocationReorderState(
+    listState: LazyListState,
+    onMove: (fromIndex: Int, toIndex: Int) -> Unit,
+    coroutineScope: kotlinx.coroutines.CoroutineScope,
+): LocationReorderState {
+    val state = remember(listState, coroutineScope) {
+        LocationReorderState(
+            listState = listState,
+            coroutineScope = coroutineScope,
+        )
+    }
+    state.updateOnMove(onMove)
+    return state
 }
 
 private val demoLocations = listOf(
@@ -265,11 +580,28 @@ private fun LocationListItemDarkPreview() {
 @Composable
 private fun LocationListPreview() {
     AlAzanTheme {
+        val locations = remember {
+            mutableStateListOf<FavoriteLocation>().apply { addAll(demoLocations) }
+        }
+
         Column(Modifier.padding(15.dp)) {
             LocationList(
-                list = demoLocations,
+                list = locations,
                 selectedId = "canada",
-                onAction = {},
+                onAction = { action ->
+                    when (action) {
+                        is LocationUiAction.OnMoveLocation -> {
+                            val from = action.fromIndex
+                            val to = action.toIndex
+                            if (from in locations.indices && to in locations.indices && from != to) {
+                                val item = locations.removeAt(from)
+                                locations.add(to, item)
+                            }
+                        }
+
+                        else -> Unit
+                    }
+                },
             )
         }
     }
@@ -301,9 +633,25 @@ private fun LocationScreenPreview() {
 @Composable
 private fun LocationScreenWithLocationsPreview() {
     AlAzanTheme {
+        val locations = remember {
+            mutableStateListOf<FavoriteLocation>().apply { addAll(demoLocations) }
+        }
         LocationScreen(
-            uiState = LocationUiState(demoLocations),
-            onAction = {},
+            uiState = LocationUiState(locations.toList()),
+            onAction = { action ->
+                when (action) {
+                    is LocationUiAction.OnMoveLocation -> {
+                        val from = action.fromIndex
+                        val to = action.toIndex
+                        if (from in locations.indices && to in locations.indices && from != to) {
+                            val item = locations.removeAt(from)
+                            locations.add(to, item)
+                        }
+                    }
+
+                    else -> Unit
+                }
+            },
         )
     }
 }
