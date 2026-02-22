@@ -25,7 +25,6 @@ constructor(
             is LocationUiAction.OnNewLocationDismiss -> onNewLocationDismiss()
             is LocationUiAction.OnNewLocationConfirm -> onNewLocationConfirm(action.state)
             is LocationUiAction.OnNewLocationFindLocationClick -> onNewLocationFindLocationClick()
-            is LocationUiAction.OnNewLocationPasteCoordinatesClick -> onNewLocationPasteCoordinatesClick()
             is LocationUiAction.OnMoveLocation -> onMoveLocation(action.fromIndex, action.toIndex)
             is LocationUiAction.OnSetAsDefaultClick -> onSetAsDefault(action.locationId)
             is LocationUiAction.OnDeleteLocationClick -> onDeleteLocation(action.locationId)
@@ -71,10 +70,6 @@ constructor(
     }
 
     private fun onNewLocationFindLocationClick() {
-        // todo
-    }
-
-    private fun onNewLocationPasteCoordinatesClick() {
         // todo
     }
 
