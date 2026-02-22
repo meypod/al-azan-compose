@@ -48,6 +48,7 @@ fun <T> BottomSelect(
     options: Iterable<T>,
     selectedKey: String?,
     modifier: Modifier = Modifier,
+    label: (@Composable () -> Unit)? = null,
     placeholder: String = "",
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
@@ -72,6 +73,7 @@ fun <T> BottomSelect(
         options = options,
         selectedKey = selectedKey,
         modifier = modifier,
+        label = label,
         placeholder = placeholder,
         optionKey = optionKey,
         optionLabel = optionLabel,
@@ -92,6 +94,7 @@ private fun <T> BottomSelectImpl(
     options: Iterable<T>,
     selectedKey: String?,
     modifier: Modifier = Modifier,
+    label: (@Composable () -> Unit)? = null,
     placeholder: String = "",
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
@@ -114,7 +117,7 @@ private fun <T> BottomSelectImpl(
     initialBusy: Boolean,
 ) {
     val focusManager = LocalFocusManager.current
-    
+
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     val onDismiss =
@@ -197,6 +200,7 @@ private fun <T> BottomSelectImpl(
         modifier = triggerModifier,
         enabled = enabled,
         readOnly = true,
+        label = label,
         placeholder = placeholder,
         trailingIcon = {
             if (busy) {

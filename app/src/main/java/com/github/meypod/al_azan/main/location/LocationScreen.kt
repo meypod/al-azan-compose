@@ -75,7 +75,8 @@ fun LocationScreen(
             ),
             confirmLabel = stringResource(R.string.delete),
             cancelLabel = stringResource(R.string.cancel),
-            seconds = 1,
+            seconds = 0,
+            confirmDisabledUntilFinished = false,
             onConfirm = {
                 onAction(LocationUiAction.OnDeleteLocationConfirm(deletingLocation.id))
             },
