@@ -2,13 +2,9 @@ package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,7 +52,7 @@ fun CompactOutlinedTextField(
         keyboardOptions = keyboardOptions,
         interactionSource = interactionSource,
         textStyle = textStyle.merge(
-            TextStyle(color = colors.unfocusedTextColor),
+            color = colors.unfocusedTextColor,
         ),
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
     ) { innerTextField ->
@@ -66,10 +62,9 @@ fun CompactOutlinedTextField(
                 if (readOnly || !isFocused) {
                     Text(
                         text = value,
-                        modifier = Modifier,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = textStyle.merge(TextStyle(color = colors.unfocusedTextColor)),
+                        style = textStyle.merge(color = colors.unfocusedTextColor),
                     )
                 } else {
                     innerTextField()
@@ -82,9 +77,12 @@ fun CompactOutlinedTextField(
             colors = colors,
             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
             placeholder = {
-                BasicText(
-                    placeholder,
-                    style = textStyle.merge(TextStyle(color = MaterialTheme.colorScheme.onSurfaceVariant)),
+                Text(
+                    text = placeholder,
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = textStyle.merge(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 )
             },
             container = {
