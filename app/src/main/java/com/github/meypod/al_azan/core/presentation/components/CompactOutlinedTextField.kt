@@ -2,6 +2,8 @@ package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,6 +33,7 @@ fun CompactOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    label: (@Composable () -> Unit)? = null,
     placeholder: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -76,6 +79,7 @@ fun CompactOutlinedTextField(
             interactionSource = interactionSource,
             colors = colors,
             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+            label = label,
             placeholder = {
                 Text(
                     text = placeholder,
@@ -106,13 +110,24 @@ fun CompactOutlinedTextField(
 private fun CompactOutlinedTextFieldPreview() {
     AlAzanTheme {
         val (value, setValue) = remember { mutableStateOf("") }
-        CompactOutlinedTextField(
-            value = value,
-            onValueChange = setValue,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            placeholder = "Placeholder",
-        )
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            CompactOutlinedTextField(
+                value = value,
+                onValueChange = setValue,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                placeholder = "Placeholder",
+            )
+
+            CompactOutlinedTextField(
+                value = "foo",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = {
+                    Text("Label")
+                },
+            )
+        }
     }
 }

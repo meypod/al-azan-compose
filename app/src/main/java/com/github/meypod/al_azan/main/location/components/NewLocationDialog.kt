@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.location.components
 
+import android.widget.Toast
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -41,7 +43,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import android.widget.Toast
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
@@ -99,9 +100,10 @@ private fun NewLocationDialogContent(
 
     val latValue = remember(uiState.latitude) { uiState.latitude.trim().toEnglishDigits().toDoubleOrNull() }
     val lngValue = remember(uiState.longitude) { uiState.longitude.trim().toEnglishDigits().toDoubleOrNull() }
+    val labelValue = remember(uiState.label) { uiState.label.trim() }
 
     val confirmEnabled =
-        remember(latValue, lngValue) { latValue != null && lngValue != null }
+        remember(latValue, lngValue, labelValue) { latValue != null && lngValue != null && labelValue.isNotBlank() }
 
     Surface(
         modifier = modifier
@@ -135,22 +137,21 @@ private fun NewLocationDialogContent(
                 )
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            CompactOutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+                value = uiState.label,
+                onValueChange = { uiState = uiState.copy(label = it) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = {
+                    FieldLabel(text = stringResource(R.string.location_label) + " *")
+                },
+            )
 
-            SectionTitle(stringResource(R.string.search_by_city_title))
+            UsingSectionTitle(stringResource(R.string.search_by_city_title))
 
             Column {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    FieldLabel(
-                        text = stringResource(R.string.country),
-                        modifier = Modifier.weight(1f),
-                    )
-                    Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
-                    FieldLabel(
-                        text = stringResource(R.string.city),
-                        modifier = Modifier.weight(1f),
-                    )
-                }
                 Row(modifier = Modifier.fillMaxWidth()) {
                     val selectModifier = Modifier.height(40.dp)
                     BottomSelect(
@@ -179,6 +180,12 @@ private fun NewLocationDialogContent(
                         itemContent = returnedMatchItemContent(
                             setSelectedName = { item, selectedName -> item.copy(selectedName = selectedName) },
                         ),
+                        label = {
+                            FieldLabel(
+                                text = stringResource(R.string.country),
+                                modifier = Modifier.weight(1f),
+                            )
+                        },
                     )
 
                     Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
@@ -209,13 +216,17 @@ private fun NewLocationDialogContent(
                         itemContent = returnedMatchItemContent(
                             setSelectedName = { item, selectedName -> item.copy(selectedName = selectedName) },
                         ),
+                        label = {
+                            FieldLabel(
+                                text = stringResource(R.string.city),
+                                modifier = Modifier.weight(1f),
+                            )
+                        },
                     )
                 }
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-
-            SectionTitle(stringResource(R.string.find_location_title))
+            UsingSectionTitle(stringResource(R.string.find_location_title))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 PrimaryButton(onClick = { onAction(LocationUiAction.OnNewLocationFindLocationClick) }) {
                     Icon(
@@ -230,25 +241,9 @@ private fun NewLocationDialogContent(
                 }
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-
-            SectionTitle(stringResource(R.string.using_coordinates_title))
+            UsingSectionTitle(stringResource(R.string.using_coordinates_title))
 
             Column {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    FieldLabel(
-                        text = stringResource(R.string.latitude),
-                        modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
-                    FieldLabel(
-                        text = stringResource(R.string.longitude),
-                        modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -264,6 +259,13 @@ private fun NewLocationDialogContent(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
+                        label = {
+                            FieldLabel(
+                                text = stringResource(R.string.latitude),
+                                modifier = Modifier.weight(1f),
+                                textAlign = TextAlign.Center,
+                            )
+                        },
                     )
                     Text(
                         text = "-",
@@ -277,6 +279,13 @@ private fun NewLocationDialogContent(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
+                        label = {
+                            FieldLabel(
+                                text = stringResource(R.string.longitude),
+                                modifier = Modifier.weight(1f),
+                                textAlign = TextAlign.Center,
+                            )
+                        },
                     )
                 }
             }
@@ -339,6 +348,7 @@ private fun NewLocationDialogContent(
                                 uiState.copy(
                                     latitude = uiState.latitude.trim().toEnglishDigits(),
                                     longitude = uiState.longitude.trim().toEnglishDigits(),
+                                    label = uiState.label.trim(),
                                 ),
                             ),
                         )
@@ -363,6 +373,35 @@ private fun SectionTitle(
         style = MaterialTheme.typography.titleSmall,
         color = MaterialTheme.colorScheme.onSurface,
     )
+}
+
+@Composable
+private fun UsingSectionTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
+        Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+        HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
+    }
 }
 
 @Composable
