@@ -45,9 +45,9 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
-import com.github.meypod.al_azan.core.presentation.util.returnMatched
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
+import com.github.meypod.al_azan.core.presentation.util.returnMatched
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.NewLocationDialogUiState
 
@@ -147,14 +147,14 @@ private fun NewLocationDialogContent(
                         optionKey = { it.code },
                         optionLabel = { it.selectedName ?: it.name },
                         optionSearchTag = { it.names },
-                        selectedKey = uiState.selectedCountryCode,
+                        selectedKey = uiState.selectedCountry?.code,
                         onSelect = { chosen ->
                             countries = countries.map { c ->
                                 if (c.code == chosen.code) chosen else c
                             }
                             uiState = uiState.copy(
-                                selectedCountryCode = chosen.code,
-                                selectedCityName = null,
+                                selectedCountry = chosen,
+                                selectedCity = null,
                             )
                         },
                         onTriggerClick = {
@@ -177,22 +177,23 @@ private fun NewLocationDialogContent(
                         optionKey = { it.name + it.names + it.lat },
                         optionLabel = { it.selectedName ?: it.name },
                         optionSearchTag = { it.names },
-                        selectedKey = uiState.selectedCityName,
+                        selectedKey = uiState.selectedCity?.let { it.name + it.names + it.lat },
                         onSelect = { chosen ->
                             cities = cities.map { c ->
                                 if (c.isSameCity(chosen)) chosen else c
                             }
-                            uiState = uiState.copy(selectedCityName = chosen.name)
+                            uiState =
+                                uiState.copy(selectedCity = chosen, latitude = chosen.lat.toString(), longitude = chosen.long.toString())
                         },
                         onTriggerClick = {
-                            val countryCode = uiState.selectedCountryCode
+                            val countryCode = uiState.selectedCountry?.code
                             if (!countryCode.isNullOrBlank()) {
                                 cities = updatedGetCities(countryCode)
                             }
                             true
                         },
                         searchable = true,
-                        enabled = uiState.selectedCountryCode != null,
+                        enabled = uiState.selectedCountry != null,
                         itemContent = returnedMatchItemContent(
                             setSelectedName = { item, selectedName -> item.copy(selectedName = selectedName) },
                         ),
@@ -332,7 +333,7 @@ private fun FieldLabel(
 }
 
 private fun CityGeoInfo.isSameCity(other: CityGeoInfo): Boolean =
-    name == other.name && lat == other.lat && lng == other.lng && country == other.country
+    name == other.name && lat == other.lat && long == other.long && country == other.country
 
 private fun <T> returnedMatchItemContent(
     setSelectedName: (T, String) -> T,
@@ -391,8 +392,8 @@ private fun NewLocationDialogPreview() {
         )
     val cities =
         listOf(
-            CityGeoInfo(name = "New York", names = "New York,NYC", lat = 0.0, lng = 0.0, country = "US"),
-            CityGeoInfo(name = "Toronto", names = "Toronto", lat = 0.0, lng = 0.0, country = "CA"),
+            CityGeoInfo(name = "New York", names = "New York,NYC", lat = 0.0, long = 0.0, country = "US"),
+            CityGeoInfo(name = "Toronto", names = "Toronto", lat = 0.0, long = 0.0, country = "CA"),
         )
 
     AlAzanTheme {

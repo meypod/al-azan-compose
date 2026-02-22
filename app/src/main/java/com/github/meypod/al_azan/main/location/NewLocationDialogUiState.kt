@@ -6,8 +6,8 @@ import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 
 @Immutable
 data class NewLocationDialogUiState(
-    val selectedCountryCode: String? = null,
-    val selectedCityName: String? = null,
+    val selectedCountry: CountryGeoInfo? = null,
+    val selectedCity: CityGeoInfo? = null,
     val latitude: String = "",
     val longitude: String = "",
 )

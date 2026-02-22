@@ -113,11 +113,14 @@ private fun <T> BottomSelectImpl(
     },
     initialBusy: Boolean,
 ) {
+    val focusManager = LocalFocusManager.current
+    
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     val onDismiss =
         remember {
             {
+                focusManager.clearFocus()
                 expanded = false
                 searchText = ""
             }
@@ -161,7 +164,6 @@ private fun <T> BottomSelectImpl(
     val scope = rememberCoroutineScope()
     val busyGate = remember { AtomicBoolean(false) }
     var busy by remember { mutableStateOf(initialBusy) }
-    val focusManager = LocalFocusManager.current
 
     val triggerModifier =
         modifier
@@ -180,6 +182,15 @@ private fun <T> BottomSelectImpl(
                 }
             }
 
+    val onSelectAndDismiss: (T) -> Unit = remember(onSelect, onDismiss) {
+        { selectedItem ->
+            onSelect(selectedItem)
+            onDismiss()
+        }
+    }
+
+    val onSelectAndDismissUpdated by rememberUpdatedState(onSelectAndDismiss)
+
     CompactOutlinedTextField(
         value = selectedLabel,
         onValueChange = {},
@@ -191,7 +202,9 @@ private fun <T> BottomSelectImpl(
             if (busy) {
                 CircularProgressIndicator(
                     strokeWidth = 2.dp,
-                    modifier = Modifier.width(18.dp).height(16.dp),
+                    modifier = Modifier
+                        .width(18.dp)
+                        .height(16.dp),
                 )
             } else {
                 Icon(
@@ -205,11 +218,7 @@ private fun <T> BottomSelectImpl(
 
     if (expanded) {
         ModalBottomSheet(
-            onDismissRequest = {
-                focusManager.clearFocus()
-                expanded = false
-                searchText = ""
-            },
+            onDismissRequest = onDismiss,
         ) {
             if (searchable) {
                 TextField(
@@ -230,11 +239,7 @@ private fun <T> BottomSelectImpl(
 
             LazyColumn {
                 items(filteredOptions.entries.toList(), key = { it.key }) { item ->
-                    val onSelectAndDismiss: (T) -> Unit = { selectedItem ->
-                        onSelect(selectedItem)
-                        onDismiss()
-                    }
-                    itemContent(item, item.key == selectedKey, searchText, onSelectAndDismiss)
+                    itemContent(item, item.key == selectedKey, searchText, onSelectAndDismissUpdated)
                 }
             }
 

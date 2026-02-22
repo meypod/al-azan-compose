@@ -1,6 +1,5 @@
 package com.github.meypod.al_azan.core.data.model.old
 
-import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
@@ -249,7 +248,7 @@ data class OldCityInfo(
             name = this.name,
             names = this.names,
             lat = this.lat.toDoubleOrNull() ?: 0.0,
-            lng = this.lng.toDoubleOrNull() ?: 0.0,
+            long = this.lng.toDoubleOrNull() ?: 0.0,
             country = this.country,
             selectedName = this.selectedName,
         )
