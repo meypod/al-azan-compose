@@ -25,10 +25,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -38,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import android.widget.Toast
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
@@ -48,10 +52,12 @@ import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.core.presentation.util.filterToDigitsAndDot
+import com.github.meypod.al_azan.core.presentation.util.parseClipboardToCoords
 import com.github.meypod.al_azan.core.presentation.util.returnMatched
 import com.github.meypod.al_azan.core.presentation.util.toEnglishDigits
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.NewLocationDialogUiState
+import kotlinx.coroutines.launch
 
 @Composable
 fun NewLocationDialog(
@@ -75,6 +81,10 @@ private fun NewLocationDialogContent(
     getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
 ) {
+    val clipboard = LocalClipboard.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     val windowInfo = LocalWindowInfo.current
     val maxDialogHeight = remember(windowInfo.containerDpSize.height) { windowInfo.containerDpSize.height * 0.9f }
 
@@ -272,7 +282,34 @@ private fun NewLocationDialogContent(
             }
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                PrimaryButton(onClick = { onAction(LocationUiAction.OnNewLocationPasteCoordinatesClick) }) {
+                PrimaryButton(
+                    onClick = {
+                        scope.launch {
+                            val clipEntry = clipboard.getClipEntry()
+                            val clipData = clipEntry?.clipData
+                            val text =
+                                clipData
+                                    ?.takeIf { it.itemCount > 0 }
+                                    ?.getItemAt(0)
+                                    ?.coerceToText(context)
+                                    ?.toString()
+
+                            val coords = parseClipboardToCoords(text)
+                            if (coords != null) {
+                                uiState =
+                                    uiState.copy(
+                                        latitude = coords.first.toString(),
+                                        longitude = coords.second.toString(),
+                                        selectedCity = null,
+                                    )
+                            } else {
+                                Toast
+                                    .makeText(context, R.string.clipboard_coordinates_not_found, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    },
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.clipboard),
                         contentDescription = null,

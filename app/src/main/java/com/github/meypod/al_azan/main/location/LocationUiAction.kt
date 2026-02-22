@@ -11,8 +11,6 @@ sealed interface LocationUiAction {
 
     object OnNewLocationFindLocationClick : LocationUiAction
 
-    object OnNewLocationPasteCoordinatesClick : LocationUiAction
-
     data class OnMoveLocation(
         val fromIndex: Int,
         val toIndex: Int,
