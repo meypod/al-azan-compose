@@ -43,6 +43,8 @@ constructor(
             is LocationUiAction.OnMoveLocation -> onMoveLocation(action.fromIndex, action.toIndex)
             is LocationUiAction.OnSetAsDefaultClick -> onSetAsDefault(action.locationId)
             is LocationUiAction.OnDeleteLocationClick -> onDeleteLocation(action.locationId)
+            is LocationUiAction.OnDeleteLocationDismiss -> onDeleteLocationDismiss()
+            is LocationUiAction.OnDeleteLocationConfirm -> onDeleteLocationConfirm(action.locationId)
         }
     }
 
@@ -109,6 +111,22 @@ constructor(
     }
 
     private fun onDeleteLocation(locationId: String) {
-        // todo
+        _uiState.update { state ->
+            val deleting = state.locations.firstOrNull { it.id == locationId } ?: return@update state
+            state.copy(deleteLocationDialogLocation = deleting)
+        }
+    }
+
+    private fun onDeleteLocationDismiss() {
+        _uiState.update { it.copy(deleteLocationDialogLocation = null) }
+    }
+
+    private fun onDeleteLocationConfirm(locationId: String) {
+        _uiState.update { it.copy(deleteLocationDialogLocation = null) }
+        viewModelScope.launch {
+            favoriteLocationsRepository.update { current ->
+                current.filterNot { it.id == locationId }
+            }
+        }
     }
 }
