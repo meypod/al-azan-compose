@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.util.prepareForSearch
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -56,10 +57,14 @@ fun <T> BottomSelect(
     enabled: Boolean = true,
     onTriggerClick: suspend () -> Boolean? = { null },
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    itemContent: @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
+    itemContent: @Composable (
+        Map.Entry<String, Triple<T, String, String>>,
+        Boolean,
+        String,
+        (T) -> Unit,
+    ) -> Unit = { option, selected, _, onSelectAndDismiss ->
         DefaultBottomSelectItem(option.value.second, selected) {
-            onSelect(option.value.first)
-            onDismiss()
+            onSelectAndDismiss(option.value.first)
         }
     },
 ) {
@@ -96,10 +101,14 @@ private fun <T> BottomSelectImpl(
     enabled: Boolean = true,
     onTriggerClick: suspend () -> Boolean? = { null },
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    itemContent: @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, () -> Unit) -> Unit = { option, selected, onDismiss ->
+    itemContent: @Composable (
+        Map.Entry<String, Triple<T, String, String>>,
+        Boolean,
+        String,
+        (T) -> Unit,
+    ) -> Unit = { option, selected, _, onSelectAndDismiss ->
         DefaultBottomSelectItem(option.value.second, selected) {
-            onSelect(option.value.first)
-            onDismiss()
+            onSelectAndDismiss(option.value.first)
         }
     },
     initialBusy: Boolean,
@@ -119,16 +128,22 @@ private fun <T> BottomSelectImpl(
             options,
             optionKey,
             optionLabel,
+            optionSearchTag,
         ) { options.associate { optionKey(it) to Triple(it, optionLabel(it), optionSearchTag(it)) } }
 
+    val preparedSearchTags =
+        remember(keyLabelOptionEntries) {
+            keyLabelOptionEntries.mapValues { (_, triple) ->
+                prepareForSearch(triple.third)
+            }
+        }
+
     val filteredOptions =
-        remember(searchable, searchText, keyLabelOptionEntries) {
+        remember(searchable, searchText, keyLabelOptionEntries, preparedSearchTags) {
             if (searchable && searchText.isNotEmpty()) {
-                keyLabelOptionEntries.filter {
-                    it.value.third.contains(
-                        searchText,
-                        ignoreCase = true,
-                    )
+                val preparedNeedle = prepareForSearch(searchText)
+                keyLabelOptionEntries.filter { entry ->
+                    preparedSearchTags[entry.key]?.contains(preparedNeedle) == true
                 }
             } else {
                 keyLabelOptionEntries
@@ -199,7 +214,9 @@ private fun <T> BottomSelectImpl(
             if (searchable) {
                 TextField(
                     value = searchText,
-                    onValueChange = { searchText = it },
+                    onValueChange = {
+                        searchText = it
+                    },
                     placeholder = {
                         Text(stringResource(R.string.search_placeholder))
                     },
@@ -213,7 +230,11 @@ private fun <T> BottomSelectImpl(
 
             LazyColumn {
                 items(filteredOptions.entries.toList(), key = { it.key }) { item ->
-                    itemContent(item, item.key == selectedKey, onDismiss)
+                    val onSelectAndDismiss: (T) -> Unit = { selectedItem ->
+                        onSelect(selectedItem)
+                        onDismiss()
+                    }
+                    itemContent(item, item.key == selectedKey, searchText, onSelectAndDismiss)
                 }
             }
 
