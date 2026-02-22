@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +45,7 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
+import com.github.meypod.al_azan.core.presentation.util.returnMatched
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.main.location.LocationUiAction
@@ -146,9 +148,12 @@ private fun NewLocationDialogContent(
                         optionLabel = { it.selectedName ?: it.name },
                         optionSearchTag = { it.names },
                         selectedKey = uiState.selectedCountryCode,
-                        onSelect = {
+                        onSelect = { chosen ->
+                            countries = countries.map { c ->
+                                if (c.code == chosen.code) chosen else c
+                            }
                             uiState = uiState.copy(
-                                selectedCountryCode = it.code,
+                                selectedCountryCode = chosen.code,
                                 selectedCityName = null,
                             )
                         },
@@ -159,6 +164,9 @@ private fun NewLocationDialogContent(
                             true
                         },
                         searchable = true,
+                        itemContent = returnedMatchItemContent(
+                            setSelectedName = { item, selectedName -> item.copy(selectedName = selectedName) },
+                        ),
                     )
 
                     Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
@@ -170,7 +178,12 @@ private fun NewLocationDialogContent(
                         optionLabel = { it.selectedName ?: it.name },
                         optionSearchTag = { it.names },
                         selectedKey = uiState.selectedCityName,
-                        onSelect = { uiState = uiState.copy(selectedCityName = it.name) },
+                        onSelect = { chosen ->
+                            cities = cities.map { c ->
+                                if (c.isSameCity(chosen)) chosen else c
+                            }
+                            uiState = uiState.copy(selectedCityName = chosen.name)
+                        },
                         onTriggerClick = {
                             val countryCode = uiState.selectedCountryCode
                             if (!countryCode.isNullOrBlank()) {
@@ -180,6 +193,9 @@ private fun NewLocationDialogContent(
                         },
                         searchable = true,
                         enabled = uiState.selectedCountryCode != null,
+                        itemContent = returnedMatchItemContent(
+                            setSelectedName = { item, selectedName -> item.copy(selectedName = selectedName) },
+                        ),
                     )
                 }
             }
@@ -314,6 +330,55 @@ private fun FieldLabel(
         textAlign = textAlign,
     )
 }
+
+private fun CityGeoInfo.isSameCity(other: CityGeoInfo): Boolean =
+    name == other.name && lat == other.lat && lng == other.lng && country == other.country
+
+private fun <T> returnedMatchItemContent(
+    setSelectedName: (T, String) -> T,
+): @Composable (Map.Entry<String, Triple<T, String, String>>, Boolean, String, (T) -> Unit) -> Unit =
+    { option, selected, needle, onSelectAndDismiss ->
+        val showReturnedMatch = needle.isNotBlank()
+        val match = if (showReturnedMatch) returnMatched(option.value.third, needle) else null
+        val label = match?.value ?: option.value.second
+        val firstValue = match?.firstValue.orEmpty()
+        val suffix =
+            if (
+                showReturnedMatch &&
+                firstValue.isNotBlank() &&
+                firstValue != label
+            ) {
+                " ($firstValue)"
+            } else {
+                ""
+            }
+
+        DropdownMenuItem(
+            text = {
+                Text(
+                    text = label + suffix,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            },
+            onClick = {
+                val chosen =
+                    if (showReturnedMatch) {
+                        setSelectedName(option.value.first, match!!.value)
+                    } else {
+                        option.value.first
+                    }
+                onSelectAndDismiss(chosen)
+            },
+            trailingIcon = {
+                if (selected) {
+                    Icon(
+                        painter = painterResource(R.drawable.baseline_check_24),
+                        contentDescription = stringResource(R.string.selected),
+                    )
+                }
+            },
+        )
+    }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, heightDp = 400)
