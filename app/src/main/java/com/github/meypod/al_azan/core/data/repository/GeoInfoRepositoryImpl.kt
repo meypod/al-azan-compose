@@ -129,7 +129,7 @@ constructor(
                                     name = names.substringBefore(','),
                                     names = names,
                                     lat = lat,
-                                    lng = lng,
+                                    long = lng,
                                     country = country,
                                 )
                             }.toList()

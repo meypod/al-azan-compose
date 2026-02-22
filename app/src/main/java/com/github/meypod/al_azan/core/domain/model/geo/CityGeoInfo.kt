@@ -8,7 +8,7 @@ data class CityGeoInfo(
     val name: String,
     val names: String,
     val lat: Double,
-    val lng: Double,
+    val long: Double,
     val country: String,
     /** User's selected name from search */
     val selectedName: String? = null,
