@@ -186,6 +186,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     IntroStepScaffold(
                         uiState = introUiState,
                         onAction = onIntroUiAction,
+                        scrollable = false,
                     ) { modifier ->
                         Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(stringResource(R.string.location_title))
@@ -218,10 +219,12 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
 private fun IntroStepScaffold(
     uiState: IntroUiState,
     onAction: (IntroUiAction) -> Unit,
+    scrollable: Boolean = true,
     content: @Composable (Modifier) -> Unit,
 ) {
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
     val scrollState = rememberScrollState()
+    val introBackgroundColor = colorResource(R.color.intro_background)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -231,21 +234,29 @@ private fun IntroStepScaffold(
                 onAction = onAction,
             )
         },
-        containerColor = colorResource(R.color.intro_background),
+        containerColor = introBackgroundColor,
     ) { paddingValues ->
-        content(
+        val baseModifier =
             Modifier
                 .fillMaxSize()
                 .patternedBackground(
                     pattern = patternImage,
-                    backgroundColor = colorResource(R.color.intro_background),
+                    backgroundColor = introBackgroundColor,
                     patternAlpha = 0.03f,
                 )
                 .padding(paddingValues)
-                .fadeScrollEdges(scrollState, Orientation.Vertical)
-                .drawVerticalScrollbar(scrollState)
-                .verticalScroll(scrollState),
-        )
+
+        val contentModifier =
+            if (scrollable) {
+                baseModifier
+                    .fadeScrollEdges(scrollState, Orientation.Vertical)
+                    .drawVerticalScrollbar(scrollState)
+                    .verticalScroll(scrollState)
+            } else {
+                baseModifier
+            }
+
+        content(contentModifier)
     }
 }
 

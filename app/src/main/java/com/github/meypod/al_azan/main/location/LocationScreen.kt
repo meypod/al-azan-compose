@@ -156,7 +156,7 @@ private fun LocationListItem(
             Text(
                 text = when {
                     !label.isNullOrBlank() -> label
-                    !city.isNullOrBlank() && !country.isNullOrBlank() -> "$city, $country"
+                    !city.isNullOrBlank() && !country.isNullOrBlank() -> "$city ($country)"
                     else -> item.id
                 },
             )
