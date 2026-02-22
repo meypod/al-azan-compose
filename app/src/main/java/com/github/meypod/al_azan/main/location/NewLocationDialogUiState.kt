@@ -10,4 +10,5 @@ data class NewLocationDialogUiState(
     val selectedCity: CityGeoInfo? = null,
     val latitude: String = "",
     val longitude: String = "",
+    val label: String = "",
 )

@@ -1,23 +1,38 @@
 package com.github.meypod.al_azan.main.location
 
+import android.os.SystemClock
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
+import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LocationViewModel
 @Inject
 constructor(
+    private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val geoInfoRepository: GeoInfoRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
     val uiState = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            favoriteLocationsRepository.data.collect { locations ->
+                _uiState.update { it.copy(locations = locations) }
+            }
+        }
+    }
 
     fun onAction(action: LocationUiAction) {
         when (action) {
@@ -66,7 +81,23 @@ constructor(
 
     private fun onNewLocationConfirm(state: NewLocationDialogUiState) {
         _uiState.update { it.copy(isNewLocationDialogOpen = false) }
-        // todo: persist/validate/use 'state'
+        val parsedLat = state.latitude.toDoubleOrNull() ?: return
+        val parsedLong = state.longitude.toDoubleOrNull() ?: return
+        viewModelScope.launch {
+            favoriteLocationsRepository.update {
+                it +
+                    FavoriteLocation(
+                        id = SystemClock.elapsedRealtime().toString() + "$parsedLat",
+                        locationDetail = CalculationLocationDetail(
+                            lat = parsedLat,
+                            long = parsedLong,
+                            city = state.selectedCity,
+                            country = state.selectedCountry,
+                            label = state.label,
+                        ),
+                    )
+            }
+        }
     }
 
     private fun onNewLocationFindLocationClick() {
