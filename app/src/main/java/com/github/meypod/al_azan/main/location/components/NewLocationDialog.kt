@@ -47,7 +47,9 @@ import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTex
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
+import com.github.meypod.al_azan.core.presentation.util.filterToDigitsAndDot
 import com.github.meypod.al_azan.core.presentation.util.returnMatched
+import com.github.meypod.al_azan.core.presentation.util.toEnglishDigits
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.NewLocationDialogUiState
 
@@ -85,8 +87,8 @@ private fun NewLocationDialogContent(
 
     var uiState by remember { mutableStateOf(NewLocationDialogUiState()) }
 
-    val latValue = remember(uiState.latitude) { uiState.latitude.trim().toDoubleOrNull() }
-    val lngValue = remember(uiState.longitude) { uiState.longitude.trim().toDoubleOrNull() }
+    val latValue = remember(uiState.latitude) { uiState.latitude.trim().toEnglishDigits().toDoubleOrNull() }
+    val lngValue = remember(uiState.longitude) { uiState.longitude.trim().toEnglishDigits().toDoubleOrNull() }
 
     val confirmEnabled =
         remember(latValue, lngValue) { latValue != null && lngValue != null }
@@ -248,8 +250,8 @@ private fun NewLocationDialogContent(
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,
                         value = uiState.latitude,
-                        onValueChange = { uiState = uiState.copy(latitude = it) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        onValueChange = { uiState = uiState.copy(latitude = it.filterToDigitsAndDot(allowLeadingMinus = true)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
                     )
@@ -261,8 +263,8 @@ private fun NewLocationDialogContent(
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,
                         value = uiState.longitude,
-                        onValueChange = { uiState = uiState.copy(longitude = it) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        onValueChange = { uiState = uiState.copy(longitude = it.filterToDigitsAndDot(allowLeadingMinus = true)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
                     )
@@ -294,7 +296,16 @@ private fun NewLocationDialogContent(
                 }
                 Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
                 TextButton(
-                    onClick = { onAction(LocationUiAction.OnNewLocationConfirm(uiState)) },
+                    onClick = {
+                        onAction(
+                            LocationUiAction.OnNewLocationConfirm(
+                                uiState.copy(
+                                    latitude = uiState.latitude.trim().toEnglishDigits(),
+                                    longitude = uiState.longitude.trim().toEnglishDigits(),
+                                ),
+                            ),
+                        )
+                    },
                     enabled = confirmEnabled,
                 ) {
                     Text(text = stringResource(R.string.confirm))
