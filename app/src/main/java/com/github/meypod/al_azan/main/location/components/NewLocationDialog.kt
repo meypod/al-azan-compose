@@ -144,7 +144,7 @@ private fun NewLocationDialogContent(
                         options = countries,
                         optionKey = { it.code },
                         optionLabel = { it.selectedName ?: it.name },
-                        optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
+                        optionSearchTag = { it.names },
                         selectedKey = uiState.selectedCountryCode,
                         onSelect = {
                             uiState = uiState.copy(
@@ -166,9 +166,9 @@ private fun NewLocationDialogContent(
                     BottomSelect(
                         modifier = selectModifier.weight(1f),
                         options = cities,
-                        optionKey = { it.name },
+                        optionKey = { it.name + it.names + it.lat },
                         optionLabel = { it.selectedName ?: it.name },
-                        optionSearchTag = { (it.selectedName ?: it.name) + "," + it.names },
+                        optionSearchTag = { it.names },
                         selectedKey = uiState.selectedCityName,
                         onSelect = { uiState = uiState.copy(selectedCityName = it.name) },
                         onTriggerClick = {
