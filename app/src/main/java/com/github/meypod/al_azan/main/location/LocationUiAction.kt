@@ -23,4 +23,10 @@ sealed interface LocationUiAction {
     data class OnDeleteLocationClick(
         val locationId: String,
     ) : LocationUiAction
+
+    object OnDeleteLocationDismiss : LocationUiAction
+
+    data class OnDeleteLocationConfirm(
+        val locationId: String,
+    ) : LocationUiAction
 }

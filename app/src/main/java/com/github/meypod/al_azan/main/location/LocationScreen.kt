@@ -45,6 +45,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
+import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
 import com.github.meypod.al_azan.main.location.components.NewLocationDialog
 
@@ -61,6 +62,26 @@ fun LocationScreen(
             onAction = onAction,
             getCountries = getCountries,
             getCities = getCities,
+        )
+    }
+
+    val deletingLocation = uiState.deleteLocationDialogLocation
+    if (deletingLocation != null) {
+        TimedDangerDialog(
+            title = stringResource(R.string.delete_location_confirm_title),
+            text = stringResource(
+                R.string.delete_location_confirm_body,
+                deletingLocation.locationDetail.toDisplayString(),
+            ),
+            confirmLabel = stringResource(R.string.delete),
+            cancelLabel = stringResource(R.string.cancel),
+            seconds = 1,
+            onConfirm = {
+                onAction(LocationUiAction.OnDeleteLocationConfirm(deletingLocation.id))
+            },
+            onDismissRequest = {
+                onAction(LocationUiAction.OnDeleteLocationDismiss)
+            },
         )
     }
 
@@ -148,21 +169,12 @@ private fun LocationListItem(
             }
             .bottomBorder(MaterialTheme.colorScheme.outlineVariant, 2.dp),
         headlineContent = {
-            val location = item.locationDetail
-            val city = location.city?.selectedName ?: location.city?.name
-            val country = location.country?.selectedName ?: location.country?.name
-            val label = location.label
-
             Text(
-                text = when {
-                    !label.isNullOrBlank() -> label
-                    !city.isNullOrBlank() && !country.isNullOrBlank() -> "$city ($country)"
-                    else -> item.id
-                },
+                text = item.locationDetail.toNamed() ?: item.id,
             )
         },
         supportingContent = {
-            Text(item.locationDetail.toDisplayString())
+            Text(item.locationDetail.toCoordsString())
         },
         leadingContent = {
             Icon(

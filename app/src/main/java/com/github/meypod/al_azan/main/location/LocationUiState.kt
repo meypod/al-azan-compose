@@ -7,4 +7,5 @@ import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLoc
 data class LocationUiState(
     val locations: List<FavoriteLocation> = emptyList(),
     val isNewLocationDialogOpen: Boolean = false,
+    val deleteLocationDialogLocation: FavoriteLocation? = null,
 )

@@ -32,6 +32,9 @@
     <string name="see_options">See options</string>
     <string name="set_as_default">Set as default</string>
     <string name="delete_location">Delete location</string>
+    <string name="delete">Delete</string>
+    <string name="delete_location_confirm_title">Delete location?</string>
+    <string name="delete_location_confirm_body">This will remove the following location from your saved list:\n%1$s</string>
 
     <string name="new_location_description">You can add a location in three different ways. Choose one below:</string>
     <string name="search_by_city_title">Using search</string>

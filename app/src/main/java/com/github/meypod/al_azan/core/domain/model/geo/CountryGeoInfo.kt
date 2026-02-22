@@ -11,4 +11,6 @@ data class CountryGeoInfo(
     val name: String,
     /** User's selected name from search */
     val selectedName: String? = null,
-)
+) {
+    override fun toString(): String = selectedName ?: name
+}

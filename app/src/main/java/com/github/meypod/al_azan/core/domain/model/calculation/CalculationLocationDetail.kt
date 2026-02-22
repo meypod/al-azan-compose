@@ -15,7 +15,22 @@ data class CalculationLocationDetail(
     val label: String? = null,
 ) {
 
-    fun toDisplayString(): String {
+    fun toNamed(): String? =
+        if (!label.isNullOrBlank()) {
+            label
+        } else if (city != null) {
+            if (country != null) {
+                "$city, $country"
+            } else {
+                "$city"
+            }
+        } else {
+            null
+        }
+
+    fun toDisplayString(): String = toNamed() ?: toCoordsString()
+
+    fun toCoordsString(): String {
         if (lat == null || long == null) return ""
         val latDir = if (lat >= 0) "N" else "S"
         val longDir = if (long >= 0) "E" else "W"
