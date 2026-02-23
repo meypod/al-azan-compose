@@ -5,4 +5,5 @@
     <dimen name="element_padding">10dp</dimen>
     <dimen name="element_padding_compact">5dp</dimen>
     <dimen name="icon_padding">6dp</dimen>
+    <dimen name="tiny_padding">4dp</dimen>
 </resources>
