@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
@@ -88,7 +89,7 @@ constructor(
         viewModelScope.launch {
             favoriteLocationsRepository.update {
                 it +
-                    FavoriteLocation(
+                    StaticFavoriteLocation(
                         id = SystemClock.elapsedRealtime().toString() + "$parsedLat",
                         locationDetail = CalculationLocationDetail(
                             lat = parsedLat,

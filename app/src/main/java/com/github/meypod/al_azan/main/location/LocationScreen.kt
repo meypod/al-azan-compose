@@ -38,6 +38,7 @@ import androidx.compose.ui.zIndex
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -292,11 +293,11 @@ private fun LocationList(
 }
 
 private val demoLocations = listOf(
-    FavoriteLocation(
+    StaticFavoriteLocation(
         "canada",
         CalculationLocationDetail(56.1304, 106.3468, null, null, "Canada"),
     ),
-    FavoriteLocation(
+    StaticFavoriteLocation(
         "baqdad",
         CalculationLocationDetail(
             33.312805,
