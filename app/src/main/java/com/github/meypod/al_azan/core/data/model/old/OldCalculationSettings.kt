@@ -1,7 +1,9 @@
 package com.github.meypod.al_azan.core.data.model.old
 
+import android.os.SystemClock
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
+import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
@@ -146,7 +148,7 @@ data class OldCalculationSettingsState(
 
     fun toCalculationSettings() =
         CalculationSettings(
-            location = this.location?.toCalcLocationDetail(),
+            location = this.location?.toFavoriteLocation(),
             parameters = this.getCalculationParameters(),
         )
 }
@@ -223,13 +225,16 @@ data class OldCalcLocation(
     val country: OldCountryInfo? = null,
     val label: String? = null,
 ) {
-    fun toCalcLocationDetail(): CalculationLocationDetail =
-        CalculationLocationDetail(
-            lat = this.lat,
-            long = this.long,
-            city = this.city?.toCityGeoInfo(),
-            country = this.country?.toCountryGeoInfo(),
-            label = this.label,
+    fun toFavoriteLocation(): FavoriteLocation =
+        FavoriteLocation(
+            SystemClock.elapsedRealtime().toString() + "$lat",
+            CalculationLocationDetail(
+                lat = this.lat,
+                long = this.long,
+                city = this.city?.toCityGeoInfo(),
+                country = this.country?.toCountryGeoInfo(),
+                label = this.label,
+            ),
         )
 }
 
