@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.data.model.old
 
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.Serializable
 
@@ -27,7 +28,7 @@ data class OldFavoriteLocation(
 )
 
 fun OldFavoriteLocation.toFavoriteLocation() =
-    FavoriteLocation(
+    StaticFavoriteLocation(
         this.id,
         CalculationLocationDetail(
             lat = this.lat,

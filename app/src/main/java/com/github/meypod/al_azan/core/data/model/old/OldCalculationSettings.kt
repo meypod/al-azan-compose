@@ -4,6 +4,7 @@ import android.os.SystemClock
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
@@ -226,7 +227,7 @@ data class OldCalcLocation(
     val label: String? = null,
 ) {
     fun toFavoriteLocation(): FavoriteLocation =
-        FavoriteLocation(
+        StaticFavoriteLocation(
             SystemClock.elapsedRealtime().toString() + "$lat",
             CalculationLocationDetail(
                 lat = this.lat,
