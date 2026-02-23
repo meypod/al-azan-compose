@@ -140,6 +140,7 @@ private fun NewLocationDialogContent(
             CompactOutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.tiny_padding))
                     .height(40.dp),
                 value = uiState.label,
                 onValueChange = { uiState = uiState.copy(label = it) },
@@ -152,7 +153,9 @@ private fun NewLocationDialogContent(
             UsingSectionTitle(stringResource(R.string.search_by_city_title))
 
             Column {
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.tiny_padding))) {
                     val selectModifier = Modifier.height(40.dp)
                     BottomSelect(
                         modifier = selectModifier.weight(1f),
@@ -245,7 +248,9 @@ private fun NewLocationDialogContent(
 
             Column {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = dimensionResource(R.dimen.tiny_padding)),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     val coordinateFieldModifier = Modifier
