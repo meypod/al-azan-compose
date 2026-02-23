@@ -21,8 +21,6 @@
     <string name="selected">Selected</string>
     <string name="location_subtitle">Where are you located?</string>
     <string name="location_description_l1">We need your location to calculate your prayer times properly.</string>
-    <string name="location_description_l2">Tap “%1$s” below to add your first location.</string>
-    <string name="location_description_l3">You can add more locations anytime.</string>
     <string name="locations_list_title">Saved locations</string>
     <string name="locations_list_empty_state">No locations yet. Add one to get started.</string>
     <string name="add_new_location_button">Add New Location</string>
@@ -49,4 +47,5 @@
     <string name="paste">Paste</string>
     <string name="clipboard_coordinates_not_found">Couldn\’t detect coordinates in clipboard.</string>
     <string name="confirm">Confirm</string>
+    <string name="traveling_location_hint">Periodically updates location</string>
 </resources>

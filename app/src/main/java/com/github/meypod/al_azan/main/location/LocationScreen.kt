@@ -39,6 +39,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -94,13 +95,6 @@ fun LocationScreen(
         InformationCard(Modifier.fillMaxWidth()) {
             Column {
                 Text(stringResource(R.string.location_description_l1))
-                Text(
-                    stringResource(
-                        R.string.location_description_l2,
-                        stringResource(R.string.add_new_location_button),
-                    ),
-                )
-                Text(stringResource(R.string.location_description_l3))
             }
         }
 
@@ -293,6 +287,10 @@ private fun LocationList(
 }
 
 private val demoLocations = listOf(
+    TravelingFavoriteLocation(
+        "traveling",
+        CalculationLocationDetail(56.1304, 106.3468, null, null),
+    ),
     StaticFavoriteLocation(
         "canada",
         CalculationLocationDetail(56.1304, 106.3468, null, null, "Canada"),
