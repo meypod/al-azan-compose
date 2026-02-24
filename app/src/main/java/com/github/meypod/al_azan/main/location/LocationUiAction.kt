@@ -29,4 +29,8 @@ sealed interface LocationUiAction {
     data class OnDeleteLocationConfirm(
         val locationId: String,
     ) : LocationUiAction
+
+    data class OnTravelModeChange(
+        val value: Boolean,
+    ) : LocationUiAction
 }

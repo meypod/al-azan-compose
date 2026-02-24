@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -16,7 +15,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -91,14 +92,33 @@ fun LocationScreen(
     Column(
         modifier.padding(dimensionResource(R.dimen.page_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
         InformationCard(Modifier.fillMaxWidth()) {
             Column {
                 Text(stringResource(R.string.location_description_l1))
             }
         }
-
-        Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
+        ACard { paddingValues ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValues),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding))) {
+                    Text(stringResource(R.string.location_traveling_mode))
+                    Text(
+                        stringResource(R.string.location_traveling_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Spacer(Modifier.padding(start = dimensionResource(R.dimen.element_padding)))
+                Switch(uiState.travelMode, { onAction(LocationUiAction.OnTravelModeChange(it)) })
+            }
+        }
 
         ACard(Modifier.fillMaxWidth()) { paddingValues ->
             Column(
@@ -137,6 +157,7 @@ fun LocationScreen(
                     LocationList(
                         list = uiState.locations,
                         onAction = onAction,
+                        selectedId = uiState.selectedLocationId,
                     )
                 }
             }
@@ -166,7 +187,11 @@ private fun LocationListItem(
             .bottomBorder(MaterialTheme.colorScheme.outlineVariant, 2.dp),
         headlineContent = {
             Text(
-                text = item.locationDetail.toNamed() ?: item.id,
+                text = if (item is TravelingFavoriteLocation) {
+                    stringResource(R.string.location_traveling_mode)
+                } else {
+                    item.locationDetail.toNamed() ?: item.id
+                },
             )
         },
         supportingContent = {
@@ -180,58 +205,71 @@ private fun LocationListItem(
             )
         },
         trailingContent = {
-            Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 if (selected) {
-                    Icon(painterResource(R.drawable.baseline_check_24), contentDescription = stringResource(R.string.selected))
+                    Icon(
+                        painterResource(R.drawable.baseline_check_24),
+                        contentDescription = stringResource(R.string.selected),
+                        modifier = Modifier.minimumInteractiveComponentSize(),
+                    )
                 }
 
-                Column(horizontalAlignment = Alignment.End) {
-                    IconButton(
-                        onClick = {
-                            if (interactionEnabled) expanded = true
-                        },
-                        enabled = interactionEnabled,
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.menu_more_h),
-                            contentDescription = stringResource(R.string.see_options),
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = expanded && interactionEnabled,
-                        onDismissRequest = { expanded = false },
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.set_as_default)) },
-                            trailingIcon = {
-                                Icon(
-                                    painter = painterResource(R.drawable.baseline_check_24),
-                                    contentDescription = null,
-                                )
-                            },
+                if (item !is TravelingFavoriteLocation || !selected) {
+                    Column(horizontalAlignment = Alignment.End) {
+                        IconButton(
                             onClick = {
-                                expanded = false
-                                onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
+                                if (interactionEnabled) expanded = true
                             },
                             enabled = interactionEnabled,
-                        )
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.menu_more_h),
+                                contentDescription = stringResource(R.string.see_options),
+                            )
+                        }
 
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.delete_location)) },
-                            trailingIcon = {
-                                Icon(
-                                    painter = painterResource(R.drawable.delete),
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.error,
+                        DropdownMenu(
+                            expanded = expanded && interactionEnabled,
+                            onDismissRequest = { expanded = false },
+                        ) {
+                            if (!selected) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.set_as_default)) },
+                                    trailingIcon = {
+                                        Icon(
+                                            painter = painterResource(R.drawable.baseline_check_24),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                    onClick = {
+                                        expanded = false
+                                        onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
+                                    },
+                                    enabled = interactionEnabled,
                                 )
-                            },
-                            onClick = {
-                                expanded = false
-                                onAction(LocationUiAction.OnDeleteLocationClick(item.id))
-                            },
-                            enabled = interactionEnabled,
-                        )
+                            }
+
+                            if (item !is TravelingFavoriteLocation) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.delete_location)) },
+                                    trailingIcon = {
+                                        Icon(
+                                            painter = painterResource(R.drawable.delete),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.error,
+                                        )
+                                    },
+                                    onClick = {
+                                        expanded = false
+                                        onAction(LocationUiAction.OnDeleteLocationClick(item.id))
+                                    },
+                                    enabled = interactionEnabled,
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -249,8 +287,8 @@ private fun LocationListItem(
 @Composable
 private fun LocationList(
     list: List<FavoriteLocation>,
-    selectedId: String? = null,
     onAction: (LocationUiAction) -> Unit,
+    selectedId: String? = null,
 ) {
     val listState = rememberLazyListState()
 
@@ -288,7 +326,6 @@ private fun LocationList(
 
 private val demoLocations = listOf(
     TravelingFavoriteLocation(
-        "traveling",
         CalculationLocationDetail(56.1304, 106.3468, null, null),
     ),
     StaticFavoriteLocation(
@@ -339,7 +376,7 @@ private fun LocationScreenWithLocationsPreview() {
             mutableStateListOf<FavoriteLocation>().apply { addAll(demoLocations) }
         }
         LocationScreen(
-            uiState = LocationUiState(locations.toList()),
+            uiState = LocationUiState(locations.toList(), selectedLocationId = TravelingFavoriteLocation.LOCATION_ID),
             onAction = { action ->
                 when (action) {
                     is LocationUiAction.OnMoveLocation -> {

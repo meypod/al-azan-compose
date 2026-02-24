@@ -4,24 +4,29 @@ import android.os.SystemClock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
-import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
+import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
+import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LocationViewModel
-@Inject
-constructor(
+@Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val calculationSettingsRepository: CalculationSettingsRepository,
+    private val settingsRepository: SettingsRepository,
     private val geoInfoRepository: GeoInfoRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
@@ -29,9 +34,17 @@ constructor(
 
     init {
         viewModelScope.launch {
-            favoriteLocationsRepository.data.collect { locations ->
-                _uiState.update { it.copy(locations = locations) }
-            }
+            combine(calculationSettingsRepository.data, favoriteLocationsRepository.data) { calcSettings, locations ->
+                _uiState.update { state ->
+                    state.copy(
+                        locations = locations,
+                        selectedLocationId = calcSettings.locationId,
+                        travelMode =
+                            locations.firstOrNull { loc -> loc is TravelingFavoriteLocation }?.id?.let { it == calcSettings.locationId } ==
+                                true,
+                    )
+                }
+            }.collect()
         }
     }
 
@@ -46,6 +59,7 @@ constructor(
             is LocationUiAction.OnDeleteLocationClick -> onDeleteLocation(action.locationId)
             is LocationUiAction.OnDeleteLocationDismiss -> onDeleteLocationDismiss()
             is LocationUiAction.OnDeleteLocationConfirm -> onDeleteLocationConfirm(action.locationId)
+            is LocationUiAction.OnTravelModeChange -> onTravelModeChange(action.value)
         }
     }
 
@@ -87,18 +101,21 @@ constructor(
         val parsedLat = state.latitude.toDoubleOrNull() ?: return
         val parsedLong = state.longitude.toDoubleOrNull() ?: return
         viewModelScope.launch {
+            val newLocationId = SystemClock.elapsedRealtime().toString() + "$parsedLat"
             favoriteLocationsRepository.update {
-                it +
-                    StaticFavoriteLocation(
-                        id = SystemClock.elapsedRealtime().toString() + "$parsedLat",
-                        locationDetail = CalculationLocationDetail(
-                            lat = parsedLat,
-                            long = parsedLong,
-                            city = state.selectedCity,
-                            country = state.selectedCountry,
-                            label = state.label,
-                        ),
-                    )
+                it + StaticFavoriteLocation(
+                    id = newLocationId,
+                    locationDetail = CalculationLocationDetail(
+                        lat = parsedLat,
+                        long = parsedLong,
+                        city = state.selectedCity,
+                        country = state.selectedCountry,
+                        label = state.label,
+                    ),
+                )
+            }
+            if (calculationSettingsRepository.fetch().locationId == null) {
+                calculationSettingsRepository.update { it.copy(locationId = newLocationId) }
             }
         }
     }
@@ -108,7 +125,9 @@ constructor(
     }
 
     private fun onSetAsDefault(locationId: String) {
-        // todo
+        viewModelScope.launch {
+            calculationSettingsRepository.update { it.copy(locationId = locationId) }
+        }
     }
 
     private fun onDeleteLocation(locationId: String) {
@@ -125,8 +144,51 @@ constructor(
     private fun onDeleteLocationConfirm(locationId: String) {
         _uiState.update { it.copy(deleteLocationDialogLocation = null) }
         viewModelScope.launch {
+            if (locationId == calculationSettingsRepository.fetch().locationId) {
+                val nextLocationId = favoriteLocationsRepository.fetch().firstOrNull {
+                    it !is TravelingFavoriteLocation &&
+                        it.id != locationId
+                }?.id
+                calculationSettingsRepository.update {
+                    it.copy(
+                        locationId = nextLocationId,
+                    )
+                }
+            }
+            if (settingsRepository.fetch().locationIdBeforeTravel == locationId) {
+                settingsRepository.update { it.copy(locationIdBeforeTravel = null) }
+            }
             favoriteLocationsRepository.update { current ->
                 current.filterNot { it.id == locationId }
+            }
+        }
+    }
+
+    private fun onTravelModeChange(value: Boolean) {
+        viewModelScope.launch {
+            favoriteLocationsRepository.update { locations ->
+                if (value && locations.indexOfFirst { it is TravelingFavoriteLocation } == -1) {
+                    // we just need to make sure to add it to the beginning of locations list once
+                    // then we will hide it from user onwards and show it only when travel mode is enabled
+                    listOf(TravelingFavoriteLocation(CalculationLocationDetail(0.0, 0.0))) + locations
+                } else {
+                    locations
+                }
+            }
+            val nextLocationId = if (value) {
+                val currentLocationId = calculationSettingsRepository.fetch().locationId
+                if (currentLocationId != null) {
+                    settingsRepository.update { it.copy(locationIdBeforeTravel = currentLocationId) }
+                }
+                TravelingFavoriteLocation.LOCATION_ID
+            } else {
+                settingsRepository.fetch().locationIdBeforeTravel ?: (
+                    favoriteLocationsRepository.fetch()
+                        .firstOrNull { it is StaticFavoriteLocation }?.id
+                    )
+            }
+            calculationSettingsRepository.update { calcSettings ->
+                calcSettings.copy(locationId = nextLocationId)
             }
         }
     }

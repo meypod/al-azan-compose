@@ -58,34 +58,37 @@ object OldRepositoryModule {
 
     @Provides
     fun provideOldCalculationSettingsRepository(
+        oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>,
+    ): OldCalculationSettingsRepositoryImpl =
+        OldCalculationSettingsRepositoryImpl(oldCalcSettingsDatastore = oldCalcSettingsDatastore)
+
+    @Provides
+    fun provideOldCalcSettingsDatastore(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
-    ): OldCalculationSettingsRepositoryImpl =
-        OldCalculationSettingsRepositoryImpl(
-            oldCalcSettingsDatastore =
-                MMKVDataStore(
-                    mmkv = mmkv,
-                    key = StorageKeysV1.CALC_SETTINGS,
-                    serializer = OldCalculationSettings.serializer(),
-                    defaultValue =
-                        OldCalculationSettings(
-                            state =
-                                OldCalculationSettingsState(
-                                    midnightMethod = MidnightMethod.SunsetToFajr,
-                                    fajrAdjustment = 0,
-                                    sunriseAdjustment = 0,
-                                    dhuhrAdjustment = 0,
-                                    asrAdjustment = 0,
-                                    sunsetAdjustment = 0,
-                                    maghribAdjustment = 0,
-                                    ishaAdjustment = 0,
-                                    midnightAdjustment = 0,
-                                    hijriDateAdjustment = 0,
-                                ),
-                            version = 1,
+    ): MMKVDataStore<OldCalculationSettings> =
+        MMKVDataStore(
+            mmkv = mmkv,
+            key = StorageKeysV1.CALC_SETTINGS,
+            serializer = OldCalculationSettings.serializer(),
+            defaultValue =
+                OldCalculationSettings(
+                    state =
+                        OldCalculationSettingsState(
+                            midnightMethod = MidnightMethod.SunsetToFajr,
+                            fajrAdjustment = 0,
+                            sunriseAdjustment = 0,
+                            dhuhrAdjustment = 0,
+                            asrAdjustment = 0,
+                            sunsetAdjustment = 0,
+                            maghribAdjustment = 0,
+                            ishaAdjustment = 0,
+                            midnightAdjustment = 0,
+                            hijriDateAdjustment = 0,
                         ),
-                    json = storageJson,
+                    version = 1,
                 ),
+            json = storageJson,
         )
 
     @Provides
@@ -140,6 +143,7 @@ object OldRepositoryModule {
     fun provideOldFavoriteLocationsRepository(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
+        oldCalcSettingsDatastore: MMKVDataStore<OldCalculationSettings>,
     ): OldFavoriteLocationsRepositoryImpl =
         OldFavoriteLocationsRepositoryImpl(
             oldFavoriteLocationsDatastore =
@@ -150,5 +154,6 @@ object OldRepositoryModule {
                     defaultValue = OldFavoriteLocationsStore(state = OldFavoriteLocationsStoreState(), version = 1),
                     json = storageJson,
                 ),
+            oldCalcSettingsDatastore = oldCalcSettingsDatastore,
         )
 }

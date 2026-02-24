@@ -9,7 +9,6 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +31,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -56,13 +55,13 @@ import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.intro.components.IntroSkipButton
-import com.github.meypod.al_azan.intro.components.IntroSubtitle
 import com.github.meypod.al_azan.intro.components.IntroTitle
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
+import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
@@ -193,6 +192,22 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                         uiState = introUiState,
                         onAction = onIntroUiAction,
                         scrollable = false,
+                        floatingActionButton = {
+                            if (uiState.locations.isNotEmpty()) {
+                                FloatingActionButton(
+                                    onClick = {
+                                        viewModel.onAction(LocationUiAction.OnNewLocationClick)
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                ) {
+                                    Icon(
+                                        painterResource(R.drawable.add),
+                                        contentDescription = stringResource(R.string.add_new_location_button),
+                                    )
+                                }
+                            }
+                        },
                     ) { modifier ->
                         Column(
                             modifier,
@@ -200,13 +215,6 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                         ) {
                             IntroTitle(R.string.location_title)
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-                            ) {
-                                Icon(painterResource(R.drawable.globe), contentDescription = null)
-                                IntroSubtitle(R.string.location_subtitle)
-                            }
                             LocationScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
@@ -236,6 +244,7 @@ private fun IntroStepScaffold(
     uiState: IntroUiState,
     onAction: (IntroUiAction) -> Unit,
     scrollable: Boolean = true,
+    floatingActionButton: @Composable (() -> Unit) = {},
     content: @Composable (Modifier) -> Unit,
 ) {
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
@@ -251,6 +260,7 @@ private fun IntroStepScaffold(
             )
         },
         containerColor = introBackgroundColor,
+        floatingActionButton = floatingActionButton,
     ) { paddingValues ->
         val baseModifier =
             Modifier
