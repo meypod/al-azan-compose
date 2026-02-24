@@ -7,10 +7,10 @@ import java.util.Locale
 
 @Serializable
 data class CalculationLocationDetail(
-    val lat: Double?,
-    val long: Double?,
-    val city: CityGeoInfo?,
-    val country: CountryGeoInfo?,
+    val lat: Double,
+    val long: Double,
+    val city: CityGeoInfo? = null,
+    val country: CountryGeoInfo? = null,
     /** available on `FavoriteLocation`s */
     val label: String? = null,
 ) {
@@ -31,7 +31,6 @@ data class CalculationLocationDetail(
     fun toDisplayString(): String = toNamed() ?: toCoordsString()
 
     fun toCoordsString(): String {
-        if (lat == null || long == null) return ""
         val latDir = if (lat >= 0) "N" else "S"
         val longDir = if (long >= 0) "E" else "W"
         return "${

@@ -26,7 +26,13 @@ data class StaticFavoriteLocation(
 @Serializable
 @SerialName("TravelingFavoriteLocation")
 data class TravelingFavoriteLocation(
-    override val id: String,
     override val locationDetail: CalculationLocationDetail,
-    override val isTracked: Boolean = true,
-) : FavoriteLocation
+) : FavoriteLocation {
+
+    companion object {
+        const val LOCATION_ID = "traveling_mode"
+    }
+
+    override val id: String = LOCATION_ID
+    override val isTracked: Boolean = true
+}

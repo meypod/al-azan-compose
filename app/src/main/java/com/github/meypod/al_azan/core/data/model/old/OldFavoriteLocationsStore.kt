@@ -27,14 +27,20 @@ data class OldFavoriteLocation(
     @Serializable(with = EmptyStringAsNullSerializer::class) val label: String? = null,
 )
 
-fun OldFavoriteLocation.toFavoriteLocation() =
-    StaticFavoriteLocation(
-        this.id,
-        CalculationLocationDetail(
-            lat = this.lat,
-            long = this.long,
-            city = this.city?.toCityGeoInfo(),
-            country = this.country?.toCountryGeoInfo(),
-            label = this.label,
-        ),
-    )
+fun OldFavoriteLocation.toFavoriteLocation(): FavoriteLocation? =
+    if (this.lat != null && this.long
+        != null
+    ) {
+        StaticFavoriteLocation(
+            this.id,
+            CalculationLocationDetail(
+                lat = this.lat,
+                long = this.long,
+                city = this.city?.toCityGeoInfo(),
+                country = this.country?.toCountryGeoInfo(),
+                label = this.label,
+            ),
+        )
+    } else {
+        null
+    }

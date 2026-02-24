@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CalculationSettings(
-    val location: FavoriteLocation? = null,
+    val locationId: String? = null,
     val parameters: CalculationParameters? = null,
 )

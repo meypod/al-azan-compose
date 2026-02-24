@@ -62,6 +62,8 @@ data class Settings(
     val ramadanReminderDontShow: Boolean = false,
     val useDifferentAlarmType: Boolean = false,
     val hijriMonthlyView: Boolean = false,
+    @Serializable(with = EmptyStringAsNullSerializer::class)
+    val locationIdBeforeTravel: String? = null,
 )
 
 @Serializable

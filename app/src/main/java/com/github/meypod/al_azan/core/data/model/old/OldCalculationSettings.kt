@@ -149,7 +149,7 @@ data class OldCalculationSettingsState(
 
     fun toCalculationSettings() =
         CalculationSettings(
-            location = this.location?.toFavoriteLocation(),
+            locationId = "default",
             parameters = this.getCalculationParameters(),
         )
 }
@@ -226,17 +226,21 @@ data class OldCalcLocation(
     val country: OldCountryInfo? = null,
     val label: String? = null,
 ) {
-    fun toFavoriteLocation(): FavoriteLocation =
-        StaticFavoriteLocation(
-            SystemClock.elapsedRealtime().toString() + "$lat",
-            CalculationLocationDetail(
-                lat = this.lat,
-                long = this.long,
-                city = this.city?.toCityGeoInfo(),
-                country = this.country?.toCountryGeoInfo(),
-                label = this.label,
-            ),
-        )
+    fun toFavoriteLocation(): FavoriteLocation? =
+        if (this.lat != null && this.long != null) {
+            StaticFavoriteLocation(
+                "default",
+                CalculationLocationDetail(
+                    lat = this.lat,
+                    long = this.long,
+                    city = this.city?.toCityGeoInfo(),
+                    country = this.country?.toCountryGeoInfo(),
+                    label = this.label,
+                ),
+            )
+        } else {
+            null
+        }
 }
 
 @Serializable
