@@ -1,6 +1,12 @@
 package com.github.meypod.al_azan.main.location.components
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,14 +17,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -81,6 +91,7 @@ private fun NewLocationDialogContent(
     getCountries: suspend () -> List<CountryGeoInfo>,
     getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
+    uiState: NewLocationDialogUiState = NewLocationDialogUiState(),
 ) {
     val clipboard = LocalClipboard.current
     val context = LocalContext.current
@@ -96,7 +107,7 @@ private fun NewLocationDialogContent(
     var countries by remember { mutableStateOf(emptyList<CountryGeoInfo>()) }
     var cities by remember { mutableStateOf(emptyList<CityGeoInfo>()) }
 
-    var uiState by remember { mutableStateOf(NewLocationDialogUiState()) }
+    var uiState by remember { mutableStateOf(uiState) }
 
     val latValue = remember(uiState.latitude) { uiState.latitude.trim().toEnglishDigits().toDoubleOrNull() }
     val lngValue = remember(uiState.longitude) { uiState.longitude.trim().toEnglishDigits().toDoubleOrNull() }
@@ -153,9 +164,11 @@ private fun NewLocationDialogContent(
             UsingSectionTitle(stringResource(R.string.search_by_city_title))
 
             Column {
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.tiny_padding))) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = dimensionResource(R.dimen.tiny_padding)),
+                ) {
                     val selectModifier = Modifier.height(40.dp)
                     BottomSelect(
                         modifier = selectModifier.weight(1f),
@@ -260,7 +273,13 @@ private fun NewLocationDialogContent(
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,
                         value = uiState.latitude,
-                        onValueChange = { uiState = uiState.copy(latitude = it.filterToDigitsAndDot(allowLeadingMinus = true)) },
+                        onValueChange = {
+                            uiState = uiState.copy(
+                                latitude = it.filterToDigitsAndDot(allowLeadingMinus = true),
+                                selectedCity = null,
+                                selectedCountry = null,
+                            )
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
@@ -280,7 +299,14 @@ private fun NewLocationDialogContent(
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,
                         value = uiState.longitude,
-                        onValueChange = { uiState = uiState.copy(longitude = it.filterToDigitsAndDot(allowLeadingMinus = true)) },
+                        onValueChange = {
+                            uiState =
+                                uiState.copy(
+                                    longitude = it.filterToDigitsAndDot(allowLeadingMinus = true),
+                                    selectedCity = null,
+                                    selectedCountry = null,
+                                )
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                         placeholder = "-",
@@ -295,44 +321,90 @@ private fun NewLocationDialogContent(
                 }
             }
 
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                PrimaryButton(
-                    onClick = {
-                        scope.launch {
-                            val clipEntry = clipboard.getClipEntry()
-                            val clipData = clipEntry?.clipData
-                            val text =
-                                clipData
-                                    ?.takeIf { it.itemCount > 0 }
-                                    ?.getItemAt(0)
-                                    ?.coerceToText(context)
-                                    ?.toString()
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding), Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                val showClear = uiState.latitude.isNotBlank() || uiState.longitude.isNotBlank()
 
-                            val coords = parseClipboardToCoords(text)
-                            if (coords != null) {
-                                uiState =
-                                    uiState.copy(
-                                        latitude = coords.first.toString(),
-                                        longitude = coords.second.toString(),
-                                        selectedCity = null,
-                                    )
-                            } else {
-                                Toast
-                                    .makeText(context, R.string.clipboard_coordinates_not_found, Toast.LENGTH_SHORT)
-                                    .show()
+                item {
+                    PrimaryButton(
+                        modifier = Modifier.animateItem(
+                            fadeInSpec = tween(durationMillis = 150),
+                            placementSpec = tween(durationMillis = 150),
+                            fadeOutSpec = tween(durationMillis = 150),
+                        ),
+                        onClick = {
+                            scope.launch {
+                                val clipEntry = clipboard.getClipEntry()
+                                val clipData = clipEntry?.clipData
+                                val text =
+                                    clipData
+                                        ?.takeIf { it.itemCount > 0 }
+                                        ?.getItemAt(0)
+                                        ?.coerceToText(context)
+                                        ?.toString()
+
+                                val coords = parseClipboardToCoords(text)
+                                if (coords != null) {
+                                    uiState =
+                                        uiState.copy(
+                                            latitude = coords.first.toString(),
+                                            longitude = coords.second.toString(),
+                                            selectedCity = null,
+                                        )
+                                } else {
+                                    Toast
+                                        .makeText(context, R.string.clipboard_coordinates_not_found, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
                             }
+                        },
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.clipboard),
+                            contentDescription = null,
+                        )
+                        Spacer(Modifier.width(dimensionResource(R.dimen.icon_padding)))
+                        Text(
+                            text = stringResource(R.string.paste),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                    }
+                }
+
+                item {
+                    AnimatedVisibility(
+                        modifier = Modifier.animateItem(),
+                        visible = showClear,
+                        enter =
+                            fadeIn(animationSpec = tween(durationMillis = 150)),
+                        exit =
+                            fadeOut(animationSpec = tween(durationMillis = 150)),
+                    ) {
+                        IconButton(
+                            modifier = Modifier
+                                .border(
+                                    BorderStroke(1.dp, MaterialTheme.colorScheme.error),
+                                    shape = CircleShape,
+                                )
+                                .size(40.dp),
+                            onClick = {
+                                uiState = uiState.copy(
+                                    latitude = "",
+                                    longitude = "",
+                                    selectedCity = null,
+                                    selectedCountry = null,
+                                )
+                            },
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.baseline_close_24),
+                                contentDescription = stringResource(R.string.clear),
+                            )
                         }
-                    },
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.clipboard),
-                        contentDescription = null,
-                    )
-                    Spacer(Modifier.width(dimensionResource(R.dimen.icon_padding)))
-                    Text(
-                        text = stringResource(R.string.paste),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
+                    }
                 }
             }
 
@@ -494,6 +566,21 @@ private fun NewLocationDialogPreview() {
                 getCountries = { countries },
                 getCities = { cities },
                 onAction = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun NewLocationDialogContentPreview() {
+    AlAzanTheme {
+        Box(Modifier.padding(16.dp), contentAlignment = Alignment.Center) {
+            NewLocationDialogContent(
+                getCountries = { emptyList() },
+                getCities = { emptyList() },
+                onAction = {},
+                uiState = NewLocationDialogUiState(latitude = "1", longitude = "2"),
             )
         }
     }

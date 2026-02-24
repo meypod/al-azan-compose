@@ -44,6 +44,7 @@
     <string name="longitude">Longitude</string>
     <string name="location_label">Label</string>
     <string name="paste">Paste</string>
+    <string name="clear">Clear</string>
     <string name="clipboard_coordinates_not_found">Couldn\’t detect coordinates in clipboard.</string>
     <string name="confirm">Confirm</string>
     <string name="location_traveling_mode">Travel mode</string>
