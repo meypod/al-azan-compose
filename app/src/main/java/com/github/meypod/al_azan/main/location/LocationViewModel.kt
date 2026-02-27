@@ -72,15 +72,14 @@ class LocationViewModel
     ) {
         if (fromIndex == toIndex) return
 
-        _uiState.update { state ->
-            val current = state.locations
-            if (fromIndex !in current.indices || toIndex !in current.indices) return@update state
-
-            val mutable = current.toMutableList()
-            val item = mutable.removeAt(fromIndex)
-            mutable.add(toIndex, item)
-
-            state.copy(locations = mutable)
+        viewModelScope.launch {
+            favoriteLocationsRepository.update { current ->
+                if (fromIndex !in current.indices || toIndex !in current.indices) return@update current
+                val mutable = current.toMutableList()
+                val item = mutable.removeAt(fromIndex)
+                mutable.add(toIndex, item)
+                mutable
+            }
         }
     }
 
