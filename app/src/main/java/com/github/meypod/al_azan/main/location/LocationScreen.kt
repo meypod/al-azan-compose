@@ -96,7 +96,7 @@ fun LocationScreen(
     ) {
         InformationCard(Modifier.fillMaxWidth()) {
             Column {
-                Text(stringResource(R.string.location_description_l1))
+                Text(stringResource(R.string.location_info_card))
             }
         }
         ACard { paddingValues ->

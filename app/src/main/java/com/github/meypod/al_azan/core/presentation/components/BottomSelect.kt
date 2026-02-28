@@ -50,6 +50,7 @@ fun <T> BottomSelect(
     modifier: Modifier = Modifier,
     label: (@Composable () -> Unit)? = null,
     placeholder: String = "",
+    supportingText: (@Composable () -> Unit)? = null,
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
     optionSearchTag: ((T) -> String) = optionLabel,
@@ -75,6 +76,7 @@ fun <T> BottomSelect(
         modifier = modifier,
         label = label,
         placeholder = placeholder,
+        supportingText = supportingText,
         optionKey = optionKey,
         optionLabel = optionLabel,
         optionSearchTag = optionSearchTag,
@@ -96,6 +98,7 @@ private fun <T> BottomSelectImpl(
     modifier: Modifier = Modifier,
     label: (@Composable () -> Unit)? = null,
     placeholder: String = "",
+    supportingText: (@Composable () -> Unit)? = null,
     optionKey: ((T) -> String) = { it.hashCode().toString() },
     optionLabel: ((T) -> String) = { it.toString() },
     optionSearchTag: ((T) -> String) = optionLabel,
@@ -202,6 +205,7 @@ private fun <T> BottomSelectImpl(
         readOnly = true,
         label = label,
         placeholder = placeholder,
+        supportingText = supportingText,
         trailingIcon = {
             if (busy) {
                 CircularProgressIndicator(
@@ -218,6 +222,7 @@ private fun <T> BottomSelectImpl(
             }
         },
         colors = colors,
+        fixedLabel = true,
     )
 
     if (expanded) {
@@ -304,6 +309,24 @@ private fun BottomSelectPreview() {
             optionLabel = { it },
             selectedKey = "English",
             searchable = true,
+        )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun BottomSelectLabeledPreview() {
+    AlAzanTheme {
+        BottomSelect(
+            modifier = Modifier.width(190.dp),
+            options = listOf("English", "Persian"),
+            optionKey = { it },
+            optionLabel = { it },
+            selectedKey = null,
+            searchable = true,
+            label = {
+                Text("Language")
+            }
         )
     }
 }

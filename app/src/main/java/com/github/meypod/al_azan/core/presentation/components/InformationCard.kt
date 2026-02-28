@@ -24,19 +24,7 @@ fun InformationCard(
     content: @Composable () -> Unit,
 ) {
     ACard(modifier) {
-        Row(
-            Modifier.padding(it),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.info),
-                contentDescription = stringResource(R.string.information),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            ProvideTextStyle(MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)) {
-                content()
-            }
-        }
+        InformationRow(Modifier.padding(it), content = content)
     }
 }
 
