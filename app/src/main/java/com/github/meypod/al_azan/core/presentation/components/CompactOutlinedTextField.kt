@@ -16,11 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +36,7 @@ fun CompactOutlinedTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: (@Composable () -> Unit)? = null,
+    supportingText: (@Composable () -> Unit)? = null,
     placeholder: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -41,9 +44,12 @@ fun CompactOutlinedTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     trailingIcon: (@Composable () -> Unit)? = null,
+    fixedLabel: Boolean = false,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val fValue = if (value.isEmpty() && fixedLabel) placeholder else value
 
     BasicTextField(
         value = value,
@@ -60,14 +66,22 @@ fun CompactOutlinedTextField(
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
     ) { innerTextField ->
         OutlinedTextFieldDefaults.DecorationBox(
-            value = value,
+            value = fValue,
             innerTextField = {
                 if (readOnly || !isFocused) {
                     Text(
-                        text = value,
+                        text = fValue,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = textStyle.merge(color = colors.unfocusedTextColor),
+                        style = textStyle.merge(
+                            color = if (value.isEmpty() &&
+                                fixedLabel
+                            ) {
+                                colors.unfocusedPlaceholderColor
+                            } else {
+                                colors.unfocusedTextColor
+                            },
+                        ),
                     )
                 } else {
                     innerTextField()
@@ -86,9 +100,10 @@ fun CompactOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = textStyle.merge(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                    style = textStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 )
             },
+            supportingText = supportingText,
             container = {
                 OutlinedTextFieldDefaults.Container(
                     enabled = enabled,
@@ -109,14 +124,27 @@ fun CompactOutlinedTextField(
 @Composable
 private fun CompactOutlinedTextFieldPreview() {
     AlAzanTheme {
-        val (value, setValue) = remember { mutableStateOf("") }
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             CompactOutlinedTextField(
-                value = value,
-                onValueChange = setValue,
+                value = "",
+                onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth(),
                 placeholder = "Placeholder",
+                label = {
+                    Text("Label")
+                },
+            )
+            CompactOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth(),
+                placeholder = "Placeholder",
+                label = {
+                    Text("Label")
+                },
+                fixedLabel = true,
             )
 
             CompactOutlinedTextField(
@@ -126,6 +154,19 @@ private fun CompactOutlinedTextFieldPreview() {
                     .fillMaxWidth(),
                 label = {
                     Text("Label")
+                },
+            )
+
+            CompactOutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = {
+                    Text("Label")
+                },
+                supportingText = {
+                    Text("supporting text")
                 },
             )
         }

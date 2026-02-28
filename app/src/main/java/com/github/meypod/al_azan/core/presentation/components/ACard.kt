@@ -10,15 +10,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 
 @Composable
 fun ACard(
     modifier: Modifier = Modifier,
+    tonalElevation: Dp = 0.dp,
+    shadowElevation: Dp = 0.dp,
     content: @Composable (paddingValues: PaddingValues) -> Unit,
 ) {
-    Surface(modifier, shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surfaceContainer) {
+    Surface(
+        modifier,
+        tonalElevation = tonalElevation,
+        shadowElevation = shadowElevation,
+        shape = MaterialTheme.shapes.medium,
+    ) {
         content(PaddingValues(dimensionResource(R.dimen.card_padding)))
     }
 }
