@@ -134,9 +134,13 @@ fun CalculationSettingsScreen(
             }
         }
 
-        ScreenLinkButton(stringResource(R.string.adjustments)) // todo clickable
+        ScreenLinkButton(stringResource(R.string.adjustments)) {
+            onAction(CalculationSettingsUiAction.OnAdjustmentsClick)
+        }
 
-        ScreenLinkButton(stringResource(R.string.advanced_calculation_settings)) // todo clickable
+        ScreenLinkButton(stringResource(R.string.advanced_calculation_settings)) {
+            onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick)
+        }
     }
 }
 
