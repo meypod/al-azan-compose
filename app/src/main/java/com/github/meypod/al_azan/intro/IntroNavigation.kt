@@ -60,6 +60,8 @@ import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
+import com.github.meypod.al_azan.main.calculation_settings.CalculationSettingsScreen
+import com.github.meypod.al_azan.main.calculation_settings.CalculationSettingsViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
@@ -220,6 +222,26 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                                 onAction = viewModel::onAction,
                                 getCountries = viewModel::getCountries,
                                 getCities = viewModel::getCities,
+                            )
+                        }
+                    }
+                }
+                entry<Route.Intro.Calculation> {
+                    val viewModel = hiltViewModel<CalculationSettingsViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    IntroStepScaffold(
+                        uiState = introUiState,
+                        onAction = onIntroUiAction,
+                    ) { modifier ->
+                        Column(
+                            modifier,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                        ) {
+                            IntroTitle(R.string.calculation_title)
+                            CalculationSettingsScreen(
+                                uiState = uiState,
+                                onAction = viewModel::onAction,
                             )
                         }
                     }
