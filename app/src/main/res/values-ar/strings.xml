@@ -9,8 +9,6 @@
     <string name="restore_thanks_body">لكي يعمل التطبيق بشكل صحيح، يرجى ضبط بعض الإعدادات حتى نتمكن من حساب أوقات الصلاة بدقة.</string>
     <string name="restore_backup_hint">إذا كان لديك ملف نسخ احتياطي مسبقاً، يمكنك استعادته هنا.</string>
     <string name="restore_backup_button">استعادة ملف النسخة الاحتياطية</string>
-    <string name="skip_warning_title">قد لا يعمل التطبيق بشكل صحيح إذا تخطيت الإعداد!</string>
-    <string name="skip_warning_body">هل تريد حقًا التخطي؟</string>
     <string name="skip_confirm">تخطي</string>
     <string name="cancel">إلغاء</string>
     <string name="back_button">رجوع</string>

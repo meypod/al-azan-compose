@@ -250,8 +250,8 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
     )
     if (introUiState.showSkipDialog) {
         TimedDangerDialog(
-            title = stringResource(R.string.skip_warning_title),
-            text = stringResource(R.string.skip_warning_body),
+            title = stringResource(R.string.attention_title),
+            text = stringResource(R.string.skip_dialog_body),
             confirmLabel = stringResource(R.string.skip_confirm),
             cancelLabel = stringResource(R.string.cancel),
             seconds = 3,

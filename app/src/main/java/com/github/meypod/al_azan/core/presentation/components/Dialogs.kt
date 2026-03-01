@@ -9,13 +9,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.github.meypod.al_azan.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -43,7 +45,7 @@ fun TimedDangerDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = { Text(text = title, style = MaterialTheme.typography.titleMedium) },
-        text = { Column(modifier = Modifier.fillMaxWidth()) { Text(text = text) } },
+        text = { Text(text = text) },
         confirmButton = {
             val enabled = if (confirmDisabledUntilFinished) remaining <= 0 else true
             TextButton(
@@ -65,8 +67,8 @@ fun TimedDangerDialog(
 @Composable
 private fun TimedDangerDialogPreview() {
     TimedDangerDialog(
-        title = "Warning",
-        text = "This action may prevent the app from working properly.",
+        title = stringResource(R.string.attention_title),
+        text = stringResource(R.string.skip_dialog_body),
         confirmLabel = "skip",
         cancelLabel = "Cancel",
         seconds = 3,

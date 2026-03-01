@@ -9,8 +9,6 @@
     <string name="restore_thanks_body">ऐप के सही ढंग से काम करने के लिए, कृपया कुछ प्राथमिकताएँ सेट करें ताकि हम आपके नमाज़ के समय सटीक रूप से गणना कर सकें।</string>
     <string name="restore_backup_hint">यदि आपके पास पहले का बैकअप फ़ाइल है, तो आप इसे यहाँ पुनर्स्थापित कर सकते हैं।</string>
     <string name="restore_backup_button">बैकअप फ़ाइल पुनर्स्थापित करें</string>
-    <string name="skip_warning_title">यदि आप सेटअप छोड़ देते हैं तो ऐप सही ढंग से काम न कर सकती है!</string>
-    <string name="skip_warning_body">क्या आप वाकई छोड़ना चाहते हैं?</string>
     <string name="skip_confirm">छोड़ें</string>
     <string name="cancel">रद्द करें</string>
     <string name="back_button">वापस</string>

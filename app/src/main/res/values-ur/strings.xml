@@ -9,8 +9,6 @@
     <string name="restore_thanks_body">ایپ کے صحیح کام کرنے کے لیے براہِ کرم چند ترتیبات سیٹ کریں تاکہ ہم آپ کے نماز کے اوقات درست طریقے سے حساب کر سکیں۔</string>
     <string name="restore_backup_hint">اگر آپ کے پاس پہلے سے بیک اپ فائل موجود ہے، تو آپ اسے یہاں بحال کر سکتے ہیں۔</string>
     <string name="restore_backup_button">بیک اپ فائل بحال کریں</string>
-    <string name="skip_warning_title">اگر آپ سیٹ اپ کو چھوڑ دیتے ہیں تو ایپ صحیح کام نہیں کر سکتی!</string>
-    <string name="skip_warning_body">کیا آپ واقعی چھوڑنا چاہتے ہیں؟</string>
     <string name="skip_confirm">چھوڑیں</string>
     <string name="cancel">منسوخ</string>
     <string name="back_button">واپس</string>

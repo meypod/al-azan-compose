@@ -9,8 +9,6 @@
     <string name="restore_thanks_body">Agar aplikasi berfungsi dengan benar, silakan atur beberapa preferensi sehingga kami dapat menghitung waktu sholat Anda dengan akurat.</string>
     <string name="restore_backup_hint">Jika Anda sudah memiliki file cadangan, Anda dapat memulihkannya di sini.</string>
     <string name="restore_backup_button">Pulihkan file cadangan</string>
-    <string name="skip_warning_title">Aplikasi mungkin tidak berfungsi dengan benar jika Anda melewati pengaturan!</string>
-    <string name="skip_warning_body">Apakah Anda yakin ingin melewati?</string>
     <string name="skip_confirm">Lewati</string>
     <string name="cancel">Batal</string>
     <string name="back_button">Kembali</string>
