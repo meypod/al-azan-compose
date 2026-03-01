@@ -8,9 +8,7 @@
     <string name="restore_thanks_title">Asante kwa kutuchagua</string>
     <string name="restore_thanks_body">Ili programu ifanye kazi vizuri, tafadhali weka chaguo chache ili tuweze kukokotoa nyakati za sala kwa usahihi.</string>
     <string name="restore_backup_hint">Kama tayari una faili ya chelezo, unaweza kuirejesha hapa.</string>
-    <string name="restore_backup_button">Rejesha faili ya chelezo</string>
-    <string name="skip_warning_title">Programu inaweza isiende kikamilifu ikiwa utaruka usanidi!</string>
-    <string name="skip_warning_body">Je, kwa kweli unataka kuruka?</string>
+    <string name="restore_backup_button">Rejesha faili ya chelezo</string>  
     <string name="skip_confirm">Ruka</string>
     <string name="cancel">Ghairi</string>
     <string name="back_button">Rudi</string>

@@ -9,8 +9,6 @@
     <string name="restore_thanks_body">برای عملکرد صحیح برنامه، لطفاً چند تنظیم را انجام دهید تا بتوانیم اوقات شرعی شما را با دقت محاسبه کنیم.</string>
     <string name="restore_backup_hint">اگر از قبل فایل پشتیبان دارید، می‌توانید آن را اینجا بازیابی کنید.</string>
     <string name="restore_backup_button">بازیابی فایل پشتیبان</string>
-    <string name="skip_warning_title">اگر تنظیمات را رد کنید ممکن است برنامه به درستی کار نکند!</string>
-    <string name="skip_warning_body">آیا واقعاً می‌خواهید رد کنید؟</string>
     <string name="skip_confirm">رد کردن</string>
     <string name="cancel">لغو</string>
     <string name="back_button">بازگشت</string>

@@ -5,8 +5,6 @@
     <string name="choose_language">Choose Your Language</string>
     <string name="get_started">Get Started</string>
     <string name="skip">Skip</string>
-    <string name="skip_warning_title">The app might not work properly if you skip the setup!</string>
-    <string name="skip_warning_body">Do you really want to skip ?</string>
     <string name="skip_confirm">skip</string>
     <string name="cancel">Cancel</string>
     <string name="restore_thanks_title">Thank you for choosing us</string>
@@ -32,7 +30,6 @@
     <string name="delete">Delete</string>
     <string name="delete_location_confirm_title">Delete location?</string>
     <string name="delete_location_confirm_body">This will remove the following location from your saved list:\n%1$s</string>
-
     <string name="new_location_description">You can add a location in three different ways. Choose one below:</string>
     <string name="search_by_city_title">Using search</string>
     <string name="country">Country</string>
@@ -92,4 +89,5 @@
     <string name="lunar_calendar_warning">The app\'s lunar calendar is pre-calculated and may not be accurate because it isn\'t based on moon sightings. This is especially important to note for the start and end of Ramadan.</string>
     <string name="adjustments">Adjustments</string>
     <string name="advanced_calculation_settings">Advanced Calculation Settings</string>
+    <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>
 </resources>
