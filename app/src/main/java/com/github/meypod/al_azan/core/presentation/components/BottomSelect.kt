@@ -20,6 +20,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.prepareForSearch
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -122,13 +124,21 @@ private fun <T> BottomSelectImpl(
     val focusManager = LocalFocusManager.current
 
     var expanded by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
     var searchText by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+
     val onDismiss =
         remember {
             {
                 focusManager.clearFocus()
-                expanded = false
-                searchText = ""
+                scope
+                    .launch { sheetState.hide() }
+                    .invokeOnCompletion {
+                        expanded = false
+                        searchText = ""
+                    }
+                Unit
             }
         }
 
@@ -167,7 +177,6 @@ private fun <T> BottomSelectImpl(
         }
 
     val updatedOnTriggerClick by rememberUpdatedState(onTriggerClick)
-    val scope = rememberCoroutineScope()
     val busyGate = remember { AtomicBoolean(false) }
     var busy by remember { mutableStateOf(initialBusy) }
 
@@ -228,6 +237,7 @@ private fun <T> BottomSelectImpl(
     if (expanded) {
         ModalBottomSheet(
             onDismissRequest = onDismiss,
+            sheetState = sheetState,
         ) {
             if (searchable) {
                 TextField(
@@ -326,7 +336,7 @@ private fun BottomSelectLabeledPreview() {
             searchable = true,
             label = {
                 Text("Language")
-            }
+            },
         )
     }
 }
