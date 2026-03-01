@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,5 +17,5 @@ fun SettingLabel(
     text: String,
     modifier: Modifier = Modifier,
 ) {
-    Text(text = text, fontWeight = FontWeight.Medium, modifier = modifier)
+    Text(text = text, modifier = modifier)
 }
