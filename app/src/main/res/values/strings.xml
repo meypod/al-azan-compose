@@ -81,8 +81,8 @@
     <string name="lunar_calendar_supporting_text">The type of lunar calendar shown in main screen and widgets.</string>
     <string name="lunar_islamic">Islamic</string>
     <string name="lunar_islamic_ummalqura">Islamic (Umm al-Qura)</string>
-    <string name="lunar_islamic_tabular">Islamic (tabular)</string>
-    <string name="lunar_islamic_civil">Islamic (civil)</string>
+    <string name="lunar_islamic_tabular">Islamic (Tabular)</string>
+    <string name="lunar_islamic_civil">Islamic (Civil)</string>
     <string name="lunar_islamic_saudi_sighting">Islamic (Saudi Arabia sighting)</string>
     <string name="calendar">Calendar</string>
     <string name="attention_title"><b>Attention!</b></string>
