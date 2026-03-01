@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.meypod.adhan_kotlin.CalculationMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -45,8 +46,8 @@ class CalculationSettingsViewModel
         when (action) {
             is CalculationSettingsUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick()
             CalculationSettingsUiAction.OnAdjustmentsClick -> onAdjustmentsClick()
-            is CalculationSettingsUiAction.OnCalculationMethodChange -> onCalculationMethodChange()
-            is CalculationSettingsUiAction.OnLunarCalendarChange -> onCalendarChange()
+            is CalculationSettingsUiAction.OnCalculationMethodChange -> onCalculationMethodChange(action.value)
+            is CalculationSettingsUiAction.OnLunarCalendarChange -> onCalendarChange(action.value)
         }
     }
 
@@ -58,11 +59,17 @@ class CalculationSettingsViewModel
         // todo
     }
 
-    private fun onCalculationMethodChange() {
-        // todo
+    private fun onCalculationMethodChange(value: CalculationMethod) {
+        viewModelScope.launch {
+            calculationSettingsRepository.update {
+                it.copy(parameters = value.parameters)
+            }
+        }
     }
 
-    private fun onCalendarChange() {
-        // todo
+    private fun onCalendarChange(value: String) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(selectedArabicCalendar = value) }
+        }
     }
 }
