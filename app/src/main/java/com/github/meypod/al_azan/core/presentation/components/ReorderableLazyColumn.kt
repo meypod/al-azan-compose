@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -32,6 +35,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
+import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -80,7 +85,9 @@ fun <T> ReorderableLazyColumn(
         },
     ) {
         LazyColumn(
-            modifier = listModifier,
+            modifier = listModifier
+                .fadeScrollEdges(listState, Orientation.Vertical)
+                .drawVerticalScrollbar(listState),
             state = listState,
         ) {
             itemsIndexed(
@@ -248,24 +255,31 @@ private class ReorderState(
         containerWindowOffset = coords.localToWindow(Offset.Zero)
     }
 
-    fun updateItemIndex(itemKey: Any, index: Int) {
+    fun updateItemIndex(
+        itemKey: Any,
+        index: Int,
+    ) {
         indexByKey[itemKey] = index
     }
 
-    fun updateItemCoords(itemKey: Any, coords: LayoutCoordinates) {
+    fun updateItemCoords(
+        itemKey: Any,
+        coords: LayoutCoordinates,
+    ) {
         itemCoordsByKey[itemKey] = coords
         itemSizeByKey[itemKey] = coords.size
     }
 
-    fun updateHandleCoords(itemKey: Any, coords: LayoutCoordinates) {
+    fun updateHandleCoords(
+        itemKey: Any,
+        coords: LayoutCoordinates,
+    ) {
         handleCoordsByKey[itemKey] = coords
     }
 
     fun itemSizePx(itemKey: Any): IntSize? = itemSizeByKey[itemKey]
 
-    fun isPlaceholderFor(itemKey: Any): Boolean {
-        return placeholderHidden && draggingItemKey == itemKey
-    }
+    fun isPlaceholderFor(itemKey: Any): Boolean = placeholderHidden && draggingItemKey == itemKey
 
     fun markPopupComposed() {
         if (!popupComposed) {
@@ -274,7 +288,11 @@ private class ReorderState(
         }
     }
 
-    fun startDrag(itemKey: Any, index: Int, localPointerStart: Offset) {
+    fun startDrag(
+        itemKey: Any,
+        index: Int,
+        localPointerStart: Offset,
+    ) {
         releaseJob?.cancel()
         releaseJob = null
         isReleasing = false
@@ -313,7 +331,12 @@ private class ReorderState(
         }
     }
 
-    fun dragBy(itemKey: Any, deltaX: Float, deltaY: Float, localPointerPosition: Offset) {
+    fun dragBy(
+        itemKey: Any,
+        deltaX: Float,
+        deltaY: Float,
+        localPointerPosition: Offset,
+    ) {
         val currentIndex = indexByKey[itemKey] ?: return
         val draggedSize = itemSizeByKey[itemKey] ?: return
 
@@ -402,10 +425,12 @@ private class ReorderState(
         }
     }
 
+    private fun lerpInt(
+        start: Int,
+        stop: Int,
+        fraction: Float,
+    ): Int = (start + (stop - start) * fraction).roundToInt()
 
-private fun lerpInt(start: Int, stop: Int, fraction: Float): Int {
-    return (start + (stop - start) * fraction).roundToInt()
-}
     private fun scheduleHidePlaceholder() {
         if (!popupVisible) return
         if (!popupComposed) return
@@ -418,7 +443,10 @@ private fun lerpInt(start: Int, stop: Int, fraction: Float): Int {
         }
     }
 
-    private fun maybeAutoScroll(currentItemStart: Float, currentItemEnd: Float) {
+    private fun maybeAutoScroll(
+        currentItemStart: Float,
+        currentItemEnd: Float,
+    ) {
         val viewportStart = listState.layoutInfo.viewportStartOffset
         val viewportEnd = listState.layoutInfo.viewportEndOffset
         val edgePx = 80f

@@ -203,7 +203,6 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     IntroStepScaffold(
                         uiState = introUiState,
                         onAction = onIntroUiAction,
-                        scrollable = false,
                         floatingActionButton = {
                             if (uiState.locations.isNotEmpty()) {
                                 FloatingActionButton(

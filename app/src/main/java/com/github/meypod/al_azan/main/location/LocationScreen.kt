@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -299,7 +303,7 @@ private fun LocationList(
             onAction(LocationUiAction.OnMoveLocation(fromIndex = fromIndex, toIndex = toIndex))
         },
         listState = listState,
-        listModifier = Modifier.shadow(2.dp),
+        listModifier = Modifier.heightIn(max = 300.dp),
         itemContent = { item, isPlaceholder, itemModifier, dragHandleModifier ->
             LocationListItem(
                 item = item,
