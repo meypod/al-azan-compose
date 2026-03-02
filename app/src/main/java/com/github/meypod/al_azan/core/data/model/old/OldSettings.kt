@@ -2,9 +2,11 @@ package com.github.meypod.al_azan.core.data.model.old
 
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
-import com.github.meypod.al_azan.core.domain.model.settings.AdhanAudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
+import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntries
+import com.github.meypod.al_azan.core.domain.model.settings.mapAdhanIdToEntry
 import com.github.meypod.al_azan.core.presentation.model.WidgetCityNamePos
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.DeserializationStrategy
@@ -161,8 +163,12 @@ fun OldSettingsState.toSettings() =
         selectedSecondaryCalendar = this.selectedSecondaryCalendar,
         appInitialConfigDone = this.appInitialConfigDone,
         appIntroDone = this.appIntroDone,
-        savedAdhanAudioEntries = this.savedAdhanAudioEntries.map { it.toAdhanAudioEntry() },
-        savedUserAudioEntries = this.savedUserAudioEntries.map { it.toAdhanAudioEntry() },
+        savedAdhanAudioEntries = this.savedAdhanAudioEntries.map {
+            it.toAdhanAudioEntry()
+        }.union(getDefaultAdhanEntries()).distinctBy { it.id },
+        savedUserAudioEntries = this.savedUserAudioEntries.map {
+            it.toAdhanAudioEntry()
+        }.filterIsInstance<AudioEntry.ExternalAudioEntry>(),
         selectedAdhanEntries =
             this.selectedAdhanEntries.mapValues { (_, value) ->
                 value.toAdhanAudioEntry()
@@ -203,27 +209,17 @@ fun OldThemeColors.toThemeColors() =
         OldThemeColors.Dark -> ThemeColor.ClassicDark
     }
 
-fun OldAdhanAudioEntry.toAdhanAudioEntry() =
+fun OldAdhanAudioEntry.toAdhanAudioEntry(): AudioEntry =
     when (this) {
         is OldAdhanAudioEntry.OldResourceAdhanAudioEntry -> {
-            AdhanAudioEntry.ResourceAdhanAudioEntry(
-                id = this.id,
-                filepath = this.filepath,
-                label = this.label,
-                remoteUri = this.remoteUri,
-                canDelete = this.canDelete,
-                internal = this.internal,
-            )
+            return mapAdhanIdToEntry(this.id)
         }
 
         is OldAdhanAudioEntry.OldExternalAdhanAudioEntry -> {
-            AdhanAudioEntry.ExternalAdhanAudioEntry(
+            AudioEntry.ExternalAudioEntry(
                 id = this.id,
                 filepath = this.filepath,
                 label = this.label,
-                remoteUri = this.remoteUri,
-                canDelete = this.canDelete,
-                internal = this.internal,
             )
         }
     }

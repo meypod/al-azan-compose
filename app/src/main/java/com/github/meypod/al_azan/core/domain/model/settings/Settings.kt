@@ -1,5 +1,8 @@
 package com.github.meypod.al_azan.core.domain.model.settings
 
+import androidx.annotation.RawRes
+import androidx.annotation.StringRes
+import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.presentation.model.WidgetCityNamePos
@@ -9,8 +12,30 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+
+private enum class DefaultAdhanEntryId(
+    val key: String,
+) {
+    MasjidAnNabawi("masjid_an_nabawi"),
+}
+
+fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
+    when (key) {
+        DefaultAdhanEntryId.MasjidAnNabawi.key -> AudioEntry.ResourceAudioEntry(
+            DefaultAdhanEntryId.MasjidAnNabawi.key,
+            R.raw.masjid_an_nabawi,
+            R.string.masjid_an_nabawi,
+        )
+
+        else -> mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key)
+    }
+
+fun getDefaultAdhanEntries(): List<AudioEntry.ResourceAudioEntry> =
+    listOf(
+        mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key),
+    )
 
 @Serializable
 data class Settings(
@@ -28,9 +53,11 @@ data class Settings(
     val selectedSecondaryCalendar: String = "gregory",
     val appInitialConfigDone: Boolean = false,
     val appIntroDone: Boolean = false,
-    val savedAdhanAudioEntries: List<AdhanAudioEntry> = emptyList(),
-    val savedUserAudioEntries: List<AdhanAudioEntry> = emptyList(),
-    val selectedAdhanEntries: Map<AdhanKey, AdhanAudioEntry> = emptyMap(),
+    val savedAdhanAudioEntries: List<AudioEntry> = getDefaultAdhanEntries(),
+    val savedUserAudioEntries: List<AudioEntry.ExternalAudioEntry> = emptyList(),
+    val selectedAdhanEntries: Map<AdhanKey, AudioEntry> = mapOf(
+        AdhanKey.Default to getDefaultAdhanEntries()[0],
+    ),
     val lastAppFocusTimestamp: Int? = null,
     val hiddenPrayers: List<Prayer> = emptyList(),
     val adhanVolume: Int? = null,
@@ -95,41 +122,38 @@ enum class ThemeColor {
         }
 }
 
-@Serializable(with = AdhanAudioEntrySerializer::class)
-sealed interface AdhanAudioEntry {
-    @Serializable
-    data class ResourceAdhanAudioEntry(
-        val id: String,
-        val filepath: Int? = null,
-        val label: String = "",
-        @Serializable(with = EmptyStringAsNullSerializer::class) val remoteUri: String? = null,
-        val canDelete: Boolean = false,
-        val internal: Boolean = false,
-    ) : AdhanAudioEntry
+@Serializable(with = AudioEntrySerializer::class)
+sealed interface AudioEntry {
+    val id: String
 
     @Serializable
-    data class ExternalAdhanAudioEntry(
-        val id: String,
+    data class ResourceAudioEntry(
+        override val id: String,
+        @param:RawRes val resId: Int? = null,
+        @param:StringRes val labelResId: Int = R.string.unknown,
+    ) : AudioEntry {
+        val canDelete: Boolean = false
+    }
+
+    @Serializable
+    data class ExternalAudioEntry(
+        override val id: String,
         @Serializable(with = EmptyStringAsNullSerializer::class) val filepath: String? = null,
         val label: String = "",
-        @Serializable(with = EmptyStringAsNullSerializer::class) val remoteUri: String? = null,
-        val canDelete: Boolean = false,
-        val internal: Boolean = false,
-    ) : AdhanAudioEntry
+    ) : AudioEntry {
+        val canDelete: Boolean = true
+    }
 }
 
-object AdhanAudioEntrySerializer :
-    JsonContentPolymorphicSerializer<AdhanAudioEntry>(AdhanAudioEntry::class) {
-    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<AdhanAudioEntry> {
-        val fp = element.jsonObject["filepath"]
-        if (fp != null) {
-            val prim = fp.jsonPrimitive
-            return if (prim.isString) {
-                AdhanAudioEntry.ExternalAdhanAudioEntry.serializer()
-            } else {
-                AdhanAudioEntry.ResourceAdhanAudioEntry.serializer()
-            }
+object AudioEntrySerializer :
+    JsonContentPolymorphicSerializer<AudioEntry>(AudioEntry::class) {
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<AudioEntry> {
+        val fp = element.jsonObject.getOrDefault("resId", JsonNull)
+        if (fp == JsonNull) {
+            AudioEntry.ExternalAudioEntry.serializer()
+        } else {
+            AudioEntry.ResourceAudioEntry.serializer()
         }
-        return AdhanAudioEntry.ResourceAdhanAudioEntry.serializer()
+        return AudioEntry.ResourceAudioEntry.serializer()
     }
 }
