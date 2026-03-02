@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.main.calculation_settings
+package com.github.meypod.al_azan.main.settings.calculation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.ScreenLinkButton
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
 import com.github.meypod.al_azan.core.presentation.util.unifiedBorder
-import com.github.meypod.al_azan.main.calculation_settings.components.ParamAdjustBox
-import com.github.meypod.al_azan.main.calculation_settings.utils.i18n
+import com.github.meypod.al_azan.main.settings.calculation.components.ParamAdjustBox
+import com.github.meypod.al_azan.main.settings.calculation.utils.i18n
 import io.github.meypod.adhan_kotlin.CalculationMethod
 
 @Composable

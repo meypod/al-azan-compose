@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.main.calculation_settings
+package com.github.meypod.al_azan.main.settings.calculation
 
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
