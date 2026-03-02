@@ -60,11 +60,13 @@ import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
-import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
-import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
+import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
+import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
+import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
+import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -89,6 +91,14 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             subclass(
                                 Route.Intro.Location::class,
                                 Route.Intro.Location.serializer(),
+                            )
+                            subclass(
+                                Route.Intro.Calculation::class,
+                                Route.Intro.Calculation.serializer(),
+                            )
+                            subclass(
+                                Route.Intro.Adhan::class,
+                                Route.Intro.Adhan.serializer(),
                             )
                         }
                     }
@@ -240,6 +250,26 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                         ) {
                             IntroTitle(R.string.calculation_title)
                             CalculationSettingsScreen(
+                                uiState = uiState,
+                                onAction = viewModel::onAction,
+                            )
+                        }
+                    }
+                }
+                entry<Route.Intro.Adhan> {
+                    val viewModel = hiltViewModel<AdhanSettingsViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    IntroStepScaffold(
+                        uiState = introUiState,
+                        onAction = onIntroUiAction,
+                    ) { modifier ->
+                        Column(
+                            modifier,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                        ) {
+                            IntroTitle(R.string.notification_and_sound_title)
+                            AdhanSettingsScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
                             )

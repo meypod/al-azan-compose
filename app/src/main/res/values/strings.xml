@@ -90,4 +90,26 @@
     <string name="adjustments">Adjustments</string>
     <string name="advanced_calculation_settings">Advanced Calculation Settings</string>
     <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>
+    <string name="notification_and_sound_title"><![CDATA[Notification & Sound]]></string>
+    <string name="playback_settings">Playback Settings</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="muezzin">Muezzin</string>
+    <string name="unknown">Unknown</string>
+    <string name="masjid_an_nabawi">Masjid An Nabawi</string>
+    <string name="tahajjud_hint">Tahajjud is a voluntary prayer best performed during the last third of the night.</string>
+    <string name="schedule">Schedule</string>
+    <string name="schedule_help">Enable notifications and sounds for each entry. Tap the gear icon to choose specific days or set a custom audio.</string>
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="sunset">Sunset</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
+    <string name="midnight">Midnight</string>
+    <string name="tahajjud">Tahajjud</string>
+    <string name="notification">Notification</string>
+    <string name="sound">Sound</string>
+    <string name="settings">Settings</string>
+    <string name="prayer_setting_accessibility">%1$s settings</string>
 </resources>

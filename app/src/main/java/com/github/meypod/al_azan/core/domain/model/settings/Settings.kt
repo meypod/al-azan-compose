@@ -2,6 +2,8 @@ package com.github.meypod.al_azan.core.domain.model.settings
 
 import androidx.annotation.RawRes
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
@@ -143,6 +145,13 @@ sealed interface AudioEntry {
     ) : AudioEntry {
         val canDelete: Boolean = true
     }
+
+    @Composable
+    fun getLabel(): String =
+        when (this) {
+            is ResourceAudioEntry -> stringResource(this.labelResId)
+            is ExternalAudioEntry -> this.label
+        }
 }
 
 object AudioEntrySerializer :
