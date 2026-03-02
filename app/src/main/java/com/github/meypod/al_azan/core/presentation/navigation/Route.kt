@@ -19,6 +19,9 @@ sealed interface Route : NavKey {
 
         @Serializable
         data object Calculation : Route
+
+        @Serializable
+        data object Adhan : Route
     }
 
     @Serializable

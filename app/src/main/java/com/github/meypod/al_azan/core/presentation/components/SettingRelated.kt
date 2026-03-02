@@ -1,6 +1,9 @@
 package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -11,12 +14,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 
 @Composable
-fun ScreenLinkButton(
+fun RowScope.SettingLabel(
+    text: String,
+    fontWeight: FontWeight? = null,
+) {
+    SettingLabel(text = text, fontWeight = fontWeight, modifier = Modifier.weight(1f))
+}
+
+@Composable
+fun SettingLabel(
+    text: String,
+    modifier: Modifier = Modifier,
+    fontWeight: FontWeight? = null,
+) {
+    Text(text = text, fontWeight = fontWeight, modifier = modifier)
+}
+
+@Composable
+fun SettingHelp(text: String) {
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+    )
+}
+
+@Composable
+fun SettingHeader(
+    title: String,
+    subtitle: String,
+) {
+    Column {
+        SettingLabel(title)
+        SettingHelp(subtitle)
+    }
+}
+
+@Composable
+fun SettingLinkButton(
     title: String,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
@@ -45,8 +88,20 @@ fun ScreenLinkButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun ScreenLinkButtonPreview() {
+private fun SettingLinkButtonPreview() {
     AlAzanTheme {
-        ScreenLinkButton("Adjustments") {}
+        SettingLinkButton("Adjustments") {}
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingHeaderPreview() {
+    AlAzanTheme {
+        ACard {
+            Column(Modifier.padding(it)) {
+                SettingHeader("This is a title", "this is a subtitle")
+            }
+        }
     }
 }

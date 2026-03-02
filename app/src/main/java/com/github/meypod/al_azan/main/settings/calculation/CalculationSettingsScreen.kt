@@ -23,7 +23,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.InformationRow
-import com.github.meypod.al_azan.core.presentation.components.ScreenLinkButton
+import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
 import com.github.meypod.al_azan.core.presentation.util.unifiedBorder
 import com.github.meypod.al_azan.main.settings.calculation.components.ParamAdjustBox
@@ -134,11 +134,11 @@ fun CalculationSettingsScreen(
             }
         }
 
-        ScreenLinkButton(stringResource(R.string.adjustments)) {
+        SettingLinkButton(stringResource(R.string.adjustments)) {
             onAction(CalculationSettingsUiAction.OnAdjustmentsClick)
         }
 
-        ScreenLinkButton(stringResource(R.string.advanced_calculation_settings)) {
+        SettingLinkButton(stringResource(R.string.advanced_calculation_settings)) {
             onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick)
         }
     }

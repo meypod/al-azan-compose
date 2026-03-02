@@ -1,39 +1,48 @@
 package com.github.meypod.al_azan.core.domain.model.adhan
 
+import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.github.meypod.al_azan.R
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class Prayer {
+enum class Prayer(
+    @param:StringRes val stringRes: Int,
+) {
     @SerialName("fajr")
-    Fajr,
+    Fajr(R.string.fajr),
 
     @SerialName("sunrise")
-    Sunrise,
+    Sunrise(R.string.sunrise),
 
     @SerialName("dhuhr")
-    Dhuhr,
+    Dhuhr(R.string.dhuhr),
 
     @SerialName("asr")
-    Asr,
+    Asr(R.string.asr),
 
     @SerialName("sunset")
-    Sunset,
+    Sunset(R.string.sunset),
 
     @SerialName("maghrib")
-    Maghrib,
+    Maghrib(R.string.maghrib),
 
     @SerialName("isha")
-    Isha,
+    Isha(R.string.isha),
 
     /** middle of the night */
     @SerialName("midnight")
-    Midnight,
+    Midnight(R.string.midnight),
 
     /** last third of the night */
     @SerialName("tahajjud")
-    Tahajjud,
+    Tahajjud(R.string.tahajjud),
 }
+
+@Composable
+fun Prayer.i18n() = stringResource(stringRes)
 
 val PRAYERS_IN_ORDER =
     listOf<Prayer>(
@@ -44,9 +53,7 @@ val PRAYERS_IN_ORDER =
         Prayer.Sunset,
         Prayer.Maghrib,
         Prayer.Isha,
-        /** middle of the night */
         Prayer.Midnight,
-        /** last third of the night */
         Prayer.Tahajjud,
     )
 
