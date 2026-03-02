@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.main.calculation_settings.utils
+package com.github.meypod.al_azan.main.settings.calculation.utils
 
 import android.content.Context
 import com.github.meypod.al_azan.R

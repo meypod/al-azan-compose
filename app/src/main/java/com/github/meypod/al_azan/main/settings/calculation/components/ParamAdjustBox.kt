@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.main.calculation_settings.components
+package com.github.meypod.al_azan.main.settings.calculation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,10 +30,10 @@ fun ParamAdjustBox(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(label, style= MaterialTheme.typography.labelMedium)
+        Text(label, style = MaterialTheme.typography.labelMedium)
         Text(
             value,
-            style= MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.SemiBold,
             textDecoration = TextDecoration.Underline,

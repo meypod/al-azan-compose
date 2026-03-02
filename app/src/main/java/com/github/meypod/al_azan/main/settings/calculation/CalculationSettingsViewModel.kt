@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.main.calculation_settings
+package com.github.meypod.al_azan.main.settings.calculation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
