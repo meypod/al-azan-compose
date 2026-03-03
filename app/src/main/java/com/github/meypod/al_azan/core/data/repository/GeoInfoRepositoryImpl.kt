@@ -7,8 +7,6 @@ import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,6 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import java.util.Locale
+import javax.inject.Inject
 
 class GeoInfoRepositoryImpl
 @Inject
@@ -31,7 +31,7 @@ constructor(
 
     private val cacheScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val accessMutex = Mutex()
-    private var lastAccessElapsedMs: Long = SystemClock.elapsedRealtime()
+    private var lastAccessElapsedMs: Long = System.currentTimeMillis()
     private var evictionJob: Job? = null
 
     private val countriesMutex = Mutex()
@@ -45,7 +45,7 @@ constructor(
 
     private suspend fun touch() {
         accessMutex.withLock {
-            lastAccessElapsedMs = SystemClock.elapsedRealtime()
+            lastAccessElapsedMs = System.currentTimeMillis()
 
             evictionJob?.cancel()
             evictionJob =
@@ -54,7 +54,7 @@ constructor(
 
                     val shouldEvict =
                         accessMutex.withLock {
-                            SystemClock.elapsedRealtime() - lastAccessElapsedMs >= IDLE_EVICT_AFTER_MS
+                            System.currentTimeMillis() - lastAccessElapsedMs >= IDLE_EVICT_AFTER_MS
                         }
                     if (shouldEvict) {
                         clearCaches()
@@ -140,11 +140,9 @@ constructor(
         }
     }
 
-    override suspend fun getCountries(): List<CountryGeoInfo> =
-        touch().let { loadCountriesOnce() }
+    override suspend fun getCountries(): List<CountryGeoInfo> = touch().let { loadCountriesOnce() }
 
-    override suspend fun getCities(): List<CityGeoInfo> =
-        touch().let { loadAllCitiesOnce() }
+    override suspend fun getCities(): List<CityGeoInfo> = touch().let { loadAllCitiesOnce() }
 
     override suspend fun getCities(countryCode: String): List<CityGeoInfo> =
         touch().let {
