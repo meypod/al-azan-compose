@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,6 +27,10 @@ constructor(
             _uiState.update {
                 it.copy(selectedLocale = settingsRepository.fetch().selectedLocale)
             }
+            delay(300) // wait for language sync to finish (just a little insurance)
+            settingsRepository.update {
+                it.copy(selectedArabicCalendar = if (it.selectedLocale.startsWith("fa")) "islamic-civil" else "islamic")
+            }
         }
     }
 
@@ -40,6 +45,7 @@ constructor(
             settingsRepository.update { currentSettings ->
                 currentSettings.copy(
                     selectedLocale = locale,
+                    selectedArabicCalendar = if (locale.startsWith("fa")) "islamic-civil" else "islamic",
                 )
             }
         }
