@@ -100,7 +100,7 @@ class LocationViewModel
         val parsedLat = state.latitude.toDoubleOrNull() ?: return
         val parsedLong = state.longitude.toDoubleOrNull() ?: return
         viewModelScope.launch {
-            val newLocationId = SystemClock.elapsedRealtime().toString() + "$parsedLat"
+            val newLocationId = System.currentTimeMillis().toString() + "$parsedLat"
             favoriteLocationsRepository.update {
                 it + StaticFavoriteLocation(
                     id = newLocationId,
