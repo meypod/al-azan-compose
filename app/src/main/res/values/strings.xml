@@ -123,4 +123,5 @@
     <string name="power_manager_card_body">Some devices require specific settings within their \"Power Manager\" to prevent the app from being killed in the background. In such cases, disable any power-saving options for the app.</string>
     <string name="open_power_manager_settings">Open Power Manager Settings</string>
     <string name="power_manager_samsung_hint">Samsung devices have their own custom Power Manager called \"Device Care\". After pressing the button below, you will be taken to the Battery menu of Device Care. In this menu, tap \"App power management\", then select \"Apps that won\'t be put to sleep\" and add this app to the list.</string>
+    <string name="menu">Menu</string>
 </resources>

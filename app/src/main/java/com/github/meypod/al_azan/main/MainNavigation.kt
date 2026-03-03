@@ -8,7 +8,10 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -18,6 +21,9 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
+import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
+import com.github.meypod.al_azan.main.home.HomeScreen
+import com.github.meypod.al_azan.main.home.HomeViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -82,8 +88,9 @@ fun MainNavigation(modifier: Modifier = Modifier) {
         entryProvider =
             entryProvider {
                 entry<Route.Main.Home> {
-                    // todo
-                    Text("Home")
+                    val viewModel = hiltViewModel<HomeViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    HomeScreen(uiState, viewModel::onAction)
                 }
             },
     )
