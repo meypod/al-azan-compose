@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,19 +19,21 @@ import javax.inject.Inject
 class AdhanSettingsViewModel
 @Inject constructor(
     private val alarmSettingsRepository: AlarmSettingsRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AdhanSettingsUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            alarmSettingsRepository.data.collect { alarmSettings ->
+            combine(settingsRepository.data, alarmSettingsRepository.data){ settings, alarmSettings ->
                 _uiState.update { state ->
                     state.copy(
+                        settings = settings,
                         alarmSettings = alarmSettings,
                     )
                 }
-            }
+            }.collect()
         }
     }
 
