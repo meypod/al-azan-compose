@@ -67,6 +67,8 @@ import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
+import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootScreen
+import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -99,6 +101,10 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             subclass(
                                 Route.Intro.Adhan::class,
                                 Route.Intro.Adhan.serializer(),
+                            )
+                            subclass(
+                                Route.Intro.Troubleshoot::class,
+                                Route.Intro.Troubleshoot.serializer(),
                             )
                         }
                     }
@@ -269,6 +275,26 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                         ) {
                             IntroTitle(R.string.notification_and_sound_title)
                             AdhanSettingsScreen(
+                                uiState = uiState,
+                                onAction = viewModel::onAction,
+                            )
+                        }
+                    }
+                }
+                entry<Route.Intro.Troubleshoot> {
+                    val viewModel = hiltViewModel<TroubleshootViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    IntroStepScaffold(
+                        uiState = introUiState,
+                        onAction = onIntroUiAction,
+                    ) { modifier ->
+                        Column(
+                            modifier,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                        ) {
+                            IntroTitle(R.string.troubleshoot_title)
+                            TroubleshootScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
                             )

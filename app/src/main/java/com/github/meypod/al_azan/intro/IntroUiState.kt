@@ -9,6 +9,7 @@ private val introSteps = listOf(
     Route.Intro.Location,
     Route.Intro.Calculation,
     Route.Intro.Adhan,
+    Route.Intro.Troubleshoot,
 )
 
 @Immutable
