@@ -107,15 +107,11 @@ object PowerManagerUtils {
      *
      * @return PowerManagerInfo
      */
-    fun getPowerManagerInfo(context: Context): PowerManagerUtils.PowerManagerInfo {
-        val activityName: String?
-
+    fun getPowerManagerInfo(context: Context): PowerManagerInfo? {
         val intent = findPowerManagerIntent(context)
-        activityName = IntentUtils.getActivityName(intent)
+        val activityName = IntentUtils.getActivityName(intent)
 
-        val result =
-            PowerManagerInfo(Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, activityName)
-        return result
+        return activityName?.let { PowerManagerInfo(Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, it) }
     }
 
     /**
