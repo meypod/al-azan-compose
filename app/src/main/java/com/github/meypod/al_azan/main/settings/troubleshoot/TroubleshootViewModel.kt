@@ -24,18 +24,17 @@ class TroubleshootViewModel
     fun onAction(action: TroubleshootUiAction) {
         when (action) {
             is TroubleshootUiAction.OnAppIsAllowedToKeepRunningClick -> onAllowAppToKeepRunningClick(action.activity)
-            TroubleshootUiAction.OnOpenPowerManagerSettingsClick -> onOpenPowerManagerSettingsClick()
+            is TroubleshootUiAction.OnOpenPowerManagerSettingsClick -> onOpenPowerManagerSettingsClick(action.activity)
             TroubleshootUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick()
             is TroubleshootUiAction.OnLifecycleChanged -> onLifecycleChanged(action.context)
         }
     }
 
-    private fun onOpenPowerManagerSettingsClick() {
-        // todo
+    private fun onOpenPowerManagerSettingsClick(activity: Activity?) {
+        PowerManagerUtils.openPowerManagerSettings(activity)
     }
 
     private fun onAllowAppToKeepRunningClick(activity: Activity?) {
-        if (activity == null) return
         PowerManagerUtils.openBatteryOptimizationSettings(activity)
     }
 
@@ -45,7 +44,10 @@ class TroubleshootViewModel
 
     private fun onLifecycleChanged(context: Context) {
         _uiState.update {
-            it.copy(appIsAllowedToKeepRunning = !PowerManagerUtils.isBatteryOptimizationEnabled(context))
+            it.copy(
+                appIsAllowedToKeepRunning = !PowerManagerUtils.isBatteryOptimizationEnabled(context),
+                powerManagerInfo = PowerManagerUtils.getPowerManagerInfo(context),
+            )
         }
     }
 }

@@ -37,6 +37,7 @@ import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
+import com.github.meypod.al_azan.core.util.device.PowerManagerUtils
 
 @SuppressLint("BatteryLife")
 @Composable
@@ -91,6 +92,12 @@ fun TroubleshootScreen(
             }
         }
 
+        uiState.powerManagerInfo?.let {
+            PowerManagerCard(uiState.powerManagerInfo) {
+                onAction(TroubleshootUiAction.OnOpenPowerManagerSettingsClick(activity))
+            }
+        }
+
         SettingLinkButton(stringResource(R.string.advanced)) {
             onAction(TroubleshootUiAction.OnAdvancedSettingsClick)
         }
@@ -127,6 +134,34 @@ fun BatterSaverCTA(
     }
 }
 
+@Composable
+fun PowerManagerCard(
+    powerManagerInfo: PowerManagerUtils.PowerManagerInfo,
+    onButtonClick: () -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(
+            Modifier
+                .padding(cardPadding)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            SettingLabel(stringResource(R.string.power_manager_card_title))
+            Text(stringResource(R.string.power_manager_card_body), style = MaterialTheme.typography.bodyMedium)
+
+            if (powerManagerInfo.manufacturer.equals("samsung", ignoreCase = true)) {
+                Text(stringResource(R.string.power_manager_samsung_hint), style = MaterialTheme.typography.bodyMedium)
+            }
+
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                PrimaryButton(onButtonClick) {
+                    Text(stringResource(R.string.open_power_manager_settings))
+                }
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun BatterSaverCTAPreview() {
@@ -135,6 +170,18 @@ private fun BatterSaverCTAPreview() {
             Column(Modifier.padding(it)) {
                 BatterSaverCTA(true) {}
                 BatterSaverCTA(false) {}
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PowerManagerCardPreview() {
+    AlAzanTheme {
+        ACard {
+            Column(Modifier.padding(it)) {
+                PowerManagerCard(PowerManagerUtils.PowerManagerInfo("SAMSUNG", "foo", "foo", "foo")) {}
             }
         }
     }
@@ -153,7 +200,7 @@ private fun BatterSaverCTAPreview() {
 private fun TroubleshootPreview() {
     AlAzanTheme {
         TroubleshootScreen(
-            uiState = TroubleshootUiState(),
+            uiState = TroubleshootUiState(true, PowerManagerUtils.PowerManagerInfo("SAMSUNG", "foo", "foo", "foo")),
             onAction = {},
         )
     }

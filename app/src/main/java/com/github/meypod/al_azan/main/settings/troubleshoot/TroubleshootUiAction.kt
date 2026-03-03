@@ -7,7 +7,9 @@ sealed interface TroubleshootUiAction {
     data class OnAppIsAllowedToKeepRunningClick(
         val activity: Activity?,
     ) : TroubleshootUiAction
-    object OnOpenPowerManagerSettingsClick : TroubleshootUiAction
+    data class OnOpenPowerManagerSettingsClick(
+        val activity: Activity?,
+    ) : TroubleshootUiAction
     object OnAdvancedSettingsClick : TroubleshootUiAction
     data class OnLifecycleChanged(
         val context: Context,
