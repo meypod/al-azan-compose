@@ -48,8 +48,7 @@ data class Settings(
     val numberingSystem: String? = null,
     val highlightCurrentPrayer: Boolean = false,
     val selectedLocale: String,
-    @Serializable(with = EmptyStringAsNullSerializer::class)
-    val selectedArabicCalendar: String? = null,
+    val selectedArabicCalendar: String = "islamic",
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val selectedLocaleForArabicCalendar: String? = null,
     val selectedSecondaryCalendar: String = "gregorian",

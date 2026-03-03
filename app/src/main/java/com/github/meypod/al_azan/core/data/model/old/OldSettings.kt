@@ -158,7 +158,11 @@ fun OldSettingsState.toSettings() =
         numberingSystem = this.numberingSystem,
         highlightCurrentPrayer = this.highlightCurrentPrayer,
         selectedLocale = this.selectedLocale,
-        selectedArabicCalendar = this.selectedArabicCalendar,
+        selectedArabicCalendar = if (this.selectedLocale.startsWith("fa")) {
+            "islamic-civil"
+        } else {
+            "islamic"
+        },
         selectedLocaleForArabicCalendar = this.selectedLocaleForArabicCalendar,
         selectedSecondaryCalendar = when (this.selectedSecondaryCalendar) {
             "gregory" -> "gregorian"

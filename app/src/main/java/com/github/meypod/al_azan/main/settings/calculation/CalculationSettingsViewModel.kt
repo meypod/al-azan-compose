@@ -25,12 +25,6 @@ class CalculationSettingsViewModel
 
     init {
         viewModelScope.launch {
-            val currentSettings = settingsRepository.fetch()
-            if (currentSettings.selectedArabicCalendar == null) {
-                settingsRepository.update {
-                    it.copy(selectedArabicCalendar = if (it.selectedLocale.startsWith("fa")) "islamic-civil" else "islamic")
-                }
-            }
             combine(calculationSettingsRepository.data, settingsRepository.data) { calcSettings, settings ->
                 _uiState.update { state ->
                     state.copy(
