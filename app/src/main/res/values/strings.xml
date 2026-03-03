@@ -124,4 +124,8 @@
     <string name="open_power_manager_settings">Open Power Manager Settings</string>
     <string name="power_manager_samsung_hint">Samsung devices have their own custom Power Manager called \"Device Care\". After pressing the button below, you will be taken to the Battery menu of Device Care. In this menu, tap \"App power management\", then select \"Apps that won\'t be put to sleep\" and add this app to the list.</string>
     <string name="menu">Menu</string>
+    <string name="reminder">Reminder</string>
+    <string name="qibla">Qibla</string>
+    <string name="counter">Counter</string>
+    <string name="about_us">About Us</string>
 </resources>
