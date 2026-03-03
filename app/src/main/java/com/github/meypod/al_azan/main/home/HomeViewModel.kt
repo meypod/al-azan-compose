@@ -38,10 +38,14 @@ class HomeViewModel
         when (action) {
             HomeUiAction.OnCalendarDateClick -> onCalendarDateClick()
             HomeUiAction.OnLocationTextClick -> onLocationTextClick()
-            HomeUiAction.OnMenuIconClick -> onMenuIconClick()
             HomeUiAction.OnNextDayClick -> onNextDayClick()
             HomeUiAction.OnPrevDayClick -> onPrevDayClick()
             HomeUiAction.OnShowTodayClick -> onShowTodayClick()
+            HomeUiAction.OnReminderLinkClick -> onReminderLinkClick()
+            HomeUiAction.OnQiblaLinkClick -> onQiblaLinkClick()
+            HomeUiAction.OnCounterLinkClick -> onCounterLinkClick()
+            HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
+            HomeUiAction.OnAboutUsLinkClick -> onAboutUsLinkClick()
         }
     }
 
@@ -67,5 +71,24 @@ class HomeViewModel
 
     fun onShowTodayClick() {
         // TODO: Implement show today click action
+    }
+
+    private fun onReminderLinkClick() {
+        // todo
+    }
+
+    private fun onQiblaLinkClick() {
+        // todo
+    }
+
+    private fun onCounterLinkClick() {
+        // todo
+    }
+    private fun onSettingsLinkClick() {
+        // todo
+    }
+
+    private fun onAboutUsLinkClick() {
+        // todo
     }
 }
