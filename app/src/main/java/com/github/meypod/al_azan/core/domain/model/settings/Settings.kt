@@ -52,7 +52,7 @@ data class Settings(
     val selectedArabicCalendar: String? = null,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val selectedLocaleForArabicCalendar: String? = null,
-    val selectedSecondaryCalendar: String = "gregory",
+    val selectedSecondaryCalendar: String = "gregorian",
     val appInitialConfigDone: Boolean = false,
     val appIntroDone: Boolean = false,
     val savedAdhanAudioEntries: List<AudioEntry> = getDefaultAdhanEntries(),
