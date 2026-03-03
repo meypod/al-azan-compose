@@ -160,7 +160,10 @@ fun OldSettingsState.toSettings() =
         selectedLocale = this.selectedLocale,
         selectedArabicCalendar = this.selectedArabicCalendar,
         selectedLocaleForArabicCalendar = this.selectedLocaleForArabicCalendar,
-        selectedSecondaryCalendar = this.selectedSecondaryCalendar,
+        selectedSecondaryCalendar = when (this.selectedSecondaryCalendar) {
+            "gregory" -> "gregorian"
+            else -> this.selectedSecondaryCalendar
+        },
         appInitialConfigDone = this.appInitialConfigDone,
         appIntroDone = this.appIntroDone,
         savedAdhanAudioEntries = this.savedAdhanAudioEntries.map {
