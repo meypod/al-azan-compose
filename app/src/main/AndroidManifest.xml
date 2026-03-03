@@ -2,6 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- For Xiaomi devices to enable heads-up notifications as default (https://github.com/invertase/notifee/issues/296) -->
+    <uses-permission
+        android:name="android.permission.ACCESS_NOTIFICATION_POLICY"
+        android:minSdkVersion="23" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- To detect incoming and active calls to not play sound -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- this removes ACCESS_NETWORK_STATE permission added by work manager:  -->
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
