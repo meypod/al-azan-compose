@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.intro
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
 import com.github.meypod.al_azan.core.presentation.navigation.Route
@@ -20,18 +21,24 @@ class IntroViewModel
 @Inject
 constructor(
     private val settingsRepository: SettingsRepository,
+    private val calculationSettingsRepository: CalculationSettingsRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(IntroUiState())
     val uiState = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            settingsRepository.data.collect { settings ->
+                _uiState.update { it.copy(appIntroDone = settings.appIntroDone) }
+            }
+        }
+    }
+
     private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
     val navIntents = _navIntents.asSharedFlow()
 
-    fun onAction(
-        action: IntroUiAction,
-        onFinishIntro: () -> Unit,
-    ) {
+    fun onAction(action: IntroUiAction) {
         when (action) {
             IntroUiAction.OnSkipClick -> onSkipClick()
             IntroUiAction.OnSkipConfirmed -> onSkipConfirmed()
@@ -76,7 +83,14 @@ constructor(
     }
 
     private fun onFinishClick() {
-        // todo
+        viewModelScope.launch {
+            val calcSettings = calculationSettingsRepository.fetch()
+            if (calcSettings.locationId != null && calcSettings.parameters != null) {
+                settingsRepository.update { it.copy(appIntroDone = true) }
+            } else {
+                onAction(IntroUiAction.OnSkipClick)
+            }
+        }
     }
 
     private fun onRouteVisible(route: Route) {

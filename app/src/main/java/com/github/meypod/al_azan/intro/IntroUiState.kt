@@ -17,6 +17,7 @@ data class IntroUiState(
     val route: Route = Route.Intro.LanguageSelection,
     val busy: Boolean = false,
     val showSkipDialog: Boolean = false,
+    val appIntroDone: Boolean = false,
 ) {
     val step: Int
         get() {

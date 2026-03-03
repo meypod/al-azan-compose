@@ -23,8 +23,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -114,20 +117,20 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
 
     val introViewModel = hiltViewModel<IntroViewModel>()
     val introUiState by introViewModel.uiState.collectAsStateWithLifecycle()
+    val introBackgroundColor = colorResource(R.color.intro_background)
 
-    val onIntroUiAction: (IntroUiAction) -> Unit = remember(onFinishIntro) {
-        { action ->
-            introViewModel.onAction(action, onFinishIntro)
+    LaunchedEffect(introUiState.appIntroDone) {
+        if (introUiState.appIntroDone) {
+            onFinishIntro()
         }
     }
-    val introBackgroundColor = colorResource(R.color.intro_background)
 
     BindBackStackWithViewModel(
         currentRoute = { introBackstack.lastOrNull() },
         navIntents = { introViewModel.navIntents },
         onRouteVisible = { route ->
             if (route is Route) {
-                onIntroUiAction(IntroUiAction.OnRouteVisible(route))
+                introViewModel.onAction(IntroUiAction.OnRouteVisible(route))
             }
         },
         navigateTo = { route -> introBackstack.navigateTo(route) },
@@ -184,7 +187,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     LanguageSelectionScreen(
                         uiState = uiState,
                         onAction = viewModel::onAction,
-                        onIntroAction = onIntroUiAction,
+                        onIntroAction = introViewModel::onAction,
                     )
                 }
                 entry<Route.Intro.RestoreBackup> {
@@ -192,12 +195,12 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
-                        onAction = onIntroUiAction,
+                        onAction = introViewModel::onAction,
                     ) { modifier ->
                         RestoreBackupScreen(
                             uiState = uiState,
                             onAction = viewModel::onAction,
-                            onIntroAction = onIntroUiAction,
+                            onIntroAction = introViewModel::onAction,
                             modifier = modifier,
                             busy = introUiState.busy,
                         )
@@ -208,7 +211,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
-                        onAction = onIntroUiAction,
+                        onAction = introViewModel::onAction,
                         floatingActionButton = {
                             if (uiState.locations.isNotEmpty()) {
                                 FloatingActionButton(
@@ -246,7 +249,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
-                        onAction = onIntroUiAction,
+                        onAction = introViewModel::onAction,
                     ) { modifier ->
                         Column(
                             modifier,
@@ -266,7 +269,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
-                        onAction = onIntroUiAction,
+                        onAction = introViewModel::onAction,
                     ) { modifier ->
                         Column(
                             modifier,
@@ -286,7 +289,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
-                        onAction = onIntroUiAction,
+                        onAction = introViewModel::onAction,
                     ) { modifier ->
                         Column(
                             modifier,
@@ -310,8 +313,8 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
             confirmLabel = stringResource(R.string.skip_confirm),
             cancelLabel = stringResource(R.string.cancel),
             seconds = 3,
-            onConfirm = { onIntroUiAction(IntroUiAction.OnSkipConfirmed) },
-            onDismissRequest = { onIntroUiAction(IntroUiAction.OnSkipDismiss) },
+            onConfirm = { introViewModel.onAction(IntroUiAction.OnSkipConfirmed) },
+            onDismissRequest = { introViewModel.onAction(IntroUiAction.OnSkipDismiss) },
         )
     }
 }
@@ -394,14 +397,20 @@ private fun IntroBottomBar(
             IntroSkipButton {
                 onAction(IntroUiAction.OnSkipClick)
             }
-            TertiaryButton(
-                onClick = {
-                    onAction(IntroUiAction.OnNextClick)
-                },
-            ) {
-                if (uiState.isLastStep) {
+            if (uiState.isLastStep) {
+                TertiaryButton(
+                    onClick = {
+                        onAction(IntroUiAction.OnFinishClick)
+                    },
+                ) {
                     Text(stringResource(R.string.finish_button))
-                } else {
+                }
+            } else {
+                TertiaryButton(
+                    onClick = {
+                        onAction(IntroUiAction.OnNextClick)
+                    },
+                ) {
                     Text(stringResource(R.string.next_button))
                 }
             }
