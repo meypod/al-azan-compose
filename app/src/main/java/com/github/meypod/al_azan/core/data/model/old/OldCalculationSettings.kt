@@ -1,6 +1,5 @@
 package com.github.meypod.al_azan.core.data.model.old
 
-import android.os.SystemClock
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
@@ -75,9 +74,9 @@ data class OldCalculationSettingsState(
     @SerialName("HIJRI_DATE_ADJUSTMENT") val hijriDateAdjustment: Int,
 ) {
     fun getCalculationParameters(): CalculationParameters {
-        val fajrAngle = this.fajrAngleOverride?.toDouble() ?: 0.0
-        val ishaAngle = this.ishaAngleOverride?.toDouble() ?: 0.0
-        val maghribAngle = this.maghribAngleOverride?.toDouble() ?: 0.0
+        val fajrAngle = this.fajrAngleOverride ?: 0.0
+        val ishaAngle = this.ishaAngleOverride ?: 0.0
+        val maghribAngle = this.maghribAngleOverride ?: 0.0
         val ishaInterval = this.ishaIntervalOverride ?: 0
 
         val method =
@@ -186,7 +185,7 @@ object OldRoundingMethodSerializer : KSerializer<OldRoundingMethod> {
                     val name = elem.content
                     try {
                         OldRoundingMethod.valueOf(name)
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         OldRoundingMethod.NEAREST
                     }
                 } else {
@@ -214,7 +213,7 @@ object OldRoundingMethodSerializer : KSerializer<OldRoundingMethod> {
 
         val outElem: JsonElement = JsonPrimitive(value.name)
 
-        jsonEncoder.encodeSerializableValue(OldRoundingMethodSerializer.elementSerializer, outElem)
+        jsonEncoder.encodeSerializableValue(elementSerializer, outElem)
     }
 }
 
