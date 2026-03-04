@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
@@ -282,16 +283,6 @@ private fun HomeHeaderPreview() {
     AlAzanTheme {
         HomeHeader(HomeUiState(), onAction = {})
     }
-}
-
-private fun formatInstant(
-    instant: Instant,
-    locale: String,
-    calendar: String,
-    skeleton: String = DateFormat.YEAR_MONTH_DAY,
-): String {
-    val formatter = DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar"))
-    return formatter.format(Date.from(instant.toJavaInstant()))
 }
 
 @Preview(
