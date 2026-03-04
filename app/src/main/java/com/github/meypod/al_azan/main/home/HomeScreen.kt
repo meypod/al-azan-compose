@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -44,7 +43,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
@@ -141,7 +139,10 @@ fun HomeScreen(
                         }
                     },
                     title = {
-                        Text(formatInstant(uiState.currentInstant, uiState.locale, uiState.calendar))
+                        Text(
+                            formatInstant(uiState.currentInstant, uiState.locale, uiState.calendar),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
                     },
                 )
             },
