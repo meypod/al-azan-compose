@@ -55,7 +55,8 @@ fun HomeHeader(
     onAction: (HomeUiAction) -> Unit,
 ) {
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
-    val patternBackgroundColor = colorResource(R.color.intro_background)
+    val patternBackgroundColor =
+        colorResource(if (uiState.themeColor.isDark()) R.color.header_background_dark else R.color.header_background_light)
     Column(
         Modifier
             .fillMaxWidth()
