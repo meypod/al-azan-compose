@@ -29,9 +29,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.CornerRadius.Companion
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -54,21 +53,25 @@ import kotlinx.coroutines.flow.filterNotNull
 fun Modifier.drawHorizontalScrollbar(
     state: ScrollState,
     reverseScrolling: Boolean = false,
-): Modifier = drawScrollbar(state, Orientation.Horizontal, reverseScrolling)
+    barColor: @Composable () -> Color = { BarColor },
+): Modifier = drawScrollbar(state, Orientation.Horizontal, reverseScrolling, barColor)
 
 fun Modifier.drawVerticalScrollbar(
     state: ScrollState,
     reverseScrolling: Boolean = false,
-): Modifier = drawScrollbar(state, Orientation.Vertical, reverseScrolling)
+    barColor: @Composable () -> Color = { BarColor },
+): Modifier = drawScrollbar(state, Orientation.Vertical, reverseScrolling, barColor)
 
 private fun Modifier.drawScrollbar(
     state: ScrollState,
     orientation: Orientation,
     reverseScrolling: Boolean,
+    barColor: @Composable () -> Color = { BarColor },
 ): Modifier =
     drawScrollbar(
         orientation = orientation,
         reverseScrolling = reverseScrolling,
+        barColor = barColor,
         observeScrollEvents = { emit ->
             LaunchedEffect(state) {
                 snapshotFlow { state.value }
@@ -105,10 +108,12 @@ private fun Modifier.drawScrollbar(
     state: LazyListState,
     orientation: Orientation,
     reverseScrolling: Boolean,
+    barColor: @Composable () -> Color = { BarColor },
 ): Modifier =
     drawScrollbar(
         orientation = orientation,
         reverseScrolling = reverseScrolling,
+        barColor = barColor,
         observeScrollEvents = { emit ->
             LaunchedEffect(state) {
                 snapshotFlow { state.firstVisibleItemIndex to state.firstVisibleItemScrollOffset }
@@ -153,10 +158,12 @@ fun Modifier.drawVerticalScrollbar(
     state: LazyGridState,
     spanCount: Int,
     reverseScrolling: Boolean = false,
+    barColor: @Composable () -> Color = { BarColor },
 ): Modifier =
     drawScrollbar(
         orientation = Orientation.Vertical,
         reverseScrolling = reverseScrolling,
+        barColor = barColor,
         observeScrollEvents = { emit ->
             LaunchedEffect(state) {
                 // LazyGridState doesn't expose a stable total pixel offset, so we key off first visible item.
@@ -252,6 +259,7 @@ private fun Modifier.drawScrollbar(
     orientation: Orientation,
     reverseScrolling: Boolean,
     observeScrollEvents: (@Composable (emit: () -> Unit) -> Unit)? = null,
+    barColor: @Composable () -> Color = { BarColor },
     onDraw: DrawScope.(
         reverseDirection: Boolean,
         atEnd: Boolean,
@@ -302,7 +310,7 @@ private fun Modifier.drawScrollbar(
             }
         val atEnd = if (orientation == Orientation.Vertical) isLtr else true
 
-        val color = BarColor
+        val color = barColor()
 
         this
             .nestedScroll(nestedScrollConnection)
