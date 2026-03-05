@@ -32,6 +32,7 @@ import com.github.meypod.al_azan.core.presentation.Tertiary95
 import com.github.meypod.al_azan.core.presentation.TertiaryFixed
 import com.github.meypod.al_azan.core.presentation.util.dashedBorder
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
+import com.github.meypod.al_azan.core.presentation.util.dropShadow2Up
 import kotlin.time.Clock
 import kotlin.time.DurationUnit
 import kotlin.time.Instant
@@ -63,7 +64,7 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
 
                 HighlightState.Highlighted -> {
                     val shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                    Modifier.background(MaterialTheme.colorScheme.surfaceVariant).dropShadow2(shape)
+                    Modifier.background(MaterialTheme.colorScheme.surfaceVariant).dropShadow2Up(shape)
                         .clip(shape).background(
                             if (state.themeColor.isClassic()) Tertiary95 else TertiaryFixed,
                         )
