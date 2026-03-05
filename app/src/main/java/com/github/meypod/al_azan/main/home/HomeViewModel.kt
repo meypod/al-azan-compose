@@ -2,8 +2,6 @@ package com.github.meypod.al_azan.main.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
-import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -38,7 +36,7 @@ class HomeViewModel
                 if (uiState.value.showNextPrayerCountdown && uiState.value.nextShariaTime != null) {
                     _uiState.update {
                         if (it.nextShariaTime != null) {
-                            it.copy(countdownText = formatCountdownToHHmmss(now, it.nextShariaTime.prayerTime))
+                            it.copy(countdownText = formatCountdownToHHmmss(now, it.nextShariaTime.prayerTime, it.numberingSystem))
                         } else {
                             it
                         }
@@ -85,6 +83,7 @@ class HomeViewModel
                         arabicCalendar = settings.selectedArabicCalendar,
                         calendar = settings.selectedSecondaryCalendar,
                         locale = settings.selectedLocale,
+                        numberingSystem = settings.numberingSystem,
                         location = location,
                         showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
                         shariaTimes = shariaTimes,
