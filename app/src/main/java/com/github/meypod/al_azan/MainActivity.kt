@@ -4,15 +4,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationRoot
@@ -34,18 +29,18 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val appIntroDone = runBlocking { settingsRepository.fetch().appIntroDone }
+        val initialSettings = runBlocking { settingsRepository.fetch() }
         setContent {
             LaunchedEffect(Unit) {
                 // ensures our view of settings stays up to date with user's selected language
                 // in case they decide to change it outside the app
                 languageSync.run()
             }
-            val settings by settingsRepository.data.collectAsState(initial = Settings(selectedLocale = "en"))
+            val settings by settingsRepository.data.collectAsState(initial = initialSettings)
 
             AlAzanTheme(settings.themeColor) {
                 NavigationRoot(
-                    appIntroDone = appIntroDone,
+                    appIntroDone = initialSettings.appIntroDone,
                 )
             }
         }
