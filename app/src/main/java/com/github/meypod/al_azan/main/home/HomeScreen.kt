@@ -57,6 +57,7 @@ import com.github.meypod.al_azan.core.presentation.DarkTertiary
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
+import com.github.meypod.al_azan.main.home.components.HomeHeader
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import kotlinx.coroutines.launch
 import kotlin.time.Instant
@@ -163,135 +164,6 @@ fun HomeScreen(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun HomeHeader(
-    uiState: HomeUiState,
-    onAction: (HomeUiAction) -> Unit,
-) {
-    val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
-    val patternBackgroundColor = colorResource(R.color.intro_background)
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .patternedBackground(
-                pattern = patternImage,
-                backgroundColor = patternBackgroundColor,
-                patternAlpha = 0.03f,
-            )
-            .padding(dimensionResource(R.dimen.page_padding)),
-    ) {
-        val iconButtonColors = IconButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
-            disabledContentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f),
-        )
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                FilledIconButton(onClick = { onAction(HomeUiAction.OnPrevDayClick) }, colors = iconButtonColors) {
-                    Icon(painterResource(R.drawable.arrow_back), contentDescription = null)
-                }
-                Text(
-                    stringResource(R.string.prev_day),
-                    color = Color.White,
-                    style = MaterialTheme.typography.labelLarge,
-                    textAlign = TextAlign.Center,
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    stringResource(R.string.next_day),
-                    color = Color.White,
-                    style = MaterialTheme.typography.labelLarge,
-                    textAlign = TextAlign.Center,
-                )
-                FilledIconButton(onClick = { onAction(HomeUiAction.OnPrevDayClick) }, colors = iconButtonColors) {
-                    Icon(painterResource(R.drawable.arrow_forward), contentDescription = null)
-                }
-            }
-        }
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    formatInstant(uiState.currentInstant, uiState.locale, uiState.calendar, DateFormat.WEEKDAY),
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    formatInstant(uiState.currentInstant, uiState.locale, uiState.arabicCalendar),
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
-        }
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
-            itemVerticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = if (uiState.showNextPrayerCountdown) Arrangement.SpaceBetween else Arrangement.Center,
-        ) {
-            if (uiState.location == null) {
-                Box {}
-            } else {
-                Button(
-                    onClick = { onAction(HomeUiAction.OnLocationTextClick) },
-                    colors = ButtonColors(
-                        Color.Transparent,
-                        Color.White,
-                        Color.White.copy(alpha = 0.6f),
-                        Color.Transparent,
-                    ),
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
-                        Text(
-                            uiState.location.locationDetail.toDisplayString(),
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelMedium,
-                            textDecoration = TextDecoration.Underline,
-                        )
-                    }
-                }
-            }
-
-            if (uiState.showNextPrayerCountdown && uiState.nextShariaTime != null) {
-                CompactOutlinedTextField(
-                    uiState.countdownText,
-                    {},
-                    label = { Text(uiState.nextShariaTime.prayer.i18n()) },
-                    colors = OutlinedTextFieldDefaults.colors().copy(
-                        focusedLabelColor = DarkTertiary,
-                        unfocusedLabelColor = DarkTertiary,
-                        focusedIndicatorColor = DarkTertiary,
-                        unfocusedIndicatorColor = DarkTertiary,
-                        focusedTextColor = DarkTertiary,
-                        unfocusedTextColor = DarkTertiary,
-                    ),
-                    shape = MaterialTheme.shapes.medium,
-                    readOnly = true,
-                    textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
-                    modifier = Modifier.width(IntrinsicSize.Max),
-                )
-            }
-        }
-        Spacer(Modifier.height(dimensionResource(R.dimen.page_padding)))
-    }
-}
-
-@Preview
-@Composable
-private fun HomeHeaderPreview() {
-    AlAzanTheme {
-        HomeHeader(HomeUiState(), onAction = {})
     }
 }
 
