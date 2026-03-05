@@ -1,21 +1,28 @@
 package com.github.meypod.al_azan.core.domain.utils
 
+import android.icu.text.NumberingSystem
 import kotlin.time.Duration
 import kotlin.time.Instant
 
-fun formatDurationToHHmmss(duration: Duration): String {
+fun formatDurationToHHmmss(
+    duration: Duration,
+    numberingSystem: String? = null,
+): String {
     val hours = duration.inWholeHours
     val remainingSeconds = duration.inWholeSeconds - hours * 3600
     val minutes = remainingSeconds / 60
     val seconds = remainingSeconds % 60
-
-    return "%02d:%02d:%02d".format(hours, minutes, seconds)
+    return formatWithUnicodeDigits("%02d:%02d:%02d".format(hours, minutes, seconds), numberingSystem)
 }
 
-fun formatCountdownToHHmmss(currentInstant: Instant, targetInstant: Instant): String {
+fun formatCountdownToHHmmss(
+    currentInstant: Instant,
+    targetInstant: Instant,
+    numberingSystem: String? = null,
+): String {
     val duration = targetInstant - currentInstant
     if (duration <= Duration.ZERO) {
         return "00:00:00"
     }
-    return formatDurationToHHmmss(duration)
+    return formatWithUnicodeDigits(formatDurationToHHmmss(duration), numberingSystem)
 }

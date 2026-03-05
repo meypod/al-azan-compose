@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.home
 
+import android.icu.text.NumberingSystem
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
@@ -14,6 +15,7 @@ data class HomeUiState(
     val arabicCalendar: String = "islamic",
     val calendar: String = "gregorian",
     val locale: String = "en-US",
+    val numberingSystem: String? = null,
     val location: FavoriteLocation? = null,
     val showNextPrayerCountdown: Boolean = true,
     val shariaTimes: ShariaTimes? = null,

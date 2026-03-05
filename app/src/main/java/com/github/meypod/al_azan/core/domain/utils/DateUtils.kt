@@ -14,9 +14,10 @@ fun formatInstant(
     locale: String,
     calendar: String,
     skeleton: String = DateFormat.YEAR_MONTH_DAY,
+    numberingSystem: String? = null,
 ): String {
     val formatter = DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar"))
-    return formatter.format(Date.from(instant.toJavaInstant()))
+    return formatWithUnicodeDigits(formatter.format(Date.from(instant.toJavaInstant())), numberingSystem)
 }
 
 fun isInRamadan(

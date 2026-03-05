@@ -10,12 +10,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class Prayer(
     @param:StringRes val stringRes: Int,
+    val nonPrayer: Boolean = false,
 ) {
     @SerialName("fajr")
     Fajr(R.string.fajr),
 
     @SerialName("sunrise")
-    Sunrise(R.string.sunrise),
+    Sunrise(R.string.sunrise, true),
 
     @SerialName("dhuhr")
     Dhuhr(R.string.dhuhr),
@@ -24,7 +25,7 @@ enum class Prayer(
     Asr(R.string.asr),
 
     @SerialName("sunset")
-    Sunset(R.string.sunset),
+    Sunset(R.string.sunset, true),
 
     @SerialName("maghrib")
     Maghrib(R.string.maghrib),
@@ -34,33 +35,17 @@ enum class Prayer(
 
     /** middle of the night */
     @SerialName("midnight")
-    Midnight(R.string.midnight),
+    Midnight(R.string.midnight, true),
 
     /** last third of the night */
     @SerialName("tahajjud")
-    Tahajjud(R.string.tahajjud),
+    Tahajjud(R.string.tahajjud, true),
 }
 
 @Composable
 fun Prayer.i18n() = stringResource(stringRes)
 
-val SHARIA_TIMES_IN_ORDER =
-    listOf<Prayer>(
-        Prayer.Fajr,
-        Prayer.Sunrise,
-        Prayer.Dhuhr,
-        Prayer.Asr,
-        Prayer.Sunset,
-        Prayer.Maghrib,
-        Prayer.Isha,
-        Prayer.Midnight,
-        Prayer.Tahajjud,
-    )
+val SHARIA_TIMES_IN_ORDER: List<Prayer> = Prayer.entries.toList()
 
-val NON_PRAYERS_IN_ORDER =
-    listOf<Prayer>(
-        Prayer.Sunrise,
-        Prayer.Sunset,
-        Prayer.Midnight,
-        Prayer.Tahajjud,
-    )
+val NON_PRAYERS_IN_ORDER: List<Prayer> =
+    Prayer.entries.filter { it.nonPrayer }
