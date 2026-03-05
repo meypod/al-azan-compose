@@ -2,6 +2,8 @@ package com.github.meypod.al_azan.core.domain.model.settings
 
 import androidx.annotation.RawRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.github.meypod.al_azan.R
@@ -120,6 +122,14 @@ enum class ThemeColor {
     fun isClassic(): Boolean =
         when (this) {
             ClassicLight, ClassicDark -> true
+            else -> false
+        }
+
+    @Composable
+    fun isDark(): Boolean =
+        when (this) {
+            ClassicDark, Dark -> true
+            Dynamic -> isSystemInDarkTheme()
             else -> false
         }
 }
