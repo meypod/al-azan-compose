@@ -33,6 +33,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
+import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
@@ -41,6 +46,8 @@ import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.main.home.HomeUiAction
 import com.github.meypod.al_azan.main.home.HomeUiState
+import io.github.meypod.adhan_kotlin.CalculationMethod
+import kotlin.time.Instant
 
 @Composable
 fun HomeHeader(
@@ -169,6 +176,31 @@ fun HomeHeader(
 @Composable
 private fun HomeHeaderPreview() {
     AlAzanTheme {
-        HomeHeader(HomeUiState(), onAction = {})
+        val location = StaticFavoriteLocation("foo", CalculationLocationDetail(0.0, 0.0, label = "Null Island"))
+        val instant = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        val getShariaTimesUseCase = GetShariaTimesUseCase()
+        val shariahTimes = getShariaTimesUseCase(
+            instant = instant,
+            calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = CalculationLocationDetail(0.0, 0.0),
+        )
+        val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
+            instant = instant,
+            calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = CalculationLocationDetail(0.0, 0.0),
+        )
+        HomeHeader(
+            HomeUiState(
+                location = location,
+                shariaTimes = shariahTimes,
+                showNextPrayerCountdown = true,
+                nextShariaTime = nextShariaTime,
+            ),
+            onAction = {},
+        )
     }
 }
