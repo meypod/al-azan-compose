@@ -26,7 +26,7 @@ class AdhanSettingsViewModel
 
     init {
         viewModelScope.launch {
-            combine(settingsRepository.data, alarmSettingsRepository.data){ settings, alarmSettings ->
+            combine(settingsRepository.data, alarmSettingsRepository.data) { settings, alarmSettings ->
                 _uiState.update { state ->
                     state.copy(
                         settings = settings,
@@ -65,7 +65,13 @@ class AdhanSettingsViewModel
                         PrayerAlarmSettings.Bool(true)
                     }
                 }
-                state.setNotifSettings(prayer, nextState)
+                state.setNotifSettings(prayer, nextState).let {
+                    if (!nextState.value) {
+                        it.setSoundSettings(prayer, PrayerAlarmSettings.Bool(false))
+                    } else {
+                        it
+                    }
+                }
             }
         }
     }
@@ -83,7 +89,13 @@ class AdhanSettingsViewModel
                         PrayerAlarmSettings.Bool(true)
                     }
                 }
-                state.setSoundSettings(prayer, nextState)
+                state.setSoundSettings(prayer, nextState).let {
+                    if (nextState.value) {
+                        it.setNotifSettings(prayer, PrayerAlarmSettings.Bool(true))
+                    } else {
+                        it
+                    }
+                }
             }
         }
     }
