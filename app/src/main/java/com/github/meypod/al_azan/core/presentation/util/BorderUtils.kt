@@ -2,17 +2,18 @@ package com.github.meypod.al_azan.core.presentation.util
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.border
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -56,3 +57,36 @@ fun Modifier.bottomBorder(
         )
     },
 )
+
+@Stable
+fun Modifier.dashedBorder(
+    borderColor: Color,
+    strokeWidth: Float = 2f,
+    dashWidth: Float = 20f,
+    dashGap: Float = 20f,
+): Modifier =
+    this.drawBehind {
+        val paint = android.graphics
+            .Paint()
+            .apply {
+                color = borderColor.toArgb()
+                style = android.graphics.Paint.Style.STROKE
+                pathEffect = android.graphics.DashPathEffect(
+                    floatArrayOf(dashWidth, dashGap),
+                    0f,
+                )
+                this.strokeWidth = strokeWidth
+            }
+        val borderRect = android.graphics.RectF(
+            0f + strokeWidth / 2,
+            0f + strokeWidth / 2,
+            size.width - strokeWidth / 2,
+            size.height - strokeWidth / 2,
+        )
+        drawContext.canvas.nativeCanvas.drawRoundRect(
+            borderRect,
+            30f,
+            30f,
+            paint,
+        )
+    }
