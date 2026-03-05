@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.data.model.old
 
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
@@ -150,6 +151,19 @@ data class OldCalculationSettingsState(
         CalculationSettings(
             locationId = "default",
             parameters = this.getCalculationParameters(),
+            calculationAdjustments = CalculationAdjustments(
+                fajr = this.fajrAdjustment,
+                sunrise = this.sunriseAdjustment,
+                dhuhr = this.dhuhrAdjustment,
+                asr = this.asrAdjustment,
+                maghrib = this.maghribAdjustment,
+                sunset = this.sunsetAdjustment,
+                isha = this.ishaAdjustment,
+                midnight = this.midnightAdjustment,
+                tahajjud = 0, // we didn't have this before,
+                hijriDate = this.hijriDateAdjustment,
+            ),
+            midnightMethod = this.midnightMethod,
         )
 }
 

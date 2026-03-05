@@ -44,7 +44,7 @@ enum class Prayer(
 @Composable
 fun Prayer.i18n() = stringResource(stringRes)
 
-val PRAYERS_IN_ORDER =
+val SHARIA_TIMES_IN_ORDER =
     listOf<Prayer>(
         Prayer.Fajr,
         Prayer.Sunrise,

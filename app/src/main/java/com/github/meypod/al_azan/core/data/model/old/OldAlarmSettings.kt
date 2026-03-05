@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.data.model.old
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import kotlinx.datetime.DayOfWeek
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -97,7 +98,22 @@ sealed interface OldPrayerAlarmSettings {
 fun OldPrayerAlarmSettings?.toPrayerAlarmSettings() =
     when (this) {
         is OldPrayerAlarmSettings.Bool -> PrayerAlarmSettings.Bool(this.value)
-        is OldPrayerAlarmSettings.ByWeekDay -> PrayerAlarmSettings.ByWeekDay(this.days)
+
+        is OldPrayerAlarmSettings.ByWeekDay -> PrayerAlarmSettings.ByWeekDay(
+            this.days.mapKeys {
+                return@mapKeys when (it.key) {
+                    0 -> DayOfWeek.SUNDAY
+                    1 -> DayOfWeek.MONDAY
+                    2 -> DayOfWeek.TUESDAY
+                    3 -> DayOfWeek.WEDNESDAY
+                    4 -> DayOfWeek.THURSDAY
+                    5 -> DayOfWeek.FRIDAY
+                    6 -> DayOfWeek.SATURDAY
+                    else -> DayOfWeek.SATURDAY
+                }
+            },
+        )
+
         null -> PrayerAlarmSettings.Bool(false)
     }
 
