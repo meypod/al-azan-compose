@@ -81,6 +81,7 @@ class HomeViewModel
                         null
                     }
                     it.copy(
+                        themeColor = settings.themeColor,
                         arabicCalendar = settings.selectedArabicCalendar,
                         calendar = settings.selectedSecondaryCalendar,
                         locale = settings.selectedLocale,
