@@ -313,7 +313,7 @@ private fun Modifier.drawScrollbar(
     }
 
 private val BarColor: Color
-    @Composable get() = MaterialTheme.colorScheme.onSurface
+    @Composable get() = MaterialTheme.colorScheme.primary
 
 private val Thickness = 6.dp
 private const val IDLE_ALPHA = 0.2f

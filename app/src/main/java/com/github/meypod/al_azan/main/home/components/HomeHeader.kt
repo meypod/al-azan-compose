@@ -57,7 +57,7 @@ fun HomeHeader(
                 backgroundColor = patternBackgroundColor,
                 patternAlpha = 0.03f,
             )
-            .padding(dimensionResource(R.dimen.page_padding)),
+            .padding(dimensionResource(R.dimen.element_padding)),
     ) {
         val iconButtonColors = IconButtonColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
