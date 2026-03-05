@@ -25,9 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -356,7 +353,7 @@ private fun IntroStepScaffold(
             if (scrollable) {
                 baseModifier
                     .fadeScrollEdges(scrollState, Orientation.Vertical)
-                    .drawVerticalScrollbar(scrollState)
+                    .drawVerticalScrollbar(scrollState, barColor = @Composable { MaterialTheme.colorScheme.onPrimary })
                     .verticalScroll(scrollState)
             } else {
                 baseModifier
