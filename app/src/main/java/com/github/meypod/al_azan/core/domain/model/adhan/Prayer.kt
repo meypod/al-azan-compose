@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class Prayer(
     @param:StringRes val stringRes: Int,
-    val nonPrayer: Boolean = false,
+    val isNonPrayer: Boolean = false,
 ) {
     @SerialName("fajr")
     Fajr(R.string.fajr),
@@ -48,4 +48,4 @@ fun Prayer.i18n() = stringResource(stringRes)
 val SHARIA_TIMES_IN_ORDER: List<Prayer> = Prayer.entries.toList()
 
 val NON_PRAYERS_IN_ORDER: List<Prayer> =
-    Prayer.entries.filter { it.nonPrayer }
+    Prayer.entries.filter { it.isNonPrayer }

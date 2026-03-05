@@ -1,6 +1,8 @@
 package com.github.meypod.al_azan.main.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
@@ -32,6 +34,8 @@ import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.main.home.components.HomeHeader
+import com.github.meypod.al_azan.main.home.components.ShariaTimesBox
+import com.github.meypod.al_azan.main.home.components.ShariaTimesBoxUiState
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import kotlinx.coroutines.launch
 import kotlin.time.Instant
@@ -47,6 +51,7 @@ fun HomeScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
     ModalNavigationDrawer(
+        modifier = modifier,
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(drawerState) {
@@ -106,7 +111,6 @@ fun HomeScreen(
         },
     ) {
         Scaffold(
-            modifier = modifier,
             topBar = {
                 CenterAlignedTopAppBar(
                     navigationIcon = {
@@ -134,13 +138,39 @@ fun HomeScreen(
                 )
             },
         ) { paddingValues ->
+
             Column(
-                Modifier.padding(paddingValues),
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
             ) {
                 HomeHeader(
                     uiState,
                     onAction,
                 )
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.element_padding),
+                        )
+                        .then(
+                            if (!uiState.themeColor.isClassic()) {
+                                Modifier.offset(y = -dimensionResource(R.dimen.page_padding))
+                            } else {
+                                Modifier
+                            },
+                        ),
+                ) {
+                    ShariaTimesBox(
+                        ShariaTimesBoxUiState(
+                            shariahTimes = uiState.shariaTimes,
+                            locale = uiState.locale,
+                            numberingSystem = uiState.numberingSystem,
+                            is24Hours = uiState.is24Hour,
+                        ),
+                    )
+                }
             }
         }
     }

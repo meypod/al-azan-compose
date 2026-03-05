@@ -88,6 +88,7 @@ class HomeViewModel
                         showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
                         shariaTimes = shariaTimes,
                         nextShariaTime = nextShariaTime,
+                        is24Hour = settings.is24HourFormat,
                     )
                 }
             }.collect()
