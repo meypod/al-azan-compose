@@ -1,7 +1,9 @@
 package com.github.meypod.al_azan.core.domain.model.alarm
 
+import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 @Serializable
 data class AlarmSettings(
@@ -30,6 +32,15 @@ data class AlarmSettings(
     val tahajjudSound: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val tahajjudNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
 ) {
+    fun shouldNotifyFor(
+        instant: Instant,
+        prayers: List<Prayer>? = null,
+    ) = (prayers ?: SHARIA_TIMES_IN_ORDER).any { getNotifSettings(it).shouldFireFor(instant) }
+
+    fun shouldNotifyFor(
+        instant: Instant,
+        prayer: Prayer,
+    ) = getNotifSettings(prayer).shouldFireFor(instant)
 
     fun getNotifSettings(prayer: Prayer): PrayerAlarmSettings =
         when (prayer) {

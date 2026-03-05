@@ -1,8 +1,8 @@
 package com.github.meypod.al_azan.main.home
 
 import android.icu.text.DateFormat
-import android.icu.util.ULocale
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -44,16 +44,22 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.adhan.i18n
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
+import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.utils.formatCountdownToHHmmss
 import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
+import io.github.meypod.adhan_kotlin.CalculationMethod
 import kotlinx.coroutines.launch
-import java.util.Date
 import kotlin.time.Instant
-import kotlin.time.toJavaInstant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -230,34 +236,38 @@ private fun HomeHeader(
             itemVerticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = if (uiState.showNextPrayerCountdown) Arrangement.SpaceBetween else Arrangement.Center,
         ) {
-            Button(
-                onClick = { onAction(HomeUiAction.OnLocationTextClick) },
-                colors = ButtonColors(
-                    Color.Transparent,
-                    Color.White,
-                    Color.White.copy(alpha = 0.6f),
-                    Color.Transparent,
-                ),
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                    verticalAlignment = Alignment.CenterVertically,
+            if (uiState.location == null) {
+                Box {}
+            } else {
+                Button(
+                    onClick = { onAction(HomeUiAction.OnLocationTextClick) },
+                    colors = ButtonColors(
+                        Color.Transparent,
+                        Color.White,
+                        Color.White.copy(alpha = 0.6f),
+                        Color.Transparent,
+                    ),
                 ) {
-                    Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
-                    Text(
-                        uiState.location.locationDetail.toDisplayString(),
-                        color = Color.White,
-                        style = MaterialTheme.typography.labelMedium,
-                        textDecoration = TextDecoration.Underline,
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
+                        Text(
+                            uiState.location.locationDetail.toDisplayString(),
+                            color = Color.White,
+                            style = MaterialTheme.typography.labelMedium,
+                            textDecoration = TextDecoration.Underline,
+                        )
+                    }
                 }
             }
 
-            if (uiState.showNextPrayerCountdown) {
+            if (uiState.showNextPrayerCountdown && uiState.nextShariaTime != null) {
                 CompactOutlinedTextField(
-                    "00:18:36",
+                    uiState.countdownText,
                     {},
-                    label = { Text(stringResource(R.string.next_prayer)) },
+                    label = { Text(uiState.nextShariaTime.prayer.i18n()) },
                     colors = OutlinedTextFieldDefaults.colors().copy(
                         focusedLabelColor = DarkTertiary,
                         unfocusedLabelColor = DarkTertiary,
@@ -295,7 +305,48 @@ private fun HomeHeaderPreview() {
     device = Devices.TABLET,
 )
 @Composable
-private fun HomePreview() {
+private fun HomeLoadedPreview() {
+    AlAzanTheme {
+        val location = StaticFavoriteLocation("foo", CalculationLocationDetail(0.0, 0.0, label = "Null Island"))
+        val instant = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        val getShariaTimesUseCase = GetShariaTimesUseCase()
+        val shariahTimes = getShariaTimesUseCase(
+            instant = instant,
+            calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = CalculationLocationDetail(0.0, 0.0),
+        )
+        val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
+            instant = instant,
+            calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = CalculationLocationDetail(0.0, 0.0),
+        )
+        HomeScreen(
+            uiState = HomeUiState(
+                calendar = "gregorian",
+                location = location,
+                shariaTimes = shariahTimes,
+                nextShariaTime = nextShariaTime,
+            ),
+            onAction = {},
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF00585A,
+)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF00585A,
+    device = Devices.TABLET,
+)
+@Composable
+private fun HomeInitialPreview() {
     AlAzanTheme {
         HomeScreen(
             uiState = HomeUiState(

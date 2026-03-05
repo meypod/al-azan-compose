@@ -92,6 +92,7 @@ data class Settings(
     val hijriMonthlyView: Boolean = false,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val locationIdBeforeTravel: String? = null,
+    val showHomeNextPrayerCountdown: Boolean = true,
 )
 
 @Serializable

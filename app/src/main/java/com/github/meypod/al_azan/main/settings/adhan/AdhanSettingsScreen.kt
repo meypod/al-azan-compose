@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
-import com.github.meypod.al_azan.core.domain.model.adhan.PRAYERS_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.InformationRow
@@ -51,7 +51,7 @@ fun AdhanSettingsScreen(
                 SettingHeader(stringResource(R.string.schedule), stringResource(R.string.schedule_help))
 
                 Column {
-                    PRAYERS_IN_ORDER.forEachIndexed { index, prayer ->
+                    SHARIA_TIMES_IN_ORDER.forEachIndexed { index, prayer ->
                         key(prayer.name) {
                             AdhanScheduleRow(
                                 AdhanScheduleRowUiState.fromPrayerAlarmSettings(
@@ -63,7 +63,7 @@ fun AdhanSettingsScreen(
                                 onAction(it.toAdhanSettingsUiAction(prayer))
                             }
                         }
-                        if (index != PRAYERS_IN_ORDER.size - 1) {
+                        if (index != SHARIA_TIMES_IN_ORDER.size - 1) {
                             HorizontalDivider()
                         }
                     }

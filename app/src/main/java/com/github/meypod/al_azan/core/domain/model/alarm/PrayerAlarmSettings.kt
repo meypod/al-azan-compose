@@ -1,5 +1,9 @@
 package com.github.meypod.al_azan.core.domain.model.alarm
 
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -14,7 +18,10 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
+import kotlin.time.Instant
 
 @Serializable(with = PrayerAlarmSettingsSerializer::class)
 sealed interface PrayerAlarmSettings {
@@ -24,10 +31,16 @@ sealed interface PrayerAlarmSettings {
 
     data class ByWeekDay(
         /** map of weekDayIndex -> enabled; missing keys = disabled */
-        val days: Map<Int, Boolean> = emptyMap(),
+        val days: Map<DayOfWeek, Boolean> = emptyMap(),
     ) : PrayerAlarmSettings {
-        fun get(weekDayIndex: Int) = days.getOrDefault(weekDayIndex, false)
+        fun get(dayOfWeek: DayOfWeek) = days.getOrDefault(dayOfWeek, false)
     }
+
+    fun shouldFireFor(instant: Instant): Boolean =
+        when (this) {
+            is Bool -> this.value
+            is ByWeekDay -> get(instant.toLocalDateTime(TimeZone.currentSystemDefault()).dayOfWeek)
+        }
 }
 
 object PrayerAlarmSettingsSerializer : KSerializer<PrayerAlarmSettings> {
@@ -49,6 +62,8 @@ object PrayerAlarmSettingsSerializer : KSerializer<PrayerAlarmSettings> {
                     PrayerAlarmSettings.Bool(false)
                 } else if (elem.booleanOrNull != null) {
                     PrayerAlarmSettings.Bool(elem.boolean)
+                } else if (elem.intOrNull != null) {
+                    PrayerAlarmSettings.Bool(elem.int == 1)
                 } else {
                     throw SerializationException("Unsupported primitive for PrayerAlarmSettings: $elem")
                 }
@@ -56,7 +71,7 @@ object PrayerAlarmSettingsSerializer : KSerializer<PrayerAlarmSettings> {
 
             is JsonObject -> {
                 val map = elem.mapValues { (_, v) -> v.jsonPrimitive.booleanOrNull ?: false }
-                    .mapKeys { it.key.toInt() }
+                    .mapKeys { DayOfWeek(it.key.toInt()) }
                 PrayerAlarmSettings.ByWeekDay(map)
             }
 
@@ -78,7 +93,7 @@ object PrayerAlarmSettingsSerializer : KSerializer<PrayerAlarmSettings> {
 
                 is PrayerAlarmSettings.ByWeekDay ->
                     JsonObject(
-                        value.days.mapKeys { it.key.toString() }.mapValues { JsonPrimitive(it.value) },
+                        value.days.mapKeys { it.key.isoDayNumber.toString() }.mapValues { JsonPrimitive(it.value) },
                     )
             }
 
