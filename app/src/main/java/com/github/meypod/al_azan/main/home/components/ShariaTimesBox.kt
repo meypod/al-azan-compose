@@ -14,6 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +27,7 @@ import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
+import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlin.time.Clock
@@ -44,10 +49,9 @@ fun ShariaTimesBox(
     val scrollState = rememberScrollState()
 
     Surface(
-        modifier = modifier,
+        modifier = modifier.dropShadow2(MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
         tonalElevation = 2.dp,
-        shadowElevation = 2.dp,
     ) {
         Column(
             Modifier
@@ -58,7 +62,6 @@ fun ShariaTimesBox(
         ) {
             for (prayer in SHARIA_TIMES_IN_ORDER) {
                 key(prayer.name) {
-
                     ShariaTimeRow(
                         ShariaTimeRowUiState(
                             prayer,
