@@ -18,6 +18,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -32,6 +33,7 @@ data class ShariaTimesBoxUiState(
     val locale: String = "en-US",
     val numberingSystem: String? = null,
     val is24Hours: Boolean = true,
+    val highlightedPrayer: Prayer? = Prayer.Asr,
 )
 
 @Composable
@@ -56,6 +58,7 @@ fun ShariaTimesBox(
         ) {
             for (prayer in SHARIA_TIMES_IN_ORDER) {
                 key(prayer.name) {
+
                     ShariaTimeRow(
                         ShariaTimeRowUiState(
                             prayer,
@@ -63,6 +66,14 @@ fun ShariaTimesBox(
                             state.locale,
                             state.numberingSystem,
                             state.is24Hours,
+                            state.highlightedPrayer?.let {
+                                val pos = (prayer.ordinal - it.ordinal)
+                                when {
+                                    pos < 0 -> HighlightState.BeforeHighlight
+                                    pos == 0 -> HighlightState.Highlighted
+                                    else -> HighlightState.AfterHighlight
+                                }
+                            } ?: HighlightState.BeforeHighlight,
                         ),
                     )
                 }

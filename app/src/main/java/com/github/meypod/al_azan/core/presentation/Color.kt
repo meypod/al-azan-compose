@@ -131,3 +131,8 @@ val DarkHighContrastInverseSurface = Color(0xFFDFE3E3)
 val DarkHighContrastInverseOnSurface = Color(0xFF000000)
 val DarkHighContrastInversePrimary = Color(0xFF003031)
 val DarkHighContrastSurfaceTint = Color(0xFF76D5D8)
+
+// For sharia times
+
+val TertiaryFixed = Color(0xFFFFE175)
+val Tertiary95 = Color(0xFFFFF0C5)

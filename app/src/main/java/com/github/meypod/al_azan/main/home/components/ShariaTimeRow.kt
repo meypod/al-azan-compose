@@ -1,23 +1,35 @@
 package com.github.meypod.al_azan.main.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.Tertiary95
+import com.github.meypod.al_azan.core.presentation.TertiaryFixed
 import com.github.meypod.al_azan.core.presentation.util.dashedBorder
 import kotlin.time.Clock
 import kotlin.time.DurationUnit
@@ -31,11 +43,48 @@ data class ShariaTimeRowUiState(
     val locale: String = "en-US",
     val numberingSystem: String? = null,
     val is24Hours: Boolean = true,
+    val highlightState: HighlightState = HighlightState.BeforeHighlight,
+    val themeColor: ThemeColor = ThemeColor.Default,
 )
+
+enum class HighlightState {
+    BeforeHighlight,
+    Highlighted,
+    AfterHighlight,
+}
 
 @Composable
 fun ShariaTimeRow(state: ShariaTimeRowUiState) {
-    Row(Modifier.padding(dimensionResource(R.dimen.element_padding))) {
+    Row(
+        Modifier.then(
+            when (state.highlightState) {
+                HighlightState.BeforeHighlight -> Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+
+                HighlightState.Highlighted -> {
+                    val shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                    Modifier.background(MaterialTheme.colorScheme.surfaceVariant).dropShadow(
+                        shape = shape,
+                    ) {
+                        this.radius = 4.dp.toPx() // Blur radius in pixels
+                        this.offset = Offset(0f, -1f) // Offset in pixels (Negative Y moves up)
+                        this.spread = 0f // No spread needed for top-only look
+                        this.alpha = 0.1f // Full shadow opacity
+                    }
+                        .clip(shape).background(
+                            if (state.themeColor.isClassic()) Tertiary95 else TertiaryFixed,
+                        )
+                }
+
+                HighlightState.AfterHighlight -> if (state.themeColor.isClassic()) {
+                    Modifier
+                } else {
+                    Modifier.background(
+                        MaterialTheme.colorScheme.secondaryContainer,
+                    )
+                }
+            },
+        ).padding(dimensionResource(R.dimen.element_padding)),
+    ) {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -50,7 +99,16 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(state.prayer.i18n())
+            Text(
+                state.prayer.i18n(),
+                fontWeight = if (state.highlightState ==
+                    HighlightState.Highlighted
+                ) {
+                    FontWeight.SemiBold
+                } else {
+                    FontWeight.Normal
+                },
+            )
             if (state.instant == null) {
                 Text("--:--")
             } else {
@@ -62,6 +120,13 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                         if (state.is24Hours) "HH:mm" else "hh:mm",
                         state.numberingSystem,
                     ),
+                    fontWeight = if (state.highlightState ==
+                        HighlightState.Highlighted
+                    ) {
+                        FontWeight.SemiBold
+                    } else {
+                        FontWeight.Normal
+                    },
                 )
             }
         }
@@ -85,12 +150,14 @@ private fun ShariaTimeRowPreview() {
                 ShariaTimeRowUiState(
                     Prayer.Sunrise,
                     Clock.System.now(),
+                    highlightState = HighlightState.Highlighted,
                 ),
             )
             ShariaTimeRow(
                 ShariaTimeRowUiState(
                     Prayer.Dhuhr,
                     null,
+                    highlightState = HighlightState.AfterHighlight,
                 ),
             )
         }
