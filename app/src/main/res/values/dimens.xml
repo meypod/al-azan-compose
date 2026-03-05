@@ -6,4 +6,5 @@
     <dimen name="element_padding_compact">5dp</dimen>
     <dimen name="icon_padding">6dp</dimen>
     <dimen name="tiny_padding">4dp</dimen>
+    <dimen name="home_card_padding">20dp</dimen>
 </resources>

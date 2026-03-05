@@ -156,7 +156,7 @@ fun HomeScreen(
                         )
                         .then(
                             if (!uiState.themeColor.isClassic()) {
-                                Modifier.offset(y = -dimensionResource(R.dimen.page_padding))
+                                Modifier.offset(y = -dimensionResource(R.dimen.home_card_padding))
                             } else {
                                 Modifier
                             },
@@ -168,6 +168,7 @@ fun HomeScreen(
                             locale = uiState.locale,
                             numberingSystem = uiState.numberingSystem,
                             is24Hours = uiState.is24Hour,
+                            highlightedPrayer = uiState.nextShariaTime?.prayer,
                         ),
                     )
                 }

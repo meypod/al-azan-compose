@@ -160,7 +160,7 @@ fun HomeHeader(
             }
         }
         if (!uiState.themeColor.isClassic()) {
-            Spacer(Modifier.height(dimensionResource(R.dimen.page_padding)))
+            Spacer(Modifier.height(dimensionResource(R.dimen.home_card_padding)))
         }
     }
 }
