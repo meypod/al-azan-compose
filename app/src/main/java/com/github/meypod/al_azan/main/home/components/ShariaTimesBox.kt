@@ -14,10 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +21,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
@@ -35,10 +32,10 @@ import kotlin.time.Clock
 @Immutable
 data class ShariaTimesBoxUiState(
     val shariahTimes: ShariaTimes?,
+    val nextShariaTime: ShariaTimeDetails?,
     val locale: String = "en-US",
     val numberingSystem: String? = null,
     val is24Hours: Boolean = true,
-    val highlightedPrayer: Prayer? = Prayer.Asr,
 )
 
 @Composable
@@ -69,20 +66,37 @@ fun ShariaTimesBox(
                             state.locale,
                             state.numberingSystem,
                             state.is24Hours,
-                            state.highlightedPrayer?.let {
-                                val pos = (prayer.ordinal - it.ordinal)
-                                when {
-                                    pos < 0 -> HighlightState.BeforeHighlight
-                                    pos == 0 -> HighlightState.Highlighted
-                                    else -> HighlightState.AfterHighlight
-                                }
-                            } ?: HighlightState.BeforeHighlight,
+                            getHighlightState(
+                                prayer,
+                                state.shariahTimes,
+                                state.nextShariaTime,
+                            ),
                         ),
                     )
                 }
             }
         }
     }
+}
+
+private fun getHighlightState(
+    prayer: Prayer,
+    shariaTimes: ShariaTimes?,
+    nextShariaTime: ShariaTimeDetails?,
+): HighlightState {
+    if (shariaTimes != null && nextShariaTime != null) {
+        if (shariaTimes.forDate == nextShariaTime.forDate) {
+            val pos = (prayer.ordinal - nextShariaTime.prayer.ordinal)
+            return when {
+                pos < 0 -> HighlightState.BeforeHighlight
+                pos == 0 -> HighlightState.Highlighted
+                else -> HighlightState.AfterHighlight
+            }
+        } else if (nextShariaTime.prayerTime > shariaTimes.originalInstant) {
+           return HighlightState.AfterHighlight
+        }
+    }
+    return HighlightState.BeforeHighlight
 }
 
 @Preview
@@ -100,6 +114,7 @@ private fun ShariaTimesBoxPreview() {
                 ShariaTimesBox(
                     ShariaTimesBoxUiState(
                         ShariaTimes(
+                            instant,
                             dateComponents,
                             instant,
                             instant,
@@ -110,6 +125,13 @@ private fun ShariaTimesBoxPreview() {
                             instant,
                             instant,
                             instant,
+                        ),
+                        nextShariaTime = ShariaTimeDetails(
+                            forDate = dateComponents,
+                            prayer = Prayer.Asr,
+                            prayerTime = instant,
+                            notify = false,
+                            sound = false,
                         ),
                     ),
                 )

@@ -10,13 +10,19 @@ import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.utils.formatCountdownToHHmmss
 import com.github.meypod.al_azan.core.domain.utils.tickFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @HiltViewModel
 class HomeViewModel
@@ -30,69 +36,13 @@ class HomeViewModel
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
+    @Volatile
+    private var updateScreenJob: Job? = null
+
     init {
-        viewModelScope.launch {
-            tickFlow().collect { now ->
-                if (uiState.value.showNextPrayerCountdown && uiState.value.nextShariaTime != null) {
-                    _uiState.update {
-                        if (it.nextShariaTime != null) {
-                            it.copy(countdownText = formatCountdownToHHmmss(now, it.nextShariaTime.prayerTime, it.numberingSystem))
-                        } else {
-                            it
-                        }
-                    }
-                }
-            }
-        }
-        viewModelScope.launch {
-            combine(
-                settingsRepository.data,
-                calculationSettingsRepository.data,
-                favoriteLocationsRepository.data,
-            ) {
-                    settings,
-                    calcSettings,
-                    locations,
-                ->
-                _uiState.update {
-                    val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
-                    val shariaTimes = if (calcSettings.parameters != null && location != null) {
-                        getShariaTimesUseCase(
-                            instant = it.currentInstant,
-                            calculationParameters = calcSettings.parameters,
-                            calculationAdjustments = calcSettings.calculationAdjustments,
-                            arabicCalendar = settings.selectedArabicCalendar,
-                            locationDetail = location.locationDetail,
-                        )
-                    } else {
-                        null
-                    }
-                    val nextShariaTime = if (calcSettings.parameters != null && location != null) {
-                        getNextShariaTimesUseCase(
-                            instant = it.currentInstant,
-                            calculationParameters = calcSettings.parameters,
-                            calculationAdjustments = calcSettings.calculationAdjustments,
-                            arabicCalendar = settings.selectedArabicCalendar,
-                            locationDetail = location.locationDetail,
-                        )
-                    } else {
-                        null
-                    }
-                    it.copy(
-                        themeColor = settings.themeColor,
-                        arabicCalendar = settings.selectedArabicCalendar,
-                        calendar = settings.selectedSecondaryCalendar,
-                        locale = settings.selectedLocale,
-                        numberingSystem = settings.numberingSystem,
-                        location = location,
-                        showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
-                        shariaTimes = shariaTimes,
-                        nextShariaTime = nextShariaTime,
-                        is24Hour = settings.is24HourFormat,
-                    )
-                }
-            }.collect()
-        }
+        collectTimeTick()
+        collectCurrentInstant()
+        collectViewingInstant()
     }
 
     fun onAction(action: HomeUiAction) {
@@ -123,11 +73,11 @@ class HomeViewModel
     }
 
     fun onNextDayClick() {
-        // TODO: Implement next day click action
+        _uiState.update { it.copy(viewingInstant = it.viewingInstant.plus(1.toDuration(DurationUnit.DAYS))) }
     }
 
     fun onPrevDayClick() {
-        // TODO: Implement previous day click action
+        _uiState.update { it.copy(viewingInstant = it.viewingInstant.minus(1.toDuration(DurationUnit.DAYS))) }
     }
 
     fun onShowTodayClick() {
@@ -152,5 +102,116 @@ class HomeViewModel
 
     private fun onAboutUsLinkClick() {
         // todo
+    }
+
+    private fun collectTimeTick() {
+        viewModelScope.launch {
+            tickFlow().collect { now ->
+                if (uiState.value.showNextPrayerCountdown) {
+                    _uiState.update {
+                        if (it.nextShariaTime != null && now <= it.nextShariaTime.prayerTime) {
+                            it.copy(countdownText = formatCountdownToHHmmss(now, it.nextShariaTime.prayerTime, it.numberingSystem))
+                        } else {
+                            it
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun collectCurrentInstant() {
+        viewModelScope.launch {
+            combine(
+                uiState.map { it.currentInstant },
+                settingsRepository.data,
+                calculationSettingsRepository.data,
+                favoriteLocationsRepository.data,
+            ) {
+                    currentInstant,
+                    settings,
+                    calcSettings,
+                    locations,
+                ->
+                _uiState.update {
+                    val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
+                    val shariaTimes = if (calcSettings.parameters != null && location != null) {
+                        getShariaTimesUseCase(
+                            instant = currentInstant,
+                            calculationParameters = calcSettings.parameters,
+                            calculationAdjustments = calcSettings.calculationAdjustments,
+                            arabicCalendar = settings.selectedArabicCalendar,
+                            locationDetail = location.locationDetail,
+                        )
+                    } else {
+                        null
+                    }
+                    val nextShariaTime = if (calcSettings.parameters != null && location != null) {
+                        getNextShariaTimesUseCase(
+                            instant = currentInstant,
+                            calculationParameters = calcSettings.parameters,
+                            calculationAdjustments = calcSettings.calculationAdjustments,
+                            arabicCalendar = settings.selectedArabicCalendar,
+                            locationDetail = location.locationDetail,
+                        )
+                    } else {
+                        null
+                    }
+                    updateScreenJob?.cancel()
+                    updateScreenJob = viewModelScope.launch {
+                        nextShariaTime?.prayerTime?.let { upcoming ->
+                            val updateAfter = upcoming - currentInstant
+                            delay(updateAfter)
+                            _uiState.update { state -> state.copy(currentInstant = Clock.System.now()) }
+                        }
+                    }
+                    it.copy(
+                        themeColor = settings.themeColor,
+                        arabicCalendar = settings.selectedArabicCalendar,
+                        calendar = settings.selectedSecondaryCalendar,
+                        locale = settings.selectedLocale,
+                        numberingSystem = settings.numberingSystem,
+                        location = location,
+                        showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
+                        nextShariaTime = nextShariaTime,
+                        is24Hour = settings.is24HourFormat,
+                    )
+                }
+            }.collect()
+        }
+    }
+
+    private fun collectViewingInstant() {
+        viewModelScope.launch {
+            combine(
+                uiState.map { it.viewingInstant },
+                settingsRepository.data,
+                calculationSettingsRepository.data,
+                favoriteLocationsRepository.data,
+            ) {
+                    viewingInstant,
+                    settings,
+                    calcSettings,
+                    locations,
+                ->
+                _uiState.update {
+                    val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
+                    val shariaTimes = if (calcSettings.parameters != null && location != null) {
+                        getShariaTimesUseCase(
+                            instant = viewingInstant,
+                            calculationParameters = calcSettings.parameters,
+                            calculationAdjustments = calcSettings.calculationAdjustments,
+                            arabicCalendar = settings.selectedArabicCalendar,
+                            locationDetail = location.locationDetail,
+                        )
+                    } else {
+                        null
+                    }
+                    it.copy(
+                        shariaTimes = shariaTimes,
+                    )
+                }
+            }.collect()
+        }
     }
 }

@@ -4,11 +4,11 @@ import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
-import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import kotlin.time.toDuration
 
 @Immutable
 data class ShariaTimeDetails(
-    val forDay: Instant,
+    val forDate: DateComponents,
     val prayer: Prayer,
     val prayerTime: Instant,
     val notify: Boolean,
@@ -59,7 +59,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
             val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings)
             if (nextPrayer != null) {
                 return ShariaTimeDetails(
-                    forDay = instant,
+                    forDate = DateComponents.from(prevDayInstant),
                     prayer = nextPrayer,
                     prayerTime = prevDayShariahTimes.forPrayer(nextPrayer),
                     notify = alarmSettings?.getNotifSettings(nextPrayer)?.shouldFireFor(instant) ?: false,
@@ -86,7 +86,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         }
 
         return ShariaTimeDetails(
-            forDay = instantToCheck,
+            forDate = DateComponents.from(instantToCheck),
             prayer = nextPrayer,
             prayerTime = shariahTimes.forPrayer(nextPrayer),
             notify = alarmSettings?.getNotifSettings(nextPrayer)?.shouldFireFor(instantToCheck) ?: false,

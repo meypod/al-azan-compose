@@ -127,7 +127,7 @@ fun HomeScreen(
                     title = {
                         Text(
                             formatInstant(
-                                uiState.currentInstant,
+                                uiState.viewingInstant,
                                 uiState.locale,
                                 uiState.calendar,
                                 numberingSystem = uiState.numberingSystem,
@@ -140,27 +140,22 @@ fun HomeScreen(
         ) { paddingValues ->
 
             Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+                Modifier.fillMaxSize().padding(paddingValues),
             ) {
                 HomeHeader(
                     uiState,
                     onAction,
                 )
                 Column(
-                    Modifier
-                        .weight(1f)
-                        .padding(
-                            horizontal = dimensionResource(R.dimen.element_padding),
-                        )
-                        .then(
-                            if (!uiState.themeColor.isClassic()) {
-                                Modifier.offset(y = -dimensionResource(R.dimen.home_card_padding))
-                            } else {
-                                Modifier
-                            },
-                        ),
+                    Modifier.weight(1f).padding(
+                        horizontal = dimensionResource(R.dimen.element_padding),
+                    ).then(
+                        if (!uiState.themeColor.isClassic()) {
+                            Modifier.offset(y = -dimensionResource(R.dimen.home_card_padding))
+                        } else {
+                            Modifier
+                        },
+                    ),
                 ) {
                     ShariaTimesBox(
                         ShariaTimesBoxUiState(
@@ -168,7 +163,7 @@ fun HomeScreen(
                             locale = uiState.locale,
                             numberingSystem = uiState.numberingSystem,
                             is24Hours = uiState.is24Hour,
-                            highlightedPrayer = uiState.nextShariaTime?.prayer,
+                            nextShariaTime = uiState.nextShariaTime,
                         ),
                     )
                 }

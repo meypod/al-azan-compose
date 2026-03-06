@@ -9,6 +9,7 @@ import kotlin.time.Instant
 
 @Immutable
 data class ShariaTimes(
+    val originalInstant: Instant,
     val forDate: DateComponents,
     val fajr: Instant,
     val sunrise: Instant,
@@ -73,9 +74,11 @@ data class ShariaTimes(
 
     companion object {
         fun from(
+            originalInstant: Instant,
             prayerTimes: PrayerTimes,
             sunnahTimes: SunnahTimes,
         ) = ShariaTimes(
+            originalInstant = originalInstant,
             forDate = prayerTimes.dateComponents,
             fajr = prayerTimes.fajr,
             sunrise = prayerTimes.sunrise,

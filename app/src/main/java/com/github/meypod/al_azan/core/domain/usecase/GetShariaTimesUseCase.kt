@@ -62,7 +62,7 @@ class GetShariaTimesUseCase @Inject constructor() {
         }
         val prayerTimes = PrayerTimes(finalCoordinates, DateComponents.from(instant), finalCalculationParameters)
         val sunnahTimes = SunnahTimes(prayerTimes)
-        val shariaTimes = ShariaTimes.from(prayerTimes, sunnahTimes)
+        val shariaTimes = ShariaTimes.from(instant, prayerTimes, sunnahTimes)
         return shariaTimes.copy(
             midnight = shariaTimes.midnight.plus(calculationAdjustments.midnight.toDuration(DurationUnit.MINUTES)),
             tahajjud = shariaTimes.tahajjud.plus(calculationAdjustments.tahajjud.toDuration(DurationUnit.MINUTES)),
