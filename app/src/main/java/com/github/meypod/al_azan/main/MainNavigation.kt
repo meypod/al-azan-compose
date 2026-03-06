@@ -26,6 +26,8 @@ import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationViewModel
+import com.github.meypod.al_azan.main.settings.menu.SettingsMenuScreen
+import com.github.meypod.al_azan.main.settings.menu.SettingsMenuViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -90,6 +92,10 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                             subclass(
                                 Route.Main.Settings.BackupAndRestore::class,
                                 Route.Main.Settings.BackupAndRestore.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.Developer::class,
+                                Route.Main.Settings.Developer.serializer(),
                             )
                         }
                     }
@@ -168,6 +174,23 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                         viewModel::onAction,
                         getCountries = viewModel::getCountries,
                         getCities = viewModel::getCities,
+                    )
+                }
+                entry<Route.Main.Settings> {
+                    val viewModel = hiltViewModel<SettingsMenuViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+                    BindBackStackWithViewModel(
+                        currentRoute = { mainBackstack.lastOrNull() },
+                        navIntents = { viewModel.navIntents },
+                        navigateTo = { route -> mainBackstack.navigateTo(route) },
+                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
+                        canPopBack = { mainBackstack.size > 1 },
+                    )
+
+                    SettingsMenuScreen(
+                        uiState,
+                        viewModel::onAction,
                     )
                 }
             },

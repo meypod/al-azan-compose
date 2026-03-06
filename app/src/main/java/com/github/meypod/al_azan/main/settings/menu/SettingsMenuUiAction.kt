@@ -1,0 +1,13 @@
+package com.github.meypod.al_azan.main.settings.menu
+
+sealed interface SettingsMenuUiAction {
+    object OnBackClick : SettingsMenuUiAction
+    object OnInterfaceSettingsClick : SettingsMenuUiAction
+    object OnNotificationAndSoundClick : SettingsMenuUiAction
+    object OnCalculationClick : SettingsMenuUiAction
+    object OnLocationClick : SettingsMenuUiAction
+    object OnTroubleshootClick : SettingsMenuUiAction
+    object OnWidgetSettingsClick : SettingsMenuUiAction
+    object OnBackupAndRestoreClick : SettingsMenuUiAction
+    object OnDeveloperClick : SettingsMenuUiAction
+}
