@@ -73,48 +73,44 @@ class HomeViewModel
         }
     }
 
-    fun onCalendarDateClick() {
-        // TODO: Implement calendar date click action
+    private fun onCalendarDateClick() {
+        _navIntents.tryEmit(NavIntent.To(Route.Main.CalendarView))
     }
 
-    fun onLocationTextClick() {
+    private fun onLocationTextClick() {
         _navIntents.tryEmit(NavIntent.To(Route.Main.Location))
     }
 
-    fun onMenuIconClick() {
-        // TODO: Implement menu icon click action
-    }
-
-    fun onNextDayClick() {
+    private fun onNextDayClick() {
         _uiState.update { it.copy(viewingInstant = addDaysTimeZoneAware(it.viewingInstant, 1)) }
     }
 
-    fun onPrevDayClick() {
+    private fun onPrevDayClick() {
         _uiState.update { it.copy(viewingInstant = addDaysTimeZoneAware(it.viewingInstant, -1)) }
     }
 
-    fun onShowTodayClick() {
+    private fun onShowTodayClick() {
         _uiState.update { it.copy(viewingInstant = it.currentInstant) }
     }
 
     private fun onReminderLinkClick() {
-        // todo
+        _navIntents.tryEmit(NavIntent.To(Route.Main.Reminder))
     }
 
     private fun onQiblaLinkClick() {
-        // todo
+        _navIntents.tryEmit(NavIntent.To(Route.Main.Qibla))
     }
 
     private fun onCounterLinkClick() {
-        // todo
+        _navIntents.tryEmit(NavIntent.To(Route.Main.Counter))
     }
 
     private fun onSettingsLinkClick() {
-        // todo
+        _navIntents.tryEmit(NavIntent.To(Route.Main.Settings))
     }
 
     private fun onAboutUsLinkClick() {
-        // todo
+        _navIntents.tryEmit(NavIntent.To(Route.Main.AboutUs))
     }
 
     private fun collectSystemChange() {
