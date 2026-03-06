@@ -3,6 +3,8 @@ package com.github.meypod.al_azan.core.domain.usecase
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
+import com.github.meypod.al_azan.core.domain.utils.getDayBeginning
 import com.github.meypod.al_azan.core.domain.utils.isInRamadan
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
@@ -25,6 +27,7 @@ class GetShariaTimesUseCase @Inject constructor() {
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
     ): ShariaTimes {
+        val dayBeginning = getDayBeginning(instant)
         val finalCoordinates = locationDetail.toCoordinates().let {
             if (calculationParameters.method == CalculationMethod.TURKEY && it.latitude >= 62.0) {
                 // appendix (d)
@@ -36,7 +39,7 @@ class GetShariaTimesUseCase @Inject constructor() {
         val finalCalculationParameters = when (calculationParameters.method) {
             CalculationMethod.UMM_AL_QURA -> {
                 if (isInRamadan(
-                        instant.plus(calculationAdjustments.hijriDate.toDuration(DurationUnit.DAYS)),
+                        addDaysTimeZoneAware(dayBeginning, calculationAdjustments.hijriDate),
                         arabicCalendar,
                     )
                 ) {
@@ -60,9 +63,9 @@ class GetShariaTimesUseCase @Inject constructor() {
                 ),
             )
         }
-        val prayerTimes = PrayerTimes(finalCoordinates, DateComponents.from(instant), finalCalculationParameters)
+        val prayerTimes = PrayerTimes(finalCoordinates, DateComponents.from(dayBeginning), finalCalculationParameters)
         val sunnahTimes = SunnahTimes(prayerTimes)
-        val shariaTimes = ShariaTimes.from(instant, prayerTimes, sunnahTimes)
+        val shariaTimes = ShariaTimes.from(dayBeginning, prayerTimes, sunnahTimes)
         return shariaTimes.copy(
             midnight = shariaTimes.midnight.plus(calculationAdjustments.midnight.toDuration(DurationUnit.MINUTES)),
             tahajjud = shariaTimes.tahajjud.plus(calculationAdjustments.tahajjud.toDuration(DurationUnit.MINUTES)),

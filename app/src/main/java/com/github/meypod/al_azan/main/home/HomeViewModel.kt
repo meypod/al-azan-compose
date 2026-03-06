@@ -83,11 +83,11 @@ class HomeViewModel
     }
 
     fun onNextDayClick() {
-        _uiState.update { it.copy(viewingInstant = it.viewingInstant.plus(1.toDuration(DurationUnit.DAYS))) }
+        _uiState.update { it.copy(viewingInstant = addDaysTimeZoneAware(it.viewingInstant, 1)) }
     }
 
     fun onPrevDayClick() {
-        _uiState.update { it.copy(viewingInstant = it.viewingInstant.minus(1.toDuration(DurationUnit.DAYS))) }
+        _uiState.update { it.copy(viewingInstant = addDaysTimeZoneAware(it.viewingInstant, -1)) }
     }
 
     fun onShowTodayClick() {

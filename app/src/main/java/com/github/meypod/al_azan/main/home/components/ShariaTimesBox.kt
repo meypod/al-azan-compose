@@ -92,7 +92,7 @@ private fun getHighlightState(
                 pos == 0 -> HighlightState.Highlighted
                 else -> HighlightState.AfterHighlight
             }
-        } else if (nextShariaTime.prayerTime > shariaTimes.originalInstant) {
+        } else if (nextShariaTime.forInstant > shariaTimes.forInstant) {
             return HighlightState.BeforeHighlight
         }
     }
@@ -127,6 +127,7 @@ private fun ShariaTimesBoxPreview() {
                             instant,
                         ),
                         nextShariaTime = ShariaTimeDetails(
+                            forInstant = instant,
                             forDate = dateComponents,
                             prayer = Prayer.Asr,
                             prayerTime = instant,

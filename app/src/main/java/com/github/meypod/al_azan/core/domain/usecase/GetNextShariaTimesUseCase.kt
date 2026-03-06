@@ -18,6 +18,7 @@ import kotlin.time.toDuration
 
 @Immutable
 data class ShariaTimeDetails(
+    val forInstant: Instant,
     val forDate: DateComponents,
     val prayer: Prayer,
     val prayerTime: Instant,
@@ -59,6 +60,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
             val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings)
             if (nextPrayer != null) {
                 return ShariaTimeDetails(
+                    forInstant = prevDayInstant,
                     forDate = DateComponents.from(prevDayInstant),
                     prayer = nextPrayer,
                     prayerTime = prevDayShariahTimes.forPrayer(nextPrayer),
@@ -75,7 +77,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
             shariahTimes = getShariaTimesUseCase(instant, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
             nextPrayer = shariahTimes.nextPrayerForAlarm(instant, alarmSettings)
             if (nextPrayer == null) {
-                instantToCheck = instantToCheck.plus(1.toDuration(DurationUnit.DAYS))
+                instantToCheck = addDaysTimeZoneAware(instantToCheck, 1)
             } else {
                 break
             }
@@ -86,6 +88,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         }
 
         return ShariaTimeDetails(
+            forInstant = instantToCheck,
             forDate = DateComponents.from(instantToCheck),
             prayer = nextPrayer,
             prayerTime = shariahTimes.forPrayer(nextPrayer),
