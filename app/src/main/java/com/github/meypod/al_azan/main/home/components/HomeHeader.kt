@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.home.components
 
 import android.icu.text.DateFormat
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -178,15 +179,14 @@ fun HomeHeader(
                     {},
                     label = { Text(uiState.nextShariaTime.prayer.i18n()) },
                     colors = OutlinedTextFieldDefaults.colors().copy(
-                        focusedLabelColor = DarkTertiary,
-                        unfocusedLabelColor = DarkTertiary,
-                        focusedIndicatorColor = DarkTertiary,
-                        unfocusedIndicatorColor = DarkTertiary,
-                        focusedTextColor = DarkTertiary,
                         unfocusedTextColor = DarkTertiary,
+                        disabledIndicatorColor = DarkTertiary,
+                        disabledTextColor = DarkTertiary,
+                        disabledLabelColor = DarkTertiary,
                     ),
                     shape = MaterialTheme.shapes.medium,
                     readOnly = true,
+                    enabled = false,
                     textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
                     modifier = Modifier.width(IntrinsicSize.Max),
                 )
