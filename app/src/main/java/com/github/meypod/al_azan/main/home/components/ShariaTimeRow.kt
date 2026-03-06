@@ -14,11 +14,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +27,6 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.Tertiary95
 import com.github.meypod.al_azan.core.presentation.TertiaryFixed
 import com.github.meypod.al_azan.core.presentation.util.dashedBorder
-import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2Up
 import kotlin.time.Clock
 import kotlin.time.DurationUnit
@@ -57,6 +52,11 @@ enum class HighlightState {
 
 @Composable
 fun ShariaTimeRow(state: ShariaTimeRowUiState) {
+    val textColor = when (state.highlightState) {
+        HighlightState.BeforeHighlight -> MaterialTheme.colorScheme.outline
+        HighlightState.Highlighted -> MaterialTheme.colorScheme.onTertiaryFixed
+        HighlightState.AfterHighlight -> MaterialTheme.colorScheme.onSecondaryContainer
+    }
     Row(
         Modifier.then(
             when (state.highlightState) {
@@ -103,6 +103,7 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                 } else {
                     FontWeight.Normal
                 },
+                color = textColor,
             )
             if (state.instant == null) {
                 Text("--:--")
@@ -122,6 +123,7 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                     } else {
                         FontWeight.Normal
                     },
+                    color = textColor,
                 )
             }
         }

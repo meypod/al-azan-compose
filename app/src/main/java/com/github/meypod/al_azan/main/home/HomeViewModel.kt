@@ -7,12 +7,19 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.utils.formatCountdownToHHmmss
+import com.github.meypod.al_azan.core.domain.utils.getDayBeginning
 import com.github.meypod.al_azan.core.domain.utils.tickFlow
+import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -35,6 +42,9 @@ class HomeViewModel
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
+    val navIntents = _navIntents.asSharedFlow()
 
     @Volatile
     private var updateScreenJob: Job? = null
@@ -65,7 +75,7 @@ class HomeViewModel
     }
 
     fun onLocationTextClick() {
-        // TODO: Implement location text click action
+        _navIntents.tryEmit(NavIntent.To(Route.Main.Location))
     }
 
     fun onMenuIconClick() {
@@ -159,8 +169,15 @@ class HomeViewModel
                     }
                     updateScreenJob?.cancel()
                     updateScreenJob = viewModelScope.launch {
-                        nextShariaTime?.prayerTime?.let { upcoming ->
-                            val updateAfter = upcoming - currentInstant
+                        launch {
+                            nextShariaTime?.prayerTime?.let { upcoming ->
+                                val updateAfter = (upcoming - Clock.System.now()).plus(0.5.toDuration(DurationUnit.SECONDS))
+                                delay(updateAfter)
+                                _uiState.update { state -> state.copy(currentInstant = Clock.System.now()) }
+                            }
+                        }
+                        launch {
+                            val updateAfter = getDayBeginning(addDaysTimeZoneAware(Clock.System.now(), 1)) - Clock.System.now()
                             delay(updateAfter)
                             _uiState.update { state -> state.copy(currentInstant = Clock.System.now()) }
                         }

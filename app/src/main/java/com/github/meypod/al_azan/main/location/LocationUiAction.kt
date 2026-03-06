@@ -1,6 +1,8 @@
 package com.github.meypod.al_azan.main.location
 
 sealed interface LocationUiAction {
+    object OnBackClick : LocationUiAction
+
     object OnNewLocationClick : LocationUiAction
 
     object OnNewLocationDismiss : LocationUiAction

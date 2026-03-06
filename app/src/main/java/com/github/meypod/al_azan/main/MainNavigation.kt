@@ -6,7 +6,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,11 +18,15 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
-import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
+import com.github.meypod.al_azan.main.location.LocationScreen
+import com.github.meypod.al_azan.main.location.LocationScreenContent
+import com.github.meypod.al_azan.main.location.LocationViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -40,6 +43,10 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                             subclass(
                                 Route.Main.Home::class,
                                 Route.Main.Home.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Location::class,
+                                Route.Main.Location.serializer(),
                             )
                         }
                     }
@@ -90,7 +97,35 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                 entry<Route.Main.Home> {
                     val viewModel = hiltViewModel<HomeViewModel>()
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+                    BindBackStackWithViewModel(
+                        currentRoute = { mainBackstack.lastOrNull() },
+                        navIntents = { viewModel.navIntents },
+                        navigateTo = { route -> mainBackstack.navigateTo(route) },
+                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
+                        canPopBack = { mainBackstack.size > 1 },
+                    )
+
                     HomeScreen(uiState, viewModel::onAction)
+                }
+                entry<Route.Main.Location> {
+                    val viewModel = hiltViewModel<LocationViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+                    BindBackStackWithViewModel(
+                        currentRoute = { mainBackstack.lastOrNull() },
+                        navIntents = { viewModel.navIntents },
+                        navigateTo = { route -> mainBackstack.navigateTo(route) },
+                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
+                        canPopBack = { mainBackstack.size > 1 },
+                    )
+
+                    LocationScreen(
+                        uiState,
+                        viewModel::onAction,
+                        getCountries = viewModel::getCountries,
+                        getCities = viewModel::getCities,
+                    )
                 }
             },
     )
