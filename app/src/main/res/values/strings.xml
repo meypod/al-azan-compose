@@ -131,4 +131,5 @@
     <string name="prev_day">Prev\nDay</string>
     <string name="next_day">Next\nDay</string>
     <string name="next_prayer">Next Prayer</string>
+    <string name="show_today">Show Today</string>
 </resources>

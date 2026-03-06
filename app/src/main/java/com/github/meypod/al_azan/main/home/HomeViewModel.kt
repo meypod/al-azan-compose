@@ -81,7 +81,7 @@ class HomeViewModel
     }
 
     fun onShowTodayClick() {
-        // TODO: Implement show today click action
+        _uiState.update { it.copy(viewingInstant = it.currentInstant) }
     }
 
     private fun onReminderLinkClick() {
