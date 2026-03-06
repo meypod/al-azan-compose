@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
@@ -39,6 +40,7 @@ class HomeViewModel
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val getNextShariaTimesUseCase: GetNextShariaTimesUseCase,
+    private val systemChangeRepository: SystemChangeRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -51,6 +53,7 @@ class HomeViewModel
 
     init {
         collectTimeTick()
+        collectSystemChange()
         collectCurrentInstant()
         collectViewingInstant()
     }
@@ -114,6 +117,14 @@ class HomeViewModel
         // todo
     }
 
+    private fun collectSystemChange() {
+        viewModelScope.launch {
+            systemChangeRepository.data.collect {
+                _uiState.update { it.copy(currentInstant = Clock.System.now()) }
+            }
+        }
+    }
+
     private fun collectTimeTick() {
         viewModelScope.launch {
             tickFlow().collect { now ->
@@ -145,17 +156,6 @@ class HomeViewModel
                 ->
                 _uiState.update {
                     val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
-                    val shariaTimes = if (calcSettings.parameters != null && location != null) {
-                        getShariaTimesUseCase(
-                            instant = currentInstant,
-                            calculationParameters = calcSettings.parameters,
-                            calculationAdjustments = calcSettings.calculationAdjustments,
-                            arabicCalendar = settings.selectedArabicCalendar,
-                            locationDetail = location.locationDetail,
-                        )
-                    } else {
-                        null
-                    }
                     val nextShariaTime = if (calcSettings.parameters != null && location != null) {
                         getNextShariaTimesUseCase(
                             instant = currentInstant,

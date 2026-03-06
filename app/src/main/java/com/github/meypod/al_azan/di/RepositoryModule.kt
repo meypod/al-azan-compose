@@ -8,6 +8,7 @@ import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositor
 import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SettingsRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.SystemChangeRepositoryImpl
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
@@ -21,12 +22,13 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
 import com.tencent.mmkv.MMKV
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -149,8 +151,9 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideGeoInfoRepository(
-        @ApplicationContext context: Context,
-    ): GeoInfoRepository =
-        GeoInfoRepositoryImpl(context = context)
+    fun provideGeoInfoRepository(@ApplicationContext context: Context): GeoInfoRepository = GeoInfoRepositoryImpl(context = context)
+
+    @Provides
+    @Singleton
+    fun provideSystemChangeRepository(@ApplicationContext context: Context): SystemChangeRepository = SystemChangeRepositoryImpl()
 }
