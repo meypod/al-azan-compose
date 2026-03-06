@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.location
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
@@ -293,7 +296,12 @@ private fun LocationList(
             onAction(LocationUiAction.OnMoveLocation(fromIndex = fromIndex, toIndex = toIndex))
         },
         listState = listState,
-        listModifier = Modifier.heightIn(max = 300.dp).shadow(1.dp),
+        listModifier = Modifier.heightIn(max = 300.dp).dropShadow(RectangleShape) {
+            this.radius = 2.dp.toPx()
+            this.offset = Offset(0f, 0f)
+            this.spread = 1f
+            this.alpha = 0.25f
+        }.background(MaterialTheme.colorScheme.surface),
         itemContent = { item, isPlaceholder, itemModifier, dragHandleModifier ->
             LocationListItem(
                 item = item,
