@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,9 +49,23 @@ fun LocationScreen(
                 },
             )
         },
-        floatingActionButtonPosition = FabPosition.Center,
+        floatingActionButton = {
+            if (uiState.locations.isNotEmpty()) {
+                FloatingActionButton(
+                    onClick = {
+                        onAction(LocationUiAction.OnNewLocationClick)
+                    },
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ) {
+                    Icon(
+                        painterResource(R.drawable.add),
+                        contentDescription = stringResource(R.string.add_new_location_button),
+                    )
+                }
+            }
+        },
     ) { paddingValues ->
-
         Column(
             Modifier
                 .fillMaxSize()
