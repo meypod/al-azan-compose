@@ -1,12 +1,20 @@
 package com.github.meypod.al_azan.main.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,11 +28,16 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
@@ -33,12 +46,17 @@ import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
+import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.main.home.components.HomeHeader
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBox
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBoxUiState
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.coroutines.launch
+import kotlin.time.DurationUnit
 import kotlin.time.Instant
+import kotlin.time.toDuration
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,25 +155,61 @@ fun HomeScreen(
                     },
                 )
             },
+            floatingActionButton = {
+                AnimatedVisibility(
+                    modifier = Modifier.graphicsLayer { clip = false },
+                    visible = DateComponents.from(uiState.viewingInstant) != DateComponents.from(uiState.currentInstant),
+                    enter = slideInVertically(
+                        initialOffsetY = { it / 2 },
+                        animationSpec = tween(durationMillis = 150),
+                    ),
+                    exit = slideOutVertically(
+                        targetOffsetY = { it * 3 },
+                        animationSpec = tween(durationMillis = 200),
+                    ),
+                ) {
+                    val buttonShape = MaterialTheme.shapes.extraLarge
+                    ExtendedFloatingActionButton(
+                        onClick = { onAction(HomeUiAction.OnShowTodayClick) },
+                        shape = buttonShape,
+                        modifier = Modifier
+                            .widthIn(min = 160.dp).dropShadow2(buttonShape),
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    ) {
+                        Text(
+                            stringResource(R.string.show_today),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    }
+                }
+            },
+            floatingActionButtonPosition = FabPosition.Center,
         ) { paddingValues ->
 
             Column(
-                Modifier.fillMaxSize().padding(paddingValues),
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
             ) {
                 HomeHeader(
                     uiState,
                     onAction,
                 )
                 Column(
-                    Modifier.weight(1f).padding(
-                        horizontal = dimensionResource(R.dimen.element_padding),
-                    ).then(
-                        if (!uiState.themeColor.isClassic()) {
-                            Modifier.offset(y = -dimensionResource(R.dimen.home_card_padding))
-                        } else {
-                            Modifier
-                        },
-                    ),
+                    Modifier
+                        .weight(1f)
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.element_padding),
+                        )
+                        .then(
+                            if (!uiState.themeColor.isClassic()) {
+                                Modifier.offset(y = -dimensionResource(R.dimen.home_card_padding))
+                            } else {
+                                Modifier
+                            },
+                        ),
                 ) {
                     ShariaTimesBox(
                         ShariaTimesBoxUiState(
@@ -186,6 +240,7 @@ private fun HomeLoadedPreview() {
     AlAzanTheme {
         val location = StaticFavoriteLocation("foo", CalculationLocationDetail(0.0, 0.0, label = "Null Island"))
         val instant = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        val viewing = instant.minus(1.toDuration(DurationUnit.DAYS))
         val getShariaTimesUseCase = GetShariaTimesUseCase()
         val shariahTimes = getShariaTimesUseCase(
             instant = instant,
@@ -203,6 +258,8 @@ private fun HomeLoadedPreview() {
         )
         HomeScreen(
             uiState = HomeUiState(
+                currentInstant = instant,
+                viewingInstant = viewing,
                 calendar = "gregorian",
                 location = location,
                 shariaTimes = shariahTimes,
