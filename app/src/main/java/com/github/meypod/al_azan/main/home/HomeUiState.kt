@@ -1,6 +1,5 @@
 package com.github.meypod.al_azan.main.home
 
-import android.icu.text.NumberingSystem
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
@@ -12,6 +11,7 @@ import kotlin.time.Instant
 data class HomeUiState(
     val themeColor: ThemeColor = ThemeColor.Default,
     val currentInstant: Instant = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
+    val viewingInstant: Instant = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
     val arabicCalendar: String = "islamic",
     val calendar: String = "gregorian",
     val locale: String = "en-US",

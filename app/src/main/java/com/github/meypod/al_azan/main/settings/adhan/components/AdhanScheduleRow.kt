@@ -21,6 +21,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,6 +97,9 @@ fun AdhanScheduleRow(
                             onAction(AdhanScheduleRowUiAction.OnNotifyClick)
                         },
                     )
+                    .semantics(mergeDescendants = true) {
+                        role = Role.Checkbox
+                    }
                     .padding(dimensionResource(R.dimen.tiny_padding)),
             ) {
                 Text(stringResource(R.string.notification), style = MaterialTheme.typography.bodySmall)
@@ -113,6 +119,9 @@ fun AdhanScheduleRow(
                             onAction(AdhanScheduleRowUiAction.OnSoundClick)
                         },
                     )
+                    .semantics(mergeDescendants = true) {
+                        role = Role.Checkbox
+                    }
                     .padding(dimensionResource(R.dimen.tiny_padding)),
             ) {
                 Text(stringResource(R.string.sound), style = MaterialTheme.typography.bodySmall)

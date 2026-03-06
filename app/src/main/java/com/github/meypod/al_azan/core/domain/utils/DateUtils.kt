@@ -11,8 +11,8 @@ import kotlin.time.toJavaInstant
 
 fun formatInstant(
     instant: Instant,
-    locale: String,
-    calendar: String,
+    locale: String = "en-US",
+    calendar: String = "gregorian",
     skeleton: String = DateFormat.YEAR_MONTH_DAY,
     numberingSystem: String? = null,
 ): String {

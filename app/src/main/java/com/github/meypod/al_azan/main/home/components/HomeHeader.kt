@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.home.components
 
 import android.icu.text.DateFormat
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -23,11 +23,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +46,7 @@ import com.github.meypod.al_azan.core.domain.utils.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
+import com.github.meypod.al_azan.core.presentation.components.FakeFilledIconButton
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.main.home.HomeUiAction
@@ -74,8 +79,18 @@ fun HomeHeader(
             disabledContentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f),
         )
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                FilledIconButton(onClick = { onAction(HomeUiAction.OnPrevDayClick) }, colors = iconButtonColors) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.medium)
+                    .clickable(onClick = { onAction(HomeUiAction.OnPrevDayClick) })
+                    .semantics(mergeDescendants = true) {
+                        role = Role.Button
+                    }
+                    .padding(dimensionResource(R.dimen.tiny_padding)),
+            ) {
+                FakeFilledIconButton(colors = iconButtonColors) {
                     Icon(painterResource(R.drawable.arrow_back), contentDescription = null)
                 }
                 Text(
@@ -85,14 +100,24 @@ fun HomeHeader(
                     textAlign = TextAlign.Center,
                 )
             }
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.medium)
+                    .clickable(onClick = { onAction(HomeUiAction.OnNextDayClick) })
+                    .semantics(mergeDescendants = true) {
+                        role = Role.Button
+                    }
+                    .padding(dimensionResource(R.dimen.tiny_padding)),
+            ) {
                 Text(
                     stringResource(R.string.next_day),
                     color = Color.White,
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                 )
-                FilledIconButton(onClick = { onAction(HomeUiAction.OnPrevDayClick) }, colors = iconButtonColors) {
+                FakeFilledIconButton(colors = iconButtonColors) {
                     Icon(painterResource(R.drawable.arrow_forward), contentDescription = null)
                 }
             }
@@ -103,12 +128,12 @@ fun HomeHeader(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    formatInstant(uiState.currentInstant, uiState.locale, uiState.calendar, DateFormat.WEEKDAY),
+                    formatInstant(uiState.viewingInstant, uiState.locale, uiState.calendar, DateFormat.WEEKDAY),
                     color = Color.White,
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    formatInstant(uiState.currentInstant, uiState.locale, uiState.arabicCalendar),
+                    formatInstant(uiState.viewingInstant, uiState.locale, uiState.arabicCalendar),
                     color = Color.White,
                     style = MaterialTheme.typography.bodyMedium,
                 )
