@@ -49,6 +49,7 @@ import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
 import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
@@ -60,7 +61,7 @@ import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
-import com.github.meypod.al_azan.main.location.LocationScreen
+import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
@@ -125,14 +126,14 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
     BindBackStackWithViewModel(
         currentRoute = { introBackstack.lastOrNull() },
         navIntents = { introViewModel.navIntents },
+        navigateTo = { route -> introBackstack.navigateTo(route) },
+        popBack = { introBackstack.removeAt(introBackstack.lastIndex) },
+        canPopBack = { introBackstack.size > 1 },
         onRouteVisible = { route ->
             if (route is Route) {
                 introViewModel.onAction(IntroUiAction.OnRouteVisible(route))
             }
         },
-        navigateTo = { route -> introBackstack.navigateTo(route) },
-        popBack = { introBackstack.removeAt(introBackstack.lastIndex) },
-        canPopBack = { introBackstack.size > 1 },
     )
 
     NavDisplay(
@@ -232,7 +233,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                         ) {
                             IntroTitle(R.string.location_title)
-                            LocationScreen(
+                            LocationScreenContent(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
                                 getCountries = viewModel::getCountries,
@@ -456,16 +457,5 @@ private fun IntroBottomBarFilledPreview() {
             uiState = IntroUiState(route = Route.Intro.RestoreBackup),
             onAction = {},
         )
-    }
-}
-
-private fun <R> MutableList<R>.navigateTo(route: R) {
-    val index = indexOf(route)
-    if (index < 0) {
-        add(route)
-        return
-    }
-    while (lastIndex > index) {
-        removeAt(lastIndex)
     }
 }

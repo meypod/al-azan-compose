@@ -3,6 +3,8 @@ package com.github.meypod.al_azan.core.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -20,16 +22,18 @@ sealed interface NavIntent<out R> {
 fun <R> BindBackStackWithViewModel(
     currentRoute: () -> R?,
     navIntents: () -> Flow<NavIntent<R>>,
-    onRouteVisible: (R) -> Unit,
     navigateTo: (R) -> Unit,
     popBack: () -> Unit,
     canPopBack: () -> Boolean,
+    onRouteVisible: ((R) -> Unit)? = null,
 ) {
-    LaunchedEffect(currentRoute) {
-        snapshotFlow { currentRoute() }
-            .filterNotNull()
-            .distinctUntilChanged()
-            .collectLatest(onRouteVisible)
+    LaunchedEffect(currentRoute, onRouteVisible) {
+        if (onRouteVisible != null) {
+            snapshotFlow { currentRoute() }
+                .filterNotNull()
+                .distinctUntilChanged()
+                .collectLatest(onRouteVisible)
+        }
     }
 
     LaunchedEffect(navIntents) {
@@ -39,5 +43,16 @@ fun <R> BindBackStackWithViewModel(
                 NavIntent.Back -> if (canPopBack()) popBack()
             }
         }
+    }
+}
+
+fun <R : NavKey> NavBackStack<R>.navigateTo(route: R) {
+    val index = indexOf(route)
+    if (index < 0) {
+        add(route)
+        return
+    }
+    while (lastIndex > index) {
+        removeAt(lastIndex)
     }
 }

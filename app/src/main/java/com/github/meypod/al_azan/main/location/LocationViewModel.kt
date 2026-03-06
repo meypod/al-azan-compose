@@ -12,8 +12,12 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -31,6 +35,9 @@ class LocationViewModel
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
+    val navIntents = _navIntents.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -50,6 +57,7 @@ class LocationViewModel
 
     fun onAction(action: LocationUiAction) {
         when (action) {
+            is LocationUiAction.OnBackClick -> onBackClick()
             is LocationUiAction.OnNewLocationClick -> onNewLocationClick()
             is LocationUiAction.OnNewLocationDismiss -> onNewLocationDismiss()
             is LocationUiAction.OnNewLocationConfirm -> onNewLocationConfirm(action.state)
@@ -61,6 +69,10 @@ class LocationViewModel
             is LocationUiAction.OnDeleteLocationConfirm -> onDeleteLocationConfirm(action.locationId)
             is LocationUiAction.OnTravelModeChange -> onTravelModeChange(action.value)
         }
+    }
+
+    private fun onBackClick() {
+        _navIntents.tryEmit(NavIntent.Back)
     }
 
     suspend fun getCountries(): List<CountryGeoInfo> = geoInfoRepository.getCountries()

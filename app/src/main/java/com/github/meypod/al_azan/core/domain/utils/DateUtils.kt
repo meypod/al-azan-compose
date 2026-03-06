@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.utils
 
 import android.icu.text.DateFormat
 import android.icu.util.ULocale
+import java.time.ZoneId
 import java.util.Date
 import kotlin.math.abs
 import kotlin.time.DurationUnit
@@ -49,4 +50,12 @@ fun addDaysTimeZoneAware(
         newInstant = instant.plus((days / abs(days)).toDuration(DurationUnit.HOURS))
     }
     return newInstant
+}
+
+fun getDayBeginning(instant: Instant): Instant {
+    val utcInstant = instant.toJavaInstant()
+    val zdt = utcInstant.atZone(ZoneId.systemDefault())
+    val startOfDayZdt = zdt.withHour(0).withMinute(0).withSecond(0).withNano(0)
+    val utcStartInstant = startOfDayZdt.toInstant()
+    return Instant.fromEpochSeconds(utcStartInstant.epochSecond, utcStartInstant.nano.toLong())
 }
