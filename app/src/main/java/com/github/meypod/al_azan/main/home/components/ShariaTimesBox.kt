@@ -93,10 +93,10 @@ private fun getHighlightState(
                 else -> HighlightState.AfterHighlight
             }
         } else if (nextShariaTime.prayerTime > shariaTimes.originalInstant) {
-           return HighlightState.AfterHighlight
+            return HighlightState.BeforeHighlight
         }
     }
-    return HighlightState.BeforeHighlight
+    return HighlightState.AfterHighlight
 }
 
 @Preview
