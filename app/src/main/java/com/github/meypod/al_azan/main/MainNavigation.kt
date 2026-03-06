@@ -25,7 +25,6 @@ import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontal
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
-import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
@@ -47,6 +46,50 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                             subclass(
                                 Route.Main.Location::class,
                                 Route.Main.Location.serializer(),
+                            )
+                            subclass(
+                                Route.Main.CalendarView::class,
+                                Route.Main.CalendarView.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Reminder::class,
+                                Route.Main.Reminder.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Qibla::class,
+                                Route.Main.Qibla.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Counter::class,
+                                Route.Main.Counter.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings::class,
+                                Route.Main.Settings.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.InterfaceSettings::class,
+                                Route.Main.Settings.InterfaceSettings.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.SoundAndNotifications::class,
+                                Route.Main.Settings.SoundAndNotifications.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.Calculations::class,
+                                Route.Main.Settings.Calculations.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.Troubleshoot::class,
+                                Route.Main.Settings.Troubleshoot.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.WidgetSettings::class,
+                                Route.Main.Settings.WidgetSettings.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.BackupAndRestore::class,
+                                Route.Main.Settings.BackupAndRestore.serializer(),
                             )
                         }
                     }

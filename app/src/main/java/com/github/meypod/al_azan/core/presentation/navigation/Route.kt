@@ -34,5 +34,45 @@ sealed interface Route : NavKey {
 
         @Serializable
         data object Location : Route
+
+        @Serializable
+        data object CalendarView : Route
+
+        @Serializable
+        data object Reminder : Route
+
+        @Serializable
+        data object Qibla : Route
+
+        @Serializable
+        data object Counter : Route
+
+        @Serializable
+        data object Settings : Route {
+
+            @Serializable
+            data object InterfaceSettings : Route
+
+            @Serializable
+            data object SoundAndNotifications : Route
+
+            @Serializable
+            data object Calculations : Route
+
+            @Serializable
+            data object Troubleshoot : Route
+
+            @Serializable
+            data object WidgetSettings : Route
+
+            @Serializable
+            data object BackupAndRestore : Route
+
+            @Serializable
+            data object Developer : Route
+        }
+
+        @Serializable
+        data object AboutUs : Route
     }
 }
