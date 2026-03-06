@@ -132,4 +132,8 @@
     <string name="next_day">Next\nDay</string>
     <string name="next_prayer">Next Prayer</string>
     <string name="show_today">Show Today</string>
+    <string name="interface_settings">Interface Settings</string>
+    <string name="widget_settings_title">Widget Settings</string>
+    <string name="backup_and_restore_title"><![CDATA[Backup & Restore]]></string>
+    <string name="developer_title">Developer</string>
 </resources>
