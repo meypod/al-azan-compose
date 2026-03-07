@@ -22,6 +22,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -57,9 +58,30 @@ fun SettingHelp(text: String) {
 }
 
 @Composable
+fun SettingHelp(text: AnnotatedString) {
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+    )
+}
+
+@Composable
 fun SettingHeader(
     title: String,
     subtitle: String,
+) {
+    Column {
+        SettingLabel(title)
+        SettingHelp(subtitle)
+    }
+}
+
+@Composable
+fun SettingHeader(
+    title: String,
+    subtitle: AnnotatedString,
 ) {
     Column {
         SettingLabel(title)

@@ -22,6 +22,8 @@ import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithV
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
+import com.github.meypod.al_azan.main.aboutus.AboutUsScreen
+import com.github.meypod.al_azan.main.aboutus.AboutUsViewModel
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
@@ -190,6 +192,21 @@ fun MainNavigation(modifier: Modifier = Modifier) {
 
                     SettingsMenuScreen(
                         uiState,
+                        viewModel::onAction,
+                    )
+                }
+                entry<Route.Main.AboutUs> {
+                    val viewModel = hiltViewModel<AboutUsViewModel>()
+
+                    BindBackStackWithViewModel(
+                        currentRoute = { mainBackstack.lastOrNull() },
+                        navIntents = { viewModel.navIntents },
+                        navigateTo = { route -> mainBackstack.navigateTo(route) },
+                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
+                        canPopBack = { mainBackstack.size > 1 },
+                    )
+
+                    AboutUsScreen(
                         viewModel::onAction,
                     )
                 }
