@@ -3,13 +3,15 @@ package com.github.meypod.al_azan.main.settings.menu
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,9 +27,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
+import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,6 +39,8 @@ fun SettingsMenuScreen(
     onAction: (SettingsMenuUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scrollState = rememberScrollState()
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -59,7 +64,10 @@ fun SettingsMenuScreen(
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .fadeScrollEdges(scrollState, Orientation.Vertical)
+                .drawVerticalScrollbar(scrollState)
+                .verticalScroll(scrollState),
         ) {
             MenuListItem(
                 R.string.interface_settings,
