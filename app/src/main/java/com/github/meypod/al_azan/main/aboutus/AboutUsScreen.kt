@@ -1,10 +1,13 @@
 package com.github.meypod.al_azan.main.aboutus
 
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -20,12 +23,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.BuildConfig
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
+import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
+import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +39,7 @@ fun AboutUsScreen(
     onAction: (AboutUsUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scrollState = rememberScrollState()
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -57,6 +64,9 @@ fun AboutUsScreen(
             Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .fadeScrollEdges(scrollState, Orientation.Vertical)
+                .drawVerticalScrollbar(scrollState)
+                .verticalScroll(scrollState)
                 .padding(dimensionResource(R.dimen.element_padding)),
         ) {
             ACard {
@@ -95,6 +105,20 @@ fun AboutUsScreen(
 )
 @Composable
 private fun AboutUsPreview() {
+    AlAzanTheme {
+        AboutUsScreen(
+            onAction = {},
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF00585A,
+    heightDp = 200,
+)
+@Composable
+private fun AboutUsShortHeightPreview() {
     AlAzanTheme {
         AboutUsScreen(
             onAction = {},
