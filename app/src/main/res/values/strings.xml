@@ -136,4 +136,9 @@
     <string name="widget_settings_title">Widget Settings</string>
     <string name="backup_and_restore_title"><![CDATA[Backup & Restore]]></string>
     <string name="developer_title">Developer</string>
+    <string name="version">Version</string>
+    <string name="home">Home</string>
+    <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
+    <string name="license">License</string>
+    <string name="about_credits">All copyright for Adhan voices belongs to their respective owners.</string>
 </resources>
