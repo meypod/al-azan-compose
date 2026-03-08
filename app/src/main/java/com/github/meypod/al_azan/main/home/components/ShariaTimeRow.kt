@@ -22,7 +22,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
-import com.github.meypod.al_azan.core.domain.utils.formatInstant
+import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.Tertiary95
 import com.github.meypod.al_azan.core.presentation.TertiaryFixed

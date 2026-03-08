@@ -8,10 +8,10 @@ import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
-import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
-import com.github.meypod.al_azan.core.domain.utils.formatCountdownToHHmmss
-import com.github.meypod.al_azan.core.domain.utils.getDayBeginning
-import com.github.meypod.al_azan.core.domain.utils.tickFlow
+import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
+import com.github.meypod.al_azan.core.domain.util.formatCountdownToHHmmss
+import com.github.meypod.al_azan.core.domain.util.getDayBeginning
+import com.github.meypod.al_azan.core.domain.util.tickFlow
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel

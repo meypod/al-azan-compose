@@ -6,15 +6,13 @@ import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
-import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
+import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
-import kotlin.time.DurationUnit
 import kotlin.time.Instant
-import kotlin.time.toDuration
 
 @Immutable
 data class ShariaTimeDetails(
