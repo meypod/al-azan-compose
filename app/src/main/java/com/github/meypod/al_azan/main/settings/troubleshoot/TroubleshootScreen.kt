@@ -52,13 +52,13 @@ fun TroubleshootScreen(
     val ignoreBatteryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { _ ->
-            onAction(TroubleshootUiAction.OnLifecycleChanged(context))
+            onAction(TroubleshootUiAction.OnLifecycleChanged)
         },
     )
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            onAction(TroubleshootUiAction.OnLifecycleChanged(context))
+            onAction(TroubleshootUiAction.OnLifecycleChanged)
         }
     }
 
