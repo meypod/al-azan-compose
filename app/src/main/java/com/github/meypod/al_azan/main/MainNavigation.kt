@@ -18,7 +18,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
-import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
+import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
@@ -105,6 +105,13 @@ fun MainNavigation(modifier: Modifier = Modifier) {
             Route.Main.Home,
         )
 
+    BindBackStackWithController(
+        currentRoute = { mainBackstack.lastOrNull() },
+        navigateTo = { route -> mainBackstack.navigateTo(route) },
+        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
+        canPopBack = { mainBackstack.size > 1 },
+    )
+
     NavDisplay(
         backStack = mainBackstack,
         modifier = modifier.background(MaterialTheme.colorScheme.background),
@@ -149,27 +156,11 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                     val viewModel = hiltViewModel<HomeViewModel>()
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-                    BindBackStackWithViewModel(
-                        currentRoute = { mainBackstack.lastOrNull() },
-                        navIntents = { viewModel.navIntents },
-                        navigateTo = { route -> mainBackstack.navigateTo(route) },
-                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
-                        canPopBack = { mainBackstack.size > 1 },
-                    )
-
                     HomeScreen(uiState, viewModel::onAction)
                 }
                 entry<Route.Main.Location> {
                     val viewModel = hiltViewModel<LocationViewModel>()
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-                    BindBackStackWithViewModel(
-                        currentRoute = { mainBackstack.lastOrNull() },
-                        navIntents = { viewModel.navIntents },
-                        navigateTo = { route -> mainBackstack.navigateTo(route) },
-                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
-                        canPopBack = { mainBackstack.size > 1 },
-                    )
 
                     LocationScreen(
                         uiState,
@@ -182,14 +173,6 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                     val viewModel = hiltViewModel<SettingsMenuViewModel>()
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-                    BindBackStackWithViewModel(
-                        currentRoute = { mainBackstack.lastOrNull() },
-                        navIntents = { viewModel.navIntents },
-                        navigateTo = { route -> mainBackstack.navigateTo(route) },
-                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
-                        canPopBack = { mainBackstack.size > 1 },
-                    )
-
                     SettingsMenuScreen(
                         uiState,
                         viewModel::onAction,
@@ -197,14 +180,6 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                 }
                 entry<Route.Main.AboutUs> {
                     val viewModel = hiltViewModel<AboutUsViewModel>()
-
-                    BindBackStackWithViewModel(
-                        currentRoute = { mainBackstack.lastOrNull() },
-                        navIntents = { viewModel.navIntents },
-                        navigateTo = { route -> mainBackstack.navigateTo(route) },
-                        popBack = { mainBackstack.removeAt(mainBackstack.lastIndex) },
-                        canPopBack = { mainBackstack.size > 1 },
-                    )
 
                     AboutUsScreen(
                         viewModel::onAction,

@@ -12,14 +12,12 @@ import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.utils.formatCountdownToHHmmss
 import com.github.meypod.al_azan.core.domain.utils.getDayBeginning
 import com.github.meypod.al_azan.core.domain.utils.tickFlow
-import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -43,9 +41,6 @@ class HomeViewModel
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
-
-    private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
-    val navIntents = _navIntents.asSharedFlow()
 
     @Volatile
     private var updateScreenJob: Job? = null
@@ -73,11 +68,11 @@ class HomeViewModel
     }
 
     private fun onCalendarDateClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.CalendarView))
+        NavigationController.navigateTo(Route.Main.CalendarView)
     }
 
     private fun onLocationTextClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.Location))
+        NavigationController.navigateTo(Route.Main.Location)
     }
 
     private fun onNextDayClick() {
@@ -93,23 +88,23 @@ class HomeViewModel
     }
 
     private fun onReminderLinkClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.Reminder))
+        NavigationController.navigateTo(Route.Main.Reminder)
     }
 
     private fun onQiblaLinkClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.Qibla))
+        NavigationController.navigateTo(Route.Main.Qibla)
     }
 
     private fun onCounterLinkClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.Counter))
+        NavigationController.navigateTo(Route.Main.Counter)
     }
 
     private fun onSettingsLinkClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.Settings))
+        NavigationController.navigateTo(Route.Main.Settings)
     }
 
     private fun onAboutUsLinkClick() {
-        _navIntents.tryEmit(NavIntent.To(Route.Main.AboutUs))
+        NavigationController.navigateTo(Route.Main.AboutUs)
     }
 
     private fun collectSystemChange() {

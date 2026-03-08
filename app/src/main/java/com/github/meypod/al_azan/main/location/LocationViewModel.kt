@@ -1,6 +1,5 @@
 package com.github.meypod.al_azan.main.location
 
-import android.os.SystemClock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
@@ -12,12 +11,9 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
-import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -35,9 +31,6 @@ class LocationViewModel
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
     val uiState = _uiState.asStateFlow()
-
-    private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
-    val navIntents = _navIntents.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -72,7 +65,7 @@ class LocationViewModel
     }
 
     private fun onBackClick() {
-        _navIntents.tryEmit(NavIntent.Back)
+        NavigationController.navigateBack()
     }
 
     suspend fun getCountries(): List<CountryGeoInfo> = geoInfoRepository.getCountries()

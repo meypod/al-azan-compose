@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -19,10 +18,9 @@ sealed interface NavIntent<out R> {
 }
 
 @Composable
-fun <R> BindBackStackWithViewModel(
+fun <R : NavKey> BindBackStackWithController(
     currentRoute: () -> R?,
-    navIntents: () -> Flow<NavIntent<R>>,
-    navigateTo: (R) -> Unit,
+    navigateTo: (NavKey) -> Unit,
     popBack: () -> Unit,
     canPopBack: () -> Boolean,
     onRouteVisible: ((R) -> Unit)? = null,
@@ -36,8 +34,8 @@ fun <R> BindBackStackWithViewModel(
         }
     }
 
-    LaunchedEffect(navIntents) {
-        navIntents().collect { intent ->
+    LaunchedEffect(Unit) {
+        NavigationController.navIntents.collect { intent ->
             when (intent) {
                 is NavIntent.To -> navigateTo(intent.route)
                 NavIntent.Back -> if (canPopBack()) popBack()
