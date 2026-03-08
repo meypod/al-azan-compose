@@ -11,8 +11,6 @@ sealed interface LocationUiAction {
         val state: NewLocationDialogUiState,
     ) : LocationUiAction
 
-    object OnNewLocationFindLocationClick : LocationUiAction
-
     data class OnMoveLocation(
         val fromIndex: Int,
         val toIndex: Int,

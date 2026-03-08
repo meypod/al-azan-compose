@@ -49,6 +49,7 @@ import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
+import com.github.meypod.al_azan.core.presentation.components.DangerDialog
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
@@ -76,16 +77,14 @@ fun LocationScreenContent(
 
     val deletingLocation = uiState.deleteLocationDialogLocation
     if (deletingLocation != null) {
-        TimedDangerDialog(
+        DangerDialog(
             title = stringResource(R.string.delete_location_confirm_title),
             text = stringResource(
                 R.string.delete_location_confirm_body,
                 deletingLocation.locationDetail.toDisplayString(),
             ),
             confirmLabel = stringResource(R.string.delete),
-            cancelLabel = stringResource(R.string.cancel),
-            seconds = 0,
-            confirmDisabledUntilFinished = false,
+            dismissLabel = stringResource(R.string.cancel),
             onConfirm = {
                 onAction(LocationUiAction.OnDeleteLocationConfirm(deletingLocation.id))
             },

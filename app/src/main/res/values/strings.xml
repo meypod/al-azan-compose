@@ -141,4 +141,12 @@
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">License</string>
     <string name="about_credits">All copyright for Adhan voices belongs to their respective owners.</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="location_permission_denied_text">Location access is required for this feature.</string>
+    <string name="open_settings_label">Open Settings</string>
+    <string name="okay">Okay</string>
+    <string name="open_permissions_guidance">Open Permissions and allow location access.</string>
+    <string name="location_service_required_title">Location required</string>
+    <string name="location_service_required_text">Please turn on location services to use this feature.</string>
+    <string name="open_settings_failed">Couldn\'t open settings.</string>
 </resources>
