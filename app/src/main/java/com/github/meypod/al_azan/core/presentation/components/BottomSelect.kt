@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -219,9 +220,7 @@ private fun <T> BottomSelectImpl(
             if (busy) {
                 CircularProgressIndicator(
                     strokeWidth = 2.dp,
-                    modifier = Modifier
-                        .width(18.dp)
-                        .height(16.dp),
+                    modifier = Modifier.size(18.dp),
                 )
             } else {
                 Icon(
