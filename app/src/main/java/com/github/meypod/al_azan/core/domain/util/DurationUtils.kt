@@ -1,6 +1,5 @@
-package com.github.meypod.al_azan.core.domain.utils
+package com.github.meypod.al_azan.core.domain.util
 
-import android.icu.text.NumberingSystem
 import kotlin.time.Duration
 import kotlin.time.Instant
 

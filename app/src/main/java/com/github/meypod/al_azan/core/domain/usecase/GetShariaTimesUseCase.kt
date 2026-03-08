@@ -3,9 +3,9 @@ package com.github.meypod.al_azan.core.domain.usecase
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
-import com.github.meypod.al_azan.core.domain.utils.addDaysTimeZoneAware
-import com.github.meypod.al_azan.core.domain.utils.getDayBeginning
-import com.github.meypod.al_azan.core.domain.utils.isInRamadan
+import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
+import com.github.meypod.al_azan.core.domain.util.getDayBeginning
+import com.github.meypod.al_azan.core.domain.util.isInRamadan
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import io.github.meypod.adhan_kotlin.Coordinates

@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.core.domain.utils
+package com.github.meypod.al_azan.core.domain.util
 
 fun formatWithUnicodeDigits(
     input: String,
