@@ -47,7 +47,7 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.SecondaryButton
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
-import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithViewModel
+import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
@@ -117,24 +117,18 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
     val introUiState by introViewModel.uiState.collectAsStateWithLifecycle()
     val introBackgroundColor = colorResource(R.color.intro_background)
 
+    BindBackStackWithController(
+        currentRoute = introBackstack::lastOrNull,
+        navigateTo = introBackstack::navigateTo,
+        popBack = { introBackstack.removeAt(introBackstack.lastIndex) },
+        canPopBack = { introBackstack.size > 1 },
+    )
+
     LaunchedEffect(introUiState.appIntroDone) {
         if (introUiState.appIntroDone) {
             onFinishIntro()
         }
     }
-
-    BindBackStackWithViewModel(
-        currentRoute = { introBackstack.lastOrNull() },
-        navIntents = { introViewModel.navIntents },
-        navigateTo = { route -> introBackstack.navigateTo(route) },
-        popBack = { introBackstack.removeAt(introBackstack.lastIndex) },
-        canPopBack = { introBackstack.size > 1 },
-        onRouteVisible = { route ->
-            if (route is Route) {
-                introViewModel.onAction(IntroUiAction.OnRouteVisible(route))
-            }
-        },
-    )
 
     NavDisplay(
         backStack = introBackstack,

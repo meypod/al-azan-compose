@@ -5,12 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,9 +32,6 @@ constructor(
             }
         }
     }
-
-    private val _navIntents = MutableSharedFlow<NavIntent<Route>>(extraBufferCapacity = 1)
-    val navIntents = _navIntents.asSharedFlow()
 
     fun onAction(action: IntroUiAction) {
         when (action) {
@@ -71,14 +66,14 @@ constructor(
     private fun onBackClick() {
         if (uiState.value.busy) return
         uiState.value.previousRoute?.let {
-            _navIntents.tryEmit(NavIntent.To(it))
+            NavigationController.navigateTo(it)
         }
     }
 
     private fun onNextClick() {
         if (uiState.value.busy) return
         uiState.value.nextRoute?.let {
-            _navIntents.tryEmit(NavIntent.To(it))
+            NavigationController.navigateTo(it)
         }
     }
 
