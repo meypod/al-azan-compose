@@ -9,7 +9,6 @@ import androidx.compose.ui.res.stringResource
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
-import com.github.meypod.al_azan.core.presentation.model.WidgetCityNamePos
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerialName
@@ -96,6 +95,15 @@ data class Settings(
     val locationIdBeforeTravel: String? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
 )
+
+@Serializable
+enum class WidgetCityNamePos {
+    @SerialName("top_start")
+    TopStart,
+
+    @SerialName("top_end")
+    TopEnd,
+}
 
 @Serializable
 enum class ThemeColor {
