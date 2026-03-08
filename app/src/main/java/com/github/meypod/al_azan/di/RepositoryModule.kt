@@ -155,5 +155,5 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSystemChangeRepository(@ApplicationContext context: Context): SystemChangeRepository = SystemChangeRepositoryImpl()
+    fun provideSystemChangeRepository(): SystemChangeRepository = SystemChangeRepositoryImpl()
 }

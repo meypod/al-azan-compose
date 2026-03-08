@@ -11,7 +11,5 @@ sealed interface TroubleshootUiAction {
         val activity: Activity?,
     ) : TroubleshootUiAction
     object OnAdvancedSettingsClick : TroubleshootUiAction
-    data class OnLifecycleChanged(
-        val context: Context,
-    ) : TroubleshootUiAction
+    object OnLifecycleChanged : TroubleshootUiAction
 }
