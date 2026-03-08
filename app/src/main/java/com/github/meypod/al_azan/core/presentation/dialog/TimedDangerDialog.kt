@@ -1,9 +1,6 @@
 package com.github.meypod.al_azan.core.presentation.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -14,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
@@ -25,11 +21,11 @@ fun TimedDangerDialog(
     title: String,
     text: String,
     confirmLabel: String,
-    cancelLabel: String,
+    dismissLabel: String,
     seconds: Int = 3,
     confirmDisabledUntilFinished: Boolean = true,
-    onConfirm: () -> Unit,
     onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit,
 ) {
     var remaining by remember { mutableStateOf(seconds) }
     val onConfirmState = rememberUpdatedState(onConfirm)
@@ -58,7 +54,7 @@ fun TimedDangerDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismissRequest) { Text(text = cancelLabel) }
+            TextButton(onClick = onDismissRequest) { Text(text = dismissLabel) }
         },
     )
 }
@@ -70,7 +66,7 @@ private fun TimedDangerDialogPreview() {
         title = stringResource(R.string.attention_title),
         text = stringResource(R.string.skip_dialog_body),
         confirmLabel = "skip",
-        cancelLabel = "Cancel",
+        dismissLabel = "Cancel",
         seconds = 3,
         confirmDisabledUntilFinished = true,
         onConfirm = {},
@@ -85,7 +81,7 @@ private fun TimedDangerDialogEnabledPreview() {
         title = "Warning",
         text = "This action may prevent the app from working properly.",
         confirmLabel = "skip",
-        cancelLabel = "Cancel",
+        dismissLabel = "Cancel",
         seconds = 0,
         confirmDisabledUntilFinished = true,
         onConfirm = {},

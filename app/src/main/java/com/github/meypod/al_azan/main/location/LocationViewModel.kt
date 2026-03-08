@@ -54,7 +54,6 @@ class LocationViewModel
             is LocationUiAction.OnNewLocationClick -> onNewLocationClick()
             is LocationUiAction.OnNewLocationDismiss -> onNewLocationDismiss()
             is LocationUiAction.OnNewLocationConfirm -> onNewLocationConfirm(action.state)
-            is LocationUiAction.OnNewLocationFindLocationClick -> onNewLocationFindLocationClick()
             is LocationUiAction.OnMoveLocation -> onMoveLocation(action.fromIndex, action.toIndex)
             is LocationUiAction.OnSetAsDefaultClick -> onSetAsDefault(action.locationId)
             is LocationUiAction.OnDeleteLocationClick -> onDeleteLocation(action.locationId)
@@ -122,10 +121,6 @@ class LocationViewModel
                 calculationSettingsRepository.update { it.copy(locationId = newLocationId) }
             }
         }
-    }
-
-    private fun onNewLocationFindLocationClick() {
-        // todo
     }
 
     private fun onSetAsDefault(locationId: String) {

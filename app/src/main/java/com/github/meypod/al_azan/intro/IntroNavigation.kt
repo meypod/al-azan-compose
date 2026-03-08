@@ -303,10 +303,10 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
             title = stringResource(R.string.attention_title),
             text = stringResource(R.string.skip_dialog_body),
             confirmLabel = stringResource(R.string.skip_confirm),
-            cancelLabel = stringResource(R.string.cancel),
+            dismissLabel = stringResource(R.string.cancel),
             seconds = 3,
-            onConfirm = { introViewModel.onAction(IntroUiAction.OnSkipConfirmed) },
             onDismissRequest = { introViewModel.onAction(IntroUiAction.OnSkipDismiss) },
+            onConfirm = { introViewModel.onAction(IntroUiAction.OnSkipConfirmed) },
         )
     }
 }

@@ -11,4 +11,5 @@ data class NewLocationDialogUiState(
     val latitude: String = "",
     val longitude: String = "",
     val label: String = "",
+    val fetchingLocation: Boolean = false,
 )
