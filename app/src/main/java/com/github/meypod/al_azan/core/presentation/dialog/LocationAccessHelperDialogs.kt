@@ -22,10 +22,10 @@ import com.github.meypod.al_azan.core.util.android.LocationUtils
 import kotlinx.coroutines.launch
 
 @Composable
-fun LocationAccessHelperDialogs(
-    onLocation: (CalculationLocationDetail) -> Unit,
-    content: @Composable (trigger: () -> Unit) -> Unit,
-) {
+fun rememberLocationAccessHelperDialogs(
+    onLocation: ((CalculationLocationDetail) -> Unit)? = null,
+    onPermissionGranted: (() -> Unit)? = null,
+): () -> Unit {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val showLocationDisabledDialog = remember { mutableStateOf(false) }
@@ -33,15 +33,18 @@ fun LocationAccessHelperDialogs(
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted || context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             showPermissionDeniedDialog.value = false
-            scope.launch {
-                val result = LocationUtils.requestCurrentLocation(context).getOrNull()
-                if (result != null) {
-                    onLocation(
-                        CalculationLocationDetail(
-                            lat = result.latitude,
-                            long = result.longitude,
-                        ),
-                    )
+            onPermissionGranted?.invoke()
+            if (onLocation != null) {
+                scope.launch {
+                    val result = LocationUtils.requestCurrentLocation(context).getOrNull()
+                    if (result != null) {
+                        onLocation(
+                            CalculationLocationDetail(
+                                lat = result.latitude,
+                                long = result.longitude,
+                            ),
+                        )
+                    }
                 }
             }
         } else {
@@ -65,8 +68,6 @@ fun LocationAccessHelperDialogs(
             }
         }
     }
-
-    content(triggerLocation)
 
     if (showLocationDisabledDialog.value) {
         CtaDialog(
@@ -127,4 +128,6 @@ fun LocationAccessHelperDialogs(
             },
         )
     }
+
+    return triggerLocation
 }

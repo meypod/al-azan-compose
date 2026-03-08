@@ -10,4 +10,5 @@ data class LocationUiState(
     val isNewLocationDialogOpen: Boolean = false,
     val deleteLocationDialogLocation: FavoriteLocation? = null,
     val travelMode: Boolean = false,
+    val travelModeWorking: Boolean = false,
 )
