@@ -61,7 +61,7 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
-import com.github.meypod.al_azan.core.presentation.dialog.LocationAccessHelperDialogs
+import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.core.presentation.util.filterToDigitsAndDot
@@ -115,6 +115,15 @@ private fun NewLocationDialogContent(
     val lngValue = remember(uiState.longitude) { uiState.longitude.trim().toEnglishDigits().toDoubleOrNull() }
     val labelValue = remember(uiState.label) { uiState.label.trim() }
 
+    val triggerLocation = rememberLocationAccessHelperDialogs(
+        onLocation = {
+            uiState = uiState.copy(
+                latitude = it.lat.toString().take(8).trimEnd('.'),
+                longitude = it.long.toString().take(8).trimEnd('.'),
+                fetchingLocation = false,
+            )
+        },
+    )
     val confirmEnabled =
         remember(latValue, lngValue, labelValue) { latValue != null && lngValue != null && labelValue.isNotBlank() }
 
@@ -246,41 +255,31 @@ private fun NewLocationDialogContent(
 
             UsingSectionTitle(stringResource(R.string.find_location_title))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                LocationAccessHelperDialogs(
-                    onLocation = {
-                        uiState = uiState.copy(
-                            latitude = it.lat.toString().take(8).trimEnd('.'),
-                            longitude = it.long.toString().take(8).trimEnd('.'),
-                            fetchingLocation = false,
-                        )
+                PrimaryButton(
+                    onClick = {
+                        if (uiState.fetchingLocation) return@PrimaryButton
+                        uiState = uiState.copy(fetchingLocation = true)
+                        triggerLocation()
                     },
-                ) { trigger ->
-                    PrimaryButton(
-                        onClick = {
-                            if (uiState.fetchingLocation) return@PrimaryButton
-                            uiState = uiState.copy(fetchingLocation = true)
-                            trigger()
-                        },
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.map_marker),
-                                contentDescription = null,
+                        Icon(
+                            painter = painterResource(R.drawable.map_marker),
+                            contentDescription = null,
+                        )
+                        Text(
+                            text = stringResource(R.string.find_location_button),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                        if (uiState.fetchingLocation) {
+                            CircularProgressIndicator(
+                                strokeWidth = 2.dp,
+                                modifier = Modifier.size(18.dp),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                             )
-                            Text(
-                                text = stringResource(R.string.find_location_button),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-                            if (uiState.fetchingLocation) {
-                                CircularProgressIndicator(
-                                    strokeWidth = 2.dp,
-                                    modifier = Modifier.size(18.dp),
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                )
-                            }
                         }
                     }
                 }

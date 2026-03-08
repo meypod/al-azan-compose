@@ -1,7 +1,13 @@
 package com.github.meypod.al_azan.main.location
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
@@ -12,13 +18,17 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.worker.TRAVEL_MODE_WORK_NAME
+import com.github.meypod.al_azan.worker.TravelModeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,24 +38,14 @@ class LocationViewModel
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val settingsRepository: SettingsRepository,
     private val geoInfoRepository: GeoInfoRepository,
+    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            combine(calculationSettingsRepository.data, favoriteLocationsRepository.data) { calcSettings, locations ->
-                _uiState.update { state ->
-                    state.copy(
-                        locations = locations,
-                        selectedLocationId = calcSettings.locationId,
-                        travelMode =
-                            locations.firstOrNull { loc -> loc is TravelingFavoriteLocation }?.id?.let { it == calcSettings.locationId } ==
-                                true,
-                    )
-                }
-            }.collect()
-        }
+        collectSettings()
+        collectTravelWorkInfo()
     }
 
     fun onAction(action: LocationUiAction) {
@@ -188,6 +188,54 @@ class LocationViewModel
             }
             calculationSettingsRepository.update { calcSettings ->
                 calcSettings.copy(locationId = nextLocationId)
+            }
+
+            // now setup work for it
+            if (value) {
+                val travelModeWorkRequest =
+                    PeriodicWorkRequestBuilder<TravelModeWorker>(15, TimeUnit.MINUTES, 20, TimeUnit.MINUTES)
+                        .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
+                        .setInitialDelay(
+                            0,
+                            TimeUnit.SECONDS,
+                        )
+                        .build()
+                WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(
+                        TRAVEL_MODE_WORK_NAME,
+                        ExistingPeriodicWorkPolicy.REPLACE,
+                        travelModeWorkRequest,
+                    )
+            } else {
+                WorkManager.getInstance(context).cancelUniqueWork(TRAVEL_MODE_WORK_NAME)
+            }
+        }
+    }
+
+    private fun collectSettings() {
+        viewModelScope.launch {
+            combine(calculationSettingsRepository.data, favoriteLocationsRepository.data) { calcSettings, locations ->
+                _uiState.update { state ->
+                    state.copy(
+                        locations = locations,
+                        selectedLocationId = calcSettings.locationId,
+                        travelMode =
+                            locations.firstOrNull { loc -> loc is TravelingFavoriteLocation }?.id?.let { it == calcSettings.locationId } ==
+                                true,
+                    )
+                }
+            }.collect()
+        }
+    }
+
+    private fun collectTravelWorkInfo() {
+        viewModelScope.launch {
+            WorkManager.getInstance(context).getWorkInfosForUniqueWorkFlow(TRAVEL_MODE_WORK_NAME).collect { workInfoList ->
+                if (workInfoList.isNotEmpty()) {
+                    _uiState.update { it.copy(travelModeWorking = workInfoList[0].state == WorkInfo.State.RUNNING) }
+                } else {
+                    _uiState.update { it.copy(travelModeWorking = false) }
+                }
             }
         }
     }

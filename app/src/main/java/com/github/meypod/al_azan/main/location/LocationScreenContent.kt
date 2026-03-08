@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -55,6 +57,7 @@ import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
+import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.main.location.components.NewLocationDialog
@@ -67,6 +70,9 @@ fun LocationScreenContent(
     getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
 ) {
+    val triggerLocation = rememberLocationAccessHelperDialogs {
+        onAction(LocationUiAction.OnTravelModeChange(true))
+    }
     if (uiState.isNewLocationDialogOpen) {
         NewLocationDialog(
             onAction = onAction,
@@ -111,7 +117,11 @@ fun LocationScreenContent(
                     stringResource(R.string.location_traveling_hint),
                     checked = uiState.travelMode,
                 ) {
-                    onAction(LocationUiAction.OnTravelModeChange(it))
+                    if (it) {
+                        triggerLocation()
+                    } else {
+                        onAction(LocationUiAction.OnTravelModeChange(false))
+                    }
                 }
             }
         }
@@ -154,6 +164,8 @@ fun LocationScreenContent(
                         list = uiState.locations,
                         onAction = onAction,
                         selectedId = uiState.selectedLocationId,
+                        travelModeWorking = uiState.travelModeWorking,
+                        triggerLocation = triggerLocation,
                     )
                 }
             }
@@ -171,6 +183,8 @@ private fun LocationListItem(
     dragHandleModifier: Modifier = Modifier,
     dragging: Boolean = false,
     interactionEnabled: Boolean = true,
+    travelModeWorking: Boolean = false,
+    triggerLocation: () -> Unit = {},
 ) {
     var expanded by remember(item.id) { mutableStateOf(menuExpanded) }
 
@@ -182,13 +196,19 @@ private fun LocationListItem(
             }
             .bottomBorder(MaterialTheme.colorScheme.outlineVariant, 2.dp),
         headlineContent = {
-            Text(
-                text = if (item is TravelingFavoriteLocation) {
-                    stringResource(R.string.location_traveling_mode)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+            ) {
+                if (item is TravelingFavoriteLocation) {
+                    Text(text = stringResource(R.string.location_traveling_mode))
+                    if (travelModeWorking) {
+                        CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+                    }
                 } else {
-                    item.locationDetail.toNamed() ?: item.id
-                },
-            )
+                    Text(text = item.locationDetail.toNamed() ?: item.id)
+                }
+            }
         },
         supportingContent = {
             Text(item.locationDetail.toCoordsString())
@@ -242,7 +262,11 @@ private fun LocationListItem(
                                     },
                                     onClick = {
                                         expanded = false
-                                        onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
+                                        if (item is TravelingFavoriteLocation) {
+                                            triggerLocation()
+                                        } else {
+                                            onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
+                                        }
                                     },
                                     enabled = interactionEnabled,
                                 )
@@ -285,6 +309,8 @@ private fun LocationList(
     list: List<FavoriteLocation>,
     onAction: (LocationUiAction) -> Unit,
     selectedId: String? = null,
+    travelModeWorking: Boolean = false,
+    triggerLocation: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -309,6 +335,8 @@ private fun LocationList(
                 dragging = isPlaceholder,
                 modifier = itemModifier,
                 dragHandleModifier = dragHandleModifier,
+                travelModeWorking = travelModeWorking,
+                triggerLocation = triggerLocation,
             )
         },
         overlayContent = { item, overlayModifier ->
@@ -320,6 +348,7 @@ private fun LocationList(
                 interactionEnabled = false,
                 modifier = overlayModifier,
                 dragHandleModifier = Modifier,
+                triggerLocation = triggerLocation,
             )
         },
     )
