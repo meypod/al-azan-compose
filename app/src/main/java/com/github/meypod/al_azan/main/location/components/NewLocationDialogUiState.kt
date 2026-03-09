@@ -1,4 +1,4 @@
-package com.github.meypod.al_azan.main.location
+package com.github.meypod.al_azan.main.location.components
 
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
