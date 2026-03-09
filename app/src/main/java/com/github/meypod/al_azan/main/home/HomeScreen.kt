@@ -115,10 +115,10 @@ fun HomeScreen(
                     icon = {
                         Icon(painterResource(R.drawable.info_variant_outline), contentDescription = null)
                     },
-                    label = { Text(stringResource(R.string.about_us)) },
+                    label = { Text(stringResource(R.string.about)) },
                     selected = false,
                     onClick = {
-                        onAction(HomeUiAction.OnAboutUsLinkClick)
+                        onAction(HomeUiAction.OnAboutLinkClick)
                     },
                 )
             }

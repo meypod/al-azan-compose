@@ -63,7 +63,7 @@ class HomeViewModel
             HomeUiAction.OnQiblaLinkClick -> onQiblaLinkClick()
             HomeUiAction.OnCounterLinkClick -> onCounterLinkClick()
             HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
-            HomeUiAction.OnAboutUsLinkClick -> onAboutUsLinkClick()
+            HomeUiAction.OnAboutLinkClick -> onAboutLinkClick()
         }
     }
 
@@ -103,8 +103,8 @@ class HomeViewModel
         NavigationController.navigateTo(Route.Main.Settings)
     }
 
-    private fun onAboutUsLinkClick() {
-        NavigationController.navigateTo(Route.Main.AboutUs)
+    private fun onAboutLinkClick() {
+        NavigationController.navigateTo(Route.Main.About)
     }
 
     private fun collectSystemChange() {

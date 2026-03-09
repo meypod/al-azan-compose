@@ -73,6 +73,6 @@ sealed interface Route : NavKey {
         }
 
         @Serializable
-        data object AboutUs : Route
+        data object About : Route
     }
 }
