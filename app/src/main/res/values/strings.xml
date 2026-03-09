@@ -149,4 +149,5 @@
     <string name="location_service_required_title">Location required</string>
     <string name="location_service_required_text">Please turn on location services to use this feature.</string>
     <string name="open_settings_failed">Couldn\'t open settings.</string>
+    <string name="last_updated_at">Last updated at: %1$s</string>
 </resources>

@@ -26,10 +26,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.Instant
 
 @HiltViewModel
 class LocationViewModel
@@ -214,7 +216,17 @@ class LocationViewModel
 
     private fun collectSettings() {
         viewModelScope.launch {
-            combine(calculationSettingsRepository.data, favoriteLocationsRepository.data) { calcSettings, locations ->
+            combine(
+                settingsRepository.data.map {
+                    it.travelModeLastUpdateMillis
+                },
+                calculationSettingsRepository.data,
+                favoriteLocationsRepository.data,
+            ) {
+                    lastUpdateMillis,
+                    calcSettings,
+                    locations,
+                ->
                 _uiState.update { state ->
                     state.copy(
                         locations = locations,
@@ -222,6 +234,7 @@ class LocationViewModel
                         travelMode =
                             locations.firstOrNull { loc -> loc is TravelingFavoriteLocation }?.id?.let { it == calcSettings.locationId } ==
                                 true,
+                        travelingModeLastUpdate = lastUpdateMillis?.let { Instant.fromEpochMilliseconds(it) },
                     )
                 }
             }.collect()

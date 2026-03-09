@@ -17,6 +17,7 @@ import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.jsonObject
+import kotlin.time.Instant
 
 private enum class DefaultAdhanEntryId(
     val key: String,
@@ -93,6 +94,7 @@ data class Settings(
     val hijriMonthlyView: Boolean = false,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val locationIdBeforeTravel: String? = null,
+    val travelModeLastUpdateMillis: Long? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
 )
 
