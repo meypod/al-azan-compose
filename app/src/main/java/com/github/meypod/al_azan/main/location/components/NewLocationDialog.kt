@@ -69,7 +69,7 @@ import com.github.meypod.al_azan.core.presentation.util.parseClipboardToCoords
 import com.github.meypod.al_azan.core.presentation.util.returnMatched
 import com.github.meypod.al_azan.core.presentation.util.toEnglishDigits
 import com.github.meypod.al_azan.main.location.LocationUiAction
-import com.github.meypod.al_azan.main.location.NewLocationDialogUiState
+import com.github.meypod.al_azan.main.location.components.NewLocationDialogUiState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -121,6 +121,8 @@ private fun NewLocationDialogContent(
                 latitude = it.lat.toString().take(8).trimEnd('.'),
                 longitude = it.long.toString().take(8).trimEnd('.'),
                 fetchingLocation = false,
+                selectedCountry = null,
+                selectedCity = null,
             )
         },
     )

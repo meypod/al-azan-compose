@@ -18,6 +18,7 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.main.location.components.NewLocationDialogUiState
 import com.github.meypod.al_azan.worker.TRAVEL_MODE_WORK_NAME
 import com.github.meypod.al_azan.worker.TravelModeWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
