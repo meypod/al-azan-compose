@@ -1,8 +1,5 @@
 package com.github.meypod.al_azan.main.home
 
-import android.app.Activity
-import android.content.Context
-
 sealed interface HomeUiAction {
     object OnNextDayClick : HomeUiAction
     object OnPrevDayClick : HomeUiAction
@@ -13,5 +10,5 @@ sealed interface HomeUiAction {
     object OnQiblaLinkClick : HomeUiAction
     object OnCounterLinkClick : HomeUiAction
     object OnSettingsLinkClick : HomeUiAction
-    object OnAboutUsLinkClick : HomeUiAction
+    object OnAboutLinkClick : HomeUiAction
 }

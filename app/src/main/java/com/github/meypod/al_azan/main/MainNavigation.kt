@@ -22,8 +22,8 @@ import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithC
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
-import com.github.meypod.al_azan.main.aboutus.AboutUsScreen
-import com.github.meypod.al_azan.main.aboutus.AboutUsViewModel
+import com.github.meypod.al_azan.main.about.AboutScreen
+import com.github.meypod.al_azan.main.about.AboutViewModel
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
@@ -178,10 +178,10 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                         viewModel::onAction,
                     )
                 }
-                entry<Route.Main.AboutUs> {
-                    val viewModel = hiltViewModel<AboutUsViewModel>()
+                entry<Route.Main.About> {
+                    val viewModel = hiltViewModel<AboutViewModel>()
 
-                    AboutUsScreen(
+                    AboutScreen(
                         viewModel::onAction,
                     )
                 }
