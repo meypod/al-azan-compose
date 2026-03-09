@@ -9,10 +9,12 @@ import androidx.work.WorkerParameters
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.util.android.LocationUtils
 import com.github.meypod.al_azan.core.util.lang.ListUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlin.time.Clock
 
 const val TRAVEL_MODE_WORK_NAME = "travel_mode_worker"
 
@@ -23,6 +25,7 @@ constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val settingsRepository: SettingsRepository,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -48,6 +51,9 @@ constructor(
                     } else {
                         listOf(newTravelLocation) + list
                     }
+                }
+                settingsRepository.update {
+                    it.copy(travelModeLastUpdateMillis = Clock.System.now().toEpochMilliseconds())
                 }
                 return Result.success()
             }

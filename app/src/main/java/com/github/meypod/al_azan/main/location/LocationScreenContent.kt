@@ -1,5 +1,7 @@
 package com.github.meypod.al_azan.main.location
 
+import android.icu.text.DateFormat
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
@@ -49,6 +50,7 @@ import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavor
 import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
+import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.DangerDialog
@@ -56,11 +58,10 @@ import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
-import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
 import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
-import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.main.location.components.NewLocationDialog
+import kotlin.time.Clock
 
 @Composable
 fun LocationScreenContent(
@@ -121,6 +122,25 @@ fun LocationScreenContent(
                         triggerLocation()
                     } else {
                         onAction(LocationUiAction.OnTravelModeChange(false))
+                    }
+                }
+                AnimatedVisibility(uiState.travelMode && uiState.travelingModeLastUpdate != null) {
+                    if (uiState.travelingModeLastUpdate != null) {
+                        Text(
+                            stringResource(
+                                R.string.last_updated_at,
+                                formatInstant(
+                                    uiState.travelingModeLastUpdate,
+                                    uiState.locale,
+                                    uiState.calendar,
+                                    DateFormat.YEAR_MONTH_DAY + DateFormat.HOUR24_MINUTE,
+                                    uiState.numberingSystem,
+                                ),
+                            ),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(top = dimensionResource(R.dimen.tiny_padding)),
+                        )
                     }
                 }
             }
@@ -321,12 +341,15 @@ private fun LocationList(
             onAction(LocationUiAction.OnMoveLocation(fromIndex = fromIndex, toIndex = toIndex))
         },
         listState = listState,
-        listModifier = Modifier.heightIn(max = 300.dp).dropShadow(RectangleShape) {
-            this.radius = 2.dp.toPx()
-            this.offset = Offset(0f, 0f)
-            this.spread = 1f
-            this.alpha = 0.25f
-        }.background(MaterialTheme.colorScheme.surface),
+        listModifier = Modifier
+            .heightIn(max = 300.dp)
+            .dropShadow(RectangleShape) {
+                this.radius = 2.dp.toPx()
+                this.offset = Offset(0f, 0f)
+                this.spread = 1f
+                this.alpha = 0.25f
+            }
+            .background(MaterialTheme.colorScheme.surface),
         itemContent = { item, isPlaceholder, itemModifier, dragHandleModifier ->
             LocationListItem(
                 item = item,
@@ -407,6 +430,43 @@ private fun LocationScreenContentWithLocationsPreview() {
         }
         LocationScreenContent(
             uiState = LocationUiState(locations.toList(), selectedLocationId = TravelingFavoriteLocation.LOCATION_ID),
+            onAction = { action ->
+                when (action) {
+                    is LocationUiAction.OnMoveLocation -> {
+                        val from = action.fromIndex
+                        val to = action.toIndex
+                        if (from in locations.indices && to in locations.indices && from != to) {
+                            val item = locations.removeAt(from)
+                            locations.add(to, item)
+                        }
+                    }
+
+                    else -> Unit
+                }
+            },
+            getCities = { emptyList() },
+            getCountries = { emptyList() },
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF00585A,
+)
+@Composable
+private fun LocationScreenContentWithTravelModeUpdatePreview() {
+    AlAzanTheme {
+        val locations = remember {
+            mutableStateListOf<FavoriteLocation>().apply { addAll(demoLocations) }
+        }
+        LocationScreenContent(
+            uiState = LocationUiState(
+                locations.toList(),
+                selectedLocationId = TravelingFavoriteLocation.LOCATION_ID,
+                travelMode = true,
+                travelingModeLastUpdate = Clock.System.now(),
+            ),
             onAction = { action ->
                 when (action) {
                     is LocationUiAction.OnMoveLocation -> {
