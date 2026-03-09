@@ -45,7 +45,7 @@
     <string name="clipboard_coordinates_not_found">Couldn\’t detect coordinates in clipboard.</string>
     <string name="confirm">Confirm</string>
     <string name="location_traveling_mode">Travel mode</string>
-    <string name="location_traveling_hint">Updates your location periodically.</string>
+    <string name="location_traveling_hint">Updates your location periodically. May increase battery consumption.</string>
     <string name="calculation_title">Calculation</string>
     <string name="calculation_info_card_title"><b>Be aware</b></string>
     <string name="calculation_info_card">Calculating Adhan has many different methods. Each method provides different results. It is your responsibility to search and use the right method.</string>
