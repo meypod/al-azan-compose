@@ -11,6 +11,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationRoot
+import com.github.meypod.al_azan.core.presentation.navigation.deepLinkPatterns
+import com.github.meypod.al_azan.core.presentation.navigation.deeplink.parseUriToRoute
 import com.github.meypod.al_azan.di.LanguageSync
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -30,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val initialSettings = runBlocking { settingsRepository.fetch() }
+
+        val startingRoute = intent.data?.let {
+            intent = null // consume
+            parseUriToRoute(it, deepLinkPatterns)
+        }
+
         setContent {
             LaunchedEffect(Unit) {
                 // ensures our view of settings stays up to date with user's selected language
@@ -41,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             AlAzanTheme(settings.themeColor) {
                 NavigationRoot(
                     appIntroDone = initialSettings.appIntroDone,
+                    startingRoute = startingRoute,
                 )
             }
         }

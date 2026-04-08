@@ -1,11 +1,14 @@
 package com.github.meypod.al_azan.di
 
 import android.content.Context
+import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.NotificationChannelManagerImpl
+import com.github.meypod.al_azan.core.data.repository.NotificationRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SystemChangeRepositoryImpl
@@ -20,6 +23,8 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
+import com.github.meypod.al_azan.core.domain.repository.NotificationChannelManager
+import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
@@ -156,4 +161,17 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSystemChangeRepository(): SystemChangeRepository = SystemChangeRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideNotificationChannelManager(@ApplicationContext context: Context): NotificationChannelManager =
+        NotificationChannelManagerImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideNotificationManager(@ApplicationContext context: Context): NotificationRepository =
+        NotificationRepositoryImpl(
+            context,
+            MainActivity::class.java,
+        )
 }

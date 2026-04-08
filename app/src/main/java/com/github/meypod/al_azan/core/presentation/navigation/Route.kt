@@ -1,8 +1,13 @@
 package com.github.meypod.al_azan.core.presentation.navigation
 
+import androidx.compose.runtime.Immutable
+import androidx.core.net.toUri
 import androidx.navigation3.runtime.NavKey
+import com.github.meypod.al_azan.core.domain.model.navigation.DeepLinkableRoute
+import com.github.meypod.al_azan.core.presentation.navigation.deeplink.DeepLinkPattern
 import kotlinx.serialization.Serializable
 
+@Immutable
 @Serializable
 sealed interface Route : NavKey {
 
@@ -30,7 +35,7 @@ sealed interface Route : NavKey {
     @Serializable
     data object Main : Route {
         @Serializable
-        data object Home : Route
+        data object Home : Route, DeepLinkableRoute
 
         @Serializable
         data object Location : Route
@@ -75,4 +80,11 @@ sealed interface Route : NavKey {
         @Serializable
         data object About : Route
     }
+}
+
+internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
+    listOf(
+        // "al-azan://home"
+        DeepLinkPattern(Route.Main.Home.serializer(), Route.Main.Home.toUriString().toUri()),
+    )
 }
