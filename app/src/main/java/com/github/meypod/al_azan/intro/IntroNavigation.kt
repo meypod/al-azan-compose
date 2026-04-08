@@ -122,6 +122,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
         navigateTo = introBackstack::navigateTo,
         popBack = { introBackstack.removeAt(introBackstack.lastIndex) },
         canPopBack = { introBackstack.size > 1 },
+        onRouteVisible = { (it as? Route)?.let { route -> introViewModel.onAction(IntroUiAction.OnRouteVisible(route)) } },
     )
 
     LaunchedEffect(introUiState.appIntroDone) {
