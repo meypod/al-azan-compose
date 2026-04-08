@@ -150,4 +150,13 @@
     <string name="location_service_required_text">Please turn on location services to use this feature.</string>
     <string name="open_settings_failed">Couldn\'t open settings.</string>
     <string name="last_updated_at">Last updated at: %1$s</string>
+    <string name="permission_revoked_channel_name">Permission Revoked</string>
+    <string name="permission_revoked_channel_description">Alerts you when a required permission has been denied or revoked, which may affect app functionality.</string>
+    <string name="location_is_disabled">Location is disabled</string>
+    <string name="travel_mode_channel_name">Travel mode</string>
+    <string name="travel_mode_channel_description">Notifications related to travel mode</string>
+    <string name="location_is_disabled_notif_title">Location services disabled</string>
+    <string name="location_is_disabled_notif_body">Travel mode is active, but your location services are off. Please enable location so the app can update your position reliably.</string>
+    <string name="worker_location_permission_revoked_title">Location permission revoked</string>
+    <string name="worker_location_permission_revoked_body">Travel mode is active, but the app no longer has location permission. Disable travel mode or grant location access to continue.</string>
 </resources>

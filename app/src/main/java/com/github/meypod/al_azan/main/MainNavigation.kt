@@ -34,7 +34,10 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
 @Composable
-fun MainNavigation(modifier: Modifier = Modifier) {
+fun MainNavigation(
+    startingRoute: Route?,
+    modifier: Modifier = Modifier,
+) {
     val slideDirections = rememberHorizontalSlideDirections()
 
     val mainBackstack =
@@ -102,7 +105,7 @@ fun MainNavigation(modifier: Modifier = Modifier) {
                         }
                     }
                 },
-            Route.Main.Home,
+            startingRoute ?: Route.Main.Home,
         )
 
     BindBackStackWithController(

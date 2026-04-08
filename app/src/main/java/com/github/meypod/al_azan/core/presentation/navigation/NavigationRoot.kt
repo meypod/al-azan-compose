@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.presentation.navigation
 
+import android.net.Uri
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -16,7 +17,10 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
 @Composable
-fun NavigationRoot(appIntroDone: Boolean) {
+fun NavigationRoot(
+    appIntroDone: Boolean,
+    startingRoute: Route?,
+) {
     val rootBackStack =
         rememberNavBackStack(
             configuration =
@@ -51,7 +55,11 @@ fun NavigationRoot(appIntroDone: Boolean) {
                     }
                 }
 
-                entry<Route.Main> { MainNavigation() }
+                entry<Route.Main> {
+                    MainNavigation(
+                        startingRoute,
+                    )
+                }
             },
     )
 }
