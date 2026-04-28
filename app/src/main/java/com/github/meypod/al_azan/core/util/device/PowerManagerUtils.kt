@@ -82,7 +82,7 @@ object PowerManagerUtils {
      */
     fun lightUpScreenIfNeeded(context: Context) {
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val isInteractive = pm.isInteractive()
+        val isInteractive = pm.isInteractive
 
         if (!isInteractive) {
             val wl =
