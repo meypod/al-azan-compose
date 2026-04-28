@@ -44,6 +44,9 @@ sealed interface Route : NavKey {
         data object CalendarView : Route
 
         @Serializable
+        data object MonthlyView : Route
+
+        @Serializable
         data object Reminder : Route
 
         @Serializable
@@ -59,13 +62,25 @@ sealed interface Route : NavKey {
             data object InterfaceSettings : Route
 
             @Serializable
-            data object SoundAndNotifications : Route
+            data object SoundAndNotifications : Route {
+                @Serializable
+                data object Muezzin : Route
+            }
 
             @Serializable
-            data object Calculations : Route
+            data object Calculations : Route {
+                @Serializable
+                data object Adjustments : Route
+
+                @Serializable
+                data object AdvancedCalculation : Route
+            }
 
             @Serializable
-            data object Troubleshoot : Route
+            data object Troubleshoot : Route {
+                @Serializable
+                data object AdvancedTroubleshoot : Route
+            }
 
             @Serializable
             data object WidgetSettings : Route
