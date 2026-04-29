@@ -159,4 +159,11 @@
     <string name="location_is_disabled_notif_body">Travel mode is active, but your location services are off. Please enable location so the app can update your position reliably.</string>
     <string name="worker_location_permission_revoked_title">Location permission revoked</string>
     <string name="worker_location_permission_revoked_body">Travel mode is active, but the app no longer has location permission. Disable travel mode or grant location access to continue.</string>
+    <string name="weekday_sunday">Sunday</string>
+    <string name="weekday_monday">Monday</string>
+    <string name="weekday_tuesday">Tuesday</string>
+    <string name="weekday_wednesday">Wednesday</string>
+    <string name="weekday_thursday">Thursday</string>
+    <string name="weekday_friday">Friday</string>
+    <string name="weekday_saturday">Saturday</string>
 </resources>
