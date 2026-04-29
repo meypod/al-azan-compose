@@ -3,7 +3,7 @@
     <dimen name="page_padding">10dp</dimen>
     <dimen name="card_padding">14dp</dimen>
     <dimen name="element_padding">10dp</dimen>
-    <dimen name="element_padding_compact">5dp</dimen>
+    <dimen name="element_padding_compact">7dp</dimen>
     <dimen name="icon_padding">6dp</dimen>
     <dimen name="tiny_padding">4dp</dimen>
     <dimen name="home_card_padding">20dp</dimen>
