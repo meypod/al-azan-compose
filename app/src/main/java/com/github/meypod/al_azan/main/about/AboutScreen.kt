@@ -1,126 +1,76 @@
 package com.github.meypod.al_azan.main.about
 
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.BuildConfig
 import com.github.meypod.al_azan.R
-import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
+import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
-import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
-import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(
-    onAction: (AboutUiAction) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val scrollState = rememberScrollState()
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            CenterAlignedTopAppBar(
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            onAction(AboutUiAction.OnBackClick)
-                        },
-                    ) {
-                        Icon(painterResource(R.drawable.arrow_back), contentDescription = stringResource(R.string.back_button))
-                    }
-                },
-                title = {
-                    Text(stringResource(R.string.about))
-                },
-            )
-        },
-    ) { paddingValues ->
-
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .fadeScrollEdges(scrollState, Orientation.Vertical)
-                .drawVerticalScrollbar(scrollState)
-                .verticalScroll(scrollState)
-                .padding(dimensionResource(R.dimen.element_padding)),
-        ) {
-            ACard {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(it),
-                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-                ) {
-                    SettingHeader(stringResource(R.string.version), BuildConfig.VERSION_NAME)
-                    SettingHeader(
-                        stringResource(R.string.home),
-                        annotatedStringResource(R.string.home_url, "https://github.com/meypod/al-azan"),
-                    )
-                    SettingHeader(stringResource(R.string.license), "AGPL-3.0")
-                    HorizontalDivider()
-                    Text(
-                        stringResource(R.string.about_credits),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
+fun AboutScreen() {
+    ScreenScaffold(
+        title = stringResource(R.string.calculation_title),
+        onBackClick = { (NavigationController.navigateBack()) },
+    ) {
+        ACard {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(it),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            ) {
+                SettingHeader(stringResource(R.string.version), BuildConfig.VERSION_NAME)
+                SettingHeader(
+                    stringResource(R.string.home),
+                    annotatedStringResource(R.string.home_url, "https://github.com/meypod/al-azan"),
+                )
+                SettingHeader(stringResource(R.string.license), "AGPL-3.0")
+                HorizontalDivider()
+                Text(
+                    stringResource(R.string.about_credits),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
     }
 }
 
+@Preview
 @Preview(
-    showBackground = true,
-    backgroundColor = 0xFF00585A,
-)
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFF00585A,
     device = Devices.TABLET,
 )
 @Composable
 private fun AboutPreview() {
-    AlAzanTheme {
-        AboutScreen(
-            onAction = {},
-        )
+    AlAzanThemePreview {
+        AboutScreen()
     }
 }
 
 @Preview(
-    showBackground = true,
-    backgroundColor = 0xFF00585A,
     heightDp = 200,
 )
 @Composable
 private fun AboutShortHeightPreview() {
-    AlAzanTheme {
-        AboutScreen(
-            onAction = {},
-        )
+    AlAzanThemePreview {
+        AboutScreen()
     }
 }
