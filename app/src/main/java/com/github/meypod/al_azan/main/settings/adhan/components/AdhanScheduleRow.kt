@@ -86,50 +86,16 @@ fun AdhanScheduleRow(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
             itemVerticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .clickable(
-                        role = Role.Checkbox,
-                        onClick = {
-                            onAction(AdhanScheduleRowUiAction.OnNotifyClick)
-                        },
-                    )
-                    .semantics(mergeDescendants = true) {
-                        role = Role.Checkbox
-                    }
-                    .padding(dimensionResource(R.dimen.tiny_padding)),
-            ) {
-                Text(stringResource(R.string.notification), style = MaterialTheme.typography.bodySmall)
-                TriStateCheckbox(
-                    state.notifyState,
-                    null,
-                )
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .clickable(
-                        role = Role.Checkbox,
-                        onClick = {
-                            onAction(AdhanScheduleRowUiAction.OnSoundClick)
-                        },
-                    )
-                    .semantics(mergeDescendants = true) {
-                        role = Role.Checkbox
-                    }
-                    .padding(dimensionResource(R.dimen.tiny_padding)),
-            ) {
-                Text(stringResource(R.string.sound), style = MaterialTheme.typography.bodySmall)
-                TriStateCheckbox(
-                    state.soundState,
-                    null,
-                )
-            }
+            AdhanToggleChip(
+                label = stringResource(R.string.notification),
+                state = state.notifyState,
+                onClick = { onAction(AdhanScheduleRowUiAction.OnNotifyClick) },
+            )
+            AdhanToggleChip(
+                label = stringResource(R.string.sound),
+                state = state.soundState,
+                onClick = { onAction(AdhanScheduleRowUiAction.OnSoundClick) },
+            )
 
             IconButton(
                 onClick = {
@@ -143,6 +109,27 @@ fun AdhanScheduleRow(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun AdhanToggleChip(
+    label: String,
+    state: ToggleableState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .clickable(role = Role.Checkbox, onClick = onClick)
+            .semantics(mergeDescendants = true) { role = Role.Checkbox }
+            .padding(dimensionResource(R.dimen.tiny_padding)),
+    ) {
+        Text(label, style = MaterialTheme.typography.bodySmall)
+        TriStateCheckbox(state, null)
     }
 }
 
