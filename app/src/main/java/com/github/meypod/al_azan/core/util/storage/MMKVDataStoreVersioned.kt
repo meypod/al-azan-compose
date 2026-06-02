@@ -23,7 +23,10 @@ class MMKVDataStoreVersioned<T>(
     private val key: String,
     private val serializer: KSerializer<T>,
     private val defaultValue: T,
-    private val json: Json = Json { ignoreUnknownKeys = true },
+    private val json: Json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    },
     private val version: Int = 1,
     private val migrate: (storedVersion: Int, currentVersion: Int, storedData: JsonObject) -> JsonObject,
 ) : SimpleJsonDataStore<T> {

@@ -19,5 +19,8 @@ object MMKVModule {
     @Provides
     @Singleton
     @Named("storage")
-    fun provideStorageJson(): Json = Json { ignoreUnknownKeys = true }
+    fun provideStorageJson(): Json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 }

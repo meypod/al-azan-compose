@@ -1,14 +1,16 @@
 package com.github.meypod.al_azan.core.domain.util
 
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+
 fun formatWithUnicodeDigits(
     input: String,
-    numberingSystem: String?,
+    numberingSystem: NumberingSystem,
 ): String =
     when (numberingSystem) {
-        "arabext" -> formatWithArabicExtendedDigits(input)
-        "latn" -> formatWithLatinDigits(input)
-        "arab" -> formatWithArabicDigits(input)
-        else -> input
+        NumberingSystem.Arabext -> formatWithArabicExtendedDigits(input)
+        NumberingSystem.Latn -> formatWithLatinDigits(input)
+        NumberingSystem.Arab -> formatWithArabicDigits(input)
+        NumberingSystem.Default -> input
     }
 
 private val ARABIC_EXTENDED_DIGITS = charArrayOf('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹')

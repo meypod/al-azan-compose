@@ -3,7 +3,6 @@ package com.github.meypod.al_azan.core.domain.model.settings
 import androidx.annotation.RawRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.github.meypod.al_azan.R
@@ -17,12 +16,14 @@ import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.jsonObject
-import kotlin.time.Instant
 
 private enum class DefaultAdhanEntryId(
     val key: String,
 ) {
     MasjidAnNabawi("masjid_an_nabawi"),
+    AbdulBasitAbduSamad("abdul_basit_abdus_samad"),
+    RaghebMustafaGhalwash("ragheb_mustafa_ghalwash"),
+    MoazenZade("moazen_zade"),
 }
 
 fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
@@ -33,12 +34,33 @@ fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
             R.string.masjid_an_nabawi,
         )
 
+        DefaultAdhanEntryId.AbdulBasitAbduSamad.key -> AudioEntry.ResourceAudioEntry(
+            DefaultAdhanEntryId.AbdulBasitAbduSamad.key,
+            R.raw.abdul_basit_abdus_samad,
+            R.string.abdul_basit_abdus_samad,
+        )
+
+        DefaultAdhanEntryId.RaghebMustafaGhalwash.key -> AudioEntry.ResourceAudioEntry(
+            DefaultAdhanEntryId.RaghebMustafaGhalwash.key,
+            R.raw.ragheb_mustafa_ghalwash,
+            R.string.ragheb_mustafa_ghalwash,
+        )
+
+        DefaultAdhanEntryId.MoazenZade.key -> AudioEntry.ResourceAudioEntry(
+            DefaultAdhanEntryId.MoazenZade.key,
+            R.raw.moazen_zade,
+            R.string.moazen_zade,
+        )
+
         else -> mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key)
     }
 
 fun getDefaultAdhanEntries(): List<AudioEntry.ResourceAudioEntry> =
     listOf(
         mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key),
+        mapAdhanIdToEntry(DefaultAdhanEntryId.AbdulBasitAbduSamad.key),
+        mapAdhanIdToEntry(DefaultAdhanEntryId.RaghebMustafaGhalwash.key),
+        mapAdhanIdToEntry(DefaultAdhanEntryId.MoazenZade.key),
     )
 
 @Serializable
@@ -46,14 +68,13 @@ data class Settings(
     val deliveredAlarmTimestamps: Map<String, Long?> = emptyMap(),
     val themeColor: ThemeColor = ThemeColor.Default,
     val is24HourFormat: Boolean = true,
-    @Serializable(with = EmptyStringAsNullSerializer::class)
-    val numberingSystem: String? = null,
+    val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val highlightCurrentPrayer: Boolean = false,
     val selectedLocale: String,
     val selectedArabicCalendar: String = "islamic",
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val selectedLocaleForArabicCalendar: String? = null,
-    val selectedSecondaryCalendar: String = "gregorian",
+    val selectedSecondaryCalendar: SecondaryCalendar = SecondaryCalendar.Gregorian,
     val appInitialConfigDone: Boolean = false,
     val appIntroDone: Boolean = false,
     val savedAdhanAudioEntries: List<AudioEntry> = getDefaultAdhanEntries(),
@@ -97,6 +118,40 @@ data class Settings(
     val travelModeLastUpdateMillis: Long? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
 )
+
+@Serializable
+enum class NumberingSystem(
+    val value: String,
+) {
+    @SerialName("")
+    Default(""),
+
+    @SerialName("latn")
+    Latn("latn"),
+
+    @SerialName("arab")
+    Arab("arab"),
+
+    @SerialName("arabext")
+    Arabext("arabext"),
+}
+
+@Serializable
+enum class SecondaryCalendar(
+    val value: String,
+) {
+    @SerialName("gregorian")
+    Gregorian("gregorian"),
+
+    @SerialName("persian")
+    Persian("persian"),
+
+    @SerialName("ethiopic")
+    Ethiopic("ethiopic"),
+
+    @SerialName("buddhist")
+    Buddhist("buddhist"),
+}
 
 @Serializable
 enum class WidgetCityNamePos {

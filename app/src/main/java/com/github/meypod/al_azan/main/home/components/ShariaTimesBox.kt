@@ -21,6 +21,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
@@ -34,7 +35,7 @@ data class ShariaTimesBoxUiState(
     val shariahTimes: ShariaTimes?,
     val nextShariaTime: ShariaTimeDetails?,
     val locale: String = "en-US",
-    val numberingSystem: String? = null,
+    val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val is24Hours: Boolean = true,
 )
 
