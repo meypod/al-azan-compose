@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -69,6 +70,9 @@ fun <T> ReorderableLazyColumn(
         dragHandleModifier: Modifier,
     ) -> Unit,
     overlayContent: (@Composable (item: T, modifier: Modifier) -> Unit)? = null,
+    reverseLayout: Boolean = false,
+    verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    footerContent: (@Composable () -> Unit)? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
@@ -89,6 +93,8 @@ fun <T> ReorderableLazyColumn(
                 .fadeScrollEdges(listState, Orientation.Vertical)
                 .drawVerticalScrollbar(listState),
             state = listState,
+            reverseLayout = reverseLayout,
+            verticalArrangement = verticalArrangement,
         ) {
             itemsIndexed(
                 items = items,
@@ -136,6 +142,9 @@ fun <T> ReorderableLazyColumn(
                     }
 
                 itemContent(item, isPlaceholder, itemModifier, dragHandleModifier)
+            }
+            footerContent?.let {
+                item(key = "__footer__") { it() }
             }
         }
 
