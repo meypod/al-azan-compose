@@ -317,7 +317,22 @@
     <string name="qada_counter_title">Qada Counter</string>
     <string name="show_last_change_time">Show Last Change Time</string>
     <string name="add_counter">Add Counter</string>
-    <string name="counter_last_change">%1$s ago, %2$d → %3$d</string>
+    <string name="counter_last_change">%1$s, %2$d → %3$d</string>
+    <string name="counter_fast">Fast</string>
+    <string name="counter_new_title">New Counter</string>
+    <string name="counter_edit_title">Edit Counter</string>
+    <string name="counter_label">Label</string>
+    <string name="counter_label_placeholder">e.g. Subhanallah</string>
+    <string name="counter_count">Count</string>
+    <string name="counter_label_required">Label is required</string>
+    <string name="counter_delete_confirm_title">Delete counter?</string>
+    <string name="counter_delete_confirm_body">\"%1$s\" and its history will be permanently removed.</string>
+    <string name="time_just_now">Just now</string>
+    <string name="time_tense_ago">ago</string>
+    <string name="time_tense_later">later</string>
+    <string name="time_unit_day_short">d</string>
+    <string name="time_unit_hour_short">h</string>
+    <string name="time_unit_minute_short">m</string>
 
     <!-- Qibla -->
     <string name="qibla_disclaimer_title">Disclaimer</string>

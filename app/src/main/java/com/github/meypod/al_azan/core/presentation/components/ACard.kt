@@ -20,6 +20,18 @@ fun ACard(
     modifier: Modifier = Modifier,
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
+    compact: Boolean = false,
+    paddingValues: PaddingValues = if (compact) {
+        PaddingValues(
+            vertical = dimensionResource(R.dimen.card_padding_vc),
+            horizontal = dimensionResource(R.dimen.card_padding_hc),
+        )
+    } else {
+        PaddingValues(
+            vertical = dimensionResource(R.dimen.card_padding_v),
+            horizontal = dimensionResource(R.dimen.card_padding_h),
+        )
+    },
     content: @Composable (paddingValues: PaddingValues) -> Unit,
 ) {
     Surface(
@@ -28,12 +40,7 @@ fun ACard(
         shadowElevation = shadowElevation,
         shape = MaterialTheme.shapes.medium,
     ) {
-        content(
-            PaddingValues(
-                vertical = dimensionResource(R.dimen.card_padding_v),
-                horizontal = dimensionResource(R.dimen.card_padding_h),
-            ),
-        )
+        content(paddingValues)
     }
 }
 
