@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.prepareForSearch
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -72,6 +71,8 @@ fun <T> BottomSelect(
             onSelectAndDismiss(option.value.first)
         }
     },
+    headerContent: (@Composable ((T) -> Unit) -> Unit)? = null,
+    selectedLabelOverride: String? = null,
 ) {
     BottomSelectImpl(
         options = options,
@@ -89,6 +90,8 @@ fun <T> BottomSelect(
         onTriggerClick = onTriggerClick,
         colors = colors,
         itemContent = itemContent,
+        headerContent = headerContent,
+        selectedLabelOverride = selectedLabelOverride,
         initialBusy = false,
     )
 }
@@ -120,6 +123,8 @@ private fun <T> BottomSelectImpl(
             onSelectAndDismiss(option.value.first)
         }
     },
+    headerContent: (@Composable ((T) -> Unit) -> Unit)? = null,
+    selectedLabelOverride: String? = null,
     initialBusy: Boolean,
 ) {
     val focusManager = LocalFocusManager.current
@@ -171,8 +176,8 @@ private fun <T> BottomSelectImpl(
         }
 
     val selectedLabel =
-        remember(optionKey, selectedKey, keyLabelOptionEntries) {
-            keyLabelOptionEntries
+        remember(optionKey, selectedKey, keyLabelOptionEntries, selectedLabelOverride) {
+            selectedLabelOverride ?: keyLabelOptionEntries
                 .filter { it.key == selectedKey }
                 .let { if (it.isNotEmpty()) it.values.first().second else "" }
         }
@@ -254,6 +259,8 @@ private fun <T> BottomSelectImpl(
                     shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
                 )
             }
+
+            headerContent?.invoke(onSelectAndDismissUpdated)
 
             LazyColumn {
                 items(filteredOptions.entries.toList(), key = { it.key }) { item ->

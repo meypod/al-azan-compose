@@ -53,12 +53,13 @@ fun WeekdayChipRow(
     onToggle: (DayOfWeek) -> Unit,
     modifier: Modifier = Modifier,
     accent: ChipAccent = ChipAccent.Primary,
+    alignment: Alignment.Horizontal = Alignment.Start,
 ) {
     val chipColors = accent.filterChipColors()
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
         FlowRow(
             modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact), alignment = alignment),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
         ) {
             WEEK_ORDER_SUNDAY_FIRST.forEach { day ->
