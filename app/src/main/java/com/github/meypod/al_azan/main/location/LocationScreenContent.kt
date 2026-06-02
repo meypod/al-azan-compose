@@ -1,6 +1,8 @@
 package com.github.meypod.al_azan.main.location
 
+import android.content.ClipData
 import android.icu.text.DateFormat
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +38,8 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,6 +66,8 @@ import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
 import com.github.meypod.al_azan.main.location.components.NewLocationDialog
+import androidx.compose.ui.platform.ClipEntry
+import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
 @Composable
@@ -207,6 +214,9 @@ private fun LocationListItem(
     triggerLocation: () -> Unit = {},
 ) {
     var expanded by remember(item.id) { mutableStateOf(menuExpanded) }
+    val clipboard = LocalClipboard.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     ListItem(
         modifier = modifier
@@ -271,6 +281,29 @@ private fun LocationListItem(
                             expanded = expanded && interactionEnabled,
                             onDismissRequest = { expanded = false },
                         ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.copy_coordinates)) },
+                                trailingIcon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.content_copy),
+                                        contentDescription = null,
+                                    )
+                                },
+                                onClick = {
+                                    expanded = false
+                                    val coords = item.locationDetail.toCoordsString()
+                                    scope.launch {
+                                        clipboard.setClipEntry(
+                                            ClipEntry(ClipData.newPlainText("coordinates", coords)),
+                                        )
+                                        Toast
+                                            .makeText(context, R.string.coordinates_copied, Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                },
+                                enabled = interactionEnabled,
+                            )
+
                             if (!selected) {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.set_as_default)) },
