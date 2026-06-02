@@ -1,11 +1,12 @@
 package com.github.meypod.al_azan.core.domain.util
 
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import kotlin.time.Duration
 import kotlin.time.Instant
 
 fun formatDurationToHHmmss(
     duration: Duration,
-    numberingSystem: String? = null,
+    numberingSystem: NumberingSystem = NumberingSystem.Default,
 ): String {
     val hours = duration.inWholeHours
     val remainingSeconds = duration.inWholeSeconds - hours * 3600
@@ -17,7 +18,7 @@ fun formatDurationToHHmmss(
 fun formatCountdownToHHmmss(
     currentInstant: Instant,
     targetInstant: Instant,
-    numberingSystem: String? = null,
+    numberingSystem: NumberingSystem = NumberingSystem.Default,
 ): String {
     val duration = targetInstant - currentInstant
     if (duration <= Duration.ZERO) {

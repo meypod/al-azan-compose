@@ -3,9 +3,11 @@ package com.github.meypod.al_azan.core.data.model.old
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
-import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
+import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
 import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntries
 import com.github.meypod.al_azan.core.domain.model.settings.mapAdhanIdToEntry
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
@@ -155,7 +157,12 @@ fun OldSettingsState.toSettings() =
         deliveredAlarmTimestamps = this.deliveredAlarmTimestamps,
         themeColor = this.themeColor.toThemeColors(),
         is24HourFormat = this.is24HourFormat,
-        numberingSystem = this.numberingSystem,
+        numberingSystem = when (this.numberingSystem) {
+            "latn" -> NumberingSystem.Latn
+            "arab" -> NumberingSystem.Arab
+            "arabext" -> NumberingSystem.Arabext
+            else -> NumberingSystem.Default
+        },
         highlightCurrentPrayer = this.highlightCurrentPrayer,
         selectedLocale = this.selectedLocale,
         selectedArabicCalendar = if (this.selectedLocale.startsWith("fa")) {
@@ -165,8 +172,11 @@ fun OldSettingsState.toSettings() =
         },
         selectedLocaleForArabicCalendar = this.selectedLocaleForArabicCalendar,
         selectedSecondaryCalendar = when (this.selectedSecondaryCalendar) {
-            "gregory" -> "gregorian"
-            else -> this.selectedSecondaryCalendar
+            "gregory", "gregorian" -> SecondaryCalendar.Gregorian
+            "persian" -> SecondaryCalendar.Persian
+            "ethiopic" -> SecondaryCalendar.Ethiopic
+            "buddhist" -> SecondaryCalendar.Buddhist
+            else -> SecondaryCalendar.Gregorian
         },
         appInitialConfigDone = this.appInitialConfigDone,
         appIntroDone = this.appIntroDone,

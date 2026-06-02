@@ -159,6 +159,69 @@
     <string name="location_is_disabled_notif_body">Travel mode is active, but your location services are off. Please enable location so the app can update your position reliably.</string>
     <string name="worker_location_permission_revoked_title">Location permission revoked</string>
     <string name="worker_location_permission_revoked_body">Travel mode is active, but the app no longer has location permission. Disable travel mode or grant location access to continue.</string>
+
+    <!-- Interface settings -->
+    <string name="language">Language</string>
+    <string name="themes">Themes</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_classic_black">Classic Black</string>
+    <string name="theme_classic_light">Classic Light</string>
+    <string name="theme_system_default">System Default</string>
+    <string name="theme_dynamic">Dynamic</string>
+    <string name="show_prayer_times_title">Show Prayer times</string>
+    <string name="show_prayer_times_help">Choose what prayer times to show on Main Screen.</string>
+    <string name="time_column">Time</string>
+    <string name="show_column">Show</string>
+    <string name="countdown_timer">Home countdown timer</string>
+    <string name="countdown_timer_help">Show time remaining to next prayer on the home screen.</string>
+    <string name="countdown_to">Countdown To</string>
+    <string name="countdown_target_next_active_azan">Next Active Azan</string>
+    <string name="countdown_target_next_prayer">Next Prayer</string>
+    <string name="date_and_time">Date and Time</string>
+    <string name="time_format">Time Format</string>
+    <string name="use_24_hour_format">Use 24-Hour Format</string>
+    <string name="numbering_system">Numbering System</string>
+    <string name="numbering_system_help">Forces all numbers to be in the selected system.</string>
+    <string name="numbering_system_default">Default</string>
+    <string name="numbering_system_latn">Western Arabic</string>
+    <string name="numbering_system_arab">Eastern Arabic</string>
+    <string name="numbering_system_arabext">Persian</string>
+    <string name="numbering_system_beng">Bengali</string>
+    <string name="numbering_system_deva">Devanagari</string>
+    <string name="lunar_calendar_language">Lunar Calendar Language</string>
+    <string name="lunar_calendar_language_help">Change the language used for lunar calendar.</string>
+    <string name="default_value">Default</string>
+    <string name="primary_calendar">Primary Calendar</string>
+    <string name="primary_calendar_help">The calendar that shows on top of the page.</string>
+    <string name="secondary_calendar">Secondary Calendar</string>
+    <string name="secondary_calendar_help">The calendar that shows below the day of the week.</string>
+    <string name="calendar_gregorian">Gregorian</string>
+    <string name="calendar_lunar">Lunar</string>
+    <string name="calendar_none">None</string>
+    <string name="calendar_persian">Persian</string>
+    <string name="calendar_ethiopic">Ethiopic</string>
+    <string name="calendar_buddhist">Buddhist</string>
+
+    <!-- Sound &amp; notification -->
+    <string name="notification_sound">Notification Sound</string>
+    <string name="my_muezzins">My Muazzins</string>
+    <string name="my_muezzins_empty">You haven\'t add any yet.</string>
+    <string name="add_from_local_files">Add From Local Files</string>
+    <string name="azan_and_notification">Azan &amp; notification</string>
+    <string name="azan_and_notification_help">Enable and disable Azan or Notifications for each prayer time.</string>
+    <string name="azan">Azan</string>
+    <string name="tahajjud_is_last_third_hint">Tahajjud is last third part of the night</string>
+    <string name="vibration_mode">Vibration Mode</string>
+    <string name="vibration_mode_help">Should phone vibrate when Azan or reminders start playing ?</string>
+    <string name="vibration_off">Off</string>
+    <string name="vibration_once">Once</string>
+    <string name="vibration_continuous">Continuous</string>
+    <string name="show_upcoming_alarm">Show \"Upcoming Alarm\" Notification</string>
+    <string name="show_upcoming_alarm_help">If enabled, a notification will be shown around one hour before each Azan.</string>
+    <string name="custom_muezzin">Custom Muazzin</string>
+    <string name="use_default_muezzin">Use default</string>
+    <string name="notifications">Notifications</string>
     <string name="weekday_sunday">Sunday</string>
     <string name="weekday_monday">Monday</string>
     <string name="weekday_tuesday">Tuesday</string>
@@ -166,4 +229,121 @@
     <string name="weekday_thursday">Thursday</string>
     <string name="weekday_friday">Friday</string>
     <string name="weekday_saturday">Saturday</string>
+
+    <!-- Adjustments -->
+    <string name="adjustments_title">Adjustments</string>
+    <string name="adjustments_help">Number of minutes that will be added to the calculated times.</string>
+    <string name="lunar_days_adjustment_help">Number of Days that will be added to the lunar calendar.</string>
+    <string name="increment">Increment</string>
+    <string name="decrement">Decrement</string>
+
+    <!-- Advanced calculation -->
+    <string name="advanced_calculation_title">Advanced Calculation Settings</string>
+    <string name="rounding_method">Rounding Method</string>
+    <string name="rounding_auto_default">Auto(Default)</string>
+    <string name="rounding_nearest">Nearest</string>
+    <string name="rounding_up">Up</string>
+    <string name="rounding_none">None</string>
+    <string name="midnight_method">Midnight Method</string>
+    <string name="midnight_sunset_to_fajr_default">Sunset to Fajr(Default)</string>
+    <string name="midnight_sunset_to_sunrise">Sunset to Sunrise</string>
+    <string name="high_latitude">High Latitude</string>
+    <string name="high_latitude_none_automatic">None (Automatic)</string>
+    <string name="high_latitude_middle">Middle of the Night</string>
+    <string name="high_latitude_seventh">Seventh of the Night</string>
+    <string name="high_latitude_twilight_angle">Twilight Angle</string>
+    <string name="asr_calculation">Asr Calculation</string>
+    <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Default)</string>
+    <string name="asr_hanafi">Hanafi</string>
+    <string name="polar_resolution">Polar Resolution</string>
+    <string name="polar_unresolved_default">Unresolved (Default)</string>
+    <string name="polar_aqrab_balad">Aqrab Balad</string>
+    <string name="polar_aqrab_yaum">Aqrab Yaum</string>
+    <string name="shafaq">Shafaq</string>
+    <string name="shafaq_help">Shafaq is used by the MoonsightingCommittee method to determine what type of twilight to use in order to determine the time for Isha.</string>
+    <string name="shafaq_general_default">General (Default)</string>
+    <string name="shafaq_ahmer">Ahmer</string>
+    <string name="shafaq_abyad">Abyad</string>
+
+    <!-- Advanced troubleshoot -->
+    <string name="adaptive_charging">Adaptive Charging</string>
+    <string name="adaptive_charging_help">Enable this option if you have a device with adaptive charging (like Google Pixel) and don\'t want adhan or reminders treated as alarms.</string>
+    <string name="adaptive_charging_caution">Caution: This may cause delays or missed adhans and reminders. Use carefully.</string>
+    <string name="adaptive_charging_enable">I Understand And Enable It</string>
+
+    <!-- Widget settings -->
+    <string name="show_notification_widget">Show Notification Widget</string>
+    <string name="show_notification_widget_help">An small version of widget in notification.</string>
+    <string name="show_countdown_timer">Show Countdown Timer</string>
+    <string name="use_adaptive_theme">Use Adaptive Theme</string>
+    <string name="widget_calendar_help">Choose the calendar of the widget.</string>
+    <string name="widget_show_prayer_times">Show Prayer times</string>
+    <string name="widget_show_prayer_times_help">Choose what prayer times to show on widget.</string>
+
+    <!-- Backup &amp; Restore -->
+    <string name="create_a_backup">Create A Backup</string>
+    <string name="backup_help">You can create a backup file from settings you already implemented and restore them any time.</string>
+    <string name="backup_note">Note that Custom sounds and muezzins will not be exported.</string>
+    <string name="restore_label">Restore</string>
+    <string name="restore_help">Restore your settings from a backup file.</string>
+    <string name="restore_settings">Restore Settings</string>
+
+    <!-- Reminders -->
+    <string name="reminders_title">Reminders</string>
+    <string name="reminders_empty">You don\'t have any reminder.</string>
+    <string name="add_a_reminder">Add A Reminder</string>
+    <string name="reminder_label">Label</string>
+    <string name="reminder_label_placeholder">Give a name</string>
+    <string name="reminder_time">Time</string>
+    <string name="reminder_sound">Sound</string>
+    <string name="reminder_options">Options</string>
+    <string name="reminder_only_once">Only Once</string>
+    <string name="reminder_before">Before</string>
+    <string name="reminder_after">After</string>
+    <string name="reminder_save">Save</string>
+    <string name="reminder_edit">Edit</string>
+    <string name="reminder_default_sound">Default (Notification)</string>
+    <string name="reminder_selected_count">%1$d Selected</string>
+    <string name="select_all">All</string>
+    <string name="turn_on">Turn On</string>
+    <string name="delete_reminder_title">Deleting Reminder</string>
+    <string name="delete_reminder_body">Are you sure you want to delete the Reminder ?</string>
+    <string name="only_once_label">Only Once</string>
+    <string name="everyday_label">Everyday</string>
+    <string name="time_unit_min">%1$d min</string>
+    <string name="time_unit_hour">%1$d Hour</string>
+
+    <!-- Qada Counter -->
+    <string name="qada_counter_title">Qada Counter</string>
+    <string name="show_last_change_time">Show Last Change Time</string>
+    <string name="add_counter">Add Counter</string>
+    <string name="counter_last_change">%1$s ago, %2$d → %3$d</string>
+
+    <!-- Qibla -->
+    <string name="qibla_disclaimer_title">Disclaimer</string>
+    <string name="qibla_disclaimer">Note that due to software and hardware errors, Quibla direction shown by this app, particularly in \"Compass Mode\", can be wrong.\nOther magnetic devices and your compass may need calibration.</string>
+    <string name="qibla_i_understand">I Understand</string>
+    <string name="qibla_map_and_location">Map &amp; Location</string>
+    <string name="qibla_use_compass">Use Compass</string>
+
+    <!-- Advanced link -->
+    <string name="advanced_title">Advanced</string>
+
+    <!-- Monthly view -->
+    <string name="monthly_view_title">Monthly view</string>
+    <string name="prev_month">Prev Month</string>
+    <string name="next_month">Next Month</string>
+    <string name="show_this_month">Show This Month</string>
+    <string name="date_column">Date</string>
+
+    <!-- Fullscreen alarm -->
+    <string name="alarm_azan_header">AZAN</string>
+    <string name="alarm_swipe_up_hint">Swipe Up For More Options</string>
+    <string name="alarm_dismiss">Dismiss</string>
+    <string name="alarm_just_dismiss">Just Dismiss</string>
+    <string name="alarm_dismiss_and_silent">Dismiss and Silent %1$dm</string>
+    <string name="alarm_snooze">Snooze %1$dm</string>
+    <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
+    <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
+    <string name="moazen_zade">Moazen Zade</string>
 </resources>

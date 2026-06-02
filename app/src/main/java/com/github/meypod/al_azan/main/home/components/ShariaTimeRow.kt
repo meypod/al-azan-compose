@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -38,7 +39,7 @@ data class ShariaTimeRowUiState(
     val prayer: Prayer,
     val instant: Instant?,
     val locale: String = "en-US",
-    val numberingSystem: String? = null,
+    val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val is24Hours: Boolean = true,
     val highlightState: HighlightState = HighlightState.BeforeHighlight,
     val themeColor: ThemeColor = ThemeColor.Default,

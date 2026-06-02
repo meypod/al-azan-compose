@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.location
 
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import kotlin.time.Instant
 
 @Immutable
@@ -15,5 +16,5 @@ data class LocationUiState(
     val travelingModeLastUpdate: Instant? = null,
     val locale: String = "en-US",
     val calendar: String = "gregorian",
-    val numberingSystem: String? = null,
+    val numberingSystem: NumberingSystem = NumberingSystem.Default,
 )

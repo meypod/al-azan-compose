@@ -21,7 +21,10 @@ class MMKVDataStore<T>(
     private val key: String,
     private val serializer: KSerializer<T>,
     private val defaultValue: T,
-    private val json: Json = Json { ignoreUnknownKeys = true },
+    private val json: Json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    },
 ) : SimpleJsonDataStore<T> {
     private val state: MutableStateFlow<T> = MutableStateFlow(loadSync())
     private val updater =

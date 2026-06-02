@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.main.home
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import kotlin.time.Instant
@@ -15,7 +16,7 @@ data class HomeUiState(
     val arabicCalendar: String = "islamic",
     val calendar: String = "gregorian",
     val locale: String = "en-US",
-    val numberingSystem: String? = null,
+    val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val location: FavoriteLocation? = null,
     val showNextPrayerCountdown: Boolean = true,
     val shariaTimes: ShariaTimes? = null,

@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.util
 
 import android.icu.text.DateFormat
 import android.icu.util.ULocale
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import java.time.ZoneId
 import java.util.Date
 import kotlin.math.abs
@@ -15,7 +16,7 @@ fun formatInstant(
     locale: String = "en-US",
     calendar: String = "gregorian",
     skeleton: String = DateFormat.YEAR_MONTH_DAY,
-    numberingSystem: String? = null,
+    numberingSystem: NumberingSystem = NumberingSystem.Default,
 ): String {
     val formatter = DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar"))
     return formatWithUnicodeDigits(formatter.format(Date.from(instant.toJavaInstant())), numberingSystem)
