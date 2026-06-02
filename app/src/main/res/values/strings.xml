@@ -306,12 +306,27 @@
     <string name="reminder_selected_count">%1$d Selected</string>
     <string name="select_all">All</string>
     <string name="turn_on">Turn On</string>
+    <string name="turn_off">Turn Off</string>
+    <string name="reminder_custom_duration">Custom (minutes)</string>
+    <string name="reminder_custom_tap_to_edit">Tap to edit</string>
+    <string name="reminder_custom_dialog_title">Custom duration</string>
+    <string name="reminder_duplicate">Duplicate</string>
     <string name="delete_reminder_title">Deleting Reminder</string>
     <string name="delete_reminder_body">Are you sure you want to delete the Reminder ?</string>
+    <plurals name="delete_reminders_body">
+        <item quantity="one">Are you sure you want to delete %1$d reminder ?</item>
+        <item quantity="other">Are you sure you want to delete %1$d reminders ?</item>
+    </plurals>
     <string name="only_once_label">Only Once</string>
     <string name="everyday_label">Everyday</string>
-    <string name="time_unit_min">%1$d min</string>
-    <string name="time_unit_hour">%1$d Hour</string>
+    <plurals name="time_unit_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <plurals name="time_unit_hours">
+        <item quantity="one">%1$d hour</item>
+        <item quantity="other">%1$d hours</item>
+    </plurals>
 
     <!-- Qada Counter -->
     <string name="qada_counter_title">Qada Counter</string>

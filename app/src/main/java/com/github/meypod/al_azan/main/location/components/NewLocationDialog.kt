@@ -69,7 +69,6 @@ import com.github.meypod.al_azan.core.presentation.util.parseClipboardToCoords
 import com.github.meypod.al_azan.core.presentation.util.returnMatched
 import com.github.meypod.al_azan.core.presentation.util.toEnglishDigits
 import com.github.meypod.al_azan.main.location.LocationUiAction
-import com.github.meypod.al_azan.main.location.components.NewLocationDialogUiState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -182,7 +181,7 @@ private fun NewLocationDialogContent(
                         .fillMaxWidth()
                         .padding(vertical = dimensionResource(R.dimen.tiny_padding)),
                 ) {
-                    val selectModifier = Modifier.height(40.dp)
+                    val selectModifier = Modifier
                     BottomSelect(
                         modifier = selectModifier.weight(1f),
                         options = countries,

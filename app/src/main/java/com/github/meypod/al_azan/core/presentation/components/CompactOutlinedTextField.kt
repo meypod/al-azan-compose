@@ -3,29 +3,29 @@ package com.github.meypod.al_azan.core.presentation.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,82 +44,92 @@ fun CompactOutlinedTextField(
     readOnly: Boolean = false,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     trailingIcon: (@Composable () -> Unit)? = null,
     fixedLabel: Boolean = false,
     shape: Shape = MaterialTheme.shapes.small,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val fValue = if (value.isEmpty() && fixedLabel) placeholder else value
 
-    BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        enabled = enabled,
-        readOnly = readOnly,
-        singleLine = true,
-        keyboardOptions = keyboardOptions,
-        interactionSource = interactionSource,
-        textStyle = textStyle.merge(
-            color = colors.unfocusedTextColor,
-        ),
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-    ) { innerTextField ->
-        OutlinedTextFieldDefaults.DecorationBox(
-            value = fValue,
-            innerTextField = {
-                if (readOnly || !isFocused) {
+    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = modifier,
+            enabled = enabled,
+            readOnly = readOnly,
+            singleLine = true,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            interactionSource = interactionSource,
+            textStyle = textStyle.merge(
+                color = colors.unfocusedTextColor,
+            ),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+        ) { innerTextField ->
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = fValue,
+                innerTextField = {
+                    if (readOnly || !isFocused) {
+                        Text(
+                            text = fValue,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = textStyle.merge(
+                                color = if (value.isEmpty() &&
+                                    fixedLabel
+                                ) {
+                                    colors.unfocusedPlaceholderColor
+                                } else {
+                                    colors.unfocusedTextColor
+                                },
+                            ),
+                        )
+                    } else {
+                        innerTextField()
+                    }
+                },
+                enabled = enabled,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                colors = colors,
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                label = label,
+                placeholder = {
                     Text(
-                        text = fValue,
+                        text = placeholder,
+                        modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = textStyle.merge(
-                            color = if (value.isEmpty() &&
-                                fixedLabel
-                            ) {
-                                colors.unfocusedPlaceholderColor
-                            } else {
-                                colors.unfocusedTextColor
-                            },
-                        ),
+                        style = textStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                     )
-                } else {
-                    innerTextField()
-                }
-            },
-            enabled = enabled,
-            singleLine = true,
-            visualTransformation = VisualTransformation.None,
-            interactionSource = interactionSource,
-            colors = colors,
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-            label = label,
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    modifier = Modifier.fillMaxWidth(),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = textStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                )
-            },
-            supportingText = supportingText,
-            container = {
-                OutlinedTextFieldDefaults.Container(
-                    enabled = enabled,
-                    isError = false,
-                    interactionSource = interactionSource,
-                    colors = colors,
-                    shape = shape,
-                    focusedBorderThickness = OutlinedTextFieldDefaults.FocusedBorderThickness,
-                    unfocusedBorderThickness = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
-                )
-            },
-            trailingIcon = trailingIcon,
-        )
+                },
+                supportingText = supportingText,
+                container = {
+                    OutlinedTextFieldDefaults.Container(
+                        enabled = enabled,
+                        isError = false,
+                        interactionSource = interactionSource,
+                        colors = colors,
+                        shape = shape,
+                        focusedBorderThickness = OutlinedTextFieldDefaults.FocusedBorderThickness,
+                        unfocusedBorderThickness = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
+                    )
+                },
+                trailingIcon = trailingIcon?.let {
+                    {
+                        Box(Modifier.padding(end = 8.dp)) {
+                            it()
+                        }
+                    }
+                },
+            )
+        }
     }
 }
 
