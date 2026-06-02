@@ -142,7 +142,7 @@ private fun NewLocationDialogContent(
                 .fadeScrollEdges(scrollState, Orientation.Vertical)
                 .drawVerticalScrollbar(scrollState)
                 .verticalScroll(scrollState)
-                .padding(dimensionResource(R.dimen.card_padding)),
+                .padding(dimensionResource(R.dimen.page_padding)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
         ) {
             Row(
