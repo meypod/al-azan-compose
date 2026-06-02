@@ -5,6 +5,7 @@
     <dimen name="card_padding_v">9dp</dimen>
     <dimen name="card_padding_hc">8dp</dimen>
     <dimen name="card_padding_vc">4dp</dimen>
+    <dimen name="element_padding_large">14dp</dimen>
     <dimen name="element_padding">10dp</dimen>
     <dimen name="element_padding_compact">7dp</dimen>
     <dimen name="icon_padding">6dp</dimen>

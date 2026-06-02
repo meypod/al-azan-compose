@@ -44,6 +44,37 @@ fun ACard(
     }
 }
 
+@Composable
+fun ACard(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    tonalElevation: Dp = 0.dp,
+    shadowElevation: Dp = 0.dp,
+    compact: Boolean = false,
+    paddingValues: PaddingValues = if (compact) {
+        PaddingValues(
+            vertical = dimensionResource(R.dimen.card_padding_vc),
+            horizontal = dimensionResource(R.dimen.card_padding_hc),
+        )
+    } else {
+        PaddingValues(
+            vertical = dimensionResource(R.dimen.card_padding_v),
+            horizontal = dimensionResource(R.dimen.card_padding_h),
+        )
+    },
+    content: @Composable (paddingValues: PaddingValues) -> Unit,
+) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        tonalElevation = tonalElevation,
+        shadowElevation = shadowElevation,
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        content(paddingValues)
+    }
+}
+
 @Preview
 @Composable
 private fun CardPreview() {

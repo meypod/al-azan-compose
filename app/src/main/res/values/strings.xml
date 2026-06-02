@@ -336,9 +336,9 @@
 
     <!-- Qibla -->
     <string name="qibla_disclaimer_title">Disclaimer</string>
-    <string name="qibla_disclaimer">Note that due to software and hardware errors, Quibla direction shown by this app, particularly in \"Compass Mode\", can be wrong.\nOther magnetic devices and your compass may need calibration.</string>
+    <string name="qibla_disclaimer">Note that due to software and hardware errors, Qibla direction shown by this app can be wrong.\nOther magnetic devices may interfere with your phone\'s compass and your compass may need calibration.</string>
     <string name="qibla_i_understand">I Understand</string>
-    <string name="qibla_map_and_location">Map &amp; Location</string>
+    <string name="qibla_use_map">Use Map</string>
     <string name="qibla_use_compass">Use Compass</string>
 
     <!-- Advanced link -->
