@@ -28,7 +28,12 @@ fun ACard(
         shadowElevation = shadowElevation,
         shape = MaterialTheme.shapes.medium,
     ) {
-        content(PaddingValues(dimensionResource(R.dimen.card_padding)))
+        content(
+            PaddingValues(
+                vertical = dimensionResource(R.dimen.card_padding_v),
+                horizontal = dimensionResource(R.dimen.card_padding_h),
+            ),
+        )
     }
 }
 

@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +27,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -173,6 +176,18 @@ private fun SettingSwitchPreview() {
         ACard {
             Column(Modifier.padding(it)) {
                 SettingSwitch("This is a title", "this is a subtitle", checked = false) {}
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingSwitchWithoutSubtitlePreview() {
+    AlAzanTheme {
+        ACard {
+            Column(Modifier.padding(it)) {
+                SettingSwitch("This is a title", null, checked = false) {}
             }
         }
     }
