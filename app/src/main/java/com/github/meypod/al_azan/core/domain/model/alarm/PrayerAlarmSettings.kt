@@ -41,6 +41,25 @@ sealed interface PrayerAlarmSettings {
             is Bool -> this.value
             is ByWeekDay -> get(instant.toLocalDateTime(TimeZone.currentSystemDefault()).dayOfWeek)
         }
+
+    /** Days currently enabled. Bool(true) means every day, Bool(false) means none. */
+    fun selectedDays(): Set<DayOfWeek> =
+        when (this) {
+            is Bool -> if (value) ALL_DAYS else emptySet()
+            is ByWeekDay -> days.filterValues { it }.keys
+        }
+
+    companion object {
+        val ALL_DAYS: Set<DayOfWeek> = DayOfWeek.entries.toSet()
+
+        /** Collapse a per-day selection to Bool when all/none are enabled, else ByWeekDay. */
+        fun fromDays(days: Set<DayOfWeek>): PrayerAlarmSettings =
+            when {
+                days.isEmpty() -> Bool(false)
+                days.containsAll(ALL_DAYS) -> Bool(true)
+                else -> ByWeekDay(ALL_DAYS.associateWith { it in days })
+            }
+    }
 }
 
 object PrayerAlarmSettingsSerializer : KSerializer<PrayerAlarmSettings> {
