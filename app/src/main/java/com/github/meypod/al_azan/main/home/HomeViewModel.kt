@@ -64,6 +64,7 @@ class HomeViewModel
             HomeUiAction.OnCounterLinkClick -> onCounterLinkClick()
             HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
             HomeUiAction.OnAboutLinkClick -> onAboutLinkClick()
+            HomeUiAction.OnMonthlyViewClick -> NavigationController.navigateTo(Route.Main.MonthlyView)
         }
     }
 
@@ -175,7 +176,7 @@ class HomeViewModel
                     it.copy(
                         themeColor = settings.themeColor,
                         arabicCalendar = settings.selectedArabicCalendar,
-                        calendar = settings.selectedSecondaryCalendar,
+                        calendar = settings.selectedSecondaryCalendar.value,
                         locale = settings.selectedLocale,
                         numberingSystem = settings.numberingSystem,
                         location = location,

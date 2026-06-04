@@ -1,6 +1,10 @@
 package com.github.meypod.al_azan.main.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.Alignment
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -139,15 +143,22 @@ fun HomeScreen(
                         }
                     },
                     title = {
-                        Text(
-                            formatInstant(
-                                uiState.viewingInstant,
-                                uiState.locale,
-                                uiState.calendar,
-                                numberingSystem = uiState.numberingSystem,
-                            ),
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            modifier = Modifier.clickable { onAction(HomeUiAction.OnMonthlyViewClick) },
+                        ) {
+                            Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
+                            Text(
+                                formatInstant(
+                                    uiState.viewingInstant,
+                                    uiState.locale,
+                                    uiState.calendar,
+                                    numberingSystem = uiState.numberingSystem,
+                                ),
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
                     },
                 )
             },
