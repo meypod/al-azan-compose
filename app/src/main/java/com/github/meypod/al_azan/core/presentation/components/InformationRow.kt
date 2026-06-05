@@ -6,6 +6,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -16,10 +17,12 @@ import com.github.meypod.al_azan.R
 fun InformationRow(
     modifier: Modifier = Modifier,
     iconDescription: String? = stringResource(R.string.information),
+    verticalAlignment: Alignment.Vertical = Alignment.Top,
     content: @Composable () -> Unit,
 ) {
     Row(
         modifier = modifier,
+        verticalAlignment = verticalAlignment,
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
         Icon(

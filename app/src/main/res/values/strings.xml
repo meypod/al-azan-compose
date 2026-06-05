@@ -272,9 +272,9 @@
 
     <!-- Advanced troubleshoot -->
     <string name="adaptive_charging">Adaptive Charging</string>
-    <string name="adaptive_charging_help">Enable this option if you have a device with adaptive charging (like Google Pixel) and don\'t want adhan or reminders treated as alarms.</string>
-    <string name="adaptive_charging_caution">Caution: This may cause delays or missed adhans and reminders. Use carefully.</string>
-    <string name="adaptive_charging_enable">I Understand And Enable It</string>
+    <string name="adaptive_charging_help">On some devices (like Google Pixel), the default alarm type registers as a clock alarm, which can interfere with Adaptive Charging and show an alarm icon. Enable this to use an alarm type that avoids both.</string>
+    <string name="adaptive_charging_caution">Caution: On some devices this alarm type is more affected by battery optimization, so adhan and reminders may be delayed or missed. Use carefully.</string>
+    <string name="different_alarm_enable">Use a different alarm type</string>
 
     <!-- Widget settings -->
     <string name="show_notification_widget">Show Notification Widget</string>
