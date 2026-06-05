@@ -15,6 +15,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,12 +38,14 @@ fun ScreenScaffold(
     titleIcon: Int? = null,
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
+    snackbarHost: @Composable () -> Unit = { SnackbarHost(LocalSnackbarController.current.hostState) },
     scrollable: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val scrollState = if (scrollable) rememberScrollState() else null
     Scaffold(
         modifier = modifier,
+        snackbarHost = snackbarHost,
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
@@ -78,7 +81,9 @@ fun ScreenScaffold(
                         .fadeScrollEdges(scrollState, Orientation.Vertical)
                         .drawVerticalScrollbar(scrollState)
                         .verticalScroll(scrollState)
-                } else Modifier
+                } else {
+                    Modifier
+                },
             )
             .padding(dimensionResource(R.dimen.page_padding))
         Column(

@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.domain.model.settings
 
+import android.content.res.Resources
 import androidx.annotation.RawRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -88,11 +89,11 @@ data class Settings(
     val volumeButtonStopsAdhan: Boolean = false,
     val preferExternalAudioDevice: Boolean = false,
     val bypassDnd: Boolean = false,
-    val hiddenWidgetPrayers: List<Prayer> = emptyList(),
+    val hiddenWidgetPrayers: List<Prayer> = listOf(Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud),
     val showWidget: Boolean = false,
     val showWidgetCountdown: Boolean = false,
     val adaptiveWidgets: Boolean = false,
-    val widgetCityNamePos: WidgetCityNamePos? = null,
+    val widgetCityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val calcSettingsHash: String? = null,
     @Serializable(with = EmptyStringAsNullSerializer::class)
@@ -155,12 +156,22 @@ enum class SecondaryCalendar(
 
 @Serializable
 enum class WidgetCityNamePos {
+    @SerialName("")
+    None,
+
     @SerialName("top_start")
     TopStart,
 
     @SerialName("top_end")
     TopEnd,
 }
+
+fun WidgetCityNamePos.i18n(resources: Resources): String =
+    when (this) {
+        WidgetCityNamePos.None -> resources.getString(R.string.calendar_none)
+        WidgetCityNamePos.TopStart -> resources.getString(R.string.lunar_calendar)
+        WidgetCityNamePos.TopEnd -> resources.getString(R.string.secondary_calendar)
+    }
 
 @Serializable
 enum class ThemeColor {

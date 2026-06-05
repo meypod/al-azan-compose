@@ -9,7 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -36,7 +36,7 @@ fun CalculationSettingsScreen(
     onAction: (CalculationSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
+    val resources = LocalResources.current
     Column(
         modifier.padding(dimensionResource(R.dimen.page_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -61,7 +61,7 @@ fun CalculationSettingsScreen(
                     modifier = Modifier.fillMaxWidth(),
                     options = CalculationMethod.entries,
                     optionKey = { it.name },
-                    optionLabel = { it.i18n(context) },
+                    optionLabel = { it.i18n(resources) },
                     selectedKey = uiState.calculationParameters?.method?.name,
                     onSelect = { onAction(CalculationSettingsUiAction.OnCalculationMethodChange(it)) },
                     searchable = true,
@@ -106,7 +106,7 @@ fun CalculationSettingsScreen(
                     modifier = Modifier.fillMaxWidth(),
                     options = SupportedLunarCalendars.entries,
                     optionKey = { it.icuValue },
-                    optionLabel = { it.i18n(context) },
+                    optionLabel = { it.i18n(resources) },
                     selectedKey = uiState.selectedCalendar,
                     onSelect = { onAction(CalculationSettingsUiAction.OnLunarCalendarChange(it.icuValue)) },
                     searchable = true,

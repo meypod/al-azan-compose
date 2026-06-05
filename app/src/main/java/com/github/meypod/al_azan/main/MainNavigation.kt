@@ -228,7 +228,7 @@ fun MainNavigation(
             entry<Route.Main.Settings.WidgetSettings> {
                 val vm = hiltViewModel<WidgetSettingsViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
-                WidgetSettingsScreen(s, vm::onAction)
+                WidgetSettingsScreen(s, vm::onAction, events = vm.events)
             }
             entry<Route.Main.Settings.BackupAndRestore> {
                 val vm = hiltViewModel<BackupRestoreViewModel>()

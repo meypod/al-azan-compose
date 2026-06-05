@@ -63,11 +63,11 @@ data class OldSettingsState(
     @SerialName("PREFER_EXTERNAL_AUDIO_DEVICE") val preferExternalAudioDevice: Boolean = false,
     @SerialName("BYPASS_DND") val bypassDnd: Boolean = false,
     //
-    @SerialName("HIDDEN_WIDGET_PRAYERS") val hiddenWidgetPrayers: List<Prayer> = emptyList(),
+    @SerialName("HIDDEN_WIDGET_PRAYERS") val hiddenWidgetPrayers: List<Prayer> = listOf(Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud),
     @SerialName("SHOW_WIDGET") val showWidget: Boolean = false,
     @SerialName("SHOW_WIDGET_COUNTDOWN") val showWidgetCountdown: Boolean = false,
     @SerialName("ADAPTIVE_WIDGETS") val adaptiveWidgets: Boolean = false,
-    @SerialName("WIDGET_CITY_NAME_POS") val widgetCityNamePos: WidgetCityNamePos? = null,
+    @SerialName("WIDGET_CITY_NAME_POS") val widgetCityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
     //
     @SerialName("CALC_SETTINGS_HASH")
     @Serializable(with = EmptyStringAsNullSerializer::class)
