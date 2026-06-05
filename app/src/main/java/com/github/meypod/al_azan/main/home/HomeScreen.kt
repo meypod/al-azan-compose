@@ -1,14 +1,13 @@
 package com.github.meypod.al_azan.main.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.ui.Alignment
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -146,7 +147,10 @@ fun HomeScreen(
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            modifier = Modifier.clickable { onAction(HomeUiAction.OnMonthlyViewClick) },
+                            modifier = Modifier
+                                .clip(MaterialTheme.shapes.small)
+                                .clickable { onAction(HomeUiAction.OnMonthlyViewClick) }
+                                .padding(6.dp),
                         ) {
                             Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
                             Text(
@@ -156,7 +160,6 @@ fun HomeScreen(
                                     uiState.calendar,
                                     numberingSystem = uiState.numberingSystem,
                                 ),
-                                style = MaterialTheme.typography.bodyLarge,
                             )
                         }
                     },
@@ -180,7 +183,8 @@ fun HomeScreen(
                         onClick = { onAction(HomeUiAction.OnShowTodayClick) },
                         shape = buttonShape,
                         modifier = Modifier
-                            .widthIn(min = 160.dp).dropShadow2(buttonShape),
+                            .widthIn(min = 160.dp)
+                            .dropShadow2(buttonShape),
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                     ) {
