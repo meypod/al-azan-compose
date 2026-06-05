@@ -38,7 +38,7 @@ fun AdhanScheduleScreen(
     modifier: Modifier = Modifier,
 ) {
     ScreenScaffold(
-        title = stringResource(R.string.adhan_and_schedule_title),
+        title = stringResource(R.string.adhan_schedule_title),
         onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
         titleIcon = R.drawable.bell_cog_outline,
         modifier = modifier,

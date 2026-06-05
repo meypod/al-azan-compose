@@ -94,7 +94,7 @@
     <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>
     <string name="notification_and_sound_title"><![CDATA[Notification & Sound]]></string>
     <string name="alarm_settings_title">Alarm Settings</string>
-    <string name="adhan_and_schedule_title"><![CDATA[Adhan & Schedule]]></string>
+    <string name="adhan_schedule_title"><![CDATA[Adhan Schedule]]></string>
     <string name="playback_settings">Playback Settings</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="muezzin">Muezzin</string>
