@@ -245,12 +245,12 @@
     <!-- Advanced calculation -->
     <string name="advanced_calculation_title">Advanced Calculation Settings</string>
     <string name="rounding_method">Rounding Method</string>
-    <string name="rounding_auto_default">Auto(Default)</string>
+    <string name="rounding_auto_default">Auto (Default)</string>
     <string name="rounding_nearest">Nearest</string>
     <string name="rounding_up">Up</string>
     <string name="rounding_none">None</string>
     <string name="midnight_method">Midnight Method</string>
-    <string name="midnight_sunset_to_fajr_default">Sunset to Fajr(Default)</string>
+    <string name="midnight_sunset_to_fajr_default">Sunset to Fajr (Default)</string>
     <string name="midnight_sunset_to_sunrise">Sunset to Sunrise</string>
     <string name="high_latitude">High Latitude</string>
     <string name="high_latitude_none_automatic">None (Automatic)</string>

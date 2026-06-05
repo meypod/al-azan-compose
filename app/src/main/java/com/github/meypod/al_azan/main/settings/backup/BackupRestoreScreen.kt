@@ -40,9 +40,9 @@ fun BackupRestoreScreen(
         onBackClick = { onAction(BackupRestoreUiAction.OnBackClick) },
         modifier = modifier,
     ) {
-        ACard {
+        ACard { cardPadding ->
             Column(
-                Modifier.padding(it),
+                Modifier.padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 Text(
@@ -67,9 +67,9 @@ fun BackupRestoreScreen(
             }
         }
 
-        ACard {
+        ACard { cardPadding ->
             Column(
-                Modifier.padding(it),
+                Modifier.padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 Text(

@@ -44,9 +44,9 @@ fun AdjustmentsScreen(
         onBackClick = { onAction(AdjustmentsUiAction.OnBackClick) },
         modifier = modifier,
     ) {
-        ACard {
+        ACard { cardPadding ->
             Column(
-                Modifier.padding(it),
+                Modifier.padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_large)),
             ) {
                 SettingHelp(stringResource(R.string.adjustments_help))
@@ -67,9 +67,9 @@ fun AdjustmentsScreen(
                 }
             }
         }
-        ACard {
+        ACard { cardPadding ->
             Column(
-                Modifier.padding(it),
+                Modifier.padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 SettingHelp(stringResource(R.string.lunar_days_adjustment_help))

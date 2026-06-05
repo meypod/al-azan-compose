@@ -21,7 +21,7 @@ fun ACard(
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
     compact: Boolean = false,
-    paddingValues: PaddingValues = if (compact) {
+    cardPadding: PaddingValues = if (compact) {
         PaddingValues(
             vertical = dimensionResource(R.dimen.card_padding_vc),
             horizontal = dimensionResource(R.dimen.card_padding_hc),
@@ -32,7 +32,7 @@ fun ACard(
             horizontal = dimensionResource(R.dimen.card_padding_h),
         )
     },
-    content: @Composable (paddingValues: PaddingValues) -> Unit,
+    content: @Composable (cardPadding: PaddingValues) -> Unit,
 ) {
     Surface(
         modifier,
@@ -40,7 +40,7 @@ fun ACard(
         shadowElevation = shadowElevation,
         shape = MaterialTheme.shapes.medium,
     ) {
-        content(paddingValues)
+        content(cardPadding)
     }
 }
 
@@ -51,7 +51,7 @@ fun ACard(
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
     compact: Boolean = false,
-    paddingValues: PaddingValues = if (compact) {
+    cardPadding: PaddingValues = if (compact) {
         PaddingValues(
             vertical = dimensionResource(R.dimen.card_padding_vc),
             horizontal = dimensionResource(R.dimen.card_padding_hc),
@@ -62,7 +62,7 @@ fun ACard(
             horizontal = dimensionResource(R.dimen.card_padding_h),
         )
     },
-    content: @Composable (paddingValues: PaddingValues) -> Unit,
+    content: @Composable (cardPadding: PaddingValues) -> Unit,
 ) {
     Surface(
         onClick = onClick,
@@ -71,7 +71,7 @@ fun ACard(
         shadowElevation = shadowElevation,
         shape = MaterialTheme.shapes.medium,
     ) {
-        content(paddingValues)
+        content(cardPadding)
     }
 }
 
@@ -79,8 +79,8 @@ fun ACard(
 @Composable
 private fun CardPreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 Text("a very long text to test the surface of this area and multi line")
                 Text("a very long text to test the surface of this area and multi line")
                 Text("a very long text to test the surface of this area and multi line")

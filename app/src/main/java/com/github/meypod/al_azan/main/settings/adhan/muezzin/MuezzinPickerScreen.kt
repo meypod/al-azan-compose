@@ -41,8 +41,8 @@ fun MuezzinPickerScreen(
         onBackClick = { onAction(MuezzinPickerUiAction.OnBackClick) },
         modifier = modifier,
     ) {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 uiState.defaultOptions.forEach { entry ->
                     key(entry.id) {
                         EntryRow(
@@ -55,9 +55,9 @@ fun MuezzinPickerScreen(
             }
         }
 
-        ACard {
+        ACard { cardPadding ->
             Column(
-                Modifier.padding(it),
+                Modifier.padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 Text(

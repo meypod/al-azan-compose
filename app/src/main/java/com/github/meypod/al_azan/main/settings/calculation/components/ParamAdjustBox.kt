@@ -46,13 +46,13 @@ fun ParamAdjustBox(
 private fun ParamAdjustBoxPreview() {
     Column(Modifier.padding(10.dp)) {
         AlAzanTheme(ThemeColor.Light) {
-            ACard {
-                ParamAdjustBox(stringResource(R.string.fajr_angle), "16", Modifier.padding(it))
+            ACard { cardPadding ->
+                ParamAdjustBox(stringResource(R.string.fajr_angle), "16", Modifier.padding(cardPadding))
             }
         }
         AlAzanTheme(ThemeColor.Dark) {
-            ACard {
-                ParamAdjustBox(stringResource(R.string.fajr_angle), "16", Modifier.padding(it))
+            ACard { cardPadding ->
+                ParamAdjustBox(stringResource(R.string.fajr_angle), "16", Modifier.padding(cardPadding))
             }
         }
     }

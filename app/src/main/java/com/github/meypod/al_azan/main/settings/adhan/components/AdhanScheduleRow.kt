@@ -137,8 +137,8 @@ fun AdhanToggleChip(
 @Composable
 private fun AdhanScheduleRowPreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 AdhanScheduleRow(AdhanScheduleRowUiState(Prayer.Fajr, ToggleableState(true), ToggleableState(true)), {})
                 HorizontalDivider()
                 AdhanScheduleRow(AdhanScheduleRowUiState(Prayer.Sunrise, ToggleableState.Indeterminate, ToggleableState(false)), {})

@@ -166,8 +166,8 @@ fun PowerManagerCard(
 @Composable
 private fun BatterSaverCTAPreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 BatterSaverCTA(true) {}
                 BatterSaverCTA(false) {}
             }
@@ -179,8 +179,8 @@ private fun BatterSaverCTAPreview() {
 @Composable
 private fun PowerManagerCardPreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 PowerManagerCard(PowerManagerUtils.PowerManagerInfo("SAMSUNG", "foo", "foo", "foo")) {}
             }
         }
