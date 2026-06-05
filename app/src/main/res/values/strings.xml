@@ -284,6 +284,11 @@
     <string name="widget_calendar_help">Choose the calendar of the widget.</string>
     <string name="widget_show_prayer_times">Show Prayer times</string>
     <string name="widget_show_prayer_times_help">Choose what prayer times to show on widget.</string>
+    <string name="widget_city_name_pos_label">Location</string>
+    <string name="widget_city_name_pos_help">You can choose to replace one of calendars with your current location.</string>
+    <string name="widget_city_name_pos_placeholder">Choose which calendar to replace</string>
+    <string name="lunar_calendar">Lunar Calendar</string>
+    <string name="widget_max_shown_prayers_warning">Only six items can be shown at the same time</string>
 
     <!-- Backup &amp; Restore -->
     <string name="create_a_backup">Create A Backup</string>
