@@ -52,7 +52,7 @@ private fun ColumnScope.AdhanSettingsContent(
 @Composable
 private fun AdhanScheduleLinkButton(onAction: (AdhanSettingsUiAction) -> Unit) {
     SettingLinkButton(
-        title = stringResource(R.string.adhan_and_schedule_title),
+        title = stringResource(R.string.adhan_schedule_title),
     ) { onAction(AdhanSettingsUiAction.OnAdhanScheduleClick) }
 }
 

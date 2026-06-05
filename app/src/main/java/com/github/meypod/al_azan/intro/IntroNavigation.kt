@@ -316,7 +316,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                         ) {
-                            IntroTitle(R.string.adhan_and_schedule_title)
+                            IntroTitle(R.string.adhan_schedule_title)
                             AdhanScheduleContent(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
