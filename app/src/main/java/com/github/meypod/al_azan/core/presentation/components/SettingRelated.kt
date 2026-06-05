@@ -161,8 +161,8 @@ private fun SettingLinkButtonPreview() {
 @Composable
 private fun SettingHeaderPreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 SettingHeader("This is a title", "this is a subtitle")
             }
         }
@@ -173,8 +173,8 @@ private fun SettingHeaderPreview() {
 @Composable
 private fun SettingSwitchPreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 SettingSwitch("This is a title", "this is a subtitle", checked = false) {}
             }
         }
@@ -185,8 +185,8 @@ private fun SettingSwitchPreview() {
 @Composable
 private fun SettingSwitchWithoutSubtitlePreview() {
     AlAzanTheme {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 SettingSwitch("This is a title", null, checked = false) {}
             }
         }

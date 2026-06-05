@@ -30,11 +30,11 @@ fun AboutScreen() {
         title = stringResource(R.string.calculation_title),
         onBackClick = { (NavigationController.navigateBack()) },
     ) {
-        ACard {
+        ACard { cardPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(it),
+                    .padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 SettingHeader(stringResource(R.string.version), BuildConfig.VERSION_NAME)

@@ -80,8 +80,8 @@ fun MonthlyViewScreen(
         },
         floatingActionButtonPosition = FabPosition.Center,
     ) {
-        ACard {
-            Column(Modifier.padding(it)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 Row(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,

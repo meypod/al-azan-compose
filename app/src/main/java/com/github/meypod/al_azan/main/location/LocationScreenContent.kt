@@ -118,8 +118,8 @@ fun LocationScreenContent(
                 Text(stringResource(R.string.location_info_card))
             }
         }
-        ACard { paddingValues ->
-            Column(Modifier.padding(paddingValues)) {
+        ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
                 SettingSwitch(
                     stringResource(R.string.location_traveling_mode),
                     stringResource(R.string.location_traveling_hint),
@@ -153,9 +153,9 @@ fun LocationScreenContent(
             }
         }
 
-        ACard(Modifier.fillMaxWidth()) { paddingValues ->
+        ACard(Modifier.fillMaxWidth()) { cardPadding ->
             Column(
-                Modifier.padding(paddingValues),
+                Modifier.padding(cardPadding),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 Text(

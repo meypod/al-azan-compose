@@ -147,9 +147,9 @@ private fun CounterRow(
 ) {
     ACard(
         modifier = modifier.fillMaxWidth(),
-        paddingValues = PaddingValues(horizontal = dimensionResource(R.dimen.card_padding_h)),
-    ) { contentPadding ->
-        Column(Modifier.padding(contentPadding)) {
+        cardPadding = PaddingValues(horizontal = dimensionResource(R.dimen.card_padding_h)),
+    ) { cardPadding ->
+        Column(Modifier.padding(cardPadding)) {
             Row(
                 Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,

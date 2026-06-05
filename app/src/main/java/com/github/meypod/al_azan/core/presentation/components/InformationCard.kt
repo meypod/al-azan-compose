@@ -23,8 +23,8 @@ fun InformationCard(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    ACard(modifier) {
-        InformationRow(Modifier.padding(it), content = content)
+    ACard(modifier) { cardPadding ->
+        InformationRow(Modifier.padding(cardPadding), content = content)
     }
 }
 

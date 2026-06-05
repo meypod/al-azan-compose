@@ -55,7 +55,7 @@ fun SettingsMenuScreen(
                     }
                 },
                 title = {
-                    Text(stringResource(R.string.location_title))
+                    Text(stringResource(R.string.settings))
                 },
             )
         },

@@ -82,10 +82,10 @@ private fun QiblaTile(
     label: String,
     onClick: () -> Unit,
 ) {
-    ACard(onClick = onClick) { padding ->
+    ACard(onClick = onClick) { cardPadding ->
         Column(
             Modifier
-                .padding(padding)
+                .padding(cardPadding)
                 .size(140.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),

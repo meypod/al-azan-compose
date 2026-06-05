@@ -207,10 +207,10 @@ fun ReminderScreen(
 
 @Composable
 private fun EmptyState(onAction: (ReminderUiAction) -> Unit) {
-    ACard(modifier = Modifier.fillMaxWidth()) {
+    ACard(modifier = Modifier.fillMaxWidth()) { cardPadding ->
         Column(
             Modifier
-                .padding(it)
+                .padding(cardPadding)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
