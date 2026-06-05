@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -35,6 +36,7 @@ fun ScreenScaffold(
     modifier: Modifier = Modifier,
     titleIcon: Int? = null,
     floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
     scrollable: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -65,6 +67,7 @@ fun ScreenScaffold(
             )
         },
         floatingActionButton = floatingActionButton,
+        floatingActionButtonPosition = floatingActionButtonPosition,
     ) { paddingValues ->
         val inner = Modifier
             .fillMaxSize()

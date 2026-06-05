@@ -65,6 +65,9 @@ sealed interface Route : NavKey {
             @Serializable
             data object SoundAndNotifications : Route {
                 @Serializable
+                data object AdhanAndSchedule : Route
+
+                @Serializable
                 data object Muezzin : Route
 
                 @Serializable

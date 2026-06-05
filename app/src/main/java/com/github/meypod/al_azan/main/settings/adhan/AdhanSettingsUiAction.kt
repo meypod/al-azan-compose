@@ -1,20 +1,47 @@
 package com.github.meypod.al_azan.main.settings.adhan
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import kotlinx.datetime.DayOfWeek
 
 sealed interface AdhanSettingsUiAction {
+    object OnBackClick : AdhanSettingsUiAction
     object OnMuezzinClick : AdhanSettingsUiAction
+    object OnAdhanScheduleClick : AdhanSettingsUiAction
 
     data class OnNotifyClick(
         val prayer: Prayer,
     ) : AdhanSettingsUiAction
-
     data class OnSoundClick(
         val prayer: Prayer,
     ) : AdhanSettingsUiAction
-
     data class OnCogClick(
         val prayer: Prayer,
+    ) : AdhanSettingsUiAction
+
+    data class OnScheduleMuezzinChange(
+        val prayer: Prayer,
+        val entry: AudioEntry?,
+    ) : AdhanSettingsUiAction
+    data class OnScheduleSoundDayToggle(
+        val prayer: Prayer,
+        val day: DayOfWeek,
+    ) : AdhanSettingsUiAction
+    data class OnScheduleNotifyDayToggle(
+        val prayer: Prayer,
+        val day: DayOfWeek,
+    ) : AdhanSettingsUiAction
+    data class OnScheduleVibrationChange(
+        val prayer: Prayer,
+        val mode: VibrationMode?,
+    ) : AdhanSettingsUiAction
+
+    data class OnVibrationModeChange(
+        val mode: VibrationMode,
+    ) : AdhanSettingsUiAction
+    data class OnShowUpcomingAlarmToggle(
+        val enabled: Boolean,
     ) : AdhanSettingsUiAction
 
     object OnNotificationSettingsClick : AdhanSettingsUiAction

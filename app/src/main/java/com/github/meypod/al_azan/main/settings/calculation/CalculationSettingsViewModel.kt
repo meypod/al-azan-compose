@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,11 +48,11 @@ class CalculationSettingsViewModel
     }
 
     private fun onAdvancedSettingsClick() {
-        // todo
+        NavigationController.navigateTo(Route.Main.Settings.Calculations.AdvancedCalculation)
     }
 
     private fun onAdjustmentsClick() {
-        // todo
+        NavigationController.navigateTo(Route.Main.Settings.Calculations.Adjustments)
     }
 
     private fun onCalculationMethodChange(value: CalculationMethod) {

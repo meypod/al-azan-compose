@@ -31,6 +31,16 @@ data class AlarmSettings(
     val midnightNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val tahajjudSound: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val tahajjudNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
+    // per-prayer vibration override; null = fall back to the global [vibrationMode]
+    val fajrVibration: VibrationMode? = null,
+    val sunriseVibration: VibrationMode? = null,
+    val dhuhrVibration: VibrationMode? = null,
+    val asrVibration: VibrationMode? = null,
+    val sunsetVibration: VibrationMode? = null,
+    val maghribVibration: VibrationMode? = null,
+    val ishaVibration: VibrationMode? = null,
+    val midnightVibration: VibrationMode? = null,
+    val tahajjudVibration: VibrationMode? = null,
 ) {
     fun shouldNotifyFor(
         instant: Instant,
@@ -99,4 +109,37 @@ data class AlarmSettings(
             Prayer.Midnight -> copy(midnightSound = value)
             Prayer.Tahajjud -> copy(tahajjudSound = value)
         }
+
+    /** per-prayer override, or null when the global [vibrationMode] should be used */
+    fun getVibrationSettings(prayer: Prayer): VibrationMode? =
+        when (prayer) {
+            Prayer.Fajr -> this.fajrVibration
+            Prayer.Sunrise -> this.sunriseVibration
+            Prayer.Dhuhr -> this.dhuhrVibration
+            Prayer.Asr -> this.asrVibration
+            Prayer.Sunset -> this.sunsetVibration
+            Prayer.Maghrib -> this.maghribVibration
+            Prayer.Isha -> this.ishaVibration
+            Prayer.Midnight -> this.midnightVibration
+            Prayer.Tahajjud -> this.tahajjudVibration
+        }
+
+    fun setVibrationSettings(
+        prayer: Prayer,
+        value: VibrationMode?,
+    ): AlarmSettings =
+        when (prayer) {
+            Prayer.Fajr -> copy(fajrVibration = value)
+            Prayer.Sunrise -> copy(sunriseVibration = value)
+            Prayer.Dhuhr -> copy(dhuhrVibration = value)
+            Prayer.Asr -> copy(asrVibration = value)
+            Prayer.Sunset -> copy(sunsetVibration = value)
+            Prayer.Maghrib -> copy(maghribVibration = value)
+            Prayer.Isha -> copy(ishaVibration = value)
+            Prayer.Midnight -> copy(midnightVibration = value)
+            Prayer.Tahajjud -> copy(tahajjudVibration = value)
+        }
+
+    /** effective vibration for a prayer: per-prayer override, else the global default */
+    fun getEffectiveVibrationMode(prayer: Prayer): VibrationMode = getVibrationSettings(prayer) ?: vibrationMode
 }

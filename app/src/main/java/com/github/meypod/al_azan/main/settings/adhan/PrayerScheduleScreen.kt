@@ -8,6 +8,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,17 +16,20 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
+import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRowUiState
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanToggleChip
 import com.github.meypod.al_azan.main.settings.adhan.components.ChipAccent
 import com.github.meypod.al_azan.main.settings.adhan.components.WeekdayChipRow
 
 private const val DEFAULT_MUEZZIN_KEY = "__default__"
+private const val DEFAULT_VIBRATION_KEY = "__default__"
 
 @Composable
 fun PrayerScheduleScreen(
@@ -37,6 +41,11 @@ fun PrayerScheduleScreen(
     val customMuezzin = uiState.settings.selectedAdhanEntries[prayer.toAdhanKey()]
     val soundDays = uiState.alarmSettings.getSoundSettings(prayer).selectedDays()
     val notifyDays = uiState.alarmSettings.getNotifSettings(prayer).selectedDays()
+    val customVibration = uiState.alarmSettings.getVibrationSettings(prayer)
+
+    val resources = LocalResources.current
+    val defaultVibrationLabel = stringResource(R.string.use_default_vibration)
+    val vibrationOptions = listOf<VibrationMode?>(null) + VibrationMode.entries
 
     val defaultLabel = stringResource(R.string.use_default_muezzin)
     val muezzinOptions = listOf<AudioEntry?>(null) + uiState.settings.savedAdhanAudioEntries
@@ -90,7 +99,19 @@ fun PrayerScheduleScreen(
         }
 
         Column {
-            SettingLabel(stringResource(R.string.azan))
+            SettingLabel(stringResource(R.string.vibration_mode))
+            BottomSelect(
+                modifier = Modifier.fillMaxWidth(),
+                options = vibrationOptions,
+                optionKey = { it?.name ?: DEFAULT_VIBRATION_KEY },
+                optionLabel = { it?.let { mode -> resources.getString(mode.stringRes()) } ?: defaultVibrationLabel },
+                selectedKey = customVibration?.name ?: DEFAULT_VIBRATION_KEY,
+                onSelect = { onAction(AdhanSettingsUiAction.OnScheduleVibrationChange(prayer, it)) },
+            )
+        }
+
+        Column {
+            SettingLabel(stringResource(R.string.adhan))
             WeekdayChipRow(
                 selected = soundDays,
                 onToggle = { onAction(AdhanSettingsUiAction.OnScheduleSoundDayToggle(prayer, it)) },

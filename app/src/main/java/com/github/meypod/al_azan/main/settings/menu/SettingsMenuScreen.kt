@@ -76,7 +76,7 @@ fun SettingsMenuScreen(
                 onAction(SettingsMenuUiAction.OnInterfaceSettingsClick)
             }
             MenuListItem(
-                R.string.notification_and_sound_title,
+                R.string.alarm_settings_title,
                 R.drawable.bell_cog_outline,
             ) {
                 onAction(SettingsMenuUiAction.OnNotificationAndSoundClick)
