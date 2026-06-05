@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
@@ -24,6 +25,7 @@ import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRow
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRowUiState
 import com.github.meypod.al_azan.main.settings.adhan.components.toAdhanSettingsUiAction
@@ -34,47 +36,43 @@ fun AdhanScheduleScreen(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
-    wrapInScaffold: Boolean = true,
 ) {
-    if (wrapInScaffold) {
-        ScreenScaffold(
-            title = stringResource(R.string.adhan_and_schedule_title),
-            onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
-            titleIcon = R.drawable.bell_cog_outline,
-            modifier = modifier,
-        ) { AdhanScheduleContent(uiState, onAction) }
-    } else {
-        Column(
-            modifier.padding(dimensionResource(R.dimen.page_padding)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-        ) { AdhanScheduleContent(uiState, onAction) }
-    }
+    ScreenScaffold(
+        title = stringResource(R.string.adhan_and_schedule_title),
+        onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
+        titleIcon = R.drawable.bell_cog_outline,
+        modifier = modifier,
+    ) { AdhanScheduleContent(uiState, onAction) }
 }
 
 @Composable
 fun ColumnScope.AdhanScheduleContent(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
+    muezzinRoute: Route = Route.Main.Settings.SoundAndNotifications.Muezzin,
+    prayerScheduleRoute: (Prayer) -> Route = { Route.Main.Settings.SoundAndNotifications.PrayerSchedule(it) },
 ) {
-    MuezzinButton(uiState, onAction)
-    AdhanAndNotificationCard(uiState, onAction)
+    MuezzinButton(uiState, onAction, muezzinRoute)
+    AdhanAndNotificationCard(uiState, onAction, prayerScheduleRoute)
 }
 
 @Composable
 private fun MuezzinButton(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
+    muezzinRoute: Route = Route.Main.Settings.SoundAndNotifications.Muezzin,
 ) {
     SettingLinkButton(
         title = stringResource(R.string.muezzin),
         subtitle = uiState.settings.selectedAdhanEntries[AdhanKey.Default]?.getLabel(),
-    ) { onAction(AdhanSettingsUiAction.OnMuezzinClick) }
+    ) { onAction(AdhanSettingsUiAction.OnMuezzinClick(muezzinRoute)) }
 }
 
 @Composable
 private fun AdhanAndNotificationCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
+    prayerScheduleRoute: (Prayer) -> Route = { Route.Main.Settings.SoundAndNotifications.PrayerSchedule(it) },
 ) {
     ACard { cardPadding ->
         Column(
@@ -82,8 +80,8 @@ private fun AdhanAndNotificationCard(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
         ) {
             SettingHeader(
-                stringResource(R.string.adhan_and_notification),
-                stringResource(R.string.adhan_and_notification_help),
+                stringResource(R.string.adhan_schedule),
+                stringResource(R.string.adhan_schedule_help),
             )
 
             Column {
@@ -95,7 +93,7 @@ private fun AdhanAndNotificationCard(
                                 uiState.alarmSettings.getNotifSettings(prayer),
                                 uiState.alarmSettings.getSoundSettings(prayer),
                             ),
-                        ) { onAction(it.toAdhanSettingsUiAction(prayer)) }
+                        ) { onAction(it.toAdhanSettingsUiAction(prayer, prayerScheduleRoute(prayer))) }
                     }
                     if (index != SHARIA_TIMES_IN_ORDER.size - 1) HorizontalDivider()
                 }

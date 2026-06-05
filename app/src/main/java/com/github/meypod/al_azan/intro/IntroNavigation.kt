@@ -64,12 +64,21 @@ import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
 import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
-import com.github.meypod.al_azan.main.settings.adhan.AdhanScheduleScreen
+import com.github.meypod.al_azan.main.settings.adhan.AdhanScheduleContent
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
+import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
+import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
+import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerViewModel
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
+import com.github.meypod.al_azan.main.settings.calculation.adjustments.AdjustmentsScreen
+import com.github.meypod.al_azan.main.settings.calculation.adjustments.AdjustmentsViewModel
+import com.github.meypod.al_azan.main.settings.calculation.advanced.AdvancedCalcScreen
+import com.github.meypod.al_azan.main.settings.calculation.advanced.AdvancedCalcViewModel
 import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootScreen
 import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootViewModel
+import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootScreen
+import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -100,12 +109,32 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                                 Route.Intro.Calculation.serializer(),
                             )
                             subclass(
+                                Route.Intro.Calculation.Adjustments::class,
+                                Route.Intro.Calculation.Adjustments.serializer(),
+                            )
+                            subclass(
+                                Route.Intro.Calculation.AdvancedCalculation::class,
+                                Route.Intro.Calculation.AdvancedCalculation.serializer(),
+                            )
+                            subclass(
                                 Route.Intro.Adhan::class,
                                 Route.Intro.Adhan.serializer(),
                             )
                             subclass(
+                                Route.Intro.Adhan.Muezzin::class,
+                                Route.Intro.Adhan.Muezzin.serializer(),
+                            )
+                            subclass(
+                                Route.Intro.Adhan.PrayerSchedule::class,
+                                Route.Intro.Adhan.PrayerSchedule.serializer(),
+                            )
+                            subclass(
                                 Route.Intro.Troubleshoot::class,
                                 Route.Intro.Troubleshoot.serializer(),
+                            )
+                            subclass(
+                                Route.Intro.Troubleshoot.AdvancedTroubleshoot::class,
+                                Route.Intro.Troubleshoot.AdvancedTroubleshoot.serializer(),
                             )
                         }
                     }
@@ -253,9 +282,27 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             CalculationSettingsScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
+                                adjustmentsRoute = Route.Intro.Calculation.Adjustments,
+                                advancedRoute = Route.Intro.Calculation.AdvancedCalculation,
                             )
                         }
                     }
+                }
+                entry<Route.Intro.Calculation.Adjustments> {
+                    val viewModel = hiltViewModel<AdjustmentsViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    AdjustmentsScreen(
+                        uiState = uiState,
+                        onAction = viewModel::onAction,
+                    )
+                }
+                entry<Route.Intro.Calculation.AdvancedCalculation> {
+                    val viewModel = hiltViewModel<AdvancedCalcViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    AdvancedCalcScreen(
+                        uiState = uiState,
+                        onAction = viewModel::onAction,
+                    )
                 }
                 entry<Route.Intro.Adhan> {
                     val viewModel = hiltViewModel<AdhanSettingsViewModel>()
@@ -270,13 +317,31 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                         ) {
                             IntroTitle(R.string.adhan_and_schedule_title)
-                            AdhanScheduleScreen(
+                            AdhanScheduleContent(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
-                                wrapInScaffold = false,
+                                muezzinRoute = Route.Intro.Adhan.Muezzin,
+                                prayerScheduleRoute = { Route.Intro.Adhan.PrayerSchedule(it) },
                             )
                         }
                     }
+                }
+                entry<Route.Intro.Adhan.Muezzin> {
+                    val viewModel = hiltViewModel<MuezzinPickerViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    MuezzinPickerScreen(
+                        uiState = uiState,
+                        onAction = viewModel::onAction,
+                    )
+                }
+                entry<Route.Intro.Adhan.PrayerSchedule> { key ->
+                    val viewModel = hiltViewModel<AdhanSettingsViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    PrayerScheduleScreen(
+                        prayer = key.prayer,
+                        uiState = uiState,
+                        onAction = viewModel::onAction,
+                    )
                 }
                 entry<Route.Intro.Troubleshoot> {
                     val viewModel = hiltViewModel<TroubleshootViewModel>()
@@ -294,9 +359,18 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             TroubleshootScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
+                                advancedRoute = Route.Intro.Troubleshoot.AdvancedTroubleshoot,
                             )
                         }
                     }
+                }
+                entry<Route.Intro.Troubleshoot.AdvancedTroubleshoot> {
+                    val viewModel = hiltViewModel<AdvancedTroubleshootViewModel>()
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                    AdvancedTroubleshootScreen(
+                        uiState = uiState,
+                        onAction = viewModel::onAction,
+                    )
                 }
             },
     )
@@ -354,7 +428,7 @@ private fun IntroStepScaffold(
                     .verticalScroll(scrollState)
             } else {
                 baseModifier
-            }
+            }.padding(dimensionResource(R.dimen.page_padding))
 
         content(contentModifier)
     }

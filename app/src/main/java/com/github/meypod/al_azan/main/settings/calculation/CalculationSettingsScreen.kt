@@ -24,6 +24,7 @@ import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
 import com.github.meypod.al_azan.core.presentation.util.unifiedBorder
 import com.github.meypod.al_azan.main.settings.calculation.components.ParamAdjustBox
@@ -35,10 +36,12 @@ fun CalculationSettingsScreen(
     uiState: CalculationSettingsUiState,
     onAction: (CalculationSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
+    adjustmentsRoute: Route = Route.Main.Settings.Calculations.Adjustments,
+    advancedRoute: Route = Route.Main.Settings.Calculations.AdvancedCalculation,
 ) {
     val resources = LocalResources.current
     Column(
-        modifier.padding(dimensionResource(R.dimen.page_padding)),
+        modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
@@ -135,11 +138,11 @@ fun CalculationSettingsScreen(
         }
 
         SettingLinkButton(stringResource(R.string.adjustments)) {
-            onAction(CalculationSettingsUiAction.OnAdjustmentsClick)
+            onAction(CalculationSettingsUiAction.OnAdjustmentsClick(adjustmentsRoute))
         }
 
         SettingLinkButton(stringResource(R.string.advanced_calculation_settings)) {
-            onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick)
+            onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick(advancedRoute))
         }
     }
 }

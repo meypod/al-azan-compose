@@ -212,8 +212,8 @@
     <string name="my_muezzins">My Muazzins</string>
     <string name="my_muezzins_empty">You haven\'t add any yet.</string>
     <string name="add_from_local_files">Add From Local Files</string>
-    <string name="adhan_and_notification">Adhan &amp; notification</string>
-    <string name="adhan_and_notification_help">Enable and disable Adhan or Notifications for each prayer time.</string>
+    <string name="adhan_schedule">Adhan schedule</string>
+    <string name="adhan_schedule_help">Enable and disable Adhan or Notifications for each prayer time.</string>
     <string name="adhan">Adhan</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud is last third part of the night</string>
     <string name="vibration_mode">Vibration Mode</string>

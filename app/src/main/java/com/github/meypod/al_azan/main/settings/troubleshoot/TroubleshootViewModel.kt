@@ -3,8 +3,6 @@ package com.github.meypod.al_azan.main.settings.troubleshoot
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
-import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.util.device.PowerManagerUtils
@@ -27,7 +25,7 @@ class TroubleshootViewModel
         when (action) {
             is TroubleshootUiAction.OnAppIsAllowedToKeepRunningClick -> onAllowAppToKeepRunningClick(action.activity)
             is TroubleshootUiAction.OnOpenPowerManagerSettingsClick -> onOpenPowerManagerSettingsClick(action.activity)
-            TroubleshootUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick()
+            is TroubleshootUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick(action.route)
             is TroubleshootUiAction.OnLifecycleChanged -> onLifecycleChanged()
         }
     }
@@ -40,8 +38,8 @@ class TroubleshootViewModel
         PowerManagerUtils.openBatteryOptimizationSettings(activity)
     }
 
-    private fun onAdvancedSettingsClick() {
-        NavigationController.navigateTo(Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot)
+    private fun onAdvancedSettingsClick(route: Route) {
+        NavigationController.navigateTo(route)
     }
 
     private fun onLifecycleChanged() {
