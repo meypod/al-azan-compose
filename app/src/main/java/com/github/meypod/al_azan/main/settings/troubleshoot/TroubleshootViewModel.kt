@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.util.device.PowerManagerUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -39,7 +41,7 @@ class TroubleshootViewModel
     }
 
     private fun onAdvancedSettingsClick() {
-        // todo
+        NavigationController.navigateTo(Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot)
     }
 
     private fun onLifecycleChanged() {
