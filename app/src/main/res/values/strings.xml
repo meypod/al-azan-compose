@@ -93,6 +93,8 @@
     <string name="advanced_calculation_settings">Advanced Calculation Settings</string>
     <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>
     <string name="notification_and_sound_title"><![CDATA[Notification & Sound]]></string>
+    <string name="alarm_settings_title">Alarm Settings</string>
+    <string name="adhan_and_schedule_title"><![CDATA[Adhan & Schedule]]></string>
     <string name="playback_settings">Playback Settings</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="muezzin">Muezzin</string>
@@ -210,9 +212,9 @@
     <string name="my_muezzins">My Muazzins</string>
     <string name="my_muezzins_empty">You haven\'t add any yet.</string>
     <string name="add_from_local_files">Add From Local Files</string>
-    <string name="azan_and_notification">Azan &amp; notification</string>
-    <string name="azan_and_notification_help">Enable and disable Azan or Notifications for each prayer time.</string>
-    <string name="azan">Azan</string>
+    <string name="adhan_and_notification">Adhan &amp; notification</string>
+    <string name="adhan_and_notification_help">Enable and disable Adhan or Notifications for each prayer time.</string>
+    <string name="adhan">Adhan</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud is last third part of the night</string>
     <string name="vibration_mode">Vibration Mode</string>
     <string name="vibration_mode_help">Should phone vibrate when Azan or reminders start playing ?</string>
@@ -223,6 +225,7 @@
     <string name="show_upcoming_alarm_help">If enabled, a notification will be shown around one hour before each Azan.</string>
     <string name="custom_muezzin">Custom Muazzin</string>
     <string name="use_default_muezzin">Use default</string>
+    <string name="use_default_vibration">Use default</string>
     <string name="notifications">Notifications</string>
     <string name="weekday_sunday">Sunday</string>
     <string name="weekday_monday">Monday</string>

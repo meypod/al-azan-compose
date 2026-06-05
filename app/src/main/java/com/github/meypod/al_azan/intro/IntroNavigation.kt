@@ -64,7 +64,7 @@ import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
 import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
-import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
+import com.github.meypod.al_azan.main.settings.adhan.AdhanScheduleScreen
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
@@ -269,10 +269,11 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                         ) {
-                            IntroTitle(R.string.notification_and_sound_title)
-                            AdhanSettingsScreen(
+                            IntroTitle(R.string.adhan_and_schedule_title)
+                            AdhanScheduleScreen(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
+                                wrapInScaffold = false,
                             )
                         }
                     }

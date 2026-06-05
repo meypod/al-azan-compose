@@ -16,8 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
@@ -25,6 +23,7 @@ import com.github.meypod.al_azan.core.domain.model.counter.COUNTER_ID_FAJR
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.DangerDialog
+import com.github.meypod.al_azan.core.presentation.components.IntInputField
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.main.counter.CounterUiAction
 import com.github.meypod.al_azan.main.counter.EditCounterDraft
@@ -59,15 +58,11 @@ fun EditCounterDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                OutlinedTextField(
-                    value = draft.count.toString(),
-                    onValueChange = { v ->
-                        val parsed = v.filter { it.isDigit() }.toIntOrNull() ?: 0
-                        onAction(CounterUiAction.OnEditCountChange(parsed))
-                    },
+                IntInputField(
+                    value = draft.count,
+                    onValueChange = { onAction(CounterUiAction.OnEditCountChange(it)) },
+                    allowNegative = false,
                     label = { Text(stringResource(R.string.counter_count)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

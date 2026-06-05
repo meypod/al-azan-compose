@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.lunar.SupportedLunarCalendars
 import com.github.meypod.al_azan.core.domain.model.lunar.i18n
-import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
@@ -144,18 +144,11 @@ fun CalculationSettingsScreen(
     }
 }
 
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFF00585A,
-)
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFF00585A,
-    device = Devices.TABLET,
-)
+@Preview
+@Preview(device = Devices.TABLET)
 @Composable
 private fun CalculationSettingsPreview() {
-    AlAzanTheme {
+    AlAzanThemePreview {
         CalculationSettingsScreen(
             uiState = CalculationSettingsUiState(),
             onAction = {},

@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -18,18 +19,50 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithController
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
 import com.github.meypod.al_azan.main.about.AboutScreen
-import com.github.meypod.al_azan.main.about.AboutViewModel
+import com.github.meypod.al_azan.main.counter.CounterScreen
+import com.github.meypod.al_azan.main.counter.CounterViewModel
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationViewModel
+import com.github.meypod.al_azan.main.monthly.MonthlyViewScreen
+import com.github.meypod.al_azan.main.monthly.MonthlyViewViewModel
+import com.github.meypod.al_azan.main.qibla.QiblaScreen
+import com.github.meypod.al_azan.main.qibla.QiblaViewModel
+import com.github.meypod.al_azan.main.reminder.ReminderScreen
+import com.github.meypod.al_azan.main.reminder.ReminderViewModel
+import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
+import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
+import com.github.meypod.al_azan.main.settings.adhan.AdhanScheduleScreen
+import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
+import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
+import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerViewModel
+import com.github.meypod.al_azan.main.settings.appearance.InterfaceSettingsScreen
+import com.github.meypod.al_azan.main.settings.appearance.InterfaceSettingsViewModel
+import com.github.meypod.al_azan.main.settings.backup.BackupRestoreScreen
+import com.github.meypod.al_azan.main.settings.backup.BackupRestoreViewModel
+import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
+import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
+import com.github.meypod.al_azan.main.settings.calculation.adjustments.AdjustmentsScreen
+import com.github.meypod.al_azan.main.settings.calculation.adjustments.AdjustmentsViewModel
+import com.github.meypod.al_azan.main.settings.calculation.advanced.AdvancedCalcScreen
+import com.github.meypod.al_azan.main.settings.calculation.advanced.AdvancedCalcViewModel
 import com.github.meypod.al_azan.main.settings.menu.SettingsMenuScreen
 import com.github.meypod.al_azan.main.settings.menu.SettingsMenuViewModel
+import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootScreen
+import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootViewModel
+import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootScreen
+import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootViewModel
+import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsScreen
+import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -46,62 +79,49 @@ fun MainNavigation(
                 SavedStateConfiguration {
                     serializersModule = SerializersModule {
                         polymorphic(NavKey::class) {
-                            subclass(
-                                Route.Main.Home::class,
-                                Route.Main.Home.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Location::class,
-                                Route.Main.Location.serializer(),
-                            )
-                            subclass(
-                                Route.Main.CalendarView::class,
-                                Route.Main.CalendarView.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Reminder::class,
-                                Route.Main.Reminder.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Qibla::class,
-                                Route.Main.Qibla.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Counter::class,
-                                Route.Main.Counter.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings::class,
-                                Route.Main.Settings.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.InterfaceSettings::class,
-                                Route.Main.Settings.InterfaceSettings.serializer(),
-                            )
+                            subclass(Route.Main.Home::class, Route.Main.Home.serializer())
+                            subclass(Route.Main.Location::class, Route.Main.Location.serializer())
+                            subclass(Route.Main.CalendarView::class, Route.Main.CalendarView.serializer())
+                            subclass(Route.Main.MonthlyView::class, Route.Main.MonthlyView.serializer())
+                            subclass(Route.Main.Reminder::class, Route.Main.Reminder.serializer())
+                            subclass(Route.Main.Qibla::class, Route.Main.Qibla.serializer())
+                            subclass(Route.Main.Counter::class, Route.Main.Counter.serializer())
+                            subclass(Route.Main.Settings::class, Route.Main.Settings.serializer())
+                            subclass(Route.Main.Settings.InterfaceSettings::class, Route.Main.Settings.InterfaceSettings.serializer())
                             subclass(
                                 Route.Main.Settings.SoundAndNotifications::class,
                                 Route.Main.Settings.SoundAndNotifications.serializer(),
                             )
+                            subclass(Route.Main.Settings.Calculations::class, Route.Main.Settings.Calculations.serializer())
+                            subclass(Route.Main.Settings.Troubleshoot::class, Route.Main.Settings.Troubleshoot.serializer())
+                            subclass(Route.Main.Settings.WidgetSettings::class, Route.Main.Settings.WidgetSettings.serializer())
+                            subclass(Route.Main.Settings.BackupAndRestore::class, Route.Main.Settings.BackupAndRestore.serializer())
+                            subclass(Route.Main.Settings.Developer::class, Route.Main.Settings.Developer.serializer())
                             subclass(
-                                Route.Main.Settings.Calculations::class,
-                                Route.Main.Settings.Calculations.serializer(),
+                                Route.Main.Settings.Calculations.Adjustments::class,
+                                Route.Main.Settings.Calculations.Adjustments.serializer(),
                             )
                             subclass(
-                                Route.Main.Settings.Troubleshoot::class,
-                                Route.Main.Settings.Troubleshoot.serializer(),
+                                Route.Main.Settings.Calculations.AdvancedCalculation::class,
+                                Route.Main.Settings.Calculations.AdvancedCalculation.serializer(),
                             )
                             subclass(
-                                Route.Main.Settings.WidgetSettings::class,
-                                Route.Main.Settings.WidgetSettings.serializer(),
+                                Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot::class,
+                                Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot.serializer(),
                             )
                             subclass(
-                                Route.Main.Settings.BackupAndRestore::class,
-                                Route.Main.Settings.BackupAndRestore.serializer(),
+                                Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule::class,
+                                Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule.serializer(),
                             )
                             subclass(
-                                Route.Main.Settings.Developer::class,
-                                Route.Main.Settings.Developer.serializer(),
+                                Route.Main.Settings.SoundAndNotifications.Muezzin::class,
+                                Route.Main.Settings.SoundAndNotifications.Muezzin.serializer(),
                             )
+                            subclass(
+                                Route.Main.Settings.SoundAndNotifications.PrayerSchedule::class,
+                                Route.Main.Settings.SoundAndNotifications.PrayerSchedule.serializer(),
+                            )
+                            subclass(Route.Main.About::class, Route.Main.About.serializer())
                         }
                     }
                 },
@@ -119,75 +139,131 @@ fun MainNavigation(
         backStack = mainBackstack,
         modifier = modifier.background(MaterialTheme.colorScheme.background),
         transitionSpec = {
-            slideInHorizontally(
-                animationSpec = tween(280),
-                initialOffsetX = { fullWidth -> fullWidth * slideDirections.forwardEnter },
-            ) togetherWith
-                slideOutHorizontally(
-                    animationSpec = tween(280),
-                    targetOffsetX = { fullWidth -> fullWidth * slideDirections.forwardExit / 2 },
-                )
+            slideInHorizontally(animationSpec = tween(280), initialOffsetX = { fw -> fw * slideDirections.forwardEnter }) togetherWith
+                slideOutHorizontally(animationSpec = tween(280), targetOffsetX = { fw -> fw * slideDirections.forwardExit / 2 })
         },
         popTransitionSpec = {
-            slideInHorizontally(
-                animationSpec = tween(280),
-                initialOffsetX = { fullWidth -> fullWidth * slideDirections.backEnter / 2 },
-            ) togetherWith
-                slideOutHorizontally(
-                    animationSpec = tween(280),
-                    targetOffsetX = { fullWidth -> fullWidth * slideDirections.backExit },
-                )
+            slideInHorizontally(animationSpec = tween(280), initialOffsetX = { fw -> fw * slideDirections.backEnter / 2 }) togetherWith
+                slideOutHorizontally(animationSpec = tween(280), targetOffsetX = { fw -> fw * slideDirections.backExit })
         },
         predictivePopTransitionSpec = {
-            slideInHorizontally(
-                animationSpec = tween(280),
-                initialOffsetX = { fullWidth -> fullWidth * slideDirections.backEnter / 2 },
-            ) togetherWith
-                slideOutHorizontally(
-                    animationSpec = tween(280),
-                    targetOffsetX = { fullWidth -> fullWidth * slideDirections.backExit },
-                )
+            slideInHorizontally(animationSpec = tween(280), initialOffsetX = { fw -> fw * slideDirections.backEnter / 2 }) togetherWith
+                slideOutHorizontally(animationSpec = tween(280), targetOffsetX = { fw -> fw * slideDirections.backExit })
         },
-        entryDecorators =
-            listOf(
-                rememberSaveableStateHolderNavEntryDecorator(),
-                rememberViewModelStoreNavEntryDecorator(),
-            ),
-        entryProvider =
-            entryProvider {
-                entry<Route.Main.Home> {
-                    val viewModel = hiltViewModel<HomeViewModel>()
-                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-                    HomeScreen(uiState, viewModel::onAction)
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
+        entryProvider = entryProvider {
+            entry<Route.Main.Home> {
+                val vm = hiltViewModel<HomeViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                HomeScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Location> {
+                val vm = hiltViewModel<LocationViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                LocationScreen(s, vm::onAction, getCountries = vm::getCountries, getCities = vm::getCities)
+            }
+            entry<Route.Main.Settings> {
+                val vm = hiltViewModel<SettingsMenuViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                SettingsMenuScreen(s, vm::onAction)
+            }
+            entry<Route.Main.About> {
+                AboutScreen()
+            }
+            entry<Route.Main.MonthlyView> {
+                val vm = hiltViewModel<MonthlyViewViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                MonthlyViewScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Reminder> {
+                val vm = hiltViewModel<ReminderViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                ReminderScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Qibla> {
+                val vm = hiltViewModel<QiblaViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                QiblaScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Counter> {
+                val vm = hiltViewModel<CounterViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                CounterScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.InterfaceSettings> {
+                val vm = hiltViewModel<InterfaceSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                InterfaceSettingsScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.SoundAndNotifications> {
+                val vm = hiltViewModel<AdhanSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                AdhanSettingsScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.Calculations> {
+                val vm = hiltViewModel<CalculationSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                ScreenScaffold(
+                    title = stringResource(R.string.calculation_title),
+                    onBackClick = { NavigationController.navigateBack() },
+                    titleIcon = R.drawable.calculator_variant_outline,
+                ) {
+                    CalculationSettingsScreen(s, vm::onAction)
                 }
-                entry<Route.Main.Location> {
-                    val viewModel = hiltViewModel<LocationViewModel>()
-                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-                    LocationScreen(
-                        uiState,
-                        viewModel::onAction,
-                        getCountries = viewModel::getCountries,
-                        getCities = viewModel::getCities,
-                    )
+            }
+            entry<Route.Main.Settings.Troubleshoot> {
+                val vm = hiltViewModel<TroubleshootViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                ScreenScaffold(
+                    title = stringResource(R.string.troubleshoot_title),
+                    onBackClick = { NavigationController.navigateBack() },
+                    titleIcon = R.drawable.tools,
+                ) {
+                    TroubleshootScreen(s, vm::onAction)
                 }
-                entry<Route.Main.Settings> {
-                    val viewModel = hiltViewModel<SettingsMenuViewModel>()
-                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-                    SettingsMenuScreen(
-                        uiState,
-                        viewModel::onAction,
-                    )
-                }
-                entry<Route.Main.About> {
-                    val viewModel = hiltViewModel<AboutViewModel>()
-
-                    AboutScreen(
-                        viewModel::onAction,
-                    )
-                }
-            },
+            }
+            entry<Route.Main.Settings.WidgetSettings> {
+                val vm = hiltViewModel<WidgetSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                WidgetSettingsScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.BackupAndRestore> {
+                val vm = hiltViewModel<BackupRestoreViewModel>()
+                BackupRestoreScreen(vm::onAction)
+            }
+            entry<Route.Main.Settings.Calculations.Adjustments> {
+                val vm = hiltViewModel<AdjustmentsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                AdjustmentsScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.Calculations.AdvancedCalculation> {
+                val vm = hiltViewModel<AdvancedCalcViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                AdvancedCalcScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot> {
+                val vm = hiltViewModel<AdvancedTroubleshootViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                AdvancedTroubleshootScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule> {
+                val vm = hiltViewModel<AdhanSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                AdhanScheduleScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.SoundAndNotifications.Muezzin> {
+                val vm = hiltViewModel<MuezzinPickerViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                MuezzinPickerScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.SoundAndNotifications.PrayerSchedule> { key ->
+                val vm = hiltViewModel<AdhanSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                PrayerScheduleScreen(key.prayer, s, vm::onAction)
+            }
+        },
     )
 }

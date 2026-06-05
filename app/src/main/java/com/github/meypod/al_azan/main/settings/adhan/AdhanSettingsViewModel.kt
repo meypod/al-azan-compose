@@ -3,9 +3,13 @@ package com.github.meypod.al_azan.main.settings.adhan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,10 +32,7 @@ class AdhanSettingsViewModel
         viewModelScope.launch {
             combine(settingsRepository.data, alarmSettingsRepository.data) { settings, alarmSettings ->
                 _uiState.update { state ->
-                    state.copy(
-                        settings = settings,
-                        alarmSettings = alarmSettings,
-                    )
+                    state.copy(settings = settings, alarmSettings = alarmSettings)
                 }
             }.collect()
         }
@@ -39,76 +40,104 @@ class AdhanSettingsViewModel
 
     fun onAction(action: AdhanSettingsUiAction) {
         when (action) {
-            AdhanSettingsUiAction.OnMuezzinClick -> onMuezzinClick()
-            is AdhanSettingsUiAction.OnNotifyClick -> onNotificationClick(action.prayer)
-            is AdhanSettingsUiAction.OnSoundClick -> onSoundClick(action.prayer)
-            is AdhanSettingsUiAction.OnCogClick -> onCogClick(action.prayer)
-            AdhanSettingsUiAction.OnNotificationSettingsClick -> onNotificationSettingsClick()
-            AdhanSettingsUiAction.OnPlaybackSettingsClick -> onPlaybackSettingsClick()
+            AdhanSettingsUiAction.OnBackClick -> NavigationController.navigateBack()
+
+            AdhanSettingsUiAction.OnMuezzinClick -> NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.Muezzin)
+
+            AdhanSettingsUiAction.OnAdhanScheduleClick ->
+                NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule)
+
+            is AdhanSettingsUiAction.OnNotifyClick -> toggleNotify(action.prayer)
+
+            is AdhanSettingsUiAction.OnSoundClick -> toggleSound(action.prayer)
+
+            is AdhanSettingsUiAction.OnCogClick ->
+                NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.PrayerSchedule(action.prayer))
+
+            is AdhanSettingsUiAction.OnScheduleMuezzinChange -> setCustomMuezzin(action.prayer, action.entry)
+
+            is AdhanSettingsUiAction.OnScheduleSoundDayToggle -> toggleDay(action.prayer, action.day, sound = true)
+
+            is AdhanSettingsUiAction.OnScheduleNotifyDayToggle -> toggleDay(action.prayer, action.day, sound = false)
+
+            is AdhanSettingsUiAction.OnScheduleVibrationChange -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.setVibrationSettings(action.prayer, action.mode) }
+            }
+
+            is AdhanSettingsUiAction.OnVibrationModeChange -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(vibrationMode = action.mode) }
+            }
+
+            is AdhanSettingsUiAction.OnShowUpcomingAlarmToggle -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(dontNotifyUpcoming = !action.enabled) }
+            }
+
+            AdhanSettingsUiAction.OnNotificationSettingsClick,
+            AdhanSettingsUiAction.OnPlaybackSettingsClick,
+            -> Unit
         }
     }
 
-    private fun onMuezzinClick() {
-        // todo
-    }
-
-    private fun onNotificationClick(prayer: Prayer) {
+    private fun toggleNotify(prayer: Prayer) {
         viewModelScope.launch {
             alarmSettingsRepository.update { state ->
-                val currentSetting = uiState.value.alarmSettings.getNotifSettings(prayer)
-                val nextState = if (currentSetting is PrayerAlarmSettings.Bool) {
-                    PrayerAlarmSettings.Bool(!currentSetting.value)
-                } else {
-                    if ((currentSetting as PrayerAlarmSettings.ByWeekDay).days.isNotEmpty()) {
-                        PrayerAlarmSettings.Bool(false)
-                    } else {
-                        PrayerAlarmSettings.Bool(true)
-                    }
-                }
-                state.setNotifSettings(prayer, nextState).let {
-                    if (!nextState.value) {
-                        it.setSoundSettings(prayer, PrayerAlarmSettings.Bool(false))
-                    } else {
-                        it
-                    }
+                val current = state.getNotifSettings(prayer)
+                val next = nextBoolState(current)
+                state.setNotifSettings(prayer, next).let {
+                    if (!next.value) it.setSoundSettings(prayer, PrayerAlarmSettings.Bool(false)) else it
                 }
             }
         }
     }
 
-    private fun onSoundClick(prayer: Prayer) {
+    private fun toggleSound(prayer: Prayer) {
         viewModelScope.launch {
             alarmSettingsRepository.update { state ->
-                val currentSetting = uiState.value.alarmSettings.getSoundSettings(prayer)
-                val nextState = if (currentSetting is PrayerAlarmSettings.Bool) {
-                    PrayerAlarmSettings.Bool(!currentSetting.value)
-                } else {
-                    if ((currentSetting as PrayerAlarmSettings.ByWeekDay).days.isNotEmpty()) {
-                        PrayerAlarmSettings.Bool(false)
-                    } else {
-                        PrayerAlarmSettings.Bool(true)
-                    }
-                }
-                state.setSoundSettings(prayer, nextState).let {
-                    if (nextState.value) {
-                        it.setNotifSettings(prayer, PrayerAlarmSettings.Bool(true))
-                    } else {
-                        it
-                    }
+                val current = state.getSoundSettings(prayer)
+                val next = nextBoolState(current)
+                state.setSoundSettings(prayer, next).let {
+                    if (next.value) it.setNotifSettings(prayer, PrayerAlarmSettings.Bool(true)) else it
                 }
             }
         }
     }
 
-    private fun onCogClick(prayer: Prayer) {
-        // todo
+    private fun nextBoolState(current: PrayerAlarmSettings): PrayerAlarmSettings.Bool =
+        if (current is PrayerAlarmSettings.Bool) {
+            PrayerAlarmSettings.Bool(!current.value)
+        } else {
+            PrayerAlarmSettings.Bool((current as PrayerAlarmSettings.ByWeekDay).days.isEmpty())
+        }
+
+    private fun toggleDay(
+        prayer: Prayer,
+        day: kotlinx.datetime.DayOfWeek,
+        sound: Boolean,
+    ) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { state ->
+                val current = if (sound) state.getSoundSettings(prayer) else state.getNotifSettings(prayer)
+                val selected = current.selectedDays().toMutableSet()
+                if (day in selected) selected.remove(day) else selected.add(day)
+                val next = PrayerAlarmSettings.fromDays(selected)
+                if (sound) state.setSoundSettings(prayer, next) else state.setNotifSettings(prayer, next)
+            }
+        }
     }
 
-    private fun onNotificationSettingsClick() {
-        // todo
-    }
-
-    private fun onPlaybackSettingsClick() {
-        // todo
+    private fun setCustomMuezzin(
+        prayer: Prayer,
+        entry: AudioEntry?,
+    ) {
+        viewModelScope.launch {
+            settingsRepository.update { settings ->
+                val entries = if (entry == null) {
+                    settings.selectedAdhanEntries - prayer.toAdhanKey()
+                } else {
+                    settings.selectedAdhanEntries + (prayer.toAdhanKey() to entry)
+                }
+                settings.copy(selectedAdhanEntries = entries)
+            }
+        }
     }
 }
