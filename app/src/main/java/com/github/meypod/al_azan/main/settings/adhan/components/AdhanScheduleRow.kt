@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +34,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsUiAction
 
 @Immutable
@@ -62,12 +62,14 @@ sealed interface AdhanScheduleRowUiAction {
     object OnCogClick : AdhanScheduleRowUiAction
 }
 
-fun AdhanScheduleRowUiAction.toAdhanSettingsUiAction(prayer: Prayer) =
-    when (this) {
-        AdhanScheduleRowUiAction.OnNotifyClick -> AdhanSettingsUiAction.OnNotifyClick(prayer)
-        AdhanScheduleRowUiAction.OnSoundClick -> AdhanSettingsUiAction.OnSoundClick(prayer)
-        AdhanScheduleRowUiAction.OnCogClick -> AdhanSettingsUiAction.OnCogClick(prayer)
-    }
+fun AdhanScheduleRowUiAction.toAdhanSettingsUiAction(
+    prayer: Prayer,
+    prayerScheduleRoute: Route = Route.Main.Settings.SoundAndNotifications.PrayerSchedule(prayer),
+) = when (this) {
+    AdhanScheduleRowUiAction.OnNotifyClick -> AdhanSettingsUiAction.OnNotifyClick(prayer)
+    AdhanScheduleRowUiAction.OnSoundClick -> AdhanSettingsUiAction.OnSoundClick(prayer)
+    AdhanScheduleRowUiAction.OnCogClick -> AdhanSettingsUiAction.OnCogClick(prayer, prayerScheduleRoute)
+}
 
 @Composable
 fun AdhanScheduleRow(

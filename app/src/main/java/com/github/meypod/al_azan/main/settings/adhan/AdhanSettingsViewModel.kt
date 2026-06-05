@@ -42,7 +42,7 @@ class AdhanSettingsViewModel
         when (action) {
             AdhanSettingsUiAction.OnBackClick -> NavigationController.navigateBack()
 
-            AdhanSettingsUiAction.OnMuezzinClick -> NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.Muezzin)
+            is AdhanSettingsUiAction.OnMuezzinClick -> NavigationController.navigateTo(action.route)
 
             AdhanSettingsUiAction.OnAdhanScheduleClick ->
                 NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule)
@@ -52,7 +52,7 @@ class AdhanSettingsViewModel
             is AdhanSettingsUiAction.OnSoundClick -> toggleSound(action.prayer)
 
             is AdhanSettingsUiAction.OnCogClick ->
-                NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.PrayerSchedule(action.prayer))
+                NavigationController.navigateTo(action.route)
 
             is AdhanSettingsUiAction.OnScheduleMuezzinChange -> setCustomMuezzin(action.prayer, action.entry)
 

@@ -24,13 +24,30 @@ sealed interface Route : NavKey {
         data object Location : Route
 
         @Serializable
-        data object Calculation : Route
+        data object Calculation : Route {
+            @Serializable
+            data object Adjustments : Route
+
+            @Serializable
+            data object AdvancedCalculation : Route
+        }
 
         @Serializable
-        data object Adhan : Route
+        data object Adhan : Route {
+            @Serializable
+            data object Muezzin : Route
+
+            @Serializable
+            data class PrayerSchedule(
+                val prayer: Prayer,
+            ) : Route
+        }
 
         @Serializable
-        data object Troubleshoot : Route
+        data object Troubleshoot : Route {
+            @Serializable
+            data object AdvancedTroubleshoot : Route
+        }
     }
 
     @Serializable

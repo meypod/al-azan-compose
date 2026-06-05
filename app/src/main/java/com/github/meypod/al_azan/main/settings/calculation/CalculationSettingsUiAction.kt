@@ -1,11 +1,18 @@
 package com.github.meypod.al_azan.main.settings.calculation
 
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
 
 sealed interface CalculationSettingsUiAction {
-    object OnAdjustmentsClick : CalculationSettingsUiAction
-    object OnAdvancedSettingsClick : CalculationSettingsUiAction
+    data class OnAdjustmentsClick(
+        val route: Route,
+    ) : CalculationSettingsUiAction
+
+    data class OnAdvancedSettingsClick(
+        val route: Route,
+    ) : CalculationSettingsUiAction
+
     data class OnCalculationMethodChange(
         val value: CalculationMethod,
     ) : CalculationSettingsUiAction

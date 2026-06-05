@@ -36,6 +36,7 @@ import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
 import com.github.meypod.al_azan.core.util.device.PowerManagerUtils
 
@@ -45,6 +46,7 @@ fun TroubleshootScreen(
     uiState: TroubleshootUiState,
     onAction: (TroubleshootUiAction) -> Unit,
     modifier: Modifier = Modifier,
+    advancedRoute: Route = Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -63,7 +65,7 @@ fun TroubleshootScreen(
     }
 
     Column(
-        modifier.padding(dimensionResource(R.dimen.page_padding)),
+        modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
@@ -99,7 +101,7 @@ fun TroubleshootScreen(
         }
 
         SettingLinkButton(stringResource(R.string.advanced)) {
-            onAction(TroubleshootUiAction.OnAdvancedSettingsClick)
+            onAction(TroubleshootUiAction.OnAdvancedSettingsClick(advancedRoute))
         }
 
         InformationCard(Modifier.fillMaxWidth()) {

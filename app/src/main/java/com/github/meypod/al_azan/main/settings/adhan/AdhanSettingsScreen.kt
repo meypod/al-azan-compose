@@ -30,21 +30,13 @@ fun AdhanSettingsScreen(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
-    wrapInScaffold: Boolean = true,
 ) {
-    if (wrapInScaffold) {
-        ScreenScaffold(
-            title = stringResource(R.string.alarm_settings_title),
-            onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
-            titleIcon = R.drawable.bell_cog_outline,
-            modifier = modifier,
-        ) { AdhanSettingsContent(uiState, onAction) }
-    } else {
-        Column(
-            modifier.padding(dimensionResource(R.dimen.page_padding)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-        ) { AdhanSettingsContent(uiState, onAction) }
-    }
+    ScreenScaffold(
+        title = stringResource(R.string.alarm_settings_title),
+        onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
+        titleIcon = R.drawable.bell_cog_outline,
+        modifier = modifier,
+    ) { AdhanSettingsContent(uiState, onAction) }
 }
 
 @Composable

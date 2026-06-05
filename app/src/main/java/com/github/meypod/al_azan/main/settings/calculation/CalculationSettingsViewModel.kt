@@ -40,19 +40,19 @@ class CalculationSettingsViewModel
 
     fun onAction(action: CalculationSettingsUiAction) {
         when (action) {
-            is CalculationSettingsUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick()
-            CalculationSettingsUiAction.OnAdjustmentsClick -> onAdjustmentsClick()
+            is CalculationSettingsUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick(action.route)
+            is CalculationSettingsUiAction.OnAdjustmentsClick -> onAdjustmentsClick(action.route)
             is CalculationSettingsUiAction.OnCalculationMethodChange -> onCalculationMethodChange(action.value)
             is CalculationSettingsUiAction.OnLunarCalendarChange -> onCalendarChange(action.value)
         }
     }
 
-    private fun onAdvancedSettingsClick() {
-        NavigationController.navigateTo(Route.Main.Settings.Calculations.AdvancedCalculation)
+    private fun onAdvancedSettingsClick(route: Route) {
+        NavigationController.navigateTo(route)
     }
 
-    private fun onAdjustmentsClick() {
-        NavigationController.navigateTo(Route.Main.Settings.Calculations.Adjustments)
+    private fun onAdjustmentsClick(route: Route) {
+        NavigationController.navigateTo(route)
     }
 
     private fun onCalculationMethodChange(value: CalculationMethod) {

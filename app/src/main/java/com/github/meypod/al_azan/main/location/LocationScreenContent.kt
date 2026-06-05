@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -66,7 +67,6 @@ import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
 import com.github.meypod.al_azan.main.location.components.NewLocationDialog
-import androidx.compose.ui.platform.ClipEntry
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
@@ -109,7 +109,7 @@ fun LocationScreenContent(
     }
 
     Column(
-        modifier.padding(dimensionResource(R.dimen.page_padding)),
+        modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
