@@ -200,6 +200,7 @@ class HomeViewModel
                         themeColor = settings.themeColor,
                         arabicCalendar = settings.selectedArabicCalendar,
                         arabicCalendarLocale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale,
+                        hijriDateAdjustment = calcSettings.calculationAdjustments.hijriDate,
                         calendar = settings.selectedSecondaryCalendar.value,
                         locale = settings.selectedLocale,
                         numberingSystem = settings.numberingSystem,
