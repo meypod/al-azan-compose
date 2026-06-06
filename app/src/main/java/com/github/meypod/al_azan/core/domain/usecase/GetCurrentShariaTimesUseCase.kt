@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.domain.usecase
 
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import io.github.meypod.adhan_kotlin.CalculationParameters
@@ -22,6 +23,7 @@ class GetCurrentShariaTimesUseCase @Inject constructor(
         calculationAdjustments: CalculationAdjustments,
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
+        excluding: Set<Prayer> = emptySet(),
     ): ShariaTimeDetails? {
         val shariaTimes = getShariaTimesUseCase(
             instant,
@@ -30,7 +32,7 @@ class GetCurrentShariaTimesUseCase @Inject constructor(
             arabicCalendar,
             locationDetail,
         )
-        val currentPrayer = shariaTimes.currentPrayer(instant) ?: return null
+        val currentPrayer = shariaTimes.currentPrayer(instant, excluding) ?: return null
         return ShariaTimeDetails(
             forInstant = instant,
             forDate = shariaTimes.forDate,

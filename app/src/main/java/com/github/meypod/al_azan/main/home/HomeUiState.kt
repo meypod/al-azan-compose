@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.home
 
 import androidx.compose.runtime.Immutable
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
@@ -25,4 +26,5 @@ data class HomeUiState(
     val highlightedShariaTime: ShariaTimeDetails? = null,
     val countdownText: String = "00:00:00",
     val is24Hour: Boolean = true,
+    val hiddenPrayers: List<Prayer> = emptyList(),
 )

@@ -42,6 +42,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
         alarmSettings: AlarmSettings? = null,
+        excluding: Set<Prayer> = emptySet(),
     ): ShariaTimeDetails? {
         val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -55,7 +56,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
                 arabicCalendar,
                 locationDetail,
             )
-            val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings)
+            val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding)
             if (nextPrayer != null) {
                 return ShariaTimeDetails(
                     forInstant = prevDayInstant,
@@ -73,7 +74,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         var nextPrayer: Prayer? = null
         for (day in 1..7) {
             shariahTimes = getShariaTimesUseCase(instant, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
-            nextPrayer = shariahTimes.nextPrayerForAlarm(instant, alarmSettings)
+            nextPrayer = shariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding)
             if (nextPrayer == null) {
                 instantToCheck = addDaysTimeZoneAware(instantToCheck, 1)
             } else {

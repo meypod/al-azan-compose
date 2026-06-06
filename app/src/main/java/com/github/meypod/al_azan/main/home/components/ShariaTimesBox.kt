@@ -37,6 +37,7 @@ data class ShariaTimesBoxUiState(
     val locale: String = "en-US",
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val is24Hours: Boolean = true,
+    val hiddenPrayers: List<Prayer> = emptyList(),
 )
 
 @Composable
@@ -59,6 +60,7 @@ fun ShariaTimesBox(
                 .verticalScroll(scrollState),
         ) {
             for (prayer in SHARIA_TIMES_IN_ORDER) {
+                if (prayer in state.hiddenPrayers) continue
                 key(prayer.name) {
                     ShariaTimeRow(
                         ShariaTimeRowUiState(

@@ -34,39 +34,29 @@ data class ShariaTimes(
             Prayer.Tahajjud -> tahajjud
         }
 
-    fun nextPrayer(instant: Instant): Prayer? =
-        when {
-            instant <= fajr -> Prayer.Fajr
-            instant <= sunrise -> Prayer.Sunrise
-            instant <= dhuhr -> Prayer.Dhuhr
-            instant <= asr -> Prayer.Asr
-            instant <= sunset -> Prayer.Sunset
-            instant <= maghrib -> Prayer.Maghrib
-            instant <= isha -> Prayer.Isha
-            instant <= midnight -> Prayer.Midnight
-            instant <= tahajjud -> Prayer.Tahajjud
-            else -> null
+    fun nextPrayer(
+        instant: Instant,
+        excluding: Set<Prayer> = emptySet(),
+    ): Prayer? =
+        SHARIA_TIMES_IN_ORDER.firstOrNull {
+            it !in excluding && instant <= forPrayer(it)
         }
 
-    fun currentPrayer(instant: Instant): Prayer? =
-        when {
-            instant >= tahajjud -> Prayer.Tahajjud
-            instant >= midnight -> Prayer.Midnight
-            instant >= isha -> Prayer.Isha
-            instant >= maghrib -> Prayer.Maghrib
-            instant >= sunset -> Prayer.Sunset
-            instant >= asr -> Prayer.Asr
-            instant >= dhuhr -> Prayer.Dhuhr
-            instant >= sunrise -> Prayer.Sunrise
-            instant >= fajr -> Prayer.Fajr
-            else -> null
+    fun currentPrayer(
+        instant: Instant,
+        excluding: Set<Prayer> = emptySet(),
+    ): Prayer? =
+        SHARIA_TIMES_IN_ORDER.lastOrNull {
+            it !in excluding && instant >= forPrayer(it)
         }
 
     fun nextPrayerForAlarm(
         instant: Instant,
         alarmSettings: AlarmSettings?,
+        excluding: Set<Prayer> = emptySet(),
     ): Prayer? =
         SHARIA_TIMES_IN_ORDER.firstOrNull {
+            if (it in excluding) return@firstOrNull false
             val should = alarmSettings?.shouldNotifyFor(instant, it) ?: true
             if (!should) return@firstOrNull false
             instant <= forPrayer(it)
