@@ -24,6 +24,8 @@
     <string name="information">Information</string>
     <string name="location_title">Location</string>
     <string name="set_location_hint">Set location</string>
+    <string name="set_calculation_hint">Set calculation method</string>
+    <string name="prayer_times_unavailable_hint">Prayer times can\’t be shown yet. Complete the setup:</string>
     <string name="drag_handle_description">Drag handle</string>
     <string name="see_options">See options</string>
     <string name="set_as_default">Set as default</string>

@@ -49,6 +49,7 @@ import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
+import com.github.meypod.al_azan.main.home.components.ConfigHintCard
 import com.github.meypod.al_azan.main.home.components.HomeHeader
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBox
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBoxUiState
@@ -222,6 +223,15 @@ fun HomeScreen(
                             },
                         ),
                 ) {
+                    if (uiState.location == null || !uiState.isCalculationConfigured) {
+                        ConfigHintCard(
+                            missingLocation = uiState.location == null,
+                            missingCalculation = !uiState.isCalculationConfigured,
+                            onLocationClick = { onAction(HomeUiAction.OnLocationTextClick) },
+                            onCalculationClick = { onAction(HomeUiAction.OnCalculationLinkClick) },
+                            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.element_padding)),
+                        )
+                    }
                     ShariaTimesBox(
                         ShariaTimesBoxUiState(
                             shariahTimes = uiState.shariaTimes,
