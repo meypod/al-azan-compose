@@ -2,10 +2,13 @@ package com.github.meypod.al_azan.core.domain.usecase
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
+import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.data.DateComponents
+import kotlinx.datetime.DayOfWeek
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -78,6 +81,83 @@ class GetNextShariaTimesUseCaseTest {
         assertNotNull(result)
         assertEquals(Prayer.Asr, result!!.prayer)
         assertEquals(DateComponents(2024, 1, 15), result.forDate)
+        assertTrue(result.prayerTime > instant)
+    }
+
+    // --- multi-day gaps via per-weekday alarm schedules ---
+    // 2024-01-15 is a Monday. A weekly schedule forces the scan to skip several empty days. This also
+    // covers the weekday check: the per-day match must use the target day's weekday, not "now".
+
+    @Test
+    fun multiDayGap_weeklyFajrThreeDaysAhead() {
+        // Fajr notifies only on Thursday -> from Monday the next is 2024-01-18 (Thu), 3 days later.
+        val instant = Instant.parse("2024-01-15T11:00:00Z")
+        val alarmSettings = AlarmSettings(
+            fajrNotify = PrayerAlarmSettings.ByWeekDay(mapOf(DayOfWeek.THURSDAY to true)),
+        )
+
+        val result = getNext(
+            instant = instant,
+            calculationParameters = params,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = location,
+            alarmSettings = alarmSettings,
+        )
+
+        assertNotNull(result)
+        assertEquals(Prayer.Fajr, result!!.prayer)
+        assertEquals(DateComponents(2024, 1, 18), result.forDate)
+        assertTrue(result.notify)
+        assertTrue(result.prayerTime > instant)
+    }
+
+    @Test
+    fun multiDayGap_weeklyFajrSixDaysAhead() {
+        // Fajr notifies only on Sunday -> from Monday the next is 2024-01-21 (Sun), 6 days later.
+        val instant = Instant.parse("2024-01-15T11:00:00Z")
+        val alarmSettings = AlarmSettings(
+            fajrNotify = PrayerAlarmSettings.ByWeekDay(mapOf(DayOfWeek.SUNDAY to true)),
+        )
+
+        val result = getNext(
+            instant = instant,
+            calculationParameters = params,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = location,
+            alarmSettings = alarmSettings,
+        )
+
+        assertNotNull(result)
+        assertEquals(Prayer.Fajr, result!!.prayer)
+        assertEquals(DateComponents(2024, 1, 21), result.forDate)
+        assertTrue(result.notify)
+        assertTrue(result.prayerTime > instant)
+    }
+
+    @Test
+    fun fullWeekGap_todaysOnlyAlarmAlreadyPassed_recursNextWeek() {
+        // 2024-01-21 is Sunday. The only alarm is Sunday Dhuhr; at 14:00 today's Dhuhr (~12:00) has
+        // passed, so the next is exactly 7 days later: 2024-01-28 (Sun). This is the 8th day scanned.
+        val instant = Instant.parse("2024-01-21T14:00:00Z")
+        val alarmSettings = AlarmSettings(
+            dhuhrNotify = PrayerAlarmSettings.ByWeekDay(mapOf(DayOfWeek.SUNDAY to true)),
+        )
+
+        val result = getNext(
+            instant = instant,
+            calculationParameters = params,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = location,
+            alarmSettings = alarmSettings,
+        )
+
+        assertNotNull(result)
+        assertEquals(Prayer.Dhuhr, result!!.prayer)
+        assertEquals(DateComponents(2024, 1, 28), result.forDate)
+        assertTrue(result.notify)
         assertTrue(result.prayerTime > instant)
     }
 }

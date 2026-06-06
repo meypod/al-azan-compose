@@ -7,6 +7,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
+import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.datetime.TimeZone
@@ -72,11 +73,15 @@ class GetNextShariaTimesUseCase @Inject constructor(
         var instantToCheck = instant
         var shariahTimes: ShariaTimes? = null
         var nextPrayer: Prayer? = null
-        for (day in 1..7) {
+        // Scan today + the next 7 days: a weekly schedule whose only enabled day is today (but already
+        // passed) recurs exactly 7 days later, which is the 8th day counting from today.
+        for (day in 1..8) {
             shariahTimes = getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
-            // `instant` (now) is earlier than every prayer on a future day, so on later days this returns
-            // that day's first non-excluded prayer; on the current day it returns the next upcoming one.
-            nextPrayer = shariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding)
+            // On the current day, match against "now" (the next upcoming prayer). On any later day,
+            // match against the start of that day so we get its first prayer AND so the weekday used by
+            // alarmSettings' per-weekday checks is that day's, not today's.
+            val reference = if (day == 1) instant else getDayBeginning(instantToCheck)
+            nextPrayer = shariahTimes.nextPrayerForAlarm(reference, alarmSettings, excluding)
             if (nextPrayer == null) {
                 instantToCheck = addDaysTimeZoneAware(instantToCheck, 1)
             } else {
