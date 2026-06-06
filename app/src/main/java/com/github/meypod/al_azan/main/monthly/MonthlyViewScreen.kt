@@ -45,7 +45,6 @@ fun MonthlyViewScreen(
     ScreenScaffold(
         title = stringResource(R.string.monthly_view_title),
         onBackClick = { onAction(MonthlyViewUiAction.OnBackClick) },
-        titleIcon = R.drawable.calendar_month_outline,
         modifier = modifier,
         floatingActionButton = {
             AnimatedVisibility(

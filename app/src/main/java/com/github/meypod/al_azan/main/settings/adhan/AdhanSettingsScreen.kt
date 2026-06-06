@@ -35,7 +35,6 @@ fun AdhanSettingsScreen(
     ScreenScaffold(
         title = stringResource(R.string.alarm_settings_title),
         onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
-        titleIcon = R.drawable.bell_cog_outline,
         modifier = modifier,
     ) { AdhanSettingsContent(uiState, onAction) }
 }

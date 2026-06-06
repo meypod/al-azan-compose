@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,7 +33,7 @@ class QiblaViewModel @Inject constructor(
             QiblaUiAction.OnUnderstoodClick -> viewModelScope.launch {
                 settingsRepository.update { it.copy(qiblaFinderUnderstood = true) }
             }
-            QiblaUiAction.OnUseCompassClick -> Unit
+            QiblaUiAction.OnUseCompassClick -> NavigationController.navigateTo(Route.Main.QiblaCompass)
         }
     }
 }

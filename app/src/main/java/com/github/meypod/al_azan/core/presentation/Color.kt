@@ -136,3 +136,10 @@ val DarkHighContrastSurfaceTint = Color(0xFF76D5D8)
 
 val TertiaryFixed = Color(0xFFFFE175)
 val Tertiary95 = Color(0xFFFFF0C5)
+
+// Custom status roles (no built-in M3 slot). Follow the M3 tonal pattern: darker tone (~40) on
+// light surfaces, lighter tone (~80) on dark surfaces, for accessible contrast either way.
+val LightSuccess = Color(0xFF2E6B2E)
+val DarkSuccess = Color(0xFF8FD88B)
+val LightWarning = Color(0xFF7C5800)
+val DarkWarning = Color(0xFFEFC048)

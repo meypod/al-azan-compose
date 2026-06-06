@@ -18,8 +18,8 @@ import com.github.meypod.al_azan.core.domain.model.settings.i18n
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
-import com.github.meypod.al_azan.core.presentation.components.PrayerCheckboxTable
 import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
+import com.github.meypod.al_azan.core.presentation.components.PrayerCheckboxTable
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
@@ -46,7 +46,6 @@ fun WidgetSettingsScreen(
     ScreenScaffold(
         title = stringResource(R.string.widget_settings_title),
         onBackClick = { onAction(WidgetSettingsUiAction.OnBackClick) },
-        titleIcon = R.drawable.toy_brick_outline,
         modifier = modifier,
     ) {
         ACard { cardPadding ->
