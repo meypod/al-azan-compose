@@ -3,10 +3,11 @@ package com.github.meypod.al_azan.di
 import android.content.Context
 import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
+import com.github.meypod.al_azan.core.data.format.WidgetFormatterImpl
+import com.github.meypod.al_azan.core.data.repository.AlarmRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
-import com.github.meypod.al_azan.core.data.sensor.CompassRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
@@ -15,13 +16,16 @@ import com.github.meypod.al_azan.core.data.repository.NotificationRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SystemChangeRepositoryImpl
+import com.github.meypod.al_azan.core.data.sensor.CompassRepositoryImpl
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
+import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -34,6 +38,7 @@ import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
+import com.github.meypod.al_azan.core.domain.usecase.WidgetFormatter
 import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
 import com.tencent.mmkv.MMKV
 import dagger.Module
@@ -53,6 +58,7 @@ private object StorageKeysV2 {
     const val COUNTER = "COUNTER_STORAGE_V2"
     const val REMINDER = "REMINDER_STORAGE_V2"
     const val FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE_V2"
+    const val SCHEDULED_ALARMS = "SCHEDULED_ALARMS_V2"
 }
 
 @Module
@@ -163,6 +169,29 @@ object RepositoryModule {
                     json = storageJson,
                 ),
         )
+
+    @Provides
+    @Singleton
+    fun provideAlarmRepository(
+        @ApplicationContext context: Context,
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): AlarmRepository =
+        AlarmRepositoryImpl(
+            context = context,
+            store =
+                MMKVDataStore(
+                    mmkv = mmkv,
+                    key = StorageKeysV2.SCHEDULED_ALARMS,
+                    serializer = ListSerializer(ScheduledAlarm.serializer()),
+                    defaultValue = emptyList(),
+                    json = storageJson,
+                ),
+        )
+
+    @Provides
+    @Singleton
+    fun provideWidgetFormatter(): WidgetFormatter = WidgetFormatterImpl()
 
     @Provides
     fun provideAudioPreviewPlayer(@ApplicationContext context: Context): AudioPreviewPlayer = AudioPreviewPlayerImpl(context)

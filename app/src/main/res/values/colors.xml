@@ -11,4 +11,11 @@
     <color name="intro_curve_background">#FF006663</color>
     <color name="header_background_light">#FF008083</color>
     <color name="header_background_dark">#FF007578</color>
+
+    <!-- Prayer-times widget colors (light defaults; dark variants in values-night) -->
+    <color name="bg_compat">#D5F8F8F8</color>
+    <color name="active_prayer">#008205</color>
+    <color name="secondary_text_color">#de000000</color>
+    <color name="notif_active_prayer">#008205</color>
+    <color name="notif_secondary_text_color">#de000000</color>
 </resources>

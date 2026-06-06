@@ -24,6 +24,20 @@ fun formatInstant(
     return formatWithUnicodeDigits(formatter.format(Date.from(instant.toJavaInstant())), numberingSystem)
 }
 
+fun formatTimeOfDay(
+    instant: Instant,
+    is24Hour: Boolean,
+    numberingSystem: NumberingSystem = NumberingSystem.Default,
+    locale: String = "en-US",
+): String =
+    formatInstant(
+        instant = instant,
+        locale = locale,
+        calendar = "gregorian",
+        skeleton = if (is24Hour) DateFormat.HOUR24_MINUTE else DateFormat.HOUR_MINUTE,
+        numberingSystem = numberingSystem,
+    )
+
 fun isInRamadan(
     instant: Instant,
     arabicCalendar: String,

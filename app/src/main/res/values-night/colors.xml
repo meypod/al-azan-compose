@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Prayer-times widget colors, dark variant. notif_* stay light because the notification
+         widget always renders on the system notification surface (handled by DecoratedCustomViewStyle). -->
+    <color name="bg_compat">#DE474747</color>
+    <color name="active_prayer">#fde047</color>
+    <color name="secondary_text_color">#ffffffff</color>
+</resources>

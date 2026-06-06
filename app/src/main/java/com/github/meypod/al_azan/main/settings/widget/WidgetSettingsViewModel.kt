@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -46,7 +47,12 @@ class WidgetSettingsViewModel @Inject constructor(
             is WidgetSettingsUiAction.OnAdaptiveThemeToggle -> onAdaptiveThemeToggle(action)
             is WidgetSettingsUiAction.OnCityNamePosChange -> onCityNamePosChange(action)
             is WidgetSettingsUiAction.OnPrayerVisibilityChange -> onPrayerVisibilityChange(action)
+            is WidgetSettingsUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action)
         }
+    }
+
+    private fun onPermissionDontAskAgain(action: WidgetSettingsUiAction.OnPermissionDontAskAgain) {
+        update { it.withDontAskAgain(action.permission) }
     }
 
     private fun onBackClick() {

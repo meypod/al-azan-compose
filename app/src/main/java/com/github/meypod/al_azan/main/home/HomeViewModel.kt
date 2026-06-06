@@ -2,10 +2,15 @@ package com.github.meypod.al_azan.main.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.model.adhan.NON_PRAYERS_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
+import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.domain.model.adhan.NON_PRAYERS_IN_ORDER
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetCurrentShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
@@ -14,6 +19,9 @@ import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatCountdownToHHmmss
 import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import com.github.meypod.al_azan.core.domain.util.tickFlow
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
+import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
+import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +31,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -41,6 +50,8 @@ class HomeViewModel
     private val getNextShariaTimesUseCase: GetNextShariaTimesUseCase,
     private val getCurrentShariaTimesUseCase: GetCurrentShariaTimesUseCase,
     private val systemChangeRepository: SystemChangeRepository,
+    private val alarmRepository: AlarmRepository,
+    private val alarmSettingsRepository: AlarmSettingsRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -48,12 +59,45 @@ class HomeViewModel
     @Volatile
     private var updateScreenJob: Job? = null
 
+    // Latest settings cached for the synchronous "don't ask again" reads from the home permission gate.
+    @Volatile
+    private var latestSettings: Settings? = null
+
     init {
         collectTimeTick()
         collectSystemChange()
         collectCurrentInstant()
         collectViewingInstant()
+        viewModelScope.launch { settingsRepository.data.collect { latestSettings = it } }
     }
+
+    /** What the home permission gate needs to decide which permissions to re-request on load. */
+    suspend fun permissionCheck(): HomePermissionCheck =
+        HomePermissionCheck(
+            adhanScheduled = alarmSettingsRepository.data.first().hasAnyEnabledSchedule(),
+            hasScheduledAlarms = alarmRepository.getScheduled().isNotEmpty(),
+        )
+
+    fun isDontAskAgain(permission: SchedulingPermission): Boolean = latestSettings?.isDontAskAgain(permission) ?: false
+
+    fun onPermissionDontAskAgain(permission: SchedulingPermission) {
+        viewModelScope.launch { settingsRepository.update { it.withDontAskAgain(permission) } }
+    }
+
+    /** Exact-alarm permission was re-granted: restore the tracked (non-expired) alarms. */
+    fun rescheduleAlarms() {
+        viewModelScope.launch { alarmRepository.rescheduleAll() }
+    }
+
+    /** Exact-alarm permission denied: drop the tracked alarms. */
+    fun cleanupAlarms() {
+        viewModelScope.launch { alarmRepository.cancelAll() }
+    }
+
+    private fun AlarmSettings.hasAnyEnabledSchedule(): Boolean =
+        SHARIA_TIMES_IN_ORDER.any {
+            getNotifSettings(it).selectedDays().isNotEmpty() || getSoundSettings(it).selectedDays().isNotEmpty()
+        }
 
     fun onAction(action: HomeUiAction) {
         when (action) {
@@ -169,18 +213,19 @@ class HomeViewModel
                     } else {
                         null
                     }
-                    val highlightedShariaTime = if (settings.highlightCurrentPrayer && calcSettings.parameters != null && location != null) {
-                        getCurrentShariaTimesUseCase(
-                            instant = currentInstant,
-                            calculationParameters = calcSettings.parameters,
-                            calculationAdjustments = calcSettings.calculationAdjustments,
-                            arabicCalendar = settings.selectedArabicCalendar,
-                            locationDetail = location.locationDetail,
-                            excluding = hiddenPrayers,
-                        )
-                    } else {
-                        nextShariaTime
-                    }
+                    val highlightedShariaTime =
+                        if (settings.highlightCurrentPrayer && calcSettings.parameters != null && location != null) {
+                            getCurrentShariaTimesUseCase(
+                                instant = currentInstant,
+                                calculationParameters = calcSettings.parameters,
+                                calculationAdjustments = calcSettings.calculationAdjustments,
+                                arabicCalendar = settings.selectedArabicCalendar,
+                                locationDetail = location.locationDetail,
+                                excluding = hiddenPrayers,
+                            )
+                        } else {
+                            nextShariaTime
+                        }
                     updateScreenJob?.cancel()
                     updateScreenJob = viewModelScope.launch {
                         launch {

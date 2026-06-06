@@ -25,6 +25,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -48,6 +49,7 @@ import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.main.home.components.ConfigHintCard
 import com.github.meypod.al_azan.main.home.components.HomeHeader
@@ -208,6 +210,7 @@ fun HomeScreen(
                 }
             },
             floatingActionButtonPosition = FabPosition.Center,
+            snackbarHost = { SnackbarHost(LocalSnackbarController.current.hostState) },
         ) { paddingValues ->
 
             Column(
