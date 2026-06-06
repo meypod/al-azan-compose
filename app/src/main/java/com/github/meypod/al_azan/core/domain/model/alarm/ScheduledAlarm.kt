@@ -33,6 +33,9 @@ enum class AlarmType {
  * @param id stable identifier; scheduling the same id again replaces the previous alarm.
  * @param action broadcast action dispatched to [com.github.meypod.al_azan.AlarmReceiver] when it fires.
  * @param extras extra string values delivered with the broadcast.
+ * @param wakeup whether to wake the device when it fires. Use false for non-urgent work (e.g. a
+ *   cosmetic widget redraw) so the device isn't woken while idle. Ignored for [AlarmType.AlarmClock]
+ *   and [AlarmType.ExactAllowWhileIdle], which inherently wake.
  */
 @Serializable
 data class ScheduledAlarm(
@@ -41,4 +44,5 @@ data class ScheduledAlarm(
     val action: String,
     val type: AlarmType = AlarmType.ExactAllowWhileIdle,
     val extras: Map<String, String> = emptyMap(),
+    val wakeup: Boolean = true,
 )
