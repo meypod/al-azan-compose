@@ -71,6 +71,9 @@ sealed interface Route : NavKey {
         data object Qibla : Route
 
         @Serializable
+        data object QiblaCompass : Route
+
+        @Serializable
         data object Counter : Route
 
         @Serializable

@@ -40,6 +40,7 @@ fun ScreenScaffold(
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     snackbarHost: @Composable () -> Unit = { SnackbarHost(LocalSnackbarController.current.hostState) },
     scrollable: Boolean = true,
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val scrollState = if (scrollable) rememberScrollState() else null
@@ -71,6 +72,7 @@ fun ScreenScaffold(
         },
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
+        bottomBar = bottomBar,
     ) { paddingValues ->
         val inner = Modifier
             .fillMaxSize()

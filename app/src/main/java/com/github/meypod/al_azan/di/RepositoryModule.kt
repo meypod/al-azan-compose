@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
+import com.github.meypod.al_azan.core.data.sensor.CompassRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
@@ -24,6 +25,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.CompassRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
@@ -164,6 +166,10 @@ object RepositoryModule {
 
     @Provides
     fun provideAudioPreviewPlayer(@ApplicationContext context: Context): AudioPreviewPlayer = AudioPreviewPlayerImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideCompassRepository(@ApplicationContext context: Context): CompassRepository = CompassRepositoryImpl(context)
 
     @Provides
     @Singleton

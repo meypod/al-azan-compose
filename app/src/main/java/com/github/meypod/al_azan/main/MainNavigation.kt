@@ -35,6 +35,8 @@ import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationViewModel
 import com.github.meypod.al_azan.main.monthly.MonthlyViewScreen
 import com.github.meypod.al_azan.main.monthly.MonthlyViewViewModel
+import com.github.meypod.al_azan.main.qibla.QiblaCompassRoute
+import com.github.meypod.al_azan.main.qibla.QiblaCompassViewModel
 import com.github.meypod.al_azan.main.qibla.QiblaScreen
 import com.github.meypod.al_azan.main.qibla.QiblaViewModel
 import com.github.meypod.al_azan.main.reminder.ReminderScreen
@@ -85,6 +87,7 @@ fun MainNavigation(
                             subclass(Route.Main.MonthlyView::class, Route.Main.MonthlyView.serializer())
                             subclass(Route.Main.Reminder::class, Route.Main.Reminder.serializer())
                             subclass(Route.Main.Qibla::class, Route.Main.Qibla.serializer())
+                            subclass(Route.Main.QiblaCompass::class, Route.Main.QiblaCompass.serializer())
                             subclass(Route.Main.Counter::class, Route.Main.Counter.serializer())
                             subclass(Route.Main.Settings::class, Route.Main.Settings.serializer())
                             subclass(Route.Main.Settings.InterfaceSettings::class, Route.Main.Settings.InterfaceSettings.serializer())
@@ -187,6 +190,11 @@ fun MainNavigation(
                 val vm = hiltViewModel<QiblaViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 QiblaScreen(s, vm::onAction)
+            }
+            entry<Route.Main.QiblaCompass> {
+                val vm = hiltViewModel<QiblaCompassViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                QiblaCompassRoute(s, vm.readings, vm::onAction)
             }
             entry<Route.Main.Counter> {
                 val vm = hiltViewModel<CounterViewModel>()

@@ -395,6 +395,21 @@
     <string name="qibla_i_understand">I Understand</string>
     <string name="qibla_use_map">Use Map</string>
     <string name="qibla_use_compass">Use Compass</string>
+    <string name="qibla_compass">Qibla Compass</string>
+    <string name="qibla_location_label">Location:</string>
+    <string name="qibla_location_from_settings">From Settings</string>
+    <string name="qibla_label">Qibla:</string>
+    <string name="qibla_degrees_from_north">%1$d° From North</string>
+    <string name="qibla_accuracy_label">Accuracy:</string>
+    <string name="qibla_refresh_location">Refresh location from GPS</string>
+    <string name="qibla_lock_orientation">Lock screen orientation</string>
+    <string name="qibla_unlock_orientation">Unlock screen orientation</string>
+    <string name="qibla_no_location">No location set</string>
+    <string name="compass_accuracy_high">High</string>
+    <string name="compass_accuracy_medium">Medium</string>
+    <string name="compass_accuracy_low">Low</string>
+    <string name="compass_accuracy_unreliable">Unreliable</string>
+    <string name="compass_sensor_unavailable">Compass sensor unavailable</string>
 
     <!-- Advanced link -->
     <string name="advanced_title">Advanced</string>

@@ -37,7 +37,6 @@ fun QiblaScreen(
     ScreenScaffold(
         title = stringResource(R.string.qibla),
         onBackClick = { onAction(QiblaUiAction.OnBackClick) },
-        titleIcon = R.drawable.compass_outline,
         modifier = modifier,
     ) {
         InformationCard(Modifier.fillMaxWidth()) {

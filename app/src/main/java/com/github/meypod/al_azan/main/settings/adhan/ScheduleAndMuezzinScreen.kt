@@ -40,7 +40,6 @@ fun ScheduleAndMuezzinScreen(
     ScreenScaffold(
         title = stringResource(R.string.schedule_and_muezzin_title),
         onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
-        titleIcon = R.drawable.outline_volume_up_24,
         modifier = modifier,
     ) { ScheduleAndMuezzinContent(uiState, onAction) }
 }

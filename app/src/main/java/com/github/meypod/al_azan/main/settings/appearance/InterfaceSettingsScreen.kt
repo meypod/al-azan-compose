@@ -58,7 +58,6 @@ fun InterfaceSettingsScreen(
     ScreenScaffold(
         title = stringResource(R.string.interface_settings),
         onBackClick = { onAction(InterfaceSettingsUiAction.OnBackClick) },
-        titleIcon = R.drawable.shape_plus_outline,
         modifier = modifier,
     ) {
         LanguageCard(uiState, onAction)
