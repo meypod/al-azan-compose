@@ -51,7 +51,9 @@ class BuildWidgetDataUseCase @Inject constructor(
         )
 
         val activePrayer = if (settings.highlightCurrentPrayer) {
-            shariaTimes.currentPrayer(instant, hidden)
+            // Consider hidden prayers too: once a hidden prayer (e.g. Midnight) becomes current, no
+            // visible row should highlight — even though the countdown still targets the next visible one.
+            shariaTimes.currentPrayer(instant)
         } else {
             nextShariaTime?.prayer
         }
