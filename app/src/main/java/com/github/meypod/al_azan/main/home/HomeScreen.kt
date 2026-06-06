@@ -109,6 +109,16 @@ fun HomeScreen(
                 )
                 NavigationDrawerItem(
                     icon = {
+                        Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
+                    },
+                    label = { Text(stringResource(R.string.monthly_view_title)) },
+                    selected = false,
+                    onClick = {
+                        onAction(HomeUiAction.OnMonthlyViewClick)
+                    },
+                )
+                NavigationDrawerItem(
+                    icon = {
                         Icon(painterResource(R.drawable.settings), contentDescription = null)
                     },
                     label = { Text(stringResource(R.string.settings)) },
