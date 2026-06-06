@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.presentation
 
 import android.os.Build
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -8,7 +9,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowCompat
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 
 private val DarkColorScheme = darkColorScheme(
@@ -153,7 +156,12 @@ fun AlAzanTheme(
     themeColor: ThemeColor = ThemeColor.Default,
     content: @Composable () -> Unit,
 ) {
-    val darkTheme = isSystemInDarkTheme()
+    val systemDarkTheme = isSystemInDarkTheme()
+    val darkTheme = when (themeColor) {
+        ThemeColor.Light, ThemeColor.ClassicLight -> false
+        ThemeColor.Dark, ThemeColor.ClassicDark -> true
+        ThemeColor.Dynamic, ThemeColor.Default -> systemDarkTheme
+    }
     val colorScheme = when {
         themeColor == ThemeColor.Dynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -174,6 +182,17 @@ fun AlAzanTheme(
                 ThemeColor.Default,
                 -> if (darkTheme) DarkColorScheme else LightColorScheme
             }
+    }
+
+    val activity = LocalActivity.current
+    if (activity != null) {
+        // keep status/navigation bar icon contrast in sync with the resolved app theme,
+        // which can differ from the system dark-mode setting
+        SideEffect {
+            val controller = WindowCompat.getInsetsController(activity.window, activity.window.decorView)
+            controller.isAppearanceLightStatusBars = !darkTheme
+            controller.isAppearanceLightNavigationBars = !darkTheme
+        }
     }
 
     MaterialTheme(
