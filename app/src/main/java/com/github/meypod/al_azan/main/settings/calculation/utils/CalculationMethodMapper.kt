@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.main.settings.calculation.utils
 import android.content.res.Resources
 import com.github.meypod.al_azan.R
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.CalculationParameters
 
 fun CalculationMethod.i18n(resources: Resources) =
     when (this) {
@@ -30,3 +31,15 @@ fun CalculationMethod.i18n(resources: Resources) =
         CalculationMethod.BRUNEI -> resources.getString(R.string.calc_method_brunei)
         CalculationMethod.TUNISIA -> resources.getString(R.string.calc_method_tunisia)
     }
+
+/**
+ * True when the editable parameters (Fajr/Isha/Maghrib angles and Isha interval) diverge from the
+ * canonical values of the selected [CalculationMethod].
+ */
+fun CalculationParameters.isMethodModified(): Boolean {
+    val base = method.parameters
+    return fajrAngle != base.fajrAngle ||
+        ishaAngle != base.ishaAngle ||
+        ishaInterval != base.ishaInterval ||
+        maghribAngle != base.maghribAngle
+}

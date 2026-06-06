@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.settings.calculation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -7,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
@@ -27,8 +32,10 @@ import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.util.annotatedStringResource
 import com.github.meypod.al_azan.core.presentation.util.unifiedBorder
+import com.github.meypod.al_azan.main.settings.calculation.components.CalcParamsEditDialog
 import com.github.meypod.al_azan.main.settings.calculation.components.ParamAdjustBox
 import com.github.meypod.al_azan.main.settings.calculation.utils.i18n
+import com.github.meypod.al_azan.main.settings.calculation.utils.isMethodModified
 import io.github.meypod.adhan_kotlin.CalculationMethod
 
 @Composable
@@ -66,6 +73,14 @@ fun CalculationSettingsScreen(
                     optionKey = { it.name },
                     optionLabel = { it.i18n(resources) },
                     selectedKey = uiState.calculationParameters?.method?.name,
+                    selectedLabelOverride = uiState.calculationParameters?.let { params ->
+                        val name = params.method.i18n(resources)
+                        if (params.isMethodModified()) {
+                            stringResource(R.string.calculation_method_modified, name)
+                        } else {
+                            name
+                        }
+                    },
                     onSelect = { onAction(CalculationSettingsUiAction.OnCalculationMethodChange(it)) },
                     searchable = true,
                     label = {
@@ -74,6 +89,7 @@ fun CalculationSettingsScreen(
                     placeholder = stringResource(R.string.calculation_method_select_placeholder),
                 )
 
+                var editingParams by remember { mutableStateOf(false) }
                 FlowRow(
                     itemVerticalAlignment = Alignment.CenterVertically,
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
@@ -81,6 +97,7 @@ fun CalculationSettingsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .unifiedBorder()
+                        .clickable(enabled = uiState.calculationParameters != null) { editingParams = true }
                         .padding(dimensionResource(R.dimen.element_padding)),
                 ) {
                     ParamAdjustBox(
@@ -99,6 +116,19 @@ fun CalculationSettingsScreen(
                         stringResource(R.string.maghrib_angle),
                         uiState.calculationParameters?.maghribAngle?.toString() ?: "0",
                     )
+                }
+
+                if (editingParams) {
+                    uiState.calculationParameters?.let { params ->
+                        CalcParamsEditDialog(
+                            parameters = params,
+                            onConfirm = {
+                                onAction(CalculationSettingsUiAction.OnCalculationMethodParamsEdited(it))
+                                editingParams = false
+                            },
+                            onDismiss = { editingParams = false },
+                        )
+                    }
                 }
             }
         }

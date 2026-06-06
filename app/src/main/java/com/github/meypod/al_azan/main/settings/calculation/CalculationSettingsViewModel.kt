@@ -8,6 +8,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.NavigationControll
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.CalculationParameters
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -43,6 +44,7 @@ class CalculationSettingsViewModel
             is CalculationSettingsUiAction.OnAdvancedSettingsClick -> onAdvancedSettingsClick(action.route)
             is CalculationSettingsUiAction.OnAdjustmentsClick -> onAdjustmentsClick(action.route)
             is CalculationSettingsUiAction.OnCalculationMethodChange -> onCalculationMethodChange(action.value)
+            is CalculationSettingsUiAction.OnCalculationMethodParamsEdited -> onCalculationMethodParamsEdited(action.value)
             is CalculationSettingsUiAction.OnLunarCalendarChange -> onCalendarChange(action.value)
         }
     }
@@ -59,6 +61,14 @@ class CalculationSettingsViewModel
         viewModelScope.launch {
             calculationSettingsRepository.update {
                 it.copy(parameters = value.parameters)
+            }
+        }
+    }
+
+    private fun onCalculationMethodParamsEdited(value: CalculationParameters) {
+        viewModelScope.launch {
+            calculationSettingsRepository.update {
+                it.copy(parameters = value)
             }
         }
     }

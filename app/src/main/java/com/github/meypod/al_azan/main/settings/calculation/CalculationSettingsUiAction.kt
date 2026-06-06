@@ -19,7 +19,7 @@ sealed interface CalculationSettingsUiAction {
 
     data class OnCalculationMethodParamsEdited(
         val value: CalculationParameters,
-    )
+    ) : CalculationSettingsUiAction
 
     data class OnLunarCalendarChange(
         val value: String,
