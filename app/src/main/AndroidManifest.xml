@@ -23,6 +23,10 @@
     <!-- To detect incoming and active calls to not play sound -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!-- Foreground service for previewing adhan audio -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
     <!-- this removes ACCESS_NETWORK_STATE permission added by work manager:  -->
     <uses-permission
         android:name="android.permission.ACCESS_NETWORK_STATE"
@@ -73,6 +77,11 @@
                 android:name="autoStoreLocales"
                 android:value="true" />
         </service>
+
+        <service
+            android:name=".core.data.audio.AdhanPreviewPlaybackService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

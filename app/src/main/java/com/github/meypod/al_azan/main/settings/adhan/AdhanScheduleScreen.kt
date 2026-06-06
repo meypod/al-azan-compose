@@ -40,7 +40,7 @@ fun AdhanScheduleScreen(
     ScreenScaffold(
         title = stringResource(R.string.adhan_schedule_title),
         onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
-        titleIcon = R.drawable.bell_cog_outline,
+        titleIcon = R.drawable.outline_volume_up_24,
         modifier = modifier,
     ) { AdhanScheduleContent(uiState, onAction) }
 }

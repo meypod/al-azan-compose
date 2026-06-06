@@ -8,4 +8,5 @@ data class MuezzinPickerUiState(
     val defaultOptions: List<AudioEntry> = emptyList(),
     val userEntries: List<AudioEntry.ExternalAudioEntry> = emptyList(),
     val selectedId: String? = null,
+    val playingId: String? = null,
 )

@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +50,17 @@ fun MuezzinPickerScreen(
                         EntryRow(
                             label = entry.getLabel(),
                             selected = entry.id == uiState.selectedId,
+                            playing = entry.id == uiState.playingId,
                             onClick = { onAction(MuezzinPickerUiAction.OnSelect(entry)) },
+                            onPlayToggle = {
+                                onAction(
+                                    if (entry.id == uiState.playingId) {
+                                        MuezzinPickerUiAction.OnStopClick
+                                    } else {
+                                        MuezzinPickerUiAction.OnPlayClick(entry)
+                                    },
+                                )
+                            },
                         )
                     }
                 }
@@ -80,7 +92,17 @@ fun MuezzinPickerScreen(
                             EntryRow(
                                 label = entry.label,
                                 selected = entry.id == uiState.selectedId,
+                                playing = entry.id == uiState.playingId,
                                 onClick = { onAction(MuezzinPickerUiAction.OnSelect(entry)) },
+                                onPlayToggle = {
+                                    onAction(
+                                        if (entry.id == uiState.playingId) {
+                                            MuezzinPickerUiAction.OnStopClick
+                                        } else {
+                                            MuezzinPickerUiAction.OnPlayClick(entry)
+                                        },
+                                    )
+                                },
                             )
                         }
                     }
@@ -103,10 +125,26 @@ fun MuezzinPickerScreen(
 private fun EntryRow(
     label: String,
     selected: Boolean,
+    playing: Boolean,
     onClick: () -> Unit,
+    onPlayToggle: () -> Unit,
 ) {
     ListItem(
         headlineContent = { Text(label) },
+        leadingContent = {
+            IconButton(onClick = onPlayToggle) {
+                Icon(
+                    painterResource(
+                        if (playing) R.drawable.outline_stop_24 else R.drawable.outline_play_arrow_24,
+                    ),
+                    contentDescription = stringResource(
+                        if (playing) R.string.stop else R.string.play,
+                    ),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(28.dp),
+                )
+            }
+        },
         trailingContent = if (selected) {
             {
                 Icon(
