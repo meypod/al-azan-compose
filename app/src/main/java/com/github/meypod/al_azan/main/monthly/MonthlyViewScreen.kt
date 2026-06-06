@@ -105,7 +105,11 @@ fun MonthlyViewScreen(
                 HorizontalDivider()
                 uiState.rows.forEach { row ->
                     DayRow(row)
-                    HorizontalDivider()
+                    if (row.isToday) {
+                        HorizontalDivider(color = MaterialTheme.colorScheme.primary)
+                    } else {
+                        HorizontalDivider()
+                    }
                 }
             }
         }
