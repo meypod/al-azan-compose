@@ -64,7 +64,7 @@ import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
 import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
-import com.github.meypod.al_azan.main.settings.adhan.AdhanScheduleContent
+import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinContent
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
 import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
 import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
@@ -316,8 +316,8 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                         ) {
-                            IntroTitle(R.string.adhan_schedule_title)
-                            AdhanScheduleContent(
+                            IntroTitle(R.string.schedule_and_muezzin_title)
+                            ScheduleAndMuezzinContent(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
                                 muezzinRoute = Route.Intro.Adhan.Muezzin,
