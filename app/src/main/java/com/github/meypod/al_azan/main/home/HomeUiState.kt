@@ -18,6 +18,7 @@ data class HomeUiState(
     val locale: String = "en-US",
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val location: FavoriteLocation? = null,
+    val isCalculationConfigured: Boolean = false,
     val showNextPrayerCountdown: Boolean = true,
     val shariaTimes: ShariaTimes? = null,
     val nextShariaTime: ShariaTimeDetails? = null,
