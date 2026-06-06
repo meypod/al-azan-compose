@@ -41,6 +41,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocati
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
@@ -132,7 +133,11 @@ fun HomeHeader(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    formatInstant(uiState.viewingInstant, uiState.arabicCalendarLocale, uiState.arabicCalendar),
+                    formatInstant(
+                        addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
+                        uiState.arabicCalendarLocale,
+                        uiState.arabicCalendar,
+                    ),
                     color = Color.White,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class MonthlyDayRow(
-    val day: Int,
+    val day: String,
     val fajr: String,
     val dhuhr: String,
     val asr: String,

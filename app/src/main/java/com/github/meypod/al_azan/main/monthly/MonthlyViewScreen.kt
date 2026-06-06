@@ -166,7 +166,7 @@ private fun DayRow(row: MonthlyDayRow) {
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        listOf(row.day.toString(), row.fajr, row.dhuhr, row.asr, row.maghrib, row.isha).forEach {
+        listOf(row.day, row.fajr, row.dhuhr, row.asr, row.maghrib, row.isha).forEach {
             Text(
                 it,
                 modifier = Modifier.weight(1f),
@@ -179,7 +179,7 @@ private fun DayRow(row: MonthlyDayRow) {
     }
 }
 
-private fun previewRows() = (1..31).map { MonthlyDayRow(it, "03:59", "03:59", "03:59", "03:59", "03:59", isToday = it == 15) }
+private fun previewRows() = (1..31).map { MonthlyDayRow(it.toString(), "03:59", "03:59", "03:59", "03:59", "03:59", isToday = it == 15) }
 
 @Preview(showBackground = true)
 @Composable
@@ -220,8 +220,8 @@ private fun HeaderRowPreview() {
 private fun DayRowPreview() {
     AlAzanThemePreview {
         Column {
-            DayRow(MonthlyDayRow(15, "03:59", "13:00", "16:30", "20:15", "21:45", isToday = true))
-            DayRow(MonthlyDayRow(16, "04:00", "13:00", "16:30", "20:16", "21:46"))
+            DayRow(MonthlyDayRow("15", "03:59", "13:00", "16:30", "20:15", "21:45", isToday = true))
+            DayRow(MonthlyDayRow("16", "04:00", "13:00", "16:30", "20:16", "21:46"))
         }
     }
 }
