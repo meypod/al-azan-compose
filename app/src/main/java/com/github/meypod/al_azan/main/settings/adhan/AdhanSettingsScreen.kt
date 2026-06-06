@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
@@ -38,53 +39,110 @@ fun AdhanSettingsScreen(
     ) { AdhanSettingsContent(uiState, onAction) }
 }
 
+private val UPCOMING_TIME_OPTIONS = listOf(5, 10, 15, 30, 60, 90)
+
 @Composable
 private fun ColumnScope.AdhanSettingsContent(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
-    VibrationModeCard(uiState, onAction)
-    ShowUpcomingCard(uiState, onAction)
+    NotificationsCard(uiState, onAction)
+    PlaybackCard(uiState, onAction)
+    DisplayCard(uiState, onAction)
 }
 
 @Composable
-private fun VibrationModeCard(
+private fun NotificationsCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
-    ACard { cardPadding ->
-        Column(
-            Modifier.padding(cardPadding),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-        ) {
-            SettingHeader(stringResource(R.string.vibration_mode), stringResource(R.string.vibration_mode_help))
-            val resources = LocalResources.current
-            BottomSelect(
-                modifier = Modifier.fillMaxWidth(),
-                options = VibrationMode.entries,
-                optionKey = { it.name },
-                optionLabel = { resources.getString(it.stringRes()) },
-                selectedKey = uiState.alarmSettings.vibrationMode.name,
-                onSelect = { onAction(AdhanSettingsUiAction.OnVibrationModeChange(it)) },
-            )
-        }
+    val resources = LocalResources.current
+    SettingsCard {
+        SettingSwitch(
+            title = stringResource(R.string.show_upcoming_alarm),
+            subtitle = stringResource(R.string.show_upcoming_alarm_help),
+            checked = !uiState.alarmSettings.dontNotifyUpcoming,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnShowUpcomingAlarmToggle(it)) },
+        )
+        BottomSelect(
+            modifier = Modifier.fillMaxWidth(),
+            options = UPCOMING_TIME_OPTIONS,
+            optionKey = { it.toString() },
+            optionLabel = { resources.getString(R.string.minutes_short, it) },
+            selectedKey = uiState.alarmSettings.preAlarmMinutesBefore.toString(),
+            onSelect = { onAction(AdhanSettingsUiAction.OnUpcomingTimeChange(it)) },
+            label = { Text(stringResource(R.string.custom_upcoming_time)) },
+            supportingText = { Text(stringResource(R.string.custom_upcoming_time_help)) },
+        )
+        SettingSwitch(
+            title = stringResource(R.string.show_next_in_notification),
+            subtitle = stringResource(R.string.show_next_in_notification_help),
+            checked = uiState.alarmSettings.showNextPrayerTime,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnShowNextInNotificationToggle(it)) },
+        )
     }
 }
 
 @Composable
-private fun ShowUpcomingCard(
+private fun PlaybackCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
+    val resources = LocalResources.current
+    SettingsCard {
+        SettingHeader(stringResource(R.string.vibration_mode), stringResource(R.string.vibration_mode_help))
+        BottomSelect(
+            modifier = Modifier.fillMaxWidth(),
+            options = VibrationMode.entries,
+            optionKey = { it.name },
+            optionLabel = { resources.getString(it.stringRes()) },
+            selectedKey = uiState.alarmSettings.vibrationMode.name,
+            onSelect = { onAction(AdhanSettingsUiAction.OnVibrationModeChange(it)) },
+        )
+        SettingSwitch(
+            title = stringResource(R.string.use_headphones),
+            subtitle = stringResource(R.string.use_headphones_help),
+            checked = uiState.settings.preferExternalAudioDevice,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnPreferHeadphonesToggle(it)) },
+        )
+        SettingSwitch(
+            title = stringResource(R.string.volume_button_stops_adhan),
+            subtitle = stringResource(R.string.volume_button_stops_adhan_help),
+            checked = uiState.settings.volumeButtonStopsAdhan,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle(it)) },
+        )
+        SettingSwitch(
+            title = stringResource(R.string.bypass_dnd),
+            subtitle = stringResource(R.string.bypass_dnd_help),
+            checked = uiState.settings.bypassDnd,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnBypassDndToggle(it)) },
+        )
+    }
+}
+
+@Composable
+private fun DisplayCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    SettingsCard {
+        SettingSwitch(
+            title = stringResource(R.string.dont_show_alarm_screen),
+            subtitle = stringResource(R.string.dont_show_alarm_screen_help),
+            checked = uiState.alarmSettings.dontTurnOnScreen,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnDontShowAlarmScreenToggle(it)) },
+        )
+    }
+}
+
+@Composable
+private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     ACard { cardPadding ->
-        Column(Modifier.padding(cardPadding)) {
-            SettingSwitch(
-                title = stringResource(R.string.show_upcoming_alarm),
-                subtitle = stringResource(R.string.show_upcoming_alarm_help),
-                checked = !uiState.alarmSettings.dontNotifyUpcoming,
-                onCheckedChange = { onAction(AdhanSettingsUiAction.OnShowUpcomingAlarmToggle(it)) },
-            )
-        }
+        Column(
+            Modifier.padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            content = content,
+        )
     }
 }
 
@@ -99,17 +157,25 @@ private fun AdhanSettingsPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFF00585A)
 @Composable
-private fun VibrationModeCardPreview() {
+private fun NotificationsCardPreview() {
     AlAzanTheme {
-        PreviewPart { VibrationModeCard(AdhanSettingsUiState(), onAction = {}) }
+        PreviewPart { NotificationsCard(AdhanSettingsUiState(), onAction = {}) }
     }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFF00585A)
 @Composable
-private fun ShowUpcomingCardPreview() {
+private fun PlaybackCardPreview() {
     AlAzanTheme {
-        PreviewPart { ShowUpcomingCard(AdhanSettingsUiState(), onAction = {}) }
+        PreviewPart { PlaybackCard(AdhanSettingsUiState(), onAction = {}) }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF00585A)
+@Composable
+private fun DisplayCardPreview() {
+    AlAzanTheme {
+        PreviewPart { DisplayCard(AdhanSettingsUiState(), onAction = {}) }
     }
 }
 

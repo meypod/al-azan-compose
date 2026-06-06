@@ -53,6 +53,30 @@ sealed interface AdhanSettingsUiAction {
         val enabled: Boolean,
     ) : AdhanSettingsUiAction
 
+    data class OnUpcomingTimeChange(
+        val minutes: Int,
+    ) : AdhanSettingsUiAction
+
+    data class OnShowNextInNotificationToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnBypassDndToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnPreferHeadphonesToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnVolumeButtonStopsAdhanToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnDontShowAlarmScreenToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
     object OnNotificationSettingsClick : AdhanSettingsUiAction
     object OnPlaybackSettingsClick : AdhanSettingsUiAction
 }

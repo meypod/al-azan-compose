@@ -220,7 +220,7 @@
 
     <!-- Sound &amp; notification -->
     <string name="notification_sound">Notification Sound</string>
-    <string name="my_muezzins">My Muazzins</string>
+    <string name="my_muezzins">My Muezzins</string>
     <string name="my_muezzins_empty">You haven\'t add any yet.</string>
     <string name="add_from_local_files">Add From Local Files</string>
     <string name="adhan_schedule">Schedule</string>
@@ -228,12 +228,25 @@
     <string name="adhan">Adhan</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud is last third part of the night</string>
     <string name="vibration_mode">Vibration Mode</string>
-    <string name="vibration_mode_help">Should phone vibrate when Azan or reminders start playing ?</string>
+    <string name="vibration_mode_help">Should phone vibrate when adhan or reminders start playing ?</string>
     <string name="vibration_off">Off</string>
     <string name="vibration_once">Once</string>
     <string name="vibration_continuous">Continuous</string>
     <string name="show_upcoming_alarm">Show \"Upcoming Alarm\" Notification</string>
-    <string name="show_upcoming_alarm_help">If enabled, a notification will be shown around one hour before each Azan.</string>
+    <string name="show_upcoming_alarm_help">If enabled, a notification will be shown around one hour before each adhan.</string>
+    <string name="custom_upcoming_time">Notify before adhan</string>
+    <string name="custom_upcoming_time_help">Minutes before each adhan or reminder to show the upcoming notification.</string>
+    <string name="show_next_in_notification">Include next prayer in notification</string>
+    <string name="show_next_in_notification_help">Each notification also shows the time of the next prayer.</string>
+    <string name="bypass_dnd">Bypass \"Do Not Disturb\"</string>
+    <string name="bypass_dnd_help">Play the adhan even while \"Do Not Disturb\" is on.</string>
+    <string name="use_headphones">Prefer headphones</string>
+    <string name="use_headphones_help">When headphones are connected, play all audio through them only.</string>
+    <string name="volume_button_stops_adhan">Volume button stops adhan</string>
+    <string name="volume_button_stops_adhan_help">Pressing a volume button stops the playing adhan.</string>
+    <string name="dont_show_alarm_screen">Keep screen off</string>
+    <string name="dont_show_alarm_screen_help">Don\'t turn on the screen or show the full-screen alarm when an adhan or reminder plays.</string>
+    <string name="minutes_short">%1$d min</string>
     <string name="custom_muezzin">Custom Muazzin</string>
     <string name="use_default_muezzin">Use default</string>
     <string name="use_default_vibration">Use default</string>
