@@ -148,6 +148,23 @@ class BuildWidgetDataUseCaseTest {
     }
 
     @Test
+    fun `highlightCurrentPrayer highlights a visible current prayer`() {
+        // at 21:00 the most recent passed prayer is Isha (visible).
+        val hidden = listOf(Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud)
+        val result = useCase().invoke(at(21.0), settings(hidden = hidden, highlightCurrent = true), calc(), location)!!
+        assertTrue(result.rows.single { it.prayer == Prayer.Isha }.isActive)
+    }
+
+    @Test
+    fun `highlightCurrentPrayer stops highlighting once a hidden prayer becomes current`() {
+        // at 25:00 the most recent passed prayer is the hidden Midnight (24.5), so no visible row
+        // highlights — even though the countdown still targets the next visible prayer.
+        val hidden = listOf(Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud)
+        val result = useCase().invoke(at(25.0), settings(hidden = hidden, highlightCurrent = true), calc(), location)!!
+        assertTrue(result.rows.none { it.isActive })
+    }
+
+    @Test
     fun `without highlightCurrentPrayer the next prayer is active`() {
         val result = useCase(next = details(Prayer.Asr, at(15.0)))
             .invoke(at(13.0), settings(highlightCurrent = false), calc(), location)!!
