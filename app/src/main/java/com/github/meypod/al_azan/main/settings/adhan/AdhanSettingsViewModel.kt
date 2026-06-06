@@ -68,6 +68,30 @@ class AdhanSettingsViewModel
                 alarmSettingsRepository.update { it.copy(dontNotifyUpcoming = !action.enabled) }
             }
 
+            is AdhanSettingsUiAction.OnUpcomingTimeChange -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(preAlarmMinutesBefore = action.minutes) }
+            }
+
+            is AdhanSettingsUiAction.OnShowNextInNotificationToggle -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(showNextPrayerTime = action.enabled) }
+            }
+
+            is AdhanSettingsUiAction.OnBypassDndToggle -> viewModelScope.launch {
+                settingsRepository.update { it.copy(bypassDnd = action.enabled) }
+            }
+
+            is AdhanSettingsUiAction.OnPreferHeadphonesToggle -> viewModelScope.launch {
+                settingsRepository.update { it.copy(preferExternalAudioDevice = action.enabled) }
+            }
+
+            is AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle -> viewModelScope.launch {
+                settingsRepository.update { it.copy(volumeButtonStopsAdhan = action.enabled) }
+            }
+
+            is AdhanSettingsUiAction.OnDontShowAlarmScreenToggle -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(dontTurnOnScreen = action.enabled) }
+            }
+
             AdhanSettingsUiAction.OnNotificationSettingsClick,
             AdhanSettingsUiAction.OnPlaybackSettingsClick,
             -> Unit
