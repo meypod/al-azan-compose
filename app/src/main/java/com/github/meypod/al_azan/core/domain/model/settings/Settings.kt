@@ -118,6 +118,7 @@ data class Settings(
     val locationIdBeforeTravel: String? = null,
     val travelModeLastUpdateMillis: Long? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
+    val countdownSkipNonPrayers: Boolean = false,
 )
 
 @Serializable

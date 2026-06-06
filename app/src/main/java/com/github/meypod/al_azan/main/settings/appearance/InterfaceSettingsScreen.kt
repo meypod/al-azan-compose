@@ -141,12 +141,22 @@ private fun CountdownCard(
     onAction: (InterfaceSettingsUiAction) -> Unit,
 ) {
     ACard { cardPadding ->
-        Column(Modifier.padding(cardPadding)) {
+        Column(
+            Modifier.padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
             SettingSwitch(
                 title = stringResource(R.string.countdown_timer),
                 subtitle = stringResource(R.string.countdown_timer_help),
                 checked = uiState.settings.showHomeNextPrayerCountdown,
                 onCheckedChange = { onAction(InterfaceSettingsUiAction.OnCountdownTimerToggle(it)) },
+            )
+            SettingSwitch(
+                title = stringResource(R.string.countdown_skip_non_prayers),
+                subtitle = stringResource(R.string.countdown_skip_non_prayers_help),
+                checked = uiState.settings.countdownSkipNonPrayers,
+                enabled = uiState.settings.showHomeNextPrayerCountdown,
+                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnCountdownSkipNonPrayersToggle(it)) },
             )
         }
     }
