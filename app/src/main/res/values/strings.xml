@@ -85,6 +85,10 @@
     <string name="degrees_unit">deg</string>
     <string name="calculation_method_modified">%1$s (Modified)</string>
     <string name="close">Close</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
+    <string name="adhan_preview_playing">Playing adhan preview</string>
+    <string name="adhan_preview_channel_name">Adhan preview</string>
     <string name="increase">Increase</string>
     <string name="decrease">Decrease</string>
     <string name="lunar_calendar_supporting_text">The type of lunar calendar shown in main screen and widgets.</string>

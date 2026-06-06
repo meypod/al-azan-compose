@@ -2,8 +2,8 @@ package com.github.meypod.al_azan.main.settings.adhan.muezzin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
-import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MuezzinPickerViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
+    private val audioPreviewPlayer: AudioPreviewPlayer,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MuezzinPickerUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,6 +33,11 @@ class MuezzinPickerViewModel @Inject constructor(
                 }
             }
         }
+        viewModelScope.launch {
+            audioPreviewPlayer.playingId.collect { playingId ->
+                _uiState.update { it.copy(playingId = playingId) }
+            }
+        }
     }
 
     fun onAction(action: MuezzinPickerUiAction) {
@@ -40,6 +46,8 @@ class MuezzinPickerViewModel @Inject constructor(
             is MuezzinPickerUiAction.OnSelect -> viewModelScope.launch {
                 settingsRepository.update { it.copy(selectedAdhanEntries = it.selectedAdhanEntries + (AdhanKey.Default to action.entry)) }
             }
+            is MuezzinPickerUiAction.OnPlayClick -> audioPreviewPlayer.play(action.entry)
+            MuezzinPickerUiAction.OnStopClick -> audioPreviewPlayer.stop()
             MuezzinPickerUiAction.OnAddFromLocalFilesClick -> Unit
             is MuezzinPickerUiAction.OnDeleteUserEntry -> viewModelScope.launch {
                 settingsRepository.update {
@@ -47,5 +55,9 @@ class MuezzinPickerViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        audioPreviewPlayer.release()
     }
 }

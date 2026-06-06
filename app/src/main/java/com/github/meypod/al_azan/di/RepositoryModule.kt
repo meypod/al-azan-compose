@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.di
 
 import android.content.Context
 import com.github.meypod.al_azan.MainActivity
+import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
@@ -12,6 +13,7 @@ import com.github.meypod.al_azan.core.data.repository.NotificationRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SystemChangeRepositoryImpl
+import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
@@ -153,6 +155,9 @@ object RepositoryModule {
                     json = storageJson,
                 ),
         )
+
+    @Provides
+    fun provideAudioPreviewPlayer(@ApplicationContext context: Context): AudioPreviewPlayer = AudioPreviewPlayerImpl(context)
 
     @Provides
     @Singleton
