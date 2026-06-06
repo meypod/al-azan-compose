@@ -238,7 +238,7 @@ fun HomeScreen(
                             locale = uiState.locale,
                             numberingSystem = uiState.numberingSystem,
                             is24Hours = uiState.is24Hour,
-                            nextShariaTime = uiState.nextShariaTime,
+                            highlightedShariaTime = uiState.highlightedShariaTime,
                         ),
                     )
                 }
@@ -285,6 +285,7 @@ private fun HomeLoadedPreview() {
                 location = location,
                 shariaTimes = shariahTimes,
                 nextShariaTime = nextShariaTime,
+                highlightedShariaTime = nextShariaTime,
             ),
             onAction = {},
         )

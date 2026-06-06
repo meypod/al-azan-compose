@@ -193,6 +193,8 @@
     <string name="show_column">Show</string>
     <string name="countdown_timer">Home countdown timer</string>
     <string name="countdown_timer_help">Show time remaining to next prayer on the home screen.</string>
+    <string name="highlight_current_prayer_time">Highlight current prayer time</string>
+    <string name="highlight_current_prayer_time_help">Highlight the current prayer time instead of the next one.</string>
     <string name="countdown_to">Countdown To</string>
     <string name="countdown_target_next_active_azan">Next Active Azan</string>
     <string name="countdown_target_next_prayer">Next Prayer</string>
