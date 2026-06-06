@@ -9,7 +9,6 @@ import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
-import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,9 +42,6 @@ class AdhanSettingsViewModel
             AdhanSettingsUiAction.OnBackClick -> NavigationController.navigateBack()
 
             is AdhanSettingsUiAction.OnMuezzinClick -> NavigationController.navigateTo(action.route)
-
-            AdhanSettingsUiAction.OnAdhanScheduleClick ->
-                NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule)
 
             is AdhanSettingsUiAction.OnNotifyClick -> toggleNotify(action.prayer)
 

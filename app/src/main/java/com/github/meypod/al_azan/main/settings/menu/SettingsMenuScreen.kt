@@ -84,6 +84,12 @@ fun SettingsMenuScreen(
                 onAction(SettingsMenuUiAction.OnNotificationAndSoundClick)
             }
             MenuListItem(
+                R.string.adhan_schedule_title,
+                R.drawable.outline_volume_up_24,
+            ) {
+                onAction(SettingsMenuUiAction.OnAdhanScheduleClick)
+            }
+            MenuListItem(
                 R.string.calculation_title,
                 R.drawable.calculator_variant_outline,
             ) {

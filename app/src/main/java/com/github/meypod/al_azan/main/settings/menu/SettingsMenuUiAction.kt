@@ -4,6 +4,7 @@ sealed interface SettingsMenuUiAction {
     object OnBackClick : SettingsMenuUiAction
     object OnInterfaceSettingsClick : SettingsMenuUiAction
     object OnNotificationAndSoundClick : SettingsMenuUiAction
+    object OnAdhanScheduleClick : SettingsMenuUiAction
     object OnCalculationClick : SettingsMenuUiAction
     object OnLocationClick : SettingsMenuUiAction
     object OnTroubleshootClick : SettingsMenuUiAction
