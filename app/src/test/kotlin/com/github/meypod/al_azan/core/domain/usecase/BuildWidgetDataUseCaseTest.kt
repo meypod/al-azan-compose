@@ -165,6 +165,34 @@ class BuildWidgetDataUseCaseTest {
     }
 
     @Test
+    fun `highlightCurrentPrayer falls back to previous visible prayer when current prayer is hidden`() {
+        // at 21:00 the current prayer is Isha, but it's hidden -> highlight the previous visible
+        // prayer, Maghrib (18.2).
+        val hidden = listOf(Prayer.Isha, Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud)
+        val result = useCase().invoke(at(21.0), settings(hidden = hidden, highlightCurrent = true), calc(), location)!!
+        assertTrue(result.rows.single { it.prayer == Prayer.Maghrib }.isActive)
+        assertTrue(result.rows.none { it.prayer != Prayer.Maghrib && it.isActive })
+    }
+
+    @Test
+    fun `highlightCurrentPrayer falls back over a hidden Asr to Dhuhr`() {
+        // at 16:00 the current prayer is Asr (15.0), hidden -> previous visible is Dhuhr (12.0).
+        val hidden = listOf(Prayer.Asr, Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud)
+        val result = useCase().invoke(at(16.0), settings(hidden = hidden, highlightCurrent = true), calc(), location)!!
+        assertTrue(result.rows.single { it.prayer == Prayer.Dhuhr }.isActive)
+        assertTrue(result.rows.none { it.prayer != Prayer.Dhuhr && it.isActive })
+    }
+
+    @Test
+    fun `highlightCurrentPrayer does not fall back for a hidden non-paired prayer`() {
+        // at 13:00 the current prayer is Dhuhr; it's hidden and not one of the combinable pairs
+        // (Isha->Maghrib, Asr->Dhuhr), so nothing highlights.
+        val hidden = listOf(Prayer.Dhuhr, Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud)
+        val result = useCase().invoke(at(13.0), settings(hidden = hidden, highlightCurrent = true), calc(), location)!!
+        assertTrue(result.rows.none { it.isActive })
+    }
+
+    @Test
     fun `without highlightCurrentPrayer the next prayer is active`() {
         val result = useCase(next = details(Prayer.Asr, at(15.0)))
             .invoke(at(13.0), settings(highlightCurrent = false), calc(), location)!!
