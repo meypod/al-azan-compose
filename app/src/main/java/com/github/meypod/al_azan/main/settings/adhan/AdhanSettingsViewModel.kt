@@ -8,6 +8,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -92,6 +93,10 @@ class AdhanSettingsViewModel
                 alarmSettingsRepository.update { it.copy(dontTurnOnScreen = action.enabled) }
             }
 
+            is AdhanSettingsUiAction.OnPermissionDontAskAgain -> viewModelScope.launch {
+                settingsRepository.update { it.withDontAskAgain(action.permission) }
+            }
+
             AdhanSettingsUiAction.OnNotificationSettingsClick,
             AdhanSettingsUiAction.OnPlaybackSettingsClick,
             -> Unit
@@ -136,11 +141,29 @@ class AdhanSettingsViewModel
     ) {
         viewModelScope.launch {
             alarmSettingsRepository.update { state ->
-                val current = if (sound) state.getSoundSettings(prayer) else state.getNotifSettings(prayer)
-                val selected = current.selectedDays().toMutableSet()
-                if (day in selected) selected.remove(day) else selected.add(day)
-                val next = PrayerAlarmSettings.fromDays(selected)
-                if (sound) state.setSoundSettings(prayer, next) else state.setNotifSettings(prayer, next)
+                val soundDays = state.getSoundSettings(prayer).selectedDays().toMutableSet()
+                val notifyDays = state.getNotifSettings(prayer).selectedDays().toMutableSet()
+                if (sound) {
+                    // mirror the sound/notify checkbox coupling at day granularity:
+                    // enabling a sound day forces its notification on; disabling it leaves notification.
+                    if (day in soundDays) {
+                        soundDays.remove(day)
+                    } else {
+                        soundDays.add(day)
+                        notifyDays.add(day)
+                    }
+                } else {
+                    // disabling a notification day also disables its sound; enabling it leaves sound.
+                    if (day in notifyDays) {
+                        notifyDays.remove(day)
+                        soundDays.remove(day)
+                    } else {
+                        notifyDays.add(day)
+                    }
+                }
+                state
+                    .setSoundSettings(prayer, PrayerAlarmSettings.fromDays(soundDays))
+                    .setNotifSettings(prayer, PrayerAlarmSettings.fromDays(notifyDays))
             }
         }
     }

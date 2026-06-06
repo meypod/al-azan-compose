@@ -1,7 +1,7 @@
 package com.github.meypod.al_azan.core.domain.model.notification
 
+import android.widget.RemoteViews
 import androidx.compose.runtime.Immutable
-import androidx.core.app.NotificationCompat
 import com.github.meypod.al_azan.core.domain.model.TextResource
 
 @Immutable
@@ -91,4 +91,16 @@ data class AndroidNotificationConfig(
      * extra actions that are shown under notification
      */
     var actions: List<NotificationButton>? = null,
+
+    /**
+     * Custom collapsed-state content view. When set (together with [customBigContentView]), the
+     * notification is rendered with [androidx.core.app.NotificationCompat.DecoratedCustomViewStyle]
+     * and the default alerting (sound/vibrate) is suppressed.
+     */
+    var customContentView: RemoteViews? = null,
+
+    /**
+     * Custom expanded-state content view. See [customContentView].
+     */
+    var customBigContentView: RemoteViews? = null,
 )

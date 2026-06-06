@@ -13,6 +13,7 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
     companion object {
         const val PERMISSION_REVOKED_CHANNEL_ID = "permission_revoked_channel_id"
         const val TRAVEL_MODE_CHANNEL_ID = "travel_mode_channel_id"
+        const val WIDGET_CHANNEL_ID = "widget_channel_id"
     }
 
     operator fun invoke() {
@@ -29,6 +30,14 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     name = TextResource.StringResId(R.string.travel_mode_channel_name),
                     description = TextResource.StringResId(R.string.travel_mode_channel_description),
                     importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                ),
+                NotificationChannelConfig(
+                    id = WIDGET_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.widget_channel_name),
+                    description = TextResource.StringResId(R.string.widget_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_LOW,
+                    showBadge = false,
+                    vibrationEnabled = false,
                 ),
             ),
         )

@@ -6,6 +6,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.github.meypod.al_azan.di.MigrationEntryPoint
 import com.github.meypod.al_azan.di.NotificationChannelInitializer
+import com.github.meypod.al_azan.di.WidgetSyncInitializer
 import com.tencent.mmkv.MMKV
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.HiltAndroidApp
@@ -27,6 +28,9 @@ class App :
 
     @Inject
     lateinit var notificationChannelInitializer: dagger.Lazy<NotificationChannelInitializer>
+
+    @Inject
+    lateinit var widgetSyncInitializer: dagger.Lazy<WidgetSyncInitializer>
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
@@ -53,5 +57,6 @@ class App :
             mmkv.encode(MIGRATED_TO_V2, true)
         }
         notificationChannelInitializer.get().start() // we use lazy because MMKV needs to be initialized first
+        widgetSyncInitializer.get().start()
     }
 }

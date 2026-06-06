@@ -29,6 +29,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontal
 import com.github.meypod.al_azan.main.about.AboutScreen
 import com.github.meypod.al_azan.main.counter.CounterScreen
 import com.github.meypod.al_azan.main.counter.CounterViewModel
+import com.github.meypod.al_azan.main.home.HomePermissionGate
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
 import com.github.meypod.al_azan.main.location.LocationScreen
@@ -162,6 +163,13 @@ fun MainNavigation(
                 val vm = hiltViewModel<HomeViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 HomeScreen(s, vm::onAction)
+                HomePermissionGate(
+                    isDontAskAgain = vm::isDontAskAgain,
+                    onDontAskAgain = vm::onPermissionDontAskAgain,
+                    onReschedule = vm::rescheduleAlarms,
+                    onCleanup = vm::cleanupAlarms,
+                    getCheck = vm::permissionCheck,
+                )
             }
             entry<Route.Main.Location> {
                 val vm = hiltViewModel<LocationViewModel>()

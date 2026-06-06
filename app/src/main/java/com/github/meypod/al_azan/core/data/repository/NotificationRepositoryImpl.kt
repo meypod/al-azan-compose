@@ -45,11 +45,23 @@ class NotificationRepositoryImpl @Inject constructor(
             payload.android?.channelId
                 ?: throw IllegalArgumentException("android notification config should define channelId")
 
+        val hasCustomView =
+            payload.android.customContentView != null || payload.android.customBigContentView != null
+
         val builder =
             NotificationCompat
                 .Builder(context, channelId)
                 .setSmallIcon(R.drawable.monochrome_notif)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
+
+        // Custom-view notifications (e.g. the prayer-times widget) render their own content and must
+        // stay silent; only standard notifications get the default alerting behavior.
+        if (hasCustomView) {
+            builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            payload.android.customContentView?.let { builder.setCustomContentView(it) }
+            payload.android.customBigContentView?.let { builder.setCustomBigContentView(it) }
+        } else {
+            builder.setDefaults(NotificationCompat.DEFAULT_ALL)
+        }
 
         payload.title?.let { builder.setContentTitle(it.asString(context)) }
         payload.subtitle?.let { builder.setSubText(it.asString(context)) }

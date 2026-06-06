@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
@@ -22,6 +25,9 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
+import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
+import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRowUiState
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanToggleChip
@@ -62,6 +68,21 @@ fun PrayerScheduleScreen(
         uiState.alarmSettings.getSoundSettings(prayer),
     )
 
+    // Enabling any schedule here needs notification + exact-alarm permissions, same flow as the
+    // widget. guardEnable runs the flow on enable and stores how to snap the toggle back off.
+    val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
+    val requestPermissions = rememberSchedulingPermissionRequest(
+        isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
+        onDontAskAgain = { onAction(AdhanSettingsUiAction.OnPermissionDontAskAgain(it)) },
+        onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },
+    )
+    fun guardEnable(enabling: Boolean, revert: () -> Unit) {
+        if (enabling) {
+            pendingRevert.value = revert
+            requestPermissions(SchedulingPermissionSteps.adhan)
+        }
+    }
+
     ScreenScaffold(
         title = prayer.i18n(),
         onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
@@ -75,12 +96,25 @@ fun PrayerScheduleScreen(
             AdhanToggleChip(
                 label = stringResource(R.string.notification),
                 state = rowState.notifyState,
-                onClick = { onAction(AdhanSettingsUiAction.OnNotifyClick(prayer)) },
+                onClick = {
+                    val enabling = rowState.notifyState != ToggleableState.On
+                    onAction(AdhanSettingsUiAction.OnNotifyClick(prayer))
+                    guardEnable(enabling) { onAction(AdhanSettingsUiAction.OnNotifyClick(prayer)) }
+                },
             )
             AdhanToggleChip(
                 label = stringResource(R.string.sound),
                 state = rowState.soundState,
-                onClick = { onAction(AdhanSettingsUiAction.OnSoundClick(prayer)) },
+                onClick = {
+                    val enabling = rowState.soundState != ToggleableState.On
+                    val notifyWasOn = rowState.notifyState == ToggleableState.On
+                    onAction(AdhanSettingsUiAction.OnSoundClick(prayer))
+                    guardEnable(enabling) {
+                        onAction(AdhanSettingsUiAction.OnSoundClick(prayer))
+                        // enabling sound force-enables notify; clear it unless it was already on
+                        if (!notifyWasOn) onAction(AdhanSettingsUiAction.OnNotifyClick(prayer))
+                    }
+                },
             )
         }
 
@@ -114,7 +148,16 @@ fun PrayerScheduleScreen(
             SettingLabel(stringResource(R.string.adhan))
             WeekdayChipRow(
                 selected = soundDays,
-                onToggle = { onAction(AdhanSettingsUiAction.OnScheduleSoundDayToggle(prayer, it)) },
+                onToggle = { day ->
+                    val enabling = day !in soundDays
+                    val notifyHadDay = day in notifyDays
+                    onAction(AdhanSettingsUiAction.OnScheduleSoundDayToggle(prayer, day))
+                    guardEnable(enabling) {
+                        onAction(AdhanSettingsUiAction.OnScheduleSoundDayToggle(prayer, day))
+                        // enabling a sound day force-enables its notify day; clear it unless it was already on
+                        if (!notifyHadDay) onAction(AdhanSettingsUiAction.OnScheduleNotifyDayToggle(prayer, day))
+                    }
+                },
                 accent = ChipAccent.Tertiary,
             )
         }
@@ -125,7 +168,11 @@ fun PrayerScheduleScreen(
             SettingLabel(stringResource(R.string.notifications))
             WeekdayChipRow(
                 selected = notifyDays,
-                onToggle = { onAction(AdhanSettingsUiAction.OnScheduleNotifyDayToggle(prayer, it)) },
+                onToggle = { day ->
+                    val enabling = day !in notifyDays
+                    onAction(AdhanSettingsUiAction.OnScheduleNotifyDayToggle(prayer, day))
+                    guardEnable(enabling) { onAction(AdhanSettingsUiAction.OnScheduleNotifyDayToggle(prayer, day)) }
+                },
             )
         }
     }

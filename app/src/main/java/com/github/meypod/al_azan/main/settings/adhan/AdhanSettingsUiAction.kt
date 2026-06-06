@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.main.settings.adhan
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import kotlinx.datetime.DayOfWeek
 
@@ -79,4 +80,8 @@ sealed interface AdhanSettingsUiAction {
 
     object OnNotificationSettingsClick : AdhanSettingsUiAction
     object OnPlaybackSettingsClick : AdhanSettingsUiAction
+
+    data class OnPermissionDontAskAgain(
+        val permission: SchedulingPermission,
+    ) : AdhanSettingsUiAction
 }

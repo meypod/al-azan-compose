@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 
 @Immutable
 data class WidgetSettingsUiState(
@@ -18,6 +19,7 @@ sealed interface WidgetSettingsUiAction {
     data class OnAdaptiveThemeToggle(val value: Boolean) : WidgetSettingsUiAction
     data class OnCityNamePosChange(val value: WidgetCityNamePos) : WidgetSettingsUiAction
     data class OnPrayerVisibilityChange(val prayer: Prayer, val visible: Boolean) : WidgetSettingsUiAction
+    data class OnPermissionDontAskAgain(val permission: SchedulingPermission) : WidgetSettingsUiAction
 }
 
 sealed interface WidgetSettingsUiEvent {

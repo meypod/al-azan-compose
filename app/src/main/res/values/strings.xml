@@ -431,4 +431,22 @@
     <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
     <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
     <string name="moazen_zade">Moazen Zade</string>
+    <string name="widget_channel_name">Prayer Times Widget</string>
+    <string name="widget_channel_description">Persistent notification showing prayer times.</string>
+    <string name="notification_permission_title">Allow notifications</string>
+    <string name="notification_permission_rationale">The notification widget shows prayer times in your notification shade. Allow notifications to turn it on.</string>
+    <string name="notification_permission_denied_text">Notification access is required to show the widget. Enable notifications for this app in settings.</string>
+    <string name="exact_alarm_permission_title">Allow exact alarms</string>
+    <string name="exact_alarm_permission_rationale">To keep the widget\'s prayer times and countdown accurate, allow this app to schedule exact alarms.</string>
+    <string name="exact_alarm_permission_denied_text">Exact alarm access is required to keep the widget\'s prayer times and countdown accurate. Allow it for this app in settings.</string>
+    <string name="adhan_notification_permission_rationale">Adhan alarms post a notification at each prayer time. Allow notifications to enable them.</string>
+    <string name="adhan_notification_permission_denied_text">Notification access is required for adhan alarms. Enable notifications for this app in settings.</string>
+    <string name="adhan_exact_alarm_permission_rationale">Adhan alarms must fire at the exact prayer time. Allow this app to schedule exact alarms.</string>
+    <string name="adhan_exact_alarm_permission_denied_text">Exact alarm access is required for adhan alarms to fire on time. Allow it for this app in settings.</string>
+    <string name="dont_ask_again">Don\'t ask again</string>
+    <string name="phone_state_permission_title">Allow phone access</string>
+    <string name="adhan_phone_state_permission_rationale">Allow phone access so the adhan can pause for incoming or active calls. Used only to read call state.</string>
+    <string name="adhan_phone_state_permission_denied_text">Phone access is off, so the adhan won\'t pause for calls. You can allow it later in settings.</string>
+    <string name="home_notification_permission_rationale">Notifications were turned off. Allow them again so adhan alarms can reach you.</string>
+    <string name="home_exact_alarm_permission_rationale">Exact alarm access was turned off. Allow it again so your prayer alarms keep firing on time.</string>
 </resources>

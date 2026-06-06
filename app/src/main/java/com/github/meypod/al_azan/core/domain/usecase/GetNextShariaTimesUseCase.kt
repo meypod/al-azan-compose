@@ -73,7 +73,9 @@ class GetNextShariaTimesUseCase @Inject constructor(
         var shariahTimes: ShariaTimes? = null
         var nextPrayer: Prayer? = null
         for (day in 1..7) {
-            shariahTimes = getShariaTimesUseCase(instant, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
+            shariahTimes = getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
+            // `instant` (now) is earlier than every prayer on a future day, so on later days this returns
+            // that day's first non-excluded prayer; on the current day it returns the next upcoming one.
             nextPrayer = shariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding)
             if (nextPrayer == null) {
                 instantToCheck = addDaysTimeZoneAware(instantToCheck, 1)

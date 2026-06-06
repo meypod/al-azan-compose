@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.github.meypod.al_azan.core.domain.model.system.SystemChange
+import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavIntent
-import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.widget.enqueueWidgetUpdate
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.TimeZone
 import javax.inject.Inject
 
@@ -18,6 +20,9 @@ class TimeChangeReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var systemChangeRepository: SystemChangeRepository
+
+    @Inject
+    lateinit var alarmRepository: AlarmRepository
 
     override fun onReceive(
         context: Context?,
@@ -34,9 +39,27 @@ class TimeChangeReceiver : BroadcastReceiver() {
                     ) ?: TimeZone.getDefault().id
 
                 onTimeZoneChanged(newTimezoneId)
+                refreshWidgets(context)
             }
 
-            Intent.ACTION_TIME_CHANGED -> onTimeChanged()
+            Intent.ACTION_TIME_CHANGED -> {
+                onTimeChanged()
+                refreshWidgets(context)
+            }
+        }
+    }
+
+    /** Wall-clock changes invalidate both the scheduled redraw alarm and the rendered times. */
+    private fun refreshWidgets(context: Context?) {
+        if (context == null) return
+        val pendingResult = goAsync()
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                alarmRepository.rescheduleAll()
+                enqueueWidgetUpdate(context)
+            } finally {
+                pendingResult.finish()
+            }
         }
     }
 
