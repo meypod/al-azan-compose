@@ -84,10 +84,10 @@ fun SettingsMenuScreen(
                 onAction(SettingsMenuUiAction.OnNotificationAndSoundClick)
             }
             MenuListItem(
-                R.string.adhan_schedule_title,
+                R.string.schedule_and_muezzin_title,
                 R.drawable.outline_volume_up_24,
             ) {
-                onAction(SettingsMenuUiAction.OnAdhanScheduleClick)
+                onAction(SettingsMenuUiAction.OnScheduleAndMuezzinClick)
             }
             MenuListItem(
                 R.string.calculation_title,

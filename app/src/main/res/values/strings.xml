@@ -105,7 +105,7 @@
     <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>
     <string name="notification_and_sound_title"><![CDATA[Notification & Sound]]></string>
     <string name="alarm_settings_title">Alarm Settings</string>
-    <string name="adhan_schedule_title"><![CDATA[Adhan Schedule]]></string>
+    <string name="schedule_and_muezzin_title"><![CDATA[Schedule & Muezzin]]></string>
     <string name="playback_settings">Playback Settings</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="muezzin">Muezzin</string>
@@ -223,7 +223,7 @@
     <string name="my_muezzins">My Muazzins</string>
     <string name="my_muezzins_empty">You haven\'t add any yet.</string>
     <string name="add_from_local_files">Add From Local Files</string>
-    <string name="adhan_schedule">Adhan schedule</string>
+    <string name="adhan_schedule">Schedule</string>
     <string name="adhan_schedule_help">Enable and disable Adhan or Notifications for each prayer time.</string>
     <string name="adhan">Adhan</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud is last third part of the night</string>

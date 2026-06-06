@@ -32,21 +32,21 @@ import com.github.meypod.al_azan.main.settings.adhan.components.toAdhanSettingsU
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdhanScheduleScreen(
+fun ScheduleAndMuezzinScreen(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ScreenScaffold(
-        title = stringResource(R.string.adhan_schedule_title),
+        title = stringResource(R.string.schedule_and_muezzin_title),
         onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
         titleIcon = R.drawable.outline_volume_up_24,
         modifier = modifier,
-    ) { AdhanScheduleContent(uiState, onAction) }
+    ) { ScheduleAndMuezzinContent(uiState, onAction) }
 }
 
 @Composable
-fun ColumnScope.AdhanScheduleContent(
+fun ColumnScope.ScheduleAndMuezzinContent(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
     muezzinRoute: Route = Route.Main.Settings.SoundAndNotifications.Muezzin,
@@ -109,9 +109,9 @@ private fun AdhanAndNotificationCard(
 @Preview(showBackground = true, backgroundColor = 0xFF00585A)
 @Preview(showBackground = true, backgroundColor = 0xFF00585A, device = Devices.TABLET)
 @Composable
-private fun AdhanSchedulePreview() {
+private fun ScheduleAndMuezzinPreview() {
     AlAzanTheme {
-        AdhanScheduleScreen(uiState = AdhanSettingsUiState(), onAction = {})
+        ScheduleAndMuezzinScreen(uiState = AdhanSettingsUiState(), onAction = {})
     }
 }
 

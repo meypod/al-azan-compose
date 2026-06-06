@@ -82,7 +82,7 @@ sealed interface Route : NavKey {
             @Serializable
             data object SoundAndNotifications : Route {
                 @Serializable
-                data object AdhanAndSchedule : Route
+                data object ScheduleAndMuezzin : Route
 
                 @Serializable
                 data object Muezzin : Route

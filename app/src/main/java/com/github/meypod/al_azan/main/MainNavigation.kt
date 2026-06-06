@@ -41,7 +41,7 @@ import com.github.meypod.al_azan.main.reminder.ReminderScreen
 import com.github.meypod.al_azan.main.reminder.ReminderViewModel
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
-import com.github.meypod.al_azan.main.settings.adhan.AdhanScheduleScreen
+import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinScreen
 import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
 import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
 import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerViewModel
@@ -110,8 +110,8 @@ fun MainNavigation(
                                 Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot.serializer(),
                             )
                             subclass(
-                                Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule::class,
-                                Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule.serializer(),
+                                Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin::class,
+                                Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin.serializer(),
                             )
                             subclass(
                                 Route.Main.Settings.SoundAndNotifications.Muezzin::class,
@@ -249,10 +249,10 @@ fun MainNavigation(
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 AdvancedTroubleshootScreen(s, vm::onAction)
             }
-            entry<Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule> {
+            entry<Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin> {
                 val vm = hiltViewModel<AdhanSettingsViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
-                AdhanScheduleScreen(s, vm::onAction)
+                ScheduleAndMuezzinScreen(s, vm::onAction)
             }
             entry<Route.Main.Settings.SoundAndNotifications.Muezzin> {
                 val vm = hiltViewModel<MuezzinPickerViewModel>()
