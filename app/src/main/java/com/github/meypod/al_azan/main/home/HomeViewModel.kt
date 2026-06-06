@@ -199,6 +199,7 @@ class HomeViewModel
                     it.copy(
                         themeColor = settings.themeColor,
                         arabicCalendar = settings.selectedArabicCalendar,
+                        arabicCalendarLocale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale,
                         calendar = settings.selectedSecondaryCalendar.value,
                         locale = settings.selectedLocale,
                         numberingSystem = settings.numberingSystem,

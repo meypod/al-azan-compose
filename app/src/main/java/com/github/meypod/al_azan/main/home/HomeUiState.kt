@@ -15,6 +15,7 @@ data class HomeUiState(
     val currentInstant: Instant = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
     val viewingInstant: Instant = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
     val arabicCalendar: String = "islamic",
+    val arabicCalendarLocale: String = "en-US",
     val calendar: String = "gregorian",
     val locale: String = "en-US",
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
