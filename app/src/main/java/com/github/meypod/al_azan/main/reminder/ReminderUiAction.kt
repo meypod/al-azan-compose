@@ -54,7 +54,7 @@ sealed interface ReminderUiAction {
     ) : ReminderUiAction
 
     data class OnDraftDurationChange(
-        val value: Long,
+        val value: Int,
     ) : ReminderUiAction
 
     data class OnDraftModifierChange(

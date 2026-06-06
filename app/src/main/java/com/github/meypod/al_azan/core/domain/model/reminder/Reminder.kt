@@ -17,7 +17,8 @@ data class Reminder(
     val label: String = "",
     val enabled: Boolean = false,
     val prayer: Prayer,
-    val duration: Long,
+    /** offset from the prayer time, in minutes */
+    val duration: Int,
     val durationModifier: Int,
     val sound: ReminderAudioEntry? = null,
     val once: Boolean? = null,

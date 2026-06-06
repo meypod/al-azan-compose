@@ -19,6 +19,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
+import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
@@ -47,8 +48,30 @@ private fun ColumnScope.AdhanSettingsContent(
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
     NotificationsCard(uiState, onAction)
+    VibrationCard(uiState, onAction)
     PlaybackCard(uiState, onAction)
     DisplayCard(uiState, onAction)
+}
+
+@Composable
+private fun VibrationCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    val resources = LocalResources.current
+    SettingsCard {
+        Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding))) {
+            SettingHeader(stringResource(R.string.vibration_mode), stringResource(R.string.vibration_mode_help))
+            BottomSelect(
+                modifier = Modifier.fillMaxWidth(),
+                options = VibrationMode.entries,
+                optionKey = { it.name },
+                optionLabel = { resources.getString(it.stringRes()) },
+                selectedKey = uiState.alarmSettings.vibrationMode.name,
+                onSelect = { onAction(AdhanSettingsUiAction.OnVibrationModeChange(it)) },
+            )
+        }
+    }
 }
 
 @Composable
@@ -56,7 +79,6 @@ private fun NotificationsCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
-    val resources = LocalResources.current
     SettingsCard {
         SettingSwitch(
             title = stringResource(R.string.show_upcoming_alarm),
@@ -64,12 +86,10 @@ private fun NotificationsCard(
             checked = !uiState.alarmSettings.dontNotifyUpcoming,
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnShowUpcomingAlarmToggle(it)) },
         )
-        BottomSelect(
+        MinutesSelect(
             modifier = Modifier.fillMaxWidth(),
             options = UPCOMING_TIME_OPTIONS,
-            optionKey = { it.toString() },
-            optionLabel = { resources.getString(R.string.minutes_short, it) },
-            selectedKey = uiState.alarmSettings.preAlarmMinutesBefore.toString(),
+            selected = uiState.alarmSettings.preAlarmMinutesBefore,
             onSelect = { onAction(AdhanSettingsUiAction.OnUpcomingTimeChange(it)) },
             label = { Text(stringResource(R.string.custom_upcoming_time)) },
             supportingText = { Text(stringResource(R.string.custom_upcoming_time_help)) },
@@ -88,17 +108,7 @@ private fun PlaybackCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
-    val resources = LocalResources.current
     SettingsCard {
-        SettingHeader(stringResource(R.string.vibration_mode), stringResource(R.string.vibration_mode_help))
-        BottomSelect(
-            modifier = Modifier.fillMaxWidth(),
-            options = VibrationMode.entries,
-            optionKey = { it.name },
-            optionLabel = { resources.getString(it.stringRes()) },
-            selectedKey = uiState.alarmSettings.vibrationMode.name,
-            onSelect = { onAction(AdhanSettingsUiAction.OnVibrationModeChange(it)) },
-        )
         SettingSwitch(
             title = stringResource(R.string.use_headphones),
             subtitle = stringResource(R.string.use_headphones_help),
@@ -160,6 +170,14 @@ private fun AdhanSettingsPreview() {
 private fun NotificationsCardPreview() {
     AlAzanTheme {
         PreviewPart { NotificationsCard(AdhanSettingsUiState(), onAction = {}) }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF00585A)
+@Composable
+private fun VibrationCardPreview() {
+    AlAzanTheme {
+        PreviewPart { VibrationCard(AdhanSettingsUiState(), onAction = {}) }
     }
 }
 
