@@ -13,7 +13,8 @@ enum class ReminderTimeModifier { Before, After }
 data class ReminderEditDraft(
     val id: String? = null,
     val label: String = "",
-    val duration: Long = 5L,
+    /** offset from the prayer time, in minutes */
+    val duration: Int = 5,
     val modifier: ReminderTimeModifier = ReminderTimeModifier.Before,
     val prayer: Prayer = Prayer.Fajr,
     val sound: ReminderAudioEntry? = null,

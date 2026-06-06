@@ -274,11 +274,11 @@ private fun ReminderRow(
                     } else {
                         stringResource(R.string.reminder_before)
                     }
-                val durationLabel = if (reminder.duration >= 60 && reminder.duration % 60 == 0L) {
-                    val hours = (reminder.duration / 60).toInt()
+                val durationLabel = if (reminder.duration >= 60 && reminder.duration % 60 == 0) {
+                    val hours = reminder.duration / 60
                     pluralStringResource(R.plurals.time_unit_hours, hours, hours)
                 } else {
-                    val mins = reminder.duration.toInt()
+                    val mins = reminder.duration
                     pluralStringResource(R.plurals.time_unit_minutes, mins, mins)
                 }
                 Text("$durationLabel $prefix ${reminder.prayer.i18n()}")
@@ -320,7 +320,7 @@ private val sampleReminder = Reminder(
     label = "Wake up",
     enabled = true,
     prayer = Prayer.Fajr,
-    duration = 15L,
+    duration = 15,
     durationModifier = -1,
     once = true,
 )
@@ -384,7 +384,7 @@ private fun ReminderScreenLoadedPreview() {
                         label = "Wake up",
                         enabled = true,
                         prayer = Prayer.Fajr,
-                        duration = 15L,
+                        duration = 15,
                         durationModifier = -1,
                         once = true,
                     ),
@@ -393,7 +393,7 @@ private fun ReminderScreenLoadedPreview() {
                         label = "Quran",
                         enabled = false,
                         prayer = Prayer.Dhuhr,
-                        duration = 30L,
+                        duration = 30,
                         durationModifier = 1,
                         once = false,
                     ),

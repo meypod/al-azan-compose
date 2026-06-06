@@ -246,7 +246,9 @@
     <string name="volume_button_stops_adhan_help">Pressing a volume button stops the playing adhan.</string>
     <string name="dont_show_alarm_screen">Keep screen off</string>
     <string name="dont_show_alarm_screen_help">Don\'t turn on the screen or show the full-screen alarm when an adhan or reminder plays.</string>
-    <string name="minutes_short">%1$d min</string>
+    <string name="custom_minutes">Custom</string>
+    <string name="custom_minutes_tap_to_edit">Tap to edit</string>
+    <string name="custom_minutes_dialog_title">Custom minutes</string>
     <string name="custom_muezzin">Custom Muazzin</string>
     <string name="use_default_muezzin">Use default</string>
     <string name="use_default_vibration">Use default</string>
@@ -341,9 +343,6 @@
     <string name="select_all">All</string>
     <string name="turn_on">Turn On</string>
     <string name="turn_off">Turn Off</string>
-    <string name="reminder_custom_duration">Custom (minutes)</string>
-    <string name="reminder_custom_tap_to_edit">Tap to edit</string>
-    <string name="reminder_custom_dialog_title">Custom duration</string>
     <string name="reminder_duplicate">Duplicate</string>
     <string name="delete_reminder_title">Deleting Reminder</string>
     <string name="delete_reminder_body">Are you sure you want to delete the Reminder ?</string>
