@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
-import com.github.meypod.al_azan.widget.enqueueWidgetUpdate
+import com.github.meypod.al_azan.widget.WidgetUpdater
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +17,9 @@ class BootReceiver : BroadcastReceiver() {
     @Inject
     lateinit var alarmRepository: AlarmRepository
 
+    @Inject
+    lateinit var widgetUpdater: WidgetUpdater
+
     override fun onReceive(
         context: Context,
         intent: Intent?,
@@ -27,7 +30,7 @@ class BootReceiver : BroadcastReceiver() {
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 alarmRepository.rescheduleAll()
-                enqueueWidgetUpdate(context)
+                widgetUpdater.update()
             } finally {
                 pendingResult.finish()
             }

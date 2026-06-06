@@ -11,7 +11,6 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
-import com.github.meypod.al_azan.core.util.storage.SimpleJsonDataStore
 import kotlinx.coroutines.flow.first
 
 class AlarmRepositoryImpl(
@@ -64,6 +63,7 @@ class AlarmRepositoryImpl(
         // Fall back to inexact scheduling when the OS denies exact alarms, so the alarm still fires.
         val effectiveType =
             if (alarm.type != AlarmType.Inexact && !canScheduleExact()) AlarmType.Inexact else alarm.type
+        val rtcType = if (alarm.wakeup) AlarmManager.RTC_WAKEUP else AlarmManager.RTC
         try {
             when (effectiveType) {
                 AlarmType.AlarmClock ->
@@ -80,15 +80,15 @@ class AlarmRepositoryImpl(
                     )
 
                 AlarmType.Exact ->
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.triggerAtMillis, pendingIntent)
+                    alarmManager.setExact(rtcType, alarm.triggerAtMillis, pendingIntent)
 
                 AlarmType.Inexact ->
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.triggerAtMillis, pendingIntent)
+                    alarmManager.set(rtcType, alarm.triggerAtMillis, pendingIntent)
             }
         } catch (e: SecurityException) {
             // Exact-alarm permission can be revoked between the check and the call; degrade gracefully.
             Log.e(TAG, "Exact alarm denied for ${alarm.id}, retrying inexact", e)
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.triggerAtMillis, pendingIntent)
+            alarmManager.set(rtcType, alarm.triggerAtMillis, pendingIntent)
         }
     }
 

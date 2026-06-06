@@ -1,6 +1,8 @@
 package com.github.meypod.al_azan.di
 
-import android.content.Context
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
@@ -9,11 +11,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ProcessLifecycleOwner
-import com.github.meypod.al_azan.widget.enqueueWidgetUpdate
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.github.meypod.al_azan.widget.WidgetUpdater
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,10 +33,10 @@ import kotlin.concurrent.atomics.ExperimentalAtomicApi
  */
 @Singleton
 class WidgetSyncInitializer @Inject constructor(
-    @param:ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val widgetUpdater: WidgetUpdater,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -100,18 +98,17 @@ class WidgetSyncInitializer @Inject constructor(
                 )
             }
                 .distinctUntilChanged()
-                .collect { enqueueWidgetUpdate(context) }
+                .collect { widgetUpdater.update() }
         }
 
         // Guarantee the widget is refreshed every time the app comes to the foreground, even when no
-        // tracked data changed (e.g. system clock drift, missed alarm). Dedupe keeps it a no-op when
-        // nothing actually changed.
+        // tracked data changed (e.g. system clock drift, missed alarm).
         scope.launch {
             withContext(Dispatchers.Main.immediate) {
                 ProcessLifecycleOwner.get().lifecycle.addObserver(
                     object : DefaultLifecycleObserver {
                         override fun onStart(owner: LifecycleOwner) {
-                            enqueueWidgetUpdate(context)
+                            scope.launch { widgetUpdater.update() }
                         }
                     },
                 )

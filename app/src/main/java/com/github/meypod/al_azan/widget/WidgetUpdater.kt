@@ -19,6 +19,8 @@ import com.github.meypod.al_azan.core.domain.usecase.BuildWidgetDataUseCase
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Clock
@@ -26,6 +28,10 @@ import kotlin.time.Clock
 /**
  * Recomputes the prayer-times widgets and applies them: redraws the home-screen app widget, posts or
  * cancels the persistent notification widget per the user's toggle, and schedules the next redraw.
+ *
+ * Runs directly from each trigger (alarm/settings/boot/time/locale/foreground/placement) — no
+ * WorkManager — so the redraw happens in the same wake-up that fired it, with no deferral. A [Mutex]
+ * serializes concurrent triggers.
  */
 @Singleton
 class WidgetUpdater @Inject constructor(
@@ -38,43 +44,45 @@ class WidgetUpdater @Inject constructor(
     private val notificationRepository: NotificationRepository,
 ) {
     private val appWidgetManager by lazy { AppWidgetManager.getInstance(context) }
+    private val mutex = Mutex()
 
     private companion object {
         const val TAG = "WidgetUpdater"
     }
 
-    suspend fun update() {
-        val settings = settingsRepository.data.first()
-        val calcSettings = calculationSettingsRepository.data.first()
-        val locations = favoriteLocationsRepository.data.first()
-        val location = locations.firstOrNull { it.id == calcSettings.locationId }?.locationDetail
+    suspend fun update() =
+        mutex.withLock {
+            val settings = settingsRepository.data.first()
+            val calcSettings = calculationSettingsRepository.data.first()
+            val locations = favoriteLocationsRepository.data.first()
+            val location = locations.firstOrNull { it.id == calcSettings.locationId }?.locationDetail
 
-        val data = buildWidgetDataUseCase(Clock.System.now(), settings, calcSettings, location)
+            val data = buildWidgetDataUseCase(Clock.System.now(), settings, calcSettings, location)
 
-        if (data == null) {
-            // Not configured yet: nothing meaningful to show.
-            WidgetRenderCache.lastData = null
-            notificationRepository.cancelNotification(WidgetContract.NOTIFICATION_ID)
-            alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
-            return
+            if (data == null) {
+                // Not configured yet: nothing meaningful to show.
+                WidgetRenderCache.lastData = null
+                notificationRepository.cancelNotification(WidgetContract.NOTIFICATION_ID)
+                alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
+                return@withLock
+            }
+
+            // Cache so PrayerTimesWidget.onUpdate can cheaply re-push if the launcher resets the widget.
+            WidgetRenderCache.lastData = data
+
+            val widgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context, PrayerTimesWidget::class.java))
+            if (widgetIds.isNotEmpty()) {
+                appWidgetManager.updateAppWidget(widgetIds, WidgetRenderer.buildScreenWidget(context, data))
+            }
+            updateNotification(data)
+
+            // Only keep recomputing on a schedule while something is actually on screen.
+            if (widgetIds.isNotEmpty() || data.showNotification) {
+                scheduleNextRedraw(data)
+            } else {
+                alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
+            }
         }
-
-        // Cache so PrayerTimesWidget.onUpdate can cheaply re-push if the launcher resets the widget.
-        WidgetRenderCache.lastData = data
-
-        val widgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context, PrayerTimesWidget::class.java))
-        if (widgetIds.isNotEmpty()) {
-            appWidgetManager.updateAppWidget(widgetIds, WidgetRenderer.buildScreenWidget(context, data))
-        }
-        updateNotification(data)
-
-        // Only keep recomputing on a schedule while something is actually on screen.
-        if (widgetIds.isNotEmpty() || data.showNotification) {
-            scheduleNextRedraw(data)
-        } else {
-            alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
-        }
-    }
 
     private suspend fun updateNotification(data: WidgetData) {
         if (!data.showNotification) {
@@ -106,24 +114,27 @@ class WidgetUpdater @Inject constructor(
             alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
             return
         }
-        // small buffer so the targeted prayer/day has actually elapsed when we recompute
+        // small buffer so the targeted prayer/day has actually elapsed when the alarm recomputes
         val triggerAt = nextMillis + 1_000
         val now = System.currentTimeMillis()
         if (triggerAt <= now) {
-            // A non-future target would fire the redraw alarm immediately and loop forever. This only
-            // happens in a degenerate state (all prayer times in the past for the day); skip and let
-            // the next real trigger (day rollover / settings change) recompute.
+            // A non-future target would fire immediately and loop forever — only happens in a degenerate
+            // state (all prayer times in the past for the day); skip and let the next real trigger recompute.
             Log.w(TAG, "Skipping widget redraw: non-future target nextMillis=$nextMillis now=$now")
             alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
             return
         }
         Log.i(TAG, "Next widget redraw in ${(triggerAt - now) / 1000}s")
+        // Exact but non-wakeup: fires on time when the device is awake, and the OS coalesces it
+        // efficiently while idle (repaints on the next wake) — a cosmetic redraw shouldn't wake the
+        // device. Falls back to inexact (still non-wakeup) if exact-alarm permission is missing.
         alarmRepository.schedule(
             ScheduledAlarm(
                 id = WidgetContract.REDRAW_ALARM_ID,
                 triggerAtMillis = triggerAt,
                 action = WidgetContract.ACTION_WIDGET_UPDATE,
-                type = AlarmType.ExactAllowWhileIdle,
+                type = AlarmType.Exact,
+                wakeup = false,
             ),
         )
     }
