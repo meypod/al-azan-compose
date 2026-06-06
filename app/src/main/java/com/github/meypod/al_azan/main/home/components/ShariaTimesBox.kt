@@ -33,7 +33,7 @@ import kotlin.time.Clock
 @Immutable
 data class ShariaTimesBoxUiState(
     val shariahTimes: ShariaTimes?,
-    val nextShariaTime: ShariaTimeDetails?,
+    val highlightedShariaTime: ShariaTimeDetails?,
     val locale: String = "en-US",
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val is24Hours: Boolean = true,
@@ -70,7 +70,7 @@ fun ShariaTimesBox(
                             getHighlightState(
                                 prayer,
                                 state.shariahTimes,
-                                state.nextShariaTime,
+                                state.highlightedShariaTime,
                             ),
                         ),
                     )
@@ -80,20 +80,20 @@ fun ShariaTimesBox(
     }
 }
 
-private fun getHighlightState(
+internal fun getHighlightState(
     prayer: Prayer,
     shariaTimes: ShariaTimes?,
-    nextShariaTime: ShariaTimeDetails?,
+    highlightedShariaTime: ShariaTimeDetails?,
 ): HighlightState {
-    if (shariaTimes != null && nextShariaTime != null) {
-        if (shariaTimes.forDate == nextShariaTime.forDate) {
-            val pos = (prayer.ordinal - nextShariaTime.prayer.ordinal)
+    if (shariaTimes != null && highlightedShariaTime != null) {
+        if (shariaTimes.forDate == highlightedShariaTime.forDate) {
+            val pos = (prayer.ordinal - highlightedShariaTime.prayer.ordinal)
             return when {
                 pos < 0 -> HighlightState.BeforeHighlight
                 pos == 0 -> HighlightState.Highlighted
                 else -> HighlightState.AfterHighlight
             }
-        } else if (nextShariaTime.forInstant > shariaTimes.forInstant) {
+        } else if (highlightedShariaTime.forInstant > shariaTimes.forInstant) {
             return HighlightState.BeforeHighlight
         }
     }
@@ -127,7 +127,7 @@ private fun ShariaTimesBoxPreview() {
                             instant,
                             instant,
                         ),
-                        nextShariaTime = ShariaTimeDetails(
+                        highlightedShariaTime = ShariaTimeDetails(
                             forInstant = instant,
                             forDate = dateComponents,
                             prayer = Prayer.Asr,

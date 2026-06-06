@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
+import com.github.meypod.al_azan.core.domain.usecase.GetCurrentShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
@@ -37,6 +38,7 @@ class HomeViewModel
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val getNextShariaTimesUseCase: GetNextShariaTimesUseCase,
+    private val getCurrentShariaTimesUseCase: GetCurrentShariaTimesUseCase,
     private val systemChangeRepository: SystemChangeRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -159,6 +161,17 @@ class HomeViewModel
                     } else {
                         null
                     }
+                    val highlightedShariaTime = if (settings.highlightCurrentPrayer && calcSettings.parameters != null && location != null) {
+                        getCurrentShariaTimesUseCase(
+                            instant = currentInstant,
+                            calculationParameters = calcSettings.parameters,
+                            calculationAdjustments = calcSettings.calculationAdjustments,
+                            arabicCalendar = settings.selectedArabicCalendar,
+                            locationDetail = location.locationDetail,
+                        )
+                    } else {
+                        nextShariaTime
+                    }
                     updateScreenJob?.cancel()
                     updateScreenJob = viewModelScope.launch {
                         launch {
@@ -184,6 +197,7 @@ class HomeViewModel
                         isCalculationConfigured = calcSettings.parameters != null,
                         showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
                         nextShariaTime = nextShariaTime,
+                        highlightedShariaTime = highlightedShariaTime,
                         is24Hour = settings.is24HourFormat,
                     )
                 }

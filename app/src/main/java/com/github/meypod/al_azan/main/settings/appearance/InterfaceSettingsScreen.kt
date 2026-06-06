@@ -65,6 +65,7 @@ fun InterfaceSettingsScreen(
         ThemesCard(uiState, onAction)
         PrayerVisibilityCard(uiState, onAction)
         CountdownCard(uiState, onAction)
+        HighlightCurrentPrayerCard(uiState, onAction)
         TimeFormatCard(uiState, onAction)
         NumberingSystemCard(uiState, onAction)
         CalendarsCard(uiState, onAction)
@@ -146,6 +147,23 @@ private fun CountdownCard(
                 subtitle = stringResource(R.string.countdown_timer_help),
                 checked = uiState.settings.showHomeNextPrayerCountdown,
                 onCheckedChange = { onAction(InterfaceSettingsUiAction.OnCountdownTimerToggle(it)) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun HighlightCurrentPrayerCard(
+    uiState: InterfaceSettingsUiState,
+    onAction: (InterfaceSettingsUiAction) -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(Modifier.padding(cardPadding)) {
+            SettingSwitch(
+                title = stringResource(R.string.highlight_current_prayer_time),
+                subtitle = stringResource(R.string.highlight_current_prayer_time_help),
+                checked = uiState.settings.highlightCurrentPrayer,
+                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle(it)) },
             )
         }
     }
@@ -373,6 +391,14 @@ private fun PrayerVisibilityCardPreview() {
 private fun CountdownCardPreview() {
     AlAzanThemePreview {
         CountdownCard(uiState = InterfaceSettingsUiState(), onAction = {})
+    }
+}
+
+@Preview
+@Composable
+private fun HighlightCurrentPrayerCardPreview() {
+    AlAzanThemePreview {
+        HighlightCurrentPrayerCard(uiState = InterfaceSettingsUiState(), onAction = {})
     }
 }
 
