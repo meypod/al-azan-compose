@@ -121,7 +121,7 @@ fun HomeHeader(
                 }
             }
         }
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+        Row(horizontalArrangement = Arrangement.Center) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -132,9 +132,13 @@ fun HomeHeader(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    formatInstant(uiState.viewingInstant, uiState.locale, uiState.arabicCalendar),
+                    formatInstant(uiState.viewingInstant, uiState.arabicCalendarLocale, uiState.arabicCalendar),
                     color = Color.White,
                     style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    softWrap = false,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
                 )
             }
         }
