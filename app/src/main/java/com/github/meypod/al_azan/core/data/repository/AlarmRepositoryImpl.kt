@@ -10,12 +10,13 @@ import com.github.meypod.al_azan.AlarmReceiver
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
+import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
 import com.github.meypod.al_azan.core.util.storage.SimpleJsonDataStore
 import kotlinx.coroutines.flow.first
 
 class AlarmRepositoryImpl(
     private val context: Context,
-    private val store: SimpleJsonDataStore<List<ScheduledAlarm>>,
+    private val store: MMKVDataStore<List<ScheduledAlarm>>,
 ) : AlarmRepository {
 
     companion object {
