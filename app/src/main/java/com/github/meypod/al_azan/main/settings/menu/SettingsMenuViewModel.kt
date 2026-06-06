@@ -34,6 +34,7 @@ class SettingsMenuViewModel
             SettingsMenuUiAction.OnBackClick -> onBackClick()
             SettingsMenuUiAction.OnInterfaceSettingsClick -> onInterfaceSettingsClick()
             SettingsMenuUiAction.OnNotificationAndSoundClick -> onNotificationAndSoundClick()
+            SettingsMenuUiAction.OnAdhanScheduleClick -> onAdhanScheduleClick()
             SettingsMenuUiAction.OnCalculationClick -> onCalculationClick()
             SettingsMenuUiAction.OnLocationClick -> onLocationClick()
             SettingsMenuUiAction.OnTroubleshootClick -> onTroubleshootClick()
@@ -53,6 +54,10 @@ class SettingsMenuViewModel
 
     private fun onNotificationAndSoundClick() {
         NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications)
+    }
+
+    private fun onAdhanScheduleClick() {
+        NavigationController.navigateTo(Route.Main.Settings.SoundAndNotifications.AdhanAndSchedule)
     }
 
     private fun onCalculationClick() {

@@ -20,7 +20,6 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
-import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 
@@ -44,16 +43,8 @@ private fun ColumnScope.AdhanSettingsContent(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
-    AdhanScheduleLinkButton(onAction)
     VibrationModeCard(uiState, onAction)
     ShowUpcomingCard(uiState, onAction)
-}
-
-@Composable
-private fun AdhanScheduleLinkButton(onAction: (AdhanSettingsUiAction) -> Unit) {
-    SettingLinkButton(
-        title = stringResource(R.string.adhan_schedule_title),
-    ) { onAction(AdhanSettingsUiAction.OnAdhanScheduleClick) }
 }
 
 @Composable

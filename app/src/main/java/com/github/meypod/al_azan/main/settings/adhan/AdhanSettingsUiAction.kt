@@ -12,8 +12,6 @@ sealed interface AdhanSettingsUiAction {
         val route: Route = Route.Main.Settings.SoundAndNotifications.Muezzin,
     ) : AdhanSettingsUiAction
 
-    object OnAdhanScheduleClick : AdhanSettingsUiAction
-
     data class OnNotifyClick(
         val prayer: Prayer,
     ) : AdhanSettingsUiAction
