@@ -3,7 +3,6 @@ package com.github.meypod.al_azan.main.home.components
 import android.icu.text.DateFormat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -143,32 +142,35 @@ fun HomeHeader(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
             itemVerticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = if (uiState.showNextPrayerCountdown) Arrangement.SpaceBetween else Arrangement.Center,
-        ) {
-            if (uiState.location == null) {
-                Box {}
+            horizontalArrangement = if (uiState.showNextPrayerCountdown &&
+                uiState.nextShariaTime != null
+            ) {
+                Arrangement.SpaceBetween
             } else {
-                Button(
-                    onClick = { onAction(HomeUiAction.OnLocationTextClick) },
-                    colors = ButtonColors(
-                        Color.Transparent,
-                        Color.White,
-                        Color.White.copy(alpha = 0.6f),
-                        Color.Transparent,
-                    ),
+                Arrangement.Center
+            },
+        ) {
+            Button(
+                onClick = { onAction(HomeUiAction.OnLocationTextClick) },
+                colors = ButtonColors(
+                    Color.Transparent,
+                    Color.White,
+                    Color.White.copy(alpha = 0.6f),
+                    Color.Transparent,
+                ),
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
-                        Text(
-                            uiState.location.locationDetail.toDisplayString(),
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelMedium,
-                            textDecoration = TextDecoration.Underline,
-                        )
-                    }
+                    Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
+                    Text(
+                        uiState.location?.locationDetail?.toDisplayString()
+                            ?: stringResource(R.string.set_location_hint),
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelMedium,
+                        textDecoration = TextDecoration.Underline,
+                    )
                 }
             }
 
