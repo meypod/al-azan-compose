@@ -80,6 +80,13 @@
     <string name="isha_angle">Isha Angle</string>
     <string name="isha_interval">Isha Interval</string>
     <string name="maghrib_angle">Maghrib Angle</string>
+    <string name="edit_calculation_parameters">Edit Calculation Parameters</string>
+    <string name="minutes_unit">minutes</string>
+    <string name="degrees_unit">deg</string>
+    <string name="calculation_method_modified">%1$s (Modified)</string>
+    <string name="close">Close</string>
+    <string name="increase">Increase</string>
+    <string name="decrease">Decrease</string>
     <string name="lunar_calendar_supporting_text">The type of lunar calendar shown in main screen and widgets.</string>
     <string name="lunar_islamic">Islamic</string>
     <string name="lunar_islamic_ummalqura">Islamic (Umm al-Qura)</string>
