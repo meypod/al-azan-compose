@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.model.adhan.NON_PRAYERS_IN_ORDER
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetCurrentShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
@@ -151,6 +152,11 @@ class HomeViewModel
                 _uiState.update {
                     val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
                     val hiddenPrayers = settings.hiddenPrayers.toSet()
+                    val nextExcluded = if (settings.countdownSkipNonPrayers) {
+                        hiddenPrayers + NON_PRAYERS_IN_ORDER
+                    } else {
+                        hiddenPrayers
+                    }
                     val nextShariaTime = if (calcSettings.parameters != null && location != null) {
                         getNextShariaTimesUseCase(
                             instant = currentInstant,
@@ -158,7 +164,7 @@ class HomeViewModel
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
-                            excluding = hiddenPrayers,
+                            excluding = nextExcluded,
                         )
                     } else {
                         null

@@ -105,4 +105,13 @@ class ShariaTimesTest {
             times().currentPrayer(at(18.5), excluding = setOf(Prayer.Sunset, Prayer.Maghrib)),
         )
     }
+
+    @Test
+    fun `nextPrayer skips non-prayers when those are excluded`() {
+        // at 05:30 next would be Sunrise (a non-prayer); excluding non-prayers -> Dhuhr
+        assertEquals(
+            Prayer.Dhuhr,
+            times().nextPrayer(at(5.5), excluding = NON_PRAYERS_IN_ORDER.toSet()),
+        )
+    }
 }

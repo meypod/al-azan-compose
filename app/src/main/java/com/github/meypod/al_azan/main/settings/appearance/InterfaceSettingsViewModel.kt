@@ -38,6 +38,7 @@ class InterfaceSettingsViewModel @Inject constructor(
                 settings.copy(hiddenPrayers = hidden)
             }
             is InterfaceSettingsUiAction.OnCountdownTimerToggle -> update { it.copy(showHomeNextPrayerCountdown = action.value) }
+            is InterfaceSettingsUiAction.OnCountdownSkipNonPrayersToggle -> update { it.copy(countdownSkipNonPrayers = action.value) }
             is InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle -> update { it.copy(highlightCurrentPrayer = action.value) }
             is InterfaceSettingsUiAction.OnTimeFormatToggle -> update { it.copy(is24HourFormat = action.use24) }
             is InterfaceSettingsUiAction.OnNumberingSystemChange -> update { it.copy(numberingSystem = action.value) }
