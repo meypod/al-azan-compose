@@ -85,4 +85,24 @@ class ShariaTimesTest {
     fun `nextPrayer is null after the last time`() {
         assertNull(times().nextPrayer(at(28.0)))
     }
+
+    // --- excluding (hidden prayers) skips to the next/previous visible one ---
+
+    @Test
+    fun `nextPrayer skips excluded prayers`() {
+        // at 13:00 next is Asr, but Asr hidden -> Sunset
+        assertEquals(
+            Prayer.Sunset,
+            times().nextPrayer(at(13.0), excluding = setOf(Prayer.Asr)),
+        )
+    }
+
+    @Test
+    fun `currentPrayer skips excluded prayers`() {
+        // at 18:30 current is Sunset/Maghrib region; hide Maghrib and Sunset -> Asr
+        assertEquals(
+            Prayer.Asr,
+            times().currentPrayer(at(18.5), excluding = setOf(Prayer.Sunset, Prayer.Maghrib)),
+        )
+    }
 }

@@ -150,6 +150,7 @@ class HomeViewModel
                 ->
                 _uiState.update {
                     val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
+                    val hiddenPrayers = settings.hiddenPrayers.toSet()
                     val nextShariaTime = if (calcSettings.parameters != null && location != null) {
                         getNextShariaTimesUseCase(
                             instant = currentInstant,
@@ -157,6 +158,7 @@ class HomeViewModel
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
+                            excluding = hiddenPrayers,
                         )
                     } else {
                         null
@@ -168,6 +170,7 @@ class HomeViewModel
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
+                            excluding = hiddenPrayers,
                         )
                     } else {
                         nextShariaTime
@@ -199,6 +202,7 @@ class HomeViewModel
                         nextShariaTime = nextShariaTime,
                         highlightedShariaTime = highlightedShariaTime,
                         is24Hour = settings.is24HourFormat,
+                        hiddenPrayers = settings.hiddenPrayers,
                     )
                 }
             }.collect()

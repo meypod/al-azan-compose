@@ -239,6 +239,7 @@ fun HomeScreen(
                             numberingSystem = uiState.numberingSystem,
                             is24Hours = uiState.is24Hour,
                             highlightedShariaTime = uiState.highlightedShariaTime,
+                            hiddenPrayers = uiState.hiddenPrayers,
                         ),
                     )
                 }
