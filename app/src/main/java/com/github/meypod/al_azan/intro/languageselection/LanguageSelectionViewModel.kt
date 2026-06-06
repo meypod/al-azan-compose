@@ -1,10 +1,9 @@
 package com.github.meypod.al_azan.intro.languageselection
 
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.usecase.ChangeLanguageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +17,7 @@ class LanguageSelectionViewModel
 @Inject
 constructor(
     private val settingsRepository: SettingsRepository,
+    private val changeLanguageUseCase: ChangeLanguageUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LanguageSelectionUiState())
     val uiState = _uiState.asStateFlow()
@@ -42,18 +42,10 @@ constructor(
 
     private fun onLanguageSelected(locale: String) {
         viewModelScope.launch {
-            settingsRepository.update { currentSettings ->
-                currentSettings.copy(
-                    selectedLocale = locale,
-                    selectedArabicCalendar = if (locale.startsWith("fa")) "islamic-civil" else "islamic",
-                )
-            }
+            changeLanguageUseCase(locale)
         }
         _uiState.update {
             it.copy(selectedLocale = locale)
         }
-        AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(locale),
-        )
     }
 }

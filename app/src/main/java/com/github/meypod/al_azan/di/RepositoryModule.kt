@@ -4,6 +4,7 @@ import android.content.Context
 import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositoryImpl
@@ -21,6 +22,7 @@ import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLoc
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
@@ -54,6 +56,10 @@ private object StorageKeysV2 {
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+    @Provides
+    @Singleton
+    fun provideAppLocaleManager(): AppLocaleManager = AppLocaleManagerImpl()
+
     @Provides
     @Singleton
     fun provideNewSettingsRepository(
