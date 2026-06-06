@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.domain.usecase
 
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
@@ -21,6 +22,14 @@ class BuildWidgetDataUseCase @Inject constructor(
     private val getNextShariaTimesUseCase: GetNextShariaTimesUseCase,
     private val formatter: WidgetFormatter,
 ) {
+    private companion object {
+        // When the current prayer is hidden, highlight the earlier prayer of its combinable pair.
+        val HIDDEN_CURRENT_FALLBACK = mapOf(
+            Prayer.Isha to Prayer.Maghrib,
+            Prayer.Asr to Prayer.Dhuhr,
+        )
+    }
+
     operator fun invoke(
         instant: Instant,
         settings: Settings,
@@ -51,9 +60,15 @@ class BuildWidgetDataUseCase @Inject constructor(
         )
 
         val activePrayer = if (settings.highlightCurrentPrayer) {
-            // Consider hidden prayers too: once a hidden prayer (e.g. Midnight) becomes current, no
-            // visible row should highlight — even though the countdown still targets the next visible one.
-            shariaTimes.currentPrayer(instant)
+            // Determine the current prayer considering hidden ones too. If it's visible, highlight it.
+            // If it's hidden, only the two combinable pairs fall back to their earlier prayer (when that
+            // one is visible); any other hidden current prayer highlights nothing (e.g. after Midnight).
+            val current = shariaTimes.currentPrayer(instant)
+            when {
+                current == null -> null
+                current !in hidden -> current
+                else -> HIDDEN_CURRENT_FALLBACK[current]?.takeUnless { it in hidden }
+            }
         } else {
             nextShariaTime?.prayer
         }
