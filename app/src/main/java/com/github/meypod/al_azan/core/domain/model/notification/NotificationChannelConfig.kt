@@ -23,4 +23,11 @@ data class NotificationChannelConfig(
      * set `null` for default ringtone
      */
     val soundUri: String? = null,
+    /** When true the channel is allowed to interrupt Do Not Disturb. */
+    val canBypassDnd: Boolean = false,
+    /**
+     * When true the channel itself stays audibly silent because the audio is produced elsewhere (the
+     * foreground playback service), e.g. for the adhan. Importance is still kept high for heads-up.
+     */
+    val soundHandledExternally: Boolean = false,
 )

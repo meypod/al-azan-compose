@@ -119,6 +119,10 @@ data class Settings(
     val travelModeLastUpdateMillis: Long? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
     val countdownSkipNonPrayers: Boolean = false,
+    /** Epoch millis until which adhan alarms are suppressed ("Dismiss & silent"). Null = not silenced. */
+    val adhanSilencedUntilMillis: Long? = null,
+    /** Interruption filter to restore when the "Dismiss & silent" DND window ends. Null = nothing to restore. */
+    val dndRestoreFilter: Int? = null,
 )
 
 @Serializable
@@ -214,6 +218,7 @@ enum class ThemeColor {
 @Serializable(with = AudioEntrySerializer::class)
 sealed interface AudioEntry {
     val id: String
+    val loop: Boolean
 
     @Serializable
     data class ResourceAudioEntry(
@@ -221,6 +226,7 @@ sealed interface AudioEntry {
         @param:RawRes val resId: Int? = null,
         @param:StringRes val labelResId: Int = R.string.unknown,
     ) : AudioEntry {
+        override val loop: Boolean = false
         val canDelete: Boolean = false
     }
 
@@ -229,6 +235,7 @@ sealed interface AudioEntry {
         override val id: String,
         @Serializable(with = EmptyStringAsNullSerializer::class) val filepath: String? = null,
         val label: String = "",
+        override val loop: Boolean = false,
     ) : AudioEntry {
         val canDelete: Boolean = true
     }

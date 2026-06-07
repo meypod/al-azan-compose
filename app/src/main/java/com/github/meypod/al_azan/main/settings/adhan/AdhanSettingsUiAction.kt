@@ -78,6 +78,14 @@ sealed interface AdhanSettingsUiAction {
         val enabled: Boolean,
     ) : AdhanSettingsUiAction
 
+    data class OnAutoSilentOnDismissToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnAutoSilentDurationChange(
+        val minutes: Int,
+    ) : AdhanSettingsUiAction
+
     object OnNotificationSettingsClick : AdhanSettingsUiAction
     object OnPlaybackSettingsClick : AdhanSettingsUiAction
 

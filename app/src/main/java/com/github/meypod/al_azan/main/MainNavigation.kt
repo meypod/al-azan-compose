@@ -27,6 +27,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
 import com.github.meypod.al_azan.main.about.AboutScreen
+import com.github.meypod.al_azan.main.about.AboutViewModel
 import com.github.meypod.al_azan.main.counter.CounterScreen
 import com.github.meypod.al_azan.main.counter.CounterViewModel
 import com.github.meypod.al_azan.main.home.HomePermissionGate
@@ -58,6 +59,8 @@ import com.github.meypod.al_azan.main.settings.calculation.adjustments.Adjustmen
 import com.github.meypod.al_azan.main.settings.calculation.adjustments.AdjustmentsViewModel
 import com.github.meypod.al_azan.main.settings.calculation.advanced.AdvancedCalcScreen
 import com.github.meypod.al_azan.main.settings.calculation.advanced.AdvancedCalcViewModel
+import com.github.meypod.al_azan.main.settings.developer.DeveloperScreen
+import com.github.meypod.al_azan.main.settings.developer.DeveloperViewModel
 import com.github.meypod.al_azan.main.settings.menu.SettingsMenuScreen
 import com.github.meypod.al_azan.main.settings.menu.SettingsMenuViewModel
 import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootScreen
@@ -182,7 +185,8 @@ fun MainNavigation(
                 SettingsMenuScreen(s, vm::onAction)
             }
             entry<Route.Main.About> {
-                AboutScreen()
+                val vm = hiltViewModel<AboutViewModel>()
+                AboutScreen(vm::onAction)
             }
             entry<Route.Main.MonthlyView> {
                 val vm = hiltViewModel<MonthlyViewViewModel>()
@@ -249,6 +253,10 @@ fun MainNavigation(
             entry<Route.Main.Settings.BackupAndRestore> {
                 val vm = hiltViewModel<BackupRestoreViewModel>()
                 BackupRestoreScreen(vm::onAction)
+            }
+            entry<Route.Main.Settings.Developer> {
+                val vm = hiltViewModel<DeveloperViewModel>()
+                DeveloperScreen(vm::onAction)
             }
             entry<Route.Main.Settings.Calculations.Adjustments> {
                 val vm = hiltViewModel<AdjustmentsViewModel>()

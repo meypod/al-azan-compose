@@ -17,6 +17,7 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.animateTo
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,6 +71,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ChevronsUpAnimated
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
@@ -219,18 +221,19 @@ fun AlarmFullscreenScreen(
                 ) {
                     AlarmActionMenu(
                         dismissAndSilentMinutes = uiState.dismissAndSilentMinutes,
-                        shortSnoozeMinutes = uiState.shortSnoozeMinutes,
-                        longSnoozeMinutes = uiState.longSnoozeMinutes,
+                        shortRemindMinutes = uiState.shortRemindMinutes,
+                        longRemindMinutes = uiState.longRemindMinutes,
+                        autoSilentOnDismiss = uiState.autoSilentOnDismiss,
                         onDismissAndSilent = {
                             onAction(AlarmFullscreenUiAction.OnDismissAndSilent)
                             resetToPill()
                         },
-                        onShortSnooze = {
-                            onAction(AlarmFullscreenUiAction.OnShortSnooze)
+                        onShortRemind = {
+                            onAction(AlarmFullscreenUiAction.OnShortRemind)
                             resetToPill()
                         },
-                        onLongSnooze = {
-                            onAction(AlarmFullscreenUiAction.OnLongSnooze)
+                        onLongRemind = {
+                            onAction(AlarmFullscreenUiAction.OnLongRemind)
                             resetToPill()
                         },
                         onJustDismiss = {
@@ -291,7 +294,11 @@ fun AlarmFullscreenScreen(
                                 state = dragState,
                                 orientation = Orientation.Vertical,
                                 flingBehavior = flingBehavior,
-                            ),
+                            )
+                            // Tapping the pill dismisses, same as "just dismiss" in the swipe-up menu.
+                            .pointerInput(Unit) {
+                                detectTapGestures(onTap = { onAction(AlarmFullscreenUiAction.OnDismiss) })
+                            },
                     ) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             Row(
@@ -408,11 +415,12 @@ private fun Ring(
 @Composable
 private fun AlarmActionMenu(
     dismissAndSilentMinutes: Int,
-    shortSnoozeMinutes: Int,
-    longSnoozeMinutes: Int,
+    shortRemindMinutes: Int,
+    longRemindMinutes: Int,
+    autoSilentOnDismiss: Boolean,
     onDismissAndSilent: () -> Unit,
-    onShortSnooze: () -> Unit,
-    onLongSnooze: () -> Unit,
+    onShortRemind: () -> Unit,
+    onLongRemind: () -> Unit,
     onJustDismiss: () -> Unit,
 ) {
     Surface(
@@ -426,21 +434,28 @@ private fun AlarmActionMenu(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            MenuPillButton(
-                text = stringResource(R.string.alarm_dismiss_and_silent, dismissAndSilentMinutes),
-                iconRes = R.drawable.alarm_silent,
-                onClick = onDismissAndSilent,
-            )
-            MenuPillButton(
-                text = stringResource(R.string.alarm_snooze, shortSnoozeMinutes),
-                iconRes = R.drawable.alarm_snooze,
-                onClick = onShortSnooze,
-            )
-            MenuPillButton(
-                text = stringResource(R.string.alarm_snooze, longSnoozeMinutes),
-                iconRes = R.drawable.alarm_snooze,
-                onClick = onLongSnooze,
-            )
+            // Hidden unless the app holds DND policy access (minutes gated to 0 in the ViewModel).
+            if (dismissAndSilentMinutes > 0) {
+                MenuPillButton(
+                    text = stringResource(R.string.alarm_dismiss_and_silent, dismissAndSilentMinutes),
+                    iconRes = R.drawable.alarm_silent,
+                    onClick = onDismissAndSilent,
+                )
+            }
+            if (shortRemindMinutes > 0) {
+                MenuPillButton(
+                    text = stringResource(R.string.alarm_remind, shortRemindMinutes),
+                    iconRes = R.drawable.alarm_snooze,
+                    onClick = onShortRemind,
+                )
+            }
+            if (longRemindMinutes > 0) {
+                MenuPillButton(
+                    text = stringResource(R.string.alarm_remind, longRemindMinutes),
+                    iconRes = R.drawable.alarm_snooze,
+                    onClick = onLongRemind,
+                )
+            }
             Button(
                 onClick = onJustDismiss,
                 shape = RoundedCornerShape(40.dp),
@@ -450,7 +465,11 @@ private fun AlarmActionMenu(
                 ),
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
             ) {
-                Text(stringResource(R.string.alarm_just_dismiss))
+                Text(
+                    stringResource(
+                        if (autoSilentOnDismiss) R.string.alarm_just_dismiss_silence else R.string.alarm_just_dismiss,
+                    ),
+                )
             }
         }
     }
@@ -481,15 +500,15 @@ private fun MenuPillButton(
 @Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Initial pill")
 @Composable
 private fun AlarmFullscreenInitialPreview() {
-    AlAzanTheme {
+    AlAzanTheme(ThemeColor.Light) {
         AlarmFullscreenScreen(
             uiState = AlarmFullscreenUiState(
                 header = stringResource(R.string.alarm_azan_header),
                 title = "Maghrib",
                 timeLabel = "19:38",
                 dismissAndSilentMinutes = 15,
-                shortSnoozeMinutes = 15,
-                longSnoozeMinutes = 30,
+                shortRemindMinutes = 15,
+                longRemindMinutes = 30,
             ),
             onAction = {},
         )
@@ -499,7 +518,7 @@ private fun AlarmFullscreenInitialPreview() {
 @Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Menu open")
 @Composable
 private fun AlarmFullscreenMenuPreview() {
-    AlAzanTheme {
+    AlAzanTheme(ThemeColor.Light) {
         Box(
             Modifier
                 .fillMaxSize()
@@ -508,11 +527,12 @@ private fun AlarmFullscreenMenuPreview() {
             Box(Modifier.align(Alignment.Center)) {
                 AlarmActionMenu(
                     dismissAndSilentMinutes = 15,
-                    shortSnoozeMinutes = 15,
-                    longSnoozeMinutes = 30,
+                    shortRemindMinutes = 15,
+                    longRemindMinutes = 30,
+                    autoSilentOnDismiss = false,
                     onDismissAndSilent = {},
-                    onShortSnooze = {},
-                    onLongSnooze = {},
+                    onShortRemind = {},
+                    onLongRemind = {},
                     onJustDismiss = {},
                 )
             }

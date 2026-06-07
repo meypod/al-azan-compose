@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
+    <!-- Launch the full-screen adhan alarm over the lock screen (required on Android 14+) -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -52,6 +54,16 @@
             </intent-filter>
         </activity>
 
+        <!-- Full-screen adhan alarm; shows over the lock screen and turns the screen on. -->
+        <activity
+            android:name=".alarm.AlarmActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:theme="@style/Theme.AlAzan" />
+
         <receiver
             android:name=".BootReceiver"
             android:exported="false">
@@ -76,10 +88,22 @@
             </intent-filter>
         </receiver>
 
-        <!-- Fires scheduled widget-redraw alarms (and future prayer alarms). -->
+        <!-- Fires scheduled widget-redraw + adhan alarms. The cancel filter receives the pre-alarm's
+             "Cancel" action (sent targeted to this package). -->
         <receiver
             android:name=".AlarmReceiver"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.github.meypod.al_azan.action.CANCEL_ADHAN" />
+                <action android:name="com.github.meypod.al_azan.action.CANCEL_REMINDER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Plays the adhan as a foreground service when an alarm fires. -->
+        <service
+            android:name=".playback.PlaybackService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
         <!-- Home-screen prayer-times app widget. -->
         <receiver

@@ -13,4 +13,5 @@ sealed interface HomeUiAction {
     object OnSettingsLinkClick : HomeUiAction
     object OnAboutLinkClick : HomeUiAction
     object OnMonthlyViewClick : HomeUiAction
+    object OnDeveloperLinkClick : HomeUiAction
 }

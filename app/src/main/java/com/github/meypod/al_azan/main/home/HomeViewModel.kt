@@ -113,6 +113,7 @@ class HomeViewModel
             HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
             HomeUiAction.OnAboutLinkClick -> onAboutLinkClick()
             HomeUiAction.OnMonthlyViewClick -> NavigationController.navigateTo(Route.Main.MonthlyView)
+            HomeUiAction.OnDeveloperLinkClick -> NavigationController.navigateTo(Route.Main.Settings.Developer)
         }
     }
 
@@ -256,6 +257,7 @@ class HomeViewModel
                         highlightedShariaTime = highlightedShariaTime,
                         is24Hour = settings.is24HourFormat,
                         hiddenPrayers = settings.hiddenPrayers,
+                        isDeveloper = settings.devMode,
                     )
                 }
             }.collect()

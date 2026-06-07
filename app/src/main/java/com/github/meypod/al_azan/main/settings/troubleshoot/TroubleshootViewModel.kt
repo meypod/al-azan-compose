@@ -1,7 +1,9 @@
 package com.github.meypod.al_azan.main.settings.troubleshoot
 
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
+import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
@@ -47,6 +49,8 @@ class TroubleshootViewModel
             it.copy(
                 appIsAllowedToKeepRunning = !PowerManagerUtils.isBatteryOptimizationEnabled(context),
                 powerManagerInfo = PowerManagerUtils.getPowerManagerInfo(context),
+                dndAccessGranted =
+                    context.getSystemService<NotificationManager>()?.isNotificationPolicyAccessGranted == true,
             )
         }
     }

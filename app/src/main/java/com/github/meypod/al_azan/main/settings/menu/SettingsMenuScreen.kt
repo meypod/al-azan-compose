@@ -115,18 +115,9 @@ fun SettingsMenuScreen(
             }
             MenuListItem(
                 R.string.backup_and_restore_title,
-                R.drawable.bell_cog_outline,
+                R.drawable.outline_backup_24,
             ) {
                 onAction(SettingsMenuUiAction.OnBackupAndRestoreClick)
-            }
-
-            if (uiState.isDeveloper) {
-                MenuListItem(
-                    R.string.developer_title,
-                    R.drawable.person_outline,
-                ) {
-                    onAction(SettingsMenuUiAction.OnDeveloperClick)
-                }
             }
         }
     }
@@ -164,9 +155,7 @@ private fun MenuListItem(
 private fun SettingsMenuPreview() {
     AlAzanTheme {
         SettingsMenuScreen(
-            uiState = SettingsMenuUiState(
-                isDeveloper = true,
-            ),
+            uiState = SettingsMenuUiState(),
             onAction = {},
         )
     }

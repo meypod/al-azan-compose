@@ -8,6 +8,8 @@ data class AlarmFullscreenUiState(
     val title: String = "",
     val timeLabel: String = "",
     val dismissAndSilentMinutes: Int = 0,
-    val shortSnoozeMinutes: Int = 0,
-    val longSnoozeMinutes: Int = 0,
+    val shortRemindMinutes: Int = 0,
+    val longRemindMinutes: Int = 0,
+    /** When true, dismissing silences the phone — so the plain dismiss button says so. */
+    val autoSilentOnDismiss: Boolean = false,
 )

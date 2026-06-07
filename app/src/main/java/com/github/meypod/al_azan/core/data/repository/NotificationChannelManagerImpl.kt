@@ -1,10 +1,11 @@
 package com.github.meypod.al_azan.core.data.repository
 
+import android.app.NotificationChannel
 import android.content.Context
 import android.media.AudioAttributes
-import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
+import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.data.mapping.asString
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationChannelConfig
 import com.github.meypod.al_azan.core.domain.model.notification.toNotificationManagerCompat
@@ -16,6 +17,15 @@ class NotificationChannelManagerImpl @Inject constructor(
     @param:ApplicationContext private val context: Context,
 ) : NotificationChannelManager {
     private val notificationManager = NotificationManagerCompat.from(context)
+
+    // A bundled near-silent sound. Set on sound-handled-externally channels instead of null so the channel keeps its
+    // (HIGH) importance — heads-up / full-screen behavior — while the playback service produces audio.
+    private val silenceUri = "android.resource://${context.packageName}/${R.raw.silence}".toUri()
+
+    private val alarmAudioAttributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_ALARM)
+        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+        .build()
 
     /**
      * Ensures all defined channels exist with the latest configuration.
@@ -33,34 +43,36 @@ class NotificationChannelManagerImpl @Inject constructor(
         notificationManager.deleteNotificationChannel(channelId)
     }
 
+    /**
+     * Builds the platform [NotificationChannel] directly (min SDK is 26, so channels are always
+     * available, and only the platform type can set [NotificationChannel.setBypassDnd]). The bypass
+     * flag only takes effect once the user grants notification-policy access.
+     */
     private fun createOrUpdateChannel(config: NotificationChannelConfig) {
-        val builder = NotificationChannelCompat.Builder(
+        val channel = NotificationChannel(
             config.id,
+            config.name.asString(context),
             config.importanceLevel.toNotificationManagerCompat(),
-        )
-            .setName(config.name.asString(context))
-            .setDescription(config.description.asString(context))
-            .setShowBadge(config.showBadge)
-            .setVibrationEnabled(config.vibrationEnabled).let {
-                if (config.vibrationPattern != null) {
-                    it.setVibrationPattern(config.vibrationPattern.toLongArray())
-                } else {
-                    it
-                }
-            }.let {
-                if (config.soundUri != null) {
-                    it.setSound(
-                        config.soundUri.toUri(),
-                        AudioAttributes.Builder()
-                            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                            .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
-                            .build(),
-                    )
-                } else {
-                    it
-                }
-            }
+        ).apply {
+            description = config.description.asString(context)
+            setShowBadge(config.showBadge)
+            enableVibration(config.vibrationEnabled)
+            config.vibrationPattern?.let { vibrationPattern = it.toLongArray() }
+            when {
+                // Keep importance (heads-up / full-screen) but stay audibly silent; the playback
+                // service produces the actual audio.
+                config.soundHandledExternally -> setSound(silenceUri, alarmAudioAttributes)
 
-        notificationManager.createNotificationChannel(builder.build())
+                config.soundUri != null -> setSound(
+                    config.soundUri.toUri(),
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
+                        .build(),
+                )
+            }
+            if (config.canBypassDnd) setBypassDnd(true)
+        }
+        notificationManager.createNotificationChannel(channel)
     }
 }

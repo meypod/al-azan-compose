@@ -162,7 +162,10 @@ class NotificationRepositoryImpl @Inject constructor(
         PendingIntentCompat.getBroadcast(
             context,
             action.requestCode,
-            Intent(action.action),
+            // Target our own package so it reaches a manifest receiver despite O+ implicit-broadcast limits.
+            Intent(action.action).setPackage(context.packageName).apply {
+                action.extras.forEach { (key, value) -> putExtra(key, value) }
+            },
             PendingIntent.FLAG_UPDATE_CURRENT,
             false,
         )
