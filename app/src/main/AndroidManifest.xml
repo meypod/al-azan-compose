@@ -88,6 +88,16 @@
             </intent-filter>
         </receiver>
 
+        <!-- Reconciles alarms (exact <-> inexact) when exact-alarm permission is granted/revoked (API 31+),
+             so scheduling is correct no matter the order the user grants permissions. -->
+        <receiver
+            android:name=".ExactAlarmPermissionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <!-- Fires scheduled widget-redraw + adhan alarms. The cancel filter receives the pre-alarm's
              "Cancel" action (sent targeted to this package). -->
         <receiver
