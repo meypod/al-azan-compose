@@ -26,6 +26,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +46,8 @@ import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
+import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.localized
 import com.github.meypod.al_azan.main.reminder.components.ReminderEditSheet
 
@@ -54,6 +58,22 @@ fun ReminderScreen(
     onAction: (ReminderUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // Enabling a reminder needs notification + exact-alarm permissions, same flow as adhan/widget.
+    // guardEnable runs the flow on enable and stores how to snap the reminder(s) back off if denied.
+    // "Don't ask again" is offered only by the home re-check, not here (allowDontAskAgain stays false).
+    val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
+    val requestPermissions = rememberSchedulingPermissionRequest(
+        isDontAskAgain = { false },
+        onDontAskAgain = {},
+        onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },
+    )
+    fun guardEnable(enabling: Boolean, revert: () -> Unit) {
+        if (enabling) {
+            pendingRevert.value = revert
+            requestPermissions(SchedulingPermissionSteps.reminder)
+        }
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -106,7 +126,11 @@ fun ReminderScreen(
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                 ) {
                     PrimaryButton(
-                        onClick = { onAction(ReminderUiAction.OnBulkTurnOn) },
+                        onClick = {
+                            val ids = uiState.selectedIds
+                            onAction(ReminderUiAction.OnBulkTurnOn)
+                            guardEnable(true) { onAction(ReminderUiAction.OnSetEnabled(ids, false)) }
+                        },
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Icon(painterResource(R.drawable.alarm), null)
@@ -165,6 +189,10 @@ fun ReminderScreen(
                             isSelected = r.id in uiState.selectedIds,
                             selectionMode = uiState.selectionMode,
                             onAction = onAction,
+                            onEnabledChange = { enabled ->
+                                onAction(ReminderUiAction.OnToggleEnabled(r.id, enabled))
+                                guardEnable(enabled) { onAction(ReminderUiAction.OnSetEnabled(setOf(r.id), false)) }
+                            },
                         )
                     }
                 }
@@ -172,7 +200,17 @@ fun ReminderScreen(
         }
     }
 
-    uiState.editDraft?.let { ReminderEditSheet(draft = it, onAction = onAction) }
+    uiState.editDraft?.let {
+        ReminderEditSheet(
+            draft = it,
+            onAction = onAction,
+            onSave = {
+                // Saving creates/keeps an enabled reminder; prompt for the permissions it needs.
+                onAction(ReminderUiAction.OnDraftSave)
+                guardEnable(true) {}
+            },
+        )
+    }
 
     if (uiState.deletingReminderId != null || uiState.deletingBulk) {
         val deletingLabel = uiState.deletingReminderId?.let { id ->
@@ -231,6 +269,7 @@ private fun ReminderRow(
     isSelected: Boolean,
     selectionMode: Boolean,
     onAction: (ReminderUiAction) -> Unit,
+    onEnabledChange: (Boolean) -> Unit = {},
 ) {
     val bg = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f) else Color.Transparent
     val layoutDirection = LocalLayoutDirection.current
@@ -300,7 +339,7 @@ private fun ReminderRow(
             )
             Switch(
                 checked = reminder.enabled,
-                onCheckedChange = { onAction(ReminderUiAction.OnToggleEnabled(reminder.id, it)) },
+                onCheckedChange = onEnabledChange,
             )
         }
     }

@@ -39,6 +39,10 @@ class ReminderViewModel @Inject constructor(
                 reminderRepository.update { list -> list.map { if (it.id == action.id) it.copy(enabled = action.enabled) else it } }
             }
 
+            is ReminderUiAction.OnSetEnabled -> viewModelScope.launch {
+                reminderRepository.update { list -> list.map { if (it.id in action.ids) it.copy(enabled = action.enabled) else it } }
+            }
+
             is ReminderUiAction.OnItemClick -> {
                 if (_uiState.value.selectionMode) {
                     toggleSelection(action.id)

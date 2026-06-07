@@ -51,6 +51,7 @@ private val DURATIONS = listOf(5, 10, 15, 30, 60)
 fun ReminderEditSheet(
     draft: ReminderEditDraft,
     onAction: (ReminderUiAction) -> Unit,
+    onSave: () -> Unit = { onAction(ReminderUiAction.OnDraftSave) },
 ) {
     val resources = LocalResources.current
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -174,7 +175,7 @@ fun ReminderEditSheet(
                 ) {
                     Text(stringResource(R.string.cancel))
                 }
-                PrimaryButton(onClick = { onAction(ReminderUiAction.OnDraftSave) }) {
+                PrimaryButton(onClick = onSave) {
                     Text(if (draft.id == null) stringResource(R.string.confirm) else stringResource(R.string.reminder_save))
                 }
             }

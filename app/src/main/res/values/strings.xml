@@ -475,6 +475,10 @@
     <string name="adhan_notification_permission_denied_text">Notification access is required for adhan alarms. Enable notifications for this app in settings.</string>
     <string name="adhan_exact_alarm_permission_rationale">Adhan alarms must fire at the exact prayer time. Allow this app to schedule exact alarms.</string>
     <string name="adhan_exact_alarm_permission_denied_text">Exact alarm access is required for adhan alarms to fire on time. Allow it for this app in settings.</string>
+    <string name="reminder_notification_permission_rationale">Reminders post a notification at the scheduled time. Allow notifications to enable them.</string>
+    <string name="reminder_notification_permission_denied_text">Notification access is required for reminders. Enable notifications for this app in settings.</string>
+    <string name="reminder_exact_alarm_permission_rationale">Reminders must fire at the exact scheduled time. Allow this app to schedule exact alarms.</string>
+    <string name="reminder_exact_alarm_permission_denied_text">Exact alarm access is required for reminders to fire on time. Allow it for this app in settings.</string>
     <string name="full_screen_intent_permission_title">Allow full-screen alarms</string>
     <string name="adhan_full_screen_intent_permission_rationale">To show the adhan alarm over your lock screen and wake the display, allow this app to use full-screen alarms.</string>
     <string name="adhan_full_screen_intent_permission_denied_text">Without full-screen access the adhan alarm won\'t show over the lock screen. You can allow it later in settings.</string>
