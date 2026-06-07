@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.domain.repository.NotificationChannelManager
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import dagger.hilt.EntryPoint
@@ -37,8 +38,35 @@ constructor(
     private val oldCounterRepositoryProvider: Provider<OldCounterRepositoryImpl>,
     private val oldReminderRepositoryProvider: Provider<OldReminderRepositoryImpl>,
     private val oldFavoriteLocationsRepositoryProvider: Provider<OldFavoriteLocationsRepositoryImpl>,
+    private val notificationChannelManager: NotificationChannelManager,
 ) {
+    private companion object {
+        /**
+         * Channel ids from the old (React Native / notifee) app. They use a different id scheme than the
+         * v2 channels, so deleting them on migration just clears the stale entries from system settings.
+         * Includes the pre-"-1" ids the old app itself orphaned when it bumped adhan/reminder channels,
+         * so users upgrading from a very old version don't keep those ghosts either.
+         */
+        val LEGACY_CHANNEL_IDS = listOf(
+            "adhan-channel-1",
+            "adhan-channel",
+            "adhan-dnd-channel-1",
+            "adhan-dnd-channel",
+            "pre-adhan-channel",
+            "widget-channel",
+            "widget-update-channel",
+            "reminder-channel-1",
+            "reminder-channel",
+            "reminder-dnd-channel-1",
+            "reminder-dnd-channel",
+            "pre-reminder-channel",
+            "important-channel",
+        )
+    }
+
     suspend fun run() {
+        LEGACY_CHANNEL_IDS.forEach { notificationChannelManager.deleteChannel(it) }
+
         val oldSettings = oldSettingsRepositoryProvider.get().fetch()
         val oldCalculationSettings = oldCalculationSettingsRepositoryProvider.get().fetch()
         val oldAlarmSettings = oldAlarmSettingsRepositoryProvider.get().fetch()
