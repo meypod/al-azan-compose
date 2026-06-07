@@ -72,11 +72,15 @@ class HomeViewModel
     }
 
     /** What the home permission gate needs to decide which permissions to re-request on load. */
-    suspend fun permissionCheck(): HomePermissionCheck =
-        HomePermissionCheck(
-            adhanScheduled = alarmSettingsRepository.data.first().hasAnyEnabledSchedule(),
+    suspend fun permissionCheck(): HomePermissionCheck {
+        val alarmSettings = alarmSettingsRepository.data.first()
+        return HomePermissionCheck(
+            adhanScheduled = alarmSettings.hasAnyEnabledSchedule(),
             hasScheduledAlarms = alarmRepository.getScheduled().isNotEmpty(),
+            fullScreenRequired = alarmSettings.hasAnySoundSchedule(),
+            dndRequired = settingsRepository.data.first().bypassDnd,
         )
+    }
 
     fun isDontAskAgain(permission: SchedulingPermission): Boolean = latestSettings?.isDontAskAgain(permission) ?: false
 
@@ -98,6 +102,9 @@ class HomeViewModel
         SHARIA_TIMES_IN_ORDER.any {
             getNotifSettings(it).selectedDays().isNotEmpty() || getSoundSettings(it).selectedDays().isNotEmpty()
         }
+
+    private fun AlarmSettings.hasAnySoundSchedule(): Boolean =
+        SHARIA_TIMES_IN_ORDER.any { getSoundSettings(it).selectedDays().isNotEmpty() }
 
     fun onAction(action: HomeUiAction) {
         when (action) {

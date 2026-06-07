@@ -13,6 +13,10 @@ import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPerm
 data class HomePermissionCheck(
     val adhanScheduled: Boolean,
     val hasScheduledAlarms: Boolean,
+    /** Adhan plays a sound → the full-screen alarm needs full-screen-intent access. */
+    val fullScreenRequired: Boolean,
+    /** "Bypass Do Not Disturb" / auto-silent is on → needs DND policy access. */
+    val dndRequired: Boolean,
 )
 
 /**
@@ -74,6 +78,24 @@ fun HomePermissionGate(
                         SchedulingPermission.ExactAlarm,
                         R.string.home_exact_alarm_permission_rationale,
                         R.string.adhan_exact_alarm_permission_denied_text,
+                    ),
+                )
+            }
+            if (check.fullScreenRequired && !isSchedulingPermissionGranted(context, SchedulingPermission.FullScreenIntent)) {
+                add(
+                    PermissionStep(
+                        SchedulingPermission.FullScreenIntent,
+                        R.string.adhan_full_screen_intent_permission_rationale,
+                        R.string.adhan_full_screen_intent_permission_denied_text,
+                    ),
+                )
+            }
+            if (check.dndRequired && !isSchedulingPermissionGranted(context, SchedulingPermission.DndAccess)) {
+                add(
+                    PermissionStep(
+                        SchedulingPermission.DndAccess,
+                        R.string.dnd_permission_rationale,
+                        R.string.dnd_permission_denied_text,
                     ),
                 )
             }
