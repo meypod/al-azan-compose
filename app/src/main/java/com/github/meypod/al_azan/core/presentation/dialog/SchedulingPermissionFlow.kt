@@ -93,14 +93,10 @@ data class PermissionResults(
 fun Settings.isDontAskAgain(permission: SchedulingPermission): Boolean =
     when (permission) {
         SchedulingPermission.Notification -> dontAskPermissionNotifications
-
         SchedulingPermission.PhoneState -> dontAskPermissionPhoneState
-
         SchedulingPermission.ExactAlarm -> dontAskPermissionAlarm
-
-        // Full-screen and DND access are never gated by a "don't ask again" flag (no home re-check path).
-        SchedulingPermission.FullScreenIntent -> false
-        SchedulingPermission.DndAccess -> false
+        SchedulingPermission.FullScreenIntent -> dontAskPermissionFullScreenIntent
+        SchedulingPermission.DndAccess -> dontAskPermissionDndAccess
     }
 
 /** Sets the persisted "don't ask again" flag for a permission. */
@@ -109,8 +105,8 @@ fun Settings.withDontAskAgain(permission: SchedulingPermission): Settings =
         SchedulingPermission.Notification -> copy(dontAskPermissionNotifications = true)
         SchedulingPermission.PhoneState -> copy(dontAskPermissionPhoneState = true)
         SchedulingPermission.ExactAlarm -> copy(dontAskPermissionAlarm = true)
-        SchedulingPermission.FullScreenIntent -> this
-        SchedulingPermission.DndAccess -> this
+        SchedulingPermission.FullScreenIntent -> copy(dontAskPermissionFullScreenIntent = true)
+        SchedulingPermission.DndAccess -> copy(dontAskPermissionDndAccess = true)
     }
 
 /** Standard step lists. PhoneState is only for adhan (call interruption). */
