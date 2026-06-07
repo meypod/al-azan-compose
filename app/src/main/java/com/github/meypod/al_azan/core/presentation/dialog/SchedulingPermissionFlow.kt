@@ -147,6 +147,19 @@ object SchedulingPermissionSteps {
         ),
     )
 
+    val reminder: List<PermissionStep> = listOf(
+        PermissionStep(
+            SchedulingPermission.Notification,
+            R.string.reminder_notification_permission_rationale,
+            R.string.reminder_notification_permission_denied_text,
+        ),
+        PermissionStep(
+            SchedulingPermission.ExactAlarm,
+            R.string.reminder_exact_alarm_permission_rationale,
+            R.string.reminder_exact_alarm_permission_denied_text,
+        ),
+    )
+
     val dndBypass: List<PermissionStep> = listOf(
         PermissionStep(
             SchedulingPermission.DndAccess,

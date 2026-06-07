@@ -11,6 +11,12 @@ sealed interface ReminderUiAction {
         val enabled: Boolean,
     ) : ReminderUiAction
 
+    /** Forces the given reminders to [enabled]; used to revert an enable when permissions are denied. */
+    data class OnSetEnabled(
+        val ids: Set<String>,
+        val enabled: Boolean,
+    ) : ReminderUiAction
+
     data class OnItemClick(
         val id: String,
     ) : ReminderUiAction
