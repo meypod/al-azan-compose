@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity() {
 
         val startingRoute = intent.data?.let {
             intent = null // consume
-            parseUriToRoute(it, deepLinkPatterns)
+            // MainActivity is exported, so the URI is attacker-reachable; a malformed deep link must
+            // not crash launch. Fall back to the default start destination on any parse failure.
+            runCatching { parseUriToRoute(it, deepLinkPatterns) }.getOrNull()
         }
 
         setContent {

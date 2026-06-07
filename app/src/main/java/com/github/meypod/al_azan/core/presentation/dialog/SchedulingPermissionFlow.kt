@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.presentation.dialog
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -42,6 +43,15 @@ enum class SchedulingPermission {
 
     /** Exact alarm scheduling (Android 12+), granted via a settings screen. Required. */
     ExactAlarm,
+
+    /**
+     * Full-screen intent (Android 14+), granted via a special-access settings screen. Optional —
+     * lets the adhan alarm show over the lock screen; never blocks (sound still plays without it).
+     */
+    FullScreenIntent,
+
+    /** Do Not Disturb policy access, granted via a special-access settings screen. */
+    DndAccess,
 }
 
 /** One permission to request, with the rationale/denied copy that fits the calling feature. */
@@ -67,17 +77,30 @@ data class PermissionResults(
 
     fun granted(permission: SchedulingPermission): Boolean = outcomes[permission]?.granted == true
 
-    /** True when every requested REQUIRED permission (everything except [SchedulingPermission.PhoneState]) is granted. */
+    /**
+     * True when every requested REQUIRED permission is granted. [SchedulingPermission.PhoneState] and
+     * [SchedulingPermission.FullScreenIntent] are optional — they degrade gracefully and never block.
+     */
     fun requiredAllGranted(): Boolean =
-        outcomes.all { (permission, outcome) -> permission == SchedulingPermission.PhoneState || outcome.granted }
+        outcomes.all { (permission, outcome) ->
+            permission == SchedulingPermission.PhoneState ||
+                permission == SchedulingPermission.FullScreenIntent ||
+                outcome.granted
+        }
 }
 
 /** Reads the persisted "don't ask again" flag for a permission off [Settings]. */
 fun Settings.isDontAskAgain(permission: SchedulingPermission): Boolean =
     when (permission) {
         SchedulingPermission.Notification -> dontAskPermissionNotifications
+
         SchedulingPermission.PhoneState -> dontAskPermissionPhoneState
+
         SchedulingPermission.ExactAlarm -> dontAskPermissionAlarm
+
+        // Full-screen and DND access are never gated by a "don't ask again" flag (no home re-check path).
+        SchedulingPermission.FullScreenIntent -> false
+        SchedulingPermission.DndAccess -> false
     }
 
 /** Sets the persisted "don't ask again" flag for a permission. */
@@ -86,6 +109,8 @@ fun Settings.withDontAskAgain(permission: SchedulingPermission): Settings =
         SchedulingPermission.Notification -> copy(dontAskPermissionNotifications = true)
         SchedulingPermission.PhoneState -> copy(dontAskPermissionPhoneState = true)
         SchedulingPermission.ExactAlarm -> copy(dontAskPermissionAlarm = true)
+        SchedulingPermission.FullScreenIntent -> this
+        SchedulingPermission.DndAccess -> this
     }
 
 /** Standard step lists. PhoneState is only for adhan (call interruption). */
@@ -118,6 +143,19 @@ object SchedulingPermissionSteps {
             SchedulingPermission.ExactAlarm,
             R.string.adhan_exact_alarm_permission_rationale,
             R.string.adhan_exact_alarm_permission_denied_text,
+        ),
+        PermissionStep(
+            SchedulingPermission.FullScreenIntent,
+            R.string.adhan_full_screen_intent_permission_rationale,
+            R.string.adhan_full_screen_intent_permission_denied_text,
+        ),
+    )
+
+    val dndBypass: List<PermissionStep> = listOf(
+        PermissionStep(
+            SchedulingPermission.DndAccess,
+            R.string.dnd_permission_rationale,
+            R.string.dnd_permission_denied_text,
         ),
     )
 }
@@ -210,11 +248,36 @@ fun rememberSchedulingPermissionRequest(
             finishStep(step, granted, asked = true)
         }
 
+    val dndSettingsLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
+            val granted = dndAccessGranted(context)
+            if (!granted) guideToSettings(step.denied) { openDndSettings(context) }
+            finishStep(step, granted, asked = true)
+        }
+
+    val fullScreenIntentSettingsLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
+            val granted = fullScreenIntentGranted(context)
+            if (!granted) guideToSettings(step.denied) { openFullScreenIntentSettings(context) }
+            finishStep(step, granted, asked = true) // optional: never blocks
+        }
+
     fun ask(step: PermissionStep) {
         when (step.permission) {
             SchedulingPermission.Notification -> notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
 
             SchedulingPermission.PhoneState -> phoneStateLauncher.launch(Manifest.permission.READ_PHONE_STATE)
+
+            SchedulingPermission.DndAccess -> {
+                try {
+                    dndSettingsLauncher.launch(Intent(AndroidSettings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                } catch (_: ActivityNotFoundException) {
+                    Toast.makeText(context, R.string.open_settings_failed, Toast.LENGTH_LONG).show()
+                    finishStep(step, granted = false, asked = true)
+                }
+            }
 
             SchedulingPermission.ExactAlarm -> {
                 val intent = exactAlarmSettingsIntent(context)
@@ -227,6 +290,20 @@ fun rememberSchedulingPermissionRequest(
                     }
                 } else {
                     finishStep(step, granted = true, asked = true) // < API 31: always allowed
+                }
+            }
+
+            SchedulingPermission.FullScreenIntent -> {
+                val intent = fullScreenIntentSettingsIntent(context)
+                if (intent != null) {
+                    try {
+                        fullScreenIntentSettingsLauncher.launch(intent)
+                    } catch (_: ActivityNotFoundException) {
+                        Toast.makeText(context, R.string.open_settings_failed, Toast.LENGTH_LONG).show()
+                        finishStep(step, granted = false, asked = true)
+                    }
+                } else {
+                    finishStep(step, granted = true, asked = true) // < API 34: always allowed
                 }
             }
         }
@@ -300,7 +377,22 @@ private fun isGranted(
             context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
 
         SchedulingPermission.ExactAlarm -> canScheduleExactAlarms(context)
+
+        SchedulingPermission.FullScreenIntent -> fullScreenIntentGranted(context)
+
+        SchedulingPermission.DndAccess -> dndAccessGranted(context)
     }
+
+private fun dndAccessGranted(context: Context): Boolean {
+    val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    return nm.isNotificationPolicyAccessGranted
+}
+
+private fun fullScreenIntentGranted(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return true
+    val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    return nm.canUseFullScreenIntent()
+}
 
 @SuppressLint("InlinedApi") // POST_NOTIFICATIONS constant is inlined; guarded by the SDK_INT check
 private fun notificationGranted(context: Context): Boolean =
@@ -318,12 +410,18 @@ private fun titleResFor(permission: SchedulingPermission): Int =
         SchedulingPermission.Notification -> R.string.notification_permission_title
         SchedulingPermission.PhoneState -> R.string.phone_state_permission_title
         SchedulingPermission.ExactAlarm -> R.string.exact_alarm_permission_title
+        SchedulingPermission.FullScreenIntent -> R.string.full_screen_intent_permission_title
+        SchedulingPermission.DndAccess -> R.string.dnd_permission_title
     }
 
 @StringRes
 private fun confirmLabelResFor(permission: SchedulingPermission): Int =
     when (permission) {
-        SchedulingPermission.ExactAlarm -> R.string.open_settings_label
+        SchedulingPermission.ExactAlarm,
+        SchedulingPermission.FullScreenIntent,
+        SchedulingPermission.DndAccess,
+        -> R.string.open_settings_label
+
         else -> R.string.okay
     }
 
@@ -344,6 +442,26 @@ private fun exactAlarmSettingsIntent(context: Context): Intent? {
 
 private fun openExactAlarmSettings(context: Context) {
     safeStart(context, exactAlarmSettingsIntent(context) ?: return)
+}
+
+private fun fullScreenIntentSettingsIntent(context: Context): Intent? {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return null
+    return Intent(
+        AndroidSettings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT,
+        "package:${context.packageName}".toUri(),
+    ).apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP }
+}
+
+private fun openFullScreenIntentSettings(context: Context) {
+    safeStart(context, fullScreenIntentSettingsIntent(context) ?: return)
+}
+
+private fun openDndSettings(context: Context) {
+    safeStart(
+        context,
+        Intent(AndroidSettings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+            .apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP },
+    )
 }
 
 private fun safeStart(

@@ -4,9 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.domain.model.system.SystemChange
-import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
+import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +23,10 @@ class TimeChangeReceiver : BroadcastReceiver() {
     lateinit var systemChangeRepository: SystemChangeRepository
 
     @Inject
-    lateinit var alarmRepository: AlarmRepository
+    lateinit var adhanScheduler: AdhanScheduler
+
+    @Inject
+    lateinit var reminderScheduler: ReminderScheduler
 
     @Inject
     lateinit var widgetUpdater: WidgetUpdater
@@ -58,7 +62,8 @@ class TimeChangeReceiver : BroadcastReceiver() {
         val pendingResult = goAsync()
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                alarmRepository.rescheduleAll()
+                adhanScheduler.schedule()
+                reminderScheduler.schedule()
                 widgetUpdater.update()
             } finally {
                 pendingResult.finish()

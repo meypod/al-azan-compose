@@ -5,6 +5,7 @@ import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.icu.util.ULocale
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import java.time.ZoneId
 import java.util.Date
 import kotlin.math.abs
@@ -36,6 +37,15 @@ fun formatTimeOfDay(
         calendar = "gregorian",
         skeleton = if (is24Hour) DateFormat.HOUR24_MINUTE else DateFormat.HOUR_MINUTE,
         numberingSystem = numberingSystem,
+    )
+
+/** Formats [timestamp] (epoch millis) as a time-of-day string per the user's locale settings. */
+fun Settings.formatTime(timestamp: Long): String =
+    formatTimeOfDay(
+        instant = Instant.fromEpochMilliseconds(timestamp),
+        is24Hour = is24HourFormat,
+        numberingSystem = numberingSystem,
+        locale = selectedLocale,
     )
 
 fun isInRamadan(

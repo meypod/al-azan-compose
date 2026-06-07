@@ -23,6 +23,8 @@ import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
+import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +51,7 @@ private fun ColumnScope.AdhanSettingsContent(
     NotificationsCard(uiState, onAction)
     VibrationCard(uiState, onAction)
     PlaybackCard(uiState, onAction)
+    AutoSilentCard(uiState, onAction)
     DisplayCard(uiState, onAction)
 }
 
@@ -107,6 +110,14 @@ private fun PlaybackCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
+    val requestDndAccess = rememberSchedulingPermissionRequest(
+        isDontAskAgain = { false },
+        onDontAskAgain = {},
+        onComplete = { results ->
+            // DND access ungranted → can't bypass; snap the toggle back.
+            if (!results.requiredAllGranted()) onAction(AdhanSettingsUiAction.OnBypassDndToggle(false))
+        },
+    )
     SettingsCard {
         SettingSwitch(
             title = stringResource(R.string.use_headphones),
@@ -124,8 +135,50 @@ private fun PlaybackCard(
             title = stringResource(R.string.bypass_dnd),
             subtitle = stringResource(R.string.bypass_dnd_help),
             checked = uiState.settings.bypassDnd,
-            onCheckedChange = { onAction(AdhanSettingsUiAction.OnBypassDndToggle(it)) },
+            onCheckedChange = { enabled ->
+                onAction(AdhanSettingsUiAction.OnBypassDndToggle(enabled))
+                // Bypassing DND only works once the user grants notification-policy access.
+                if (enabled) requestDndAccess(SchedulingPermissionSteps.dndBypass)
+            },
         )
+    }
+}
+
+private val AUTO_SILENT_DURATION_OPTIONS = listOf(15, 30, 45, 60, 90, 120)
+
+@Composable
+private fun AutoSilentCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    val requestDndAccess = rememberSchedulingPermissionRequest(
+        isDontAskAgain = { false },
+        onDontAskAgain = {},
+        onComplete = { results ->
+            // DND access ungranted → auto-silence can't work; snap the toggle back.
+            if (!results.requiredAllGranted()) onAction(AdhanSettingsUiAction.OnAutoSilentOnDismissToggle(false))
+        },
+    )
+    SettingsCard {
+        SettingSwitch(
+            title = stringResource(R.string.auto_silent_on_dismiss),
+            subtitle = stringResource(R.string.auto_silent_on_dismiss_help),
+            checked = uiState.alarmSettings.autoSilentOnDismiss,
+            onCheckedChange = { enabled ->
+                onAction(AdhanSettingsUiAction.OnAutoSilentOnDismissToggle(enabled))
+                if (enabled) requestDndAccess(SchedulingPermissionSteps.dndBypass)
+            },
+        )
+        if (uiState.alarmSettings.autoSilentOnDismiss) {
+            MinutesSelect(
+                modifier = Modifier.fillMaxWidth(),
+                options = AUTO_SILENT_DURATION_OPTIONS,
+                selected = uiState.alarmSettings.autoSilentDurationMinutes,
+                onSelect = { onAction(AdhanSettingsUiAction.OnAutoSilentDurationChange(it)) },
+                label = { Text(stringResource(R.string.auto_silent_duration)) },
+                supportingText = { Text(stringResource(R.string.auto_silent_duration_help)) },
+            )
+        }
     }
 }
 
@@ -185,6 +238,14 @@ private fun VibrationCardPreview() {
 private fun PlaybackCardPreview() {
     AlAzanTheme {
         PreviewPart { PlaybackCard(AdhanSettingsUiState(), onAction = {}) }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF00585A)
+@Composable
+private fun AutoSilentCardPreview() {
+    AlAzanTheme {
+        PreviewPart { AutoSilentCard(AdhanSettingsUiState(), onAction = {}) }
     }
 }
 

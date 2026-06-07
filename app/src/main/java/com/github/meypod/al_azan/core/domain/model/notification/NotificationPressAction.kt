@@ -14,6 +14,8 @@ sealed class NotificationPressAction {
         override val id: String = "broadcast",
         val action: String,
         val requestCode: Int,
+        /** Extra string values placed on the broadcast Intent (e.g. a target reminder id). */
+        val extras: Map<String, String> = emptyMap(),
     ) : NotificationPressAction()
 
     data class Route(

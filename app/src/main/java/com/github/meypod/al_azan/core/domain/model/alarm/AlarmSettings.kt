@@ -12,6 +12,9 @@ data class AlarmSettings(
     val preAlarmMinutesBefore: Int = 60,
     val dontTurnOnScreen: Boolean = false,
     val vibrationMode: VibrationMode = VibrationMode.Once,
+    /** When true, dismissing a fired adhan automatically silences the phone (DND) for [autoSilentDurationMinutes]. */
+    val autoSilentOnDismiss: Boolean = false,
+    val autoSilentDurationMinutes: Int = 30,
     //
     val fajrSound: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val fajrNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),

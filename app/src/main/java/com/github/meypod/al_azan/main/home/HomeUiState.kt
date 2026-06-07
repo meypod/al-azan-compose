@@ -29,4 +29,5 @@ data class HomeUiState(
     val countdownText: String = "00:00:00",
     val is24Hour: Boolean = true,
     val hiddenPrayers: List<Prayer> = emptyList(),
+    val isDeveloper: Boolean = false,
 )

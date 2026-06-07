@@ -93,6 +93,14 @@ class AdhanSettingsViewModel
                 alarmSettingsRepository.update { it.copy(dontTurnOnScreen = action.enabled) }
             }
 
+            is AdhanSettingsUiAction.OnAutoSilentOnDismissToggle -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(autoSilentOnDismiss = action.enabled) }
+            }
+
+            is AdhanSettingsUiAction.OnAutoSilentDurationChange -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(autoSilentDurationMinutes = action.minutes) }
+            }
+
             is AdhanSettingsUiAction.OnPermissionDontAskAgain -> viewModelScope.launch {
                 settingsRepository.update { it.withDontAskAgain(action.permission) }
             }

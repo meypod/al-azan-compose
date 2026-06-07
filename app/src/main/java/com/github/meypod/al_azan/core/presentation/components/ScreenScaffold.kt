@@ -15,7 +15,6 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,7 +37,7 @@ fun ScreenScaffold(
     titleIcon: Int? = null,
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
-    snackbarHost: @Composable () -> Unit = { SnackbarHost(LocalSnackbarController.current.hostState) },
+    snackbarHost: @Composable () -> Unit = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
     scrollable: Boolean = true,
     bottomBar: @Composable () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,

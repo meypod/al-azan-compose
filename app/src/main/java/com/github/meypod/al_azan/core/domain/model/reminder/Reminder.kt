@@ -27,13 +27,15 @@ data class Reminder(
 
 @Serializable(with = ReminderAudioEntrySerializer::class)
 sealed interface ReminderAudioEntry {
+    val loop: Boolean
+
     @Serializable
     data class ResourceReminderAudioEntry(
         val id: String,
         val resourceId: Int,
         val label: String,
         val canDelete: Boolean = false,
-        val loop: Boolean = false,
+        override val loop: Boolean = false,
         val notif: Boolean = false,
     ) : ReminderAudioEntry
 
@@ -42,8 +44,8 @@ sealed interface ReminderAudioEntry {
         val id: String,
         val filepath: String,
         val label: String,
-        val canDelete: Boolean = false,
-        val loop: Boolean = false,
+        val canDelete: Boolean = true,
+        override val loop: Boolean = false,
         val notif: Boolean = false,
     ) : ReminderAudioEntry
 
@@ -52,7 +54,7 @@ sealed interface ReminderAudioEntry {
         val id = "default"
         val canDelete = false
         val notif = true
-        val loop = false
+        override val loop = false
     }
 }
 

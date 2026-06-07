@@ -14,6 +14,14 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
         const val PERMISSION_REVOKED_CHANNEL_ID = "permission_revoked_channel_id"
         const val TRAVEL_MODE_CHANNEL_ID = "travel_mode_channel_id"
         const val WIDGET_CHANNEL_ID = "widget_channel_id"
+        const val ADHAN_CHANNEL_ID = "adhan_channel_id"
+        const val ADHAN_DND_CHANNEL_ID = "adhan_dnd_channel_id"
+        const val PRE_ADHAN_CHANNEL_ID = "pre_adhan_channel_id"
+        const val ADHAN_REMIND_CHANNEL_ID = "adhan_remind_channel_id"
+        const val REMINDER_CHANNEL_ID = "reminder_channel_id"
+        const val REMINDER_DND_CHANNEL_ID = "reminder_dnd_channel_id"
+        const val PRE_REMINDER_CHANNEL_ID = "pre_reminder_channel_id"
+        const val MISSED_CHANNEL_ID = "missed_channel_id"
     }
 
     operator fun invoke() {
@@ -37,6 +45,68 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     description = TextResource.StringResId(R.string.widget_channel_description),
                     importanceLevel = AndroidNotificationImportance.IMPORTANCE_LOW,
                     showBadge = false,
+                    vibrationEnabled = false,
+                ),
+                NotificationChannelConfig(
+                    id = ADHAN_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.adhan_channel_name),
+                    description = TextResource.StringResId(R.string.adhan_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                    // the playback service produces the sound + vibration; the channel itself stays silent
+                    soundHandledExternally = true,
+                    vibrationEnabled = false,
+                ),
+                NotificationChannelConfig(
+                    id = ADHAN_DND_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.adhan_dnd_channel_name),
+                    description = TextResource.StringResId(R.string.adhan_dnd_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                    soundHandledExternally = true,
+                    vibrationEnabled = false,
+                    canBypassDnd = true,
+                ),
+                NotificationChannelConfig(
+                    id = PRE_ADHAN_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.pre_adhan_channel_name),
+                    description = TextResource.StringResId(R.string.pre_adhan_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_DEFAULT,
+                ),
+                NotificationChannelConfig(
+                    id = ADHAN_REMIND_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.adhan_remind_channel_name),
+                    description = TextResource.StringResId(R.string.adhan_remind_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                ),
+                NotificationChannelConfig(
+                    id = REMINDER_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.reminder_channel_name),
+                    description = TextResource.StringResId(R.string.reminder_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                    soundHandledExternally = true,
+                    vibrationEnabled = false,
+                ),
+                NotificationChannelConfig(
+                    id = REMINDER_DND_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.reminder_dnd_channel_name),
+                    description = TextResource.StringResId(R.string.reminder_dnd_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                    soundHandledExternally = true,
+                    vibrationEnabled = false,
+                    canBypassDnd = true,
+                ),
+                NotificationChannelConfig(
+                    id = PRE_REMINDER_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.pre_reminder_channel_name),
+                    description = TextResource.StringResId(R.string.pre_reminder_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_DEFAULT,
+                ),
+                // Silent, low-importance: informs the user of adhan/reminders that passed during a
+                // "Dismiss & silent" window without making a sound or punching through Do Not Disturb.
+                NotificationChannelConfig(
+                    id = MISSED_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.missed_channel_name),
+                    description = TextResource.StringResId(R.string.missed_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_LOW,
                     vibrationEnabled = false,
                 ),
             ),

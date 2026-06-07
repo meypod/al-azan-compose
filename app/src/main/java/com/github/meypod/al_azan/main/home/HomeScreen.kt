@@ -25,7 +25,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
+import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -139,6 +139,18 @@ fun HomeScreen(
                         onAction(HomeUiAction.OnAboutLinkClick)
                     },
                 )
+                if (uiState.isDeveloper) {
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.outline_developer_mode_24), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.developer_title)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnDeveloperLinkClick)
+                        },
+                    )
+                }
             }
         },
     ) {
@@ -210,7 +222,7 @@ fun HomeScreen(
                 }
             },
             floatingActionButtonPosition = FabPosition.Center,
-            snackbarHost = { SnackbarHost(LocalSnackbarController.current.hostState) },
+            snackbarHost = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
         ) { paddingValues ->
 
             Column(

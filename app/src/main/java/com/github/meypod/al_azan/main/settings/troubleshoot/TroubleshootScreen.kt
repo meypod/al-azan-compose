@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -52,6 +53,12 @@ fun TroubleshootScreen(
     val context = LocalContext.current
     val activity = LocalActivity.current
     val ignoreBatteryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { _ ->
+            onAction(TroubleshootUiAction.OnLifecycleChanged)
+        },
+    )
+    val dndAccessLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { _ ->
             onAction(TroubleshootUiAction.OnLifecycleChanged)
@@ -100,6 +107,10 @@ fun TroubleshootScreen(
             }
         }
 
+        DndAccessCard(granted = uiState.dndAccessGranted) {
+            dndAccessLauncher.launch(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+        }
+
         SettingLinkButton(stringResource(R.string.advanced)) {
             onAction(TroubleshootUiAction.OnAdvancedSettingsClick(advancedRoute))
         }
@@ -133,6 +144,62 @@ fun BatterSaverCTA(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun DndAccessCard(
+    granted: Boolean,
+    onButtonClick: () -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(
+            Modifier
+                .padding(cardPadding)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                SettingLabel(stringResource(R.string.dnd_access_card_title))
+                DndStatusBadge(granted)
+            }
+            Text(stringResource(R.string.dnd_access_card_body), style = MaterialTheme.typography.bodyMedium)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                if (granted) {
+                    OutlinedButton(onClick = onButtonClick) {
+                        Text(stringResource(R.string.dnd_access_card_button))
+                    }
+                } else {
+                    PrimaryButton(onButtonClick) {
+                        Text(stringResource(R.string.dnd_access_card_button))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun DndStatusBadge(granted: Boolean) {
+    val color = if (granted) Color(0xFF2E7D32) else MaterialTheme.colorScheme.error
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+    ) {
+        Icon(
+            painterResource(if (granted) R.drawable.baseline_check_24 else R.drawable.baseline_close_24),
+            contentDescription = null,
+            tint = color,
+        )
+        Text(
+            stringResource(if (granted) R.string.dnd_access_status_granted else R.string.dnd_access_status_missing),
+            color = color,
+            style = MaterialTheme.typography.labelLarge,
+        )
     }
 }
 

@@ -10,5 +10,4 @@ sealed interface SettingsMenuUiAction {
     object OnTroubleshootClick : SettingsMenuUiAction
     object OnWidgetSettingsClick : SettingsMenuUiAction
     object OnBackupAndRestoreClick : SettingsMenuUiAction
-    object OnDeveloperClick : SettingsMenuUiAction
 }
