@@ -53,6 +53,41 @@ fun isInRamadan(
     arabicCalendar: String,
 ) = formatInstant(instant, "en", arabicCalendar, DateFormat.MONTH).contains("ramadan", ignoreCase = true)
 
+/** Sha'ban is the Hijri month before Ramadan; "ban" is unique to it among the month names. */
+fun isInShaaban(
+    instant: Instant,
+    arabicCalendar: String,
+) = formatInstant(instant, "en", arabicCalendar, DateFormat.MONTH).contains("ban", ignoreCase = true)
+
+/** The Hijri year for [instant] (e.g. "1446"), used as a stable per-year key. */
+fun hijriYear(
+    instant: Instant,
+    arabicCalendar: String,
+): String = formatInstant(instant, "en", arabicCalendar, DateFormat.YEAR)
+
+private fun hijriDayOfMonth(
+    instant: Instant,
+    arabicCalendar: String,
+): Int {
+    val cal = icuCalendar(arabicCalendar)
+    cal.timeInMillis = instant.toEpochMilliseconds()
+    return cal.get(Calendar.DAY_OF_MONTH)
+}
+
+private const val RAMADAN_NOTICE_DAY_THRESHOLD = 24
+
+/**
+ * True in the last days of Sha'ban (Ramadan's start may be off) or of Ramadan (its end may be off) —
+ * when the pre-calculated calendar is most likely to disagree with moon-sighting dates.
+ */
+fun isRamadanNoticeDue(
+    instant: Instant,
+    arabicCalendar: String,
+): Boolean {
+    if (hijriDayOfMonth(instant, arabicCalendar) <= RAMADAN_NOTICE_DAY_THRESHOLD) return false
+    return isInRamadan(instant, arabicCalendar) || isInShaaban(instant, arabicCalendar)
+}
+
 fun addDaysTimeZoneAware(
     instant: Instant,
     days: Int,
@@ -79,8 +114,7 @@ fun addDaysTimeZoneAware(
     return newInstant
 }
 
-private fun icuCalendar(calendar: String): Calendar =
-    Calendar.getInstance(TimeZone.getDefault(), ULocale("@calendar=$calendar"))
+private fun icuCalendar(calendar: String): Calendar = Calendar.getInstance(TimeZone.getDefault(), ULocale("@calendar=$calendar"))
 
 /**
  * Returns one [Instant] (local noon, to stay clear of DST boundaries) for every day of the

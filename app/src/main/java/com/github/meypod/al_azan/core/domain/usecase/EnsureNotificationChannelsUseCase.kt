@@ -22,6 +22,7 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
         const val REMINDER_DND_CHANNEL_ID = "reminder_dnd_channel_id"
         const val PRE_REMINDER_CHANNEL_ID = "pre_reminder_channel_id"
         const val MISSED_CHANNEL_ID = "missed_channel_id"
+        const val RAMADAN_NOTICE_CHANNEL_ID = "ramadan_notice_channel_id"
     }
 
     operator fun invoke() {
@@ -108,6 +109,12 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     description = TextResource.StringResId(R.string.missed_channel_description),
                     importanceLevel = AndroidNotificationImportance.IMPORTANCE_LOW,
                     vibrationEnabled = false,
+                ),
+                NotificationChannelConfig(
+                    id = RAMADAN_NOTICE_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.ramadan_notice_channel_name),
+                    description = TextResource.StringResId(R.string.ramadan_notice_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
                 ),
             ),
         )

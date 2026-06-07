@@ -7,6 +7,7 @@ import android.os.Build
 import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.domain.model.system.SystemChange
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
+import com.github.meypod.al_azan.ramadan.RamadanNoticeScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,9 @@ class TimeChangeReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var widgetUpdater: WidgetUpdater
+
+    @Inject
+    lateinit var ramadanNoticeScheduler: RamadanNoticeScheduler
 
     override fun onReceive(
         context: Context?,
@@ -64,6 +68,7 @@ class TimeChangeReceiver : BroadcastReceiver() {
             try {
                 adhanScheduler.schedule()
                 reminderScheduler.schedule()
+                ramadanNoticeScheduler.schedule()
                 widgetUpdater.update()
             } finally {
                 pendingResult.finish()

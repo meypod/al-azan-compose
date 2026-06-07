@@ -18,6 +18,8 @@ import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatCountdownToHHmmss
 import com.github.meypod.al_azan.core.domain.util.getDayBeginning
+import com.github.meypod.al_azan.core.domain.util.hijriYear
+import com.github.meypod.al_azan.core.domain.util.isRamadanNoticeDue
 import com.github.meypod.al_azan.core.domain.util.tickFlow
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
@@ -83,6 +85,34 @@ class HomeViewModel
     }
 
     fun isDontAskAgain(permission: SchedulingPermission): Boolean = latestSettings?.isDontAskAgain(permission) ?: false
+
+    /**
+     * Whether to show the Ramadan-accuracy notice on home load: the pre-calculated calendar is near
+     * Ramadan's start/end, the user hasn't permanently dismissed it, and it wasn't already shown this
+     * Hijri year.
+     */
+    suspend fun shouldShowRamadanNotice(): Boolean {
+        val settings = settingsRepository.data.first()
+        if (settings.ramadanReminderDontShow) return false
+        val now = Clock.System.now()
+        val calendar = settings.selectedArabicCalendar
+        if (!isRamadanNoticeDue(now, calendar)) return false
+        return settings.ramadanRemindedYear != hijriYear(now, calendar)
+    }
+
+    /** "Remind me next year": suppress the notice for the current Hijri year only. */
+    fun onRamadanRemindNextYear() {
+        viewModelScope.launch {
+            settingsRepository.update {
+                it.copy(ramadanRemindedYear = hijriYear(Clock.System.now(), it.selectedArabicCalendar))
+            }
+        }
+    }
+
+    /** "Don't show again": permanently suppress the notice. */
+    fun onRamadanDontShowAgain() {
+        viewModelScope.launch { settingsRepository.update { it.copy(ramadanReminderDontShow = true) } }
+    }
 
     fun onPermissionDontAskAgain(permission: SchedulingPermission) {
         viewModelScope.launch { settingsRepository.update { it.withDontAskAgain(permission) } }

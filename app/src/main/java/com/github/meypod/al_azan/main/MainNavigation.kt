@@ -33,6 +33,7 @@ import com.github.meypod.al_azan.main.counter.CounterViewModel
 import com.github.meypod.al_azan.main.home.HomePermissionGate
 import com.github.meypod.al_azan.main.home.HomeScreen
 import com.github.meypod.al_azan.main.home.HomeViewModel
+import com.github.meypod.al_azan.main.home.RamadanNoticeGate
 import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationViewModel
 import com.github.meypod.al_azan.main.monthly.MonthlyViewScreen
@@ -45,8 +46,8 @@ import com.github.meypod.al_azan.main.reminder.ReminderScreen
 import com.github.meypod.al_azan.main.reminder.ReminderViewModel
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
-import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinScreen
 import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
+import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinScreen
 import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
 import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerViewModel
 import com.github.meypod.al_azan.main.settings.appearance.InterfaceSettingsScreen
@@ -172,6 +173,11 @@ fun MainNavigation(
                     onReschedule = vm::rescheduleAlarms,
                     onCleanup = vm::cleanupAlarms,
                     getCheck = vm::permissionCheck,
+                )
+                RamadanNoticeGate(
+                    shouldShow = vm::shouldShowRamadanNotice,
+                    onRemindNextYear = vm::onRamadanRemindNextYear,
+                    onDontShowAgain = vm::onRamadanDontShowAgain,
                 )
             }
             entry<Route.Main.Location> {

@@ -8,6 +8,8 @@ import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.adhan.AdhanFiringHandler
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.playback.PlaybackService
+import com.github.meypod.al_azan.ramadan.RamadanNoticeContract
+import com.github.meypod.al_azan.ramadan.RamadanNoticeHandler
 import com.github.meypod.al_azan.reminder.ReminderContract
 import com.github.meypod.al_azan.reminder.ReminderFiringHandler
 import com.github.meypod.al_azan.widget.WidgetContract
@@ -39,6 +41,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var reminderFiringHandler: ReminderFiringHandler
+
+    @Inject
+    lateinit var ramadanNoticeHandler: RamadanNoticeHandler
 
     override fun onReceive(
         context: Context,
@@ -90,6 +95,12 @@ class AlarmReceiver : BroadcastReceiver() {
                 val reminderId = intent.getStringExtra(ReminderContract.EXTRA_REMINDER_ID) ?: return
                 async { reminderFiringHandler.onCancelReminder(reminderId) }
             }
+
+            RamadanNoticeContract.ACTION_RAMADAN_CHECK -> async { ramadanNoticeHandler.onCheckFired() }
+
+            RamadanNoticeContract.ACTION_RAMADAN_REMIND_NEXT_YEAR -> async { ramadanNoticeHandler.onRemindNextYear() }
+
+            RamadanNoticeContract.ACTION_RAMADAN_DONT_SHOW_AGAIN -> async { ramadanNoticeHandler.onDontShowAgain() }
         }
     }
 
