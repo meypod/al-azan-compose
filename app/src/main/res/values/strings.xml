@@ -104,6 +104,11 @@
     <string name="calendar">Calendar</string>
     <string name="attention_title"><b>Attention!</b></string>
     <string name="lunar_calendar_warning">The app\'s lunar calendar is pre-calculated and may not be accurate because it isn\'t based on moon sightings. This is especially important to note for the start and end of Ramadan.</string>
+    <string name="ramadan_notice_title">Attention!</string>
+    <string name="ramadan_remind_next_year">Remind me next year</string>
+    <string name="ramadan_dont_show_again">Don\'t show again</string>
+    <string name="ramadan_notice_channel_name">Ramadan notice</string>
+    <string name="ramadan_notice_channel_description">A yearly reminder that the pre-calculated calendar may be off for the start and end of Ramadan.</string>
     <string name="adjustments">Adjustments</string>
     <string name="advanced_calculation_settings">Advanced Calculation Settings</string>
     <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>

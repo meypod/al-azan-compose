@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.github.meypod.al_azan.adhan.AdhanScheduler
+import com.github.meypod.al_azan.ramadan.RamadanNoticeScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,9 @@ class BootReceiver : BroadcastReceiver() {
     @Inject
     lateinit var reminderScheduler: ReminderScheduler
 
+    @Inject
+    lateinit var ramadanNoticeScheduler: RamadanNoticeScheduler
+
     override fun onReceive(
         context: Context,
         intent: Intent?,
@@ -35,6 +39,7 @@ class BootReceiver : BroadcastReceiver() {
             try {
                 adhanScheduler.schedule()
                 reminderScheduler.schedule()
+                ramadanNoticeScheduler.schedule()
                 widgetUpdater.update()
             } finally {
                 pendingResult.finish()
