@@ -1,5 +1,7 @@
 package com.github.meypod.al_azan.intro.restorebackup
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,14 +27,18 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.SecondaryButton
 import com.github.meypod.al_azan.intro.IntroUiAction
 
+private val BACKUP_MIME_TYPES = arrayOf("application/json", "application/octet-stream", "*/*")
+
 @Composable
 fun RestoreBackupScreen(
-    uiState: RestoreBackupUiState,
-    onAction: (RestoreBackupUiAction) -> Unit,
     onIntroAction: (IntroUiAction) -> Unit,
     modifier: Modifier = Modifier,
     busy: Boolean = false,
 ) {
+    val restoreLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri -> uri?.let { onIntroAction(IntroUiAction.OnRestoreBackup(it)) } }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
@@ -73,7 +79,7 @@ fun RestoreBackupScreen(
         )
 
         SecondaryButton(
-            onClick = { onAction(RestoreBackupUiAction.OnRestoreClick) },
+            onClick = { restoreLauncher.launch(BACKUP_MIME_TYPES) },
             enabled = !busy,
         ) {
             Row(
@@ -99,10 +105,6 @@ fun RestoreBackupScreen(
 @Composable
 private fun RestoreBackupScreenPreview() {
     AlAzanTheme {
-        RestoreBackupScreen(
-            uiState = RestoreBackupUiState(),
-            onAction = {},
-            onIntroAction = {},
-        )
+        RestoreBackupScreen(onIntroAction = {})
     }
 }

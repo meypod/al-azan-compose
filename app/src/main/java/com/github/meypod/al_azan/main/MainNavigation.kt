@@ -252,7 +252,12 @@ fun MainNavigation(
             }
             entry<Route.Main.Settings.BackupAndRestore> {
                 val vm = hiltViewModel<BackupRestoreViewModel>()
-                BackupRestoreScreen(vm::onAction)
+                val uiState by vm.uiState.collectAsStateWithLifecycle()
+                BackupRestoreScreen(
+                    uiState = uiState,
+                    onAction = vm::onAction,
+                    events = vm.events,
+                )
             }
             entry<Route.Main.Settings.Developer> {
                 val vm = hiltViewModel<DeveloperViewModel>()

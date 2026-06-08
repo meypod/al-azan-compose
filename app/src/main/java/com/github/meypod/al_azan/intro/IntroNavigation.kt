@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -44,6 +45,9 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
+import com.github.meypod.al_azan.core.presentation.components.BlockingProgressDialog
+import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.SecondaryButton
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.components.TimedDangerDialog
@@ -60,7 +64,6 @@ import com.github.meypod.al_azan.intro.components.IntroTitle
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionScreen
 import com.github.meypod.al_azan.intro.languageselection.LanguageSelectionViewModel
 import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupScreen
-import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
 import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
@@ -207,18 +210,14 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                     )
                 }
                 entry<Route.Intro.RestoreBackup> {
-                    val viewModel = hiltViewModel<RestoreBackupViewModel>()
-                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                     IntroStepScaffold(
                         uiState = introUiState,
                         onAction = introViewModel::onAction,
                     ) { modifier ->
                         RestoreBackupScreen(
-                            uiState = uiState,
-                            onAction = viewModel::onAction,
                             onIntroAction = introViewModel::onAction,
                             modifier = modifier,
-                            busy = introUiState.busy,
+                            busy = introUiState.restoring,
                         )
                     }
                 }
@@ -370,6 +369,16 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
             onConfirm = { introViewModel.onAction(IntroUiAction.OnSkipConfirmed) },
         )
     }
+    if (introUiState.restoring) {
+        BlockingProgressDialog(message = stringResource(R.string.restoring_backup))
+    }
+    val snackbarController = LocalSnackbarController.current
+    val resources = LocalResources.current
+    LaunchedEffect(introViewModel.restoreErrors) {
+        introViewModel.restoreErrors.collect {
+            snackbarController.show(resources.getString(R.string.restore_failed))
+        }
+    }
 }
 
 @Composable
@@ -392,6 +401,7 @@ private fun IntroStepScaffold(
                 onAction = onAction,
             )
         },
+        snackbarHost = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
         containerColor = introBackgroundColor,
         floatingActionButton = floatingActionButton,
     ) { paddingValues ->
