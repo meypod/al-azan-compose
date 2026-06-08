@@ -21,8 +21,3 @@ sealed interface QiblaLocationLabel {
     /** Using a location just fetched from GPS. */
     data class Fetched(val detail: CalculationLocationDetail) : QiblaLocationLabel
 }
-
-sealed interface QiblaCompassUiAction {
-    data object OnToggleOrientationLock : QiblaCompassUiAction
-    data class OnLocationFetched(val detail: CalculationLocationDetail) : QiblaCompassUiAction
-}

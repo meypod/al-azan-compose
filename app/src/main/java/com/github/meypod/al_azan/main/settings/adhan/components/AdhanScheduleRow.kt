@@ -34,8 +34,6 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
-import com.github.meypod.al_azan.core.presentation.navigation.Route
-import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsUiAction
 
 @Immutable
 data class AdhanScheduleRowUiState(
@@ -54,21 +52,6 @@ data class AdhanScheduleRowUiState(
             if (soundSettings is PrayerAlarmSettings.Bool) ToggleableState(soundSettings.value) else ToggleableState.Indeterminate,
         )
     }
-}
-
-sealed interface AdhanScheduleRowUiAction {
-    object OnNotifyClick : AdhanScheduleRowUiAction
-    object OnSoundClick : AdhanScheduleRowUiAction
-    object OnCogClick : AdhanScheduleRowUiAction
-}
-
-fun AdhanScheduleRowUiAction.toAdhanSettingsUiAction(
-    prayer: Prayer,
-    prayerScheduleRoute: Route = Route.Main.Settings.SoundAndNotifications.PrayerSchedule(prayer),
-) = when (this) {
-    AdhanScheduleRowUiAction.OnNotifyClick -> AdhanSettingsUiAction.OnNotifyClick(prayer)
-    AdhanScheduleRowUiAction.OnSoundClick -> AdhanSettingsUiAction.OnSoundClick(prayer)
-    AdhanScheduleRowUiAction.OnCogClick -> AdhanSettingsUiAction.OnCogClick(prayer, prayerScheduleRoute)
 }
 
 @Composable

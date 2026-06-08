@@ -25,11 +25,6 @@ import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
-sealed interface BackupRestoreUiAction {
-    object OnCreateBackupClick : BackupRestoreUiAction
-    object OnRestoreClick : BackupRestoreUiAction
-}
-
 @Composable
 fun BackupRestoreScreen(
     onAction: (BackupRestoreUiAction) -> Unit,

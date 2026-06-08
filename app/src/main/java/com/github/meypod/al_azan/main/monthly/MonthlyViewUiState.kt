@@ -25,10 +25,3 @@ data class MonthlyViewUiState(
     val isCurrentMonth: Boolean = true,
     val calendarMode: MonthlyCalendarMode = MonthlyCalendarMode.SECONDARY,
 )
-
-sealed interface MonthlyViewUiAction {
-    object OnPrevMonthClick : MonthlyViewUiAction
-    object OnNextMonthClick : MonthlyViewUiAction
-    object OnShowThisMonthClick : MonthlyViewUiAction
-    object OnToggleCalendarClick : MonthlyViewUiAction
-}

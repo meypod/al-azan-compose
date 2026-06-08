@@ -20,29 +20,3 @@ data class AdvancedCalcUiState(
     val polar: PolarCircleResolution get() = calculationSettings?.parameters?.polarCircleResolution ?: PolarCircleResolution.Unresolved
     val shafaq: Shafaq get() = calculationSettings?.parameters?.shafaq ?: Shafaq.GENERAL
 }
-
-sealed interface AdvancedCalcUiAction {
-    data class OnRoundingChange(
-        val value: Rounding?,
-    ) : AdvancedCalcUiAction
-
-    data class OnMidnightChange(
-        val value: MidnightMethod,
-    ) : AdvancedCalcUiAction
-
-    data class OnHighLatitudeChange(
-        val value: HighLatitudeRule?,
-    ) : AdvancedCalcUiAction
-
-    data class OnMadhabChange(
-        val value: Madhab,
-    ) : AdvancedCalcUiAction
-
-    data class OnPolarChange(
-        val value: PolarCircleResolution,
-    ) : AdvancedCalcUiAction
-
-    data class OnShafaqChange(
-        val value: Shafaq,
-    ) : AdvancedCalcUiAction
-}

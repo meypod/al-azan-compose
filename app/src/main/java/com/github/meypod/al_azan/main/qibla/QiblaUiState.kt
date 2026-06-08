@@ -6,8 +6,3 @@ import androidx.compose.runtime.Immutable
 data class QiblaUiState(
     val disclaimerAcknowledged: Boolean = false,
 )
-
-sealed interface QiblaUiAction {
-    object OnUnderstoodClick : QiblaUiAction
-    object OnUseCompassClick : QiblaUiAction
-}
