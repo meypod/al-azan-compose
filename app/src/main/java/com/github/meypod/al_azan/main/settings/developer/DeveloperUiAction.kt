@@ -1,7 +1,6 @@
 package com.github.meypod.al_azan.main.settings.developer
 
 sealed interface DeveloperUiAction {
-    object OnBackClick : DeveloperUiAction
     object OnFireAdhanNow : DeveloperUiAction
     object OnScheduleAdhanWithSound : DeveloperUiAction
     object OnScheduleAdhanNotifyOnly : DeveloperUiAction

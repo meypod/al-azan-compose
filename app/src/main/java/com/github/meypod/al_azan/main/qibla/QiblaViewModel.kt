@@ -29,11 +29,18 @@ class QiblaViewModel @Inject constructor(
 
     fun onAction(action: QiblaUiAction) {
         when (action) {
-            QiblaUiAction.OnBackClick -> NavigationController.navigateBack()
-            QiblaUiAction.OnUnderstoodClick -> viewModelScope.launch {
-                settingsRepository.update { it.copy(qiblaFinderUnderstood = true) }
-            }
-            QiblaUiAction.OnUseCompassClick -> NavigationController.navigateTo(Route.Main.QiblaCompass)
+            QiblaUiAction.OnUnderstoodClick -> onUnderstoodClick()
+            QiblaUiAction.OnUseCompassClick -> onUseCompassClick()
         }
+    }
+
+    private fun onUnderstoodClick() {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(qiblaFinderUnderstood = true) }
+        }
+    }
+
+    private fun onUseCompassClick() {
+        NavigationController.navigateTo(Route.Main.QiblaCompass)
     }
 }

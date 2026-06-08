@@ -63,6 +63,7 @@ import com.github.meypod.al_azan.core.presentation.LightSuccess
 import com.github.meypod.al_azan.core.presentation.LightWarning
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.util.android.LocationUtils
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -143,7 +144,7 @@ fun QiblaCompassScreen(
 
     ScreenScaffold(
         title = stringResource(R.string.qibla_compass),
-        onBackClick = { onAction(QiblaCompassUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         scrollable = false,
         modifier = modifier,
     ) {

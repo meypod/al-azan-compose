@@ -6,7 +6,6 @@ import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import kotlinx.datetime.DayOfWeek
 
 sealed interface ReminderUiAction {
-    object OnBackClick : ReminderUiAction
     object OnAddClick : ReminderUiAction
     data class OnToggleEnabled(
         val id: String,

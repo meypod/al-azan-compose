@@ -31,32 +31,44 @@ class DeveloperViewModel
 
     fun onAction(action: DeveloperUiAction) {
         when (action) {
-            DeveloperUiAction.OnBackClick -> NavigationController.navigateBack()
+            DeveloperUiAction.OnFireAdhanNow -> onFireAdhanNow()
+            DeveloperUiAction.OnScheduleAdhanWithSound -> onScheduleAdhanWithSound()
+            DeveloperUiAction.OnScheduleAdhanNotifyOnly -> onScheduleAdhanNotifyOnly()
+            DeveloperUiAction.OnPostUpcoming -> onPostUpcoming()
+            DeveloperUiAction.OnVibrateShort -> onVibrateShort()
+            DeveloperUiAction.OnVibrateLong -> onVibrateLong()
+            DeveloperUiAction.OnStopVibration -> onStopVibration()
+            DeveloperUiAction.OnUpdateWidgets -> onUpdateWidgets()
+            DeveloperUiAction.OnDisableDeveloperMode -> onDisableDeveloperMode()
+        }
+    }
 
-            DeveloperUiAction.OnFireAdhanNow -> viewModelScope.launch {
-                adhanFiringHandler.devFireNow()
-            }
+    private fun onFireAdhanNow() {
+        viewModelScope.launch { adhanFiringHandler.devFireNow() }
+    }
 
-            DeveloperUiAction.OnScheduleAdhanWithSound -> scheduleAdhan(playSound = true)
+    private fun onScheduleAdhanWithSound() = scheduleAdhan(playSound = true)
 
-            DeveloperUiAction.OnScheduleAdhanNotifyOnly -> scheduleAdhan(playSound = false)
+    private fun onScheduleAdhanNotifyOnly() = scheduleAdhan(playSound = false)
 
-            DeveloperUiAction.OnPostUpcoming -> viewModelScope.launch {
-                adhanFiringHandler.devPostUpcoming()
-            }
+    private fun onPostUpcoming() {
+        viewModelScope.launch { adhanFiringHandler.devPostUpcoming() }
+    }
 
-            DeveloperUiAction.OnVibrateShort -> VibrationController.vibrate(context, VibrationMode.Once)
+    private fun onVibrateShort() = VibrationController.vibrate(context, VibrationMode.Once)
 
-            DeveloperUiAction.OnVibrateLong -> VibrationController.vibrate(context, VibrationMode.Continuous)
+    private fun onVibrateLong() = VibrationController.vibrate(context, VibrationMode.Continuous)
 
-            DeveloperUiAction.OnStopVibration -> VibrationController.stop(context)
+    private fun onStopVibration() = VibrationController.stop(context)
 
-            DeveloperUiAction.OnUpdateWidgets -> viewModelScope.launch { widgetUpdater.update() }
+    private fun onUpdateWidgets() {
+        viewModelScope.launch { widgetUpdater.update() }
+    }
 
-            DeveloperUiAction.OnDisableDeveloperMode -> viewModelScope.launch {
-                settingsRepository.update { it.copy(devMode = false) }
-                NavigationController.navigateBack()
-            }
+    private fun onDisableDeveloperMode() {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(devMode = false) }
+            NavigationController.navigateBack()
         }
     }
 

@@ -8,7 +8,6 @@ data class QiblaUiState(
 )
 
 sealed interface QiblaUiAction {
-    object OnBackClick : QiblaUiAction
     object OnUnderstoodClick : QiblaUiAction
     object OnUseCompassClick : QiblaUiAction
 }
