@@ -16,6 +16,7 @@ import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationChannelManagerImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.RestoreApplier
 import com.github.meypod.al_azan.core.data.repository.RingtoneRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SystemChangeRepositoryImpl
@@ -188,10 +189,10 @@ object RepositoryModule {
         counterRepository: CounterRepository,
         reminderRepository: ReminderRepository,
         favoriteLocationsRepository: FavoriteLocationsRepository,
+        restoreApplier: RestoreApplier,
         adhanScheduler: AdhanScheduler,
         reminderScheduler: ReminderScheduler,
         widgetUpdater: WidgetUpdater,
-        appLocaleManager: AppLocaleManager,
     ): BackupRepository =
         BackupRepositoryImpl(
             context = context,
@@ -202,10 +203,10 @@ object RepositoryModule {
             counterRepository = counterRepository,
             reminderRepository = reminderRepository,
             favoriteLocationsRepository = favoriteLocationsRepository,
+            restoreApplier = restoreApplier,
             adhanScheduler = adhanScheduler,
             reminderScheduler = reminderScheduler,
             widgetUpdater = widgetUpdater,
-            appLocaleManager = appLocaleManager,
         )
 
     @Provides

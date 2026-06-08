@@ -35,11 +35,11 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
+import com.github.meypod.al_azan.core.domain.model.settings.SupportedLocales
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.DarkSurface
 import com.github.meypod.al_azan.core.presentation.LightSecondaryContainer
-import com.github.meypod.al_azan.core.presentation.SupportedLocales
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.PrayerCheckboxTable
