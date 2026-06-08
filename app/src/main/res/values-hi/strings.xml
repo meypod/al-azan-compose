@@ -261,7 +261,7 @@
     <string name="lunar_islamic_civil">इस्लामी (सिविल)</string>
     <string name="lunar_islamic_saudi_sighting">इस्लामी (सऊदी अरब चाँद दर्शन)</string>
     <string name="attention_title"><b>ध्यान दें!</b></string>
-    <string name="lunar_calendar_warning">ऐप का चंद्र कैलेंडर पूर्व-गणना है और सटीक नहीं हो सकता है क्योंकि यह चंद्रमा के देखे जाने पर आधारित नहीं है। रमजान की शुरुआत और अंत के लिए यह विशेष रूप से महत्वपूर्ण है।</string>
+    <string name="lunar_calendar_warning">ऐप का चंद्र कैलेंडर पूर्व-गणना है और सटीक नहीं हो सकता है क्योंकि यह चंद्रमा के देखे जाने पर आधारित नहीं है। रमज़ान की शुरुआत और अंत के लिए यह विशेष रूप से महत्वपूर्ण है।</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)
@@ -321,8 +321,8 @@
     <string name="high_latitude_seventh">रात का सातवाँ भाग</string>
     <string name="high_latitude_twilight_angle">गोधूलि कोण</string>
     <string name="asr_calculation">असर की गणना</string>
-    <string name="asr_shafi_default">शाफइ, मलिकी, हनबली (डिफ़ॉल्ट)</string>
-    <string name="asr_hanafi">हनफी</string>
+    <string name="asr_shafi_default">शाफ़ई, मालिकी, हनबली (डिफ़ॉल्ट)</string>
+    <string name="asr_hanafi">हनफ़ी</string>
     <string name="polar_resolution">ध्रुवीय रेज़ोल्यूशन</string>
     <string name="polar_unresolved_default">अनसुलझा (डिफ़ॉल्ट)</string>
     <string name="polar_aqrab_balad">अक़रब बलद</string>
@@ -467,7 +467,7 @@
     <string name="show_last_change_time">अंतिम परिवर्तन का समय दिखाएँ</string>
     <string name="add_counter">काउंटर जोड़ें</string>
     <string name="counter_last_change">%1$s, %2$d → %3$d</string>
-    <string name="counter_fast">उपवास</string>
+    <string name="counter_fast">रोज़ा</string>
     <string name="counter_new_title">नया काउंटर</string>
     <string name="counter_edit_title">काउंटर संपादित करें</string>
     <string name="counter_label">लेबल</string>
@@ -520,8 +520,8 @@
          Troubleshoot  (main/settings/troubleshoot)
          ============================================================ -->
     <string name="troubleshoot_title">सामान्य समस्याएँ ठीक करें</string>
-    <string name="advanced">विकसित</string>
-    <string name="advanced_title">विकसित</string>
+    <string name="advanced">उन्नत</string>
+    <string name="advanced_title">उन्नत</string>
     <string name="battery_problem_final_hint">यदि कुछ समय बाद ऐप के रुकने की समस्या अब भी आ रही है, तो अधिक समाधानों के लिए कृपया <a href="%1$s">%2$s</a> पर जाएँ।</string>
     <string name="battery_problem_body">अलार्म और सूचनाएँ विश्वसनीय रूप से वितरित हों, यह सुनिश्चित करने के लिए कृपया इस ऐप के लिए पावर ऑप्टिमाइज़ेशन अक्षम करें। कुछ डिवाइस बैटरी बचाने के लिए ऐप को बैकग्राउंड में रोक सकते हैं।</string>
     <string name="battery_problem_title">ऐप को चलते रहने में मदद करें</string>

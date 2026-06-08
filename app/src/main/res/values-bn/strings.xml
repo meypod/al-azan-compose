@@ -231,20 +231,20 @@
     <string name="numbering_system">সংখ্যা পদ্ধতি</string>
     <string name="numbering_system_help">সমস্ত সংখ্যাকে নির্বাচিত সিস্টেমে থাকতে বাধ্য করে।</string>
     <string name="numbering_system_default">ডিফল্ট</string>
-    <string name="numbering_system_latn">পশ্চিম আরব</string>
-    <string name="numbering_system_arab">পূর্ব আরব</string>
+    <string name="numbering_system_latn">পশ্চিমা আরবি</string>
+    <string name="numbering_system_arab">পূর্ব আরবি</string>
     <string name="numbering_system_arabext">ফার্সি</string>
     <string name="numbering_system_beng">বাংলা</string>
     <string name="numbering_system_deva">দেবনাগরী</string>
     <string name="lunar_calendar_language">চন্দ্র ক্যালেন্ডারের ভাষা</string>
-    <string name="lunar_calendar_language_help">চান্দ্র ক্যালেন্ডারের জন্য ব্যবহৃত ভাষা পরিবর্তন করুন।</string>
+    <string name="lunar_calendar_language_help">চন্দ্র ক্যালেন্ডারের জন্য ব্যবহৃত ভাষা পরিবর্তন করুন।</string>
     <string name="default_value">ডিফল্ট</string>
     <string name="primary_calendar">প্রাথমিক ক্যালেন্ডার</string>
     <string name="primary_calendar_help">যে ক্যালেন্ডারটি পৃষ্ঠার উপরে দেখায়।</string>
     <string name="secondary_calendar">দ্বিতীয় ক্যালেন্ডার</string>
     <string name="secondary_calendar_help">যে ক্যালেন্ডারটি সপ্তাহের দিনের নিচে দেখায়।</string>
     <string name="calendar_gregorian">গ্রেগরিয়ান</string>
-    <string name="calendar_lunar">চান্দ্র</string>
+    <string name="calendar_lunar">চন্দ্র</string>
     <string name="calendar_none">কোনোটিই নয়</string>
     <string name="calendar_persian">ফার্সি</string>
     <string name="calendar_ethiopic">ইথিওপিক</string>
@@ -260,7 +260,7 @@
     <string name="lunar_islamic_ummalqura">ইসলামিক (উম্মুল কুরা)</string>
     <string name="lunar_islamic_tabular">ইসলামিক (সারণী)</string>
     <string name="lunar_islamic_civil">ইসলামিক (সিভিল)</string>
-    <string name="lunar_islamic_saudi_sighting">ইসলামিক (সৌদি আরব দেখা যাওয়া)</string>
+    <string name="lunar_islamic_saudi_sighting">ইসলামিক (সৌদি আরব চাঁদ দেখা)</string>
     <string name="attention_title"><b>মনোযোগ!</b></string>
     <string name="lunar_calendar_warning">অ্যাপটির চন্দ্র ক্যালেন্ডার পূর্ব-গণনা করা এবং সঠিক নাও হতে পারে কারণ এটি চাঁদ দেখার উপর ভিত্তি করে নয়। রমজানের শুরু এবং শেষের জন্য এটি বিশেষভাবে গুরুত্বপূর্ণ।</string>
 
@@ -337,7 +337,7 @@
     <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
     <string name="adjustments_title">সমন্বয়</string>
     <string name="adjustments_help">গণনাকৃত সময়ের সাথে যত মিনিট যোগ করা হবে।</string>
-    <string name="lunar_days_adjustment_help">চান্দ্র ক্যালেন্ডারের সাথে যত দিন যোগ করা হবে।</string>
+    <string name="lunar_days_adjustment_help">চন্দ্র ক্যালেন্ডারের সাথে যত দিন যোগ করা হবে।</string>
     <string name="increment">বৃদ্ধি করুন</string>
     <string name="decrement">হ্রাস করুন</string>
 
@@ -514,7 +514,7 @@
          ============================================================ -->
     <string name="monthly_view_title">মাসিক ভিউ</string>
     <string name="prev_month">আগের মাস</string>
-    <string name="next_month">পরের মাসে</string>
+    <string name="next_month">পরের মাস</string>
     <string name="show_this_month">এই মাস দেখান</string>
     <string name="date_column">তারিখ</string>
 

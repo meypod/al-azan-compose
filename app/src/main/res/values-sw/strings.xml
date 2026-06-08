@@ -262,7 +262,7 @@
     <string name="lunar_islamic_civil">Kiislamu (kiraia)</string>
     <string name="lunar_islamic_saudi_sighting">Kiislamu (uangaliaji wa Saudi Arabia)</string>
     <string name="attention_title"><b>Tahadhari!</b></string>
-    <string name="lunar_calendar_warning">Kalenda ya mwandamo ya programu huhesabiwa mapema na huenda isiwe sahihi kwa sababu haitegemei mwonekano wa mwezi. Hili ni muhimu sana kuzingatiwa kwa mwanzo na mwisho wa Ramadhan.</string>
+    <string name="lunar_calendar_warning">Kalenda ya mwezi ya programu huhesabiwa mapema na huenda isiwe sahihi kwa sababu haitegemei mwonekano wa mwezi. Hili ni muhimu sana kuzingatiwa kwa mwanzo na mwisho wa Ramadhani.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)
@@ -363,7 +363,7 @@
     <string name="custom_muezzin">Muezzin Maalum</string>
     <string name="use_default_vibration">Tumia chaguomsingi</string>
     <string name="vibration_mode">Hali ya Mtetemo</string>
-    <string name="vibration_mode_help">Je, simu inapaswa kutetema adhana au kikumbusho kinapoanza kucheza?</string>
+    <string name="vibration_mode_help">Je, simu inapaswa kutetema wakati adhana au kikumbusho kinapoanza kucheza?</string>
     <string name="show_upcoming_alarm">Onyesha arifa ya kengele inayokuja</string>
     <string name="show_upcoming_alarm_help">Ikiwashwa, arifa itaonyeshwa karibu saa moja kabla ya kila adhana.</string>
     <string name="custom_upcoming_time">Arifu kabla ya adhana</string>

@@ -179,7 +179,7 @@
     <string name="search_by_city_title">Aramayı kullan</string>
     <string name="country">Ülke</string>
     <string name="city">Şehir</string>
-    <string name="find_location_title">Konum servislerini kullanma</string>
+    <string name="find_location_title">Konum servislerini kullan</string>
     <string name="find_location_button">Beni bul</string>
     <string name="using_coordinates_title">Koordinatları kullan</string>
     <string name="latitude">Enlem</string>
@@ -259,7 +259,7 @@
     <string name="lunar_islamic_ummalqura">İslami (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">İslami (Cetvele göre hesaplanmış)</string>
     <string name="lunar_islamic_civil">İslami (Sivil)</string>
-    <string name="lunar_islamic_saudi_sighting">İslami (Suudi Arabistan\'a göre görünüm)</string>
+    <string name="lunar_islamic_saudi_sighting">İslami (Suudi Arabistan gözlemi)</string>
     <string name="attention_title"><b>Dikkat!</b></string>
     <string name="lunar_calendar_warning">Uygulamanın ay takvimi önceden hesaplanmıştır ve ay gözlemlerine dayanmadığı için doğru olmayabilir. Bu özellikle Ramazan\'ın başlangıcı ve bitişi için önemlidir.</string>
 
@@ -294,7 +294,7 @@
     <string name="calc_method_qatar">Katar</string>
     <string name="calc_method_singapore">Singapur</string>
     <string name="calc_method_france">Fransa İslam organizasyon birliği</string>
-    <string name="calc_method_france15">Fransa açı 15</string>
+    <string name="calc_method_france15">Fransa açısı 15</string>
     <string name="calc_method_france18">Fransa açısı 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Türkiye</string>
     <string name="calc_method_russia">Rusya Müslümanlarının Ruhani Yönetimi</string>
@@ -584,7 +584,7 @@
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">Dikkat</string>
+    <string name="ramadan_notice_title">Dikkat!</string>
     <string name="ramadan_remind_next_year">Gelecek yıl hatırlat bana</string>
     <string name="ramadan_dont_show_again">Bir daha gösterme</string>
 
