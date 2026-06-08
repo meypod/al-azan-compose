@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -34,6 +35,7 @@ fun QiblaScreen(
     modifier: Modifier = Modifier,
 ) {
     val uriHandler = LocalUriHandler.current
+    val localeTag = LocalResources.current.configuration.locales[0].toLanguageTag()
     ScreenScaffold(
         title = stringResource(R.string.qibla),
         onBackClick = { onAction(QiblaUiAction.OnBackClick) },
@@ -63,7 +65,7 @@ fun QiblaScreen(
                 QiblaTile(
                     icon = R.drawable.globe_location,
                     label = stringResource(R.string.qibla_use_map),
-                ) { uriHandler.openUri(QIBLA_MAP_URL) }
+                ) { uriHandler.openUri("$QIBLA_MAP_URL?lang=$localeTag") }
                 QiblaTile(
                     icon = R.drawable.compass_outline,
                     label = stringResource(R.string.qibla_use_compass),
