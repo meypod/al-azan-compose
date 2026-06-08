@@ -1,19 +1,633 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ============================================================
+         Shared / common UI  (core/presentation/components)
+         ============================================================ -->
     <string name="app_name">Al-Azan</string>
-    <string name="welcome">Bienvenue</string>
-    <string name="choose_language">Choisissez votre langue</string>
-    <string name="get_started">Commencer</string>
-    <string name="skip">Passer</string>
-    <string name="restore_thanks_title">Merci de nous avoir choisis</string>
-    <string name="restore_thanks_body">Pour que l\'application fonctionne correctement, veuillez définir quelques préférences afin que nous puissions calculer précisément vos horaires de prière.</string>
-    <string name="restore_backup_hint">Si vous disposez déjà d\'un fichier de sauvegarde, vous pouvez le restaurer ici.</string>
-    <string name="restore_backup_button">Restaurer le fichier de sauvegarde</string>
-    <string name="skip_confirm">Passer</string>
     <string name="cancel">Annuler</string>
+    <string name="confirm">Confirmer</string>
+    <string name="close">Fermer</string>
+    <string name="delete">Supprimer</string>
+    <string name="okay">Ok</string>
+    <string name="dismiss">Passer</string>
+    <string name="play">Jouer</string>
+    <string name="stop">Arrêter</string>
+    <string name="add">Ajouter</string>
+    <string name="increase">Augmenter</string>
+    <string name="decrease">Diminuer</string>
+    <string name="information">Information</string>
+    <string name="selected">Sélectionné</string>
+    <string name="no_items_found">Aucun élément trouvé</string>
+    <string name="search_placeholder">Recherche</string>
+    <string name="drag_handle_description">Poignée de déplacement</string>
+    <string name="dont_ask_again">Ne pas demander à nouveau</string>
+    <string name="custom_minutes">Personnalisé</string>
+    <string name="custom_minutes_tap_to_edit">Appuyer pour modifier</string>
+    <string name="custom_minutes_dialog_title">Minutes personnalisées</string>
+
+    <!-- Shared prayer-times selector (used by interface & widget settings) -->
+    <string name="show_prayer_times_title">Afficher les horaires de prières</string>
+    <string name="show_prayer_times_help">Choisissez les horaires de prières à afficher sur l\'écran principal.</string>
+    <string name="show_column">Afficher</string>
+    <string name="time_column">Temps</string>
+
+    <!-- Stepper / wizard navigation -->
     <string name="back_button">Retour</string>
     <string name="next_button">Suivant</string>
     <string name="finish_button">Terminer</string>
-    <string name="no_items_found">Aucun élément trouvé</string>
-    <string name="search_placeholder">Recherche…</string>
+
+    <!-- ============================================================
+         Prayer names  (core/domain/model/adhan)
+         ============================================================ -->
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Lever du soleil</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="sunset">Coucher du soleil</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
+    <string name="midnight">Minuit</string>
+    <string name="tahajjud">Tahajjud</string>
+
+    <!-- ============================================================
+         Permission dialogs  (core/presentation/dialog)
+         ============================================================ -->
+    <string name="permission_denied">Autorisation refusée</string>
+    <string name="open_settings_label">Ouvrir les paramètres</string>
+    <string name="open_settings_failed">Impossible d\'ouvrir les paramètres.</string>
+    <string name="open_permissions_guidance">Ouvrez les autorisations et accordez l\'accès à la localisation.</string>
+    <string name="location_permission_denied_text">L\'accès à la localisation est requis pour cette fonctionnalité.</string>
+    <string name="location_service_required_title">Localisation requise</string>
+    <string name="location_service_required_text">Veuillez activer les services de localisation pour utiliser cette fonctionnalité.</string>
+    <string name="notification_permission_title">Autoriser les notifications</string>
+    <string name="notification_permission_rationale">Le widget de notification affiche les horaires de prières dans votre volet de notifications. Autorisez les notifications pour l\'activer.</string>
+    <string name="notification_permission_denied_text">L\'accès aux notifications est requis pour afficher le widget. Activez les notifications pour cette application dans les paramètres.</string>
+    <string name="exact_alarm_permission_title">Autoriser les alarmes exactes</string>
+    <string name="exact_alarm_permission_rationale">Pour garder précis les horaires de prières et le compte à rebours du widget, autorisez cette application à programmer des alarmes exactes.</string>
+    <string name="exact_alarm_permission_denied_text">L\'accès aux alarmes exactes est requis pour garder précis les horaires de prières et le compte à rebours du widget. Autorisez-le pour cette application dans les paramètres.</string>
+    <string name="full_screen_intent_permission_title">Autoriser les alarmes en plein écran</string>
+    <string name="adhan_notification_permission_rationale">Les alarmes d\'Adhan publient une notification à chaque horaire de prière. Autorisez les notifications pour les activer.</string>
+    <string name="adhan_notification_permission_denied_text">L\'accès aux notifications est requis pour les alarmes d\'Adhan. Activez les notifications pour cette application dans les paramètres.</string>
+    <string name="adhan_exact_alarm_permission_rationale">Les alarmes d\'Adhan doivent se déclencher à l\'horaire exact de la prière. Autorisez cette application à programmer des alarmes exactes.</string>
+    <string name="adhan_exact_alarm_permission_denied_text">L\'accès aux alarmes exactes est requis pour que les alarmes d\'Adhan se déclenchent à l\'heure. Autorisez-le pour cette application dans les paramètres.</string>
+    <string name="adhan_full_screen_intent_permission_rationale">Pour afficher l\'alarme d\'Adhan sur votre écran de verrouillage et réveiller l\'écran, autorisez cette application à utiliser les alarmes en plein écran.</string>
+    <string name="adhan_full_screen_intent_permission_denied_text">Sans l\'accès au plein écran, l\'alarme d\'Adhan ne s\'affichera pas sur l\'écran de verrouillage. Vous pourrez l\'autoriser plus tard dans les paramètres.</string>
+    <string name="adhan_phone_state_permission_rationale">Autorisez l\'accès au téléphone afin que l\'Adhan puisse s\'interrompre lors d\'appels entrants ou en cours. Utilisé uniquement pour lire l\'état des appels.</string>
+    <string name="adhan_phone_state_permission_denied_text">L\'accès au téléphone est désactivé, l\'Adhan ne s\'interrompra donc pas pour les appels. Vous pourrez l\'autoriser plus tard dans les paramètres.</string>
+    <string name="reminder_notification_permission_rationale">Les rappels publient une notification à l\'horaire programmé. Autorisez les notifications pour les activer.</string>
+    <string name="reminder_notification_permission_denied_text">L\'accès aux notifications est requis pour les rappels. Activez les notifications pour cette application dans les paramètres.</string>
+    <string name="reminder_exact_alarm_permission_rationale">Les rappels doivent se déclencher à l\'horaire exact programmé. Autorisez cette application à programmer des alarmes exactes.</string>
+    <string name="reminder_exact_alarm_permission_denied_text">L\'accès aux alarmes exactes est requis pour que les rappels se déclenchent à l\'heure. Autorisez-le pour cette application dans les paramètres.</string>
+    <string name="phone_state_permission_title">Autoriser l\'accès au téléphone</string>
+    <string name="dnd_permission_title">Autoriser l\'accès au mode Ne pas déranger</string>
+    <string name="dnd_permission_rationale">Autorisez cette application à contrôler le mode Ne pas déranger. Cela permet à l\'Adhan de retentir lorsque le mode Ne pas déranger est activé, et active l\'option de mettre votre téléphone en silence après avoir ignoré l\'alarme.</string>
+    <string name="dnd_permission_denied_text">L\'accès au mode Ne pas déranger est requis pour cela. Autorisez-le pour cette application dans les paramètres.</string>
+    <string name="home_notification_permission_rationale">Les notifications ont été désactivées. Autorisez-les à nouveau afin que les alarmes d\'Adhan puissent vous parvenir.</string>
+    <string name="home_exact_alarm_permission_rationale">L\'accès aux alarmes exactes a été désactivé. Autorisez-le à nouveau afin que vos alarmes de prières continuent de se déclencher à l\'heure.</string>
+
+    <!-- ============================================================
+         Audio preview  (core/data/audio)
+         ============================================================ -->
+    <string name="adhan_preview_playing">Lecture de l\'aperçu de l\'Adhan</string>
+    <string name="adhan_preview_channel_name">Aperçu de l\'Adhan</string>
+
+    <!-- ============================================================
+         Custom audio / sound picker  (core/presentation/components)
+         ============================================================ -->
+    <string name="add_custom_audio">Ajouter un son personnalisé</string>
+    <string name="audio_name">Nom</string>
+    <string name="audio_name_required">La sélection d\'un nom est obligatoire</string>
+    <string name="delete_audio_title">Supprimer l\'audio ?</string>
+    <string name="delete_audio_body">Retirer « %1$s » de vos sons ?</string>
+    <string name="repeat">Répéter</string>
+    <string name="your_sounds">Vos sons</string>
+    <string name="device_sounds">Sons de l\'appareil</string>
+    <string name="add_from_local_files">Ajouter depuis les fichiers locaux</string>
+    <string name="reminder_default_sound">Par défaut (Notification)</string>
+
+    <!-- ============================================================
+         Vibration & weekdays  (core/presentation/mapper)
+         ============================================================ -->
+    <string name="vibration_off">Off</string>
+    <string name="vibration_once">Une fois</string>
+    <string name="vibration_continuous">Continu</string>
+    <string name="weekday_sunday">Dimanche</string>
+    <string name="weekday_monday">Lundi</string>
+    <string name="weekday_tuesday">Mardi</string>
+    <string name="weekday_wednesday">Mercredi</string>
+    <string name="weekday_thursday">Jeudi</string>
+    <string name="weekday_friday">Vendredi</string>
+    <string name="weekday_saturday">Samedi</string>
+
+    <!-- ============================================================
+         Intro / onboarding  (intro)
+         ============================================================ -->
+    <string name="welcome">Bienvenue</string>
+    <string name="choose_language">Choisissez votre langue</string>
+    <string name="get_started">Commencer</string>
+    <string name="restore_thanks_title">Merci de nous avoir choisis</string>
+    <string name="restore_thanks_body">Pour que l\'application fonctionne correctement, veuillez définir quelques préférences afin que nous puissions calculer vos horaires de prières avec précision.</string>
+    <string name="restore_backup_hint">Si vous disposez déjà d\'un fichier de sauvegarde, vous pouvez le restaurer ici.</string>
+    <string name="restore_backup_button">Restaurer un fichier de sauvegarde</string>
+    <string name="skip">Passer</string>
+    <string name="skip_confirm">Passer</string>
+    <string name="skip_dialog_body">Les paramètres requis sont incomplets. Pour que l\'application affiche les horaires de prières, vous devrez les configurer à partir de paramètres ultérieurement.</string>
+    <string name="restoring_backup">Restauration de la sauvegarde…</string>
+
+    <!-- ============================================================
+         Home / main screen  (main/home)
+         ============================================================ -->
+    <string name="menu">Menu</string>
+    <string name="prev_day">Jour précédent</string>
+    <string name="next_day">Jour suivant</string>
+    <string name="next_prayer">Prochaine prière</string>
+    <string name="show_today">Montrer le jour d\'aujourd\'hui</string>
+    <string name="set_location_hint">Définir la localisation</string>
+    <string name="set_calculation_hint">Définir la méthode de calcul</string>
+    <string name="prayer_times_unavailable_hint">Les horaires de prières ne peuvent pas encore être affichés. Terminez la configuration :</string>
+
+    <!-- ============================================================
+         Settings menu  (main/settings/menu)
+         ============================================================ -->
+    <string name="settings">Paramètres</string>
+    <string name="qibla">Qibla</string>
+    <string name="counter">Compteur</string>
+    <string name="reminder">Rappel</string>
+    <string name="notification_and_sound_title"><![CDATA[Notification et son]]></string>
+    <string name="alarm_settings_title">Paramètres d\'alarme</string>
+    <string name="schedule_and_muezzin_title"><![CDATA[Programmation et Muezzin]]></string>
+    <string name="calculation_title">Calcul</string>
+    <string name="interface_settings">Paramètres de l\'interface</string>
+    <string name="widget_settings_title">Paramètres du widget</string>
+    <string name="backup_and_restore_title"><![CDATA[Sauvegarde et restauration]]></string>
+
+    <!-- ============================================================
+         Location  (main/location)
+         ============================================================ -->
+    <string name="location_title">Localisation</string>
+    <string name="location_info_card">Nous avons besoin de votre localisation pour calculer correctement vos horaires de prières.</string>
+    <string name="locations_list_title">Lieux enregistrés</string>
+    <string name="locations_list_empty_state">Aucun lieu pour l\'instant. Ajoutez-en un pour commencer.</string>
+    <string name="add_new_location_button">Ajouter un nouveau lieu</string>
+    <string name="see_options">Voir les options</string>
+    <string name="set_as_default">Définir par défaut</string>
+    <string name="delete_location">Supprimer le lieu</string>
+    <string name="delete_location_confirm_title">Supprimer le lieu ?</string>
+    <string name="delete_location_confirm_body">Cela supprimera le lieu suivant de votre liste enregistrée :
+%1$s</string>
+    <string name="new_location_description">Vous pouvez ajouter un lieu de trois manières différentes. Choisissez-en une ci-dessous :</string>
+    <string name="search_by_city_title">Utilisation de la recherche</string>
+    <string name="country">Pays</string>
+    <string name="city">Ville</string>
+    <string name="find_location_title">Utilisation des services de localisation</string>
+    <string name="find_location_button">Me localiser</string>
+    <string name="using_coordinates_title">Utilisation des coordonnées</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="location_label">Intitulé</string>
+    <string name="paste">Coller</string>
+    <string name="clear">Effacer</string>
+    <string name="clipboard_coordinates_not_found">Impossible de détecter des coordonnées dans le presse-papiers.</string>
+    <string name="copy_coordinates">Copier les coordonnées</string>
+    <string name="edit_label">Modifier l\'intitulé</string>
+    <string name="coordinates_copied">Coordonnées copiées dans le presse-papiers.</string>
+    <string name="location_traveling_mode">Mode voyage</string>
+    <string name="location_traveling_hint">Met à jour votre localisation périodiquement. Peut augmenter la consommation de la batterie.</string>
+    <string name="last_updated_at">Dernière mise à jour à : %1$s</string>
+    <string name="location_is_disabled">La localisation est désactivée</string>
+
+    <!-- ============================================================
+         Travel mode  (worker)
+         ============================================================ -->
+    <string name="location_is_disabled_notif_title">Services de localisation désactivés</string>
+    <string name="location_is_disabled_notif_body">Le mode voyage est actif, mais vos services de localisation sont désactivés. Veuillez activer la localisation afin que l\'application puisse mettre à jour votre position de manière fiable.</string>
+    <string name="worker_location_permission_revoked_title">Autorisation de localisation révoquée</string>
+    <string name="worker_location_permission_revoked_body">Le mode voyage est actif, mais l\'application n\'a plus l\'autorisation de localisation. Désactivez le mode voyage ou accordez l\'accès à la localisation pour continuer.</string>
+
+    <!-- ============================================================
+         Interface / appearance settings  (main/settings/appearance)
+         ============================================================ -->
+    <string name="language">Langue</string>
+    <string name="themes">Thèmes</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="theme_classic_black">Noir classique</string>
+    <string name="theme_classic_light">Clair classique</string>
+    <string name="theme_system_default">Thème par défaut</string>
+    <string name="theme_dynamic">Dynamique</string>
+    <string name="countdown_timer">Compte à rebours de l\'accueil</string>
+    <string name="countdown_timer_help">Afficher le temps restant avant la prochaine prière sur l\'écran d\'accueil.</string>
+    <string name="countdown_skip_non_prayers">Compter à rebours uniquement jusqu\'aux prières</string>
+    <string name="countdown_skip_non_prayers_help">Ignorer le lever du soleil, le coucher du soleil, minuit et le tahajjud lors du compte à rebours vers le prochain horaire.</string>
+    <string name="highlight_current_prayer_time">Mettre en évidence l\'horaire de prière actuel</string>
+    <string name="highlight_current_prayer_time_help">Mettre en évidence l\'horaire de prière actuel au lieu du suivant.</string>
+    <string name="countdown_to">Compte à rebours vers</string>
+    <string name="countdown_target_next_active_azan">Prochain Azan actif</string>
+    <string name="countdown_target_next_prayer">Prochaine prière</string>
+    <string name="date_and_time">Date et heure</string>
+    <string name="time_format">Format de l\'heure</string>
+    <string name="use_24_hour_format">Utiliser le format 24 heures</string>
+    <string name="numbering_system">Système de numérotation</string>
+    <string name="numbering_system_help">Force tous les numéros à être dans le système sélectionné</string>
+    <string name="numbering_system_default">Défaut</string>
+    <string name="numbering_system_latn">Arabe occidental</string>
+    <string name="numbering_system_arab">Arabe oriental</string>
+    <string name="numbering_system_arabext">Perse</string>
+    <string name="numbering_system_beng">Bengali</string>
+    <string name="numbering_system_deva">Devanagari</string>
+    <string name="lunar_calendar_language">Langue du calendrier lunaire</string>
+    <string name="lunar_calendar_language_help">Modifier la langue utilisée pour le calendrier lunaire.</string>
+    <string name="default_value">Défaut</string>
+    <string name="primary_calendar">Calendrier principal</string>
+    <string name="primary_calendar_help">Le calendrier qui s\'affiche en haut de la page.</string>
+    <string name="secondary_calendar">Calendrier secondaire</string>
+    <string name="secondary_calendar_help">Le calendrier qui s\'affiche sous le jour de la semaine.</string>
+    <string name="calendar_gregorian">Grégorien</string>
+    <string name="calendar_lunar">Lunaire</string>
+    <string name="calendar_none">Aucun</string>
+    <string name="calendar_persian">Perse</string>
+    <string name="calendar_ethiopic">Éthiopique</string>
+    <string name="calendar_buddhist">Bouddhiste</string>
+
+    <!-- ============================================================
+         Lunar calendar  (core/domain/model/lunar, settings/calculation)
+         ============================================================ -->
+    <string name="calendar">Calendrier</string>
+    <string name="lunar_calendar">Calendrier lunaire</string>
+    <string name="lunar_calendar_supporting_text">Le type de calendrier lunaire affiché dans l\'écran principal et les widgets</string>
+    <string name="lunar_islamic">Islamique</string>
+    <string name="lunar_islamic_ummalqura">Islamique (Umm al-Qura)</string>
+    <string name="lunar_islamic_tabular">Islamique (tabulaire)</string>
+    <string name="lunar_islamic_civil">Islamique (civil)</string>
+    <string name="lunar_islamic_saudi_sighting">Islamique (repérage en Arabie Saoudite)</string>
+    <string name="attention_title"><b>Attention !</b></string>
+    <string name="lunar_calendar_warning">Le calendrier lunaire de l\'application est précalculé et peut ne pas être exact car il n\'est pas basé sur les observations de la lune. Ceci est particulièrement important pour le début et la fin du Ramadan.</string>
+
+    <!-- ============================================================
+         Calculation  (main/settings/calculation)
+         ============================================================ -->
+    <string name="calculation_info_card_title"><b>Soyez attentif</b></string>
+    <string name="calculation_info_card">Le calcul de l\'Adhan peut se faire selon de nombreuses méthodes différentes. Chaque méthode fournit des résultats différents. Il est de votre responsabilité de rechercher et d\'utiliser la bonne méthode.</string>
+    <string name="calculation_method">Méthode de calcul</string>
+    <string name="calculation_method_select_placeholder">Appuyer pour sélectionner une méthode</string>
+    <string name="calculation_method_modified">%1$s (Modifié)</string>
+    <string name="fajr_angle">Angle Fajr</string>
+    <string name="isha_angle">Angle Isha</string>
+    <string name="isha_interval">Intervalle Isha</string>
+    <string name="maghrib_angle">Angle Maghrib</string>
+    <string name="edit_calculation_parameters">Modifier les paramètres de calcul</string>
+    <string name="minutes_unit">minutes</string>
+    <string name="degrees_unit">deg</string>
+    <string name="advanced_calculation_settings">Paramètres de calcul avancés</string>
+    <string name="adjustments">Ajustements</string>
+    <!-- Calculation methods (main/settings/calculation/utils) -->
+    <string name="calc_method_other">Personnalisé</string>
+    <string name="calc_method_moonsighting_committee">Comité d\'observation de la lune</string>
+    <string name="calc_method_muslim_world_league">Ligue islamique mondiale</string>
+    <string name="calc_method_egyptian">Autorité égyptienne d\'études générales</string>
+    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
+    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_north_america">Société islamique d\'Amérique du Nord (ISNA)</string>
+    <string name="calc_method_gulf">Région du Golfe</string>
+    <string name="calc_method_dubai">La région du Golfe (Dubaï)</string>
+    <string name="calc_method_kuwait">Koweït</string>
+    <string name="calc_method_qatar">Qatar</string>
+    <string name="calc_method_singapore">Singapour</string>
+    <string name="calc_method_france">Union Organisation Islamique de France</string>
+    <string name="calc_method_france15">France angle 15</string>
+    <string name="calc_method_france18">France angle 18</string>
+    <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Turquie</string>
+    <string name="calc_method_russia">Administration spirituelle des musulmans de Russie</string>
+    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
+    <string name="calc_method_tehran">Shia, Institut de géophysique, Université de Téhéran</string>
+    <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
+    <string name="calc_method_algeria">Ministère des affaires religieuses et des wakfs, Algérie</string>
+    <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
+    <string name="calc_method_tunisia">Ministère des affaires religieuses de Tunisie</string>
+
+    <!-- Calculation — advanced (main/settings/calculation/advanced) -->
+    <string name="advanced_calculation_title">Paramètres de calcul avancés</string>
+    <string name="rounding_method">Méthode d\'arrondissement</string>
+    <string name="rounding_auto_default">Automatique (par défaut)</string>
+    <string name="rounding_nearest">Le plus proche</string>
+    <string name="rounding_up">Haut de la page</string>
+    <string name="rounding_none">Aucun</string>
+    <string name="midnight_method">Méthode de minuit</string>
+    <string name="midnight_sunset_to_fajr_default">Du coucher du soleil au Fajr (par défaut)</string>
+    <string name="midnight_sunset_to_sunrise">Du coucher au lever du soleil</string>
+    <string name="high_latitude">Latitude élevée</string>
+    <string name="high_latitude_none_automatic">Aucun (automatique)</string>
+    <string name="high_latitude_middle">Le milieu de la nuit</string>
+    <string name="high_latitude_seventh">Septième de la nuit</string>
+    <string name="high_latitude_twilight_angle">Angle du crépuscule</string>
+    <string name="asr_calculation">Calcul du Asr</string>
+    <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Par défaut)</string>
+    <string name="asr_hanafi">Hanafi</string>
+    <string name="polar_resolution">Résolution polaire</string>
+    <string name="polar_unresolved_default">Non résolu (par défaut)</string>
+    <string name="polar_aqrab_balad">Aqrab Balad</string>
+    <string name="polar_aqrab_yaum">Aqrab Yaum</string>
+    <string name="shafaq">Shafaq</string>
+    <string name="shafaq_help">Le Shafaq est utilisé par la méthode du Comité d\'observation de la lune pour 
+déterminer quel type de crépuscule utiliser afin de
+déterminer l\'heure d\'Isha</string>
+    <string name="shafaq_general_default">Général (par défaut)</string>
+    <string name="shafaq_ahmer">Ahmer</string>
+    <string name="shafaq_abyad">Abyad</string>
+
+    <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
+    <string name="adjustments_title">Ajustements</string>
+    <string name="adjustments_help">Nombre de minutes qui seront ajoutées aux horaires calculés.</string>
+    <string name="lunar_days_adjustment_help">Nombre de jours qui seront ajoutés au calendrier lunaire.</string>
+    <string name="increment">Incrément</string>
+    <string name="decrement">Décrément</string>
+
+    <!-- ============================================================
+         Schedule, sound & muezzin  (main/settings/adhan)
+         ============================================================ -->
+    <string name="playback_settings">Paramètres de lecture</string>
+    <string name="notification_settings">Paramètres de notification</string>
+    <string name="notification_sound">Son de notification</string>
+    <string name="schedule">Programmation</string>
+    <string name="schedule_help">Activez les notifications et les sons pour chaque entrée. Appuyez sur l\'icône d\'engrenage pour choisir des jours spécifiques ou définir un audio personnalisé.</string>
+    <string name="adhan_schedule">Programmation</string>
+    <string name="adhan_schedule_help">Activez et désactivez l\'Adhan ou les notifications pour chaque horaire de prière.</string>
+    <string name="adhan">Adhan</string>
+    <string name="notification">Notification</string>
+    <string name="sound">Son</string>
+    <string name="prayer_setting_accessibility">Paramètres de %1$s</string>
+    <string name="tahajjud_hint">Le Tahajjud est une prière surérogatoire qu\'il est préférable d\'accomplir durant le dernier tiers de la nuit.</string>
+    <string name="tahajjud_is_last_third_hint">Le Tahajjud correspond au dernier tiers de la nuit</string>
+    <string name="my_muezzins">Mes Muezzins</string>
+    <string name="my_muezzins_empty">Vous n\'en avez encore ajouté aucun.</string>
+    <string name="use_default_muezzin">Utiliser par défaut</string>
+    <string name="custom_muezzin">Muezzin personnalisé</string>
+    <string name="use_default_vibration">Utiliser par défaut</string>
+    <string name="vibration_mode">Mode vibration</string>
+    <string name="vibration_mode_help">Le téléphone doit-il vibrer lorsque l\'adhan ou le rappel commence à retentir ?</string>
+    <string name="show_upcoming_alarm">Afficher la notification d\'alarme à venir</string>
+    <string name="show_upcoming_alarm_help">Si activé, une notification sera affichée environ une heure avant chaque Adhan.</string>
+    <string name="custom_upcoming_time">Notifier avant l\'Adhan</string>
+    <string name="custom_upcoming_time_help">Minutes avant chaque Adhan ou rappel pour afficher la notification à venir.</string>
+    <string name="show_next_in_notification">Inclure la prochaine prière dans la notification</string>
+    <string name="show_next_in_notification_help">Chaque notification affiche également l\'horaire de la prochaine prière.</string>
+    <string name="bypass_dnd">Contourner \"Ne pas déranger\"</string>
+    <string name="bypass_dnd_help">Faire retentir l\'Adhan même lorsque le mode « Ne pas déranger » est activé.</string>
+    <string name="use_headphones">Préférer les écouteurs</string>
+    <string name="use_headphones_help">Lorsque des écouteurs sont connectés, diffuser tout l\'audio uniquement à travers eux.</string>
+    <string name="volume_button_stops_adhan">Le bouton de volume arrête l\'Adhan</string>
+    <string name="volume_button_stops_adhan_help">Appuyer sur un bouton de volume arrête l\'Adhan en cours de lecture.</string>
+    <string name="dont_show_alarm_screen">Garder l\'écran éteint</string>
+    <string name="dont_show_alarm_screen_help">Ne pas allumer l\'écran ni afficher l\'alarme en plein écran lorsqu\'un Adhan ou un rappel retentit.</string>
+    <string name="notifications">Notification</string>
+    <string name="auto_silent_on_dismiss">Mettre le téléphone en silence après avoir ignoré</string>
+    <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas.</string>
+    <string name="auto_silent_duration">Durée du silence</string>
+    <string name="auto_silent_duration_help">Durée pendant laquelle le téléphone reste en silence après avoir ignoré.</string>
+
+    <!-- Muezzin voices (core/domain/model/settings) -->
+    <string name="muezzin">Muezzin</string>
+    <string name="unknown">Inconnu</string>
+    <string name="masjid_an_nabawi">Masjid An Nabawi</string>
+    <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
+    <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
+    <string name="moazen_zade">Moazen Zade</string>
+
+    <!-- ============================================================
+         Widget settings  (main/settings/widget)
+         ============================================================ -->
+    <string name="show_notification_widget">Afficher le widget dans les notifications</string>
+    <string name="show_notification_widget_help">Une version réduite du widget dans la notification.</string>
+    <string name="show_countdown_timer">Afficher le compte à rebours</string>
+    <string name="use_adaptive_theme">Utiliser un thème adaptatif</string>
+    <string name="widget_calendar_help">Choisissez le calendrier du widget.</string>
+    <string name="widget_show_prayer_times">Afficher les horaires de prières</string>
+    <string name="widget_show_prayer_times_help">Choisissez les horaires de prières à afficher sur le widget.</string>
+    <string name="widget_city_name_pos_label">Localisation</string>
+    <string name="widget_city_name_pos_help">Vous pouvez choisir de remplacer l\'un des calendriers avec votre position actuelle</string>
+    <string name="widget_city_name_pos_placeholder">Choisir le calendrier à remplacer</string>
+    <string name="widget_max_shown_prayers_warning">Seuls six éléments peuvent être affichés en même temps</string>
+
+    <!-- ============================================================
+         Backup & restore  (main/settings/backup)
+         ============================================================ -->
+    <string name="create_a_backup">Créer une sauvegarde</string>
+    <string name="backup_help">Vous pouvez créer un fichier de sauvegarde à partir des paramètres que vous avez déjà configurés et les restaurer à tout moment.</string>
+    <string name="backup_note">Notez que les sons et muezzins personnalisés ne seront pas exportés.</string>
+    <string name="restore_label">Restaurer</string>
+    <string name="restore_help">Restaurez vos paramètres à partir d\'un fichier de sauvegarde.</string>
+    <string name="restore_settings">Restaurer les paramètres</string>
+    <string name="please_wait">Veuillez patienter…</string>
+    <string name="backup_created">Sauvegarde créée avec succès</string>
+    <string name="backup_failed">Impossible de créer le fichier de sauvegarde</string>
+    <string name="restore_success">Paramètres restaurés avec succès</string>
+    <string name="restore_failed">Impossible de restaurer. Le fichier est peut-être invalide ou corrompu.</string>
+
+    <!-- ============================================================
+         Reminders  (main/reminder)
+         ============================================================ -->
+    <string name="reminders_title">Rappels</string>
+    <string name="reminders_empty">Vous n\'avez aucun rappel.</string>
+    <string name="add_a_reminder">Ajouter un rappel</string>
+    <string name="reminder_label">Intitulé</string>
+    <string name="reminder_label_placeholder">Donnez un nom</string>
+    <string name="reminder_time">Temps</string>
+    <string name="reminder_sound">Son</string>
+    <string name="reminder_options">Options</string>
+    <string name="reminder_only_once">Répéter qu\'une seule fois</string>
+    <string name="reminder_only_once_help">Lorsqu\'il est activé, ce rappel se déclenche une seule fois puis se désactive automatiquement. Lorsqu\'il est désactivé, il se répète les jours que vous sélectionnez ci-dessous.</string>
+    <string name="reminder_before">avant</string>
+    <string name="reminder_after">après</string>
+    <string name="reminder_save">Enregistrer</string>
+    <string name="reminder_edit">Modifier</string>
+    <string name="reminder_selected_count">%1$d sélectionné(s)</string>
+    <string name="select_all">Tout</string>
+    <string name="turn_on">Activer</string>
+    <string name="turn_off">Désactiver</string>
+    <string name="reminder_duplicate">Dupliquer</string>
+    <string name="delete_reminder_title">Suppression du rappel</string>
+    <string name="delete_reminder_body">Êtes-vous sûr de vouloir supprimer le rappel ?</string>
+    <plurals name="delete_reminders_body">
+        <item quantity="one">Êtes-vous sûr de vouloir supprimer %1$d rappel ?</item>
+        <item quantity="other">Êtes-vous sûr de vouloir supprimer %1$d rappels ?</item>
+    </plurals>
+    <string name="only_once_label">Répéter qu\'une seule fois</string>
+    <string name="everyday_label">Tous les jours</string>
+    <plurals name="time_unit_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <plurals name="time_unit_hours">
+        <item quantity="one">%1$d heure</item>
+        <item quantity="other">%1$d heures</item>
+    </plurals>
+
+    <!-- ============================================================
+         Qada counter  (main/counter)
+         ============================================================ -->
+    <string name="qada_counter_title">Compteur de Qada</string>
+    <string name="show_last_change_time">Afficher l\'heure de la dernière modification</string>
+    <string name="add_counter">Ajouter un compteur</string>
+    <string name="counter_last_change">%1$s, %2$d → %3$d</string>
+    <string name="counter_fast">Jeûne</string>
+    <string name="counter_new_title">Nouveau compteur</string>
+    <string name="counter_edit_title">Modifier le compteur</string>
+    <string name="counter_label">Intitulé</string>
+    <string name="counter_label_placeholder">ex. Subhanallah</string>
+    <string name="counter_count">Compte</string>
+    <string name="counter_label_required">L\'intitulé est obligatoire</string>
+    <string name="counter_delete_confirm_title">Supprimer le compteur ?</string>
+    <string name="counter_delete_confirm_body">« %1$s » et son historique seront supprimés définitivement.</string>
+    <string name="time_just_now">À l\'instant</string>
+    <string name="time_tense_ago">auparavant</string>
+    <string name="time_tense_later">plus tard</string>
+    <string name="time_unit_day_short">j</string>
+    <string name="time_unit_hour_short">h</string>
+    <string name="time_unit_minute_short">min</string>
+
+    <!-- ============================================================
+         Qibla  (main/qibla)
+         ============================================================ -->
+    <string name="qibla_disclaimer_title">Clause de non-responsabilité</string>
+    <string name="qibla_disclaimer">Notez qu\'en raison d\'erreurs logicielles et matérielles, la direction de la Qibla affichée par cette application peut être erronée.
+D\'autres appareils magnétiques peuvent interférer avec la boussole de votre téléphone et votre boussole peut nécessiter un étalonnage.</string>
+    <string name="qibla_i_understand">Je comprends</string>
+    <string name="qibla_use_map">Utiliser la carte</string>
+    <string name="qibla_use_compass">Utiliser la boussole</string>
+    <string name="qibla_compass">Boussole Qibla</string>
+    <string name="qibla_location_label">Localisation</string>
+    <string name="qibla_location_from_settings">à partir des paramètres</string>
+    <string name="qibla_label">Qibla</string>
+    <string name="qibla_degrees_from_north">%1$d° par rapport au Nord</string>
+    <string name="qibla_accuracy_label">Précision</string>
+    <string name="qibla_refresh_location">Actualiser la localisation depuis le GPS</string>
+    <string name="qibla_lock_orientation">Verrouiller l\'orientation de l\'écran</string>
+    <string name="qibla_unlock_orientation">Déverrouiller l\'orientation de l\'écran</string>
+    <string name="qibla_no_location">Aucune localisation définie</string>
+    <string name="compass_accuracy_high">Haute Précision</string>
+    <string name="compass_accuracy_medium">Précision moyenne</string>
+    <string name="compass_accuracy_low">Faible précision</string>
+    <string name="compass_accuracy_unreliable">Précision peu fiable</string>
+    <string name="compass_sensor_unavailable">Boussole non disponible</string>
+
+    <!-- ============================================================
+         Monthly view  (main/monthly)
+         ============================================================ -->
+    <string name="monthly_view_title">Vue mensuelle</string>
+    <string name="prev_month">Mois précédent</string>
+    <string name="next_month">Mois suivant</string>
+    <string name="show_this_month">Afficher ce mois-ci</string>
+    <string name="date_column">Date</string>
+
+    <!-- ============================================================
+         Troubleshoot  (main/settings/troubleshoot)
+         ============================================================ -->
+    <string name="troubleshoot_title">Résoudre les problèmes courants</string>
+    <string name="advanced">Avancé</string>
+    <string name="advanced_title">Avancé</string>
+    <string name="battery_problem_final_hint">Si vous rencontrez toujours des problèmes avec l\'application qui s\'arrête après un certain temps, veuillez consulter <a href="%1$s">%2$s</a> pour plus de solutions.</string>
+    <string name="battery_problem_body">Pour garantir que les alarmes et les notifications soient délivrées de manière fiable, veuillez désactiver l\'optimisation de la batterie pour cette application. Certains appareils peuvent arrêter l\'application en arrière-plan pour économiser la batterie.</string>
+    <string name="battery_problem_title">Aidez l\'application à continuer de fonctionner</string>
+    <string name="allow_app_to_keep_running">Autoriser l\'application à fonctionner en arrière-plan</string>
+    <string name="app_is_allowed_to_keep_running">L\'application est autorisée à continuer de fonctionner</string>
+    <string name="power_manager_card_title">Paramètres du gestionnaire d\'énergie</string>
+    <string name="power_manager_card_body">Certains appareils nécessitent des réglages spécifiques dans leur « Gestionnaire d\'énergie » pour empêcher l\'application d\'être arrêtée en arrière-plan. Dans ce cas, désactivez toute option d\'économie d\'énergie pour l\'application.</string>
+    <string name="open_power_manager_settings">Ouvrir les paramètres de gestion d\'énergie</string>
+    <string name="power_manager_samsung_hint">Les appareils Samsung disposent de leur propre gestionnaire d\'énergie personnalisé appelé « Device Care ». Après avoir appuyé sur le bouton ci-dessous, vous serez redirigé vers le menu Batterie de Device Care. Dans ce menu, appuyez sur « Gestion de l\'alimentation des applis », puis sélectionnez « Applis non mises en veille » et ajoutez cette application à la liste.</string>
+    <string name="dnd_access_card_title">Accès au mode Ne pas déranger</string>
+    <string name="dnd_access_card_body">Nécessaire pour que l\'Adhan puisse retentir pendant le mode Ne pas déranger et mettre le téléphone en silence après que vous l\'ayez ignoré.</string>
+    <string name="dnd_access_status_granted">Accordé</string>
+    <string name="dnd_access_status_missing">Non accordé</string>
+    <string name="dnd_access_card_button">Ouvrir les paramètres</string>
+    <string name="adhan_dnd_revoked_title">Téléphone non mis en silence</string>
+    <string name="adhan_dnd_revoked_body">L\'accès au mode Ne pas déranger est désactivé, le téléphone n\'a donc pas été mis en silence après que vous ayez ignoré l\'Adhan. Réactivez-le dans les paramètres de dépannage.</string>
+    <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
+    <string name="adaptive_charging">Chargement adaptatif</string>
+    <string name="adaptive_charging_help">Sur certains appareils (comme Google Pixel), le type d\'alarme par défaut est enregistré comme une alarme de réveil, ce qui peut interférer avec la Charge adaptative et afficher une icône d\'alarme. Activez cette option pour utiliser un type d\'alarme qui évite les deux.</string>
+    <string name="adaptive_charging_caution">Attention : sur certains appareils, ce type d\'alarme est davantage affecté par l\'optimisation de la batterie, l\'Adhan et les rappels peuvent donc être retardés ou manqués. À utiliser avec précaution.</string>
+    <string name="different_alarm_enable">Utiliser un autre type d\'alarme</string>
+
+    <!-- ============================================================
+         Developer  (main/settings/developer)
+         ============================================================ -->
+    <string name="developer_title">Développeur</string>
+    <string name="dev_run">Exécuter</string>
+    <string name="dev_fire_adhan_now">Jouer l\'Adhan maintenant</string>
+    <string name="dev_schedule_adhan_sound">Programmer l\'Adhan dans 10 s (son + notification)</string>
+    <string name="dev_schedule_adhan_notify">Programmer un Adhan notification seule dans 10 s</string>
+    <string name="dev_post_upcoming">Publier la notification d\'Adhan à venir</string>
+    <string name="dev_vibrate_short">Tester la vibration (courte)</string>
+    <string name="dev_vibrate_long">Tester la vibration (longue)</string>
+    <string name="dev_stop_vibration">Arrêter la vibration</string>
+    <string name="dev_update_widgets">Mettre à jour les widgets maintenant</string>
+    <string name="dev_disable">Désactiver le mode développeur</string>
+    <string name="dev_scheduled_toast">Adhan programmé dans %1$d secondes</string>
+    <string name="dev_unlocked_toast">Mode développeur activé</string>
+
+    <!-- ============================================================
+         Fullscreen alarm & alarm actions  (alarm, adhan, reminder)
+         ============================================================ -->
+    <string name="alarm_azan_header">AZAN</string>
+    <string name="alarm_swipe_up_hint">Balayez vers le haut pour plus d\'options</string>
+    <string name="alarm_dismiss">Passer</string>
+    <string name="alarm_just_dismiss">Simplement ignorer</string>
+    <string name="alarm_just_dismiss_silence">Ignorer et mettre le téléphone en silence</string>
+    <string name="alarm_dismiss_and_silent">Ignorer et mettre en silence %1$dm</string>
+    <string name="alarm_remind">Rappeler dans %1$dm</string>
+    <string name="adhan_remind_body">%1$s était il y a %2$d minutes</string>
+    <string name="next_prayer_label">Suivant</string>
+    <string name="upcoming_alarm_title">Alarme à venir</string>
+    <string name="cancel_alarm">Annuler l\'alarme</string>
+    <string name="adhan_cancelled_toast">Adhan à venir annulé</string>
+    <string name="adhan_cancelled_named_toast">Adhan de %1$s annulé</string>
+    <string name="upcoming_reminder_title">Rappel à venir</string>
+    <string name="reminder_cancelled_toast">Rappel de %1$s annulé</string>
+    <string name="missed_during_silence_body">Passé pendant le silence à %1$s</string>
+
+    <!-- ============================================================
+         Ramadan notice  (ramadan, main/home)
+         ============================================================ -->
+    <string name="ramadan_notice_title">Attention</string>
+    <string name="ramadan_remind_next_year">Rappelez-moi l\'année prochaine</string>
+    <string name="ramadan_dont_show_again">Ne pas montrer à nouveau</string>
+
+    <!-- ============================================================
+         Notification channels  (core/domain/usecase)
+         ============================================================ -->
+    <string name="widget_channel_name">Widget des horaires de prières</string>
+    <string name="widget_channel_description">Notification persistante affichant les horaires de prières.</string>
+    <string name="adhan_channel_name">Adhan</string>
+    <string name="adhan_channel_description">Alarmes d\'Adhan aux horaires de prières.</string>
+    <string name="adhan_dnd_channel_name">Adhan (contourner Ne pas déranger)</string>
+    <string name="adhan_dnd_channel_description">Alarmes d\'Adhan qui retentissent même pendant le mode Ne pas déranger.</string>
+    <string name="pre_adhan_channel_name">Adhan à venir</string>
+    <string name="pre_adhan_channel_description">Rappel affiché peu avant un horaire de prière.</string>
+    <string name="adhan_remind_channel_name">Rappels d\'Adhan</string>
+    <string name="adhan_remind_channel_description">Rappels de suivi provenant de « me rappeler plus tard » sur l\'alarme d\'Adhan.</string>
+    <string name="reminder_channel_name">Rappels</string>
+    <string name="reminder_channel_description">Rappels personnalisés par rapport aux horaires de prières.</string>
+    <string name="reminder_dnd_channel_name">Rappels (contourner Ne pas déranger)</string>
+    <string name="reminder_dnd_channel_description">Rappels qui retentissent même pendant le mode Ne pas déranger.</string>
+    <string name="pre_reminder_channel_name">Prochain rappel</string>
+    <string name="pre_reminder_channel_description">Avis affiché peu avant un rappel.</string>
+    <string name="missed_channel_name">Alarmes et rappels manqués</string>
+    <string name="missed_channel_description">Avis silencieux pour les alarmes d\'Adhan et les rappels passés pendant que les sons étaient en silence.</string>
+    <string name="ramadan_notice_channel_name">Avis du Ramadan</string>
+    <string name="ramadan_notice_channel_description">Un rappel annuel indiquant que le calendrier précalculé peut être inexact pour le début et la fin du Ramadan.</string>
+    <string name="permission_revoked_channel_name">Autorisation révoquée</string>
+    <string name="permission_revoked_channel_description">Vous alerte lorsqu\'une autorisation requise a été refusée ou révoquée, ce qui peut affecter le fonctionnement de l\'application.</string>
+    <string name="travel_mode_channel_name">Mode voyage</string>
+    <string name="travel_mode_channel_description">Notifications liées au mode voyage</string>
+
+    <!-- ============================================================
+         About  (main/about)
+         ============================================================ -->
+    <string name="about">À propos</string>
+    <string name="version">Version</string>
+    <string name="home">Accueil</string>
+    <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
+    <string name="license">Licence</string>
+    <string name="about_credits">Tous les droits d\'auteur pour les voix d\'Adhan appartiennent à leurs propriétaires respectifs.</string>
+
 </resources>

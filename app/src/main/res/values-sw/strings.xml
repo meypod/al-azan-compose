@@ -1,19 +1,631 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ============================================================
+         Shared / common UI  (core/presentation/components)
+         ============================================================ -->
     <string name="app_name">Al-Azan</string>
+    <string name="cancel">Ghairi</string>
+    <string name="confirm">Thibitisha</string>
+    <string name="close">Funga</string>
+    <string name="delete">Futa</string>
+    <string name="okay">Sawa</string>
+    <string name="dismiss">Puuzilia</string>
+    <string name="play">Cheza</string>
+    <string name="stop">Acha</string>
+    <string name="add">Ongeza</string>
+    <string name="increase">Ongeza</string>
+    <string name="decrease">Punguza</string>
+    <string name="information">Taarifa</string>
+    <string name="selected">Imechaguliwa</string>
+    <string name="no_items_found">Hakuna vitu vilivyopatikana</string>
+    <string name="search_placeholder">Tafuta</string>
+    <string name="drag_handle_description">Kishikizo cha kuburuta</string>
+    <string name="dont_ask_again">Usiulize tena</string>
+    <string name="custom_minutes">Maalum</string>
+    <string name="custom_minutes_tap_to_edit">Gusa ili kuhariri</string>
+    <string name="custom_minutes_dialog_title">Madakika maalum</string>
+
+    <!-- Shared prayer-times selector (used by interface & widget settings) -->
+    <string name="show_prayer_times_title">Onyesha nyakati za swala</string>
+    <string name="show_prayer_times_help">Chagua nyakati za swala za kuonyesha kwenye Skrini Kuu.</string>
+    <string name="show_column">Onyesha</string>
+    <string name="time_column">Wakati</string>
+
+    <!-- Stepper / wizard navigation -->
+    <string name="back_button">Nyuma</string>
+    <string name="next_button">Inayofuata</string>
+    <string name="finish_button">Maliza</string>
+
+    <!-- ============================================================
+         Prayer names  (core/domain/model/adhan)
+         ============================================================ -->
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Macheo</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="sunset">Machweo</string>
+    <string name="maghrib">Magharibi</string>
+    <string name="isha">Isha</string>
+    <string name="midnight">Katikati ya usiku</string>
+    <string name="tahajjud">Tahajjud</string>
+
+    <!-- ============================================================
+         Permission dialogs  (core/presentation/dialog)
+         ============================================================ -->
+    <string name="permission_denied">Ruhusa imekataliwa</string>
+    <string name="open_settings_label">Fungua Mipangilio</string>
+    <string name="open_settings_failed">Imeshindwa kufungua mipangilio.</string>
+    <string name="open_permissions_guidance">Fungua Ruhusa na uruhusu ufikiaji wa eneo.</string>
+    <string name="location_permission_denied_text">Ufikiaji wa eneo unahitajika kwa kipengele hiki.</string>
+    <string name="location_service_required_title">Eneo linahitajika</string>
+    <string name="location_service_required_text">Tafadhali washa huduma za eneo ili kutumia kipengele hiki.</string>
+    <string name="notification_permission_title">Ruhusu arifa</string>
+    <string name="notification_permission_rationale">Wijeti ya arifa huonyesha nyakati za swala kwenye sehemu yako ya arifa. Ruhusu arifa ili kuiwasha.</string>
+    <string name="notification_permission_denied_text">Ufikiaji wa arifa unahitajika ili kuonyesha wijeti. Washa arifa kwa programu hii katika mipangilio.</string>
+    <string name="exact_alarm_permission_title">Ruhusu kengele kamili</string>
+    <string name="exact_alarm_permission_rationale">Ili kuweka nyakati za swala na hesabu ya wijeti sahihi, ruhusu programu hii kupanga kengele kamili.</string>
+    <string name="exact_alarm_permission_denied_text">Ufikiaji wa kengele kamili unahitajika ili kuweka nyakati za swala na hesabu ya wijeti sahihi. Iruhusu kwa programu hii katika mipangilio.</string>
+    <string name="full_screen_intent_permission_title">Ruhusu kengele za skrini nzima</string>
+    <string name="adhan_notification_permission_rationale">Kengele za adhana huchapisha arifa kila wakati wa swala. Ruhusu arifa ili kuziwasha.</string>
+    <string name="adhan_notification_permission_denied_text">Ufikiaji wa arifa unahitajika kwa kengele za adhana. Washa arifa kwa programu hii katika mipangilio.</string>
+    <string name="adhan_exact_alarm_permission_rationale">Kengele za adhana lazima zilie wakati kamili wa swala. Ruhusu programu hii kupanga kengele kamili.</string>
+    <string name="adhan_exact_alarm_permission_denied_text">Ufikiaji wa kengele kamili unahitajika ili kengele za adhana zilie kwa wakati. Iruhusu kwa programu hii katika mipangilio.</string>
+    <string name="adhan_full_screen_intent_permission_rationale">Ili kuonyesha kengele ya adhana juu ya skrini yako iliyofungwa na kuamsha onyesho, ruhusu programu hii kutumia kengele za skrini nzima.</string>
+    <string name="adhan_full_screen_intent_permission_denied_text">Bila ufikiaji wa skrini nzima kengele ya adhana haitaonekana juu ya skrini iliyofungwa. Unaweza kuiruhusu baadaye katika mipangilio.</string>
+    <string name="adhan_phone_state_permission_rationale">Ruhusu ufikiaji wa simu ili adhana iweze kusimama kwa simu zinazoingia au zinazoendelea. Hutumika tu kusoma hali ya simu.</string>
+    <string name="adhan_phone_state_permission_denied_text">Ufikiaji wa simu umezimwa, hivyo adhana haitasimama kwa simu. Unaweza kuiruhusu baadaye katika mipangilio.</string>
+    <string name="reminder_notification_permission_rationale">Vikumbusho huchapisha arifa kwa wakati uliopangwa. Ruhusu arifa ili kuviwasha.</string>
+    <string name="reminder_notification_permission_denied_text">Ufikiaji wa arifa unahitajika kwa vikumbusho. Washa arifa kwa programu hii katika mipangilio.</string>
+    <string name="reminder_exact_alarm_permission_rationale">Vikumbusho lazima vilie kwa wakati kamili uliopangwa. Ruhusu programu hii kupanga kengele kamili.</string>
+    <string name="reminder_exact_alarm_permission_denied_text">Ufikiaji wa kengele kamili unahitajika ili vikumbusho vilie kwa wakati. Iruhusu kwa programu hii katika mipangilio.</string>
+    <string name="phone_state_permission_title">Ruhusu ufikiaji wa simu</string>
+    <string name="dnd_permission_title">Ruhusu ufikiaji wa Usisumbue</string>
+    <string name="dnd_permission_rationale">Ruhusu programu hii kudhibiti Usisumbue. Hili huruhusu adhana kucheza wakati Usisumbue umewashwa, na huwezesha chaguo la kunyamazisha simu yako baada ya kupuuzia kengele.</string>
+    <string name="dnd_permission_denied_text">Ufikiaji wa Usisumbue unahitajika kwa hili. Iruhusu kwa programu hii katika mipangilio.</string>
+    <string name="home_notification_permission_rationale">Arifa zilizimwa. Ziruhusu tena ili kengele za adhana ziweze kukufikia.</string>
+    <string name="home_exact_alarm_permission_rationale">Ufikiaji wa kengele kamili ulizimwa. Uruhusu tena ili kengele zako za swala ziendelee kulia kwa wakati.</string>
+
+    <!-- ============================================================
+         Audio preview  (core/data/audio)
+         ============================================================ -->
+    <string name="adhan_preview_playing">Inacheza onyesho la adhana</string>
+    <string name="adhan_preview_channel_name">Onyesho la adhana</string>
+
+    <!-- ============================================================
+         Custom audio / sound picker  (core/presentation/components)
+         ============================================================ -->
+    <string name="add_custom_audio">Ongeza Sauti Maalum</string>
+    <string name="audio_name">Jina</string>
+    <string name="audio_name_required">Inahitajika kuchagua jina</string>
+    <string name="delete_audio_title">Futa sauti?</string>
+    <string name="delete_audio_body">Ondoa \"%1$s\" kutoka kwa sauti zako?</string>
+    <string name="repeat">Rudia</string>
+    <string name="your_sounds">Sauti zako</string>
+    <string name="device_sounds">Sauti za chombo</string>
+    <string name="add_from_local_files">Ongeza Kutoka kwa Faili za Ndani</string>
+    <string name="reminder_default_sound">Chaguomsingi (Ujulisho)</string>
+
+    <!-- ============================================================
+         Vibration & weekdays  (core/presentation/mapper)
+         ============================================================ -->
+    <string name="vibration_off">Zime</string>
+    <string name="vibration_once">Mara moja</string>
+    <string name="vibration_continuous">Endelea</string>
+    <string name="weekday_sunday">Jumapili</string>
+    <string name="weekday_monday">Jumatatu</string>
+    <string name="weekday_tuesday">Jumanne</string>
+    <string name="weekday_wednesday">Jumatano</string>
+    <string name="weekday_thursday">Alhamisi</string>
+    <string name="weekday_friday">Ijumaa</string>
+    <string name="weekday_saturday">Jumamosi</string>
+
+    <!-- ============================================================
+         Intro / onboarding  (intro)
+         ============================================================ -->
     <string name="welcome">Karibu</string>
     <string name="choose_language">Chagua Lugha Yako</string>
     <string name="get_started">Anza</string>
-    <string name="skip">Ruka</string>
     <string name="restore_thanks_title">Asante kwa kutuchagua</string>
-    <string name="restore_thanks_body">Ili programu ifanye kazi vizuri, tafadhali weka chaguo chache ili tuweze kukokotoa nyakati za sala kwa usahihi.</string>
-    <string name="restore_backup_hint">Kama tayari una faili ya chelezo, unaweza kuirejesha hapa.</string>
-    <string name="restore_backup_button">Rejesha faili ya chelezo</string>  
+    <string name="restore_thanks_body">Ili kusaidia programu kufanya kazi vizuri, tafadhali weka baadhi ya mapendeleo ili tuweze kukokotoa nyakati zako za swala kwa usahihi.</string>
+    <string name="restore_backup_hint">Iwapo tayari una faili ya nakala rudufu, unaweza kuirejesha hapa.</string>
+    <string name="restore_backup_button">Rejesha Faili ya Nakala Rudufu</string>
+    <string name="skip">Ruka</string>
     <string name="skip_confirm">Ruka</string>
-    <string name="cancel">Ghairi</string>
-    <string name="back_button">Rudi</string>
-    <string name="next_button">Inayofuata</string>
-    <string name="finish_button">Maliza</string>
-    <string name="no_items_found">Hakuna vipengele vilivyopatikana</string>
-    <string name="search_placeholder">Tafuta…</string>
+    <string name="skip_dialog_body">Mipangilio inayohitajika haijakamilika. Ili programu ionyeshe nyakati za swala, inabidi uisanidi kutoka kwa mipangilio baadaye.</string>
+    <string name="restoring_backup">Inarejesha nakala rudufu…</string>
+
+    <!-- ============================================================
+         Home / main screen  (main/home)
+         ============================================================ -->
+    <string name="menu">Menyu</string>
+    <string name="prev_day">Siku Iliyotangulia</string>
+    <string name="next_day">Kesho yake</string>
+    <string name="next_prayer">Swala Inayofuata</string>
+    <string name="show_today">Onyesha Leo</string>
+    <string name="set_location_hint">Weka eneo</string>
+    <string name="set_calculation_hint">Weka njia ya kuhesabu</string>
+    <string name="prayer_times_unavailable_hint">Nyakati za swala haziwezi kuonyeshwa bado. Kamilisha usanidi:</string>
+
+    <!-- ============================================================
+         Settings menu  (main/settings/menu)
+         ============================================================ -->
+    <string name="settings">Mipangilio</string>
+    <string name="qibla">Kibla</string>
+    <string name="counter">Kaunta</string>
+    <string name="reminder">Kikumbusho</string>
+    <string name="notification_and_sound_title"><![CDATA[Ujulisho na Sauti]]></string>
+    <string name="alarm_settings_title">Mipangilio ya Kengele</string>
+    <string name="schedule_and_muezzin_title"><![CDATA[Ratiba & Muezzin]]></string>
+    <string name="calculation_title">Hesabu</string>
+    <string name="interface_settings">Mipangilio ya Kiolesura</string>
+    <string name="widget_settings_title">Mipangilio ya Wijeti</string>
+    <string name="backup_and_restore_title"><![CDATA[Nakala Rudufu & Urejeshaji]]></string>
+
+    <!-- ============================================================
+         Location  (main/location)
+         ============================================================ -->
+    <string name="location_title">Eneo</string>
+    <string name="location_info_card">Tunahitaji eneo lako ili kukokotoa nyakati zako za swala vizuri.</string>
+    <string name="locations_list_title">Maeneo yaliyohifadhiwa</string>
+    <string name="locations_list_empty_state">Hakuna maeneo bado. Ongeza moja ili kuanza.</string>
+    <string name="add_new_location_button">Ongeza eneo jipya</string>
+    <string name="see_options">Ona chaguo</string>
+    <string name="set_as_default">Weka kama chaguomsingi</string>
+    <string name="delete_location">Futa eneo</string>
+    <string name="delete_location_confirm_title">Futa eneo?</string>
+    <string name="delete_location_confirm_body">Hii itaondoa eneo lifuatalo kutoka kwa orodha yako iliyohifadhiwa:
+%1$s</string>
+    <string name="new_location_description">Unaweza kuongeza eneo kwa njia tatu tofauti. Chagua moja hapa chini:</string>
+    <string name="search_by_city_title">Kwa kutumia Utafutaji</string>
+    <string name="country">Nchi</string>
+    <string name="city">Mji</string>
+    <string name="find_location_title">Kwa kutumia huduma za eneo</string>
+    <string name="find_location_button">Nipate</string>
+    <string name="using_coordinates_title">Kutumia Majiranukta ya Kijiografia</string>
+    <string name="latitude">Latitudo</string>
+    <string name="longitude">Longitudo</string>
+    <string name="location_label">Lebo</string>
+    <string name="paste">Bandika</string>
+    <string name="clear">Futa</string>
+    <string name="clipboard_coordinates_not_found">Imeshindwa kugundua majiranukta kwenye ubao wa kunakili.</string>
+    <string name="copy_coordinates">Nakili majiranukta</string>
+    <string name="edit_label">Hariri lebo</string>
+    <string name="coordinates_copied">Majiranukta yamenakiliwa kwenye ubao wa kunakili.</string>
+    <string name="location_traveling_mode">Hali ya kusafiri</string>
+    <string name="location_traveling_hint">Husasisha eneo lako mara kwa mara. Inaweza kuongeza matumizi ya betri.</string>
+    <string name="last_updated_at">Ilisasishwa mara ya mwisho: %1$s</string>
+    <string name="location_is_disabled">Eneo limezimwa</string>
+
+    <!-- ============================================================
+         Travel mode  (worker)
+         ============================================================ -->
+    <string name="location_is_disabled_notif_title">Huduma za eneo zimezimwa</string>
+    <string name="location_is_disabled_notif_body">Hali ya kusafiri imewashwa, lakini huduma zako za eneo zimezimwa. Tafadhali washa eneo ili programu iweze kusasisha nafasi yako kwa uhakika.</string>
+    <string name="worker_location_permission_revoked_title">Ruhusa ya eneo imebatilishwa</string>
+    <string name="worker_location_permission_revoked_body">Hali ya kusafiri imewashwa, lakini programu haina tena ruhusa ya eneo. Zima hali ya kusafiri au toa ufikiaji wa eneo ili kuendelea.</string>
+
+    <!-- ============================================================
+         Interface / appearance settings  (main/settings/appearance)
+         ============================================================ -->
+    <string name="language">Lugha</string>
+    <string name="themes">Mandhari</string>
+    <string name="theme_light">Mwanga</string>
+    <string name="theme_dark">Giza</string>
+    <string name="theme_classic_black">Nyeusi ya Kawaida</string>
+    <string name="theme_classic_light">Nyeupe ya Kawaida</string>
+    <string name="theme_system_default">Chaguomsingi ya Mfumo</string>
+    <string name="theme_dynamic">Inayobadilika</string>
+    <string name="countdown_timer">Kipima muda cha nyumbani</string>
+    <string name="countdown_timer_help">Onyesha muda uliosalia hadi swala inayofuata kwenye skrini ya nyumbani.</string>
+    <string name="countdown_skip_non_prayers">Hesabu hadi swala pekee</string>
+    <string name="countdown_skip_non_prayers_help">Ruka macheo, machweo, katikati ya usiku na tahajjud unapohesabu hadi wakati unaofuata.</string>
+    <string name="highlight_current_prayer_time">Angazia wakati wa swala wa sasa</string>
+    <string name="highlight_current_prayer_time_help">Angazia wakati wa swala wa sasa badala ya unaofuata.</string>
+    <string name="countdown_to">Hesabu Hadi</string>
+    <string name="countdown_target_next_active_azan">Adhana Inayofuata Iliyowashwa</string>
+    <string name="countdown_target_next_prayer">Swala Inayofuata</string>
+    <string name="date_and_time">Tarehe na Wakati</string>
+    <string name="time_format">Umbizo la wakati</string>
+    <string name="use_24_hour_format">Tumia umbizo la Saa 24</string>
+    <string name="numbering_system">Mwenendo wa unambarishaji</string>
+    <string name="numbering_system_help">hulazimisha nambari zote kuwa katika mfumo uliochaguliwa</string>
+    <string name="numbering_system_default">Chaguomsingi</string>
+    <string name="numbering_system_latn">Kiarabu cha Magharibi</string>
+    <string name="numbering_system_arab">Kiarabu cha Mashariki</string>
+    <string name="numbering_system_arabext">Kiajemi</string>
+    <string name="numbering_system_beng">Kibengali</string>
+    <string name="numbering_system_deva">Kidevanagari</string>
+    <string name="lunar_calendar_language">Lugha ya Kalenda ya Mwezi</string>
+    <string name="lunar_calendar_language_help">Badilisha lugha inayotumika kwa kalenda ya mwezi.</string>
+    <string name="default_value">Chaguomsingi</string>
+    <string name="primary_calendar">Kalenda ya Msingi</string>
+    <string name="primary_calendar_help">Kalenda inayoonyeshwa juu ya ukurasa.</string>
+    <string name="secondary_calendar">Kalenda ya Sekondari</string>
+    <string name="secondary_calendar_help">Kalenda inayoonyeshwa chini ya siku ya wiki.</string>
+    <string name="calendar_gregorian">Gregorian</string>
+    <string name="calendar_lunar">Mwezi</string>
+    <string name="calendar_none">Tupu</string>
+    <string name="calendar_persian">Kiajemi</string>
+    <string name="calendar_ethiopic">Kiethiopia</string>
+    <string name="calendar_buddhist">Kibuddha</string>
+
+    <!-- ============================================================
+         Lunar calendar  (core/domain/model/lunar, settings/calculation)
+         ============================================================ -->
+    <string name="calendar">Kalenda</string>
+    <string name="lunar_calendar">Kalenda ya Mwezi</string>
+    <string name="lunar_calendar_supporting_text">Aina ya kalenda ya mwezi inayoonyeshwa kwenye skrini kuu na wijeti</string>
+    <string name="lunar_islamic">Kiislamu</string>
+    <string name="lunar_islamic_ummalqura">Kiislamu (Umm al-Qura)</string>
+    <string name="lunar_islamic_tabular">Kiislamu (lioorodheshwa)</string>
+    <string name="lunar_islamic_civil">Kiislamu (kiraia)</string>
+    <string name="lunar_islamic_saudi_sighting">Kiislamu (Saudi Arabia kuona)</string>
+    <string name="attention_title"><b>Tahadhari!</b></string>
+    <string name="lunar_calendar_warning">Kalenda ya mwandamo ya programu huhesabiwa mapema na huenda isiwe sahihi kwa sababu haitegemei mwonekano wa mwezi. Hili ni muhimu sana kuzingatiwa kwa mwanzo na mwisho wa Ramadhan.</string>
+
+    <!-- ============================================================
+         Calculation  (main/settings/calculation)
+         ============================================================ -->
+    <string name="calculation_info_card_title"><b>Fahamu</b></string>
+    <string name="calculation_info_card">Kukokotoa Adhana kuna njia nyingi tofauti. Kila njia hutoa matokeo tofauti. Ni jukumu lako kutafuta na kutumia njia sahihi.</string>
+    <string name="calculation_method">Njia ya Kuhesabu</string>
+    <string name="calculation_method_select_placeholder">Bonyeza ili kuchagua mbinu</string>
+    <string name="calculation_method_modified">%1$s (Iliyorekebishwa)</string>
+    <string name="fajr_angle">Pembe ya Fajr</string>
+    <string name="isha_angle">Pembe ya Isha</string>
+    <string name="isha_interval">Muda wa Isha</string>
+    <string name="maghrib_angle">Pembe ya Maghrib</string>
+    <string name="edit_calculation_parameters">Hariri Hiari za Kuhesabu</string>
+    <string name="minutes_unit">madakika</string>
+    <string name="degrees_unit">deg</string>
+    <string name="advanced_calculation_settings">Mipangilio ya Hesabu Endelevu</string>
+    <string name="adjustments">Marekebisho</string>
+    <!-- Calculation methods (main/settings/calculation/utils) -->
+    <string name="calc_method_other">Maalum</string>
+    <string name="calc_method_moonsighting_committee">Kamati ya Uangalizi wa Mwezi</string>
+    <string name="calc_method_muslim_world_league">Umoja wa Kiislamu Duniani</string>
+    <string name="calc_method_egyptian">Mamlaka ya Kijumla Mkuu wa Misri</string>
+    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
+    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_north_america">Jumuiya ya Kiislamu ya Amerika Kaskazini (ISNA)</string>
+    <string name="calc_method_gulf">Eneo la Ghuba</string>
+    <string name="calc_method_dubai">Mkoa wa Ghuba (Dubai)</string>
+    <string name="calc_method_kuwait">Kuwait</string>
+    <string name="calc_method_qatar">Qatar</string>
+    <string name="calc_method_singapore">Singapore</string>
+    <string name="calc_method_france">Muungano wa Jumuiya ya Kiislamu ya Ufaransa</string>
+    <string name="calc_method_france15">Pembe ya Ufaransa 15</string>
+    <string name="calc_method_france18">Pembe ya Ufaransa 18</string>
+    <string name="calc_method_turkey">Diyaneti İşleri Başkanlığı, Uturuki</string>
+    <string name="calc_method_russia">Utawala wa Kiroho wa Waislamu wa Urusi</string>
+    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
+    <string name="calc_method_tehran">Shia, Taasisi ya Jiofizikia, Chuo Kikuu cha Tehran</string>
+    <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
+    <string name="calc_method_algeria">Wizara ya Masuala ya Kidini na Wakf, Algeria</string>
+    <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
+    <string name="calc_method_tunisia">Wizara ya Masuala ya Kidini ya Tunisia</string>
+
+    <!-- Calculation — advanced (main/settings/calculation/advanced) -->
+    <string name="advanced_calculation_title">Mipangilio ya Hesabu Endelevu</string>
+    <string name="rounding_method">Njia ya Kuzunguka</string>
+    <string name="rounding_auto_default">Otomatiki (Chaguomsingi)</string>
+    <string name="rounding_nearest">Karibu zaidi</string>
+    <string name="rounding_up">Juu</string>
+    <string name="rounding_none">Tupu</string>
+    <string name="midnight_method">Njia ya Usiku wa manane</string>
+    <string name="midnight_sunset_to_fajr_default">Machweo hadi Fajr (Chaguomsingi)</string>
+    <string name="midnight_sunset_to_sunrise">Machweo hadi Macheo</string>
+    <string name="high_latitude">Latitudo ya Juu</string>
+    <string name="high_latitude_none_automatic">Tupu (Inayojiendesha)</string>
+    <string name="high_latitude_middle">Katikati ya Usiku</string>
+    <string name="high_latitude_seventh">Sehemu ya Saba ya Usiku</string>
+    <string name="high_latitude_twilight_angle">Pembe ya Utusiutusi wa asubuhi au Jioni</string>
+    <string name="asr_calculation">Hesabu ya Asr</string>
+    <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Chaguomsingi)</string>
+    <string name="asr_hanafi">Hanafi</string>
+    <string name="polar_resolution">Mgawo wa Polar</string>
+    <string name="polar_unresolved_default">Haijatatuliwa (chaguomsingi)</string>
+    <string name="polar_aqrab_balad">Aqrab Balad</string>
+    <string name="polar_aqrab_yaum">Aqrab Yaum</string>
+    <string name="shafaq">Shafaq</string>
+    <string name="shafaq_help">Shafaq hutumiwa na njia ya Kamati ya Kutazama Mwezi ili kubainisha ni aina gani ya machweo ya kutumia ili kubainisha wakati wa Isha.</string>
+    <string name="shafaq_general_default">Jumla (chaguomsingi)</string>
+    <string name="shafaq_ahmer">Ahmer</string>
+    <string name="shafaq_abyad">Abyad</string>
+
+    <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
+    <string name="adjustments_title">Marekebisho</string>
+    <string name="adjustments_help">Idadi ya madakika ambayo yataongezwa kwa nyakati zilizokokotolewa.</string>
+    <string name="lunar_days_adjustment_help">Idadi ya Siku ambazo zitaongezwa kwa kalenda ya mwezi.</string>
+    <string name="increment">Ongeza</string>
+    <string name="decrement">Punguza</string>
+
+    <!-- ============================================================
+         Schedule, sound & muezzin  (main/settings/adhan)
+         ============================================================ -->
+    <string name="playback_settings">Mipangilio ya Uchezaji</string>
+    <string name="notification_settings">Mipangilio ya Ujulisho</string>
+    <string name="notification_sound">Sauti ya Ujulisho</string>
+    <string name="schedule">Ratiba</string>
+    <string name="schedule_help">Washa arifa na sauti kwa kila kipengee. Gusa aikoni ya gia ili kuchagua siku mahususi au kuweka sauti maalum.</string>
+    <string name="adhan_schedule">Ratiba</string>
+    <string name="adhan_schedule_help">Washa na zima Adhana au Arifa kwa kila wakati wa swala.</string>
+    <string name="adhan">Adhana</string>
+    <string name="notification">Ujulisho</string>
+    <string name="sound">Sauti</string>
+    <string name="prayer_setting_accessibility">Mipangilio ya %1$s</string>
+    <string name="tahajjud_hint">Tahajjud ni swala ya hiari inayofaa zaidi kuswaliwa katika theluthi ya mwisho ya usiku.</string>
+    <string name="tahajjud_is_last_third_hint">Tahajjud ni theluthi ya mwisho ya usiku</string>
+    <string name="my_muezzins">Muezzin Wangu</string>
+    <string name="my_muezzins_empty">Hujaongeza yeyote bado.</string>
+    <string name="use_default_muezzin">Tumia chaguomsingi</string>
+    <string name="custom_muezzin">Muezzin Maalum</string>
+    <string name="use_default_vibration">Tumia chaguomsingi</string>
+    <string name="vibration_mode">Hali ya Mtetemo</string>
+    <string name="vibration_mode_help">Je, simu inapaswa kutetema adhana au kikumbusho kinapoanza kucheza?</string>
+    <string name="show_upcoming_alarm">Onyesha arifa ya kengele inayokuja</string>
+    <string name="show_upcoming_alarm_help">Ikiwashwa, arifa itaonyeshwa karibu saa moja kabla ya kila adhana.</string>
+    <string name="custom_upcoming_time">Arifu kabla ya adhana</string>
+    <string name="custom_upcoming_time_help">Madakika kabla ya kila adhana au kikumbusho kuonyesha arifa inayokuja.</string>
+    <string name="show_next_in_notification">Jumuisha swala inayofuata katika arifa</string>
+    <string name="show_next_in_notification_help">Kila arifa pia huonyesha wakati wa swala inayofuata.</string>
+    <string name="bypass_dnd">Ruka \"Usisumbue\"</string>
+    <string name="bypass_dnd_help">Cheza adhana hata wakati \"Usisumbue\" umewashwa.</string>
+    <string name="use_headphones">Pendelea vipokea sauti</string>
+    <string name="use_headphones_help">Vipokea sauti vinapounganishwa, cheza sauti zote kupitia vyenyewe tu.</string>
+    <string name="volume_button_stops_adhan">Kitufe cha sauti kinasimamisha adhana</string>
+    <string name="volume_button_stops_adhan_help">Kubonyeza kitufe cha sauti husimamisha adhana inayocheza.</string>
+    <string name="dont_show_alarm_screen">Weka skrini imezimwa</string>
+    <string name="dont_show_alarm_screen_help">Usiwashe skrini au kuonyesha kengele ya skrini nzima wakati adhana au kikumbusho kinacheza.</string>
+    <string name="notifications">Ujulisho</string>
+    <string name="auto_silent_on_dismiss">Nyamazisha simu baada ya kupuuzia</string>
+    <string name="auto_silent_on_dismiss_help">Unapopuuzia adhana, simu huingia katika Usisumbue kwa muda. Kuahirisha hakufanyi hivyo.</string>
+    <string name="auto_silent_duration">Muda wa kunyamazisha</string>
+    <string name="auto_silent_duration_help">Muda ambao simu hubaki imenyamazishwa baada ya kupuuzia.</string>
+
+    <!-- Muezzin voices (core/domain/model/settings) -->
+    <string name="muezzin">Muezzin</string>
+    <string name="unknown">Haijulikani</string>
+    <string name="masjid_an_nabawi">Masjid An Nabawi</string>
+    <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
+    <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
+    <string name="moazen_zade">Moazen Zade</string>
+
+    <!-- ============================================================
+         Widget settings  (main/settings/widget)
+         ============================================================ -->
+    <string name="show_notification_widget">Onyesha Wijeti ya Arifa</string>
+    <string name="show_notification_widget_help">Toleo dogo la wijeti katika arifa.</string>
+    <string name="show_countdown_timer">Onyesha Kipima Muda</string>
+    <string name="use_adaptive_theme">Tumia Mandhari Yanayobadilika</string>
+    <string name="widget_calendar_help">Chagua kalenda ya wijeti.</string>
+    <string name="widget_show_prayer_times">Onyesha nyakati za swala</string>
+    <string name="widget_show_prayer_times_help">Chagua nyakati za swala za kuonyesha kwenye wijeti.</string>
+    <string name="widget_city_name_pos_label">Eneo</string>
+    <string name="widget_city_name_pos_help">Unaweza kuchagua kubadilisha moja ya kalenda na eneo lako la sasa</string>
+    <string name="widget_city_name_pos_placeholder">Chagua ni kalenda ipi ya kubadilisha</string>
+    <string name="widget_max_shown_prayers_warning">Sehemu sita zinaweza onyeshwa kwa wakati mmoja</string>
+
+    <!-- ============================================================
+         Backup & restore  (main/settings/backup)
+         ============================================================ -->
+    <string name="create_a_backup">Tengeneza Nakala Rudufu</string>
+    <string name="backup_help">Unaweza kutengeneza faili ya nakala rudufu kutoka kwa mipangilio uliyoweka tayari na kuirejesha wakati wowote.</string>
+    <string name="backup_note">Kumbuka kwamba sauti maalum na muezzin hazitahamishwa.</string>
+    <string name="restore_label">Rejesha</string>
+    <string name="restore_help">Rejesha mipangilio yako kutoka kwa faili ya nakala rudufu.</string>
+    <string name="restore_settings">Rejesha Mipangilio</string>
+    <string name="please_wait">Tafadhali subiri…</string>
+    <string name="backup_created">Nakala rudufu imetengenezwa kwa mafanikio</string>
+    <string name="backup_failed">Imeshindwa kutengeneza faili ya nakala rudufu</string>
+    <string name="restore_success">Mipangilio imerejeshwa kwa mafanikio</string>
+    <string name="restore_failed">Imeshindwa kurejesha. Faili huenda si halali au imeharibika.</string>
+
+    <!-- ============================================================
+         Reminders  (main/reminder)
+         ============================================================ -->
+    <string name="reminders_title">Kikumbusho</string>
+    <string name="reminders_empty">Huna kikumbusho chochote.</string>
+    <string name="add_a_reminder">Ongeza Kikumbusho</string>
+    <string name="reminder_label">Lebo</string>
+    <string name="reminder_label_placeholder">Toa jina</string>
+    <string name="reminder_time">Wakati</string>
+    <string name="reminder_sound">Sauti</string>
+    <string name="reminder_options">Chaguo</string>
+    <string name="reminder_only_once">Mara moja tu</string>
+    <string name="reminder_only_once_help">Ikiwashwa, kikumbusho hiki hulia mara moja kisha hujizima chenyewe. Ikizimwa, hujirudia katika siku unazochagua hapa chini.</string>
+    <string name="reminder_before">kabla</string>
+    <string name="reminder_after">baada ya</string>
+    <string name="reminder_save">Hifadhi</string>
+    <string name="reminder_edit">Hariri</string>
+    <string name="reminder_selected_count">%1$d Vimechaguliwa</string>
+    <string name="select_all">Vyote</string>
+    <string name="turn_on">Washa</string>
+    <string name="turn_off">Zima</string>
+    <string name="reminder_duplicate">Nakili</string>
+    <string name="delete_reminder_title">Inafuta Kikumbusho</string>
+    <string name="delete_reminder_body">Una uhakika unataka kufuta Kikumbusho?</string>
+    <plurals name="delete_reminders_body">
+        <item quantity="one">Una uhakika unataka kufuta kikumbusho %1$d?</item>
+        <item quantity="other">Una uhakika unataka kufuta vikumbusho %1$d?</item>
+    </plurals>
+    <string name="only_once_label">Mara moja tu</string>
+    <string name="everyday_label">Kila siku</string>
+    <plurals name="time_unit_minutes">
+        <item quantity="one">dakika %1$d</item>
+        <item quantity="other">dakika %1$d</item>
+    </plurals>
+    <plurals name="time_unit_hours">
+        <item quantity="one">saa %1$d</item>
+        <item quantity="other">saa %1$d</item>
+    </plurals>
+
+    <!-- ============================================================
+         Qada counter  (main/counter)
+         ============================================================ -->
+    <string name="qada_counter_title">Kaunta ya Qada</string>
+    <string name="show_last_change_time">Onyesha Wakati wa Mabadiliko ya Mwisho</string>
+    <string name="add_counter">Ongeza Kaunta</string>
+    <string name="counter_last_change">%1$s, %2$d → %3$d</string>
+    <string name="counter_fast">Haraka</string>
+    <string name="counter_new_title">Kaunta Mpya</string>
+    <string name="counter_edit_title">Hariri Kaunta</string>
+    <string name="counter_label">Lebo</string>
+    <string name="counter_label_placeholder">k.m. Subhanallah</string>
+    <string name="counter_count">Hesabu</string>
+    <string name="counter_label_required">Lebo inahitajika</string>
+    <string name="counter_delete_confirm_title">Futa kaunta?</string>
+    <string name="counter_delete_confirm_body">\"%1$s\" na historia yake vitaondolewa kabisa.</string>
+    <string name="time_just_now">Sasa hivi</string>
+    <string name="time_tense_ago">iliyopita</string>
+    <string name="time_tense_later">baadaye</string>
+    <string name="time_unit_day_short">s</string>
+    <string name="time_unit_hour_short">saa</string>
+    <string name="time_unit_minute_short">dk</string>
+
+    <!-- ============================================================
+         Qibla  (main/qibla)
+         ============================================================ -->
+    <string name="qibla_disclaimer_title">Uhalali</string>
+    <string name="qibla_disclaimer">Kumbuka kwamba kutokana na hitilafu za programu na maunzi, mwelekeo wa Kibla unaoonyeshwa na programu hii unaweza kuwa si sahihi.
+Vifaa vingine vya sumaku vinaweza kuingilia dira ya simu yako na dira yako inaweza kuhitaji kurekebishwa.</string>
+    <string name="qibla_i_understand">Na Elewa</string>
+    <string name="qibla_use_map">Tumia Ramani</string>
+    <string name="qibla_use_compass">Tumia Dira</string>
+    <string name="qibla_compass">Dira ya Kibla</string>
+    <string name="qibla_location_label">Eneo</string>
+    <string name="qibla_location_from_settings">kutoka kwa mipangilio</string>
+    <string name="qibla_label">Kibla</string>
+    <string name="qibla_degrees_from_north">%1$d° Kutoka Kaskazini</string>
+    <string name="qibla_accuracy_label">Usahihi</string>
+    <string name="qibla_refresh_location">Onyesha upya eneo kutoka GPS</string>
+    <string name="qibla_lock_orientation">Funga mwelekeo wa skrini</string>
+    <string name="qibla_unlock_orientation">Fungua mwelekeo wa skrini</string>
+    <string name="qibla_no_location">Hakuna eneo lililowekwa</string>
+    <string name="compass_accuracy_high">Juu</string>
+    <string name="compass_accuracy_medium">Kati</string>
+    <string name="compass_accuracy_low">Chini</string>
+    <string name="compass_accuracy_unreliable">Isiyotegemewa</string>
+    <string name="compass_sensor_unavailable">Kihisi cha dira hakipatikani</string>
+
+    <!-- ============================================================
+         Monthly view  (main/monthly)
+         ============================================================ -->
+    <string name="monthly_view_title">Mwonekano wa kila mwezi</string>
+    <string name="prev_month">Mwezi Uliopita</string>
+    <string name="next_month">Mwezi ujao</string>
+    <string name="show_this_month">Onyesha Mwezi Huu</string>
+    <string name="date_column">Tarehe</string>
+
+    <!-- ============================================================
+         Troubleshoot  (main/settings/troubleshoot)
+         ============================================================ -->
+    <string name="troubleshoot_title">Rekebisha Matatizo ya Kawaida</string>
+    <string name="advanced">Endelevu</string>
+    <string name="advanced_title">Endelevu</string>
+    <string name="battery_problem_final_hint">Iwapo bado una matatizo na programu kusimama baada ya muda, tafadhali tembelea <a href="%1$s">%2$s</a> kwa suluhu zaidi.</string>
+    <string name="battery_problem_body">Ili kuhakikisha kengele na arifa zinawasilishwa kwa uhakika, tafadhali zima uboreshaji wa nishati kwa programu hii. Baadhi ya vifaa vinaweza kusimamisha programu chinichini ili kuokoa betri.</string>
+    <string name="battery_problem_title">Saidia programu iendelee kufanya kazi</string>
+    <string name="allow_app_to_keep_running">Ruhusu programu kufanya kazi chinichini</string>
+    <string name="app_is_allowed_to_keep_running">Programu imeruhusiwa kuendelea kufanya kazi</string>
+    <string name="power_manager_card_title">Mipangilio ya meneja wa nishati</string>
+    <string name="power_manager_card_body">Baadhi ya vifaa vinahitaji mipangilio mahususi ndani ya \"Meneja wa Nishati\" wao ili kuzuia programu kuuawa chinichini. Katika hali kama hizo, zima chaguo lolote la kuokoa nishati kwa programu.</string>
+    <string name="open_power_manager_settings">Fungua Meneja wa Utumiaji wa Stima</string>
+    <string name="power_manager_samsung_hint">Vifaa vya Samsung vina Meneja wa Nishati wao maalum unaoitwa \"Device Care\". Baada ya kubonyeza kitufe hapa chini, utapelekwa kwenye menyu ya Betri ya Device Care. Katika menyu hii, gusa \"App power management\", kisha chagua \"Apps that won\'t be put to sleep\" na uongeze programu hii kwenye orodha.</string>
+    <string name="dnd_access_card_title">Ufikiaji wa Usisumbue</string>
+    <string name="dnd_access_card_body">Unahitajika ili adhana iweze kucheza wakati wa Usisumbue na kunyamazisha simu baada ya kuipuuzia.</string>
+    <string name="dnd_access_status_granted">Imeruhusiwa</string>
+    <string name="dnd_access_status_missing">Haijaruhusiwa</string>
+    <string name="dnd_access_card_button">Fungua mipangilio</string>
+    <string name="adhan_dnd_revoked_title">Simu haikunyamazishwa</string>
+    <string name="adhan_dnd_revoked_body">Ufikiaji wa Usisumbue umezimwa, hivyo simu haikunyamazishwa baada ya kupuuzia adhana. Iwashe tena katika mipangilio ya Kurekebisha Matatizo.</string>
+    <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
+    <string name="adaptive_charging">Uingizo wa Moto kwa Betri Inajirekebisha</string>
+    <string name="adaptive_charging_help">Kwenye baadhi ya vifaa (kama Google Pixel), aina ya kengele ya chaguomsingi husajiliwa kama kengele ya saa, ambayo inaweza kuingilia Uchaji Unaojirekebisha na kuonyesha aikoni ya kengele. Washa hii ili kutumia aina ya kengele inayoepuka vyote viwili.</string>
+    <string name="adaptive_charging_caution">Tahadhari: Kwenye baadhi ya vifaa aina hii ya kengele huathiriwa zaidi na uboreshaji wa betri, hivyo adhana na vikumbusho vinaweza kucheleweshwa au kukosekana. Tumia kwa uangalifu.</string>
+    <string name="different_alarm_enable">Tumia aina tofauti ya kengele</string>
+
+    <!-- ============================================================
+         Developer  (main/settings/developer)
+         ============================================================ -->
+    <string name="developer_title">Msanidi Programu</string>
+    <string name="dev_run">Endesha</string>
+    <string name="dev_fire_adhan_now">Cheza adhana sasa</string>
+    <string name="dev_schedule_adhan_sound">Panga adhana baada ya sekunde 10 (sauti + arifa)</string>
+    <string name="dev_schedule_adhan_notify">Panga adhana ya arifa pekee baada ya sekunde 10</string>
+    <string name="dev_post_upcoming">Chapisha arifa ya adhana inayokuja</string>
+    <string name="dev_vibrate_short">Jaribu mtetemo (mfupi)</string>
+    <string name="dev_vibrate_long">Jaribu mtetemo (mrefu)</string>
+    <string name="dev_stop_vibration">Simamisha mtetemo</string>
+    <string name="dev_update_widgets">Sasisha wijeti sasa</string>
+    <string name="dev_disable">Zima hali ya msanidi programu</string>
+    <string name="dev_scheduled_toast">Adhana imepangwa baada ya sekunde %1$d</string>
+    <string name="dev_unlocked_toast">Hali ya msanidi programu imewashwa</string>
+
+    <!-- ============================================================
+         Fullscreen alarm & alarm actions  (alarm, adhan, reminder)
+         ============================================================ -->
+    <string name="alarm_azan_header">AZAN</string>
+    <string name="alarm_swipe_up_hint">Telezesha Juu Kwa Chaguo Zaidi</string>
+    <string name="alarm_dismiss">Puuzilia</string>
+    <string name="alarm_just_dismiss">Puuzilia Tu</string>
+    <string name="alarm_just_dismiss_silence">Puuzilia &amp; nyamazisha simu</string>
+    <string name="alarm_dismiss_and_silent">Puuzilia na Nyamazisha %1$dm</string>
+    <string name="alarm_remind">Kumbusha baada ya %1$dm</string>
+    <string name="adhan_remind_body">%1$s ilikuwa dakika %2$d zilizopita</string>
+    <string name="next_prayer_label">Inayofuata</string>
+    <string name="upcoming_alarm_title">Kengele inayokuja</string>
+    <string name="cancel_alarm">Ghairi Kengele</string>
+    <string name="adhan_cancelled_toast">Adhana inayokuja imeghairiwa</string>
+    <string name="adhan_cancelled_named_toast">Adhana ya %1$s imeghairiwa</string>
+    <string name="upcoming_reminder_title">Kikumbusho kinachokuja</string>
+    <string name="reminder_cancelled_toast">Kikumbusho cha %1$s kimeghairiwa</string>
+    <string name="missed_during_silence_body">Ilipita wakati wa ukimya saa %1$s</string>
+
+    <!-- ============================================================
+         Ramadan notice  (ramadan, main/home)
+         ============================================================ -->
+    <string name="ramadan_notice_title">Tahadhari</string>
+    <string name="ramadan_remind_next_year">Nikumbushe mwaka ujao</string>
+    <string name="ramadan_dont_show_again">Usionyeshe tena</string>
+
+    <!-- ============================================================
+         Notification channels  (core/domain/usecase)
+         ============================================================ -->
+    <string name="widget_channel_name">Wijeti ya Nyakati za Swala</string>
+    <string name="widget_channel_description">Arifa ya kudumu inayoonyesha nyakati za swala.</string>
+    <string name="adhan_channel_name">Adhana</string>
+    <string name="adhan_channel_description">Kengele za adhana za wakati wa swala.</string>
+    <string name="adhan_dnd_channel_name">Adhana (ruka Usisumbue)</string>
+    <string name="adhan_dnd_channel_description">Kengele za adhana zinazolia hata wakati wa Usisumbue.</string>
+    <string name="pre_adhan_channel_name">Adhana Inayokuja</string>
+    <string name="pre_adhan_channel_description">Kikumbusho kinachoonyeshwa muda mfupi kabla ya wakati wa swala.</string>
+    <string name="adhan_remind_channel_name">Vikumbusho vya adhana</string>
+    <string name="adhan_remind_channel_description">Vikumbusho vya ufuatiliaji kutoka \"nikumbushe baadaye\" kwenye kengele ya adhana.</string>
+    <string name="reminder_channel_name">Kikumbusho</string>
+    <string name="reminder_channel_description">Vikumbusho maalum kuhusiana na nyakati za swala.</string>
+    <string name="reminder_dnd_channel_name">Vikumbusho (ruka Usisumbue)</string>
+    <string name="reminder_dnd_channel_description">Vikumbusho vinavyolia hata wakati wa Usisumbue.</string>
+    <string name="pre_reminder_channel_name">Ukumbusho ujao</string>
+    <string name="pre_reminder_channel_description">Ilani inayoonyeshwa muda mfupi kabla ya kikumbusho.</string>
+    <string name="missed_channel_name">Kengele na vikumbusho vilivyokosekana</string>
+    <string name="missed_channel_description">Ilani kimya kwa kengele za adhana na vikumbusho vilivyopita wakati sauti zilipokuwa zimenyamazishwa.</string>
+    <string name="ramadan_notice_channel_name">Ilani ya Ramadhani</string>
+    <string name="ramadan_notice_channel_description">Kikumbusho cha kila mwaka kwamba kalenda iliyokokotolewa awali inaweza kuwa si sahihi kwa mwanzo na mwisho wa Ramadhani.</string>
+    <string name="permission_revoked_channel_name">Ruhusa Imebatilishwa</string>
+    <string name="permission_revoked_channel_description">Hukutahadharisha wakati ruhusa inayohitajika imekataliwa au kubatilishwa, jambo ambalo linaweza kuathiri utendaji wa programu.</string>
+    <string name="travel_mode_channel_name">Hali ya kusafiri</string>
+    <string name="travel_mode_channel_description">Arifa zinazohusiana na hali ya kusafiri</string>
+
+    <!-- ============================================================
+         About  (main/about)
+         ============================================================ -->
+    <string name="about">Kuhusu</string>
+    <string name="version">Toleo</string>
+    <string name="home">Nyumbani</string>
+    <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
+    <string name="license">Leseni</string>
+    <string name="about_credits">Hakimiliki zote za sauti za adhana ni za wamiliki wao.</string>
+
 </resources>
