@@ -78,7 +78,7 @@ class ReminderFiringHandler @Inject constructor(
                         soundUri = soundUri,
                         channelId = reminderChannel(settings),
                         loop = soundEntry.loop,
-                        vibration = alarmSettings.vibrationMode,
+                        vibration = reminder.vibration ?: alarmSettings.vibrationMode,
                         header = context.getString(R.string.reminder),
                         isReminder = true,
                     ),

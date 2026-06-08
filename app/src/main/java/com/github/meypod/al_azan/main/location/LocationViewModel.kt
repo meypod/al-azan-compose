@@ -59,6 +59,10 @@ class LocationViewModel
             is LocationUiAction.OnNewLocationConfirm -> onNewLocationConfirm(action.state)
             is LocationUiAction.OnMoveLocation -> onMoveLocation(action.fromIndex, action.toIndex)
             is LocationUiAction.OnSetAsDefaultClick -> onSetAsDefault(action.locationId)
+            is LocationUiAction.OnEditLabelClick -> onEditLabelClick(action.locationId)
+            is LocationUiAction.OnEditLabelChange -> onEditLabelChange(action.value)
+            is LocationUiAction.OnEditLabelConfirm -> onEditLabelConfirm()
+            is LocationUiAction.OnEditLabelDismiss -> onEditLabelDismiss()
             is LocationUiAction.OnDeleteLocationClick -> onDeleteLocation(action.locationId)
             is LocationUiAction.OnDeleteLocationDismiss -> onDeleteLocationDismiss()
             is LocationUiAction.OnDeleteLocationConfirm -> onDeleteLocationConfirm(action.locationId)
@@ -129,6 +133,39 @@ class LocationViewModel
     private fun onSetAsDefault(locationId: String) {
         viewModelScope.launch {
             calculationSettingsRepository.update { it.copy(locationId = locationId) }
+        }
+    }
+
+    private fun onEditLabelClick(locationId: String) {
+        _uiState.update { state ->
+            val location = state.locations.firstOrNull { it.id == locationId } ?: return@update state
+            state.copy(editLabelDraft = EditLocationLabelDraft(locationId, location.locationDetail.label.orEmpty()))
+        }
+    }
+
+    private fun onEditLabelChange(value: String) {
+        _uiState.update { state -> state.copy(editLabelDraft = state.editLabelDraft?.copy(label = value)) }
+    }
+
+    private fun onEditLabelDismiss() {
+        _uiState.update { it.copy(editLabelDraft = null) }
+    }
+
+    private fun onEditLabelConfirm() {
+        val draft = _uiState.value.editLabelDraft ?: return
+        _uiState.update { it.copy(editLabelDraft = null) }
+        // Blank clears the override so the name falls back to city/coords.
+        val newLabel = draft.label.trim().ifBlank { null }
+        viewModelScope.launch {
+            favoriteLocationsRepository.update { current ->
+                current.map { location ->
+                    if (location.id == draft.id && location is StaticFavoriteLocation) {
+                        location.copy(locationDetail = location.locationDetail.copy(label = newLabel))
+                    } else {
+                        location
+                    }
+                }
+            }
         }
     }
 

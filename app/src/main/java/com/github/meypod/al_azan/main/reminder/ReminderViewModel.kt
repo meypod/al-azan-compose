@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DayOfWeek
 import java.util.UUID
 import javax.inject.Inject
 
@@ -126,11 +127,26 @@ class ReminderViewModel @Inject constructor(
 
             is ReminderUiAction.OnDraftPrayerChange -> updateDraft { it.copy(prayer = action.value) }
 
-            is ReminderUiAction.OnDraftOnlyOnceToggle -> updateDraft { it.copy(only = action.value) }
+            is ReminderUiAction.OnDraftVibrationChange -> updateDraft { it.copy(vibration = action.value) }
+
+            // Invariant: a repeating reminder (only == false) must have at least one day selected.
+            is ReminderUiAction.OnDraftOnlyOnceToggle -> updateDraft { d ->
+                // Switching to "repeat" with no day picked would never fire -> default to every day.
+                if (!action.value && d.days.isEmpty()) {
+                    d.copy(only = false, days = DayOfWeek.entries.toSet())
+                } else {
+                    d.copy(only = action.value)
+                }
+            }
 
             is ReminderUiAction.OnDraftDayToggle -> updateDraft { d ->
                 val newDays = if (action.day in d.days) d.days - action.day else d.days + action.day
-                d.copy(days = newDays)
+                // Deselecting the last day of a repeating reminder falls back to "only once".
+                if (newDays.isEmpty() && !d.only) {
+                    d.copy(days = newDays, only = true)
+                } else {
+                    d.copy(days = newDays)
+                }
             }
         }
     }
@@ -157,8 +173,14 @@ class ReminderViewModel @Inject constructor(
             duration = draft.duration,
             durationModifier = if (draft.modifier == ReminderTimeModifier.After) 1 else -1,
             sound = draft.sound,
+            vibration = draft.vibration,
             once = draft.only,
-            days = if (draft.only) null else PrayerAlarmSettings.ByWeekDay(draft.days.associateWith { true }),
+            // A repeating reminder with no day picked would never fire; treat empty as every day.
+            days = if (draft.only) {
+                null
+            } else {
+                PrayerAlarmSettings.ByWeekDay(draft.days.ifEmpty { DayOfWeek.entries.toSet() }.associateWith { true })
+            },
         )
         viewModelScope.launch {
             reminderRepository.update { list ->
