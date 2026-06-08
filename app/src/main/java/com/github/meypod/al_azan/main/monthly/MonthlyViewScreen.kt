@@ -33,6 +33,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 
 // TODO
@@ -44,7 +45,7 @@ fun MonthlyViewScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.monthly_view_title),
-        onBackClick = { onAction(MonthlyViewUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
         floatingActionButton = {
             AnimatedVisibility(

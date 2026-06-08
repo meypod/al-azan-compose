@@ -39,7 +39,7 @@ fun AboutScreen(onAction: (AboutUiAction) -> Unit = {}) {
 
     ScreenScaffold(
         title = stringResource(R.string.calculation_title),
-        onBackClick = { (NavigationController.navigateBack()) },
+        onBackClick = { NavigationController.navigateBack() },
     ) {
         ACard { cardPadding ->
             Column(

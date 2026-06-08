@@ -23,9 +23,9 @@ import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 sealed interface BackupRestoreUiAction {
-    object OnBackClick : BackupRestoreUiAction
     object OnCreateBackupClick : BackupRestoreUiAction
     object OnRestoreClick : BackupRestoreUiAction
 }
@@ -37,7 +37,7 @@ fun BackupRestoreScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.backup_and_restore_title),
-        onBackClick = { onAction(BackupRestoreUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         ACard { cardPadding ->

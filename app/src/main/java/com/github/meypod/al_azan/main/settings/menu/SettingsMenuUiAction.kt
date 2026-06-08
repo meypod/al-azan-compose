@@ -1,7 +1,6 @@
 package com.github.meypod.al_azan.main.settings.menu
 
 sealed interface SettingsMenuUiAction {
-    object OnBackClick : SettingsMenuUiAction
     object OnInterfaceSettingsClick : SettingsMenuUiAction
     object OnNotificationAndSoundClick : SettingsMenuUiAction
     object OnScheduleAndMuezzinClick : SettingsMenuUiAction

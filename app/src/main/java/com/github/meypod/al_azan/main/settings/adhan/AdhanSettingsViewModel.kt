@@ -57,92 +57,174 @@ class AdhanSettingsViewModel
 
     fun onAction(action: AdhanSettingsUiAction) {
         when (action) {
-            AdhanSettingsUiAction.OnBackClick -> NavigationController.navigateBack()
+            is AdhanSettingsUiAction.OnGlobalMuezzinSelect -> onGlobalMuezzinSelect(action)
 
-            is AdhanSettingsUiAction.OnGlobalMuezzinSelect -> setGlobalMuezzin(action.entry)
+            is AdhanSettingsUiAction.OnPreviewAudio -> onPreviewAudio(action)
 
-            is AdhanSettingsUiAction.OnPreviewAudio -> audioPreviewPlayer.play(action.entry)
+            AdhanSettingsUiAction.OnStopPreview -> onStopPreview()
 
-            AdhanSettingsUiAction.OnStopPreview -> audioPreviewPlayer.stop()
+            is AdhanSettingsUiAction.OnAddGlobalMuezzinFile -> onAddGlobalMuezzinFile(action)
 
-            is AdhanSettingsUiAction.OnAddGlobalMuezzinFile ->
-                addUserAudio(action.filepath, action.label) { s, e ->
-                    s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (AdhanKey.Default to e))
-                }
+            is AdhanSettingsUiAction.OnAddPrayerMuezzinFile -> onAddPrayerMuezzinFile(action)
 
-            is AdhanSettingsUiAction.OnAddPrayerMuezzinFile ->
-                addUserAudio(action.filepath, action.label) { s, e ->
-                    s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (action.prayer.toAdhanKey() to e))
-                }
+            is AdhanSettingsUiAction.OnDeleteUserAudio -> onDeleteUserAudio(action)
 
-            is AdhanSettingsUiAction.OnDeleteUserAudio -> deleteUserAudio(action.entry)
+            is AdhanSettingsUiAction.OnNotifyClick -> onNotifyClick(action)
 
-            is AdhanSettingsUiAction.OnNotifyClick -> toggleNotify(action.prayer)
+            is AdhanSettingsUiAction.OnSoundClick -> onSoundClick(action)
 
-            is AdhanSettingsUiAction.OnSoundClick -> toggleSound(action.prayer)
+            is AdhanSettingsUiAction.OnCogClick -> onCogClick(action)
 
-            is AdhanSettingsUiAction.OnCogClick ->
-                NavigationController.navigateTo(action.route)
+            is AdhanSettingsUiAction.OnScheduleMuezzinChange -> onScheduleMuezzinChange(action)
 
-            is AdhanSettingsUiAction.OnScheduleMuezzinChange -> setCustomMuezzin(action.prayer, action.entry)
+            is AdhanSettingsUiAction.OnScheduleSoundDayToggle -> onScheduleSoundDayToggle(action)
 
-            is AdhanSettingsUiAction.OnScheduleSoundDayToggle -> toggleDay(action.prayer, action.day, sound = true)
+            is AdhanSettingsUiAction.OnScheduleNotifyDayToggle -> onScheduleNotifyDayToggle(action)
 
-            is AdhanSettingsUiAction.OnScheduleNotifyDayToggle -> toggleDay(action.prayer, action.day, sound = false)
+            is AdhanSettingsUiAction.OnScheduleVibrationChange -> onScheduleVibrationChange(action)
 
-            is AdhanSettingsUiAction.OnScheduleVibrationChange -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.setVibrationSettings(action.prayer, action.mode) }
-            }
+            is AdhanSettingsUiAction.OnVibrationModeChange -> onVibrationModeChange(action)
 
-            is AdhanSettingsUiAction.OnVibrationModeChange -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(vibrationMode = action.mode) }
-            }
+            is AdhanSettingsUiAction.OnShowUpcomingAlarmToggle -> onShowUpcomingAlarmToggle(action)
 
-            is AdhanSettingsUiAction.OnShowUpcomingAlarmToggle -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(dontNotifyUpcoming = !action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnUpcomingTimeChange -> onUpcomingTimeChange(action)
 
-            is AdhanSettingsUiAction.OnUpcomingTimeChange -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(preAlarmMinutesBefore = action.minutes) }
-            }
+            is AdhanSettingsUiAction.OnShowNextInNotificationToggle -> onShowNextInNotificationToggle(action)
 
-            is AdhanSettingsUiAction.OnShowNextInNotificationToggle -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(showNextPrayerTime = action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnBypassDndToggle -> onBypassDndToggle(action)
 
-            is AdhanSettingsUiAction.OnBypassDndToggle -> viewModelScope.launch {
-                settingsRepository.update { it.copy(bypassDnd = action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnPreferHeadphonesToggle -> onPreferHeadphonesToggle(action)
 
-            is AdhanSettingsUiAction.OnPreferHeadphonesToggle -> viewModelScope.launch {
-                settingsRepository.update { it.copy(preferExternalAudioDevice = action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle -> onVolumeButtonStopsAdhanToggle(action)
 
-            is AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle -> viewModelScope.launch {
-                settingsRepository.update { it.copy(volumeButtonStopsAdhan = action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnDontShowAlarmScreenToggle -> onDontShowAlarmScreenToggle(action)
 
-            is AdhanSettingsUiAction.OnDontShowAlarmScreenToggle -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(dontTurnOnScreen = action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnAutoSilentOnDismissToggle -> onAutoSilentOnDismissToggle(action)
 
-            is AdhanSettingsUiAction.OnAutoSilentOnDismissToggle -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(autoSilentOnDismiss = action.enabled) }
-            }
+            is AdhanSettingsUiAction.OnAutoSilentDurationChange -> onAutoSilentDurationChange(action)
 
-            is AdhanSettingsUiAction.OnAutoSilentDurationChange -> viewModelScope.launch {
-                alarmSettingsRepository.update { it.copy(autoSilentDurationMinutes = action.minutes) }
-            }
+            is AdhanSettingsUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action)
 
-            is AdhanSettingsUiAction.OnPermissionDontAskAgain -> viewModelScope.launch {
-                settingsRepository.update { it.withDontAskAgain(action.permission) }
-            }
+            AdhanSettingsUiAction.OnNotificationSettingsClick -> onNotificationSettingsClick()
 
-            AdhanSettingsUiAction.OnNotificationSettingsClick,
-            AdhanSettingsUiAction.OnPlaybackSettingsClick,
-            -> Unit
+            AdhanSettingsUiAction.OnPlaybackSettingsClick -> onPlaybackSettingsClick()
         }
     }
+
+    private fun onGlobalMuezzinSelect(action: AdhanSettingsUiAction.OnGlobalMuezzinSelect) =
+        setGlobalMuezzin(action.entry)
+
+    private fun onPreviewAudio(action: AdhanSettingsUiAction.OnPreviewAudio) =
+        audioPreviewPlayer.play(action.entry)
+
+    private fun onStopPreview() = audioPreviewPlayer.stop()
+
+    private fun onAddGlobalMuezzinFile(action: AdhanSettingsUiAction.OnAddGlobalMuezzinFile) =
+        addUserAudio(action.filepath, action.label) { s, e ->
+            s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (AdhanKey.Default to e))
+        }
+
+    private fun onAddPrayerMuezzinFile(action: AdhanSettingsUiAction.OnAddPrayerMuezzinFile) =
+        addUserAudio(action.filepath, action.label) { s, e ->
+            s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (action.prayer.toAdhanKey() to e))
+        }
+
+    private fun onDeleteUserAudio(action: AdhanSettingsUiAction.OnDeleteUserAudio) =
+        deleteUserAudio(action.entry)
+
+    private fun onNotifyClick(action: AdhanSettingsUiAction.OnNotifyClick) =
+        toggleNotify(action.prayer)
+
+    private fun onSoundClick(action: AdhanSettingsUiAction.OnSoundClick) =
+        toggleSound(action.prayer)
+
+    private fun onCogClick(action: AdhanSettingsUiAction.OnCogClick) =
+        NavigationController.navigateTo(action.route)
+
+    private fun onScheduleMuezzinChange(action: AdhanSettingsUiAction.OnScheduleMuezzinChange) =
+        setCustomMuezzin(action.prayer, action.entry)
+
+    private fun onScheduleSoundDayToggle(action: AdhanSettingsUiAction.OnScheduleSoundDayToggle) =
+        toggleDay(action.prayer, action.day, sound = true)
+
+    private fun onScheduleNotifyDayToggle(action: AdhanSettingsUiAction.OnScheduleNotifyDayToggle) =
+        toggleDay(action.prayer, action.day, sound = false)
+
+    private fun onScheduleVibrationChange(action: AdhanSettingsUiAction.OnScheduleVibrationChange) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.setVibrationSettings(action.prayer, action.mode) }
+        }
+    }
+
+    private fun onVibrationModeChange(action: AdhanSettingsUiAction.OnVibrationModeChange) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(vibrationMode = action.mode) }
+        }
+    }
+
+    private fun onShowUpcomingAlarmToggle(action: AdhanSettingsUiAction.OnShowUpcomingAlarmToggle) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(dontNotifyUpcoming = !action.enabled) }
+        }
+    }
+
+    private fun onUpcomingTimeChange(action: AdhanSettingsUiAction.OnUpcomingTimeChange) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(preAlarmMinutesBefore = action.minutes) }
+        }
+    }
+
+    private fun onShowNextInNotificationToggle(action: AdhanSettingsUiAction.OnShowNextInNotificationToggle) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(showNextPrayerTime = action.enabled) }
+        }
+    }
+
+    private fun onBypassDndToggle(action: AdhanSettingsUiAction.OnBypassDndToggle) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(bypassDnd = action.enabled) }
+        }
+    }
+
+    private fun onPreferHeadphonesToggle(action: AdhanSettingsUiAction.OnPreferHeadphonesToggle) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(preferExternalAudioDevice = action.enabled) }
+        }
+    }
+
+    private fun onVolumeButtonStopsAdhanToggle(action: AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(volumeButtonStopsAdhan = action.enabled) }
+        }
+    }
+
+    private fun onDontShowAlarmScreenToggle(action: AdhanSettingsUiAction.OnDontShowAlarmScreenToggle) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(dontTurnOnScreen = action.enabled) }
+        }
+    }
+
+    private fun onAutoSilentOnDismissToggle(action: AdhanSettingsUiAction.OnAutoSilentOnDismissToggle) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(autoSilentOnDismiss = action.enabled) }
+        }
+    }
+
+    private fun onAutoSilentDurationChange(action: AdhanSettingsUiAction.OnAutoSilentDurationChange) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(autoSilentDurationMinutes = action.minutes) }
+        }
+    }
+
+    private fun onPermissionDontAskAgain(action: AdhanSettingsUiAction.OnPermissionDontAskAgain) {
+        viewModelScope.launch {
+            settingsRepository.update { it.withDontAskAgain(action.permission) }
+        }
+    }
+
+    private fun onNotificationSettingsClick() = Unit
+
+    private fun onPlaybackSettingsClick() = Unit
 
     private fun toggleNotify(prayer: Prayer) {
         viewModelScope.launch {

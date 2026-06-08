@@ -3,7 +3,6 @@ package com.github.meypod.al_azan.main.settings.calculation.advanced
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +28,6 @@ class AdvancedCalcViewModel @Inject constructor(
 
     fun onAction(action: AdvancedCalcUiAction) {
         when (action) {
-            AdvancedCalcUiAction.OnBackClick -> onBackClick()
             is AdvancedCalcUiAction.OnRoundingChange -> onRoundingChange(action)
             is AdvancedCalcUiAction.OnMidnightChange -> onMidnightChange(action)
             is AdvancedCalcUiAction.OnHighLatitudeChange -> onHighLatitudeChange(action)
@@ -37,10 +35,6 @@ class AdvancedCalcViewModel @Inject constructor(
             is AdvancedCalcUiAction.OnPolarChange -> onPolarChange(action)
             is AdvancedCalcUiAction.OnShafaqChange -> onShafaqChange(action)
         }
-    }
-
-    private fun onBackClick() {
-        NavigationController.navigateBack()
     }
 
     private fun onRoundingChange(action: AdvancedCalcUiAction.OnRoundingChange) {

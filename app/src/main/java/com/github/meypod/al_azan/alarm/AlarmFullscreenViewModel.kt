@@ -101,18 +101,25 @@ class AlarmFullscreenViewModel @Inject constructor(
 
     fun onAction(action: AlarmFullscreenUiAction) {
         when (action) {
-            AlarmFullscreenUiAction.OnDismiss ->
-                adhanFiringHandler.dismissFromUi(autoSilentOnDismiss, autoSilentDurationMinutes)
-
-            AlarmFullscreenUiAction.OnDismissAndSilent ->
-                adhanFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
-
-            AlarmFullscreenUiAction.OnShortRemind ->
-                prayer?.let { adhanFiringHandler.remindLaterFromUi(it, AdhanContract.SHORT_REMIND_MINUTES) }
-
-            AlarmFullscreenUiAction.OnLongRemind ->
-                prayer?.let { adhanFiringHandler.remindLaterFromUi(it, AdhanContract.LONG_REMIND_MINUTES) }
+            AlarmFullscreenUiAction.OnDismiss -> onDismiss()
+            AlarmFullscreenUiAction.OnDismissAndSilent -> onDismissAndSilent()
+            AlarmFullscreenUiAction.OnShortRemind -> onShortRemind()
+            AlarmFullscreenUiAction.OnLongRemind -> onLongRemind()
         }
         _finish.trySend(Unit)
+    }
+
+    private fun onDismiss() =
+        adhanFiringHandler.dismissFromUi(autoSilentOnDismiss, autoSilentDurationMinutes)
+
+    private fun onDismissAndSilent() =
+        adhanFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
+
+    private fun onShortRemind() {
+        prayer?.let { adhanFiringHandler.remindLaterFromUi(it, AdhanContract.SHORT_REMIND_MINUTES) }
+    }
+
+    private fun onLongRemind() {
+        prayer?.let { adhanFiringHandler.remindLaterFromUi(it, AdhanContract.LONG_REMIND_MINUTES) }
     }
 }

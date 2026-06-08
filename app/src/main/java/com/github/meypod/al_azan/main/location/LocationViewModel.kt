@@ -17,7 +17,6 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.location.components.NewLocationDialogUiState
 import com.github.meypod.al_azan.worker.TRAVEL_MODE_WORK_NAME
 import com.github.meypod.al_azan.worker.TravelModeWorker
@@ -53,7 +52,6 @@ class LocationViewModel
 
     fun onAction(action: LocationUiAction) {
         when (action) {
-            is LocationUiAction.OnBackClick -> onBackClick()
             is LocationUiAction.OnNewLocationClick -> onNewLocationClick()
             is LocationUiAction.OnNewLocationDismiss -> onNewLocationDismiss()
             is LocationUiAction.OnNewLocationConfirm -> onNewLocationConfirm(action.state)
@@ -68,10 +66,6 @@ class LocationViewModel
             is LocationUiAction.OnDeleteLocationConfirm -> onDeleteLocationConfirm(action.locationId)
             is LocationUiAction.OnTravelModeChange -> onTravelModeChange(action.value)
         }
-    }
-
-    private fun onBackClick() {
-        NavigationController.navigateBack()
     }
 
     suspend fun getCountries(): List<CountryGeoInfo> = geoInfoRepository.getCountries()

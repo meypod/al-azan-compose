@@ -16,7 +16,6 @@ import com.github.meypod.al_azan.core.domain.util.calendarMonthDays
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.domain.util.isSameCalendarMonth
 import com.github.meypod.al_azan.core.domain.util.isSameGregorianDay
-import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -48,19 +47,26 @@ class MonthlyViewViewModel @Inject constructor(
 
     fun onAction(action: MonthlyViewUiAction) {
         when (action) {
-            MonthlyViewUiAction.OnBackClick -> NavigationController.navigateBack()
+            MonthlyViewUiAction.OnPrevMonthClick -> onPrevMonthClick()
+            MonthlyViewUiAction.OnNextMonthClick -> onNextMonthClick()
+            MonthlyViewUiAction.OnShowThisMonthClick -> onShowThisMonthClick()
+            MonthlyViewUiAction.OnToggleCalendarClick -> onToggleCalendarClick()
+        }
+    }
 
-            MonthlyViewUiAction.OnPrevMonthClick -> shiftMonth(-1)
+    private fun onPrevMonthClick() = shiftMonth(-1)
 
-            MonthlyViewUiAction.OnNextMonthClick -> shiftMonth(1)
+    private fun onNextMonthClick() = shiftMonth(1)
 
-            MonthlyViewUiAction.OnShowThisMonthClick -> anchor.value = Clock.System.now()
+    private fun onShowThisMonthClick() {
+        anchor.value = Clock.System.now()
+    }
 
-            MonthlyViewUiAction.OnToggleCalendarClick -> calendarMode.update {
-                when (it) {
-                    MonthlyCalendarMode.SECONDARY -> MonthlyCalendarMode.LUNAR
-                    MonthlyCalendarMode.LUNAR -> MonthlyCalendarMode.SECONDARY
-                }
+    private fun onToggleCalendarClick() {
+        calendarMode.update {
+            when (it) {
+                MonthlyCalendarMode.SECONDARY -> MonthlyCalendarMode.LUNAR
+                MonthlyCalendarMode.LUNAR -> MonthlyCalendarMode.SECONDARY
             }
         }
     }

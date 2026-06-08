@@ -8,8 +8,6 @@ import com.github.meypod.al_azan.core.presentation.navigation.Route
 import kotlinx.datetime.DayOfWeek
 
 sealed interface AdhanSettingsUiAction {
-    object OnBackClick : AdhanSettingsUiAction
-
     /** Sets the global (default) muezzin. */
     data class OnGlobalMuezzinSelect(
         val entry: AudioEntry,

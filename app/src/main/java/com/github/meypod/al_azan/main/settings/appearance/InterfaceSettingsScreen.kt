@@ -47,6 +47,7 @@ import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +58,7 @@ fun InterfaceSettingsScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.interface_settings),
-        onBackClick = { onAction(InterfaceSettingsUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         LanguageCard(uiState, onAction)

@@ -18,6 +18,7 @@ import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 @Composable
 fun AdvancedTroubleshootScreen(
@@ -27,7 +28,7 @@ fun AdvancedTroubleshootScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.advanced_title),
-        onBackClick = { onAction(AdvancedTroubleshootUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         ACard { cardPadding ->

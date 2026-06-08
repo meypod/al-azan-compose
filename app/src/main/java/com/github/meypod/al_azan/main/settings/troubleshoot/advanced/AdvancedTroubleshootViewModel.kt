@@ -3,7 +3,6 @@ package com.github.meypod.al_azan.main.settings.troubleshoot.advanced
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,13 +27,8 @@ class AdvancedTroubleshootViewModel @Inject constructor(
 
     fun onAction(action: AdvancedTroubleshootUiAction) {
         when (action) {
-            AdvancedTroubleshootUiAction.OnBackClick -> onBackClick()
             is AdvancedTroubleshootUiAction.OnAdaptiveChargingToggle -> onAdaptiveChargingToggle(action)
         }
-    }
-
-    private fun onBackClick() {
-        NavigationController.navigateBack()
     }
 
     private fun onAdaptiveChargingToggle(action: AdvancedTroubleshootUiAction.OnAdaptiveChargingToggle) {
