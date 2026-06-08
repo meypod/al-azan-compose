@@ -516,4 +516,13 @@
     <string name="dev_disable">Disable developer mode</string>
     <string name="dev_scheduled_toast">Adhan scheduled in %1$d seconds</string>
     <string name="dev_unlocked_toast">Developer mode enabled</string>
+    <string name="add_custom_audio">Add Custom Audio</string>
+    <string name="audio_name">Name</string>
+    <string name="audio_name_required">Selecting a name is required</string>
+    <string name="add">Add</string>
+    <string name="delete_audio_title">Delete audio?</string>
+    <string name="delete_audio_body">Remove \"%1$s\" from your sounds?</string>
+    <string name="repeat">Repeat</string>
+    <string name="your_sounds">Your sounds</string>
+    <string name="device_sounds">Device sounds</string>
 </resources>

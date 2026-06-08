@@ -48,6 +48,7 @@ class AdhanPreviewPlaybackService :
         private const val EXTRA_URI = "uri"
         private const val EXTRA_ID = "id"
         private const val EXTRA_LABEL = "label"
+        private const val EXTRA_LOOP = "loop"
 
         private const val CHANNEL_ID = "adhan_preview_playback"
         private const val NOTIFICATION_ID = 0xADA1
@@ -62,12 +63,14 @@ class AdhanPreviewPlaybackService :
             uri: Uri,
             id: String,
             label: String,
+            loop: Boolean = false,
         ) {
             val intent = Intent(context, AdhanPreviewPlaybackService::class.java).apply {
                 action = ACTION_PLAY
                 putExtra(EXTRA_URI, uri.toString())
                 putExtra(EXTRA_ID, id)
                 putExtra(EXTRA_LABEL, label)
+                putExtra(EXTRA_LOOP, loop)
             }
             ContextCompat.startForegroundService(context, intent)
         }
@@ -102,8 +105,9 @@ class AdhanPreviewPlaybackService :
                 val uri = intent.getStringExtra(EXTRA_URI)?.toUri()
                 val id = intent.getStringExtra(EXTRA_ID)
                 val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
+                val loop = intent.getBooleanExtra(EXTRA_LOOP, false)
                 if (uri != null && id != null) {
-                    startPlayback(uri, id, label)
+                    startPlayback(uri, id, label, loop)
                 } else {
                     cleanupAndStop()
                 }
@@ -118,6 +122,7 @@ class AdhanPreviewPlaybackService :
         uri: Uri,
         id: String,
         label: String,
+        loop: Boolean,
     ) {
         // Must call startForeground promptly after startForegroundService.
         startForeground(NOTIFICATION_ID, buildNotification(label))
@@ -144,6 +149,7 @@ class AdhanPreviewPlaybackService :
             setOnPreparedListener(this@AdhanPreviewPlaybackService)
             setOnCompletionListener(this@AdhanPreviewPlaybackService)
             setOnErrorListener(this@AdhanPreviewPlaybackService)
+            isLooping = loop
             val ok = runCatching {
                 setDataSource(applicationContext, uri)
                 prepareAsync()

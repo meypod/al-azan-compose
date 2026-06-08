@@ -2,9 +2,15 @@ package com.github.meypod.al_azan.main.reminder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.audio.DeviceRingtone
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
+import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
+import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +24,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ReminderViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
+    private val settingsRepository: SettingsRepository,
+    private val ringtoneRepository: RingtoneRepository,
+    private val audioPreviewPlayer: AudioPreviewPlayer,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ReminderUiState())
     val uiState = _uiState.asStateFlow()
@@ -26,6 +35,21 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             reminderRepository.data.collect { list ->
                 _uiState.update { it.copy(reminders = list) }
+            }
+        }
+        viewModelScope.launch {
+            settingsRepository.data.collect { settings ->
+                val sounds = settings.savedUserAudioEntries.mapNotNull { it.toReminderAudioEntry() }
+                _uiState.update { it.copy(userSounds = sounds, adhanEntries = settings.savedAdhanAudioEntries) }
+            }
+        }
+        viewModelScope.launch {
+            val ringtones = ringtoneRepository.getDeviceRingtones().map { it.toReminderAudioEntry() }
+            _uiState.update { it.copy(deviceSounds = ringtones) }
+        }
+        viewModelScope.launch {
+            audioPreviewPlayer.playingId.collect { id ->
+                _uiState.update { it.copy(playingSoundId = id) }
             }
         }
     }
@@ -115,9 +139,15 @@ class ReminderViewModel @Inject constructor(
 
             ReminderUiAction.OnCancelDelete -> _uiState.update { it.copy(deletingReminderId = null, deletingBulk = false) }
 
-            ReminderUiAction.OnDraftDismiss -> _uiState.update { it.copy(editDraft = null) }
+            ReminderUiAction.OnDraftDismiss -> {
+                audioPreviewPlayer.stop()
+                _uiState.update { it.copy(editDraft = null) }
+            }
 
-            ReminderUiAction.OnDraftSave -> saveDraft()
+            ReminderUiAction.OnDraftSave -> {
+                audioPreviewPlayer.stop()
+                saveDraft()
+            }
 
             is ReminderUiAction.OnDraftLabelChange -> updateDraft { it.copy(label = action.value) }
 
@@ -128,6 +158,37 @@ class ReminderViewModel @Inject constructor(
             is ReminderUiAction.OnDraftPrayerChange -> updateDraft { it.copy(prayer = action.value) }
 
             is ReminderUiAction.OnDraftVibrationChange -> updateDraft { it.copy(vibration = action.value) }
+
+            is ReminderUiAction.OnDraftSoundChange -> updateDraft { it.copy(sound = action.value) }
+
+            is ReminderUiAction.OnAddSoundFile -> {
+                val id = "audio_" + UUID.randomUUID().toString()
+                // Persist to the shared user sounds so it also shows up in the muezzin picker.
+                viewModelScope.launch {
+                    settingsRepository.update {
+                        it.copy(
+                            savedUserAudioEntries = it.savedUserAudioEntries + AudioEntry.ExternalAudioEntry(
+                                id = id,
+                                filepath = action.filepath,
+                                label = action.label,
+                            ),
+                        )
+                    }
+                }
+                updateDraft {
+                    it.copy(
+                        sound = ReminderAudioEntry.ExternalReminderAudioEntry(
+                            id = id,
+                            filepath = action.filepath,
+                            label = action.label,
+                        ),
+                    )
+                }
+            }
+
+            is ReminderUiAction.OnPreviewSound -> audioPreviewPlayer.play(action.value)
+
+            ReminderUiAction.OnStopPreview -> audioPreviewPlayer.stop()
 
             // Invariant: a repeating reminder (only == false) must have at least one day selected.
             is ReminderUiAction.OnDraftOnlyOnceToggle -> updateDraft { d ->
@@ -190,6 +251,24 @@ class ReminderViewModel @Inject constructor(
         }
         _uiState.update { it.copy(editDraft = null) }
     }
+
+    override fun onCleared() {
+        audioPreviewPlayer.release()
+    }
+
+    private fun AudioEntry.ExternalAudioEntry.toReminderAudioEntry(): ReminderAudioEntry? =
+        filepath?.let {
+            ReminderAudioEntry.ExternalReminderAudioEntry(id = id, filepath = it, label = label)
+        }
+
+    private fun DeviceRingtone.toReminderAudioEntry(): ReminderAudioEntry =
+        ReminderAudioEntry.ExternalReminderAudioEntry(
+            id = id,
+            filepath = uri,
+            label = label,
+            canDelete = false,
+            loop = loop,
+        )
 
     private fun confirmDelete() {
         val state = _uiState.value

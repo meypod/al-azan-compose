@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.reminder
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import kotlinx.datetime.DayOfWeek
 
 sealed interface ReminderUiAction {
@@ -75,6 +76,23 @@ sealed interface ReminderUiAction {
     data class OnDraftVibrationChange(
         val value: VibrationMode?,
     ) : ReminderUiAction
+
+    /** null selects the default notification sound. */
+    data class OnDraftSoundChange(
+        val value: ReminderAudioEntry?,
+    ) : ReminderUiAction
+
+    /** Imports a local file: persists it to the shared user sounds and selects it for the draft. */
+    data class OnAddSoundFile(
+        val filepath: String,
+        val label: String,
+    ) : ReminderUiAction
+
+    data class OnPreviewSound(
+        val value: ReminderAudioEntry,
+    ) : ReminderUiAction
+
+    object OnStopPreview : ReminderUiAction
 
     data class OnDraftOnlyOnceToggle(
         val value: Boolean,

@@ -1,11 +1,14 @@
 package com.github.meypod.al_azan.reminder
 
 import android.util.Log
+import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -37,6 +40,7 @@ class ReminderScheduler @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val alarmRepository: AlarmRepository,
+    private val audioDurationProbe: AudioDurationProbe,
 ) {
     private val mutex = Mutex()
 
@@ -100,8 +104,13 @@ class ReminderScheduler @Inject constructor(
                     ),
                 )
 
-                // Pre-reminder ("upcoming") notification, unless the user disabled upcoming reminders.
-                if (!alarmSettings.dontNotifyUpcoming) {
+                // Pre-reminder ("upcoming") notification, only for intrusive reminders, unless the user
+                // disabled upcoming reminders. Intrusive = looping/long sound OR continuous vibration; a
+                // short chime with at most a single buzz gets no pre-reminder.
+                val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
+                val vibration = reminder.vibration ?: alarmSettings.vibrationMode
+                val intrusive = vibration == VibrationMode.Continuous || audioDurationProbe.isIntrusive(soundEntry)
+                if (intrusive && !alarmSettings.dontNotifyUpcoming) {
                     val preMs = (triggerMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
                         .coerceAtLeast(fromMs + REFIRE_GUARD_MS)
                     if (preMs < triggerMs) {

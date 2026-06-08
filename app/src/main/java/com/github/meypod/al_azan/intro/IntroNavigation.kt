@@ -64,11 +64,9 @@ import com.github.meypod.al_azan.intro.restorebackup.RestoreBackupViewModel
 import com.github.meypod.al_azan.main.location.LocationScreenContent
 import com.github.meypod.al_azan.main.location.LocationUiAction
 import com.github.meypod.al_azan.main.location.LocationViewModel
-import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinContent
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
 import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
-import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
-import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerViewModel
+import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinContent
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsScreen
 import com.github.meypod.al_azan.main.settings.calculation.CalculationSettingsViewModel
 import com.github.meypod.al_azan.main.settings.calculation.adjustments.AdjustmentsScreen
@@ -119,10 +117,6 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             subclass(
                                 Route.Intro.Adhan::class,
                                 Route.Intro.Adhan.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Adhan.Muezzin::class,
-                                Route.Intro.Adhan.Muezzin.serializer(),
                             )
                             subclass(
                                 Route.Intro.Adhan.PrayerSchedule::class,
@@ -320,19 +314,10 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                             ScheduleAndMuezzinContent(
                                 uiState = uiState,
                                 onAction = viewModel::onAction,
-                                muezzinRoute = Route.Intro.Adhan.Muezzin,
                                 prayerScheduleRoute = { Route.Intro.Adhan.PrayerSchedule(it) },
                             )
                         }
                     }
-                }
-                entry<Route.Intro.Adhan.Muezzin> {
-                    val viewModel = hiltViewModel<MuezzinPickerViewModel>()
-                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                    MuezzinPickerScreen(
-                        uiState = uiState,
-                        onAction = viewModel::onAction,
-                    )
                 }
                 entry<Route.Intro.Adhan.PrayerSchedule> { key ->
                     val viewModel = hiltViewModel<AdhanSettingsViewModel>()

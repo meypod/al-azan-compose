@@ -22,6 +22,8 @@ import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
+import com.github.meypod.al_azan.core.presentation.components.AudioPickerSection
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
@@ -54,13 +56,14 @@ fun PrayerScheduleScreen(
     val vibrationOptions = listOf<VibrationMode?>(null) + VibrationMode.entries
 
     val defaultLabel = stringResource(R.string.use_default_muezzin)
-    val muezzinOptions = listOf<AudioEntry?>(null) + uiState.settings.savedAdhanAudioEntries
-    val optionLabels = uiState.settings.savedAdhanAudioEntries.associate { entry ->
-        entry.id to when (entry) {
-            is AudioEntry.ResourceAudioEntry -> stringResource(entry.labelResId)
-            is AudioEntry.ExternalAudioEntry -> entry.label
-        }
-    }
+    val labelFn = audioEntryLabel()
+    val userIds = uiState.settings.savedUserAudioEntries.map { it.id }.toSet()
+    val muezzinSections = listOf<AudioPickerSection<AudioEntry?>>(
+        AudioPickerSection(null, listOf<AudioEntry?>(null)),
+        AudioPickerSection(stringResource(R.string.muezzin), uiState.settings.savedAdhanAudioEntries),
+        AudioPickerSection(stringResource(R.string.your_sounds), uiState.settings.savedUserAudioEntries),
+        AudioPickerSection(stringResource(R.string.device_sounds), uiState.deviceSounds),
+    )
 
     val rowState = AdhanScheduleRowUiState.fromPrayerAlarmSettings(
         prayer,
@@ -76,7 +79,11 @@ fun PrayerScheduleScreen(
         onDontAskAgain = { onAction(AdhanSettingsUiAction.OnPermissionDontAskAgain(it)) },
         onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },
     )
-    fun guardEnable(enabling: Boolean, revert: () -> Unit) {
+
+    fun guardEnable(
+        enabling: Boolean,
+        revert: () -> Unit,
+    ) {
         if (enabling) {
             pendingRevert.value = revert
             requestPermissions(SchedulingPermissionSteps.adhan)
@@ -122,13 +129,22 @@ fun PrayerScheduleScreen(
 
         Column {
             SettingLabel(stringResource(R.string.custom_muezzin))
-            BottomSelect(
+            AudioPickerField(
                 modifier = Modifier.fillMaxWidth(),
-                options = muezzinOptions,
-                optionKey = { it?.id ?: DEFAULT_MUEZZIN_KEY },
-                optionLabel = { it?.let { e -> optionLabels[e.id] ?: e.id } ?: defaultLabel },
+                sections = muezzinSections,
                 selectedKey = customMuezzin?.id ?: DEFAULT_MUEZZIN_KEY,
+                playingId = uiState.playingId,
+                optionKey = { it?.id ?: DEFAULT_MUEZZIN_KEY },
+                optionLabel = { it?.let(labelFn) ?: defaultLabel },
+                optionPreviewable = { it != null },
+                optionCanDelete = { it != null && it.id in userIds },
                 onSelect = { onAction(AdhanSettingsUiAction.OnScheduleMuezzinChange(prayer, it)) },
+                onPreview = { it?.let { e -> onAction(AdhanSettingsUiAction.OnPreviewAudio(e)) } },
+                onStopPreview = { onAction(AdhanSettingsUiAction.OnStopPreview) },
+                onAddLocalFile = { filepath, name ->
+                    onAction(AdhanSettingsUiAction.OnAddPrayerMuezzinFile(prayer, filepath, name))
+                },
+                onDelete = { it?.let { e -> onAction(AdhanSettingsUiAction.OnDeleteUserAudio(e)) } },
             )
         }
 

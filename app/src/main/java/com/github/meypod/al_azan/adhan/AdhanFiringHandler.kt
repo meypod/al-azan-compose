@@ -5,6 +5,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
+import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
 import com.github.meypod.al_azan.core.domain.model.TextResource
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
@@ -13,6 +15,7 @@ import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
@@ -29,6 +32,7 @@ import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
 import com.github.meypod.al_azan.playback.PlaybackService
@@ -62,6 +66,8 @@ class AdhanFiringHandler @Inject constructor(
     private val alarmRepository: AlarmRepository,
     private val adhanScheduler: AdhanScheduler,
     private val playbackLauncher: PlaybackLauncher,
+    private val audioDurationProbe: AudioDurationProbe,
+    private val softSoundPlayer: SoftSoundPlayer,
 ) {
     private companion object {
         /** Fixed prayer used by dev test helpers so they don't depend on real schedule settings. */
@@ -92,7 +98,11 @@ class AdhanFiringHandler @Inject constructor(
         val body = buildBody(timestamp, settings, alarmSettings)
         val entry = if (playSound) resolveSound(settings, prayer) else null
         val soundUri = entry?.toAudioUri(context)
-        if (soundUri != null) {
+        val vibration = alarmSettings.getVibrationSettings(prayer) ?: alarmSettings.vibrationMode
+        // Continuous vibration must loop until dismissed, so it's intrusive regardless of the sound.
+        val intrusive = vibration == VibrationMode.Continuous ||
+            (soundUri != null && entry != null && audioDurationProbe.isIntrusive(entry))
+        if (soundUri != null && intrusive) {
             playbackLauncher.launch(
                 PlaybackRequest.from(
                     settings = settings,
@@ -103,12 +113,19 @@ class AdhanFiringHandler @Inject constructor(
                     soundUri = soundUri,
                     channelId = adhanChannel(settings),
                     loop = entry.loop,
-                    vibration = alarmSettings.getVibrationSettings(prayer) ?: alarmSettings.vibrationMode,
+                    vibration = vibration,
                     prayerName = prayer.name,
                 ),
             )
         } else {
+            // Soft (short, non-looping) muezzin or notify-only: plain notification, the sound played
+            // once via a lightweight player when there is one (no foreground service / stop UI), and a
+            // single vibration if requested (continuous would have been routed to the service above).
             postNotifyOnlyNotification(prayer, body, settings)
+            if (soundUri != null) {
+                if (vibration != VibrationMode.Off) VibrationController.vibrate(context, VibrationMode.Once)
+                softSoundPlayer.play(soundUri)
+            }
         }
         adhanScheduler.schedule()
     }
