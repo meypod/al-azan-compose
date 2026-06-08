@@ -12,7 +12,7 @@
     <string name="okay">Tamam</string>
     <string name="dismiss">Yoksay</string>
     <string name="play">Oynat</string>
-    <string name="stop">Dur</string>
+    <string name="stop">Durdur</string>
     <string name="add">Ekle</string>
     <string name="increase">Artır</string>
     <string name="decrease">Azalt</string>
@@ -95,7 +95,7 @@
     <!-- ============================================================
          Custom audio / sound picker  (core/presentation/components)
          ============================================================ -->
-    <string name="add_custom_audio">Özel Ses Ekleme</string>
+    <string name="add_custom_audio">Özel Ses Ekle</string>
     <string name="audio_name">Ad</string>
     <string name="audio_name_required">Bir isim gerekli</string>
     <string name="delete_audio_title">Ses silinsin mi?</string>
@@ -209,7 +209,7 @@
          ============================================================ -->
     <string name="language">Dil</string>
     <string name="themes">Temalar</string>
-    <string name="theme_light">Aydınlık</string>
+    <string name="theme_light">Açık</string>
     <string name="theme_dark">Koyu</string>
     <string name="theme_classic_black">Klasik Siyah</string>
     <string name="theme_classic_light">Klasik Açık</string>
@@ -260,7 +260,7 @@
     <string name="lunar_islamic_tabular">İslami (Cetvele göre hesaplanmış)</string>
     <string name="lunar_islamic_civil">İslami (Sivil)</string>
     <string name="lunar_islamic_saudi_sighting">İslami (Suudi Arabistan\'a göre görünüm)</string>
-    <string name="attention_title">Dikkat</string>
+    <string name="attention_title"><b>Dikkat!</b></string>
     <string name="lunar_calendar_warning">Uygulamanın ay takvimi önceden hesaplanmıştır ve ay gözlemlerine dayanmadığı için doğru olmayabilir. Bu özellikle Ramazan\'ın başlangıcı ve bitişi için önemlidir.</string>
 
     <!-- ============================================================
@@ -302,7 +302,7 @@
     <string name="calc_method_tehran">Şii, Jeofizik Enstitüsü, Tahran Üniversitesi, İran</string>
     <string name="calc_method_kemenag">Endonezya Diyanet İşleri Bakanlığı (KEMENAG)</string>
     <string name="calc_method_algeria">Diyanet İşleri ve Vakıflar Bakanlığı, Cezayir</string>
-    <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
+    <string name="calc_method_brunei">Din İşleri Bakanlığı (Brunei Darüsselam)</string>
     <string name="calc_method_tunisia">Tunus Din İşleri Bakanlığı</string>
 
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
@@ -319,7 +319,7 @@
     <string name="high_latitude_none_automatic">Yok (Otomatik)</string>
     <string name="high_latitude_middle">Gecenin Ortası</string>
     <string name="high_latitude_seventh">Gecenin Yedide Biri</string>
-    <string name="high_latitude_twilight_angle">Güneş ufuk açısı</string>
+    <string name="high_latitude_twilight_angle">Alacakaranlık Açısı</string>
     <string name="asr_calculation">İkindi hesaplama</string>
     <string name="asr_shafi_default">Şafi, Maliki, Hanbeli (Varsayılan)</string>
     <string name="asr_hanafi">Hanefi</string>
@@ -377,7 +377,7 @@
     <string name="volume_button_stops_adhan_help">Bir ses tuşuna basmak çalan ezanı durdurur.</string>
     <string name="dont_show_alarm_screen">Ekranı kapalı tut</string>
     <string name="dont_show_alarm_screen_help">Bir ezan veya hatırlatıcı çalarken ekranı açma veya tam ekran alarmı gösterme.</string>
-    <string name="notifications">Bildirim</string>
+    <string name="notifications">Bildirimler</string>
     <string name="auto_silent_on_dismiss">Reddettikten sonra telefonu sustur</string>
     <string name="auto_silent_on_dismiss_help">Bir ezanı reddettiğinizde, telefon bir süreliğine Rahatsız Etmeyin moduna geçer. Erteleme bunu yapmaz.</string>
     <string name="auto_silent_duration">Susturma süresi</string>
@@ -394,7 +394,7 @@
     <!-- ============================================================
          Widget settings  (main/settings/widget)
          ============================================================ -->
-    <string name="show_notification_widget">Bildirim Gerecini Göster</string>
+    <string name="show_notification_widget">Bildirim Widget\'ını Göster</string>
     <string name="show_notification_widget_help">Bildirimde widget\'ın küçük bir sürümü.</string>
     <string name="show_countdown_timer">Geri Sayım Sayacını Göster</string>
     <string name="use_adaptive_theme">Uyarlanabilir Tema Kullan</string>
@@ -424,7 +424,7 @@
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
-    <string name="reminders_title">Hatırlatıcı</string>
+    <string name="reminders_title">Hatırlatıcılar</string>
     <string name="reminders_empty">Hiç hatırlatıcınız yok.</string>
     <string name="add_a_reminder">Hatırlatıcı Ekle</string>
     <string name="reminder_label">Etiket</string>
@@ -467,12 +467,12 @@
     <string name="show_last_change_time">Son Değişiklik Zamanını Göster</string>
     <string name="add_counter">Sayaç Ekle</string>
     <string name="counter_last_change">%1$s, %2$d → %3$d</string>
-    <string name="counter_fast">Hızlı</string>
+    <string name="counter_fast">Oruç</string>
     <string name="counter_new_title">Yeni sayaç</string>
     <string name="counter_edit_title">Sayacı düzenle</string>
     <string name="counter_label">Etiket</string>
     <string name="counter_label_placeholder">örn. Sübhanallah</string>
-    <string name="counter_count">Say</string>
+    <string name="counter_count">Sayı</string>
     <string name="counter_label_required">Etiket gereklidir</string>
     <string name="counter_delete_confirm_title">Sayaç silinsin mi?</string>
     <string name="counter_delete_confirm_body">\"%1$s\" ve geçmişi kalıcı olarak kaldırılacak.</string>
@@ -488,12 +488,12 @@
          ============================================================ -->
     <string name="qibla_disclaimer_title">Sorumluluk reddi</string>
     <string name="qibla_disclaimer">Yazılım ve donanım hatalarından dolayı bu uygulamanın gösterdiği Kıble yönünün yanlış olabileceğini unutmayın.\nDiğer manyetik cihazlar telefonunuzun pusulasını etkileyebilir ve pusulanızın kalibrasyona ihtiyacı olabilir.</string>
-    <string name="qibla_i_understand">Anlıyorum</string>
+    <string name="qibla_i_understand">Anladım</string>
     <string name="qibla_use_map">Haritayı kullan</string>
     <string name="qibla_use_compass">Pusulayı kullan</string>
     <string name="qibla_compass">Kıble Pusulası</string>
     <string name="qibla_location_label">Konum</string>
-    <string name="qibla_location_from_settings">ayarlardan</string>
+    <string name="qibla_location_from_settings">Ayarlardan</string>
     <string name="qibla_label">Kıble</string>
     <string name="qibla_degrees_from_north">Kuzeyden %1$d°</string>
     <string name="qibla_accuracy_label">Doğruluk</string>
@@ -591,7 +591,7 @@
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
-    <string name="widget_channel_name">Widget</string>
+    <string name="widget_channel_name">Namaz Vakitleri Widget\'ı</string>
     <string name="widget_channel_description">Namaz vakitlerini gösteren kalıcı bildirim.</string>
     <string name="adhan_channel_name">Ezan</string>
     <string name="adhan_channel_description">Namaz vakti ezan alarmları.</string>
@@ -601,11 +601,11 @@
     <string name="pre_adhan_channel_description">Bir namaz vaktinden kısa süre önce gösterilen hatırlatıcı.</string>
     <string name="adhan_remind_channel_name">Ezan hatırlatıcıları</string>
     <string name="adhan_remind_channel_description">Ezan alarmındaki \"sonra hatırlat\" seçeneğinden gelen takip hatırlatıcıları.</string>
-    <string name="reminder_channel_name">Hatırlatıcı</string>
+    <string name="reminder_channel_name">Hatırlatıcılar</string>
     <string name="reminder_channel_description">Namaz vakitlerine göre özel hatırlatıcılar.</string>
     <string name="reminder_dnd_channel_name">Hatırlatıcılar (Rahatsız Etmeyin\'i atla)</string>
     <string name="reminder_dnd_channel_description">Rahatsız Etmeyin sırasında bile çalan hatırlatıcılar.</string>
-    <string name="pre_reminder_channel_name">Yaklaşan hatırlatma</string>
+    <string name="pre_reminder_channel_name">Yaklaşan hatırlatıcı</string>
     <string name="pre_reminder_channel_description">Bir hatırlatıcıdan kısa süre önce gösterilen uyarı.</string>
     <string name="missed_channel_name">Kaçırılan alarmlar ve hatırlatıcılar</string>
     <string name="missed_channel_description">Sesler susturulmuşken geçen ezan alarmları ve hatırlatıcılar için sessiz uyarılar.</string>

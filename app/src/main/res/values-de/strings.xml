@@ -11,7 +11,7 @@
     <string name="delete">Löschen</string>
     <string name="okay">OK</string>
     <string name="dismiss">Ablehnen</string>
-    <string name="play">Spielen</string>
+    <string name="play">Abspielen</string>
     <string name="stop">Stopp</string>
     <string name="add">Hinzufügen</string>
     <string name="increase">Erhöhen</string>
@@ -101,7 +101,7 @@
     <string name="delete_audio_title">Audio löschen?</string>
     <string name="delete_audio_body">„%1$s“ aus Ihren Tönen entfernen?</string>
     <string name="repeat">Wiederholen</string>
-    <string name="your_sounds">Deine Töne</string>
+    <string name="your_sounds">Ihre Töne</string>
     <string name="device_sounds">Gerätetöne</string>
     <string name="add_from_local_files">Aus lokalen Dateien hinzufügen</string>
     <string name="reminder_default_sound">Standard (Benachrichtigung)</string>
@@ -286,8 +286,8 @@
     <string name="calc_method_moonsighting_committee">Ausschuss für Mondsichtung</string>
     <string name="calc_method_muslim_world_league">Islamische Weltliga</string>
     <string name="calc_method_egyptian">Ägyptische Generalvermessungsbehörde</string>
-    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
-    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_karachi">Universität für Islamische Wissenschaften, Karatschi, Pakistan</string>
+    <string name="calc_method_umm_al_qura">Umm-al-Qura-Universität, Mekka, Saudi-Arabien</string>
     <string name="calc_method_north_america">Islamische Gesellschaft Nordamerikas (ISNA)</string>
     <string name="calc_method_gulf">Golfregion</string>
     <string name="calc_method_dubai">Die Golfregion (Dubai)</string>
@@ -299,9 +299,9 @@
     <string name="calc_method_france18">Frankreich Winkel 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Türkei</string>
     <string name="calc_method_russia">Geistliche Verwaltung der Muslime Russlands</string>
-    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
-    <string name="calc_method_tehran">Shia, Institut für Geophysik, Universität von Teheran</string>
-    <string name="calc_method_kemenag">Kementrian Agama Republik Indonesien (KEMENAG)</string>
+    <string name="calc_method_jafari">Schia Ithna Ashari, Leva-Institut, Ghom, Iran</string>
+    <string name="calc_method_tehran">Schia, Institut für Geophysik, Universität Teheran, Iran</string>
+    <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
     <string name="calc_method_algeria">Ministerium für religiöse Angelegenheiten und Wakfs, Algerien</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
     <string name="calc_method_tunisia">Ministerium für religiöse Angelegenheiten von Tunesien</string>
@@ -310,7 +310,7 @@
     <string name="advanced_calculation_title">Erweiterte Berechnungseinstellungen</string>
     <string name="rounding_method">Rundungsmethode</string>
     <string name="rounding_auto_default">Automatisch (Standard)</string>
-    <string name="rounding_nearest">Nächstgelegen</string>
+    <string name="rounding_nearest">Nächste</string>
     <string name="rounding_up">Nach oben</string>
     <string name="rounding_none">Keine</string>
     <string name="midnight_method">Mitternachtsmethode</string>
@@ -378,7 +378,7 @@
     <string name="volume_button_stops_adhan_help">Das Drücken einer Lautstärketaste stoppt den laufenden Adhan.</string>
     <string name="dont_show_alarm_screen">Bildschirm ausgeschaltet lassen</string>
     <string name="dont_show_alarm_screen_help">Bildschirm nicht einschalten und keinen Vollbild-Alarm anzeigen, wenn ein Adhan oder eine Erinnerung abgespielt wird.</string>
-    <string name="notifications">Benachrichtigung</string>
+    <string name="notifications">Benachrichtigungen</string>
     <string name="auto_silent_on_dismiss">Telefon nach dem Ablehnen stummschalten</string>
     <string name="auto_silent_on_dismiss_help">Wenn Sie einen Adhan ablehnen, wechselt das Telefon eine Weile in den Modus „Bitte nicht stören“. Beim Schlummern nicht.</string>
     <string name="auto_silent_duration">Dauer der Stummschaltung</string>
@@ -425,7 +425,7 @@
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
-    <string name="reminders_title">Erinnerung</string>
+    <string name="reminders_title">Erinnerungen</string>
     <string name="reminders_empty">Sie haben keine Erinnerung.</string>
     <string name="add_a_reminder">Erinnerung hinzufügen</string>
     <string name="reminder_label">Bezeichnung</string>
@@ -473,7 +473,7 @@
     <string name="counter_edit_title">Zähler bearbeiten</string>
     <string name="counter_label">Bezeichnung</string>
     <string name="counter_label_placeholder">z. B. Subhanallah</string>
-    <string name="counter_count">Zählen</string>
+    <string name="counter_count">Anzahl</string>
     <string name="counter_label_required">Eine Bezeichnung ist erforderlich</string>
     <string name="counter_delete_confirm_title">Zähler löschen?</string>
     <string name="counter_delete_confirm_body">„%1$s“ und der zugehörige Verlauf werden dauerhaft entfernt.</string>
@@ -586,7 +586,7 @@ Andere magnetische Geräte können den Kompass Ihres Telefons stören, und Ihr K
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">Achtung</string>
+    <string name="ramadan_notice_title">Achtung!</string>
     <string name="ramadan_remind_next_year">Erinnern Sie mich nächstes Jahr daran</string>
     <string name="ramadan_dont_show_again">Nicht erneut anzeigen</string>
 
@@ -603,11 +603,11 @@ Andere magnetische Geräte können den Kompass Ihres Telefons stören, und Ihr K
     <string name="pre_adhan_channel_description">Erinnerung, die kurz vor einer Gebetszeit angezeigt wird.</string>
     <string name="adhan_remind_channel_name">Adhan-Erinnerungen</string>
     <string name="adhan_remind_channel_description">Folgeerinnerungen von „später erinnern“ beim Adhan-Alarm.</string>
-    <string name="reminder_channel_name">Erinnerung</string>
+    <string name="reminder_channel_name">Erinnerungen</string>
     <string name="reminder_channel_description">Benutzerdefinierte Erinnerungen relativ zu den Gebetszeiten.</string>
     <string name="reminder_dnd_channel_name">Erinnerungen (umgehen „Bitte nicht stören“)</string>
     <string name="reminder_dnd_channel_description">Erinnerungen, die auch während „Bitte nicht stören“ ertönen.</string>
-    <string name="pre_reminder_channel_name">Kommende Erinnerung</string>
+    <string name="pre_reminder_channel_name">Bevorstehende Erinnerung</string>
     <string name="pre_reminder_channel_description">Hinweis, der kurz vor einer Erinnerung angezeigt wird.</string>
     <string name="missed_channel_name">Verpasste Alarme und Erinnerungen</string>
     <string name="missed_channel_description">Stille Hinweise für Adhan-Alarme und Erinnerungen, die verstrichen sind, während die Töne stummgeschaltet waren.</string>

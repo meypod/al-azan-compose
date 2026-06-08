@@ -10,7 +10,7 @@
     <string name="close">Fermer</string>
     <string name="delete">Supprimer</string>
     <string name="okay">Ok</string>
-    <string name="dismiss">Passer</string>
+    <string name="dismiss">Ignorer</string>
     <string name="play">Jouer</string>
     <string name="stop">Arrêter</string>
     <string name="add">Ajouter</string>
@@ -109,7 +109,7 @@
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)
          ============================================================ -->
-    <string name="vibration_off">Off</string>
+    <string name="vibration_off">Désactivée</string>
     <string name="vibration_once">Une fois</string>
     <string name="vibration_continuous">Continu</string>
     <string name="weekday_sunday">Dimanche</string>
@@ -286,8 +286,8 @@
     <string name="calc_method_moonsighting_committee">Comité d\'observation de la lune</string>
     <string name="calc_method_muslim_world_league">Ligue islamique mondiale</string>
     <string name="calc_method_egyptian">Autorité égyptienne d\'études générales</string>
-    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
-    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_karachi">Université des sciences islamiques, Karachi, Pakistan</string>
+    <string name="calc_method_umm_al_qura">Université Umm al-Qura, La Mecque, Arabie Saoudite</string>
     <string name="calc_method_north_america">Société islamique d\'Amérique du Nord (ISNA)</string>
     <string name="calc_method_gulf">Région du Golfe</string>
     <string name="calc_method_dubai">La région du Golfe (Dubaï)</string>
@@ -299,8 +299,8 @@
     <string name="calc_method_france18">France angle 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Turquie</string>
     <string name="calc_method_russia">Administration spirituelle des musulmans de Russie</string>
-    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
-    <string name="calc_method_tehran">Shia, Institut de géophysique, Université de Téhéran</string>
+    <string name="calc_method_jafari">Chiite Ithna Ashari, Institut Leva, Qom, Iran</string>
+    <string name="calc_method_tehran">Chiite, Institut de géophysique, Université de Téhéran, Iran</string>
     <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
     <string name="calc_method_algeria">Ministère des affaires religieuses et des wakfs, Algérie</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
@@ -308,10 +308,10 @@
 
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Paramètres de calcul avancés</string>
-    <string name="rounding_method">Méthode d\'arrondissement</string>
+    <string name="rounding_method">Méthode d\'arrondi</string>
     <string name="rounding_auto_default">Automatique (par défaut)</string>
     <string name="rounding_nearest">Le plus proche</string>
-    <string name="rounding_up">Haut de la page</string>
+    <string name="rounding_up">Au-dessus</string>
     <string name="rounding_none">Aucun</string>
     <string name="midnight_method">Méthode de minuit</string>
     <string name="midnight_sunset_to_fajr_default">Du coucher du soleil au Fajr (par défaut)</string>
@@ -380,7 +380,7 @@ déterminer l\'heure d\'Isha</string>
     <string name="volume_button_stops_adhan_help">Appuyer sur un bouton de volume arrête l\'Adhan en cours de lecture.</string>
     <string name="dont_show_alarm_screen">Garder l\'écran éteint</string>
     <string name="dont_show_alarm_screen_help">Ne pas allumer l\'écran ni afficher l\'alarme en plein écran lorsqu\'un Adhan ou un rappel retentit.</string>
-    <string name="notifications">Notification</string>
+    <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Mettre le téléphone en silence après avoir ignoré</string>
     <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas.</string>
     <string name="auto_silent_duration">Durée du silence</string>
@@ -570,7 +570,7 @@ D\'autres appareils magnétiques peuvent interférer avec la boussole de votre t
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Balayez vers le haut pour plus d\'options</string>
-    <string name="alarm_dismiss">Passer</string>
+    <string name="alarm_dismiss">Ignorer</string>
     <string name="alarm_just_dismiss">Simplement ignorer</string>
     <string name="alarm_just_dismiss_silence">Ignorer et mettre le téléphone en silence</string>
     <string name="alarm_dismiss_and_silent">Ignorer et mettre en silence %1$dm</string>
@@ -588,7 +588,7 @@ D\'autres appareils magnétiques peuvent interférer avec la boussole de votre t
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">Attention</string>
+    <string name="ramadan_notice_title">Attention !</string>
     <string name="ramadan_remind_next_year">Rappelez-moi l\'année prochaine</string>
     <string name="ramadan_dont_show_again">Ne pas montrer à nouveau</string>
 

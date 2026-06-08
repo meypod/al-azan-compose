@@ -21,7 +21,7 @@
     <string name="no_items_found">موردی یافت نشد</string>
     <string name="search_placeholder">جستجو</string>
     <string name="drag_handle_description">دستگیره جابجایی</string>
-    <string name="dont_ask_again">دیگه نپرس</string>
+    <string name="dont_ask_again">دیگر نپرس</string>
     <string name="custom_minutes">دلخواه</string>
     <string name="custom_minutes_tap_to_edit">برای ویرایش ضربه بزنید</string>
     <string name="custom_minutes_dialog_title">دقیقهٔ دلخواه</string>
@@ -180,7 +180,7 @@
     <string name="country">کشور</string>
     <string name="city">شهر</string>
     <string name="find_location_title">با استفاده از خدمات موقعیت مکانی</string>
-    <string name="find_location_button">موقعیت من را پیدا کن</string>
+    <string name="find_location_button">یافتن موقعیت من</string>
     <string name="using_coordinates_title">با استفاده از مختصات</string>
     <string name="latitude">عرض جغرافیایی</string>
     <string name="longitude">طول جغرافیایی</string>
@@ -228,7 +228,7 @@
     <string name="time_format">قالب زمان</string>
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
     <string name="numbering_system">سیستم شماره گذاری</string>
-    <string name="numbering_system_help">همه اعداد را مجبور می کند که در سیستم انتخاب شده باشند</string>
+    <string name="numbering_system_help">همهٔ اعداد را به سیستم انتخاب‌شده تبدیل می‌کند.</string>
     <string name="numbering_system_default">پیش فرض</string>
     <string name="numbering_system_latn">عربی غربی</string>
     <string name="numbering_system_arab">عربی شرقی</string>
@@ -254,13 +254,13 @@
          ============================================================ -->
     <string name="calendar">تقویم</string>
     <string name="lunar_calendar">تقویم قمری</string>
-    <string name="lunar_calendar_supporting_text">نوع تقویم قمری نشان داده شده در صفحه اصلی و ویجت ها</string>
+    <string name="lunar_calendar_supporting_text">نوع تقویم قمری نمایش‌داده‌شده در صفحهٔ اصلی و ابزارک‌ها.</string>
     <string name="lunar_islamic">اسلامی</string>
     <string name="lunar_islamic_ummalqura">اسلامی (ام القری)</string>
     <string name="lunar_islamic_tabular">اسلامی (جدولی)</string>
     <string name="lunar_islamic_civil">اسلامی (مدنی)</string>
     <string name="lunar_islamic_saudi_sighting">اسلامی (رؤیت هلال عربستان سعودی)</string>
-    <string name="attention_title">توجه</string>
+    <string name="attention_title"><b>توجه!</b></string>
     <string name="lunar_calendar_warning">تقویم قمری این برنامه از قبل محاسبه شده است و ممکن است دقیق نباشد زیرا بر اساس رؤیت ماه نیست. توجه به این موضوع برای شروع و پایان ماه مبارک رمضان بسیار مهم است.</string>
 
     <!-- ============================================================
@@ -284,7 +284,7 @@
     <string name="calc_method_other">دلخواه</string>
     <string name="calc_method_moonsighting_committee">کمیته رویت هلال ماه</string>
     <string name="calc_method_muslim_world_league">لیگ جهانی مسلمانان</string>
-    <string name="calc_method_egyptian">اداره کل بررسی مصر</string>
+    <string name="calc_method_egyptian">سازمان عمومی نقشه‌برداری مصر</string>
     <string name="calc_method_karachi">دانشگاه علوم اسلامی، کراچی، پاکستان</string>
     <string name="calc_method_umm_al_qura">دانشگاه ام‌القری، مکه، عربستان سعودی</string>
     <string name="calc_method_north_america">جامعه اسلامی آمریکای شمالی (ایسنا)</string>
@@ -299,10 +299,10 @@
     <string name="calc_method_turkey">ریاست امور مذهبی، ترکیه</string>
     <string name="calc_method_russia">اداره معنوی مسلمانان روسیه</string>
     <string name="calc_method_jafari">شیعه اثنی‌عشری، مؤسسهٔ لِوا، قم، ایران</string>
-    <string name="calc_method_tehran">شیعه، موسسه ژئوفیزیک دانشگاه تهران</string>
+    <string name="calc_method_tehran">شیعه، مؤسسهٔ ژئوفیزیک دانشگاه تهران، ایران</string>
     <string name="calc_method_kemenag">وزارت دین جمهوری اندونزی (KEMENAG)</string>
     <string name="calc_method_algeria">وزارت امور دینی و وقف الجزایر</string>
-    <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (برونئی دارالسلام)</string>
+    <string name="calc_method_brunei">وزارت امور دینی (برونئی دارالسلام)</string>
     <string name="calc_method_tunisia">وزارت امور دینی تونس</string>
 
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
@@ -310,7 +310,7 @@
     <string name="rounding_method">روش گرد کردن</string>
     <string name="rounding_auto_default">خودکار (پیش‌فرض)</string>
     <string name="rounding_nearest">نزدیکترین</string>
-    <string name="rounding_up">بالا</string>
+    <string name="rounding_up">گرد کردن به بالا</string>
     <string name="rounding_none">هیچکدام</string>
     <string name="midnight_method">روش نیمه شب</string>
     <string name="midnight_sunset_to_fajr_default">غروب آفتاب تا فجر (پیش‌فرض)</string>
@@ -344,8 +344,8 @@
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
     <string name="playback_settings">تنظیمات پخش</string>
-    <string name="notification_settings">اعلان و صدا</string>
-    <string name="notification_sound">اعلان و صدا</string>
+    <string name="notification_settings">تنظیمات اعلان</string>
+    <string name="notification_sound">صدای اعلان</string>
     <string name="schedule">زمان‌بندی</string>
     <string name="schedule_help">برای هر مورد، اعلان‌ها و صداها را فعال کنید. روی نماد چرخ‌دنده ضربه بزنید تا روزهای مشخصی را انتخاب کنید یا صدای دلخواه تنظیم کنید.</string>
     <string name="adhan_schedule">زمان‌بندی</string>
@@ -363,7 +363,7 @@
     <string name="use_default_vibration">استفاده از پیش‌فرض</string>
     <string name="vibration_mode">حالت ویبره</string>
     <string name="vibration_mode_help">آیا هنگام شروع پخش اذان یا یادآوری، تلفن باید بلرزد؟</string>
-    <string name="show_upcoming_alarm">نمایش اعلان «هشدار بعدی»</string>
+    <string name="show_upcoming_alarm">نمایش اعلان «زنگ آینده»</string>
     <string name="show_upcoming_alarm_help">در صورت فعال بودن، حدود یک ساعت قبل از هر اذان یک اعلان نمایش داده می‌شود.</string>
     <string name="custom_upcoming_time">اطلاع قبل از اذان</string>
     <string name="custom_upcoming_time_help">چند دقیقه قبل از هر اذان یا یادآوری، اعلان آینده نمایش داده شود.</string>
@@ -377,7 +377,7 @@
     <string name="volume_button_stops_adhan_help">فشردن دکمهٔ صدا، اذان در حال پخش را متوقف می‌کند.</string>
     <string name="dont_show_alarm_screen">صفحه خاموش بماند</string>
     <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و زنگ تمام‌صفحه نمایش داده نشود.</string>
-    <string name="notifications">اعلان</string>
+    <string name="notifications">اعلان‌ها</string>
     <string name="auto_silent_on_dismiss">بی‌صدا کردن تلفن پس از رد کردن</string>
     <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد.</string>
     <string name="auto_silent_duration">مدت بی‌صدایی</string>
@@ -402,7 +402,7 @@
     <string name="widget_show_prayer_times">نمایش اوقات شرعی</string>
     <string name="widget_show_prayer_times_help">انتخاب کنید کدام اوقات شرعی در ابزارک نمایش داده شوند.</string>
     <string name="widget_city_name_pos_label">موقعیت</string>
-    <string name="widget_city_name_pos_help">می‌توانید یکی از تقویم‌ها را با مکان فعلی خود جایگزین کنید</string>
+    <string name="widget_city_name_pos_help">می‌توانید یکی از تقویم‌ها را با مکان فعلی خود جایگزین کنید.</string>
     <string name="widget_city_name_pos_placeholder">انتخاب کنید کدام تقویم جایگزین شود</string>
     <string name="widget_max_shown_prayers_warning">فقط شش مورد را می توان همزمان نشان داد</string>
 
@@ -424,7 +424,7 @@
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
-    <string name="reminders_title">یادآوری</string>
+    <string name="reminders_title">یادآوری‌ها</string>
     <string name="reminders_empty">هیچ یادآوری ندارید.</string>
     <string name="add_a_reminder">افزودن یک یادآوری</string>
     <string name="reminder_label">برچسب</string>
@@ -488,15 +488,15 @@
          ============================================================ -->
     <string name="qibla_disclaimer_title">سلب مسئولیت</string>
     <string name="qibla_disclaimer">توجه داشته باشید که به دلیل خطاهای نرم‌افزاری و سخت‌افزاری، جهت قبله‌ای که این برنامه نشان می‌دهد ممکن است نادرست باشد.\nدستگاه‌های مغناطیسی دیگر ممکن است با قطب‌نمای تلفن شما تداخل ایجاد کنند و قطب‌نمای شما ممکن است نیاز به کالیبراسیون داشته باشد.</string>
-    <string name="qibla_i_understand">متوجه ام</string>
+    <string name="qibla_i_understand">متوجه شدم</string>
     <string name="qibla_use_map">استفاده از نقشه</string>
     <string name="qibla_use_compass">استفاده از قطب نما</string>
     <string name="qibla_compass">قطب‌نمای قبله</string>
-    <string name="qibla_location_label">موقعیت</string>
+    <string name="qibla_location_label">موقعیت:</string>
     <string name="qibla_location_from_settings">از تنظیمات</string>
-    <string name="qibla_label">قبله</string>
+    <string name="qibla_label">قبله:</string>
     <string name="qibla_degrees_from_north">%1$d° از شمال</string>
-    <string name="qibla_accuracy_label">دقت</string>
+    <string name="qibla_accuracy_label">دقت:</string>
     <string name="qibla_refresh_location">به‌روزرسانی موقعیت از GPS</string>
     <string name="qibla_lock_orientation">قفل کردن جهت صفحه</string>
     <string name="qibla_unlock_orientation">باز کردن قفل جهت صفحه</string>
@@ -529,7 +529,7 @@
     <string name="app_is_allowed_to_keep_running">برنامه اجازه دارد روشن بماند</string>
     <string name="power_manager_card_title">تنظیمات مدیریت انرژی</string>
     <string name="power_manager_card_body">برخی دستگاه‌ها برای جلوگیری از متوقف شدن برنامه در پس‌زمینه، به تنظیمات خاصی در «مدیریت انرژی» خود نیاز دارند. در این موارد، هرگونه گزینهٔ صرفه‌جویی در انرژی را برای این برنامه غیرفعال کنید.</string>
-    <string name="open_power_manager_settings">تنظیمات مدیریت انرژی را باز کن</string>
+    <string name="open_power_manager_settings">باز کردن تنظیمات مدیریت انرژی</string>
     <string name="power_manager_samsung_hint">دستگاه‌های سامسونگ مدیریت انرژی اختصاصی خود به نام «Device Care» را دارند. پس از فشردن دکمهٔ زیر، به منوی باتری Device Care منتقل می‌شوید. در این منو، روی «App power management» ضربه بزنید، سپس «Apps that won\'t be put to sleep» را انتخاب کنید و این برنامه را به فهرست اضافه کنید.</string>
     <string name="dnd_access_card_title">دسترسی به «مزاحم نشوید»</string>
     <string name="dnd_access_card_body">لازم است تا اذان بتواند هنگام «مزاحم نشوید» پخش شود و پس از رد کردن آن، تلفن را بی‌صدا کند.</string>
@@ -567,13 +567,13 @@
     <string name="alarm_azan_header">اذان</string>
     <string name="alarm_swipe_up_hint">برای گزینه‌های بیشتر به بالا بکشید</string>
     <string name="alarm_dismiss">رد کردن</string>
-    <string name="alarm_just_dismiss">فقط رد کن</string>
+    <string name="alarm_just_dismiss">فقط رد کردن</string>
     <string name="alarm_just_dismiss_silence">رد کردن و بی‌صدا کردن تلفن</string>
     <string name="alarm_dismiss_and_silent">رد کردن و بی‌صدا کردن %1$dدقیقه</string>
     <string name="alarm_remind">یادآوری تا %1$dدقیقه دیگر</string>
     <string name="adhan_remind_body">%1$s، %2$d دقیقه پیش بود</string>
     <string name="next_prayer_label">بعدی</string>
-    <string name="upcoming_alarm_title">هشدار بعدی</string>
+    <string name="upcoming_alarm_title">زنگ آینده</string>
     <string name="cancel_alarm">لغو زنگ هشدار</string>
     <string name="adhan_cancelled_toast">اذان آینده لغو شد</string>
     <string name="adhan_cancelled_named_toast">اذان %1$s لغو شد</string>
@@ -591,17 +591,17 @@
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
-    <string name="widget_channel_name">ویجت</string>
+    <string name="widget_channel_name">ابزارک اوقات شرعی</string>
     <string name="widget_channel_description">اعلان دائمی که اوقات شرعی را نمایش می‌دهد.</string>
     <string name="adhan_channel_name">اذان</string>
     <string name="adhan_channel_description">زنگ‌های اذان در اوقات شرعی.</string>
     <string name="adhan_dnd_channel_name">اذان (دور زدن «مزاحم نشوید»)</string>
     <string name="adhan_dnd_channel_description">زنگ‌های اذان که حتی هنگام «مزاحم نشوید» به صدا درمی‌آیند.</string>
-    <string name="pre_adhan_channel_name">هشدار بعدی</string>
+    <string name="pre_adhan_channel_name">اذان آینده</string>
     <string name="pre_adhan_channel_description">یادآوری که کمی قبل از وقت شرعی نمایش داده می‌شود.</string>
     <string name="adhan_remind_channel_name">یادآوری‌های اذان</string>
     <string name="adhan_remind_channel_description">یادآوری‌های پیگیری از «بعداً یادآوری کن» در زنگ اذان.</string>
-    <string name="reminder_channel_name">یادآوری</string>
+    <string name="reminder_channel_name">یادآوری‌ها</string>
     <string name="reminder_channel_description">یادآوری‌های دلخواه نسبت به اوقات شرعی.</string>
     <string name="reminder_dnd_channel_name">یادآوری‌ها (دور زدن «مزاحم نشوید»)</string>
     <string name="reminder_dnd_channel_description">یادآوری‌هایی که حتی هنگام «مزاحم نشوید» به صدا درمی‌آیند.</string>
@@ -623,7 +623,7 @@
     <string name="version">نسخه</string>
     <string name="home">خانه</string>
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
-    <string name="license">لایسنس</string>
+    <string name="license">مجوز</string>
     <string name="about_credits">تمامی حقوق صداهای اذان متعلق به صاحبان مربوطه می باشد.</string>
 
 </resources>

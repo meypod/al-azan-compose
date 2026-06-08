@@ -4,7 +4,7 @@
     <!-- ============================================================
          Shared / common UI  (core/presentation/components)
          ============================================================ -->
-    <string name="app_name">Aplikasi Al Azan</string>
+    <string name="app_name">Al-Azan</string>
     <string name="cancel">Batal</string>
     <string name="confirm">Konfirmasi</string>
     <string name="close">Tutup</string>
@@ -19,7 +19,7 @@
     <string name="information">Informasi</string>
     <string name="selected">Dipilih</string>
     <string name="no_items_found">Tidak ada item yang ditemukan</string>
-    <string name="search_placeholder">Pencarian</string>
+    <string name="search_placeholder">Cari…</string>
     <string name="drag_handle_description">Gagang seret</string>
     <string name="dont_ask_again">Jangan tanya lagi</string>
     <string name="custom_minutes">Kustom</string>
@@ -261,7 +261,7 @@
     <string name="lunar_islamic_tabular">Islam (tabular)</string>
     <string name="lunar_islamic_civil">Islam (sipil)</string>
     <string name="lunar_islamic_saudi_sighting">Islam (penampakan Arab Saudi)</string>
-    <string name="attention_title">Perhatian</string>
+    <string name="attention_title"><b>Perhatian!</b></string>
     <string name="lunar_calendar_warning">Kalender lunar aplikasi ini telah dihitung sebelumnya dan mungkin tidak akurat karena tidak berdasarkan penampakan bulan. Hal ini sangat penting untuk diperhatikan terutama untuk awal dan akhir Ramadan.</string>
 
     <!-- ============================================================
@@ -283,24 +283,24 @@
     <string name="adjustments">Penyesuaian</string>
     <!-- Calculation methods (main/settings/calculation/utils) -->
     <string name="calc_method_other">Kustom</string>
-    <string name="calc_method_moonsighting_committee">Komite Moonsighting Sedunia (MCW)</string>
+    <string name="calc_method_moonsighting_committee">Komite Moonsighting</string>
     <string name="calc_method_muslim_world_league">Liga Muslim Dunia</string>
-    <string name="calc_method_egyptian">Otoritas Umum Mesir</string>
-    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
-    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_egyptian">Otoritas Survei Umum Mesir</string>
+    <string name="calc_method_karachi">Universitas Ilmu-Ilmu Islam, Karachi, Pakistan</string>
+    <string name="calc_method_umm_al_qura">Universitas Umm al-Qura, Makkah, Arab Saudi</string>
     <string name="calc_method_north_america">Masyarakat Islam Amerika Utara (ISNA)</string>
-    <string name="calc_method_gulf">Wilayah Gulf</string>
-    <string name="calc_method_dubai">The Gulf Region (Dubai)</string>
+    <string name="calc_method_gulf">Wilayah Teluk</string>
+    <string name="calc_method_dubai">Wilayah Teluk (Dubai)</string>
     <string name="calc_method_kuwait">Kuwait</string>
     <string name="calc_method_qatar">Qatar</string>
     <string name="calc_method_singapore">Singapura</string>
-    <string name="calc_method_france">Serikat Organisasi Islam Perancis (UOIF)</string>
+    <string name="calc_method_france">Serikat Organisasi Islam Prancis</string>
     <string name="calc_method_france15">Sudut Prancis 15</string>
     <string name="calc_method_france18">Sudut Prancis 18</string>
     <string name="calc_method_turkey">Presidensi Urusan Agama Republik Turki (Diyanet)</string>
     <string name="calc_method_russia">Administrasi Keagamaan Muslim Rusia</string>
-    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
-    <string name="calc_method_tehran">Shia, Institute of Geophysics, University of Tehran</string>
+    <string name="calc_method_jafari">Syiah Itsna Asyari, Institut Leva, Qum, Iran</string>
+    <string name="calc_method_tehran">Syiah, Institut Geofisika, Universitas Tehran, Iran</string>
     <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
     <string name="calc_method_algeria">Kementerian Agama dan Wakaf, Aljazair</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
@@ -468,7 +468,7 @@
     <string name="show_last_change_time">Tampilkan Waktu Perubahan Terakhir</string>
     <string name="add_counter">Tambah Penghitung</string>
     <string name="counter_last_change">%1$s, %2$d → %3$d</string>
-    <string name="counter_fast">puasa</string>
+    <string name="counter_fast">Puasa</string>
     <string name="counter_new_title">Penghitung Baru</string>
     <string name="counter_edit_title">Edit Penghitung</string>
     <string name="counter_label">Judul</string>
@@ -490,7 +490,7 @@
     <string name="qibla_disclaimer_title">Penafian</string>
     <string name="qibla_disclaimer">Perhatikan bahwa karena kesalahan perangkat lunak dan perangkat keras, arah Kiblat yang ditampilkan oleh aplikasi ini bisa salah.
 Perangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mungkin perlu dikalibrasi.</string>
-    <string name="qibla_i_understand">Aku mengerti</string>
+    <string name="qibla_i_understand">Saya Mengerti</string>
     <string name="qibla_use_map">Gunakan Peta</string>
     <string name="qibla_use_compass">Gunakan Kompas</string>
     <string name="qibla_compass">Kompas Kiblat</string>
@@ -586,14 +586,14 @@ Perangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mung
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">Perhatian</string>
+    <string name="ramadan_notice_title">Perhatian!</string>
     <string name="ramadan_remind_next_year">Ingatkan saya tahun depan</string>
     <string name="ramadan_dont_show_again">Jangan tampilkan lagi</string>
 
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
-    <string name="widget_channel_name">Widget</string>
+    <string name="widget_channel_name">Widget Waktu Sholat</string>
     <string name="widget_channel_description">Notifikasi persisten yang menampilkan waktu sholat.</string>
     <string name="adhan_channel_name">Adzan</string>
     <string name="adhan_channel_description">Alarm adzan waktu sholat.</string>

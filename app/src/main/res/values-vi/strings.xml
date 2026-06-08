@@ -285,21 +285,21 @@
     <string name="calc_method_moonsighting_committee">Ủy ban Ngắm trăng</string>
     <string name="calc_method_muslim_world_league">Liên đoàn Hồi giáo Thế giới</string>
     <string name="calc_method_egyptian">Tổng cục Khảo sát Ai Cập</string>
-    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
-    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_karachi">Đại học Khoa học Hồi giáo, Karachi, Pakistan</string>
+    <string name="calc_method_umm_al_qura">Đại học Umm al-Qura, Makkah, Ả Rập Saudi</string>
     <string name="calc_method_north_america">Hiệp hội Hồi giáo Bắc Mỹ (ISNA)</string>
     <string name="calc_method_gulf">Vùng Vịnh</string>
     <string name="calc_method_dubai">Vùng Vịnh (Dubai)</string>
     <string name="calc_method_kuwait">Cô-oét</string>
     <string name="calc_method_qatar">Ca-ta</string>
     <string name="calc_method_singapore">Singapore</string>
-    <string name="calc_method_france">Tổ chức Liên minh Hồi giáo de France</string>
+    <string name="calc_method_france">Tổ chức Liên minh Hồi giáo Pháp</string>
     <string name="calc_method_france15">Pháp góc 15</string>
     <string name="calc_method_france18">Pháp góc 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Thổ Nhĩ Kỳ</string>
     <string name="calc_method_russia">Cơ quan Quản lý Tinh thần của người Hồi giáo ở Nga</string>
-    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
-    <string name="calc_method_tehran">Shia, Viện Địa vật lý, Đại học Tehran</string>
+    <string name="calc_method_jafari">Shia Ithna Ashari, Viện Leva, Qum, Iran</string>
+    <string name="calc_method_tehran">Shia, Viện Địa vật lý, Đại học Tehran, Iran</string>
     <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
     <string name="calc_method_algeria">Bộ Tôn giáo và Wakfs, Algeria</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
@@ -310,7 +310,7 @@
     <string name="rounding_method">Phương pháp làm tròn</string>
     <string name="rounding_auto_default">Tự động (Mặc định)</string>
     <string name="rounding_nearest">Gần nhất</string>
-    <string name="rounding_up">Lên</string>
+    <string name="rounding_up">Làm tròn lên</string>
     <string name="rounding_none">Không làm tròn</string>
     <string name="midnight_method">Phương pháp nửa đêm</string>
     <string name="midnight_sunset_to_fajr_default">Hoàng hôn đến Fajr (Mặc định)</string>
@@ -371,7 +371,7 @@ xác định thời gian cho Isha</string>
     <string name="custom_upcoming_time_help">Số phút trước mỗi lần Azan hoặc lời nhắc để hiển thị thông báo sắp tới.</string>
     <string name="show_next_in_notification">Bao gồm lần cầu nguyện tiếp theo trong thông báo</string>
     <string name="show_next_in_notification_help">Mỗi thông báo cũng hiển thị giờ của lần cầu nguyện tiếp theo.</string>
-    <string name="bypass_dnd">Phớt lờ chế độ \"Không làm phiền\"</string>
+    <string name="bypass_dnd">Bỏ qua chế độ \"Không làm phiền\"</string>
     <string name="bypass_dnd_help">Phát Azan ngay cả khi \"Không làm phiền\" đang bật.</string>
     <string name="use_headphones">Ưu tiên tai nghe</string>
     <string name="use_headphones_help">Khi tai nghe được kết nối, chỉ phát toàn bộ âm thanh qua tai nghe.</string>
@@ -469,12 +469,12 @@ xác định thời gian cho Isha</string>
     <string name="show_last_change_time">Hiển thị Thời gian Thay đổi Gần nhất</string>
     <string name="add_counter">Thêm Bộ đếm</string>
     <string name="counter_last_change">%1$s, %2$d → %3$d</string>
-    <string name="counter_fast">Nhanh</string>
+    <string name="counter_fast">Nhịn chay</string>
     <string name="counter_new_title">Bộ đếm mới</string>
     <string name="counter_edit_title">Chỉnh sửa Bộ đếm</string>
     <string name="counter_label">Tên</string>
     <string name="counter_label_placeholder">vd. Subhanallah</string>
-    <string name="counter_count">Đếm</string>
+    <string name="counter_count">Số đếm</string>
     <string name="counter_label_required">Bắt buộc có nhãn</string>
     <string name="counter_delete_confirm_title">Xóa bộ đếm?</string>
     <string name="counter_delete_confirm_body">\"%1$s\" và lịch sử của nó sẽ bị xóa vĩnh viễn.</string>
@@ -488,7 +488,7 @@ xác định thời gian cho Isha</string>
     <!-- ============================================================
          Qibla  (main/qibla)
          ============================================================ -->
-    <string name="qibla_disclaimer_title">Lưu ý</string>
+    <string name="qibla_disclaimer_title">Miễn trừ trách nhiệm</string>
     <string name="qibla_disclaimer">Lưu ý rằng do lỗi phần mềm và phần cứng, hướng Qibla mà ứng dụng này hiển thị có thể sai.\nCác thiết bị từ tính khác có thể gây nhiễu la bàn điện thoại của bạn và la bàn của bạn có thể cần hiệu chỉnh.</string>
     <string name="qibla_i_understand">Tôi hiểu</string>
     <string name="qibla_use_map">Dùng Bản đồ</string>
@@ -586,14 +586,14 @@ xác định thời gian cho Isha</string>
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">Chú ý</string>
+    <string name="ramadan_notice_title">Chú ý!</string>
     <string name="ramadan_remind_next_year">Nhắc tôi năm sau</string>
     <string name="ramadan_dont_show_again">Không hiển thị lại</string>
 
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
-    <string name="widget_channel_name">Tiện ích</string>
+    <string name="widget_channel_name">Tiện ích Giờ cầu nguyện</string>
     <string name="widget_channel_description">Thông báo cố định hiển thị giờ cầu nguyện.</string>
     <string name="adhan_channel_name">Azan</string>
     <string name="adhan_channel_description">Báo thức Azan theo giờ cầu nguyện.</string>
