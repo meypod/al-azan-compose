@@ -19,7 +19,7 @@
     <string name="information">اطلاعات</string>
     <string name="selected">انتخاب شده</string>
     <string name="no_items_found">موردی یافت نشد</string>
-    <string name="search_placeholder">جستجو</string>
+    <string name="search_placeholder">جستجو…</string>
     <string name="drag_handle_description">دستگیره جابجایی</string>
     <string name="dont_ask_again">دیگر نپرس</string>
     <string name="custom_minutes">دلخواه</string>
@@ -130,17 +130,17 @@
     <string name="restore_thanks_body">برای اینکه برنامه درست کار کند، لطفاً چند تنظیم را انجام دهید تا بتوانیم اوقات شرعی شما را به‌درستی محاسبه کنیم.</string>
     <string name="restore_backup_hint">اگر از قبل فایل پشتیبان دارید، می‌توانید آن را اینجا بازیابی کنید.</string>
     <string name="restore_backup_button">بازیابی فایل پشتیبان</string>
-    <string name="skip">رد کردن</string>
-    <string name="skip_confirm">رد کردن</string>
-    <string name="skip_dialog_body">تنظیمات مورد نیاز ناقص هستند. برای اینکه برنامه اوقات شرعی را نشان دهد، بعداً باید آن را از صفحه تنظیمات تنظیم کنید.</string>
+    <string name="skip">رد شدن</string>
+    <string name="skip_confirm">رد شدن</string>
+    <string name="skip_dialog_body">تنظیمات مورد نیاز ناقص هستند. برای اینکه برنامه اوقات شرعی را نشان دهد، بعداً باید آن را از صفحهٔ تنظیمات تنظیم کنید.</string>
     <string name="restoring_backup">در حال بازیابی پشتیبان…</string>
 
     <!-- ============================================================
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">منو</string>
-    <string name="prev_day">روز قبل</string>
-    <string name="next_day">روز بعد</string>
+    <string name="prev_day">روز\nقبل</string>
+    <string name="next_day">روز\nبعد</string>
     <string name="next_prayer">وقت بعدی</string>
     <string name="show_today">نمایش امروز</string>
     <string name="set_location_hint">تنظیم موقعیت مکانی</string>
@@ -227,9 +227,9 @@
     <string name="date_and_time">تاریخ و زمان</string>
     <string name="time_format">قالب زمان</string>
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
-    <string name="numbering_system">سیستم شماره گذاری</string>
+    <string name="numbering_system">سیستم شماره‌گذاری</string>
     <string name="numbering_system_help">همهٔ اعداد را به سیستم انتخاب‌شده تبدیل می‌کند.</string>
-    <string name="numbering_system_default">پیش فرض</string>
+    <string name="numbering_system_default">پیش‌فرض</string>
     <string name="numbering_system_latn">عربی غربی</string>
     <string name="numbering_system_arab">عربی شرقی</string>
     <string name="numbering_system_arabext">فارسی</string>
@@ -237,7 +237,7 @@
     <string name="numbering_system_deva">دیواناگری</string>
     <string name="lunar_calendar_language">زبان تقویم قمری</string>
     <string name="lunar_calendar_language_help">تغییر زبان مورد استفاده برای تقویم قمری.</string>
-    <string name="default_value">پیش فرض</string>
+    <string name="default_value">پیش‌فرض</string>
     <string name="primary_calendar">تقویم اصلی</string>
     <string name="primary_calendar_help">تقویمی که در بالای صفحه نمایش داده می‌شود.</string>
     <string name="secondary_calendar">تقویم ثانویه</string>
@@ -256,7 +256,7 @@
     <string name="lunar_calendar">تقویم قمری</string>
     <string name="lunar_calendar_supporting_text">نوع تقویم قمری نمایش‌داده‌شده در صفحهٔ اصلی و ابزارک‌ها.</string>
     <string name="lunar_islamic">اسلامی</string>
-    <string name="lunar_islamic_ummalqura">اسلامی (ام القری)</string>
+    <string name="lunar_islamic_ummalqura">اسلامی (ام‌القری)</string>
     <string name="lunar_islamic_tabular">اسلامی (جدولی)</string>
     <string name="lunar_islamic_civil">اسلامی (مدنی)</string>
     <string name="lunar_islamic_saudi_sighting">اسلامی (رؤیت هلال عربستان سعودی)</string>
@@ -313,10 +313,10 @@
     <string name="rounding_up">گرد کردن به بالا</string>
     <string name="rounding_none">هیچکدام</string>
     <string name="midnight_method">روش نیمه شب</string>
-    <string name="midnight_sunset_to_fajr_default">غروب آفتاب تا فجر (پیش‌فرض)</string>
-    <string name="midnight_sunset_to_sunrise">غروب تا طلوع خورشید</string>
+    <string name="midnight_sunset_to_fajr_default">غروب تا فجر (پیش‌فرض)</string>
+    <string name="midnight_sunset_to_sunrise">غروب تا طلوع</string>
     <string name="high_latitude">عرض جغرافیایی بالا</string>
-    <string name="high_latitude_none_automatic">هیچکدام (اتوماتیک)</string>
+    <string name="high_latitude_none_automatic">هیچکدام (خودکار)</string>
     <string name="high_latitude_middle">نیمه شب شرعی</string>
     <string name="high_latitude_seventh">یک‌هفتم شب</string>
     <string name="high_latitude_twilight_angle">زاویه گرگ و میش</string>
@@ -324,12 +324,12 @@
     <string name="asr_shafi_default">شافعی، مالکی، حنبلی (پیش‌فرض)</string>
     <string name="asr_hanafi">حنفی</string>
     <string name="polar_resolution">محاسبه مناطق قطبی</string>
-    <string name="polar_unresolved_default">حل نشده (پیش فرض)</string>
+    <string name="polar_unresolved_default">حل نشده (پیش‌فرض)</string>
     <string name="polar_aqrab_balad">اقرب بلد</string>
     <string name="polar_aqrab_yaum">اقرب یوم</string>
     <string name="shafaq">شفق</string>
     <string name="shafaq_help">\"شفق\" در روش محاسبه \"کمیته رویت هلال ماه\" برای تعیین نوع گرگ و میش برای تعیین زمان عشا استفاده می شود.</string>
-    <string name="shafaq_general_default">عمومی (پیش فرض)</string>
+    <string name="shafaq_general_default">عمومی (پیش‌فرض)</string>
     <string name="shafaq_ahmer">قرمز</string>
     <string name="shafaq_abyad">سفید</string>
 
@@ -569,8 +569,8 @@
     <string name="alarm_dismiss">رد کردن</string>
     <string name="alarm_just_dismiss">فقط رد کردن</string>
     <string name="alarm_just_dismiss_silence">رد کردن و بی‌صدا کردن تلفن</string>
-    <string name="alarm_dismiss_and_silent">رد کردن و بی‌صدا کردن %1$dدقیقه</string>
-    <string name="alarm_remind">یادآوری تا %1$dدقیقه دیگر</string>
+    <string name="alarm_dismiss_and_silent">رد کردن و بی‌صدا کردن %1$d دقیقه</string>
+    <string name="alarm_remind">یادآوری تا %1$d دقیقه دیگر</string>
     <string name="adhan_remind_body">%1$s، %2$d دقیقه پیش بود</string>
     <string name="next_prayer_label">بعدی</string>
     <string name="upcoming_alarm_title">زنگ آینده</string>
@@ -584,7 +584,7 @@
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">توجه</string>
+    <string name="ramadan_notice_title">توجه!</string>
     <string name="ramadan_remind_next_year">سال بعد به من یادآوری کن</string>
     <string name="ramadan_dont_show_again">دیگر نشان نده</string>
 
@@ -605,7 +605,7 @@
     <string name="reminder_channel_description">یادآوری‌های دلخواه نسبت به اوقات شرعی.</string>
     <string name="reminder_dnd_channel_name">یادآوری‌ها (دور زدن «مزاحم نشوید»)</string>
     <string name="reminder_dnd_channel_description">یادآوری‌هایی که حتی هنگام «مزاحم نشوید» به صدا درمی‌آیند.</string>
-    <string name="pre_reminder_channel_name">یادآوری بعدی</string>
+    <string name="pre_reminder_channel_name">یادآوری آینده</string>
     <string name="pre_reminder_channel_description">اطلاعیه‌ای که کمی قبل از یک یادآوری نمایش داده می‌شود.</string>
     <string name="missed_channel_name">زنگ‌ها و یادآوری‌های از‌دست‌رفته</string>
     <string name="missed_channel_description">اطلاعیه‌های بی‌صدا برای زنگ‌های اذان و یادآوری‌هایی که هنگام بی‌صدا بودن صداها گذشتند.</string>

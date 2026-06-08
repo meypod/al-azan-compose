@@ -6,7 +6,7 @@
          ============================================================ -->
     <string name="app_name">Al-Azan</string>
     <string name="cancel">रद्द करें</string>
-    <string name="confirm">पुष्टि करें </string>
+    <string name="confirm">पुष्टि करें</string>
     <string name="close">बंद करें</string>
     <string name="delete">मिटाएँ</string>
     <string name="okay">ठीक</string>
@@ -42,8 +42,8 @@
          ============================================================ -->
     <string name="fajr">फज्र</string>
     <string name="sunrise">सूर्योदय</string>
-    <string name="dhuhr">ज़ुहर </string>
-    <string name="asr">असर </string>
+    <string name="dhuhr">ज़ुहर</string>
+    <string name="asr">असर</string>
     <string name="sunset">सूर्यास्त</string>
     <string name="maghrib">मग़रिब</string>
     <string name="isha">ईशा</string>
@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">मेन्यू</string>
-    <string name="prev_day">पिछला दिन</string>
-    <string name="next_day">अगला दिन</string>
+    <string name="prev_day">पिछला\nदिन</string>
+    <string name="next_day">अगला\nदिन</string>
     <string name="next_prayer">अगली नमाज़</string>
     <string name="show_today">आज दिखाएँ</string>
     <string name="set_location_hint">स्थान सेट करें</string>
@@ -213,7 +213,7 @@
     <string name="theme_dark">डार्क</string>
     <string name="theme_classic_black">क्लासिक ब्लैक</string>
     <string name="theme_classic_light">क्लासिक लाइट</string>
-    <string name="theme_system_default">प्रणालीगत डिफॉल्ट</string>
+    <string name="theme_system_default">प्रणालीगत डिफ़ॉल्ट</string>
     <string name="theme_dynamic">डायनामिक</string>
     <string name="countdown_timer">होम काउंटडाउन टाइमर</string>
     <string name="countdown_timer_help">होम स्क्रीन पर अगली नमाज़ तक शेष समय दिखाएँ।</string>
@@ -229,7 +229,7 @@
     <string name="use_24_hour_format">24 घंटे के प्रारूप का प्रयोग करें</string>
     <string name="numbering_system">नंबरिंग सिस्टम</string>
     <string name="numbering_system_help">सभी नंबरों को चयनित सिस्टम में होने के लिए बाध्य करता है।</string>
-    <string name="numbering_system_default">डिफॉल्ट </string>
+    <string name="numbering_system_default">डिफ़ॉल्ट</string>
     <string name="numbering_system_latn">पश्चिमी अरबी</string>
     <string name="numbering_system_arab">पूर्वी अरबी</string>
     <string name="numbering_system_arabext">फ़ारसी</string>
@@ -237,7 +237,7 @@
     <string name="numbering_system_deva">देवनागरी</string>
     <string name="lunar_calendar_language">चंद्र कैलेंडर भाषा</string>
     <string name="lunar_calendar_language_help">चंद्र कैलेंडर के लिए उपयोग की जाने वाली भाषा बदलें।</string>
-    <string name="default_value">डिफॉल्ट </string>
+    <string name="default_value">डिफ़ॉल्ट</string>
     <string name="primary_calendar">प्राथमिक कैलेंडर</string>
     <string name="primary_calendar_help">वह कैलेंडर जो पृष्ठ के शीर्ष पर दिखता है।</string>
     <string name="secondary_calendar">माध्यमिक कैलेंडर</string>
@@ -254,7 +254,7 @@
          ============================================================ -->
     <string name="calendar">पंचांग</string>
     <string name="lunar_calendar">चंद्र कैलेंडर</string>
-    <string name="lunar_calendar_supporting_text">मुख्य स्क्रीन और विजेट्स में दिखाया गया चंद्र कैलेंडर का प्रकार</string>
+    <string name="lunar_calendar_supporting_text">मुख्य स्क्रीन और विजेट्स में दिखाया गया चंद्र कैलेंडर का प्रकार।</string>
     <string name="lunar_islamic">इस्लामी</string>
     <string name="lunar_islamic_ummalqura">इस्लामी (उम्म अल-क़ुरा)</string>
     <string name="lunar_islamic_tabular">इस्लामी (सारणीबद्ध)</string>
@@ -323,14 +323,14 @@
     <string name="asr_calculation">असर की गणना</string>
     <string name="asr_shafi_default">शाफइ, मलिकी, हनबली (डिफ़ॉल्ट)</string>
     <string name="asr_hanafi">हनफी</string>
-    <string name="polar_resolution">ध्रुवीय रेज़ोल्यूशन </string>
+    <string name="polar_resolution">ध्रुवीय रेज़ोल्यूशन</string>
     <string name="polar_unresolved_default">अनसुलझा (डिफ़ॉल्ट)</string>
     <string name="polar_aqrab_balad">अक़रब बलद</string>
     <string name="polar_aqrab_yaum">अक़रब यौम</string>
     <string name="shafaq">शफ़क़</string>
     <string name="shafaq_help">मूनसाइटिंग कमिटी विधि शफ़क़ का उपयोग यह निर्धारित करने के लिए करती है कि ईशा का समय तय करने के लिए किस प्रकार की गोधूलि का उपयोग किया जाए।</string>
     <string name="shafaq_general_default">सामान्य (डिफ़ॉल्ट)</string>
-    <string name="shafaq_ahmer">अहमर </string>
+    <string name="shafaq_ahmer">अहमर</string>
     <string name="shafaq_abyad">अब्यद</string>
 
     <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
@@ -350,7 +350,7 @@
     <string name="schedule_help">प्रत्येक प्रविष्टि के लिए सूचनाएँ और ध्वनियाँ सक्षम करें। विशिष्ट दिन चुनने या कस्टम ऑडियो सेट करने के लिए गियर आइकन टैप करें।</string>
     <string name="adhan_schedule">शेड्यूल</string>
     <string name="adhan_schedule_help">प्रत्येक नमाज़ के समय के लिए अज़ान या सूचनाएँ सक्षम और अक्षम करें।</string>
-    <string name="adhan">अज़ान </string>
+    <string name="adhan">अज़ान</string>
     <string name="notification">सूचना</string>
     <string name="sound">ध्वनि</string>
     <string name="prayer_setting_accessibility">%1$s सेटिंग्स</string>
@@ -402,7 +402,7 @@
     <string name="widget_show_prayer_times">नमाज़ के समय दिखाएँ</string>
     <string name="widget_show_prayer_times_help">विजेट पर कौन-से नमाज़ के समय दिखाने हैं, चुनें।</string>
     <string name="widget_city_name_pos_label">स्थान</string>
-    <string name="widget_city_name_pos_help">आप किसी एक कैलेंडर को अपने वर्तमान स्थान से बदलना चुन सकते हैं</string>
+    <string name="widget_city_name_pos_help">आप किसी एक कैलेंडर को अपने वर्तमान स्थान से बदलना चुन सकते हैं।</string>
     <string name="widget_city_name_pos_placeholder">चुनें कि कौन सा कैलेंडर बदलना है</string>
     <string name="widget_max_shown_prayers_warning">एक ही समय में केवल छह चीज़ें दिखाए जा सकती हैं</string>
 
@@ -434,8 +434,8 @@
     <string name="reminder_options">विकल्प</string>
     <string name="reminder_only_once">सिर्फ एक बार</string>
     <string name="reminder_only_once_help">चालू होने पर, यह अनुस्मारक एक बार बजता है और फिर स्वयं बंद हो जाता है। बंद होने पर, यह नीचे चुने गए दिनों पर दोहराता है।</string>
-    <string name="reminder_before">इस से पहले</string>
-    <string name="reminder_after">बाद में</string>
+    <string name="reminder_before">इससे पहले</string>
+    <string name="reminder_after">इसके बाद</string>
     <string name="reminder_save">सहेजें</string>
     <string name="reminder_edit">संपादित करें</string>
     <string name="reminder_selected_count">%1$d चयनित</string>

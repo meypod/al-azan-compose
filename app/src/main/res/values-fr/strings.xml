@@ -229,7 +229,7 @@
     <string name="time_format">Format de l\'heure</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>
-    <string name="numbering_system_help">Force tous les numéros à être dans le système sélectionné</string>
+    <string name="numbering_system_help">Force tous les numéros à être dans le système sélectionné.</string>
     <string name="numbering_system_default">Défaut</string>
     <string name="numbering_system_latn">Arabe occidental</string>
     <string name="numbering_system_arab">Arabe oriental</string>
@@ -255,7 +255,7 @@
          ============================================================ -->
     <string name="calendar">Calendrier</string>
     <string name="lunar_calendar">Calendrier lunaire</string>
-    <string name="lunar_calendar_supporting_text">Le type de calendrier lunaire affiché dans l\'écran principal et les widgets</string>
+    <string name="lunar_calendar_supporting_text">Le type de calendrier lunaire affiché dans l\'écran principal et les widgets.</string>
     <string name="lunar_islamic">Islamique</string>
     <string name="lunar_islamic_ummalqura">Islamique (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Islamique (tabulaire)</string>
@@ -322,16 +322,14 @@
     <string name="high_latitude_seventh">Septième de la nuit</string>
     <string name="high_latitude_twilight_angle">Angle du crépuscule</string>
     <string name="asr_calculation">Calcul du Asr</string>
-    <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Par défaut)</string>
+    <string name="asr_shafi_default">Shafi, Maliki, Hanbali (par défaut)</string>
     <string name="asr_hanafi">Hanafi</string>
     <string name="polar_resolution">Résolution polaire</string>
     <string name="polar_unresolved_default">Non résolu (par défaut)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Shafaq</string>
-    <string name="shafaq_help">Le Shafaq est utilisé par la méthode du Comité d\'observation de la lune pour 
-déterminer quel type de crépuscule utiliser afin de
-déterminer l\'heure d\'Isha</string>
+    <string name="shafaq_help">Le Shafaq est utilisé par la méthode du Comité d\'observation de la lune pour déterminer quel type de crépuscule utiliser afin de déterminer l\'heure d\'Isha.</string>
     <string name="shafaq_general_default">Général (par défaut)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
@@ -405,7 +403,7 @@ déterminer l\'heure d\'Isha</string>
     <string name="widget_show_prayer_times">Afficher les horaires de prières</string>
     <string name="widget_show_prayer_times_help">Choisissez les horaires de prières à afficher sur le widget.</string>
     <string name="widget_city_name_pos_label">Localisation</string>
-    <string name="widget_city_name_pos_help">Vous pouvez choisir de remplacer l\'un des calendriers avec votre position actuelle</string>
+    <string name="widget_city_name_pos_help">Vous pouvez choisir de remplacer l\'un des calendriers par votre position actuelle.</string>
     <string name="widget_city_name_pos_placeholder">Choisir le calendrier à remplacer</string>
     <string name="widget_max_shown_prayers_warning">Seuls six éléments peuvent être affichés en même temps</string>
 
@@ -435,7 +433,7 @@ déterminer l\'heure d\'Isha</string>
     <string name="reminder_time">Temps</string>
     <string name="reminder_sound">Son</string>
     <string name="reminder_options">Options</string>
-    <string name="reminder_only_once">Répéter qu\'une seule fois</string>
+    <string name="reminder_only_once">Une seule fois</string>
     <string name="reminder_only_once_help">Lorsqu\'il est activé, ce rappel se déclenche une seule fois puis se désactive automatiquement. Lorsqu\'il est désactivé, il se répète les jours que vous sélectionnez ci-dessous.</string>
     <string name="reminder_before">avant</string>
     <string name="reminder_after">après</string>
@@ -452,7 +450,7 @@ déterminer l\'heure d\'Isha</string>
         <item quantity="one">Êtes-vous sûr de vouloir supprimer %1$d rappel ?</item>
         <item quantity="other">Êtes-vous sûr de vouloir supprimer %1$d rappels ?</item>
     </plurals>
-    <string name="only_once_label">Répéter qu\'une seule fois</string>
+    <string name="only_once_label">Une seule fois</string>
     <string name="everyday_label">Tous les jours</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minute</item>

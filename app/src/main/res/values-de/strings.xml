@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Menü</string>
-    <string name="prev_day">Voriger Tag</string>
-    <string name="next_day">Nächster Tag</string>
+    <string name="prev_day">Voriger\nTag</string>
+    <string name="next_day">Nächster\nTag</string>
     <string name="next_prayer">Nächstes Gebet</string>
     <string name="show_today">Heute anzeigen</string>
     <string name="set_location_hint">Standort festlegen</string>
@@ -229,7 +229,7 @@
     <string name="time_format">Zeitformat</string>
     <string name="use_24_hour_format">Das 24-Stunden-Format verwenden</string>
     <string name="numbering_system">Nummerierungssystem</string>
-    <string name="numbering_system_help">Erzwingt, dass alle Nummern im ausgewählten System sind</string>
+    <string name="numbering_system_help">Erzwingt, dass alle Zahlen im ausgewählten System dargestellt werden.</string>
     <string name="numbering_system_default">Standard</string>
     <string name="numbering_system_latn">Westarabisch</string>
     <string name="numbering_system_arab">Ostarabisch</string>
@@ -255,7 +255,7 @@
          ============================================================ -->
     <string name="calendar">Kalender</string>
     <string name="lunar_calendar">Mondkalender</string>
-    <string name="lunar_calendar_supporting_text">Der Typ des Mondkalenders, der im Hauptbildschirm und in den Widgets angezeigt wird</string>
+    <string name="lunar_calendar_supporting_text">Der Typ des Mondkalenders, der im Hauptbildschirm und in den Widgets angezeigt wird.</string>
     <string name="lunar_islamic">Islamisch</string>
     <string name="lunar_islamic_ummalqura">Islamisch (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Islamisch (tabellarisch)</string>
@@ -398,12 +398,12 @@
     <string name="show_notification_widget">Benachrichtigungs-Widget anzeigen</string>
     <string name="show_notification_widget_help">Eine kleine Version des Widgets in der Benachrichtigung.</string>
     <string name="show_countdown_timer">Countdown anzeigen</string>
-    <string name="use_adaptive_theme">Adaptives Thema verwenden</string>
+    <string name="use_adaptive_theme">Adaptives Design verwenden</string>
     <string name="widget_calendar_help">Wählen Sie den Kalender des Widgets.</string>
     <string name="widget_show_prayer_times">Gebetszeiten anzeigen</string>
     <string name="widget_show_prayer_times_help">Wählen Sie aus, welche Gebetszeiten im Widget angezeigt werden sollen.</string>
     <string name="widget_city_name_pos_label">Standort</string>
-    <string name="widget_city_name_pos_help">Sie können wählen, ob Sie einen der Kalender durch Ihren aktuellen Standort ersetzen möchten</string>
+    <string name="widget_city_name_pos_help">Sie können wählen, ob Sie einen der Kalender durch Ihren aktuellen Standort ersetzen möchten.</string>
     <string name="widget_city_name_pos_placeholder">Wählen Sie den zu ersetzenden Kalender</string>
     <string name="widget_max_shown_prayers_warning">Es können nur sechs Elemente gleichzeitig angezeigt werden</string>
 
@@ -494,11 +494,11 @@ Andere magnetische Geräte können den Kompass Ihres Telefons stören, und Ihr K
     <string name="qibla_use_map">Karte verwenden</string>
     <string name="qibla_use_compass">Kompass verwenden</string>
     <string name="qibla_compass">Qibla-Kompass</string>
-    <string name="qibla_location_label">Standort</string>
+    <string name="qibla_location_label">Standort:</string>
     <string name="qibla_location_from_settings">aus den Einstellungen</string>
-    <string name="qibla_label">Qibla</string>
+    <string name="qibla_label">Qibla:</string>
     <string name="qibla_degrees_from_north">%1$d° von Norden</string>
-    <string name="qibla_accuracy_label">Genauigkeit</string>
+    <string name="qibla_accuracy_label">Genauigkeit:</string>
     <string name="qibla_refresh_location">Standort per GPS aktualisieren</string>
     <string name="qibla_lock_orientation">Bildschirmausrichtung sperren</string>
     <string name="qibla_unlock_orientation">Bildschirmausrichtung entsperren</string>

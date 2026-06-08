@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Menu</string>
-    <string name="prev_day">Hari Sblum</string>
-    <string name="next_day">Hari Brkut</string>
+    <string name="prev_day">Hari\nSblmnya</string>
+    <string name="next_day">Hari\nBrkutnya</string>
     <string name="next_prayer">Sholat Berikutnya</string>
     <string name="show_today">Hari Ini</string>
     <string name="set_location_hint">Atur lokasi</string>
@@ -231,8 +231,8 @@
     <string name="numbering_system">Sistem penomoran</string>
     <string name="numbering_system_help">Memaksa semua angka menggunakan sistem yang dipilih.</string>
     <string name="numbering_system_default">Bawaan</string>
-    <string name="numbering_system_latn">Bahasa Arab Barat</string>
-    <string name="numbering_system_arab">Bahasa Arab Timur</string>
+    <string name="numbering_system_latn">Arab Barat</string>
+    <string name="numbering_system_arab">Arab Timur</string>
     <string name="numbering_system_arabext">Persia</string>
     <string name="numbering_system_beng">Bengali</string>
     <string name="numbering_system_deva">Devanagari</string>
@@ -255,7 +255,7 @@
          ============================================================ -->
     <string name="calendar">Kalender</string>
     <string name="lunar_calendar">Kalender Lunar</string>
-    <string name="lunar_calendar_supporting_text">Jenis kalender lunar yang ditampilkan di layar utama dan widget</string>
+    <string name="lunar_calendar_supporting_text">Jenis kalender lunar yang ditampilkan di layar utama dan widget.</string>
     <string name="lunar_islamic">Islam</string>
     <string name="lunar_islamic_ummalqura">Islam (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Islam (tabular)</string>
@@ -273,8 +273,8 @@
     <string name="calculation_method_select_placeholder">Tekan untuk memilih metode</string>
     <string name="calculation_method_modified">%1$s (Dimodifikasi)</string>
     <string name="fajr_angle">Sudut Subuh</string>
-    <string name="isha_angle">Sudut Isya</string>
-    <string name="isha_interval">Interval Isya</string>
+    <string name="isha_angle">Sudut Isya\'</string>
+    <string name="isha_interval">Interval Isya\'</string>
     <string name="maghrib_angle">Sudut Maghrib</string>
     <string name="edit_calculation_parameters">Mengedit Parameter Perhitungan</string>
     <string name="minutes_unit">menit</string>
@@ -314,7 +314,7 @@
     <string name="rounding_up">Ke atas</string>
     <string name="rounding_none">Tidak ada</string>
     <string name="midnight_method">Metode Tengah Malam</string>
-    <string name="midnight_sunset_to_fajr_default">Matahari terbenam hingga Subuh (Standar)</string>
+    <string name="midnight_sunset_to_fajr_default">Matahari Terbenam hingga Subuh (Default)</string>
     <string name="midnight_sunset_to_sunrise">Matahari Terbenam hingga Matahari Terbit</string>
     <string name="high_latitude">Lintang Tinggi</string>
     <string name="high_latitude_none_automatic">Tidak ada (Otomatis)</string>
@@ -325,12 +325,12 @@
     <string name="asr_shafi_default">Syafi\'i, Maliki, Hanbali (Default)</string>
     <string name="asr_hanafi">Hanafi</string>
     <string name="polar_resolution">Resolusi Kutub</string>
-    <string name="polar_unresolved_default">Tidak ada (default)</string>
+    <string name="polar_unresolved_default">Tidak ada (Default)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Shafaq</string>
-    <string name="shafaq_help">Shafaq digunakan metode Komite Moonsighting untuk menentukan jenis senja yang digunakan untuk menentukan waktu Isya\'</string>
-    <string name="shafaq_general_default">Umum (default)</string>
+    <string name="shafaq_help">Shafaq digunakan oleh metode Komite Moonsighting untuk menentukan jenis senja yang digunakan untuk menentukan waktu Isya\'.</string>
+    <string name="shafaq_general_default">Umum (Default)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
 
@@ -403,7 +403,7 @@
     <string name="widget_show_prayer_times">Tampilkan waktu sholat</string>
     <string name="widget_show_prayer_times_help">Pilih waktu sholat mana yang ditampilkan di widget.</string>
     <string name="widget_city_name_pos_label">Lokasi</string>
-    <string name="widget_city_name_pos_help">Anda dapat memilih untuk mengganti salah satu kalender dengan lokasi Anda saat ini</string>
+    <string name="widget_city_name_pos_help">Anda dapat memilih untuk mengganti salah satu kalender dengan lokasi Anda saat ini.</string>
     <string name="widget_city_name_pos_placeholder">Pilih kalender mana yang akan diganti</string>
     <string name="widget_max_shown_prayers_warning">Hanya enam item yang dapat ditampilkan secara bersamaan</string>
 
@@ -494,11 +494,11 @@ Perangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mung
     <string name="qibla_use_map">Gunakan Peta</string>
     <string name="qibla_use_compass">Gunakan Kompas</string>
     <string name="qibla_compass">Kompas Kiblat</string>
-    <string name="qibla_location_label">Lokasi</string>
-    <string name="qibla_location_from_settings">dari pengaturan</string>
-    <string name="qibla_label">Kiblat</string>
+    <string name="qibla_location_label">Lokasi:</string>
+    <string name="qibla_location_from_settings">Dari Pengaturan</string>
+    <string name="qibla_label">Kiblat:</string>
     <string name="qibla_degrees_from_north">%1$d° Dari Utara</string>
-    <string name="qibla_accuracy_label">Akurasi</string>
+    <string name="qibla_accuracy_label">Akurasi:</string>
     <string name="qibla_refresh_location">Segarkan lokasi dari GPS</string>
     <string name="qibla_lock_orientation">Kunci orientasi layar</string>
     <string name="qibla_unlock_orientation">Buka kunci orientasi layar</string>
@@ -574,7 +574,7 @@ Perangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mung
     <string name="alarm_dismiss_and_silent">Hentikan dan Bisukan %1$dm</string>
     <string name="alarm_remind">Ingatkan dalam %1$dm</string>
     <string name="adhan_remind_body">%1$s sudah %2$d menit yang lalu</string>
-    <string name="next_prayer_label">Lanjut</string>
+    <string name="next_prayer_label">Berikutnya</string>
     <string name="upcoming_alarm_title">Alarm selanjutnya</string>
     <string name="cancel_alarm">Batalkan Alarm</string>
     <string name="adhan_cancelled_toast">Adzan yang akan datang dibatalkan</string>

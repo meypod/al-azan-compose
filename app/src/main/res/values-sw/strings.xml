@@ -131,7 +131,7 @@
     <string name="restore_backup_hint">Iwapo tayari una faili ya nakala rudufu, unaweza kuirejesha hapa.</string>
     <string name="restore_backup_button">Rejesha Faili ya Nakala Rudufu</string>
     <string name="skip">Ruka</string>
-    <string name="skip_confirm">Ruka</string>
+    <string name="skip_confirm">ruka</string>
     <string name="skip_dialog_body">Mipangilio inayohitajika haijakamilika. Ili programu ionyeshe nyakati za swala, inabidi uisanidi kutoka kwa mipangilio baadaye.</string>
     <string name="restoring_backup">Inarejesha nakala rudufu…</string>
 
@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Menyu</string>
-    <string name="prev_day">Siku Iliyotangulia</string>
-    <string name="next_day">Siku Inayofuata</string>
+    <string name="prev_day">Siku\nIliyotangulia</string>
+    <string name="next_day">Siku\nInayofuata</string>
     <string name="next_prayer">Swala Inayofuata</string>
     <string name="show_today">Onyesha Leo</string>
     <string name="set_location_hint">Weka eneo</string>
@@ -255,7 +255,7 @@
          ============================================================ -->
     <string name="calendar">Kalenda</string>
     <string name="lunar_calendar">Kalenda ya Mwezi</string>
-    <string name="lunar_calendar_supporting_text">Aina ya kalenda ya mwezi inayoonyeshwa kwenye skrini kuu na wijeti</string>
+    <string name="lunar_calendar_supporting_text">Aina ya kalenda ya mwezi inayoonyeshwa kwenye skrini kuu na wijeti.</string>
     <string name="lunar_islamic">Kiislamu</string>
     <string name="lunar_islamic_ummalqura">Kiislamu (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Kiislamu (lioorodheshwa)</string>
@@ -320,17 +320,17 @@
     <string name="high_latitude_none_automatic">Tupu (Inayojiendesha)</string>
     <string name="high_latitude_middle">Katikati ya Usiku</string>
     <string name="high_latitude_seventh">Sehemu ya Saba ya Usiku</string>
-    <string name="high_latitude_twilight_angle">Pembe ya Utusiutusi wa asubuhi au Jioni</string>
+    <string name="high_latitude_twilight_angle">Pembe ya Utusiutusi wa asubuhi au jioni</string>
     <string name="asr_calculation">Hesabu ya Asr</string>
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Chaguomsingi)</string>
     <string name="asr_hanafi">Hanafi</string>
     <string name="polar_resolution">Mgawo wa Polar</string>
-    <string name="polar_unresolved_default">Haijatatuliwa (chaguomsingi)</string>
+    <string name="polar_unresolved_default">Haijatatuliwa (Chaguomsingi)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Shafaq</string>
     <string name="shafaq_help">Shafaq hutumiwa na njia ya Kamati ya Uangalizi wa Mwezi ili kubainisha ni aina gani ya utusiutusi ya kutumia ili kubainisha wakati wa Isha.</string>
-    <string name="shafaq_general_default">Jumla (chaguomsingi)</string>
+    <string name="shafaq_general_default">Jumla (Chaguomsingi)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
 
@@ -403,9 +403,9 @@
     <string name="widget_show_prayer_times">Onyesha nyakati za swala</string>
     <string name="widget_show_prayer_times_help">Chagua nyakati za swala za kuonyesha kwenye wijeti.</string>
     <string name="widget_city_name_pos_label">Eneo</string>
-    <string name="widget_city_name_pos_help">Unaweza kuchagua kubadilisha moja ya kalenda na eneo lako la sasa</string>
+    <string name="widget_city_name_pos_help">Unaweza kuchagua kubadilisha moja ya kalenda na eneo lako la sasa.</string>
     <string name="widget_city_name_pos_placeholder">Chagua ni kalenda ipi ya kubadilisha</string>
-    <string name="widget_max_shown_prayers_warning">Sehemu sita zinaweza onyeshwa kwa wakati mmoja</string>
+    <string name="widget_max_shown_prayers_warning">Sehemu sita zinaweza kuonyeshwa kwa wakati mmoja</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

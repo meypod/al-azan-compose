@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Menu</string>
-    <string name="prev_day">Ngày Trước</string>
-    <string name="next_day">Ngày Sau</string>
+    <string name="prev_day">Ngày\nTrước</string>
+    <string name="next_day">Ngày\nSau</string>
     <string name="next_prayer">Lần Cầu nguyện Tiếp theo</string>
     <string name="show_today">Hôm nay</string>
     <string name="set_location_hint">Đặt vị trí</string>
@@ -228,7 +228,7 @@
     <string name="time_format">Định dạng giờ</string>
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
     <string name="numbering_system">Hệ thống số đếm</string>
-    <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn</string>
+    <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn.</string>
     <string name="numbering_system_default">Mặc định</string>
     <string name="numbering_system_latn">Tây Ả Rập</string>
     <string name="numbering_system_arab">Đông Ả Rập</string>
@@ -254,7 +254,7 @@
          ============================================================ -->
     <string name="calendar">Lịch</string>
     <string name="lunar_calendar">Âm lịch</string>
-    <string name="lunar_calendar_supporting_text">Loại âm lịch hiển thị trên màn hình chính và tiện ích</string>
+    <string name="lunar_calendar_supporting_text">Loại âm lịch hiển thị trên màn hình chính và tiện ích.</string>
     <string name="lunar_islamic">Hồi giáo</string>
     <string name="lunar_islamic_ummalqura">Hồi giáo (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Hồi giáo (bảng)</string>
@@ -324,14 +324,12 @@
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Mặc định)</string>
     <string name="asr_hanafi">Hanafi</string>
     <string name="polar_resolution">Phân giải vùng cực</string>
-    <string name="polar_unresolved_default">Không dùng (mặc định)</string>
+    <string name="polar_unresolved_default">Không dùng (Mặc định)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Shafaq</string>
-    <string name="shafaq_help">Shafaq được sử dụng bởi phương pháp Uỷ ban Ngắm trăng
-để xác định loại chạng vạng sẽ sử dụng để
-xác định thời gian cho Isha</string>
-    <string name="shafaq_general_default">Chung (mặc định)</string>
+    <string name="shafaq_help">Shafaq được sử dụng bởi phương pháp Ủy ban Ngắm trăng để xác định loại chạng vạng sẽ sử dụng nhằm xác định thời gian cho Isha.</string>
+    <string name="shafaq_general_default">Chung (Mặc định)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
 
@@ -404,7 +402,7 @@ xác định thời gian cho Isha</string>
     <string name="widget_show_prayer_times">Hiển thị giờ cầu nguyện</string>
     <string name="widget_show_prayer_times_help">Chọn giờ cầu nguyện nào sẽ hiển thị trên tiện ích.</string>
     <string name="widget_city_name_pos_label">Vị trí</string>
-    <string name="widget_city_name_pos_help">Bạn có thể chọn thay thế một trong các lịch bằng vị trí hiện tại của mình</string>
+    <string name="widget_city_name_pos_help">Bạn có thể chọn thay thế một trong các lịch bằng vị trí hiện tại của mình.</string>
     <string name="widget_city_name_pos_placeholder">Chọn lịch để thay thế</string>
     <string name="widget_max_shown_prayers_warning">Chỉ có sáu mục có thể được hiển thị cùng một lúc</string>
 
@@ -494,11 +492,11 @@ xác định thời gian cho Isha</string>
     <string name="qibla_use_map">Dùng Bản đồ</string>
     <string name="qibla_use_compass">Dùng La bàn</string>
     <string name="qibla_compass">La bàn Qibla</string>
-    <string name="qibla_location_label">Vị trí</string>
+    <string name="qibla_location_label">Vị trí:</string>
     <string name="qibla_location_from_settings">từ cài đặt</string>
-    <string name="qibla_label">Qibla</string>
+    <string name="qibla_label">Qibla:</string>
     <string name="qibla_degrees_from_north">%1$d° Từ Hướng Bắc</string>
-    <string name="qibla_accuracy_label">Độ chính xác</string>
+    <string name="qibla_accuracy_label">Độ chính xác:</string>
     <string name="qibla_refresh_location">Làm mới vị trí từ GPS</string>
     <string name="qibla_lock_orientation">Khóa hướng màn hình</string>
     <string name="qibla_unlock_orientation">Mở khóa hướng màn hình</string>
