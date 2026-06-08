@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -21,7 +20,6 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
-import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
@@ -29,16 +27,6 @@ import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlin.time.Clock
-
-@Immutable
-data class ShariaTimesBoxUiState(
-    val shariahTimes: ShariaTimes?,
-    val highlightedShariaTime: ShariaTimeDetails?,
-    val locale: String = "en-US",
-    val numberingSystem: NumberingSystem = NumberingSystem.Default,
-    val is24Hours: Boolean = true,
-    val hiddenPrayers: List<Prayer> = emptyList(),
-)
 
 @Composable
 fun ShariaTimesBox(
