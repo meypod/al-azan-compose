@@ -16,6 +16,7 @@ private val introSteps = listOf(
 data class IntroUiState(
     val route: Route = Route.Intro.LanguageSelection,
     val busy: Boolean = false,
+    val restoring: Boolean = false,
     val showSkipDialog: Boolean = false,
     val appIntroDone: Boolean = false,
 ) {

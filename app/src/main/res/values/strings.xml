@@ -337,6 +337,12 @@
     <string name="restore_label">Restore</string>
     <string name="restore_help">Restore your settings from a backup file.</string>
     <string name="restore_settings">Restore Settings</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="restoring_backup">Restoring backup…</string>
+    <string name="backup_created">Backup created successfully</string>
+    <string name="backup_failed">Couldn\'t create the backup file</string>
+    <string name="restore_success">Settings restored successfully</string>
+    <string name="restore_failed">Couldn\'t restore. The file may be invalid or corrupted.</string>
 
     <!-- Reminders -->
     <string name="reminders_title">Reminders</string>

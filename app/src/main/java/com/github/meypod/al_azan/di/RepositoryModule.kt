@@ -2,11 +2,13 @@ package com.github.meypod.al_azan.di
 
 import android.content.Context
 import com.github.meypod.al_azan.MainActivity
+import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
 import com.github.meypod.al_azan.core.data.format.WidgetFormatterImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
+import com.github.meypod.al_azan.core.data.repository.BackupRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositoryImpl
@@ -29,6 +31,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
+import com.github.meypod.al_azan.core.domain.repository.BackupRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CompassRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
@@ -42,6 +45,8 @@ import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.WidgetFormatter
 import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
+import com.github.meypod.al_azan.reminder.ReminderScheduler
+import com.github.meypod.al_azan.widget.WidgetUpdater
 import com.tencent.mmkv.MMKV
 import dagger.Module
 import dagger.Provides
@@ -170,6 +175,37 @@ object RepositoryModule {
                     defaultValue = emptyList(),
                     json = storageJson,
                 ),
+        )
+
+    @Provides
+    @Singleton
+    fun provideBackupRepository(
+        @ApplicationContext context: Context,
+        @Named("storage") storageJson: Json,
+        settingsRepository: SettingsRepository,
+        calculationSettingsRepository: CalculationSettingsRepository,
+        alarmSettingsRepository: AlarmSettingsRepository,
+        counterRepository: CounterRepository,
+        reminderRepository: ReminderRepository,
+        favoriteLocationsRepository: FavoriteLocationsRepository,
+        adhanScheduler: AdhanScheduler,
+        reminderScheduler: ReminderScheduler,
+        widgetUpdater: WidgetUpdater,
+        appLocaleManager: AppLocaleManager,
+    ): BackupRepository =
+        BackupRepositoryImpl(
+            context = context,
+            json = storageJson,
+            settingsRepository = settingsRepository,
+            calculationSettingsRepository = calculationSettingsRepository,
+            alarmSettingsRepository = alarmSettingsRepository,
+            counterRepository = counterRepository,
+            reminderRepository = reminderRepository,
+            favoriteLocationsRepository = favoriteLocationsRepository,
+            adhanScheduler = adhanScheduler,
+            reminderScheduler = reminderScheduler,
+            widgetUpdater = widgetUpdater,
+            appLocaleManager = appLocaleManager,
         )
 
     @Provides
