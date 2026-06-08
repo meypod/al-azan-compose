@@ -35,6 +35,7 @@ import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRow
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRowUiAction
@@ -50,7 +51,7 @@ fun ScheduleAndMuezzinScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.schedule_and_muezzin_title),
-        onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) { ScheduleAndMuezzinContent(uiState, onAction) }
 }

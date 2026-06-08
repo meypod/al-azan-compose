@@ -7,7 +7,6 @@ import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
-import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +40,6 @@ class WidgetSettingsViewModel @Inject constructor(
 
     fun onAction(action: WidgetSettingsUiAction) {
         when (action) {
-            WidgetSettingsUiAction.OnBackClick -> onBackClick()
             is WidgetSettingsUiAction.OnShowNotificationWidgetToggle -> onShowNotificationWidgetToggle(action)
             is WidgetSettingsUiAction.OnShowCountdownToggle -> onShowCountdownToggle(action)
             is WidgetSettingsUiAction.OnAdaptiveThemeToggle -> onAdaptiveThemeToggle(action)
@@ -53,10 +51,6 @@ class WidgetSettingsViewModel @Inject constructor(
 
     private fun onPermissionDontAskAgain(action: WidgetSettingsUiAction.OnPermissionDontAskAgain) {
         update { it.withDontAskAgain(action.permission) }
-    }
-
-    private fun onBackClick() {
-        NavigationController.navigateBack()
     }
 
     private fun onShowNotificationWidgetToggle(action: WidgetSettingsUiAction.OnShowNotificationWidgetToggle) {

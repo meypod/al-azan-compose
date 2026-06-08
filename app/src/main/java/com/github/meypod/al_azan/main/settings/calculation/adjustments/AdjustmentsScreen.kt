@@ -32,6 +32,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.IntInputField
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHelp
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 @Composable
 fun AdjustmentsScreen(
@@ -41,7 +42,7 @@ fun AdjustmentsScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.adjustments_title),
-        onBackClick = { onAction(AdjustmentsUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         ACard { cardPadding ->

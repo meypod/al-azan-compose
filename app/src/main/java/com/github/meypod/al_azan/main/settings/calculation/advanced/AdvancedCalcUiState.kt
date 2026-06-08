@@ -22,7 +22,6 @@ data class AdvancedCalcUiState(
 }
 
 sealed interface AdvancedCalcUiAction {
-    object OnBackClick : AdvancedCalcUiAction
     data class OnRoundingChange(
         val value: Rounding?,
     ) : AdvancedCalcUiAction

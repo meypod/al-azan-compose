@@ -31,6 +31,7 @@ import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSt
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanScheduleRowUiState
 import com.github.meypod.al_azan.main.settings.adhan.components.AdhanToggleChip
 import com.github.meypod.al_azan.main.settings.adhan.components.ChipAccent
@@ -92,7 +93,7 @@ fun PrayerScheduleScreen(
 
     ScreenScaffold(
         title = prayer.i18n(),
-        onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         Row(

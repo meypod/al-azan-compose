@@ -26,6 +26,7 @@ import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -56,7 +57,7 @@ fun WidgetSettingsScreen(
     }
     ScreenScaffold(
         title = stringResource(R.string.widget_settings_title),
-        onBackClick = { onAction(WidgetSettingsUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         ACard { cardPadding ->

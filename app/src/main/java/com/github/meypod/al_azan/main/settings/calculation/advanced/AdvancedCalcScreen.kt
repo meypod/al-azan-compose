@@ -19,6 +19,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import io.github.meypod.adhan_kotlin.HighLatitudeRule
 import io.github.meypod.adhan_kotlin.Madhab
 import io.github.meypod.adhan_kotlin.MidnightMethod
@@ -35,7 +36,7 @@ fun AdvancedCalcScreen(
     val resources = LocalResources.current
     ScreenScaffold(
         title = stringResource(R.string.advanced_calculation_title),
-        onBackClick = { onAction(AdvancedCalcUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         DropdownCard(stringResource(R.string.rounding_method)) {

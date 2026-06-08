@@ -30,7 +30,6 @@ data class EditCounterDraft(
 )
 
 sealed interface CounterUiAction {
-    object OnBackClick : CounterUiAction
     object OnAddClick : CounterUiAction
     data class OnIncrement(val id: String) : CounterUiAction
     data class OnDecrement(val id: String) : CounterUiAction

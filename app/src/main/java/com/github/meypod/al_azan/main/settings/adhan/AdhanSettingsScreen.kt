@@ -26,6 +26,7 @@ import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +37,7 @@ fun AdhanSettingsScreen(
 ) {
     ScreenScaffold(
         title = stringResource(R.string.alarm_settings_title),
-        onBackClick = { onAction(AdhanSettingsUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) { AdhanSettingsContent(uiState, onAction) }
 }

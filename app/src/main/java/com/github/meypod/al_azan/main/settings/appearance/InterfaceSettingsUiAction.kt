@@ -6,7 +6,6 @@ import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 
 sealed interface InterfaceSettingsUiAction {
-    object OnBackClick : InterfaceSettingsUiAction
     data class OnLanguageChange(val value: String) : InterfaceSettingsUiAction
     data class OnThemeChange(val value: ThemeColor) : InterfaceSettingsUiAction
     data class OnPrayerVisibilityChange(val prayer: Prayer, val visible: Boolean) : InterfaceSettingsUiAction

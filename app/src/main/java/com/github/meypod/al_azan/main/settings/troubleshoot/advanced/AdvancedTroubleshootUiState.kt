@@ -8,6 +8,5 @@ data class AdvancedTroubleshootUiState(
 )
 
 sealed interface AdvancedTroubleshootUiAction {
-    object OnBackClick : AdvancedTroubleshootUiAction
     data class OnAdaptiveChargingToggle(val value: Boolean) : AdvancedTroubleshootUiAction
 }

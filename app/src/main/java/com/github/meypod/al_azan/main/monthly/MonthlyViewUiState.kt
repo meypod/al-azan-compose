@@ -27,7 +27,6 @@ data class MonthlyViewUiState(
 )
 
 sealed interface MonthlyViewUiAction {
-    object OnBackClick : MonthlyViewUiAction
     object OnPrevMonthClick : MonthlyViewUiAction
     object OnNextMonthClick : MonthlyViewUiAction
     object OnShowThisMonthClick : MonthlyViewUiAction

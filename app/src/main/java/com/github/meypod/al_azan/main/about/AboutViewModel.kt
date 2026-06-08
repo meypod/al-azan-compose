@@ -14,9 +14,13 @@ class AboutViewModel
 ) : ViewModel() {
     fun onAction(action: AboutUiAction) {
         when (action) {
-            AboutUiAction.OnUnlockDeveloper -> viewModelScope.launch {
-                settingsRepository.update { it.copy(devMode = true) }
-            }
+            AboutUiAction.OnUnlockDeveloper -> onUnlockDeveloper()
+        }
+    }
+
+    private fun onUnlockDeveloper() {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(devMode = true) }
         }
     }
 }

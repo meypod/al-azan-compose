@@ -22,6 +22,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +40,7 @@ fun LocationScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            onAction(LocationUiAction.OnBackClick)
+                            NavigationController.navigateBack()
                         },
                     ) {
                         Icon(painterResource(R.drawable.arrow_back), contentDescription = stringResource(R.string.back_button))

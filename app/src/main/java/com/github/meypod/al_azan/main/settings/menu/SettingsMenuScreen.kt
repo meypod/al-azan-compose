@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 
@@ -50,7 +51,7 @@ fun SettingsMenuScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            onAction(SettingsMenuUiAction.OnBackClick)
+                            NavigationController.navigateBack()
                         },
                     ) {
                         Icon(painterResource(R.drawable.arrow_back), contentDescription = stringResource(R.string.back_button))

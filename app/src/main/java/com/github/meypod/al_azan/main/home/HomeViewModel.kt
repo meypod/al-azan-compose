@@ -140,7 +140,7 @@ class HomeViewModel
         when (action) {
             HomeUiAction.OnCalendarDateClick -> onCalendarDateClick()
             HomeUiAction.OnLocationTextClick -> onLocationTextClick()
-            HomeUiAction.OnCalculationLinkClick -> NavigationController.navigateTo(Route.Main.Settings.Calculations)
+            HomeUiAction.OnCalculationLinkClick -> onCalculationLinkClick()
             HomeUiAction.OnNextDayClick -> onNextDayClick()
             HomeUiAction.OnPrevDayClick -> onPrevDayClick()
             HomeUiAction.OnShowTodayClick -> onShowTodayClick()
@@ -149,13 +149,25 @@ class HomeViewModel
             HomeUiAction.OnCounterLinkClick -> onCounterLinkClick()
             HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
             HomeUiAction.OnAboutLinkClick -> onAboutLinkClick()
-            HomeUiAction.OnMonthlyViewClick -> NavigationController.navigateTo(Route.Main.MonthlyView)
-            HomeUiAction.OnDeveloperLinkClick -> NavigationController.navigateTo(Route.Main.Settings.Developer)
+            HomeUiAction.OnMonthlyViewClick -> onMonthlyViewClick()
+            HomeUiAction.OnDeveloperLinkClick -> onDeveloperLinkClick()
         }
     }
 
     private fun onCalendarDateClick() {
         NavigationController.navigateTo(Route.Main.CalendarView)
+    }
+
+    private fun onCalculationLinkClick() {
+        NavigationController.navigateTo(Route.Main.Settings.Calculations)
+    }
+
+    private fun onMonthlyViewClick() {
+        NavigationController.navigateTo(Route.Main.MonthlyView)
+    }
+
+    private fun onDeveloperLinkClick() {
+        NavigationController.navigateTo(Route.Main.Settings.Developer)
     }
 
     private fun onLocationTextClick() {

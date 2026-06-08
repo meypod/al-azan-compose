@@ -13,7 +13,6 @@ data class WidgetSettingsUiState(
 )
 
 sealed interface WidgetSettingsUiAction {
-    object OnBackClick : WidgetSettingsUiAction
     data class OnShowNotificationWidgetToggle(val value: Boolean) : WidgetSettingsUiAction
     data class OnShowCountdownToggle(val value: Boolean) : WidgetSettingsUiAction
     data class OnAdaptiveThemeToggle(val value: Boolean) : WidgetSettingsUiAction

@@ -16,7 +16,6 @@ class SettingsMenuViewModel
 
     fun onAction(action: SettingsMenuUiAction) {
         when (action) {
-            SettingsMenuUiAction.OnBackClick -> onBackClick()
             SettingsMenuUiAction.OnInterfaceSettingsClick -> onInterfaceSettingsClick()
             SettingsMenuUiAction.OnNotificationAndSoundClick -> onNotificationAndSoundClick()
             SettingsMenuUiAction.OnScheduleAndMuezzinClick -> onScheduleAndMuezzinClick()
@@ -26,10 +25,6 @@ class SettingsMenuViewModel
             SettingsMenuUiAction.OnWidgetSettingsClick -> onWidgetSettingsClick()
             SettingsMenuUiAction.OnBackupAndRestoreClick -> onBackupAndRestoreClick()
         }
-    }
-
-    private fun onBackClick() {
-        NavigationController.navigateBack()
     }
 
     private fun onInterfaceSettingsClick() {

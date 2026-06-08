@@ -45,6 +45,7 @@ import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.counter.components.AddCounterDialog
 import com.github.meypod.al_azan.main.counter.components.EditCounterDialog
 import kotlinx.coroutines.delay
@@ -69,7 +70,7 @@ fun CounterScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { onAction(CounterUiAction.OnBackClick) }) {
+                    IconButton(onClick = { NavigationController.navigateBack() }) {
                         Icon(painterResource(R.drawable.arrow_back), null)
                     }
                 },
