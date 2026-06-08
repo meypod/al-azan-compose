@@ -42,7 +42,11 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
+import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
+import com.github.meypod.al_azan.core.presentation.components.AudioPickerSection
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
@@ -64,6 +68,10 @@ fun ReminderEditSheet(
     draft: ReminderEditDraft,
     onAction: (ReminderUiAction) -> Unit,
     onSave: () -> Unit = { onAction(ReminderUiAction.OnDraftSave) },
+    userSounds: List<ReminderAudioEntry> = emptyList(),
+    deviceSounds: List<ReminderAudioEntry> = emptyList(),
+    adhanEntries: List<AudioEntry> = emptyList(),
+    playingSoundId: String? = null,
 ) {
     val resources = LocalResources.current
     val defaultVibrationLabel = stringResource(R.string.use_default_vibration)
@@ -154,13 +162,35 @@ fun ReminderEditSheet(
             )
             Column {
                 SettingLabel(stringResource(R.string.reminder_sound))
-                BottomSelect(
+                val defaultSoundLabel = stringResource(R.string.reminder_default_sound)
+                val repeatSuffix = stringResource(R.string.repeat)
+                val muezzinEntries = adhanEntries.mapNotNull { it.toReminderOption(resources) }
+                val sections = listOf(
+                    AudioPickerSection(
+                        title = null,
+                        options = listOf<ReminderAudioEntry>(ReminderAudioEntry.DefaultReminderAudioEntry),
+                    ),
+                    AudioPickerSection(title = stringResource(R.string.muezzin), options = muezzinEntries),
+                    AudioPickerSection(title = stringResource(R.string.your_sounds), options = userSounds),
+                    AudioPickerSection(title = stringResource(R.string.device_sounds), options = deviceSounds),
+                )
+                AudioPickerField(
                     modifier = Modifier.fillMaxWidth(),
-                    options = listOf("default"),
-                    optionKey = { it },
-                    optionLabel = { resources.getString(R.string.reminder_default_sound) },
-                    selectedKey = "default",
-                    onSelect = {},
+                    sections = sections,
+                    selectedKey = draft.sound?.soundKey() ?: ReminderAudioEntry.DefaultReminderAudioEntry.id,
+                    playingId = playingSoundId,
+                    optionKey = { it.soundKey() },
+                    optionLabel = { it.soundLabel(defaultSoundLabel, repeatSuffix) },
+                    onSelect = {
+                        onAction(
+                            ReminderUiAction.OnDraftSoundChange(
+                                it.takeUnless { entry -> entry is ReminderAudioEntry.DefaultReminderAudioEntry },
+                            ),
+                        )
+                    },
+                    onPreview = { onAction(ReminderUiAction.OnPreviewSound(it)) },
+                    onStopPreview = { onAction(ReminderUiAction.OnStopPreview) },
+                    onAddLocalFile = { filepath, name -> onAction(ReminderUiAction.OnAddSoundFile(filepath, name)) },
                 )
             }
             Column {
@@ -236,6 +266,43 @@ fun ReminderEditSheet(
 }
 
 private fun Prayer.asLabel(res: Resources): String = res.getString(stringRes)
+
+/** Adhan/user audio entries are offered as reminder sounds; resource labels resolve via [res]. */
+private fun AudioEntry.toReminderOption(res: Resources): ReminderAudioEntry? =
+    when (this) {
+        is AudioEntry.ResourceAudioEntry -> resId?.let {
+            ReminderAudioEntry.ResourceReminderAudioEntry(
+                id = id,
+                resourceId = it,
+                label = res.getString(labelResId),
+                canDelete = false,
+                loop = loop,
+            )
+        }
+
+        is AudioEntry.ExternalAudioEntry -> filepath?.let {
+            ReminderAudioEntry.ExternalReminderAudioEntry(id = id, filepath = it, label = label, loop = loop)
+        }
+    }
+
+private fun ReminderAudioEntry.soundKey(): String =
+    when (this) {
+        is ReminderAudioEntry.DefaultReminderAudioEntry -> id
+        is ReminderAudioEntry.ResourceReminderAudioEntry -> id
+        is ReminderAudioEntry.ExternalReminderAudioEntry -> id
+    }
+
+private fun ReminderAudioEntry.soundLabel(
+    defaultLabel: String,
+    repeatSuffix: String,
+): String {
+    val base = when (this) {
+        is ReminderAudioEntry.DefaultReminderAudioEntry -> defaultLabel
+        is ReminderAudioEntry.ResourceReminderAudioEntry -> label
+        is ReminderAudioEntry.ExternalReminderAudioEntry -> label
+    }
+    return if (loop) "$base ($repeatSuffix)" else base
+}
 
 @Preview
 @Composable

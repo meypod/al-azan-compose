@@ -2,12 +2,19 @@ package com.github.meypod.al_azan.main.settings.adhan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.audio.DeviceRingtone
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntries
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.components.deleteAudioFile
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +24,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +32,8 @@ class AdhanSettingsViewModel
 @Inject constructor(
     private val alarmSettingsRepository: AlarmSettingsRepository,
     private val settingsRepository: SettingsRepository,
+    private val ringtoneRepository: RingtoneRepository,
+    private val audioPreviewPlayer: AudioPreviewPlayer,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AdhanSettingsUiState())
     val uiState = _uiState.asStateFlow()
@@ -36,13 +46,36 @@ class AdhanSettingsViewModel
                 }
             }.collect()
         }
+        viewModelScope.launch {
+            val ringtones = ringtoneRepository.getDeviceRingtones().map { it.toAudioEntry() }
+            _uiState.update { it.copy(deviceSounds = ringtones) }
+        }
+        viewModelScope.launch {
+            audioPreviewPlayer.playingId.collect { id -> _uiState.update { it.copy(playingId = id) } }
+        }
     }
 
     fun onAction(action: AdhanSettingsUiAction) {
         when (action) {
             AdhanSettingsUiAction.OnBackClick -> NavigationController.navigateBack()
 
-            is AdhanSettingsUiAction.OnMuezzinClick -> NavigationController.navigateTo(action.route)
+            is AdhanSettingsUiAction.OnGlobalMuezzinSelect -> setGlobalMuezzin(action.entry)
+
+            is AdhanSettingsUiAction.OnPreviewAudio -> audioPreviewPlayer.play(action.entry)
+
+            AdhanSettingsUiAction.OnStopPreview -> audioPreviewPlayer.stop()
+
+            is AdhanSettingsUiAction.OnAddGlobalMuezzinFile ->
+                addUserAudio(action.filepath, action.label) { s, e ->
+                    s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (AdhanKey.Default to e))
+                }
+
+            is AdhanSettingsUiAction.OnAddPrayerMuezzinFile ->
+                addUserAudio(action.filepath, action.label) { s, e ->
+                    s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (action.prayer.toAdhanKey() to e))
+                }
+
+            is AdhanSettingsUiAction.OnDeleteUserAudio -> deleteUserAudio(action.entry)
 
             is AdhanSettingsUiAction.OnNotifyClick -> toggleNotify(action.prayer)
 
@@ -190,5 +223,56 @@ class AdhanSettingsViewModel
                 settings.copy(selectedAdhanEntries = entries)
             }
         }
+    }
+
+    private fun setGlobalMuezzin(entry: AudioEntry) {
+        viewModelScope.launch {
+            settingsRepository.update {
+                it.copy(selectedAdhanEntries = it.selectedAdhanEntries + (AdhanKey.Default to entry))
+            }
+        }
+    }
+
+    private fun addUserAudio(
+        filepath: String,
+        label: String,
+        select: (Settings, AudioEntry) -> Settings,
+    ) {
+        val entry = AudioEntry.ExternalAudioEntry(
+            id = "audio_" + UUID.randomUUID().toString(),
+            filepath = filepath,
+            label = label,
+        )
+        viewModelScope.launch {
+            settingsRepository.update { settings ->
+                select(settings.copy(savedUserAudioEntries = settings.savedUserAudioEntries + entry), entry)
+            }
+        }
+    }
+
+    private fun deleteUserAudio(entry: AudioEntry) {
+        if (entry !is AudioEntry.ExternalAudioEntry) return
+        if (uiState.value.playingId == entry.id) audioPreviewPlayer.stop()
+        viewModelScope.launch {
+            deleteAudioFile(entry.filepath)
+            settingsRepository.update { settings ->
+                // Any selection (global or per-prayer) pointing at the deleted sound falls back to the default.
+                val fallback = getDefaultAdhanEntries()[0]
+                val patchedSelection = settings.selectedAdhanEntries.mapValues { (_, e) ->
+                    if (e.id == entry.id) fallback else e
+                }
+                settings.copy(
+                    savedUserAudioEntries = settings.savedUserAudioEntries - entry,
+                    selectedAdhanEntries = patchedSelection,
+                )
+            }
+        }
+    }
+
+    private fun DeviceRingtone.toAudioEntry(): AudioEntry =
+        AudioEntry.ExternalAudioEntry(id = id, filepath = uri, label = label, loop = loop)
+
+    override fun onCleared() {
+        audioPreviewPlayer.release()
     }
 }

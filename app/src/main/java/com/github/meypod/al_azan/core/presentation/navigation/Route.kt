@@ -35,9 +35,6 @@ sealed interface Route : NavKey {
         @Serializable
         data object Adhan : Route {
             @Serializable
-            data object Muezzin : Route
-
-            @Serializable
             data class PrayerSchedule(
                 val prayer: Prayer,
             ) : Route
@@ -86,9 +83,6 @@ sealed interface Route : NavKey {
             data object SoundAndNotifications : Route {
                 @Serializable
                 data object ScheduleAndMuezzin : Route
-
-                @Serializable
-                data object Muezzin : Route
 
                 @Serializable
                 data class PrayerSchedule(

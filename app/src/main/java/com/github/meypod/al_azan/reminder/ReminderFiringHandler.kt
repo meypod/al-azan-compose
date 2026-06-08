@@ -3,6 +3,8 @@ package com.github.meypod.al_azan.reminder
 import android.content.Context
 import android.widget.Toast
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
+import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
 import com.github.meypod.al_azan.core.domain.model.TextResource
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
@@ -10,6 +12,7 @@ import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificat
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
@@ -19,6 +22,7 @@ import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
 import com.github.meypod.al_azan.playback.missedNotificationConfig
@@ -41,6 +45,8 @@ class ReminderFiringHandler @Inject constructor(
     private val alarmRepository: AlarmRepository,
     private val reminderScheduler: ReminderScheduler,
     private val playbackLauncher: PlaybackLauncher,
+    private val audioDurationProbe: AudioDurationProbe,
+    private val softSoundPlayer: SoftSoundPlayer,
 ) {
     suspend fun onReminderFired(
         reminderId: String,
@@ -67,7 +73,11 @@ class ReminderFiringHandler @Inject constructor(
         } else {
             val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
             val soundUri = soundEntry.toAudioUri(context)
-            if (soundUri != null) {
+            val vibration = reminder.vibration ?: alarmSettings.vibrationMode
+            // Continuous vibration must loop until dismissed, so it's intrusive regardless of the sound.
+            val intrusive = vibration == VibrationMode.Continuous ||
+                (soundUri != null && audioDurationProbe.isIntrusive(soundEntry))
+            if (soundUri != null && intrusive) {
                 playbackLauncher.launch(
                     PlaybackRequest.from(
                         settings = settings,
@@ -78,13 +88,20 @@ class ReminderFiringHandler @Inject constructor(
                         soundUri = soundUri,
                         channelId = reminderChannel(settings),
                         loop = soundEntry.loop,
-                        vibration = reminder.vibration ?: alarmSettings.vibrationMode,
+                        vibration = vibration,
                         header = context.getString(R.string.reminder),
                         isReminder = true,
                     ),
                 )
             } else {
+                // Soft (short, non-looping) sound or no sound: a plain auto-cancel notification, the
+                // sound played once via a lightweight player (no foreground service / stop UI), and a
+                // single vibration if requested (continuous would have been routed to the service above).
                 postNotifyOnlyNotification(reminderId, title, timeLabel, settings)
+                if (soundUri != null) {
+                    if (vibration != VibrationMode.Off) VibrationController.vibrate(context, VibrationMode.Once)
+                    softSoundPlayer.play(soundUri)
+                }
             }
         }
 

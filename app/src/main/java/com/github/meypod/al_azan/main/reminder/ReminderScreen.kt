@@ -67,7 +67,11 @@ fun ReminderScreen(
         onDontAskAgain = {},
         onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },
     )
-    fun guardEnable(enabling: Boolean, revert: () -> Unit) {
+
+    fun guardEnable(
+        enabling: Boolean,
+        revert: () -> Unit,
+    ) {
         if (enabling) {
             pendingRevert.value = revert
             requestPermissions(SchedulingPermissionSteps.reminder)
@@ -209,6 +213,10 @@ fun ReminderScreen(
                 onAction(ReminderUiAction.OnDraftSave)
                 guardEnable(true) {}
             },
+            userSounds = uiState.userSounds,
+            deviceSounds = uiState.deviceSounds,
+            adhanEntries = uiState.adhanEntries,
+            playingSoundId = uiState.playingSoundId,
         )
     }
 

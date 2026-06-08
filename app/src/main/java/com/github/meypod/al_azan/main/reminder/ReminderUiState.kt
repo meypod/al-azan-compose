@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import kotlinx.datetime.DayOfWeek
 
 enum class ReminderTimeModifier { Before, After }
@@ -28,6 +29,14 @@ data class ReminderEditDraft(
 @Immutable
 data class ReminderUiState(
     val reminders: List<Reminder> = emptyList(),
+    /** User-added sounds (shared with the muezzin picker), offered alongside the default in the sound dropdown. */
+    val userSounds: List<ReminderAudioEntry> = emptyList(),
+    /** Device notification/alarm/ringtone sounds enumerated from the system. */
+    val deviceSounds: List<ReminderAudioEntry> = emptyList(),
+    /** Muezzin/adhan entries (resource labels resolved in the sheet), offered as reminder sounds. */
+    val adhanEntries: List<AudioEntry> = emptyList(),
+    /** Id of the sound currently previewing in the edit sheet, or null when idle. */
+    val playingSoundId: String? = null,
     val selectionMode: Boolean = false,
     val selectedIds: Set<String> = emptySet(),
     val contextMenuId: String? = null,

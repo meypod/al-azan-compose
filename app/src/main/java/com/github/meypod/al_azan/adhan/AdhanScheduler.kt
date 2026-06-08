@@ -1,10 +1,14 @@
 package com.github.meypod.al_azan.adhan
 
 import android.util.Log
+import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -33,6 +37,7 @@ class AdhanScheduler @Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getNextShariaTimesUseCase: GetNextShariaTimesUseCase,
     private val alarmRepository: AlarmRepository,
+    private val audioDurationProbe: AudioDurationProbe,
 ) {
     private val mutex = Mutex()
 
@@ -94,8 +99,16 @@ class AdhanScheduler @Inject constructor(
                 ),
             )
 
-            // Pre-alarm: only for sound ("intrusive") prayers, unless the user disabled upcoming reminders.
-            if (next.sound && !alarmSettings.dontNotifyUpcoming) {
+            // Pre-alarm: only for sounding prayers whose alarm is intrusive, unless the user disabled
+            // upcoming reminders. Intrusive = looping/long muezzin OR continuous vibration; a short
+            // notification chime with at most a single buzz gets no pre-alarm.
+            val soundEntry = settings.selectedAdhanEntries[next.prayer.toAdhanKey()]
+                ?: settings.selectedAdhanEntries[AdhanKey.Default]
+                ?: settings.savedAdhanAudioEntries.firstOrNull()
+            val vibration = alarmSettings.getVibrationSettings(next.prayer) ?: alarmSettings.vibrationMode
+            val intrusive = vibration == VibrationMode.Continuous ||
+                (soundEntry != null && audioDurationProbe.isIntrusive(soundEntry))
+            if (next.sound && intrusive && !alarmSettings.dontNotifyUpcoming) {
                 val preMs = (prayerTimeMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
                     .coerceAtLeast(nowMs + REFIRE_GUARD_MS)
                 alarmRepository.schedule(

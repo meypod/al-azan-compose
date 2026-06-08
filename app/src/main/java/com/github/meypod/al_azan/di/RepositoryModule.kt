@@ -14,6 +14,7 @@ import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationChannelManagerImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.RingtoneRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.SystemChangeRepositoryImpl
 import com.github.meypod.al_azan.core.data.sensor.CompassRepositoryImpl
@@ -36,6 +37,7 @@ import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationChannelManager
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
+import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.WidgetFormatter
@@ -195,6 +197,10 @@ object RepositoryModule {
 
     @Provides
     fun provideAudioPreviewPlayer(@ApplicationContext context: Context): AudioPreviewPlayer = AudioPreviewPlayerImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideRingtoneRepository(@ApplicationContext context: Context): RingtoneRepository = RingtoneRepositoryImpl(context)
 
     @Provides
     @Singleton

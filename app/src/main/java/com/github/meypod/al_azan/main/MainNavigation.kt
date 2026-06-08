@@ -48,8 +48,6 @@ import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsScreen
 import com.github.meypod.al_azan.main.settings.adhan.AdhanSettingsViewModel
 import com.github.meypod.al_azan.main.settings.adhan.PrayerScheduleScreen
 import com.github.meypod.al_azan.main.settings.adhan.ScheduleAndMuezzinScreen
-import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerScreen
-import com.github.meypod.al_azan.main.settings.adhan.muezzin.MuezzinPickerViewModel
 import com.github.meypod.al_azan.main.settings.appearance.InterfaceSettingsScreen
 import com.github.meypod.al_azan.main.settings.appearance.InterfaceSettingsViewModel
 import com.github.meypod.al_azan.main.settings.backup.BackupRestoreScreen
@@ -120,10 +118,6 @@ fun MainNavigation(
                             subclass(
                                 Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin::class,
                                 Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.SoundAndNotifications.Muezzin::class,
-                                Route.Main.Settings.SoundAndNotifications.Muezzin.serializer(),
                             )
                             subclass(
                                 Route.Main.Settings.SoundAndNotifications.PrayerSchedule::class,
@@ -283,11 +277,6 @@ fun MainNavigation(
                 val vm = hiltViewModel<AdhanSettingsViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 ScheduleAndMuezzinScreen(s, vm::onAction)
-            }
-            entry<Route.Main.Settings.SoundAndNotifications.Muezzin> {
-                val vm = hiltViewModel<MuezzinPickerViewModel>()
-                val s by vm.uiState.collectAsStateWithLifecycle()
-                MuezzinPickerScreen(s, vm::onAction)
             }
             entry<Route.Main.Settings.SoundAndNotifications.PrayerSchedule> { key ->
                 val vm = hiltViewModel<AdhanSettingsViewModel>()
