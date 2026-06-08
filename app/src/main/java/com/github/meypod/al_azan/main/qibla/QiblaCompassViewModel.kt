@@ -7,7 +7,6 @@ import com.github.meypod.al_azan.core.domain.model.compass.CompassReading
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CompassRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
-import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.meypod.adhan_kotlin.Coordinates
 import io.github.meypod.adhan_kotlin.Qibla
@@ -77,9 +76,16 @@ class QiblaCompassViewModel @Inject constructor(
 
     fun onAction(action: QiblaCompassUiAction) {
         when (action) {
-            QiblaCompassUiAction.OnBackClick -> NavigationController.navigateBack()
-            QiblaCompassUiAction.OnToggleOrientationLock -> orientationLocked.update { !it }
-            is QiblaCompassUiAction.OnLocationFetched -> fetchedLocation.value = action.detail
+            QiblaCompassUiAction.OnToggleOrientationLock -> onToggleOrientationLock()
+            is QiblaCompassUiAction.OnLocationFetched -> onLocationFetched(action)
         }
+    }
+
+    private fun onToggleOrientationLock() {
+        orientationLocked.update { !it }
+    }
+
+    private fun onLocationFetched(action: QiblaCompassUiAction.OnLocationFetched) {
+        fetchedLocation.value = action.detail
     }
 }

@@ -27,6 +27,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 
 @Composable
 fun QiblaScreen(
@@ -38,7 +39,7 @@ fun QiblaScreen(
     val localeTag = LocalResources.current.configuration.locales[0].toLanguageTag()
     ScreenScaffold(
         title = stringResource(R.string.qibla),
-        onBackClick = { onAction(QiblaUiAction.OnBackClick) },
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
     ) {
         InformationCard(Modifier.fillMaxWidth()) {

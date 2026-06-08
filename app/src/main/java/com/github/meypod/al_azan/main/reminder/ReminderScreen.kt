@@ -49,6 +49,7 @@ import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.localized
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.reminder.components.ReminderEditSheet
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -90,7 +91,7 @@ fun ReminderScreen(
                                     ReminderUiAction.OnExitSelectionMode,
                                 )
                             } else {
-                                onAction(ReminderUiAction.OnBackClick)
+                                NavigationController.navigateBack()
                             }
                         },
                     ) {

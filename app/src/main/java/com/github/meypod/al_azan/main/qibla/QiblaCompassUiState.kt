@@ -23,7 +23,6 @@ sealed interface QiblaLocationLabel {
 }
 
 sealed interface QiblaCompassUiAction {
-    data object OnBackClick : QiblaCompassUiAction
     data object OnToggleOrientationLock : QiblaCompassUiAction
     data class OnLocationFetched(val detail: CalculationLocationDetail) : QiblaCompassUiAction
 }
