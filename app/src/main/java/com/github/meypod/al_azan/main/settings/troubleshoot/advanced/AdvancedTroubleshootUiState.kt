@@ -6,7 +6,3 @@ import androidx.compose.runtime.Immutable
 data class AdvancedTroubleshootUiState(
     val useDifferentAlarmType: Boolean = false,
 )
-
-sealed interface AdvancedTroubleshootUiAction {
-    data class OnAdaptiveChargingToggle(val value: Boolean) : AdvancedTroubleshootUiAction
-}
