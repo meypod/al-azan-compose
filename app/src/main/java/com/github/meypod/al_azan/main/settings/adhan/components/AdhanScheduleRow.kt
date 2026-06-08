@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,29 +29,9 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
-import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
-
-@Immutable
-data class AdhanScheduleRowUiState(
-    val prayer: Prayer,
-    val notifyState: ToggleableState,
-    val soundState: ToggleableState,
-) {
-    companion object {
-        fun fromPrayerAlarmSettings(
-            prayer: Prayer,
-            notifSettings: PrayerAlarmSettings,
-            soundSettings: PrayerAlarmSettings,
-        ) = AdhanScheduleRowUiState(
-            prayer,
-            if (notifSettings is PrayerAlarmSettings.Bool) ToggleableState(notifSettings.value) else ToggleableState.Indeterminate,
-            if (soundSettings is PrayerAlarmSettings.Bool) ToggleableState(soundSettings.value) else ToggleableState.Indeterminate,
-        )
-    }
-}
 
 @Composable
 fun AdhanScheduleRow(
