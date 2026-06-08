@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">মেনু</string>
-    <string name="prev_day">আগের দিন</string>
-    <string name="next_day">পরবর্তী দিন</string>
+    <string name="prev_day">আগের\nদিন</string>
+    <string name="next_day">পরের\nদিন</string>
     <string name="next_prayer">পরবর্তী সালাত</string>
     <string name="show_today">আজ দেখুন</string>
     <string name="set_location_hint">অবস্থান সেট করুন</string>
@@ -345,7 +345,7 @@
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
     <string name="playback_settings">প্লেব্যাক সেটিংস</string>
-    <string name="notification_settings">নোটিফিকেশন এবং শব্দ</string>
+    <string name="notification_settings">নোটিফিকেশন সেটিংস</string>
     <string name="notification_sound">নোটিফিকেশন শব্দ</string>
     <string name="schedule">সময়সূচি</string>
     <string name="schedule_help">প্রতিটি এন্ট্রির জন্য নোটিফিকেশন ও শব্দ সক্রিয় করুন। নির্দিষ্ট দিন বেছে নিতে বা কাস্টম অডিও সেট করতে গিয়ার আইকনে ট্যাপ করুন।</string>
@@ -403,7 +403,7 @@
     <string name="widget_show_prayer_times">সালাতের সময় দেখান</string>
     <string name="widget_show_prayer_times_help">উইজেটে কোন সালাতের সময়গুলো দেখাবে তা বেছে নিন।</string>
     <string name="widget_city_name_pos_label">অবস্থান</string>
-    <string name="widget_city_name_pos_help">আপনি আপনার বর্তমান অবস্থানের সাথে একটি ক্যালেন্ডার প্রতিস্থাপন করতে পারেন৷</string>
+    <string name="widget_city_name_pos_help">আপনি আপনার বর্তমান অবস্থানের সাথে একটি ক্যালেন্ডার প্রতিস্থাপন করতে পারেন।</string>
     <string name="widget_city_name_pos_placeholder">কোন ক্যালেন্ডার প্রতিস্থাপন করতে হবে তা বেছে নিন</string>
     <string name="widget_max_shown_prayers_warning">একই সময়ে মাত্র ছয়টি আইটেম দেখানো যাবে</string>
 
@@ -470,10 +470,10 @@
     <string name="counter_last_change">%1$s, %2$d → %3$d</string>
     <string name="counter_fast">সিয়াম</string>
     <string name="counter_new_title">নতুন কাউন্টার</string>
-    <string name="counter_edit_title">কাউন্টার এডিট করুন</string>
+    <string name="counter_edit_title">কাউন্টার সম্পাদনা করুন</string>
     <string name="counter_label">লেবেল</string>
     <string name="counter_label_placeholder">যেমন সুবহানাল্লাহ</string>
-    <string name="counter_count">গণনা</string>
+    <string name="counter_count">সংখ্যা</string>
     <string name="counter_label_required">লেবেল প্রয়োজন</string>
     <string name="counter_delete_confirm_title">কাউন্টার মুছবেন?</string>
     <string name="counter_delete_confirm_body">\"%1$s\" এবং এর ইতিহাস স্থায়ীভাবে সরিয়ে ফেলা হবে।</string>

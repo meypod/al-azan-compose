@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Meni</string>
-    <string name="prev_day">Prošli Dan</string>
-    <string name="next_day">Sljedeći Dan</string>
+    <string name="prev_day">Prošli\nDan</string>
+    <string name="next_day">Sljedeći\nDan</string>
     <string name="next_prayer">Sljedeća molitva</string>
     <string name="show_today">Prikažite Danas</string>
     <string name="set_location_hint">Postavi lokaciju</string>
@@ -254,9 +254,9 @@
          ============================================================ -->
     <string name="calendar">Kalendar</string>
     <string name="lunar_calendar">Lunarni kalendar</string>
-    <string name="lunar_calendar_supporting_text">Tip lunarnog kalendara prikazanog na glavnom ekranu i vidžetima</string>
+    <string name="lunar_calendar_supporting_text">Tip lunarnog kalendara prikazanog na glavnom ekranu i vidžetima.</string>
     <string name="lunar_islamic">Islamski</string>
-    <string name="lunar_islamic_ummalqura">Islamski (Um al-Kura)</string>
+    <string name="lunar_islamic_ummalqura">Islamski (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Islamski (tabelarni)</string>
     <string name="lunar_islamic_civil">Islamski (civilni)</string>
     <string name="lunar_islamic_saudi_sighting">Islamski (Saudijsko posmatranje)</string>
@@ -321,16 +321,14 @@
     <string name="high_latitude_seventh">Sedmina noći</string>
     <string name="high_latitude_twilight_angle">Ugao Sumraka</string>
     <string name="asr_calculation">Kalkulacija Ikindije</string>
-    <string name="asr_shafi_default">Šafija, Malikija, Hanbelija (Zadano)</string>
+    <string name="asr_shafi_default">Šafija, Malikija, Hanbelija (zadano)</string>
     <string name="asr_hanafi">Hanefijski</string>
     <string name="polar_resolution">Polarno razrješenje</string>
     <string name="polar_unresolved_default">Neriješeno (zadano)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Šafak</string>
-    <string name="shafaq_help">Šafak koristi metode Odbora za Promatranje Mjeseca da
-odredi koju vrstu sumraka da koristi kako biste
-odredili vrijeme za Jaciju</string>
+    <string name="shafaq_help">Metoda Odbora za promatranje Mjeseca koristi šafak kako bi se odredila vrsta sumraka koja se koristi za određivanje vremena Jacije.</string>
     <string name="shafaq_general_default">Općenito (zadano)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
@@ -404,7 +402,7 @@ odredili vrijeme za Jaciju</string>
     <string name="widget_show_prayer_times">Prikaži vremena molitve</string>
     <string name="widget_show_prayer_times_help">Odaberite koja vremena molitve da se prikažu na vidžetu.</string>
     <string name="widget_city_name_pos_label">Lokacija</string>
-    <string name="widget_city_name_pos_help">Možete odabrati da zamijenite jedan od kalendara svojom trenutnom lokacijom</string>
+    <string name="widget_city_name_pos_help">Možete odabrati da zamijenite jedan od kalendara svojom trenutnom lokacijom.</string>
     <string name="widget_city_name_pos_placeholder">Odaberite koji kalendar želite zamijeniti</string>
     <string name="widget_max_shown_prayers_warning">Samo šest stvari može biti pokazano istovremeno</string>
 

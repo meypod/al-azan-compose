@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">القائمة</string>
-    <string name="prev_day">اليوم السابق</string>
-    <string name="next_day">اليوم التالي</string>
+    <string name="prev_day">اليوم\nالسابق</string>
+    <string name="next_day">اليوم\nالتالي</string>
     <string name="next_prayer">الصلاة التالية</string>
     <string name="show_today">عرض اليوم</string>
     <string name="set_location_hint">تعيين الموقع</string>
@@ -229,7 +229,7 @@
     <string name="time_format">تنسيق الوقت</string>
     <string name="use_24_hour_format">استخدام تنسيق 24 ساعة</string>
     <string name="numbering_system">نظام الترقيم</string>
-    <string name="numbering_system_help">يفرض أن تكون جميع الأرقام في النظام المحدد</string>
+    <string name="numbering_system_help">يفرض أن تكون جميع الأرقام في النظام المحدد.</string>
     <string name="numbering_system_default">افتراضي</string>
     <string name="numbering_system_latn">الأرقام العربية الغربية</string>
     <string name="numbering_system_arab">الأرقام العربية الشرقية</string>
@@ -255,12 +255,12 @@
          ============================================================ -->
     <string name="calendar">التقويم</string>
     <string name="lunar_calendar">تقويم قمري</string>
-    <string name="lunar_calendar_supporting_text">نوع التقويم القمري الذي يظهر على الشاشة الرئيسية و المصغّر</string>
+    <string name="lunar_calendar_supporting_text">نوع التقويم القمري الذي يظهر على الشاشة الرئيسية والمصغّر.</string>
     <string name="lunar_islamic">إسلامي</string>
     <string name="lunar_islamic_ummalqura">إسلامي (أم القرى)</string>
     <string name="lunar_islamic_tabular">إسلامي (جدولي)</string>
     <string name="lunar_islamic_civil">إسلامي (مدني)</string>
-    <string name="lunar_islamic_saudi_sighting">الإسلامي (رؤية المملكة العربية السعودية)</string>
+    <string name="lunar_islamic_saudi_sighting">إسلامي (رؤية المملكة العربية السعودية)</string>
     <string name="attention_title"><b>انتباه!</b></string>
     <string name="lunar_calendar_warning">التقويم القمري الخاص بالتطبيق محسوب مسبقًا وقد لا يكون دقيقًا لأنه لا يعتمد على رؤية الهلال. هذا مهم جدًا للملاحظة بالنسبة لبداية ونهاية رمضان.</string>
 
@@ -322,7 +322,7 @@
     <string name="high_latitude_seventh">سُبع الليل</string>
     <string name="high_latitude_twilight_angle">زاوية الشفق</string>
     <string name="asr_calculation">حساب العصر</string>
-    <string name="asr_shafi_default">شافعي ، مالكي ، حنبلي (افتراضي)</string>
+    <string name="asr_shafi_default">شافعي، مالكي، حنبلي (افتراضي)</string>
     <string name="asr_hanafi">حنفي</string>
     <string name="polar_resolution">دقة الأقطاب</string>
     <string name="polar_unresolved_default">لم يتم حلها (افتراضي)</string>
@@ -403,7 +403,7 @@
     <string name="widget_show_prayer_times">عرض أوقات الصلاة</string>
     <string name="widget_show_prayer_times_help">اختر أوقات الصلاة التي تريد عرضها على المصغّر.</string>
     <string name="widget_city_name_pos_label">موقع</string>
-    <string name="widget_city_name_pos_help">يمكنك استبدال أحد التقاويم بموقعك الحالي</string>
+    <string name="widget_city_name_pos_help">يمكنك استبدال أحد التقاويم بموقعك الحالي.</string>
     <string name="widget_city_name_pos_placeholder">اختر التقويم الذي تريد استبداله</string>
     <string name="widget_max_shown_prayers_warning">يمكن عرض ستة عناصر فقط في نفس الوقت</string>
 
@@ -491,7 +491,7 @@
     <string name="counter_delete_confirm_body">ستتم إزالة \"%1$s\" وسجلّه نهائيًا.</string>
     <string name="time_just_now">الآن</string>
     <string name="time_tense_ago">منذ</string>
-    <string name="time_tense_later">لاحقاً</string>
+    <string name="time_tense_later">لاحقًا</string>
     <string name="time_unit_day_short">ي</string>
     <string name="time_unit_hour_short">س</string>
     <string name="time_unit_minute_short">د</string>

@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Menü</string>
-    <string name="prev_day">Önceki gün</string>
-    <string name="next_day">Ertesi gün</string>
+    <string name="prev_day">Önceki\nGün</string>
+    <string name="next_day">Sonraki\nGün</string>
     <string name="next_prayer">Sonraki Namaz</string>
     <string name="show_today">Bugünü göster</string>
     <string name="set_location_hint">Konumu ayarla</string>
@@ -228,7 +228,7 @@
     <string name="time_format">Zaman formatı</string>
     <string name="use_24_hour_format">24 Saat biçimini kullan</string>
     <string name="numbering_system">Sayı sistemi</string>
-    <string name="numbering_system_help">tüm sayıları seçilen sistemde olmaya zorlar</string>
+    <string name="numbering_system_help">Tüm sayıları seçilen sistemde olmaya zorlar.</string>
     <string name="numbering_system_default">Varsayılan</string>
     <string name="numbering_system_latn">Batı Arapçası</string>
     <string name="numbering_system_arab">Doğu Arapçası</string>
@@ -254,7 +254,7 @@
          ============================================================ -->
     <string name="calendar">Takvim</string>
     <string name="lunar_calendar">Ay Takvimi</string>
-    <string name="lunar_calendar_supporting_text">Ana ekranda ve widget\'larda gösterilen ay takvimi türü</string>
+    <string name="lunar_calendar_supporting_text">Ana ekranda ve widget\'larda gösterilen ay takvimi türü.</string>
     <string name="lunar_islamic">İslami</string>
     <string name="lunar_islamic_ummalqura">İslami (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">İslami (Cetvele göre hesaplanmış)</string>
@@ -324,12 +324,12 @@
     <string name="asr_shafi_default">Şafi, Maliki, Hanbeli (Varsayılan)</string>
     <string name="asr_hanafi">Hanefi</string>
     <string name="polar_resolution">Kutuplar için hesaplama yöntemi</string>
-    <string name="polar_unresolved_default">Çözümlenmemiş (varsayılan)</string>
+    <string name="polar_unresolved_default">Çözümlenmemiş (Varsayılan)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Şafak</string>
     <string name="shafaq_help">Şafak, MoonsightingCommittee yöntemi tarafından Yatsı vaktini belirlemek için hangi tür alacakaranlığın kullanılacağını saptamak amacıyla kullanılır.</string>
-    <string name="shafaq_general_default">Genel (varsayılan)</string>
+    <string name="shafaq_general_default">Genel (Varsayılan)</string>
     <string name="shafaq_ahmer">Ahmer (Kızıllık)</string>
     <string name="shafaq_abyad">Abyad (Beyazlık)</string>
 
@@ -402,7 +402,7 @@
     <string name="widget_show_prayer_times">Namaz vakitlerini göster</string>
     <string name="widget_show_prayer_times_help">Widget\'ta hangi namaz vakitlerinin gösterileceğini seçin.</string>
     <string name="widget_city_name_pos_label">Konum</string>
-    <string name="widget_city_name_pos_help">Takvimlerden birini geçerli konumunuzla değiştirmeyi seçebilirsiniz</string>
+    <string name="widget_city_name_pos_help">Takvimlerden birini geçerli konumunuzla değiştirmeyi seçebilirsiniz.</string>
     <string name="widget_city_name_pos_placeholder">Hangi takvimin değiştirileceğini seçin</string>
     <string name="widget_max_shown_prayers_warning">Aynı anda yalnızca altı öğe gösterilebilir</string>
 

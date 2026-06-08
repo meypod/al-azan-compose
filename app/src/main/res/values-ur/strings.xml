@@ -130,8 +130,8 @@
     <string name="restore_thanks_body">ایپ کو درست طریقے سے کام کرنے میں مدد کے لیے، براہ کرم چند ترجیحات طے کریں تاکہ ہم آپ کے نماز کے اوقات درست طریقے سے شمار کر سکیں۔</string>
     <string name="restore_backup_hint">اگر آپ کے پاس پہلے سے بیک اپ فائل ہے، تو آپ اسے یہاں بحال کر سکتے ہیں۔</string>
     <string name="restore_backup_button">بیک اپ فائل بحال کریں</string>
-    <string name="skip">آگے بڑھیں </string>
-    <string name="skip_confirm">آگے بڑھیں </string>
+    <string name="skip">آگے بڑھیں</string>
+    <string name="skip_confirm">آگے بڑھیں</string>
     <string name="skip_dialog_body">مطلوبہ ترتیبات نامکمل ہیں۔ ایپ کو نماز کے اوقات دکھانے کے لیے، آپ کو اسے بعد میں سیٹنگز سے کنفیگر کرنا ہوگا۔</string>
     <string name="restoring_backup">بیک اپ بحال ہو رہا ہے…</string>
 
@@ -139,8 +139,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">مینو</string>
-    <string name="prev_day">پچھلا دن</string>
-    <string name="next_day">اگلے دن</string>
+    <string name="prev_day">پچھلا\nدن</string>
+    <string name="next_day">اگلا\nدن</string>
     <string name="next_prayer">اگلی نماز</string>
     <string name="show_today">آج دکھائیں۔</string>
     <string name="set_location_hint">مقام طے کریں</string>
@@ -231,8 +231,8 @@
     <string name="numbering_system">نمبر سازی کا نظام</string>
     <string name="numbering_system_help">تمام نمبروں کو منتخب نظام میں ہونے پر مجبور کرتا ہے۔</string>
     <string name="numbering_system_default">طے شدہ</string>
-    <string name="numbering_system_latn">مغربی عربی۔</string>
-    <string name="numbering_system_arab">مشرقی عربی۔</string>
+    <string name="numbering_system_latn">مغربی عربی</string>
+    <string name="numbering_system_arab">مشرقی عربی</string>
     <string name="numbering_system_arabext">فارسی</string>
     <string name="numbering_system_beng">بنگالی</string>
     <string name="numbering_system_deva">دیوناگری</string>
@@ -245,7 +245,7 @@
     <string name="secondary_calendar_help">وہ کیلنڈر جو ہفتے کے دن کے نیچے دکھائی دیتا ہے۔</string>
     <string name="calendar_gregorian">گریگورین</string>
     <string name="calendar_lunar">قمری</string>
-    <string name="calendar_none">کوئی نہیں۔</string>
+    <string name="calendar_none">کوئی نہیں</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">ایتھوپیک</string>
     <string name="calendar_buddhist">بدھ مت</string>
@@ -255,7 +255,7 @@
          ============================================================ -->
     <string name="calendar">کیلنڈر</string>
     <string name="lunar_calendar">قمری کیلنڈر</string>
-    <string name="lunar_calendar_supporting_text">مرکزی اسکرین اور ویجٹ میں دکھائے جانے والے قمری کیلنڈر کی قسم</string>
+    <string name="lunar_calendar_supporting_text">مرکزی اسکرین اور ویجٹ میں دکھائے جانے والے قمری کیلنڈر کی قسم۔</string>
     <string name="lunar_islamic">اسلامی</string>
     <string name="lunar_islamic_ummalqura">اسلامی (ام القراء)</string>
     <string name="lunar_islamic_tabular">اسلامی (ٹیبلر)</string>
@@ -312,7 +312,7 @@
     <string name="rounding_auto_default">خودکار (پہلے سے طے شدہ)</string>
     <string name="rounding_nearest">قریب ترین</string>
     <string name="rounding_up">اوپر کی طرف</string>
-    <string name="rounding_none">کوئی نہیں۔</string>
+    <string name="rounding_none">کوئی نہیں</string>
     <string name="midnight_method">آدھی رات کا طریقہ</string>
     <string name="midnight_sunset_to_fajr_default">غروب آفتاب سے فجر تک (پہلے سے طے شدہ)</string>
     <string name="midnight_sunset_to_sunrise">غروب آفتاب سے طلوع آفتاب</string>
@@ -494,11 +494,11 @@
     <string name="qibla_use_map">نقشہ استعمال کریں۔</string>
     <string name="qibla_use_compass">کمپاس استعمال کریں۔</string>
     <string name="qibla_compass">قبلہ کمپاس</string>
-    <string name="qibla_location_label">مقام</string>
+    <string name="qibla_location_label">مقام:</string>
     <string name="qibla_location_from_settings">ترتیبات سے</string>
-    <string name="qibla_label">قبلہ</string>
+    <string name="qibla_label">قبلہ:</string>
     <string name="qibla_degrees_from_north">%1$d° شمال سے</string>
-    <string name="qibla_accuracy_label">درستگی</string>
+    <string name="qibla_accuracy_label">درستگی:</string>
     <string name="qibla_refresh_location">GPS سے مقام تازہ کریں</string>
     <string name="qibla_lock_orientation">اسکرین کی سمت لاک کریں</string>
     <string name="qibla_unlock_orientation">اسکرین کی سمت ان لاک کریں</string>
@@ -568,7 +568,7 @@
          ============================================================ -->
     <string name="alarm_azan_header">اذان</string>
     <string name="alarm_swipe_up_hint">مزید اختیارات کے لیے اوپر سوائپ کریں</string>
-    <string name="alarm_dismiss">برطرف کرنا</string>
+    <string name="alarm_dismiss">برطرف کریں</string>
     <string name="alarm_just_dismiss">صرف برطرف کریں</string>
     <string name="alarm_just_dismiss_silence">برطرف کریں اور فون خاموش کریں</string>
     <string name="alarm_dismiss_and_silent">برطرف کریں اور %1$dm خاموش کریں</string>
