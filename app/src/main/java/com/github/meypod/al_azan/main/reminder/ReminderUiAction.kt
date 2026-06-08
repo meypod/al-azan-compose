@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.reminder
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import kotlinx.datetime.DayOfWeek
 
 sealed interface ReminderUiAction {
@@ -69,6 +70,10 @@ sealed interface ReminderUiAction {
 
     data class OnDraftPrayerChange(
         val value: Prayer,
+    ) : ReminderUiAction
+
+    data class OnDraftVibrationChange(
+        val value: VibrationMode?,
     ) : ReminderUiAction
 
     data class OnDraftOnlyOnceToggle(

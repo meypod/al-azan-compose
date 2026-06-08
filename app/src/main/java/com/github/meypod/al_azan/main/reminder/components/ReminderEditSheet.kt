@@ -1,12 +1,16 @@
 package com.github.meypod.al_azan.main.reminder.components
 
 import android.content.res.Resources
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -16,28 +20,35 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
-import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.main.reminder.ReminderEditDraft
 import com.github.meypod.al_azan.main.reminder.ReminderTimeModifier
 import com.github.meypod.al_azan.main.reminder.ReminderUiAction
@@ -45,6 +56,7 @@ import com.github.meypod.al_azan.main.settings.adhan.components.WeekdayChipRow
 import kotlinx.datetime.DayOfWeek
 
 private val DURATIONS = listOf(5, 10, 15, 30, 60)
+private const val DEFAULT_VIBRATION_KEY = "__default__"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,6 +66,8 @@ fun ReminderEditSheet(
     onSave: () -> Unit = { onAction(ReminderUiAction.OnDraftSave) },
 ) {
     val resources = LocalResources.current
+    val defaultVibrationLabel = stringResource(R.string.use_default_vibration)
+    val vibrationOptions = listOf<VibrationMode?>(null) + VibrationMode.entries
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
         onDismissRequest = { onAction(ReminderUiAction.OnDraftDismiss) },
@@ -150,13 +164,51 @@ fun ReminderEditSheet(
                 )
             }
             Column {
-                SettingSwitch(
-                    title = stringResource(R.string.reminder_only_once),
-                    subtitle = null,
-                    checked = draft.only,
-                    onCheckedChange = { onAction(ReminderUiAction.OnDraftOnlyOnceToggle(it)) },
+                SettingLabel(stringResource(R.string.vibration_mode))
+                BottomSelect(
+                    modifier = Modifier.fillMaxWidth(),
+                    options = vibrationOptions,
+                    optionKey = { it?.name ?: DEFAULT_VIBRATION_KEY },
+                    optionLabel = { it?.let { mode -> resources.getString(mode.stringRes()) } ?: defaultVibrationLabel },
+                    selectedKey = draft.vibration?.name ?: DEFAULT_VIBRATION_KEY,
+                    onSelect = { onAction(ReminderUiAction.OnDraftVibrationChange(it)) },
                 )
+            }
+            Column {
+                var showOnlyOnceHelp by remember { mutableStateOf(false) }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+                ) {
+                    Text(stringResource(R.string.reminder_only_once))
+                    Icon(
+                        painterResource(R.drawable.info_variant_outline),
+                        contentDescription = stringResource(R.string.reminder_only_once_help),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable(role = Role.Button) { showOnlyOnceHelp = true },
+                    )
+                    Spacer(Modifier.weight(1f))
+                    Switch(
+                        checked = draft.only,
+                        onCheckedChange = { onAction(ReminderUiAction.OnDraftOnlyOnceToggle(it)) },
+                    )
+                }
                 HorizontalDivider()
+                if (showOnlyOnceHelp) {
+                    AlertDialog(
+                        onDismissRequest = { showOnlyOnceHelp = false },
+                        title = { Text(stringResource(R.string.reminder_only_once)) },
+                        text = { Text(stringResource(R.string.reminder_only_once_help)) },
+                        confirmButton = {
+                            TextButton(onClick = { showOnlyOnceHelp = false }) {
+                                Text(stringResource(R.string.okay))
+                            }
+                        },
+                    )
+                }
             }
             WeekdayChipRow(
                 selected = draft.days,

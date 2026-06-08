@@ -8,6 +8,7 @@ import com.github.meypod.al_azan.core.data.repository.old.OldCounterRepositoryIm
 import com.github.meypod.al_azan.core.data.repository.old.OldFavoriteLocationsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.old.OldReminderRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.old.OldSetttingsRepositoryImpl
+import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
@@ -78,7 +79,17 @@ constructor(
         newCalculationSettingsRepository.update { oldCalculationSettings }
         newAlarmSettingsRepository.update { oldAlarmSettings }
         newCounterRepository.update { oldCounters }
-        newReminderRepository.update { oldReminders }
+        // A repeating reminder whose day selection is empty would never fire (the v2 editor could
+        // produce this). Heal it to every day so the user's enabled reminders actually run.
+        val healedReminders = oldReminders.map { reminder ->
+            val days = reminder.days
+            if (reminder.once != true && days is PrayerAlarmSettings.ByWeekDay && days.selectedDays().isEmpty()) {
+                reminder.copy(days = PrayerAlarmSettings.ByWeekDay(PrayerAlarmSettings.ALL_DAYS.associateWith { true }))
+            } else {
+                reminder
+            }
+        }
+        newReminderRepository.update { healedReminders }
         newFavoriteLocationsRepository.update { oldFavoriteLocations }
 
         if (oldSettings.selectedLocale.isNotBlank()) {

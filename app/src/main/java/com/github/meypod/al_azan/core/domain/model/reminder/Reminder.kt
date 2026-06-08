@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.model.reminder
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -21,6 +22,8 @@ data class Reminder(
     val duration: Int,
     val durationModifier: Int,
     val sound: ReminderAudioEntry? = null,
+    /** per-reminder vibration override; null = fall back to the global [com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings.vibrationMode] */
+    val vibration: VibrationMode? = null,
     val once: Boolean? = null,
     val days: PrayerAlarmSettings? = null,
 )

@@ -66,6 +66,7 @@ import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyCol
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.rememberLocationAccessHelperDialogs
 import com.github.meypod.al_azan.core.presentation.util.bottomBorder
+import com.github.meypod.al_azan.main.location.components.EditLocationLabelDialog
 import com.github.meypod.al_azan.main.location.components.NewLocationDialog
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
@@ -87,6 +88,10 @@ fun LocationScreenContent(
             getCountries = getCountries,
             getCities = getCities,
         )
+    }
+
+    uiState.editLabelDraft?.let { draft ->
+        EditLocationLabelDialog(draft = draft, onAction = onAction)
     }
 
     val deletingLocation = uiState.deleteLocationDialogLocation
@@ -263,85 +268,100 @@ private fun LocationListItem(
                     )
                 }
 
-                if (item !is TravelingFavoriteLocation || !selected) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        IconButton(
-                            onClick = {
-                                if (interactionEnabled) expanded = true
-                            },
-                            enabled = interactionEnabled,
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.menu_more_h),
-                                contentDescription = stringResource(R.string.see_options),
-                            )
-                        }
+                Column(horizontalAlignment = Alignment.End) {
+                    IconButton(
+                        onClick = {
+                            if (interactionEnabled) expanded = true
+                        },
+                        enabled = interactionEnabled,
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.menu_more_h),
+                            contentDescription = stringResource(R.string.see_options),
+                        )
+                    }
 
-                        DropdownMenu(
-                            expanded = expanded && interactionEnabled,
-                            onDismissRequest = { expanded = false },
-                        ) {
+                    DropdownMenu(
+                        expanded = expanded && interactionEnabled,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        if (item !is TravelingFavoriteLocation) {
                             DropdownMenuItem(
-                                text = { Text(stringResource(R.string.copy_coordinates)) },
+                                text = { Text(stringResource(R.string.edit_label)) },
                                 trailingIcon = {
                                     Icon(
-                                        painter = painterResource(R.drawable.content_copy),
+                                        painter = painterResource(R.drawable.outline_edit_24),
                                         contentDescription = null,
                                     )
                                 },
                                 onClick = {
                                     expanded = false
-                                    val coords = item.locationDetail.toCoordsString()
-                                    scope.launch {
-                                        clipboard.setClipEntry(
-                                            ClipEntry(ClipData.newPlainText("coordinates", coords)),
-                                        )
-                                        Toast
-                                            .makeText(context, R.string.coordinates_copied, Toast.LENGTH_SHORT)
-                                            .show()
+                                    onAction(LocationUiAction.OnEditLabelClick(item.id))
+                                },
+                                enabled = interactionEnabled,
+                            )
+                        }
+
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.copy_coordinates)) },
+                            trailingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.content_copy),
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                expanded = false
+                                val coords = item.locationDetail.toCoordsString()
+                                scope.launch {
+                                    clipboard.setClipEntry(
+                                        ClipEntry(ClipData.newPlainText("coordinates", coords)),
+                                    )
+                                    Toast
+                                        .makeText(context, R.string.coordinates_copied, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            },
+                            enabled = interactionEnabled,
+                        )
+
+                        if (!selected) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.set_as_default)) },
+                                trailingIcon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.baseline_check_24),
+                                        contentDescription = null,
+                                    )
+                                },
+                                onClick = {
+                                    expanded = false
+                                    if (item is TravelingFavoriteLocation) {
+                                        triggerLocation()
+                                    } else {
+                                        onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
                                     }
                                 },
                                 enabled = interactionEnabled,
                             )
+                        }
 
-                            if (!selected) {
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.set_as_default)) },
-                                    trailingIcon = {
-                                        Icon(
-                                            painter = painterResource(R.drawable.baseline_check_24),
-                                            contentDescription = null,
-                                        )
-                                    },
-                                    onClick = {
-                                        expanded = false
-                                        if (item is TravelingFavoriteLocation) {
-                                            triggerLocation()
-                                        } else {
-                                            onAction(LocationUiAction.OnSetAsDefaultClick(item.id))
-                                        }
-                                    },
-                                    enabled = interactionEnabled,
-                                )
-                            }
-
-                            if (item !is TravelingFavoriteLocation) {
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.delete_location)) },
-                                    trailingIcon = {
-                                        Icon(
-                                            painter = painterResource(R.drawable.delete),
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.error,
-                                        )
-                                    },
-                                    onClick = {
-                                        expanded = false
-                                        onAction(LocationUiAction.OnDeleteLocationClick(item.id))
-                                    },
-                                    enabled = interactionEnabled,
-                                )
-                            }
+                        if (item !is TravelingFavoriteLocation) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.delete_location)) },
+                                trailingIcon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.delete),
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.error,
+                                    )
+                                },
+                                onClick = {
+                                    expanded = false
+                                    onAction(LocationUiAction.OnDeleteLocationClick(item.id))
+                                },
+                                enabled = interactionEnabled,
+                            )
                         }
                     }
                 }

@@ -22,6 +22,18 @@ sealed interface LocationUiAction {
         val locationId: String,
     ) : LocationUiAction
 
+    data class OnEditLabelClick(
+        val locationId: String,
+    ) : LocationUiAction
+
+    data class OnEditLabelChange(
+        val value: String,
+    ) : LocationUiAction
+
+    object OnEditLabelConfirm : LocationUiAction
+
+    object OnEditLabelDismiss : LocationUiAction
+
     data class OnDeleteLocationClick(
         val locationId: String,
     ) : LocationUiAction

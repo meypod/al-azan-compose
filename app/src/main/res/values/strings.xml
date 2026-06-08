@@ -47,6 +47,7 @@
     <string name="clear">Clear</string>
     <string name="clipboard_coordinates_not_found">Couldn\’t detect coordinates in clipboard.</string>
     <string name="copy_coordinates">Copy coordinates</string>
+    <string name="edit_label">Edit label</string>
     <string name="coordinates_copied">Coordinates copied to clipboard.</string>
     <string name="confirm">Confirm</string>
     <string name="location_traveling_mode">Travel mode</string>
@@ -347,6 +348,7 @@
     <string name="reminder_sound">Sound</string>
     <string name="reminder_options">Options</string>
     <string name="reminder_only_once">Only Once</string>
+    <string name="reminder_only_once_help">When on, this reminder fires a single time and then turns itself off. When off, it repeats on the days you select below.</string>
     <string name="reminder_before">Before</string>
     <string name="reminder_after">After</string>
     <string name="reminder_save">Save</string>
