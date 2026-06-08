@@ -42,7 +42,7 @@
          ============================================================ -->
     <string name="fajr">Subuh</string>
     <string name="sunrise">Terbit</string>
-    <string name="dhuhr">Dhuhur</string>
+    <string name="dhuhr">Dzuhur</string>
     <string name="asr">Ashar</string>
     <string name="sunset">Terbenam</string>
     <string name="maghrib">Maghrib</string>
@@ -95,7 +95,7 @@
     <!-- ============================================================
          Custom audio / sound picker  (core/presentation/components)
          ============================================================ -->
-    <string name="add_custom_audio">Menambahkan Audio Khusus</string>
+    <string name="add_custom_audio">Tambah Audio Kustom</string>
     <string name="audio_name">Nama</string>
     <string name="audio_name_required">Nama wajib diisi</string>
     <string name="delete_audio_title">Hapus audio?</string>
@@ -301,7 +301,7 @@
     <string name="calc_method_russia">Administrasi Keagamaan Muslim Rusia</string>
     <string name="calc_method_jafari">Syiah Itsna Asyari, Institut Leva, Qum, Iran</string>
     <string name="calc_method_tehran">Syiah, Institut Geofisika, Universitas Tehran, Iran</string>
-    <string name="calc_method_kemenag">Kementrian Agama Republik Indonesia (KEMENAG)</string>
+    <string name="calc_method_kemenag">Kementerian Agama Republik Indonesia (KEMENAG)</string>
     <string name="calc_method_algeria">Kementerian Agama dan Wakaf, Aljazair</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
     <string name="calc_method_tunisia">Kementerian Agama Tunisia</string>
@@ -575,7 +575,7 @@ Perangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mung
     <string name="alarm_remind">Ingatkan dalam %1$dm</string>
     <string name="adhan_remind_body">%1$s sudah %2$d menit yang lalu</string>
     <string name="next_prayer_label">Berikutnya</string>
-    <string name="upcoming_alarm_title">Alarm selanjutnya</string>
+    <string name="upcoming_alarm_title">Alarm yang akan datang</string>
     <string name="cancel_alarm">Batalkan Alarm</string>
     <string name="adhan_cancelled_toast">Adzan yang akan datang dibatalkan</string>
     <string name="adhan_cancelled_named_toast">Adzan %1$s dibatalkan</string>

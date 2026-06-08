@@ -157,7 +157,7 @@
     <string name="notification_and_sound_title"><![CDATA[Thông báo & Âm báo]]></string>
     <string name="alarm_settings_title">Cài đặt Báo thức</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Lịch & Muezzin]]></string>
-    <string name="calculation_title">Phép tính</string>
+    <string name="calculation_title">Tính toán</string>
     <string name="interface_settings">Cài đặt Giao diện</string>
     <string name="widget_settings_title">Cài đặt Tiện ích</string>
     <string name="backup_and_restore_title"><![CDATA[Sao lưu & Khôi phục]]></string>
@@ -189,7 +189,7 @@
     <string name="clear">Xóa</string>
     <string name="clipboard_coordinates_not_found">Không thể phát hiện tọa độ trong bộ nhớ tạm.</string>
     <string name="copy_coordinates">Sao chép tọa độ</string>
-    <string name="edit_label">Sửa nhãn</string>
+    <string name="edit_label">Sửa tên</string>
     <string name="coordinates_copied">Đã sao chép tọa độ vào bộ nhớ tạm.</string>
     <string name="location_traveling_mode">Chế độ du lịch</string>
     <string name="location_traveling_hint">Cập nhật vị trí của bạn định kỳ. Có thể tăng mức tiêu thụ pin.</string>
@@ -227,7 +227,7 @@
     <string name="date_and_time">Ngày và Giờ</string>
     <string name="time_format">Định dạng giờ</string>
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
-    <string name="numbering_system">Hệ thống số đếm</string>
+    <string name="numbering_system">Hệ chữ số</string>
     <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn.</string>
     <string name="numbering_system_default">Mặc định</string>
     <string name="numbering_system_latn">Tây Ả Rập</string>
@@ -324,7 +324,7 @@
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Mặc định)</string>
     <string name="asr_hanafi">Hanafi</string>
     <string name="polar_resolution">Phân giải vùng cực</string>
-    <string name="polar_unresolved_default">Không dùng (Mặc định)</string>
+    <string name="polar_unresolved_default">Không giải (Mặc định)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Shafaq</string>
@@ -473,7 +473,7 @@
     <string name="counter_label">Tên</string>
     <string name="counter_label_placeholder">vd. Subhanallah</string>
     <string name="counter_count">Số đếm</string>
-    <string name="counter_label_required">Bắt buộc có nhãn</string>
+    <string name="counter_label_required">Bắt buộc nhập tên</string>
     <string name="counter_delete_confirm_title">Xóa bộ đếm?</string>
     <string name="counter_delete_confirm_body">\"%1$s\" và lịch sử của nó sẽ bị xóa vĩnh viễn.</string>
     <string name="time_just_now">Vừa nãy</string>
@@ -571,7 +571,7 @@
     <string name="alarm_just_dismiss_silence">Bỏ qua &amp; tắt tiếng điện thoại</string>
     <string name="alarm_dismiss_and_silent">Bỏ qua và Im lặng %1$dm</string>
     <string name="alarm_remind">Nhắc lại sau %1$dm</string>
-    <string name="adhan_remind_body">%1$s đã qua %2$d phút trước</string>
+    <string name="adhan_remind_body">%1$s đã qua %2$d phút</string>
     <string name="next_prayer_label">Tiếp</string>
     <string name="upcoming_alarm_title">Báo thức sắp tới</string>
     <string name="cancel_alarm">Hủy báo thức</string>

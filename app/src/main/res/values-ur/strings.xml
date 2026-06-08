@@ -21,7 +21,7 @@
     <string name="no_items_found">کوئی آئٹم نہیں ملا</string>
     <string name="search_placeholder">تلاش کریں۔</string>
     <string name="drag_handle_description">گھسیٹنے کا ہینڈل</string>
-    <string name="dont_ask_again">دوبارہ مت پوچھو</string>
+    <string name="dont_ask_again">دوبارہ نہ پوچھیں</string>
     <string name="custom_minutes">اپنی مرضی کے مطابق</string>
     <string name="custom_minutes_tap_to_edit">ترمیم کے لیے دبائیں</string>
     <string name="custom_minutes_dialog_title">اپنی مرضی کے منٹ</string>
@@ -316,7 +316,7 @@
     <string name="midnight_method">آدھی رات کا طریقہ</string>
     <string name="midnight_sunset_to_fajr_default">غروب آفتاب سے فجر تک (پہلے سے طے شدہ)</string>
     <string name="midnight_sunset_to_sunrise">غروب آفتاب سے طلوع آفتاب</string>
-    <string name="high_latitude">ہائی عرض بلد</string>
+    <string name="high_latitude">بلند عرض بلد</string>
     <string name="high_latitude_none_automatic">کوئی نہیں (خودکار)</string>
     <string name="high_latitude_middle">رات کا درمیانی حصہ</string>
     <string name="high_latitude_seventh">رات کا ساتواں حصہ</string>
@@ -514,7 +514,7 @@
          ============================================================ -->
     <string name="monthly_view_title">ماہانہ نظارہ</string>
     <string name="prev_month">پچھلا مہینہ</string>
-    <string name="next_month">اگلے ماہ</string>
+    <string name="next_month">اگلا مہینہ</string>
     <string name="show_this_month">یہ مہینہ دکھائیں</string>
     <string name="date_column">تاریخ</string>
 
@@ -588,7 +588,7 @@
          ============================================================ -->
     <string name="ramadan_notice_title">توجہ!</string>
     <string name="ramadan_remind_next_year">اگلے سال مجھے یاد دلائیں۔</string>
-    <string name="ramadan_dont_show_again">دوبارہ مت دکھانا</string>
+    <string name="ramadan_dont_show_again">دوبارہ نہ دکھائیں</string>
 
     <!-- ============================================================
          Notification channels  (core/domain/usecase)

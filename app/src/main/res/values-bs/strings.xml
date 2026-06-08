@@ -322,7 +322,7 @@
     <string name="high_latitude_twilight_angle">Ugao Sumraka</string>
     <string name="asr_calculation">Kalkulacija Ikindije</string>
     <string name="asr_shafi_default">Šafija, Malikija, Hanbelija (zadano)</string>
-    <string name="asr_hanafi">Hanefijski</string>
+    <string name="asr_hanafi">Hanefija</string>
     <string name="polar_resolution">Polarno razrješenje</string>
     <string name="polar_unresolved_default">Neriješeno (zadano)</string>
     <string name="polar_aqrab_balad">Aqrab Balad</string>
@@ -404,7 +404,7 @@
     <string name="widget_city_name_pos_label">Lokacija</string>
     <string name="widget_city_name_pos_help">Možete odabrati da zamijenite jedan od kalendara svojom trenutnom lokacijom.</string>
     <string name="widget_city_name_pos_placeholder">Odaberite koji kalendar želite zamijeniti</string>
-    <string name="widget_max_shown_prayers_warning">Samo šest stvari može biti pokazano istovremeno</string>
+    <string name="widget_max_shown_prayers_warning">Istovremeno se može prikazati samo šest stavki</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
@@ -529,7 +529,7 @@
     <string name="app_is_allowed_to_keep_running">Aplikaciji je dozvoljeno da nastavi raditi</string>
     <string name="power_manager_card_title">Postavke upravljača napajanjem</string>
     <string name="power_manager_card_body">Neki uređaji zahtijevaju određene postavke unutar svog \"Upravljača napajanjem\" kako bi spriječili da aplikacija bude zaustavljena u pozadini. U takvim slučajevima onemogućite sve opcije uštede energije za aplikaciju.</string>
-    <string name="open_power_manager_settings">Otvorite Postavke Napojnog Menadžera</string>
+    <string name="open_power_manager_settings">Otvorite postavke upravljača napajanjem</string>
     <string name="power_manager_samsung_hint">Samsung uređaji imaju vlastiti prilagođeni Upravljač napajanjem pod nazivom \"Device Care\". Nakon pritiska na dugme ispod, bit ćete preusmjereni na meni Baterije u Device Care. U ovom meniju dodirnite \"Upravljanje napajanjem aplikacija\", zatim odaberite \"Aplikacije koje neće biti uspavane\" i dodajte ovu aplikaciju na listu.</string>
     <string name="dnd_access_card_title">Pristup režimu Ne smetaj</string>
     <string name="dnd_access_card_body">Potreban da bi se ezan mogao oglasiti tokom režima Ne smetaj i da bi se telefon utišao nakon što ga odbacite.</string>

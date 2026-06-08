@@ -370,7 +370,7 @@
     <string name="custom_upcoming_time_help">Minuten vor jedem Adhan oder jeder Erinnerung, um die bevorstehende Benachrichtigung anzuzeigen.</string>
     <string name="show_next_in_notification">Nächstes Gebet in Benachrichtigung anzeigen</string>
     <string name="show_next_in_notification_help">Jede Benachrichtigung zeigt auch die Zeit des nächsten Gebets an.</string>
-    <string name="bypass_dnd">\"Bitte nicht stören\" umgehen</string>
+    <string name="bypass_dnd">„Bitte nicht stören“ umgehen</string>
     <string name="bypass_dnd_help">Spielt den Adhan auch ab, während „Bitte nicht stören“ aktiv ist.</string>
     <string name="use_headphones">Kopfhörer bevorzugen</string>
     <string name="use_headphones_help">Wenn Kopfhörer angeschlossen sind, wird das gesamte Audio nur über sie abgespielt.</string>

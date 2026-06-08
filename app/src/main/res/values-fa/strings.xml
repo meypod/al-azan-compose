@@ -114,9 +114,9 @@
     <string name="vibration_continuous">مداوم</string>
     <string name="weekday_sunday">یکشنبه</string>
     <string name="weekday_monday">دوشنبه</string>
-    <string name="weekday_tuesday">سه شنبه</string>
-    <string name="weekday_wednesday">چهار شنبه</string>
-    <string name="weekday_thursday">پنج شنبه</string>
+    <string name="weekday_tuesday">سه‌شنبه</string>
+    <string name="weekday_wednesday">چهارشنبه</string>
+    <string name="weekday_thursday">پنج‌شنبه</string>
     <string name="weekday_friday">جمعه</string>
     <string name="weekday_saturday">شنبه</string>
 
@@ -267,7 +267,7 @@
          Calculation  (main/settings/calculation)
          ============================================================ -->
     <string name="calculation_info_card_title"><b>توجه داشته باشید</b></string>
-    <string name="calculation_info_card">محاسبه اذان روش های مختلفی دارد. هر روش نتایج متفاوتی را ارائه می دهد. مسئولیت جستجو و استفاده از روش صحیح با شماست.</string>
+    <string name="calculation_info_card">محاسبهٔ اذان روش‌های مختلفی دارد. هر روش نتایج متفاوتی ارائه می‌دهد. مسئولیت جستجو و استفاده از روش صحیح با شماست.</string>
     <string name="calculation_method">نحوه محاسبه</string>
     <string name="calculation_method_select_placeholder">برای انتخاب لمس کنید</string>
     <string name="calculation_method_modified">%1$s (اصلاح‌شده)</string>
@@ -283,7 +283,7 @@
     <!-- Calculation methods (main/settings/calculation/utils) -->
     <string name="calc_method_other">دلخواه</string>
     <string name="calc_method_moonsighting_committee">کمیته رویت هلال ماه</string>
-    <string name="calc_method_muslim_world_league">لیگ جهانی مسلمانان</string>
+    <string name="calc_method_muslim_world_league">اتحادیه جهانی مسلمانان</string>
     <string name="calc_method_egyptian">سازمان عمومی نقشه‌برداری مصر</string>
     <string name="calc_method_karachi">دانشگاه علوم اسلامی، کراچی، پاکستان</string>
     <string name="calc_method_umm_al_qura">دانشگاه ام‌القری، مکه، عربستان سعودی</string>
@@ -328,7 +328,7 @@
     <string name="polar_aqrab_balad">اقرب بلد</string>
     <string name="polar_aqrab_yaum">اقرب یوم</string>
     <string name="shafaq">شفق</string>
-    <string name="shafaq_help">\"شفق\" در روش محاسبه \"کمیته رویت هلال ماه\" برای تعیین نوع گرگ و میش برای تعیین زمان عشا استفاده می شود.</string>
+    <string name="shafaq_help">«شفق» در روش محاسبهٔ «کمیته رویت هلال ماه» برای تعیین نوع گرگ و میش به‌منظور تعیین زمان عشا استفاده می‌شود.</string>
     <string name="shafaq_general_default">عمومی (پیش‌فرض)</string>
     <string name="shafaq_ahmer">قرمز</string>
     <string name="shafaq_abyad">سفید</string>
@@ -373,7 +373,7 @@
     <string name="bypass_dnd_help">پخش اذان حتی هنگام روشن بودن «مزاحم نشوید».</string>
     <string name="use_headphones">ترجیح هدفون</string>
     <string name="use_headphones_help">هنگامی که هدفون متصل است، تمام صداها فقط از طریق آن پخش شوند.</string>
-    <string name="volume_button_stops_adhan">دکمه صدا اذان را متوقف می کند</string>
+    <string name="volume_button_stops_adhan">دکمهٔ صدا اذان را متوقف می‌کند</string>
     <string name="volume_button_stops_adhan_help">فشردن دکمهٔ صدا، اذان در حال پخش را متوقف می‌کند.</string>
     <string name="dont_show_alarm_screen">صفحه خاموش بماند</string>
     <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و زنگ تمام‌صفحه نمایش داده نشود.</string>
@@ -404,7 +404,7 @@
     <string name="widget_city_name_pos_label">موقعیت</string>
     <string name="widget_city_name_pos_help">می‌توانید یکی از تقویم‌ها را با مکان فعلی خود جایگزین کنید.</string>
     <string name="widget_city_name_pos_placeholder">انتخاب کنید کدام تقویم جایگزین شود</string>
-    <string name="widget_max_shown_prayers_warning">فقط شش مورد را می توان همزمان نشان داد</string>
+    <string name="widget_max_shown_prayers_warning">فقط شش مورد را می‌توان همزمان نشان داد</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
@@ -490,7 +490,7 @@
     <string name="qibla_disclaimer">توجه داشته باشید که به دلیل خطاهای نرم‌افزاری و سخت‌افزاری، جهت قبله‌ای که این برنامه نشان می‌دهد ممکن است نادرست باشد.\nدستگاه‌های مغناطیسی دیگر ممکن است با قطب‌نمای تلفن شما تداخل ایجاد کنند و قطب‌نمای شما ممکن است نیاز به کالیبراسیون داشته باشد.</string>
     <string name="qibla_i_understand">متوجه شدم</string>
     <string name="qibla_use_map">استفاده از نقشه</string>
-    <string name="qibla_use_compass">استفاده از قطب نما</string>
+    <string name="qibla_use_compass">استفاده از قطب‌نما</string>
     <string name="qibla_compass">قطب‌نمای قبله</string>
     <string name="qibla_location_label">موقعیت:</string>
     <string name="qibla_location_from_settings">از تنظیمات</string>
@@ -504,8 +504,8 @@
     <string name="compass_accuracy_high">بالا</string>
     <string name="compass_accuracy_medium">متوسط</string>
     <string name="compass_accuracy_low">کم</string>
-    <string name="compass_accuracy_unreliable">غیر قابل اعتماد</string>
-    <string name="compass_sensor_unavailable">سنسور قطب نما در دسترس نیست</string>
+    <string name="compass_accuracy_unreliable">غیرقابل‌اعتماد</string>
+    <string name="compass_sensor_unavailable">سنسور قطب‌نما در دسترس نیست</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)
@@ -624,6 +624,6 @@
     <string name="home">خانه</string>
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">مجوز</string>
-    <string name="about_credits">تمامی حقوق صداهای اذان متعلق به صاحبان مربوطه می باشد.</string>
+    <string name="about_credits">تمامی حقوق صداهای اذان متعلق به صاحبان مربوطهٔ آن است.</string>
 
 </resources>

@@ -126,12 +126,12 @@
     <string name="welcome">مرحبا</string>
     <string name="choose_language">اختر لغتك</string>
     <string name="get_started">ابدأ الآن</string>
-    <string name="restore_thanks_title">شكرًا لاختيارك إيانا</string>
+    <string name="restore_thanks_title">شكرًا لاختيارك لنا</string>
     <string name="restore_thanks_body">لمساعدة التطبيق على العمل بشكل صحيح، يرجى ضبط بعض التفضيلات حتى نتمكن من حساب أوقات صلاتك بدقة.</string>
     <string name="restore_backup_hint">إذا كان لديك ملف نسخة احتياطية، يمكنك استعادته من هنا.</string>
     <string name="restore_backup_button">استعادة ملف النسخة الاحتياطية</string>
-    <string name="skip">تخطى</string>
-    <string name="skip_confirm">تخطى</string>
+    <string name="skip">تخطّي</string>
+    <string name="skip_confirm">تخطّي</string>
     <string name="skip_dialog_body">إعدادات مطلوبة غير مكتملة. لكي يتمكن التطبيق من عرض أوقات الصلاة، يجب عليك تهيئتها من الإعدادات لاحقًا.</string>
     <string name="restoring_backup">جارٍ استعادة النسخة الاحتياطية…</string>
 
@@ -154,7 +154,7 @@
     <string name="qibla">القبلة</string>
     <string name="counter">العدّاد</string>
     <string name="reminder">تذكير</string>
-    <string name="notification_and_sound_title"><![CDATA[الإشعار و الصوت]]></string>
+    <string name="notification_and_sound_title"><![CDATA[الإشعار والصوت]]></string>
     <string name="alarm_settings_title">إعدادات المنبه</string>
     <string name="schedule_and_muezzin_title"><![CDATA[الجدول والمؤذّن]]></string>
     <string name="calculation_title">حساب</string>
@@ -268,7 +268,7 @@
          Calculation  (main/settings/calculation)
          ============================================================ -->
     <string name="calculation_info_card_title"><b>انتبه</b></string>
-    <string name="calculation_info_card">حساب الأذان يتبع طرق متعددة ومختلفة. تقدم كل طريقة نتائج مختلفة. من مسؤوليتك البحث واستخدام الطريقة المناسبة.</string>
+    <string name="calculation_info_card">لحساب الأذان طرق متعددة ومختلفة. تقدّم كل طريقة نتائج مختلفة. من مسؤوليتك البحث عن الطريقة المناسبة واستخدامها.</string>
     <string name="calculation_method">طريقة الحساب</string>
     <string name="calculation_method_select_placeholder">اضغط لتحديد طريقة</string>
     <string name="calculation_method_modified">%1$s (مُعدّل)</string>
@@ -285,7 +285,7 @@
     <string name="calc_method_other">مخصص</string>
     <string name="calc_method_moonsighting_committee">لجنة رؤية الهلال</string>
     <string name="calc_method_muslim_world_league">رابطة العالم الإسلامي</string>
-    <string name="calc_method_egyptian">الهيئة العامة المصرية للمساحة</string>
+    <string name="calc_method_egyptian">الهيئة المصرية العامة للمساحة</string>
     <string name="calc_method_karachi">جامعة العلوم الإسلامية، كراتشي، باكستان</string>
     <string name="calc_method_umm_al_qura">جامعة أم القرى، مكة المكرمة، المملكة العربية السعودية</string>
     <string name="calc_method_north_america">الجمعية الإسلامية لأمريكا الشمالية (ISNA)</string>
@@ -324,7 +324,7 @@
     <string name="asr_calculation">حساب العصر</string>
     <string name="asr_shafi_default">شافعي، مالكي، حنبلي (افتراضي)</string>
     <string name="asr_hanafi">حنفي</string>
-    <string name="polar_resolution">دقة الأقطاب</string>
+    <string name="polar_resolution">معالجة المناطق القطبية</string>
     <string name="polar_unresolved_default">لم يتم حلها (افتراضي)</string>
     <string name="polar_aqrab_balad">أقرب بلد</string>
     <string name="polar_aqrab_yaum">أقرب يوم</string>
@@ -358,7 +358,7 @@
     <string name="tahajjud_hint">التهجد صلاة تطوعية يُستحب أداؤها في الثلث الأخير من الليل.</string>
     <string name="tahajjud_is_last_third_hint">التهجد هو الثلث الأخير من الليل</string>
     <string name="my_muezzins">مؤذّنوني</string>
-    <string name="my_muezzins_empty">لم تُضف أيًّا بعد.</string>
+    <string name="my_muezzins_empty">لم تُضِف أيَّ مؤذّن بعد.</string>
     <string name="use_default_muezzin">استخدام الافتراضي</string>
     <string name="custom_muezzin">مؤذّن مخصص</string>
     <string name="use_default_vibration">استخدام الافتراضي</string>
@@ -585,7 +585,7 @@
     <string name="alarm_just_dismiss_silence">تجاهل وكتم الهاتف</string>
     <string name="alarm_dismiss_and_silent">تجاهل وكتم %1$dد</string>
     <string name="alarm_remind">ذكّرني خلال %1$dد</string>
-    <string name="adhan_remind_body">كان %1$s قبل %2$d دقيقة</string>
+    <string name="adhan_remind_body">مرّ %1$s قبل %2$d دقيقة</string>
     <string name="next_prayer_label">التالي</string>
     <string name="upcoming_alarm_title">التنبيه القادم</string>
     <string name="cancel_alarm">إلغاء المنبه</string>

@@ -30,7 +30,7 @@
     <string name="show_prayer_times_title">Afficher les horaires de prières</string>
     <string name="show_prayer_times_help">Choisissez les horaires de prières à afficher sur l\'écran principal.</string>
     <string name="show_column">Afficher</string>
-    <string name="time_column">Temps</string>
+    <string name="time_column">Heure</string>
 
     <!-- Stepper / wizard navigation -->
     <string name="back_button">Retour</string>
@@ -64,8 +64,8 @@
     <string name="notification_permission_rationale">Le widget de notification affiche les horaires de prières dans votre volet de notifications. Autorisez les notifications pour l\'activer.</string>
     <string name="notification_permission_denied_text">L\'accès aux notifications est requis pour afficher le widget. Activez les notifications pour cette application dans les paramètres.</string>
     <string name="exact_alarm_permission_title">Autoriser les alarmes exactes</string>
-    <string name="exact_alarm_permission_rationale">Pour garder précis les horaires de prières et le compte à rebours du widget, autorisez cette application à programmer des alarmes exactes.</string>
-    <string name="exact_alarm_permission_denied_text">L\'accès aux alarmes exactes est requis pour garder précis les horaires de prières et le compte à rebours du widget. Autorisez-le pour cette application dans les paramètres.</string>
+    <string name="exact_alarm_permission_rationale">Pour que les horaires de prières et le compte à rebours du widget restent précis, autorisez cette application à programmer des alarmes exactes.</string>
+    <string name="exact_alarm_permission_denied_text">L\'accès aux alarmes exactes est requis pour que les horaires de prières et le compte à rebours du widget restent précis. Autorisez-le pour cette application dans les paramètres.</string>
     <string name="full_screen_intent_permission_title">Autoriser les alarmes en plein écran</string>
     <string name="adhan_notification_permission_rationale">Les alarmes d\'Adhan publient une notification à chaque horaire de prière. Autorisez les notifications pour les activer.</string>
     <string name="adhan_notification_permission_denied_text">L\'accès aux notifications est requis pour les alarmes d\'Adhan. Activez les notifications pour cette application dans les paramètres.</string>
@@ -132,7 +132,7 @@
     <string name="restore_backup_button">Restaurer un fichier de sauvegarde</string>
     <string name="skip">Passer</string>
     <string name="skip_confirm">Passer</string>
-    <string name="skip_dialog_body">Les paramètres requis sont incomplets. Pour que l\'application affiche les horaires de prières, vous devrez les configurer à partir de paramètres ultérieurement.</string>
+    <string name="skip_dialog_body">Les paramètres requis sont incomplets. Pour que l\'application affiche les horaires de prières, vous devrez les configurer à partir des paramètres ultérieurement.</string>
     <string name="restoring_backup">Restauration de la sauvegarde…</string>
 
     <!-- ============================================================
@@ -142,7 +142,7 @@
     <string name="prev_day">Jour précédent</string>
     <string name="next_day">Jour suivant</string>
     <string name="next_prayer">Prochaine prière</string>
-    <string name="show_today">Montrer le jour d\'aujourd\'hui</string>
+    <string name="show_today">Afficher aujourd\'hui</string>
     <string name="set_location_hint">Définir la localisation</string>
     <string name="set_calculation_hint">Définir la méthode de calcul</string>
     <string name="prayer_times_unavailable_hint">Les horaires de prières ne peuvent pas encore être affichés. Terminez la configuration :</string>
@@ -214,7 +214,7 @@
     <string name="theme_dark">Sombre</string>
     <string name="theme_classic_black">Noir classique</string>
     <string name="theme_classic_light">Clair classique</string>
-    <string name="theme_system_default">Thème par défaut</string>
+    <string name="theme_system_default">Par défaut du système</string>
     <string name="theme_dynamic">Dynamique</string>
     <string name="countdown_timer">Compte à rebours de l\'accueil</string>
     <string name="countdown_timer_help">Afficher le temps restant avant la prochaine prière sur l\'écran d\'accueil.</string>
@@ -229,7 +229,7 @@
     <string name="time_format">Format de l\'heure</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>
-    <string name="numbering_system_help">Force tous les numéros à être dans le système sélectionné.</string>
+    <string name="numbering_system_help">Force tous les chiffres à utiliser le système sélectionné.</string>
     <string name="numbering_system_default">Défaut</string>
     <string name="numbering_system_latn">Arabe occidental</string>
     <string name="numbering_system_arab">Arabe oriental</string>
@@ -260,7 +260,7 @@
     <string name="lunar_islamic_ummalqura">Islamique (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Islamique (tabulaire)</string>
     <string name="lunar_islamic_civil">Islamique (civil)</string>
-    <string name="lunar_islamic_saudi_sighting">Islamique (repérage en Arabie Saoudite)</string>
+    <string name="lunar_islamic_saudi_sighting">Islamique (observation en Arabie Saoudite)</string>
     <string name="attention_title"><b>Attention !</b></string>
     <string name="lunar_calendar_warning">Le calendrier lunaire de l\'application est précalculé et peut ne pas être exact car il n\'est pas basé sur les observations de la lune. Ceci est particulièrement important pour le début et la fin du Ramadan.</string>
 
@@ -370,7 +370,7 @@
     <string name="custom_upcoming_time_help">Minutes avant chaque Adhan ou rappel pour afficher la notification à venir.</string>
     <string name="show_next_in_notification">Inclure la prochaine prière dans la notification</string>
     <string name="show_next_in_notification_help">Chaque notification affiche également l\'horaire de la prochaine prière.</string>
-    <string name="bypass_dnd">Contourner \"Ne pas déranger\"</string>
+    <string name="bypass_dnd">Contourner « Ne pas déranger »</string>
     <string name="bypass_dnd_help">Faire retentir l\'Adhan même lorsque le mode « Ne pas déranger » est activé.</string>
     <string name="use_headphones">Préférer les écouteurs</string>
     <string name="use_headphones_help">Lorsque des écouteurs sont connectés, diffuser tout l\'audio uniquement à travers eux.</string>
@@ -430,7 +430,7 @@
     <string name="add_a_reminder">Ajouter un rappel</string>
     <string name="reminder_label">Intitulé</string>
     <string name="reminder_label_placeholder">Donnez un nom</string>
-    <string name="reminder_time">Temps</string>
+    <string name="reminder_time">Heure</string>
     <string name="reminder_sound">Son</string>
     <string name="reminder_options">Options</string>
     <string name="reminder_only_once">Une seule fois</string>
@@ -503,7 +503,7 @@ D\'autres appareils magnétiques peuvent interférer avec la boussole de votre t
     <string name="qibla_lock_orientation">Verrouiller l\'orientation de l\'écran</string>
     <string name="qibla_unlock_orientation">Déverrouiller l\'orientation de l\'écran</string>
     <string name="qibla_no_location">Aucune localisation définie</string>
-    <string name="compass_accuracy_high">Haute Précision</string>
+    <string name="compass_accuracy_high">Haute précision</string>
     <string name="compass_accuracy_medium">Précision moyenne</string>
     <string name="compass_accuracy_low">Faible précision</string>
     <string name="compass_accuracy_unreliable">Précision peu fiable</string>
