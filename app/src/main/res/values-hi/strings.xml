@@ -7,22 +7,22 @@
     <string name="app_name">Al-Azan</string>
     <string name="cancel">रद्द करें</string>
     <string name="confirm">पुष्टि करें </string>
-    <string name="close">बंद करना</string>
-    <string name="delete">मिटाना</string>
+    <string name="close">बंद करें</string>
+    <string name="delete">मिटाएँ</string>
     <string name="okay">ठीक</string>
-    <string name="dismiss">हटा दीजिए</string>
+    <string name="dismiss">हटाएँ</string>
     <string name="play">चलाएँ</string>
-    <string name="stop">रुकना</string>
+    <string name="stop">रोकें</string>
     <string name="add">जोड़ें</string>
     <string name="increase">बढ़ाएँ</string>
     <string name="decrease">घटाएँ</string>
     <string name="information">जानकारी</string>
     <string name="selected">चयनित</string>
     <string name="no_items_found">कोई आइटम नहीं मिला</string>
-    <string name="search_placeholder">खोज</string>
+    <string name="search_placeholder">खोजें…</string>
     <string name="drag_handle_description">खींचने का हैंडल</string>
-    <string name="dont_ask_again">दोबारा मत पूछो</string>
-    <string name="custom_minutes">रिवाज़</string>
+    <string name="dont_ask_again">दोबारा न पूछें</string>
+    <string name="custom_minutes">कस्टम</string>
     <string name="custom_minutes_tap_to_edit">संपादित करने के लिए टैप करें</string>
     <string name="custom_minutes_dialog_title">कस्टम मिनट</string>
 
@@ -99,9 +99,9 @@
     <string name="audio_name">नाम</string>
     <string name="audio_name_required">नाम चुनना आवश्यक है</string>
     <string name="delete_audio_title">ऑडियो मिटाएँ?</string>
-    <string name="delete_audio_body">\"%1$s\" को अपनी आवाज़ों से हटाएँ?</string>
-    <string name="repeat">दोहराना</string>
-    <string name="your_sounds">आपकी आवाज़</string>
+    <string name="delete_audio_body">\"%1$s\" को अपनी ध्वनियों से हटाएँ?</string>
+    <string name="repeat">दोहराएँ</string>
+    <string name="your_sounds">आपकी ध्वनियाँ</string>
     <string name="device_sounds">डिवाइस ध्वनियाँ</string>
     <string name="add_from_local_files">लोकल फ़ाइलों से जोड़ें</string>
     <string name="reminder_default_sound">डिफ़ॉल्ट (सूचना)</string>
@@ -117,7 +117,7 @@
     <string name="weekday_tuesday">मंगलवार</string>
     <string name="weekday_wednesday">बुधवार</string>
     <string name="weekday_thursday">गुरुवार</string>
-    <string name="weekday_friday">जुम्मा</string>
+    <string name="weekday_friday">शुक्रवार</string>
     <string name="weekday_saturday">शनिवार</string>
 
     <!-- ============================================================
@@ -140,7 +140,7 @@
          ============================================================ -->
     <string name="menu">मेन्यू</string>
     <string name="prev_day">पिछला दिन</string>
-    <string name="next_day">अगले दिन</string>
+    <string name="next_day">अगला दिन</string>
     <string name="next_prayer">अगली नमाज़</string>
     <string name="show_today">आज दिखाएँ</string>
     <string name="set_location_hint">स्थान सेट करें</string>
@@ -150,8 +150,8 @@
     <!-- ============================================================
          Settings menu  (main/settings/menu)
          ============================================================ -->
-    <string name="settings">समायोजन</string>
-    <string name="qibla">किबला</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="qibla">क़िबला</string>
     <string name="counter">काउंटर</string>
     <string name="reminder">अनुस्मारक</string>
     <string name="notification_and_sound_title"><![CDATA[सूचना और ध्वनि]]></string>
@@ -209,10 +209,10 @@
          ============================================================ -->
     <string name="language">भाषा</string>
     <string name="themes">थीम</string>
-    <string name="theme_light">रोशनी</string>
-    <string name="theme_dark">अँधेरा</string>
-    <string name="theme_classic_black">क्लासिक काला</string>
-    <string name="theme_classic_light">क्लासिक हल्का</string>
+    <string name="theme_light">लाइट</string>
+    <string name="theme_dark">डार्क</string>
+    <string name="theme_classic_black">क्लासिक ब्लैक</string>
+    <string name="theme_classic_light">क्लासिक लाइट</string>
     <string name="theme_system_default">प्रणालीगत डिफॉल्ट</string>
     <string name="theme_dynamic">डायनामिक</string>
     <string name="countdown_timer">होम काउंटडाउन टाइमर</string>
@@ -228,7 +228,7 @@
     <string name="time_format">समय प्रारूप</string>
     <string name="use_24_hour_format">24 घंटे के प्रारूप का प्रयोग करें</string>
     <string name="numbering_system">नंबरिंग सिस्टम</string>
-    <string name="numbering_system_help">सभी नंबरों को चयनित सिस्टम में होने के लिए बाध्य करता है</string>
+    <string name="numbering_system_help">सभी नंबरों को चयनित सिस्टम में होने के लिए बाध्य करता है।</string>
     <string name="numbering_system_default">डिफॉल्ट </string>
     <string name="numbering_system_latn">पश्चिमी अरबी</string>
     <string name="numbering_system_arab">पूर्वी अरबी</string>
@@ -259,8 +259,8 @@
     <string name="lunar_islamic_ummalqura">इस्लामी (उम्म अल-क़ुरा)</string>
     <string name="lunar_islamic_tabular">इस्लामी (सारणीबद्ध)</string>
     <string name="lunar_islamic_civil">इस्लामी (सिविल)</string>
-    <string name="lunar_islamic_saudi_sighting">इस्लामी (सऊदी अरब दिखना)</string>
-    <string name="attention_title">ध्यान</string>
+    <string name="lunar_islamic_saudi_sighting">इस्लामी (सऊदी अरब चाँद दर्शन)</string>
+    <string name="attention_title"><b>ध्यान दें!</b></string>
     <string name="lunar_calendar_warning">ऐप का चंद्र कैलेंडर पूर्व-गणना है और सटीक नहीं हो सकता है क्योंकि यह चंद्रमा के देखे जाने पर आधारित नहीं है। रमजान की शुरुआत और अंत के लिए यह विशेष रूप से महत्वपूर्ण है।</string>
 
     <!-- ============================================================
@@ -274,32 +274,32 @@
     <string name="fajr_angle">फज्र कोण</string>
     <string name="isha_angle">ईशा कोण</string>
     <string name="isha_interval">ईशा अंतराल</string>
-    <string name="maghrib_angle">मगरिब कोण</string>
+    <string name="maghrib_angle">मग़रिब कोण</string>
     <string name="edit_calculation_parameters">गणना पैरामीटर संपादित करें</string>
     <string name="minutes_unit">मिनट</string>
-    <string name="degrees_unit">deg</string>
+    <string name="degrees_unit">डिग्री</string>
     <string name="advanced_calculation_settings">उन्नत गणना सेटिंग्स</string>
     <string name="adjustments">समायोजन</string>
     <!-- Calculation methods (main/settings/calculation/utils) -->
-    <string name="calc_method_other">रिवाज़</string>
+    <string name="calc_method_other">कस्टम</string>
     <string name="calc_method_moonsighting_committee">चंद्रदर्शन समिति</string>
     <string name="calc_method_muslim_world_league">मुस्लिम वर्ल्ड लीग</string>
     <string name="calc_method_egyptian">मिस्र का सामान्य सर्वेक्षण प्राधिकरण</string>
-    <string name="calc_method_karachi">University of Islamic Sciences, Karachi, Pakistan</string>
-    <string name="calc_method_umm_al_qura">Umm al-Qura University, Makkah, Saudi Arabia</string>
+    <string name="calc_method_karachi">यूनिवर्सिटी ऑफ़ इस्लामिक साइंसेज़, कराची, पाकिस्तान</string>
+    <string name="calc_method_umm_al_qura">उम्म अल-क़ुरा विश्वविद्यालय, मक्का, सऊदी अरब</string>
     <string name="calc_method_north_america">इस्लामिक सोसायटी ऑफ नॉर्थ अमेरिका (आईएसएनए)</string>
     <string name="calc_method_gulf">खाड़ी क्षेत्र</string>
     <string name="calc_method_dubai">खाड़ी क्षेत्र (दुबई)</string>
     <string name="calc_method_kuwait">कुवैट</string>
     <string name="calc_method_qatar">कतर</string>
     <string name="calc_method_singapore">सिंगापुर</string>
-    <string name="calc_method_france">संघ संगठन इस्लामिक डी फ्रांस</string>
+    <string name="calc_method_france">यूनियन ऑर्गनाइज़ेशन इस्लामिक डी फ़्रांस</string>
     <string name="calc_method_france15">फ़्रांस कोण 15</string>
     <string name="calc_method_france18">फ़्रांस कोण 18</string>
-    <string name="calc_method_turkey">दियानेट्ज़ इसलेरी बशकांगलू, तुर्की</string>
+    <string name="calc_method_turkey">दियानेट इशलेरी बाशकानलिग़ी, तुर्की</string>
     <string name="calc_method_russia">रूस के मुसलमानों का आध्यात्मिक प्रशासन</string>
-    <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
-    <string name="calc_method_tehran">शिया, भूभौतिकी संस्थान, तेहरान विश्वविद्यालय</string>
+    <string name="calc_method_jafari">शिया इस्ना अशरी, लेवा संस्थान, क़ुम, ईरान</string>
+    <string name="calc_method_tehran">शिया, भूभौतिकी संस्थान, तेहरान विश्वविद्यालय, ईरान</string>
     <string name="calc_method_kemenag">केमेंट्रियन अगामा रिपब्लिक इंडोनेशिया (केमेनाग)</string>
     <string name="calc_method_algeria">धार्मिक मामलों और वक्फ मंत्रालय, अल्जीरिया</string>
     <string name="calc_method_brunei">केमेंट्रियन हाल एहवाल उगामा (ब्रुनेई दारुस्सलाम)</string>
@@ -310,14 +310,14 @@
     <string name="rounding_method">गोल करने की विधि</string>
     <string name="rounding_auto_default">स्वतः (डिफ़ॉल्ट)</string>
     <string name="rounding_nearest">निकटतम</string>
-    <string name="rounding_up">ऊपर</string>
+    <string name="rounding_up">ऊपर की ओर</string>
     <string name="rounding_none">कोई नहीं</string>
     <string name="midnight_method">आधी रात की विधि</string>
     <string name="midnight_sunset_to_fajr_default">सूर्यास्त से फज्र तक (डिफ़ॉल्ट)</string>
     <string name="midnight_sunset_to_sunrise">सूर्यास्त से सूर्योदय तक</string>
     <string name="high_latitude">उच्च अक्षांश</string>
     <string name="high_latitude_none_automatic">कोई नहीं (स्वचालित)</string>
-    <string name="high_latitude_middle">आधी रात में</string>
+    <string name="high_latitude_middle">रात का मध्य भाग</string>
     <string name="high_latitude_seventh">रात का सातवाँ भाग</string>
     <string name="high_latitude_twilight_angle">गोधूलि कोण</string>
     <string name="asr_calculation">असर की गणना</string>
@@ -337,8 +337,8 @@
     <string name="adjustments_title">समायोजन</string>
     <string name="adjustments_help">गणना किए गए समयों में जोड़े जाने वाले मिनटों की संख्या।</string>
     <string name="lunar_days_adjustment_help">चंद्र कैलेंडर में जोड़े जाने वाले दिनों की संख्या।</string>
-    <string name="increment">वेतन वृद्धि</string>
-    <string name="decrement">घटती</string>
+    <string name="increment">वृद्धि</string>
+    <string name="decrement">कमी</string>
 
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
@@ -351,7 +351,7 @@
     <string name="adhan_schedule">शेड्यूल</string>
     <string name="adhan_schedule_help">प्रत्येक नमाज़ के समय के लिए अज़ान या सूचनाएँ सक्षम और अक्षम करें।</string>
     <string name="adhan">अज़ान </string>
-    <string name="notification">अधिसूचना</string>
+    <string name="notification">सूचना</string>
     <string name="sound">ध्वनि</string>
     <string name="prayer_setting_accessibility">%1$s सेटिंग्स</string>
     <string name="tahajjud_hint">तहज्जुद एक नफ़्ल नमाज़ है जो रात के अंतिम तिहाई हिस्से में पढ़ना सबसे अच्छा होता है।</string>
@@ -377,7 +377,7 @@
     <string name="volume_button_stops_adhan_help">वॉल्यूम बटन दबाने से चल रहा अज़ान रुक जाता है।</string>
     <string name="dont_show_alarm_screen">स्क्रीन बंद रखें</string>
     <string name="dont_show_alarm_screen_help">जब अज़ान या अनुस्मारक बजे तो स्क्रीन चालू न करें या फ़ुल-स्क्रीन अलार्म न दिखाएँ।</string>
-    <string name="notifications">अधिसूचना</string>
+    <string name="notifications">सूचनाएँ</string>
     <string name="auto_silent_on_dismiss">हटाने के बाद फ़ोन साइलेंट करें</string>
     <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता।</string>
     <string name="auto_silent_duration">साइलेंट अवधि</string>
@@ -394,7 +394,7 @@
     <!-- ============================================================
          Widget settings  (main/settings/widget)
          ============================================================ -->
-    <string name="show_notification_widget">अधिसूचना विजेट दिखाएँ</string>
+    <string name="show_notification_widget">सूचना विजेट दिखाएँ</string>
     <string name="show_notification_widget_help">सूचना में विजेट का एक छोटा संस्करण।</string>
     <string name="show_countdown_timer">काउंटडाउन टाइमर दिखाएँ</string>
     <string name="use_adaptive_theme">एडाप्टिव थीम का प्रयोग करें</string>
@@ -437,7 +437,7 @@
     <string name="reminder_before">इस से पहले</string>
     <string name="reminder_after">बाद में</string>
     <string name="reminder_save">सहेजें</string>
-    <string name="reminder_edit">संपादन करना</string>
+    <string name="reminder_edit">संपादित करें</string>
     <string name="reminder_selected_count">%1$d चयनित</string>
     <string name="select_all">सभी</string>
     <string name="turn_on">चालू करें</string>
@@ -463,7 +463,7 @@
     <!-- ============================================================
          Qada counter  (main/counter)
          ============================================================ -->
-    <string name="qada_counter_title">कड़ा काउंटर</string>
+    <string name="qada_counter_title">क़ज़ा काउंटर</string>
     <string name="show_last_change_time">अंतिम परिवर्तन का समय दिखाएँ</string>
     <string name="add_counter">काउंटर जोड़ें</string>
     <string name="counter_last_change">%1$s, %2$d → %3$d</string>
@@ -472,11 +472,11 @@
     <string name="counter_edit_title">काउंटर संपादित करें</string>
     <string name="counter_label">लेबल</string>
     <string name="counter_label_placeholder">उदा. सुबहानल्लाह</string>
-    <string name="counter_count">गिनती करना</string>
+    <string name="counter_count">गिनती</string>
     <string name="counter_label_required">लेबल आवश्यक है</string>
     <string name="counter_delete_confirm_title">काउंटर मिटाएँ?</string>
     <string name="counter_delete_confirm_body">\"%1$s\" और इसका इतिहास स्थायी रूप से हटा दिया जाएगा।</string>
-    <string name="time_just_now">बस अब</string>
+    <string name="time_just_now">अभी-अभी</string>
     <string name="time_tense_ago">पहले</string>
     <string name="time_tense_later">बाद में</string>
     <string name="time_unit_day_short">दि</string>
@@ -492,11 +492,11 @@
     <string name="qibla_use_map">मानचित्र का प्रयोग करें</string>
     <string name="qibla_use_compass">कम्पास का प्रयोग करें</string>
     <string name="qibla_compass">क़िबला कम्पास</string>
-    <string name="qibla_location_label">स्थान</string>
+    <string name="qibla_location_label">स्थान:</string>
     <string name="qibla_location_from_settings">सेटिंग्स से</string>
-    <string name="qibla_label">किबला</string>
+    <string name="qibla_label">क़िबला:</string>
     <string name="qibla_degrees_from_north">उत्तर से %1$d°</string>
-    <string name="qibla_accuracy_label">शुद्धता</string>
+    <string name="qibla_accuracy_label">शुद्धता:</string>
     <string name="qibla_refresh_location">GPS से स्थान रिफ़्रेश करें</string>
     <string name="qibla_lock_orientation">स्क्रीन ओरिएंटेशन लॉक करें</string>
     <string name="qibla_unlock_orientation">स्क्रीन ओरिएंटेशन अनलॉक करें</string>
@@ -512,7 +512,7 @@
          ============================================================ -->
     <string name="monthly_view_title">मासिक दृश्य</string>
     <string name="prev_month">पिछला महीना</string>
-    <string name="next_month">अगले महीने</string>
+    <string name="next_month">अगला महीना</string>
     <string name="show_this_month">यह महीना दिखाएँ</string>
     <string name="date_column">तारीख</string>
 
@@ -566,7 +566,7 @@
          ============================================================ -->
     <string name="alarm_azan_header">अज़ान</string>
     <string name="alarm_swipe_up_hint">अधिक विकल्पों के लिए ऊपर स्वाइप करें</string>
-    <string name="alarm_dismiss">हटा दीजिए</string>
+    <string name="alarm_dismiss">हटाएँ</string>
     <string name="alarm_just_dismiss">केवल हटाएँ</string>
     <string name="alarm_just_dismiss_silence">हटाएँ और फ़ोन साइलेंट करें</string>
     <string name="alarm_dismiss_and_silent">हटाएँ और %1$dm साइलेंट करें</string>
@@ -584,14 +584,14 @@
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">ध्यान</string>
-    <string name="ramadan_remind_next_year">मुझे अगले साल याद दिलाएं</string>
-    <string name="ramadan_dont_show_again">दोबारा मत दिखाओ</string>
+    <string name="ramadan_notice_title">ध्यान दें!</string>
+    <string name="ramadan_remind_next_year">मुझे अगले साल याद दिलाएँ</string>
+    <string name="ramadan_dont_show_again">दोबारा न दिखाएँ</string>
 
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
-    <string name="widget_channel_name">विजेट</string>
+    <string name="widget_channel_name">नमाज़ के समय विजेट</string>
     <string name="widget_channel_description">नमाज़ के समय दिखाने वाली स्थायी सूचना।</string>
     <string name="adhan_channel_name">अज़ान</string>
     <string name="adhan_channel_description">नमाज़-समय के अज़ान अलार्म।</string>
@@ -621,7 +621,7 @@
          ============================================================ -->
     <string name="about">ऐप के बारे में</string>
     <string name="version">संस्करण</string>
-    <string name="home">घर</string>
+    <string name="home">होम</string>
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">लाइसेंस</string>
     <string name="about_credits">अज़ान की आवाज़ों के सभी कॉपीराइट उनके संबंधित मालिकों के हैं।</string>

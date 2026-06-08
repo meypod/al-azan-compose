@@ -12,7 +12,7 @@
     <string name="okay">موافق</string>
     <string name="dismiss">تجاهل</string>
     <string name="play">تشغيل</string>
-    <string name="stop">قف</string>
+    <string name="stop">إيقاف</string>
     <string name="add">إضافة</string>
     <string name="increase">زيادة</string>
     <string name="decrease">إنقاص</string>
@@ -100,7 +100,7 @@
     <string name="audio_name_required">اختيار الاسم مطلوب</string>
     <string name="delete_audio_title">حذف الصوت؟</string>
     <string name="delete_audio_body">إزالة \"%1$s\" من أصواتك؟</string>
-    <string name="repeat">يكرر</string>
+    <string name="repeat">تكرار</string>
     <string name="your_sounds">أصواتك</string>
     <string name="device_sounds">أصوات الجهاز</string>
     <string name="add_from_local_files">إضافة من الملفات المحلية</string>
@@ -261,8 +261,8 @@
     <string name="lunar_islamic_tabular">إسلامي (جدولي)</string>
     <string name="lunar_islamic_civil">إسلامي (مدني)</string>
     <string name="lunar_islamic_saudi_sighting">الإسلامي (رؤية المملكة العربية السعودية)</string>
-    <string name="attention_title">انتباه</string>
-    <string name="lunar_calendar_warning">التقويم القمري الخاصة بالتطبيق محسوب مسبقًا وقد لا يكون دقيقًا لأنه لا يعتمد على رؤية الهلال. هذا مهم جدًا للملاحظة بالنسبة لبداية ونهاية رمضان.</string>
+    <string name="attention_title"><b>انتباه!</b></string>
+    <string name="lunar_calendar_warning">التقويم القمري الخاص بالتطبيق محسوب مسبقًا وقد لا يكون دقيقًا لأنه لا يعتمد على رؤية الهلال. هذا مهم جدًا للملاحظة بالنسبة لبداية ونهاية رمضان.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)
@@ -311,7 +311,7 @@
     <string name="rounding_method">طريقة التقريب</string>
     <string name="rounding_auto_default">تلقائي (الافتراضي)</string>
     <string name="rounding_nearest">الأقرب</string>
-    <string name="rounding_up">أعلى</string>
+    <string name="rounding_up">تقريب لأعلى</string>
     <string name="rounding_none">لا شيء</string>
     <string name="midnight_method">طريقة منتصف الليل</string>
     <string name="midnight_sunset_to_fajr_default">من غروب الشمس إلى الفجر (افتراضي)</string>
@@ -321,7 +321,7 @@
     <string name="high_latitude_middle">منتصف الليل</string>
     <string name="high_latitude_seventh">سُبع الليل</string>
     <string name="high_latitude_twilight_angle">زاوية الشفق</string>
-    <string name="asr_calculation">طريقة حساب أذان العصر</string>
+    <string name="asr_calculation">حساب العصر</string>
     <string name="asr_shafi_default">شافعي ، مالكي ، حنبلي (افتراضي)</string>
     <string name="asr_hanafi">حنفي</string>
     <string name="polar_resolution">دقة الأقطاب</string>
@@ -378,7 +378,7 @@
     <string name="volume_button_stops_adhan_help">الضغط على زر الصوت يوقف الأذان الجاري تشغيله.</string>
     <string name="dont_show_alarm_screen">إبقاء الشاشة مطفأة</string>
     <string name="dont_show_alarm_screen_help">عدم تشغيل الشاشة أو عرض المنبه بملء الشاشة عند تشغيل أذان أو تذكير.</string>
-    <string name="notifications">إشعار</string>
+    <string name="notifications">إشعارات</string>
     <string name="auto_silent_on_dismiss">كتم الهاتف بعد التجاهل</string>
     <string name="auto_silent_on_dismiss_help">عند تجاهلك للأذان، يدخل الهاتف في وضع عدم الإزعاج لفترة. الغفوة لا تفعل ذلك.</string>
     <string name="auto_silent_duration">مدة الكتم</string>
@@ -425,7 +425,7 @@
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
-    <string name="reminders_title">تذكير</string>
+    <string name="reminders_title">التذكيرات</string>
     <string name="reminders_empty">ليس لديك أي تذكير.</string>
     <string name="add_a_reminder">إضافة تذكير</string>
     <string name="reminder_label">تسمية</string>
@@ -502,7 +502,7 @@
     <string name="qibla_disclaimer_title">تنويه</string>
     <string name="qibla_disclaimer">لاحظ أنه بسبب أخطاء البرامج والأجهزة، قد يكون اتجاه القبلة الذي يعرضه هذا التطبيق غير صحيح.
 قد تتداخل الأجهزة المغناطيسية الأخرى مع بوصلة هاتفك وقد تحتاج بوصلتك إلى معايرة.</string>
-    <string name="qibla_i_understand">أفهم</string>
+    <string name="qibla_i_understand">فهمت</string>
     <string name="qibla_use_map">استخدم الخريطة</string>
     <string name="qibla_use_compass">استخدم البوصلة</string>
     <string name="qibla_compass">بوصلة القبلة</string>
@@ -517,8 +517,8 @@
     <string name="qibla_no_location">لم يتم تعيين موقع</string>
     <string name="compass_accuracy_high">عالي</string>
     <string name="compass_accuracy_medium">متوسط</string>
-    <string name="compass_accuracy_low">قليل</string>
-    <string name="compass_accuracy_unreliable">غير موثق</string>
+    <string name="compass_accuracy_low">منخفض</string>
+    <string name="compass_accuracy_unreliable">غير موثوق</string>
     <string name="compass_sensor_unavailable">مستشعر البوصلة غير متوفر</string>
 
     <!-- ============================================================
@@ -598,7 +598,7 @@
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
-    <string name="ramadan_notice_title">انتباه</string>
+    <string name="ramadan_notice_title">انتباه!</string>
     <string name="ramadan_remind_next_year">ذكرني العام المقبل</string>
     <string name="ramadan_dont_show_again">لا تظهر مرة أخرى</string>
 
@@ -615,7 +615,7 @@
     <string name="pre_adhan_channel_description">تذكير يظهر قبل وقت الصلاة بقليل.</string>
     <string name="adhan_remind_channel_name">تذكيرات الأذان</string>
     <string name="adhan_remind_channel_description">تذكيرات متابعة من \"ذكّرني لاحقًا\" في منبه الأذان.</string>
-    <string name="reminder_channel_name">تذكير</string>
+    <string name="reminder_channel_name">التذكيرات</string>
     <string name="reminder_channel_description">تذكيرات مخصصة نسبةً إلى أوقات الصلاة.</string>
     <string name="reminder_dnd_channel_name">التذكيرات (تجاوز عدم الإزعاج)</string>
     <string name="reminder_dnd_channel_description">تذكيرات تُسمَع حتى أثناء عدم الإزعاج.</string>
