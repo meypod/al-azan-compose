@@ -1,47 +1,58 @@
 package com.github.meypod.al_azan.di
 
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
-import com.github.meypod.al_azan.core.data.repository.old.OldAlarmSettingsRepositoryImpl
-import com.github.meypod.al_azan.core.data.repository.old.OldCalculationSettingsRepositoryImpl
-import com.github.meypod.al_azan.core.data.repository.old.OldCounterRepositoryImpl
-import com.github.meypod.al_azan.core.data.repository.old.OldFavoriteLocationsRepositoryImpl
-import com.github.meypod.al_azan.core.data.repository.old.OldReminderRepositoryImpl
-import com.github.meypod.al_azan.core.data.repository.old.OldSetttingsRepositoryImpl
-import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
-import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
-import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
-import com.github.meypod.al_azan.core.domain.repository.CounterRepository
-import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.data.model.old.OldAlarmSettings
+import com.github.meypod.al_azan.core.data.model.old.OldAlarmSettingsState
+import com.github.meypod.al_azan.core.data.model.old.OldCalculationSettings
+import com.github.meypod.al_azan.core.data.model.old.OldCalculationSettingsState
+import com.github.meypod.al_azan.core.data.model.old.OldCounterStore
+import com.github.meypod.al_azan.core.data.model.old.OldCounterStoreState
+import com.github.meypod.al_azan.core.data.model.old.OldExportedSettings
+import com.github.meypod.al_azan.core.data.model.old.OldFavoriteLocationsStore
+import com.github.meypod.al_azan.core.data.model.old.OldFavoriteLocationsStoreState
+import com.github.meypod.al_azan.core.data.model.old.OldReminderStore
+import com.github.meypod.al_azan.core.data.model.old.OldReminderStoreState
+import com.github.meypod.al_azan.core.data.model.old.OldSettings
+import com.github.meypod.al_azan.core.data.model.old.OldSettingsState
+import com.github.meypod.al_azan.core.data.model.old.toRestoreData
+import com.github.meypod.al_azan.core.data.repository.RestoreApplier
 import com.github.meypod.al_azan.core.domain.repository.NotificationChannelManager
-import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
-import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.tencent.mmkv.MMKV
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.meypod.adhan_kotlin.MidnightMethod
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
-import javax.inject.Provider
+import javax.inject.Named
 import javax.inject.Singleton
 
+/**
+ * One-time first-launch migration from the old React-Native app's MMKV stores (keys without the
+ * `_V2` suffix, in `{state, version}` zustand shape) to the v2 domain models.
+ *
+ * Reads the six legacy keys into an [OldExportedSettings] — the same shape a legacy backup file has —
+ * then funnels it through [RestoreApplier], so migration and "restore a legacy backup" share one path.
+ * Unlike a file restore this keeps custom audio entries: it's an in-place upgrade, so the user's sound
+ * files still exist on disk.
+ */
 @Singleton
 class RepositoryMigrationRunner
 @Inject
 constructor(
-    private val newSettingsRepository: SettingsRepository,
-    private val newCalculationSettingsRepository: CalculationSettingsRepository,
-    private val newAlarmSettingsRepository: AlarmSettingsRepository,
-    private val newCounterRepository: CounterRepository,
-    private val newReminderRepository: ReminderRepository,
-    private val newFavoriteLocationsRepository: FavoriteLocationsRepository,
-    private val oldSettingsRepositoryProvider: Provider<OldSetttingsRepositoryImpl>,
-    private val oldCalculationSettingsRepositoryProvider: Provider<OldCalculationSettingsRepositoryImpl>,
-    private val oldAlarmSettingsRepositoryProvider: Provider<OldAlarmSettingsRepositoryImpl>,
-    private val oldCounterRepositoryProvider: Provider<OldCounterRepositoryImpl>,
-    private val oldReminderRepositoryProvider: Provider<OldReminderRepositoryImpl>,
-    private val oldFavoriteLocationsRepositoryProvider: Provider<OldFavoriteLocationsRepositoryImpl>,
+    private val mmkv: MMKV,
+    @param:Named("storage") private val storageJson: Json,
+    private val restoreApplier: RestoreApplier,
     private val notificationChannelManager: NotificationChannelManager,
 ) {
     private companion object {
+        const val KEY_SETTINGS = "SETTINGS_STORAGE"
+        const val KEY_CALC_SETTINGS = "CALC_SETTINGS_STORAGE"
+        const val KEY_ALARM_SETTINGS = "ALARM_SETTINGS_STORAGE"
+        const val KEY_COUNTER = "COUNTER_STORAGE"
+        const val KEY_REMINDER = "REMINDER_STORAGE"
+        const val KEY_FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE"
+
         /**
          * Channel ids from the old (React Native / notifee) app. They use a different id scheme than the
          * v2 channels, so deleting them on migration just clears the stale entries from system settings.
@@ -67,37 +78,62 @@ constructor(
 
     suspend fun run() {
         LEGACY_CHANNEL_IDS.forEach { notificationChannelManager.deleteChannel(it) }
-
-        val oldSettings = oldSettingsRepositoryProvider.get().fetch()
-        val oldCalculationSettings = oldCalculationSettingsRepositoryProvider.get().fetch()
-        val oldAlarmSettings = oldAlarmSettingsRepositoryProvider.get().fetch()
-        val oldCounters = oldCounterRepositoryProvider.get().fetch()
-        val oldReminders = oldReminderRepositoryProvider.get().fetch()
-        val oldFavoriteLocations = oldFavoriteLocationsRepositoryProvider.get().fetch()
-
-        newSettingsRepository.update { oldSettings }
-        newCalculationSettingsRepository.update { oldCalculationSettings }
-        newAlarmSettingsRepository.update { oldAlarmSettings }
-        newCounterRepository.update { oldCounters }
-        // A repeating reminder whose day selection is empty would never fire (the v2 editor could
-        // produce this). Heal it to every day so the user's enabled reminders actually run.
-        val healedReminders = oldReminders.map { reminder ->
-            val days = reminder.days
-            if (reminder.once != true && days is PrayerAlarmSettings.ByWeekDay && days.selectedDays().isEmpty()) {
-                reminder.copy(days = PrayerAlarmSettings.ByWeekDay(PrayerAlarmSettings.ALL_DAYS.associateWith { true }))
-            } else {
-                reminder
-            }
-        }
-        newReminderRepository.update { healedReminders }
-        newFavoriteLocationsRepository.update { oldFavoriteLocations }
-
-        if (oldSettings.selectedLocale.isNotBlank()) {
-            AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(oldSettings.selectedLocale),
-            )
-        }
+        restoreApplier.apply(readLegacyStores().toRestoreData())
     }
+
+    private fun readLegacyStores(): OldExportedSettings =
+        OldExportedSettings(
+            settingsStorage = decode(
+                KEY_SETTINGS,
+                OldSettings.serializer(),
+                OldSettings(state = OldSettingsState(selectedLocale = "en"), version = 1),
+            ),
+            calcSettingsStorage = decode(
+                KEY_CALC_SETTINGS,
+                OldCalculationSettings.serializer(),
+                OldCalculationSettings(
+                    state = OldCalculationSettingsState(
+                        midnightMethod = MidnightMethod.SunsetToFajr,
+                        fajrAdjustment = 0,
+                        sunriseAdjustment = 0,
+                        dhuhrAdjustment = 0,
+                        asrAdjustment = 0,
+                        sunsetAdjustment = 0,
+                        maghribAdjustment = 0,
+                        ishaAdjustment = 0,
+                        midnightAdjustment = 0,
+                        hijriDateAdjustment = 0,
+                    ),
+                    version = 1,
+                ),
+            ),
+            alarmSettingsStorage = decode(
+                KEY_ALARM_SETTINGS,
+                OldAlarmSettings.serializer(),
+                OldAlarmSettings(state = OldAlarmSettingsState(), version = 1),
+            ),
+            counterStoreStorage = decode(
+                KEY_COUNTER,
+                OldCounterStore.serializer(),
+                OldCounterStore(state = OldCounterStoreState(), version = 1),
+            ),
+            reminderSettingsStorage = decode(
+                KEY_REMINDER,
+                OldReminderStore.serializer(),
+                OldReminderStore(state = OldReminderStoreState(), version = 1),
+            ),
+            favoriteLocationsStorage = decode(
+                KEY_FAVORITE_LOCATIONS,
+                OldFavoriteLocationsStore.serializer(),
+                OldFavoriteLocationsStore(state = OldFavoriteLocationsStoreState(), version = 1),
+            ),
+        )
+
+    private fun <T> decode(
+        key: String,
+        serializer: KSerializer<T>,
+        default: T,
+    ): T = mmkv.decodeString(key)?.let { storageJson.decodeFromString(serializer, it) } ?: default
 }
 
 @EntryPoint

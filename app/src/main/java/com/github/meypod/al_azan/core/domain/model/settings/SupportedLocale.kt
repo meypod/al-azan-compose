@@ -1,14 +1,12 @@
-package com.github.meypod.al_azan.core.presentation
+package com.github.meypod.al_azan.core.domain.model.settings
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
 data class SupportedLocale(
     val label: String,
     val value: String,
     val tags: String,
 )
 
+/** Languages the app ships translations for. The [value] is the locale tag stored in settings. */
 val SupportedLocales =
     listOf(
         SupportedLocale(label = "English", value = "en", tags = "english"),

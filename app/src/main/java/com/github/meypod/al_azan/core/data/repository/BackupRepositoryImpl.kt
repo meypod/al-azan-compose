@@ -4,23 +4,16 @@ import android.content.Context
 import android.net.Uri
 import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.data.model.ExportedSettingsV2
+import com.github.meypod.al_azan.core.data.model.RestoreData
 import com.github.meypod.al_azan.core.data.model.old.OldExportedSettings
-import com.github.meypod.al_azan.core.data.model.old.toCounter
-import com.github.meypod.al_azan.core.data.model.old.toFavoriteLocation
-import com.github.meypod.al_azan.core.data.model.old.toReminder
-import com.github.meypod.al_azan.core.data.model.old.toSettings
-import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
-import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
-import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
-import com.github.meypod.al_azan.core.domain.model.counter.Counter
-import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.data.model.old.toRestoreData
+import com.github.meypod.al_azan.core.data.model.toRestoreData
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntries
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
-import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
 import com.github.meypod.al_azan.core.domain.repository.BackupRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
@@ -35,11 +28,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 
 /**
- * Implements backup/restore by funneling every store through the existing v2 repositories.
- *
- * Restore reuses the same legacy mappers the first-launch v2 migration uses
- * ([com.github.meypod.al_azan.di.RepositoryMigrationRunner]), so a file exported by the old app
- * restores identically to an in-place upgrade.
+ * Implements backup/restore. Export reads the current stores into one JSON document; restore maps a
+ * file (v2 or legacy, auto-detected) to a [RestoreData] and writes it through [RestoreApplier] — the
+ * same applier the first-launch v2 migration uses, so a file from the old app restores identically.
  */
 class BackupRepositoryImpl(
     private val context: Context,
@@ -50,10 +41,10 @@ class BackupRepositoryImpl(
     private val counterRepository: CounterRepository,
     private val reminderRepository: ReminderRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val restoreApplier: RestoreApplier,
     private val adhanScheduler: AdhanScheduler,
     private val reminderScheduler: ReminderScheduler,
     private val widgetUpdater: WidgetUpdater,
-    private val appLocaleManager: AppLocaleManager,
 ) : BackupRepository {
 
     private companion object {
@@ -88,66 +79,19 @@ class BackupRepositoryImpl(
         }
 
         val keys = json.parseToJsonElement(content).jsonObject.keys
-        when {
-            V2_DETECT_KEY in keys -> restoreV2(content)
-            LEGACY_DETECT_KEY in keys -> restoreLegacy(content)
+        val data = when {
+            V2_DETECT_KEY in keys -> json.decodeFromString(ExportedSettingsV2.serializer(), content).toRestoreData()
+            LEGACY_DETECT_KEY in keys -> json.decodeFromString(OldExportedSettings.serializer(), content).toRestoreData()
             else -> throw IllegalArgumentException("Unrecognized backup file format")
         }
-    }
 
-    private suspend fun restoreV2(content: String) {
-        val exported = json.decodeFromString(ExportedSettingsV2.serializer(), content)
-        applyRestored(
-            settings = exported.settings,
-            calculationSettings = exported.calculationSettings,
-            alarmSettings = exported.alarmSettings,
-            counters = exported.counters,
-            reminders = exported.reminders,
-            favoriteLocations = exported.favoriteLocations,
+        // Unlike the in-place migration, a restored file can't carry the user's custom sound files —
+        // strip any reference so we never point at audio that doesn't exist on this device.
+        val sanitized = data.copy(
+            settings = stripCustomSounds(data.settings),
+            reminders = stripCustomSounds(data.reminders),
         )
-    }
-
-    private suspend fun restoreLegacy(content: String) {
-        val exported = json.decodeFromString(OldExportedSettings.serializer(), content)
-        val calcState = exported.calcSettingsStorage.state
-        // Mirror OldFavoriteLocationsRepositoryImpl: the legacy "current location" lives in calc
-        // settings, separate from the favorites list, so fold it back in as the first favorite.
-        val favoriteLocations = (
-            listOf(calcState.location?.toFavoriteLocation()) +
-                exported.favoriteLocationsStorage.state.locations.map { it.toFavoriteLocation() }
-            ).filterNotNull()
-
-        applyRestored(
-            settings = exported.settingsStorage.state.toSettings(),
-            calculationSettings = calcState.toCalculationSettings(),
-            alarmSettings = exported.alarmSettingsStorage.state.toAlarmSettings(),
-            counters = exported.counterStoreStorage.state.counters.map { it.toCounter() },
-            reminders = exported.reminderSettingsStorage.state.reminders.map { it.toReminder() },
-            favoriteLocations = favoriteLocations,
-        )
-    }
-
-    private suspend fun applyRestored(
-        settings: Settings,
-        calculationSettings: CalculationSettings,
-        alarmSettings: AlarmSettings,
-        counters: List<Counter>,
-        reminders: List<Reminder>,
-        favoriteLocations: List<FavoriteLocation>,
-    ) {
-        settingsRepository.update { settings }
-        calculationSettingsRepository.update { calculationSettings }
-        alarmSettingsRepository.update { alarmSettings }
-        counterRepository.update { counters }
-        reminderRepository.update { healReminders(reminders) }
-        favoriteLocationsRepository.update { favoriteLocations }
-
-        // Push the restored locale to the live app. We only apply it to the system here (no settings
-        // write) because the full backup Settings — including selectedArabicCalendar — was already
-        // persisted above; ChangeLanguageUseCase would re-derive and overwrite that.
-        if (settings.selectedLocale.isNotBlank()) {
-            appLocaleManager.apply(settings.selectedLocale)
-        }
+        restoreApplier.apply(sanitized)
 
         // The reactive sync initializers reschedule on data change, but a restore may land identical
         // values (skipped by distinctUntilChanged) or run before they're collecting. Resync explicitly
@@ -173,20 +117,6 @@ class BackupRepositoryImpl(
         reminders.map { reminder ->
             if (reminder.sound is ReminderAudioEntry.ExternalReminderAudioEntry) {
                 reminder.copy(sound = ReminderAudioEntry.DefaultReminderAudioEntry)
-            } else {
-                reminder
-            }
-        }
-
-    /**
-     * A repeating reminder with an empty day selection would never fire. Heal it to every day so
-     * restored reminders the user had enabled actually run. Matches the v2 migration behavior.
-     */
-    private fun healReminders(reminders: List<Reminder>): List<Reminder> =
-        reminders.map { reminder ->
-            val days = reminder.days
-            if (reminder.once != true && days is PrayerAlarmSettings.ByWeekDay && days.selectedDays().isEmpty()) {
-                reminder.copy(days = PrayerAlarmSettings.ByWeekDay(PrayerAlarmSettings.ALL_DAYS.associateWith { true }))
             } else {
                 reminder
             }

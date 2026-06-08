@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -52,8 +50,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.settings.SupportedLocales
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
-import com.github.meypod.al_azan.core.presentation.SupportedLocales
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.TertiaryButton
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
@@ -168,7 +166,7 @@ fun LanguageSelectionScreen(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 BottomSelect(
-                    modifier = Modifier.widthIn(min=280.dp),
+                    modifier = Modifier.widthIn(min = 280.dp),
                     options = SupportedLocales,
                     optionKey = { it.value },
                     optionLabel = { it.label },
