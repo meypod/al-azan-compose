@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">Abdulbasit Abdussamed</string>
     <string name="ragheb_mustafa_ghalwash">Ragıb Mustafa Galveş</string>
     <string name="moazen_zade">Müezzinzade</string>
+    <string name="prayer_times_rescheduled">Sonraki ezan: %1$s, %2$s</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -458,6 +459,16 @@
     <plurals name="time_unit_hours">
         <item quantity="one">%1$d saat</item>
         <item quantity="other">%1$d saat</item>
+    </plurals>
+    <string name="reminder_rescheduled">Hatırlatıcı: %1$s, %2$s</string>
+    <string name="reminders_rescheduled_batch">%1$d hatırlatıcı yeniden zamanlandı</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="one">%2$s\'den %1$d dakika önce</item>
+        <item quantity="other">%2$s\'den %1$d dakika önce</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="one">%2$s\'den %1$d dakika sonra</item>
+        <item quantity="other">%2$s\'den %1$d dakika sonra</item>
     </plurals>
 
     <!-- ============================================================

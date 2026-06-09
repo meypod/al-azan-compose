@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">عبد الباسط عبد الصمد</string>
     <string name="ragheb_mustafa_ghalwash">راغب مصطفى غلوش</string>
     <string name="moazen_zade">مؤذّن زاده</string>
+    <string name="prayer_times_rescheduled">الأذان التالي: %1$s في %2$s</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -470,6 +471,24 @@
         <item quantity="few">%1$d ساعات</item>
         <item quantity="many">%1$d ساعة</item>
         <item quantity="other">%1$d ساعة</item>
+    </plurals>
+    <string name="reminder_rescheduled">تذكير: %1$s في %2$s</string>
+    <string name="reminders_rescheduled_batch">تمت إعادة جدولة %1$d تذكيرات</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="zero">%1$d دقيقة قبل %2$s</item>
+        <item quantity="one">دقيقة واحدة قبل %2$s</item>
+        <item quantity="two">دقيقتان قبل %2$s</item>
+        <item quantity="few">%1$d دقائق قبل %2$s</item>
+        <item quantity="many">%1$d دقيقة قبل %2$s</item>
+        <item quantity="other">%1$d دقيقة قبل %2$s</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="zero">%1$d دقيقة بعد %2$s</item>
+        <item quantity="one">دقيقة واحدة بعد %2$s</item>
+        <item quantity="two">دقيقتان بعد %2$s</item>
+        <item quantity="few">%1$d دقائق بعد %2$s</item>
+        <item quantity="many">%1$d دقيقة بعد %2$s</item>
+        <item quantity="other">%1$d دقيقة بعد %2$s</item>
     </plurals>
 
     <!-- ============================================================

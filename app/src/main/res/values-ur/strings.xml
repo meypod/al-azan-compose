@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">عبدالباسط عبدالصمد</string>
     <string name="ragheb_mustafa_ghalwash">راغب مصطفیٰ غلوش</string>
     <string name="moazen_zade">مؤذن زادہ</string>
+    <string name="prayer_times_rescheduled">اگلی اذان: %1$s، %2$s بجے</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -458,6 +459,16 @@
     <plurals name="time_unit_hours">
         <item quantity="one">%1$d گھنٹہ</item>
         <item quantity="other">%1$d گھنٹے</item>
+    </plurals>
+    <string name="reminder_rescheduled">یاد دہانی: %1$s، %2$s بجے</string>
+    <string name="reminders_rescheduled_batch">%1$d یاد دہانیاں دوبارہ شیڈول کی گئیں</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="one">%2$s سے %1$d منٹ پہلے</item>
+        <item quantity="other">%2$s سے %1$d منٹ پہلے</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="one">%2$s کے %1$d منٹ بعد</item>
+        <item quantity="other">%2$s کے %1$d منٹ بعد</item>
     </plurals>
 
     <!-- ============================================================

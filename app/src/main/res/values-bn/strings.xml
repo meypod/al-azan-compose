@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">আব্দুল-বাসিত আব্দুস-সামাদ</string>
     <string name="ragheb_mustafa_ghalwash">রাগেব মুস্তফা গালওয়াশ</string>
     <string name="moazen_zade">মোয়াজ্জেন জাদে</string>
+    <string name="prayer_times_rescheduled">পরবর্তী আযান: %1$s, %2$s এ</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -458,6 +459,16 @@
     <plurals name="time_unit_hours">
         <item quantity="one">%1$d ঘণ্টা</item>
         <item quantity="other">%1$d ঘণ্টা</item>
+    </plurals>
+    <string name="reminder_rescheduled">রিমাইন্ডার: %1$s, %2$s এ</string>
+    <string name="reminders_rescheduled_batch">%1$d রিমাইন্ডার পুনঃনির্ধারিত হয়েছে</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="one">%2$s এর %1$d মিনিট আগে</item>
+        <item quantity="other">%2$s এর %1$d মিনিট আগে</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="one">%2$s এর %1$d মিনিট পরে</item>
+        <item quantity="other">%2$s এর %1$d মিনিট পরে</item>
     </plurals>
 
     <!-- ============================================================

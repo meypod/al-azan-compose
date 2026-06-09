@@ -7,12 +7,17 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedback
+import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedbackInfo
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,6 +36,7 @@ class AdhanSyncInitializer @Inject constructor(
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val adhanScheduler: AdhanScheduler,
+    private val scheduleFeedback: ScheduleFeedback,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -72,7 +78,18 @@ class AdhanSyncInitializer @Inject constructor(
                 )
             }
                 .distinctUntilChanged()
-                .collect { adhanScheduler.schedule() }
+                .collectIndexed { index, _ ->
+                    val outcome = adhanScheduler.schedule()
+                    // Index 0 is the initial value on app start (and restored settings), not a user
+                    // edit — don't surface feedback for it. Boot/time-change/after-fire reschedules
+                    // call the scheduler directly (bypassing this flow), so they stay silent too.
+                    // Only signal when the next adhan (prayer + fire time) actually changed.
+                    if (index > 0 && outcome != null && outcome.changed) {
+                        val time = settingsRepository.data.first()
+                            .formatTime(outcome.next.prayerTime.toEpochMilliseconds())
+                        scheduleFeedback.notify(ScheduleFeedbackInfo.Adhan(outcome.next.prayer, time))
+                    }
+                }
         }
     }
 }

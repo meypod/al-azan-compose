@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">عبدالباسط عبدالصمد</string>
     <string name="ragheb_mustafa_ghalwash">راغب مصطفی غلوش</string>
     <string name="moazen_zade">مؤذن‌زاده</string>
+    <string name="prayer_times_rescheduled">اذان بعدی: %1$s، ساعت %2$s</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -458,6 +459,16 @@
     <plurals name="time_unit_hours">
         <item quantity="one">%1$d ساعت</item>
         <item quantity="other">%1$d ساعت</item>
+    </plurals>
+    <string name="reminder_rescheduled">یادآوری: %1$s، ساعت %2$s</string>
+    <string name="reminders_rescheduled_batch">%1$d یادآوری مجدداً زمان‌بندی شد</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="one">%1$d دقیقه قبل از %2$s</item>
+        <item quantity="other">%1$d دقیقه قبل از %2$s</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="one">%1$d دقیقه بعد از %2$s</item>
+        <item quantity="other">%1$d دقیقه بعد از %2$s</item>
     </plurals>
 
     <!-- ============================================================

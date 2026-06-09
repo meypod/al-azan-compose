@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
     <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
     <string name="moazen_zade">Moazen Zade</string>
+    <string name="prayer_times_rescheduled">Nächster Adhan: %1$s um %2$s</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -458,6 +459,16 @@
     <plurals name="time_unit_hours">
         <item quantity="one">%1$d Stunde</item>
         <item quantity="other">%1$d Stunden</item>
+    </plurals>
+    <string name="reminder_rescheduled">Erinnerung: %1$s um %2$s</string>
+    <string name="reminders_rescheduled_batch">%1$d Erinnerungen neu geplant</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="one">%1$d Minute vor %2$s</item>
+        <item quantity="other">%1$d Minuten vor %2$s</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="one">%1$d Minute nach %2$s</item>
+        <item quantity="other">%1$d Minuten nach %2$s</item>
     </plurals>
 
     <!-- ============================================================
