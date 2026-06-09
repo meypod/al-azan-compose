@@ -5,15 +5,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -21,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,9 +43,8 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
-import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
-import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
+import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.localized
@@ -81,37 +78,27 @@ fun ReminderScreen(
         }
     }
 
-    Scaffold(
+    ScreenScaffold(
+        title = stringResource(R.string.reminders_title),
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
-        // This screen uses a plain Scaffold (not ScreenScaffold), so wire the app-wide snackbar host
-        // explicitly — otherwise reschedule feedback (e.g. toggling a reminder) has nowhere to render.
-        snackbarHost = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
-        topBar = {
-            CenterAlignedTopAppBar(
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            if (uiState.selectionMode) {
-                                onAction(
-                                    ReminderUiAction.OnExitSelectionMode,
-                                )
-                            } else {
-                                NavigationController.navigateBack()
-                            }
-                        },
-                    ) {
-                        Icon(
-                            painterResource(
-                                if (uiState.selectionMode) R.drawable.baseline_close_24 else R.drawable.arrow_back,
-                            ),
-                            null,
-                        )
+        navigationIcon = {
+            IconButton(
+                onClick = {
+                    if (uiState.selectionMode) {
+                        onAction(ReminderUiAction.OnExitSelectionMode)
+                    } else {
+                        NavigationController.navigateBack()
                     }
                 },
-                title = {
-                    Text(stringResource(R.string.reminders_title))
-                },
-            )
+            ) {
+                Icon(
+                    painterResource(
+                        if (uiState.selectionMode) R.drawable.baseline_close_24 else R.drawable.arrow_back,
+                    ),
+                    null,
+                )
+            }
         },
         floatingActionButton = {
             if (!uiState.selectionMode) {
@@ -164,46 +151,38 @@ fun ReminderScreen(
                 }
             }
         },
-    ) { paddingValues ->
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(dimensionResource(R.dimen.page_padding)),
-        ) {
-            if (uiState.reminders.isEmpty()) {
-                EmptyState(onAction)
-            } else {
-                Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
-                    AnimatedVisibility(visible = uiState.selectionMode) {
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Checkbox(
-                                checked = uiState.allSelected(),
-                                onCheckedChange = { onAction(ReminderUiAction.OnSelectAllToggle) },
-                            )
-                            Column {
-                                Text(stringResource(R.string.reminder_selected_count, uiState.selectedIds.size))
-                                Text(stringResource(R.string.select_all), style = MaterialTheme.typography.bodySmall)
-                            }
-                        }
-                    }
-                    uiState.reminders.forEach { r ->
-                        ReminderRow(
-                            reminder = r,
-                            isSelected = r.id in uiState.selectedIds,
-                            selectionMode = uiState.selectionMode,
-                            onAction = onAction,
-                            onEnabledChange = { enabled ->
-                                onAction(ReminderUiAction.OnToggleEnabled(r.id, enabled))
-                                guardEnable(enabled) { onAction(ReminderUiAction.OnSetEnabled(setOf(r.id), false)) }
-                            },
-                        )
+    ) {
+        if (uiState.reminders.isEmpty()) {
+            EmptyState(onAction)
+        } else {
+            AnimatedVisibility(visible = uiState.selectionMode) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = uiState.allSelected(),
+                        onCheckedChange = { onAction(ReminderUiAction.OnSelectAllToggle) },
+                    )
+                    Column {
+                        Text(stringResource(R.string.reminder_selected_count, uiState.selectedIds.size))
+                        Text(stringResource(R.string.select_all), style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }
+            uiState.reminders.forEach { r ->
+                ReminderRow(
+                    reminder = r,
+                    isSelected = r.id in uiState.selectedIds,
+                    selectionMode = uiState.selectionMode,
+                    onAction = onAction,
+                    onEnabledChange = { enabled ->
+                        onAction(ReminderUiAction.OnToggleEnabled(r.id, enabled))
+                        guardEnable(enabled) { onAction(ReminderUiAction.OnSetEnabled(setOf(r.id), false)) }
+                    },
+                )
+            }
+            Spacer(Modifier.height(62.dp))
         }
     }
 
