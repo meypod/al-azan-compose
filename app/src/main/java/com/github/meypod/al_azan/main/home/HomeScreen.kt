@@ -55,6 +55,7 @@ import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
 import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
+import com.github.meypod.al_azan.core.presentation.util.swipeNavigate
 import com.github.meypod.al_azan.main.home.components.ConfigHintCard
 import com.github.meypod.al_azan.main.home.components.HomeHeader
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBox
@@ -245,7 +246,11 @@ fun HomeScreen(
             Column(
                 Modifier
                     .fillMaxSize()
-                    .padding(paddingValues),
+                    .padding(paddingValues)
+                    .swipeNavigate(
+                        onNext = { onAction(HomeUiAction.OnNextDayClick) },
+                        onPrev = { onAction(HomeUiAction.OnPrevDayClick) },
+                    ),
             ) {
                 HomeHeader(
                     uiState,

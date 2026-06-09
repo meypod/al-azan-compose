@@ -39,6 +39,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
+import com.github.meypod.al_azan.core.presentation.util.swipeNavigate
 
 // TODO
 @Composable
@@ -98,7 +99,14 @@ fun MonthlyViewScreen(
         floatingActionButtonPosition = FabPosition.Center,
     ) {
         ACard { cardPadding ->
-            Column(Modifier.padding(cardPadding)) {
+            Column(
+                Modifier
+                    .padding(cardPadding)
+                    .swipeNavigate(
+                        onNext = { onAction(MonthlyViewUiAction.OnNextMonthClick) },
+                        onPrev = { onAction(MonthlyViewUiAction.OnPrevMonthClick) },
+                    ),
+            ) {
                 Row(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
