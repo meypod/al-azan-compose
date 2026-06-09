@@ -61,7 +61,7 @@ fun Modifier.bottomBorder(
 @Stable
 fun Modifier.dashedBorder(
     borderColor: Color,
-    strokeWidth: Float = 2f,
+    strokeWidth: Float = 3f,
     dashWidth: Float = 20f,
     dashGap: Float = 20f,
 ): Modifier =
@@ -94,7 +94,7 @@ fun Modifier.dashedBorder(
 @Stable
 fun Modifier.solidBorder(
     borderColor: Color,
-    strokeWidth: Float = 2f,
+    strokeWidth: Float = 3f,
 ): Modifier =
     this.drawBehind {
         val paint = android.graphics
