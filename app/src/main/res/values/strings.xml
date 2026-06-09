@@ -15,6 +15,7 @@
     <string name="default_value">Default</string>
     <string name="play">Play</string>
     <string name="stop">Stop</string>
+    <string name="preview_muted_hint">Turn up media volume</string>
     <string name="add">Add</string>
     <string name="increase">Increase</string>
     <string name="decrease">Decrease</string>
@@ -552,6 +553,7 @@
     <string name="adaptive_charging_help">On some devices (like Google Pixel), the default alarm type registers as a clock alarm, which can interfere with Adaptive Charging and show an alarm icon. Enable this to use an alarm type that avoids both.</string>
     <string name="adaptive_charging_caution">Caution: On some devices this alarm type is more affected by battery optimization, so adhan and reminders may be delayed or missed. Use carefully.</string>
     <string name="different_alarm_enable">Use a different alarm type</string>
+    <string name="different_alarm_notification_rationale">This alarm type can\'t show the full-screen alarm on its own, so notifications are required to let you stop the adhan. Allow notifications to use it.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)
