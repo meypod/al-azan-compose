@@ -29,6 +29,14 @@ private enum class DefaultAdhanEntryId(
 }
 
 fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
+    mapAdhanIdToEntryOrNull(key) ?: mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key)
+
+/**
+ * Resolves a bundled-sound id to its current resource entry, or `null` for an unknown id. Callers that
+ * migrate stored data use this to re-resolve the **current** resource int from the stable string id —
+ * the raw resource int is not stable across builds, so a persisted int cannot be trusted.
+ */
+fun mapAdhanIdToEntryOrNull(key: String): AudioEntry.ResourceAudioEntry? =
     when (key) {
         DefaultAdhanEntryId.MasjidAnNabawi.key -> AudioEntry.ResourceAudioEntry(
             DefaultAdhanEntryId.MasjidAnNabawi.key,
@@ -54,7 +62,7 @@ fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
             R.string.moazen_zade,
         )
 
-        else -> mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key)
+        else -> null
     }
 
 fun getDefaultAdhanEntries(): List<AudioEntry.ResourceAudioEntry> =

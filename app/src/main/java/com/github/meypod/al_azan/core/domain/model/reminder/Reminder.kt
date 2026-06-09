@@ -11,6 +11,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
 
 @Serializable
 data class Reminder(
@@ -71,20 +72,17 @@ internal object ReminderAudioEntrySerializer : KSerializer<ReminderAudioEntry> {
                 ?: throw SerializationException("ReminderAudioEntrySerializer can be used only with JSON")
 
         val element: JsonElement = jsonDecoder.decodeJsonElement()
+        val keys = element.jsonObject.keys
+
+        val serializer =
+            when {
+                "resourceId" in keys -> ReminderAudioEntry.ResourceReminderAudioEntry.serializer()
+                "filepath" in keys -> ReminderAudioEntry.ExternalReminderAudioEntry.serializer()
+                else -> ReminderAudioEntry.DefaultReminderAudioEntry.serializer()
+            }
 
         try {
-            return jsonDecoder.json.decodeFromJsonElement(
-                ReminderAudioEntry.ResourceReminderAudioEntry.serializer(),
-                element,
-            )
-        } catch (_: Exception) {
-        }
-
-        try {
-            return jsonDecoder.json.decodeFromJsonElement(
-                ReminderAudioEntry.ExternalReminderAudioEntry.serializer(),
-                element,
-            )
+            return jsonDecoder.json.decodeFromJsonElement(serializer, element)
         } catch (e: Exception) {
             throw SerializationException("Cannot deserialize ReminderAudioEntry: ${e.message}")
         }

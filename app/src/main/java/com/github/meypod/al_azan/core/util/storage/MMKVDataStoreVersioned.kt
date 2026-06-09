@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.util.storage
 
+import android.util.Log
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,8 +67,15 @@ class MMKVDataStoreVersioned<T>(
                 json.decodeFromJsonElement(serializer, storedData)
             }
         } catch (e: Exception) {
+            // Fail loudly rather than silently discarding the user's data: a decode failure means a bug
+            // (a schema change without a migration, or corruption) that must be seen and fixed.
+            Log.e(TAG, "Failed to decode stored data for key=$key", e)
             throw RuntimeException("Unknown error when decoding stored data", e)
         }
+    }
+
+    private companion object {
+        const val TAG = "MMKVDataStoreVersioned"
     }
 
     private fun serializeForStorage(value: T): String {
