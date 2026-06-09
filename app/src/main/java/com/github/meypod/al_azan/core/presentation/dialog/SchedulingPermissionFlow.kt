@@ -231,6 +231,18 @@ fun rememberSchedulingPermissionRequest(
         processRef.value()
     }
 
+    // Special-access settings (DND policy, exact-alarm, full-screen-intent) return no result, so we
+    // re-read the granted state when the activity-result callback fires after the user returns.
+    fun resolveSettingsStep(
+        step: PermissionStep,
+        isGranted: () -> Boolean,
+        openSettings: () -> Unit,
+    ) {
+        val granted = isGranted()
+        if (!granted) guideToSettings(step.denied, openSettings)
+        finishStep(step, granted, asked = true)
+    }
+
     val notificationLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
@@ -252,25 +264,19 @@ fun rememberSchedulingPermissionRequest(
     val exactAlarmSettingsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
-            val granted = canScheduleExactAlarms(context)
-            if (!granted) guideToSettings(step.denied) { openExactAlarmSettings(context) }
-            finishStep(step, granted, asked = true)
+            resolveSettingsStep(step, { canScheduleExactAlarms(context) }) { openExactAlarmSettings(context) }
         }
 
     val dndSettingsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
-            val granted = dndAccessGranted(context)
-            if (!granted) guideToSettings(step.denied) { openDndSettings(context) }
-            finishStep(step, granted, asked = true)
+            resolveSettingsStep(step, { dndAccessGranted(context) }) { openDndSettings(context) }
         }
 
     val fullScreenIntentSettingsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
-            val granted = fullScreenIntentGranted(context)
-            if (!granted) guideToSettings(step.denied) { openFullScreenIntentSettings(context) }
-            finishStep(step, granted, asked = true) // optional: never blocks
+            resolveSettingsStep(step, { fullScreenIntentGranted(context) }) { openFullScreenIntentSettings(context) }
         }
 
     fun ask(step: PermissionStep) {

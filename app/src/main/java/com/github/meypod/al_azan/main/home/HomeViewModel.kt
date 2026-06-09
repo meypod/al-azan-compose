@@ -80,7 +80,8 @@ class HomeViewModel
             adhanScheduled = alarmSettings.hasAnyEnabledSchedule(),
             hasScheduledAlarms = alarmRepository.getScheduled().isNotEmpty(),
             fullScreenRequired = alarmSettings.hasAnySoundSchedule(),
-            dndRequired = settingsRepository.data.first().bypassDnd,
+            // Both "bypass DND" and "auto-silent on dismiss" rely on notification-policy access.
+            dndRequired = settingsRepository.data.first().bypassDnd || alarmSettings.autoSilentOnDismiss,
         )
     }
 

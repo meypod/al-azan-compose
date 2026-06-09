@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Ne pas allumer l\'écran ni afficher l\'alarme en plein écran lorsqu\'un Adhan ou un rappel retentit.</string>
     <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Mettre le téléphone en silence après avoir ignoré</string>
-    <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas.</string>
+    <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas. Ne s\'applique qu\'à l\'adhan.</string>
     <string name="auto_silent_duration">Durée du silence</string>
     <string name="auto_silent_duration_help">Durée pendant laquelle le téléphone reste en silence après avoir ignoré.</string>
 

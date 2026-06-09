@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و زنگ تمام‌صفحه نمایش داده نشود.</string>
     <string name="notifications">اعلان‌ها</string>
     <string name="auto_silent_on_dismiss">بی‌صدا کردن تلفن پس از رد کردن</string>
-    <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد.</string>
+    <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد. فقط برای اذان اعمال می‌شود.</string>
     <string name="auto_silent_duration">مدت بی‌صدایی</string>
     <string name="auto_silent_duration_help">تلفن پس از رد کردن، چه مدت بی‌صدا می‌ماند.</string>
 

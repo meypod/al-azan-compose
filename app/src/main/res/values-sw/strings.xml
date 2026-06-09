@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Usiwashe skrini au kuonyesha kengele ya skrini nzima wakati adhana au kikumbusho kinacheza.</string>
     <string name="notifications">Ujulisho</string>
     <string name="auto_silent_on_dismiss">Nyamazisha simu baada ya kupuuzia</string>
-    <string name="auto_silent_on_dismiss_help">Unapopuuzia adhana, simu huingia katika Usisumbue kwa muda. Kuahirisha hakufanyi hivyo.</string>
+    <string name="auto_silent_on_dismiss_help">Unapopuuzia adhana, simu huingia katika Usisumbue kwa muda. Kuahirisha hakufanyi hivyo. Inahusu adhana pekee.</string>
     <string name="auto_silent_duration">Muda wa kunyamazisha</string>
     <string name="auto_silent_duration_help">Muda ambao simu hubaki imenyamazishwa baada ya kupuuzia.</string>
 

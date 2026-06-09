@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.reminder
 import android.content.Context
 import android.widget.Toast
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
@@ -26,10 +27,14 @@ import com.github.meypod.al_azan.core.presentation.mapper.displayName
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
+import com.github.meypod.al_azan.playback.PlaybackService
 import com.github.meypod.al_azan.playback.missedNotificationConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,7 +53,27 @@ class ReminderFiringHandler @Inject constructor(
     private val playbackLauncher: PlaybackLauncher,
     private val audioDurationProbe: AudioDurationProbe,
     private val softSoundPlayer: SoftSoundPlayer,
+    private val dndSilenceController: DndSilenceController,
 ) {
+    private val uiScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    /** Stop the reminder sound (full-screen "Dismiss"). Fire-and-forget; outlives the alarm activity. */
+    fun dismissFromUi() {
+        uiScope.launch { PlaybackService.stop(context) }
+    }
+
+    /**
+     * "Dismiss & silent" for a reminder: stop the sound and silence the phone for [minutes]. Unlike
+     * adhans, reminders never silence *automatically* — this is only the explicit menu action, and only
+     * offered when the app holds DND policy access (gated in AlarmFullscreenViewModel).
+     */
+    fun dismissAndSilentFromUi(minutes: Int) {
+        uiScope.launch {
+            PlaybackService.stop(context)
+            dndSilenceController.silence(minutes)
+        }
+    }
+
     suspend fun onReminderFired(
         reminderId: String,
         timestamp: Long,
@@ -68,7 +93,7 @@ class ReminderFiringHandler @Inject constructor(
         val timeLabel = settings.formatTime(timestamp)
         // The adhan "Dismiss & silent" window suppresses reminders too: post a silent missed notice
         // instead of sounding, so the user still sees it passed.
-        val silencedUntil = settings.adhanSilencedUntilMillis ?: 0L
+        val silencedUntil = settings.silencedUntilMillis ?: 0L
         if (Clock.System.now().toEpochMilliseconds() < silencedUntil) {
             postMissedNotification(reminderId, title, timeLabel)
         } else {

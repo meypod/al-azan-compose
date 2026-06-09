@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Don\'t turn on the screen or show the full-screen alarm when an adhan or reminder plays.</string>
     <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Silence phone after dismiss</string>
-    <string name="auto_silent_on_dismiss_help">When you dismiss an adhan, the phone goes into Do Not Disturb for a while. Snoozing doesn\'t.</string>
+    <string name="auto_silent_on_dismiss_help">When you dismiss an adhan, the phone goes into Do Not Disturb for a while. Snoozing doesn\'t. Applies to adhans only.</string>
     <string name="auto_silent_duration">Silence duration</string>
     <string name="auto_silent_duration_help">How long the phone stays silenced after dismissing.</string>
 
