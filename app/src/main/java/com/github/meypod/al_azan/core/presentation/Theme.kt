@@ -106,7 +106,9 @@ private val LightHighContrastColorScheme = lightColorScheme(
     onErrorContainer = LightHighContrastOnErrorContainer,
     background = LightHighContrastBackground,
     onBackground = LightHighContrastOnBackground,
-    surface = LightHighContrastSurface,
+    // spec surface equals background here; use the container tone so elevated
+    // surfaces (cards) stay distinct from the page background
+    surface = LightHighContrastSurfaceContainer,
     onSurface = LightHighContrastOnSurface,
     surfaceVariant = LightHighContrastSurfaceVariant,
     onSurfaceVariant = LightHighContrastOnSurfaceVariant,
@@ -143,7 +145,9 @@ private val DarkHighContrastColorScheme = darkColorScheme(
     onErrorContainer = DarkHighContrastOnErrorContainer,
     background = DarkHighContrastBackground,
     onBackground = DarkHighContrastOnBackground,
-    surface = DarkHighContrastSurface,
+    // spec surface equals background here; use the container tone so elevated
+    // surfaces (cards) stay distinct from the page background
+    surface = DarkHighContrastSurfaceContainer,
     onSurface = DarkHighContrastOnSurface,
     surfaceVariant = DarkHighContrastSurfaceVariant,
     onSurfaceVariant = DarkHighContrastOnSurfaceVariant,
@@ -175,7 +179,10 @@ fun AlAzanTheme(
     val colorScheme = when {
         themeColor == ThemeColor.Dynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            val dynamic = if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            // dynamic schemes set surface == background; shift surface to the container
+            // tone so elevated surfaces (cards) stay distinct from the page background
+            dynamic.copy(surface = dynamic.surfaceContainer)
         }
 
         else ->
