@@ -134,8 +134,8 @@ private fun ParamStepper(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
     ) {
-        OutlinedIconButton(onClick = { commit(roundParam(text.toDoubleOrNull() ?: 0.0, step, +1, decimals)) }) {
-            Icon(painterResource(R.drawable.add), contentDescription = stringResource(R.string.increase))
+        OutlinedIconButton(onClick = { commit(roundParam(text.toDoubleOrNull() ?: 0.0, step, -1, decimals)) }) {
+            Icon(painterResource(R.drawable.minus), contentDescription = stringResource(R.string.decrease))
         }
         CompactOutlinedTextField(
             value = text,
@@ -168,8 +168,8 @@ private fun ParamStepper(
                 null
             },
         )
-        OutlinedIconButton(onClick = { commit(roundParam(text.toDoubleOrNull() ?: 0.0, step, -1, decimals)) }) {
-            Icon(painterResource(R.drawable.minus), contentDescription = stringResource(R.string.decrease))
+        OutlinedIconButton(onClick = { commit(roundParam(text.toDoubleOrNull() ?: 0.0, step, +1, decimals)) }) {
+            Icon(painterResource(R.drawable.add), contentDescription = stringResource(R.string.increase))
         }
     }
 }
