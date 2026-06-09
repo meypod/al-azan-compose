@@ -52,6 +52,10 @@ fun <T> AudioPickerField(
     modifier: Modifier = Modifier,
     optionCanDelete: (T) -> Boolean = { false },
     optionPreviewable: (T) -> Boolean = { true },
+    optionSubtitle: (T) -> String? = { null },
+    // The id whose playback this option drives — usually its own key, but an option that delegates to
+    // another sound (e.g. "use default") returns that sound's id so the play/stop state stays in sync.
+    optionPreviewKey: (T) -> String = optionKey,
     onAddLocalFile: ((filepath: String, name: String) -> Unit)? = null,
     onDelete: ((T) -> Unit)? = null,
     searchable: Boolean = true,
@@ -96,15 +100,17 @@ fun <T> AudioPickerField(
             },
             itemContent = { entry, isSelected, _, onSelectAndDismiss ->
                 val option = entry.value.first
+                val previewKey = optionPreviewKey(option)
                 Column {
                     headerForKey[entry.key]?.let { AudioSectionHeader(it) }
                     AudioOptionRow(
                         label = entry.value.second,
+                        subtitle = optionSubtitle(option),
                         selected = isSelected,
-                        playing = playingId == entry.key,
+                        playing = playingId == previewKey,
                         previewable = optionPreviewable(option),
                         canDelete = onDelete != null && optionCanDelete(option),
-                        onPlayToggle = { if (playingId == entry.key) onStopPreview() else onPreview(option) },
+                        onPlayToggle = { if (playingId == previewKey) onStopPreview() else onPreview(option) },
                         onClick = { onSelectAndDismiss(option) },
                         onDelete = { onDelete?.invoke(option) },
                     )
@@ -112,9 +118,10 @@ fun <T> AudioPickerField(
             },
         )
         if (selected != null && optionPreviewable(selected)) {
+            val previewKey = optionPreviewKey(selected)
             PreviewIconButton(
-                playing = playingId == selectedKey,
-                onToggle = { if (playingId == selectedKey) onStopPreview() else onPreview(selected) },
+                playing = playingId == previewKey,
+                onToggle = { if (playingId == previewKey) onStopPreview() else onPreview(selected) },
             )
         }
     }
@@ -161,6 +168,7 @@ private fun AudioSectionHeader(title: String) {
 @Composable
 private fun AudioOptionRow(
     label: String,
+    subtitle: String?,
     selected: Boolean,
     playing: Boolean,
     previewable: Boolean,
@@ -170,7 +178,18 @@ private fun AudioOptionRow(
     onDelete: () -> Unit,
 ) {
     DropdownMenuItem(
-        text = { Text(label, style = MaterialTheme.typography.bodyMedium) },
+        text = {
+            Column {
+                Text(label, style = MaterialTheme.typography.bodyMedium)
+                subtitle?.let {
+                    Text(
+                        it,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+        },
         onClick = onClick,
         leadingIcon = if (previewable) {
             { PreviewIconButton(playing = playing, onToggle = onPlayToggle) }
