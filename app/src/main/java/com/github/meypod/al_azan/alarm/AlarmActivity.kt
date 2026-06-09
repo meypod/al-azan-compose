@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.playback.PlaybackService
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,8 +33,8 @@ class AlarmActivity : AppCompatActivity() {
         showOverLockScreen()
 
         setContent {
-            AlAzanTheme(ThemeColor.Light) {
-                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+            AlAzanTheme(uiState.themeColor) {
                 AlarmFullscreenScreen(
                     uiState = uiState,
                     onAction = viewModel::onAction,
