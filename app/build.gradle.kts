@@ -15,8 +15,8 @@ android {
     defaultConfig {
         applicationId = "com.github.meypod.al_azan"
         minSdk = 26
-        compileSdk = 37
-        targetSdk = 37
+        compileSdk = 36
+        targetSdk = 36
         versionCode = 78
         versionName = "2.0.0"
 
@@ -28,7 +28,8 @@ android {
             applicationIdSuffix = ".debug"
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -105,7 +106,6 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.material3.adaptive.navigation3)
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.tencent.mmkv)
