@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">यदि आपके पास पहले से कोई बैकअप फ़ाइल है, तो आप उसे यहाँ रिस्टोर कर सकते हैं।</string>
     <string name="restore_backup_button">बैकअप फ़ाइल रिस्टोर करें</string>
     <string name="skip">छोड़ें</string>
-    <string name="skip_confirm">छोड़ें</string>
     <string name="skip_dialog_body">आवश्यक सेटिंग्स अपूर्ण हैं। ऐप में नमाज़ का वक्त दिखाने के लिए, आपको इसे बाद में सेटिंग्स से कॉन्फ़िगर करना होगा।</string>
     <string name="restoring_backup">बैकअप रिस्टोर हो रहा है…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">अज़ान</string>
     <string name="alarm_swipe_up_hint">अधिक विकल्पों के लिए ऊपर स्वाइप करें</string>
-    <string name="alarm_dismiss">हटाएँ</string>
     <string name="alarm_just_dismiss">केवल हटाएँ</string>
     <string name="alarm_just_dismiss_silence">हटाएँ और फ़ोन साइलेंट करें</string>
     <string name="alarm_dismiss_and_silent">हटाएँ और %1$dm साइलेंट करें</string>

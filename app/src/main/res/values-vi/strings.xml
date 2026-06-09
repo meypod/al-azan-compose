@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Nếu bạn đã có tệp sao lưu, bạn có thể khôi phục nó ở đây.</string>
     <string name="restore_backup_button">Khôi phục Tệp Sao lưu</string>
     <string name="skip">Bỏ qua</string>
-    <string name="skip_confirm">Bỏ qua</string>
     <string name="skip_dialog_body">Cài đặt bắt buộc chưa hoàn tất. Để ứng dụng hiển thị thời gian cầu nguyện, Bạn phải cấu hình nó sau trong cài đặt.</string>
     <string name="restoring_backup">Đang khôi phục bản sao lưu…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Vuốt Lên Để Có Thêm Tùy chọn</string>
-    <string name="alarm_dismiss">Bỏ qua</string>
     <string name="alarm_just_dismiss">Chỉ Bỏ qua</string>
     <string name="alarm_just_dismiss_silence">Bỏ qua &amp; tắt tiếng điện thoại</string>
     <string name="alarm_dismiss_and_silent">Bỏ qua và Im lặng %1$dm</string>

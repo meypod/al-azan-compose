@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Si vous disposez déjà d\'un fichier de sauvegarde, vous pouvez le restaurer ici.</string>
     <string name="restore_backup_button">Restaurer un fichier de sauvegarde</string>
     <string name="skip">Passer</string>
-    <string name="skip_confirm">Passer</string>
     <string name="skip_dialog_body">Les paramètres requis sont incomplets. Pour que l\'application affiche les horaires de prières, vous devrez les configurer à partir des paramètres ultérieurement.</string>
     <string name="restoring_backup">Restauration de la sauvegarde…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Balayez vers le haut pour plus d\'options</string>
-    <string name="alarm_dismiss">Ignorer</string>
     <string name="alarm_just_dismiss">Simplement ignorer</string>
     <string name="alarm_just_dismiss_silence">Ignorer et mettre le téléphone en silence</string>
     <string name="alarm_dismiss_and_silent">Ignorer et mettre en silence %1$dm</string>

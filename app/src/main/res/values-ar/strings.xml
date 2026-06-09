@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">إذا كان لديك ملف نسخة احتياطية، يمكنك استعادته من هنا.</string>
     <string name="restore_backup_button">استعادة ملف النسخة الاحتياطية</string>
     <string name="skip">تخطّي</string>
-    <string name="skip_confirm">تخطّي</string>
     <string name="skip_dialog_body">إعدادات مطلوبة غير مكتملة. لكي يتمكن التطبيق من عرض أوقات الصلاة، يجب عليك تهيئتها من الإعدادات لاحقًا.</string>
     <string name="restoring_backup">جارٍ استعادة النسخة الاحتياطية…</string>
 
@@ -597,7 +596,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">أذان</string>
     <string name="alarm_swipe_up_hint">اسحب للأعلى لمزيد من الخيارات</string>
-    <string name="alarm_dismiss">تجاهل</string>
     <string name="alarm_just_dismiss">تجاهل فقط</string>
     <string name="alarm_just_dismiss_silence">تجاهل وكتم الهاتف</string>
     <string name="alarm_dismiss_and_silent">تجاهل وكتم %1$dد</string>

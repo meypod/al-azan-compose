@@ -335,7 +335,7 @@ fun AlarmFullscreenScreen(
                                         shrinkHorizontally(tween(MORPH_DURATION_MS)),
                                 ) {
                                     Text(
-                                        stringResource(R.string.alarm_dismiss),
+                                        stringResource(R.string.dismiss),
                                         color = ACCENT_DARK,
                                         style = MaterialTheme.typography.headlineMedium,
                                         maxLines = 1,

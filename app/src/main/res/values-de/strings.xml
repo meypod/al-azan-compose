@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Wenn Sie bereits eine Sicherungsdatei haben, können Sie sie hier wiederherstellen.</string>
     <string name="restore_backup_button">Sicherungsdatei wiederherstellen</string>
     <string name="skip">Überspringen</string>
-    <string name="skip_confirm">Überspringen</string>
     <string name="skip_dialog_body">Die erforderlichen Einstellungen sind unvollständig. Damit die App die Gebetszeiten anzeigen kann, müssen Sie diese später in den Einstellungen konfigurieren.</string>
     <string name="restoring_backup">Sicherung wird wiederhergestellt…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Für weitere Optionen nach oben wischen</string>
-    <string name="alarm_dismiss">Ablehnen</string>
     <string name="alarm_just_dismiss">Nur ablehnen</string>
     <string name="alarm_just_dismiss_silence">Ablehnen &amp; Telefon stummschalten</string>
     <string name="alarm_dismiss_and_silent">Ablehnen und %1$dm stummschalten</string>

@@ -130,8 +130,7 @@
     <string name="restore_thanks_body">برای اینکه برنامه درست کار کند، لطفاً چند تنظیم را انجام دهید تا بتوانیم اوقات شرعی شما را به‌درستی محاسبه کنیم.</string>
     <string name="restore_backup_hint">اگر از قبل فایل پشتیبان دارید، می‌توانید آن را اینجا بازیابی کنید.</string>
     <string name="restore_backup_button">بازیابی فایل پشتیبان</string>
-    <string name="skip">رد شدن</string>
-    <string name="skip_confirm">رد شدن</string>
+    <string name="skip">رد کردن</string>
     <string name="skip_dialog_body">تنظیمات مورد نیاز ناقص هستند. برای اینکه برنامه اوقات شرعی را نشان دهد، بعداً باید آن را از صفحهٔ تنظیمات تنظیم کنید.</string>
     <string name="restoring_backup">در حال بازیابی پشتیبان…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">اذان</string>
     <string name="alarm_swipe_up_hint">برای گزینه‌های بیشتر به بالا بکشید</string>
-    <string name="alarm_dismiss">رد کردن</string>
     <string name="alarm_just_dismiss">فقط رد کردن</string>
     <string name="alarm_just_dismiss_silence">رد کردن و بی‌صدا کردن تلفن</string>
     <string name="alarm_dismiss_and_silent">رد کردن و بی‌صدا کردن %1$d دقیقه</string>

@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">আপনার যদি ইতিমধ্যে একটি ব্যাকআপ ফাইল থাকে, আপনি এখানে এটি পুনরুদ্ধার করতে পারেন।</string>
     <string name="restore_backup_button">ব্যাকআপ ফাইল পুনরুদ্ধার করুন</string>
     <string name="skip">এড়িয়ে যান</string>
-    <string name="skip_confirm">এড়িয়ে যান</string>
     <string name="skip_dialog_body">প্রয়োজনীয় সেটিংসসমূহ অসম্পূর্ণ। অ্যাপটি সালাতের সময় দেখানোর জন্য, আপনাকে পরে সেটিংস থেকে কনফিগার করতে হবে।</string>
     <string name="restoring_backup">ব্যাকআপ পুনরুদ্ধার করা হচ্ছে…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">আযান</string>
     <string name="alarm_swipe_up_hint">আরও অপশনের জন্য উপরে সোয়াইপ করুন</string>
-    <string name="alarm_dismiss">খারিজ</string>
     <string name="alarm_just_dismiss">শুধু খারিজ করুন</string>
     <string name="alarm_just_dismiss_silence">খারিজ করুন ও ফোন নীরব করুন</string>
     <string name="alarm_dismiss_and_silent">খারিজ করুন ও %1$dm নীরব করুন</string>
