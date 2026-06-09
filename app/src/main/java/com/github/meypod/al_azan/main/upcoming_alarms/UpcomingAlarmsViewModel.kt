@@ -7,6 +7,8 @@ import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.upsert
+import com.github.meypod.al_azan.core.domain.model.alarm.withoutFrom
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -162,10 +164,7 @@ class UpcomingAlarmsViewModel @Inject constructor(
                     durationModifier = reminder?.durationModifier ?: 0,
                 )
             }
-            settingsRepository.update {
-                val deduped = it.skippedAlarms.filterNot { e -> e.alarmId == id && e.fireTimeMs == entry.fireTimeMs }
-                it.copy(skippedAlarms = deduped + entry)
-            }
+            settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.upsert(entry)) }
             reschedule(id)
         }
     }
@@ -177,11 +176,7 @@ class UpcomingAlarmsViewModel @Inject constructor(
         viewModelScope.launch {
             // Undo this skip and any later skip on the same stream: re-arming at the rescheduled
             // occurrence makes every occurrence after it moot, so those rows disappear too.
-            settingsRepository.update {
-                it.copy(
-                    skippedAlarms = it.skippedAlarms.filterNot { e -> e.alarmId == id && e.fireTimeMs >= fireTimeMs },
-                )
-            }
+            settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.withoutFrom(id, fireTimeMs)) }
             reschedule(id)
         }
     }

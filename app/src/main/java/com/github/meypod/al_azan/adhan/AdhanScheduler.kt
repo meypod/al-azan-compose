@@ -11,6 +11,8 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.alarm.latestFireMsFor
+import com.github.meypod.al_azan.core.domain.model.alarm.prunePast
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -83,15 +85,11 @@ class AdhanScheduler @Inject constructor(
             // "Skip next": arm strictly after the latest skipped occurrence so a later prayer fires instead.
             // Prune our own past skip entries here (the scheduler runs on every settings change / boot /
             // fire, so this is the reliable cleanup point); past entries are inert (nowMs dominates) anyway.
-            val livePruned = settings.skippedAlarms.filterNot {
-                it is SkippedAlarm.Adhan && it.fireTimeMs <= nowMs
-            }
+            val livePruned = settings.skippedAlarms.prunePast<SkippedAlarm.Adhan>(nowMs)
             if (livePruned.size != settings.skippedAlarms.size) {
                 settingsRepository.update { it.copy(skippedAlarms = livePruned) }
             }
-            val skippedMs = livePruned
-                .filter { it.alarmId == AdhanContract.ADHAN_ALARM_ID }
-                .maxOfOrNull { it.fireTimeMs } ?: 0L
+            val skippedMs = livePruned.latestFireMsFor(AdhanContract.ADHAN_ALARM_ID)
             val fromMs = maxOf(nowMs, deliveredMs + REFIRE_GUARD_MS, silencedUntilMs, skippedMs + REFIRE_GUARD_MS)
 
             val next = getNextShariaTimesUseCase(
