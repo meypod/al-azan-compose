@@ -46,6 +46,18 @@ android {
     androidResources { generateLocaleConfig = true }
 }
 
+// Preserve the old app's versionCode scheme (logical code * 1000) so Play Store
+// version continuity is kept. The legacy variant API that did this was removed in
+// AGP 9, so the override is applied through the new variant API instead.
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val base = output.versionCode.orNull ?: 0
+            output.versionCode.set(base * 1000)
+        }
+    }
+}
+
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
