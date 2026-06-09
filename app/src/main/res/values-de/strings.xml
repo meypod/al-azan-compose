@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Für Erinnerungen ist der Zugriff auf Benachrichtigungen erforderlich. Aktivieren Sie Benachrichtigungen für diese App in den Einstellungen.</string>
     <string name="reminder_exact_alarm_permission_rationale">Erinnerungen müssen zur exakten geplanten Zeit ausgelöst werden. Erlauben Sie dieser App, exakte Alarme zu planen.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Der Zugriff auf exakte Alarme ist erforderlich, damit Erinnerungen pünktlich ausgelöst werden. Erlauben Sie ihn für diese App in den Einstellungen.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Damit die Erinnerung über Ihrem Sperrbildschirm angezeigt und das Display geweckt wird, erlauben Sie dieser App, Vollbild-Alarme zu verwenden.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Ohne Vollbild-Zugriff wird die Erinnerung nicht über dem Sperrbildschirm angezeigt. Sie können ihn später in den Einstellungen erlauben.</string>
+    <string name="reminder_phone_state_permission_rationale">Erlauben Sie den Telefonzugriff, damit die Erinnerung bei eingehenden oder laufenden Anrufen pausieren kann. Wird nur verwendet, um den Anrufstatus zu lesen.</string>
+    <string name="reminder_phone_state_permission_denied_text">Der Telefonzugriff ist deaktiviert, daher pausiert die Erinnerung nicht bei Anrufen. Sie können ihn später in den Einstellungen erlauben.</string>
     <string name="phone_state_permission_title">Telefonzugriff erlauben</string>
     <string name="dnd_permission_title">Zugriff auf „Bitte nicht stören“ erlauben</string>
     <string name="dnd_permission_rationale">Erlauben Sie dieser App, „Bitte nicht stören“ zu steuern. Dadurch kann der Adhan abgespielt werden, während „Bitte nicht stören“ aktiv ist, und es wird die Option aktiviert, Ihr Telefon nach dem Ablehnen des Alarms stummzuschalten.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Das Drücken einer Lautstärketaste stoppt den laufenden Adhan.</string>
     <string name="dont_show_alarm_screen">Bildschirm ausgeschaltet lassen</string>
     <string name="dont_show_alarm_screen_help">Bildschirm nicht einschalten und keinen Vollbild-Alarm anzeigen, wenn ein Adhan oder eine Erinnerung abgespielt wird.</string>
+    <string name="force_launch_alarm_screen">Alarmbildschirm immer öffnen</string>
+    <string name="force_launch_alarm_screen_help">Erzwingt, dass der Vollbild-Alarm direkt geöffnet wird. Versuchen Sie dies, wenn Ihr Telefon ihn nicht über dem Sperrbildschirm anzeigt.</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="auto_silent_on_dismiss">Telefon nach dem Ablehnen stummschalten</string>
     <string name="auto_silent_on_dismiss_help">Wenn Sie einen Adhan ablehnen, wechselt das Telefon eine Weile in den Modus „Bitte nicht stören“. Beim Schlummern nicht. Gilt nur für den Adhan.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Auf einigen Geräten (wie Google Pixel) wird der Standard-Alarmtyp als Wecker registriert, was das adaptive Laden beeinträchtigen und ein Alarmsymbol anzeigen kann. Aktivieren Sie diese Option, um einen Alarmtyp zu verwenden, der beides vermeidet.</string>
     <string name="adaptive_charging_caution">Achtung: Auf einigen Geräten ist dieser Alarmtyp stärker von der Akkuoptimierung betroffen, sodass Adhan und Erinnerungen verzögert oder verpasst werden können. Verwenden Sie ihn mit Vorsicht.</string>
     <string name="different_alarm_enable">Einen anderen Alarmtyp verwenden</string>
+    <string name="different_alarm_notification_rationale">Dieser Alarmtyp kann den Vollbild-Alarm nicht selbst anzeigen, daher sind Benachrichtigungen erforderlich, damit Sie den Adhan stoppen können. Erlauben Sie Benachrichtigungen, um ihn zu verwenden.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

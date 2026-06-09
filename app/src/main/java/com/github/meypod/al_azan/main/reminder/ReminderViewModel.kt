@@ -11,6 +11,8 @@ import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
+import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,7 +41,9 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             settingsRepository.data.collect { settings ->
                 val sounds = settings.savedUserAudioEntries.mapNotNull { it.toReminderAudioEntry() }
-                _uiState.update { it.copy(userSounds = sounds, adhanEntries = settings.savedAdhanAudioEntries) }
+                _uiState.update {
+                    it.copy(userSounds = sounds, adhanEntries = settings.savedAdhanAudioEntries, settings = settings)
+                }
             }
         }
         viewModelScope.launch {
@@ -86,6 +90,13 @@ class ReminderViewModel @Inject constructor(
             ReminderUiAction.OnStopPreview -> onStopPreview()
             is ReminderUiAction.OnDraftOnlyOnceToggle -> onDraftOnlyOnceToggle(action)
             is ReminderUiAction.OnDraftDayToggle -> onDraftDayToggle(action)
+            is ReminderUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action.permission)
+        }
+    }
+
+    private fun onPermissionDontAskAgain(permission: SchedulingPermission) {
+        viewModelScope.launch {
+            settingsRepository.update { it.withDontAskAgain(permission) }
         }
     }
 
@@ -242,24 +253,26 @@ class ReminderViewModel @Inject constructor(
     private fun onStopPreview() = audioPreviewPlayer.stop()
 
     // Invariant: a repeating reminder (only == false) must have at least one day selected.
-    private fun onDraftOnlyOnceToggle(action: ReminderUiAction.OnDraftOnlyOnceToggle) = updateDraft { d ->
-        // Switching to "repeat" with no day picked would never fire -> default to every day.
-        if (!action.value && d.days.isEmpty()) {
-            d.copy(only = false, days = DayOfWeek.entries.toSet())
-        } else {
-            d.copy(only = action.value)
+    private fun onDraftOnlyOnceToggle(action: ReminderUiAction.OnDraftOnlyOnceToggle) =
+        updateDraft { d ->
+            // Switching to "repeat" with no day picked would never fire -> default to every day.
+            if (!action.value && d.days.isEmpty()) {
+                d.copy(only = false, days = DayOfWeek.entries.toSet())
+            } else {
+                d.copy(only = action.value)
+            }
         }
-    }
 
-    private fun onDraftDayToggle(action: ReminderUiAction.OnDraftDayToggle) = updateDraft { d ->
-        val newDays = if (action.day in d.days) d.days - action.day else d.days + action.day
-        // Deselecting the last day of a repeating reminder falls back to "only once".
-        if (newDays.isEmpty() && !d.only) {
-            d.copy(days = newDays, only = true)
-        } else {
-            d.copy(days = newDays)
+    private fun onDraftDayToggle(action: ReminderUiAction.OnDraftDayToggle) =
+        updateDraft { d ->
+            val newDays = if (action.day in d.days) d.days - action.day else d.days + action.day
+            // Deselecting the last day of a repeating reminder falls back to "only once".
+            if (newDays.isEmpty() && !d.only) {
+                d.copy(days = newDays, only = true)
+            } else {
+                d.copy(days = newDays)
+            }
         }
-    }
 
     private fun toggleSelection(id: String) {
         _uiState.update {

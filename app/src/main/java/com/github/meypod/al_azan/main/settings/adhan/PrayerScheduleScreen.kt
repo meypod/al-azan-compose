@@ -76,6 +76,8 @@ fun PrayerScheduleScreen(
     // widget. guardEnable runs the flow on enable and stores how to snap the toggle back off.
     val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
     val requestPermissions = rememberSchedulingPermissionRequest(
+        // Required perms keep asking in the enable flow; only the optional phone-state permission honors
+        // (and offers) "don't ask again" here — the flow special-cases it.
         isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
         onDontAskAgain = { onAction(AdhanSettingsUiAction.OnPermissionDontAskAgain(it)) },
         onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },

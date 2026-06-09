@@ -189,11 +189,19 @@ private fun DisplayCard(
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
     SettingsCard {
+        // "Keep screen off" and "Always open the alarm screen" are opposites — enabling one disables the
+        // other (handled in the ViewModel), so both stay visible.
         SettingSwitch(
             title = stringResource(R.string.dont_show_alarm_screen),
             subtitle = stringResource(R.string.dont_show_alarm_screen_help),
             checked = uiState.alarmSettings.dontTurnOnScreen,
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnDontShowAlarmScreenToggle(it)) },
+        )
+        SettingSwitch(
+            title = stringResource(R.string.force_launch_alarm_screen),
+            subtitle = stringResource(R.string.force_launch_alarm_screen_help),
+            checked = uiState.settings.forceLaunchAlarmActivity,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle(it)) },
         )
     }
 }

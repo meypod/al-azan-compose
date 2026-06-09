@@ -104,6 +104,8 @@ private fun AdhanAndNotificationCard(
     // pendingRevert re-dispatches the originating toggle to snap it back off when a permission is missing.
     val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
     val requestPermissions = rememberSchedulingPermissionRequest(
+        // Required perms keep asking in the enable flow; only the optional phone-state permission honors
+        // (and offers) "don't ask again" here — the flow special-cases it.
         isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
         onDontAskAgain = { onAction(AdhanSettingsUiAction.OnPermissionDontAskAgain(it)) },
         onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },

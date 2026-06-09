@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Pristup obavijestima je potreban za podsjetnike. Omogućite obavijesti za ovu aplikaciju u postavkama.</string>
     <string name="reminder_exact_alarm_permission_rationale">Podsjetnici se moraju oglasiti u tačno zakazano vrijeme. Dozvolite ovoj aplikaciji da zakazuje tačne alarme.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Pristup tačnim alarmima je potreban da bi se podsjetnici oglasili na vrijeme. Dozvolite ga za ovu aplikaciju u postavkama.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Da bi se podsjetnik prikazao preko vašeg zaključanog ekrana i probudio prikaz, dozvolite ovoj aplikaciji da koristi alarme preko cijelog ekrana.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Bez pristupa cijelom ekranu podsjetnik se neće prikazati preko zaključanog ekrana. Možete ga dozvoliti kasnije u postavkama.</string>
+    <string name="reminder_phone_state_permission_rationale">Dozvolite pristup telefonu kako bi se podsjetnik mogao pauzirati za dolazne ili aktivne pozive. Koristi se samo za čitanje stanja poziva.</string>
+    <string name="reminder_phone_state_permission_denied_text">Pristup telefonu je isključen, pa se podsjetnik neće pauzirati za pozive. Možete ga dozvoliti kasnije u postavkama.</string>
     <string name="phone_state_permission_title">Dozvoli pristup telefonu</string>
     <string name="dnd_permission_title">Dozvoli pristup režimu Ne smetaj</string>
     <string name="dnd_permission_rationale">Dozvolite ovoj aplikaciji da upravlja režimom Ne smetaj. Ovo omogućava da se ezan oglasi dok je Ne smetaj uključen i omogućava opciju utišavanja telefona nakon što odbacite alarm.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Pritisak na dugme za jačinu zvuka zaustavlja ezan koji se reproducira.</string>
     <string name="dont_show_alarm_screen">Drži ekran isključen</string>
     <string name="dont_show_alarm_screen_help">Nemoj uključivati ekran niti prikazivati alarm preko cijelog ekrana kada se reproducira ezan ili podsjetnik.</string>
+    <string name="force_launch_alarm_screen">Uvijek otvori ekran alarma</string>
+    <string name="force_launch_alarm_screen_help">Prisili alarm preko cijelog ekrana da se otvori direktno. Pokušajte ovo ako ga vaš telefon ne prikazuje preko zaključanog ekrana.</string>
     <string name="notifications">Obavijesti</string>
     <string name="auto_silent_on_dismiss">Utišaj telefon nakon odbacivanja</string>
     <string name="auto_silent_on_dismiss_help">Kada odbacite ezan, telefon prelazi u režim Ne smetaj na neko vrijeme. Odgađanje to ne čini. Odnosi se samo na ezan.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Na nekim uređajima (poput Google Pixel), zadani tip alarma registruje se kao alarm sata, što može ometati Adaptivno punjenje i prikazati ikonu alarma. Omogućite ovo da koristite tip alarma koji izbjegava oboje.</string>
     <string name="adaptive_charging_caution">Oprez: Na nekim uređajima ovaj tip alarma je više pogođen optimizacijom baterije, pa ezan i podsjetnici mogu biti odgođeni ili propušteni. Koristite oprezno.</string>
     <string name="different_alarm_enable">Koristi drugu vrstu alarma</string>
+    <string name="different_alarm_notification_rationale">Ova vrsta alarma ne može sama prikazati alarm preko cijelog ekrana, pa su obavještenja potrebna da biste mogli zaustaviti ezan. Dozvolite obavještenja da biste je koristili.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

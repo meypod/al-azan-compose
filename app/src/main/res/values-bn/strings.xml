@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">রিমাইন্ডারের জন্য নোটিফিকেশনের অ্যাক্সেস প্রয়োজন। সেটিংসে এই অ্যাপের জন্য নোটিফিকেশন সক্রিয় করুন।</string>
     <string name="reminder_exact_alarm_permission_rationale">রিমাইন্ডার অবশ্যই সুনির্দিষ্ট নির্ধারিত সময়ে বাজতে হবে। এই অ্যাপকে সুনির্দিষ্ট অ্যালার্ম নির্ধারণের অনুমতি দিন।</string>
     <string name="reminder_exact_alarm_permission_denied_text">রিমাইন্ডার সময়মতো বাজার জন্য সুনির্দিষ্ট অ্যালার্মের অ্যাক্সেস প্রয়োজন। সেটিংসে এই অ্যাপের জন্য এটি অনুমোদন করুন।</string>
+    <string name="reminder_full_screen_intent_permission_rationale">আপনার লক স্ক্রিনের উপর রিমাইন্ডার দেখাতে এবং ডিসপ্লে জাগাতে এই অ্যাপকে ফুল-স্ক্রিন অ্যালার্ম ব্যবহারের অনুমতি দিন।</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">ফুল-স্ক্রিন অ্যাক্সেস ছাড়া রিমাইন্ডার লক স্ক্রিনের উপর দেখাবে না। আপনি পরে সেটিংসে এটি অনুমোদন করতে পারেন।</string>
+    <string name="reminder_phone_state_permission_rationale">ইনকামিং বা চলমান কলের জন্য রিমাইন্ডার যেন থামতে পারে সেজন্য ফোনের অ্যাক্সেস দিন। শুধুমাত্র কল স্ট্যাটাস পড়তে এটি ব্যবহৃত হয়।</string>
+    <string name="reminder_phone_state_permission_denied_text">ফোনের অ্যাক্সেস বন্ধ, তাই কলের জন্য রিমাইন্ডার থামবে না। আপনি পরে সেটিংসে এটি অনুমোদন করতে পারেন।</string>
     <string name="phone_state_permission_title">ফোনের অ্যাক্সেস দিন</string>
     <string name="dnd_permission_title">ডু নট ডিস্টার্ব অ্যাক্সেস দিন</string>
     <string name="dnd_permission_rationale">এই অ্যাপকে ডু নট ডিস্টার্ব নিয়ন্ত্রণের অনুমতি দিন। এটি ডু নট ডিস্টার্ব চালু থাকা অবস্থায়ও আযান বাজাতে দেয় এবং অ্যালার্ম খারিজ করার পর আপনার ফোন নীরব করার অপশন সক্রিয় করে।</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">একটি ভলিউম বাটন চাপলে চলমান আযান বন্ধ হয়।</string>
     <string name="dont_show_alarm_screen">স্ক্রিন বন্ধ রাখুন</string>
     <string name="dont_show_alarm_screen_help">আযান বা রিমাইন্ডার বাজার সময় স্ক্রিন চালু করবেন না বা ফুল-স্ক্রিন অ্যালার্ম দেখাবেন না।</string>
+    <string name="force_launch_alarm_screen">সবসময় অ্যালার্ম স্ক্রিন খুলুন</string>
+    <string name="force_launch_alarm_screen_help">ফুল-স্ক্রিন অ্যালার্মকে সরাসরি খুলতে বাধ্য করুন। আপনার ফোন লক স্ক্রিনের উপর এটি না দেখালে এটি চেষ্টা করুন।</string>
     <string name="notifications">নোটিফিকেশন</string>
     <string name="auto_silent_on_dismiss">খারিজের পর ফোন নীরব করুন</string>
     <string name="auto_silent_on_dismiss_help">আপনি যখন একটি আযান খারিজ করেন, ফোনটি কিছুক্ষণের জন্য ডু নট ডিস্টার্বে চলে যায়। স্নুজ করলে নয়। শুধু আযানের জন্য প্রযোজ্য।</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">কিছু ডিভাইসে (যেমন Google Pixel), ডিফল্ট অ্যালার্ম টাইপ একটি ঘড়ির অ্যালার্ম হিসেবে নিবন্ধিত হয়, যা অ্যাডাপ্টিভ চার্জিংয়ে হস্তক্ষেপ করতে পারে এবং একটি অ্যালার্ম আইকন দেখাতে পারে। উভয়ই এড়াতে এমন একটি অ্যালার্ম টাইপ ব্যবহার করতে এটি সক্রিয় করুন।</string>
     <string name="adaptive_charging_caution">সতর্কতা: কিছু ডিভাইসে এই অ্যালার্ম টাইপ ব্যাটারি অপটিমাইজেশন দ্বারা বেশি প্রভাবিত হয়, তাই আযান ও রিমাইন্ডার বিলম্বিত বা মিস হতে পারে। সতর্কতার সাথে ব্যবহার করুন।</string>
     <string name="different_alarm_enable">ভিন্ন অ্যালার্ম টাইপ ব্যবহার করুন</string>
+    <string name="different_alarm_notification_rationale">এই অ্যালার্ম টাইপ নিজে থেকে ফুল-স্ক্রিন অ্যালার্ম দেখাতে পারে না, তাই আযান থামাতে নোটিফিকেশন প্রয়োজন। এটি ব্যবহার করতে নোটিফিকেশন অনুমতি দিন।</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

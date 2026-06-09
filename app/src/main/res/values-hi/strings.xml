@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">अनुस्मारकों के लिए सूचना एक्सेस आवश्यक है। सेटिंग्स में इस ऐप के लिए सूचनाएँ सक्षम करें।</string>
     <string name="reminder_exact_alarm_permission_rationale">अनुस्मारक ठीक निर्धारित समय पर बजने चाहिए। इस ऐप को सटीक अलार्म शेड्यूल करने की अनुमति दें।</string>
     <string name="reminder_exact_alarm_permission_denied_text">अनुस्मारक समय पर बजने के लिए सटीक अलार्म एक्सेस आवश्यक है। सेटिंग्स में इस ऐप के लिए इसकी अनुमति दें।</string>
+    <string name="reminder_full_screen_intent_permission_rationale">लॉक स्क्रीन के ऊपर रिमाइंडर दिखाने और डिस्प्ले जगाने के लिए, इस ऐप को फ़ुल-स्क्रीन अलार्म उपयोग करने की अनुमति दें।</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">फ़ुल-स्क्रीन एक्सेस के बिना रिमाइंडर लॉक स्क्रीन के ऊपर नहीं दिखेगा। आप इसे बाद में सेटिंग्स में अनुमति दे सकते हैं।</string>
+    <string name="reminder_phone_state_permission_rationale">फ़ोन एक्सेस की अनुमति दें ताकि आने वाली या चालू कॉल के लिए रिमाइंडर रुक सके। इसका उपयोग केवल कॉल स्थिति पढ़ने के लिए होता है।</string>
+    <string name="reminder_phone_state_permission_denied_text">फ़ोन एक्सेस बंद है, इसलिए कॉल के लिए रिमाइंडर नहीं रुकेगा। आप इसे बाद में सेटिंग्स में अनुमति दे सकते हैं।</string>
     <string name="phone_state_permission_title">फ़ोन एक्सेस की अनुमति दें</string>
     <string name="dnd_permission_title">डू नॉट डिस्टर्ब एक्सेस की अनुमति दें</string>
     <string name="dnd_permission_rationale">इस ऐप को डू नॉट डिस्टर्ब नियंत्रित करने की अनुमति दें। इससे डू नॉट डिस्टर्ब चालू रहने पर भी अज़ान बजता है, और अलार्म हटाने के बाद फ़ोन को साइलेंट करने का विकल्प सक्षम होता है।</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">वॉल्यूम बटन दबाने से चल रहा अज़ान रुक जाता है।</string>
     <string name="dont_show_alarm_screen">स्क्रीन बंद रखें</string>
     <string name="dont_show_alarm_screen_help">जब अज़ान या अनुस्मारक बजे तो स्क्रीन चालू न करें या फ़ुल-स्क्रीन अलार्म न दिखाएँ।</string>
+    <string name="force_launch_alarm_screen">हमेशा अलार्म स्क्रीन खोलें</string>
+    <string name="force_launch_alarm_screen_help">फ़ुल-स्क्रीन अलार्म को सीधे खुलने के लिए बाध्य करें। अगर आपका फ़ोन इसे लॉक स्क्रीन के ऊपर नहीं दिखाता तो इसे आज़माएँ।</string>
     <string name="notifications">सूचनाएँ</string>
     <string name="auto_silent_on_dismiss">हटाने के बाद फ़ोन साइलेंट करें</string>
     <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता। केवल अज़ान पर लागू होता है।</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">कुछ डिवाइस (जैसे Google Pixel) पर, डिफ़ॉल्ट अलार्म प्रकार एक घड़ी अलार्म के रूप में दर्ज होता है, जो एडैप्टिव चार्जिंग में हस्तक्षेप कर सकता है और एक अलार्म आइकन दिखा सकता है। दोनों से बचने वाले अलार्म प्रकार का उपयोग करने के लिए इसे सक्षम करें।</string>
     <string name="adaptive_charging_caution">सावधानी: कुछ डिवाइस पर यह अलार्म प्रकार बैटरी ऑप्टिमाइज़ेशन से अधिक प्रभावित होता है, इसलिए अज़ान और अनुस्मारक विलंबित या छूट सकते हैं। सावधानी से उपयोग करें।</string>
     <string name="different_alarm_enable">किसी भिन्न अलार्म प्रकार का उपयोग करें</string>
+    <string name="different_alarm_notification_rationale">यह अलार्म प्रकार स्वयं फ़ुल-स्क्रीन अलार्म नहीं दिखा सकता, इसलिए अज़ान रोकने के लिए सूचनाओं की आवश्यकता है। इसे उपयोग करने के लिए सूचनाओं की अनुमति दें।</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

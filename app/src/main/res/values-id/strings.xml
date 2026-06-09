@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Akses notifikasi diperlukan untuk pengingat. Aktifkan notifikasi untuk aplikasi ini di pengaturan.</string>
     <string name="reminder_exact_alarm_permission_rationale">Pengingat harus berbunyi tepat pada waktu yang dijadwalkan. Izinkan aplikasi ini menjadwalkan alarm tepat.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Akses alarm tepat diperlukan agar pengingat berbunyi tepat waktu. Izinkan untuk aplikasi ini di pengaturan.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Untuk menampilkan pengingat di atas layar kunci dan menyalakan layar, izinkan aplikasi ini menggunakan alarm layar penuh.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Tanpa akses layar penuh, pengingat tidak akan muncul di atas layar kunci. Anda dapat mengizinkannya nanti di pengaturan.</string>
+    <string name="reminder_phone_state_permission_rationale">Izinkan akses telepon agar pengingat dapat berhenti sejenak saat ada panggilan masuk atau aktif. Hanya digunakan untuk membaca status panggilan.</string>
+    <string name="reminder_phone_state_permission_denied_text">Akses telepon dimatikan, sehingga pengingat tidak akan berhenti saat ada panggilan. Anda dapat mengizinkannya nanti di pengaturan.</string>
     <string name="phone_state_permission_title">Izinkan akses telepon</string>
     <string name="dnd_permission_title">Izinkan akses Jangan Ganggu</string>
     <string name="dnd_permission_rationale">Izinkan aplikasi ini mengontrol Jangan Ganggu. Ini memungkinkan adzan diputar saat Jangan Ganggu aktif, dan mengaktifkan opsi untuk membisukan ponsel Anda setelah Anda menghentikan alarm.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Menekan tombol volume menghentikan adzan yang sedang diputar.</string>
     <string name="dont_show_alarm_screen">Biarkan layar mati</string>
     <string name="dont_show_alarm_screen_help">Jangan nyalakan layar atau tampilkan alarm layar penuh saat adzan atau pengingat diputar.</string>
+    <string name="force_launch_alarm_screen">Selalu buka layar alarm</string>
+    <string name="force_launch_alarm_screen_help">Paksa alarm layar penuh untuk terbuka langsung. Coba ini jika ponsel Anda tidak menampilkannya di atas layar kunci.</string>
     <string name="notifications">Notifikasi</string>
     <string name="auto_silent_on_dismiss">Bisukan ponsel setelah dihentikan</string>
     <string name="auto_silent_on_dismiss_help">Saat Anda menghentikan adzan, ponsel masuk ke mode Jangan Ganggu untuk sementara waktu. Menunda tidak. Hanya berlaku untuk azan.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Pada beberapa perangkat (seperti Google Pixel), jenis alarm default terdaftar sebagai alarm jam, yang dapat mengganggu Pengisian Daya Adaptif dan menampilkan ikon alarm. Aktifkan ini untuk menggunakan jenis alarm yang menghindari keduanya.</string>
     <string name="adaptive_charging_caution">Perhatian: Pada beberapa perangkat, jenis alarm ini lebih terpengaruh oleh optimasi baterai, sehingga adzan dan pengingat mungkin tertunda atau terlewat. Gunakan dengan hati-hati.</string>
     <string name="different_alarm_enable">Gunakan jenis alarm yang berbeda</string>
+    <string name="different_alarm_notification_rationale">Jenis alarm ini tidak dapat menampilkan alarm layar penuh sendiri, jadi notifikasi diperlukan agar Anda dapat menghentikan adzan. Izinkan notifikasi untuk menggunakannya.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

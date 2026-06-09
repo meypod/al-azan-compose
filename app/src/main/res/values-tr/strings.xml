@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Hatırlatıcılar için bildirim erişimi gereklidir. Ayarlardan bu uygulama için bildirimleri etkinleştirin.</string>
     <string name="reminder_exact_alarm_permission_rationale">Hatırlatıcılar tam belirlenen zamanda çalmalıdır. Bu uygulamanın tam zamanlı alarm kurmasına izin verin.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Hatırlatıcıların zamanında çalması için tam zamanlı alarm erişimi gereklidir. Ayarlardan bu uygulama için izin verin.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Hatırlatıcıyı kilit ekranınızın üzerinde göstermek ve ekranı uyandırmak için bu uygulamanın tam ekran alarm kullanmasına izin verin.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Tam ekran erişimi olmadan hatırlatıcı kilit ekranının üzerinde gösterilmez. Daha sonra ayarlardan izin verebilirsiniz.</string>
+    <string name="reminder_phone_state_permission_rationale">Gelen veya aktif aramalarda hatırlatıcının duraklayabilmesi için telefon erişimine izin verin. Yalnızca arama durumunu okumak için kullanılır.</string>
+    <string name="reminder_phone_state_permission_denied_text">Telefon erişimi kapalı, bu nedenle hatırlatıcı aramalarda duraklamaz. Daha sonra ayarlardan izin verebilirsiniz.</string>
     <string name="phone_state_permission_title">Telefon erişimine izin ver</string>
     <string name="dnd_permission_title">Rahatsız Etmeyin erişimine izin ver</string>
     <string name="dnd_permission_rationale">Bu uygulamanın Rahatsız Etmeyin\'i denetlemesine izin verin. Bu, Rahatsız Etmeyin açıkken ezanın çalmasını sağlar ve alarmı reddettikten sonra telefonunuzu susturma seçeneğini etkinleştirir.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Bir ses tuşuna basmak çalan ezanı durdurur.</string>
     <string name="dont_show_alarm_screen">Ekranı kapalı tut</string>
     <string name="dont_show_alarm_screen_help">Bir ezan veya hatırlatıcı çalarken ekranı açma veya tam ekran alarmı gösterme.</string>
+    <string name="force_launch_alarm_screen">Alarm ekranını her zaman aç</string>
+    <string name="force_launch_alarm_screen_help">Tam ekran alarmının doğrudan açılmasını zorla. Telefonunuz onu kilit ekranının üzerinde göstermiyorsa bunu deneyin.</string>
     <string name="notifications">Bildirimler</string>
     <string name="auto_silent_on_dismiss">Reddettikten sonra telefonu sustur</string>
     <string name="auto_silent_on_dismiss_help">Bir ezanı reddettiğinizde, telefon bir süreliğine Rahatsız Etmeyin moduna geçer. Erteleme bunu yapmaz. Yalnızca ezan için geçerlidir.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Bazı cihazlarda (Google Pixel gibi), varsayılan alarm türü bir saat alarmı olarak kaydedilir ve bu, Uyarlanabilir Şarj\'ı etkileyebilir ve bir alarm simgesi gösterebilir. Her ikisinden de kaçınan bir alarm türü kullanmak için bunu etkinleştirin.</string>
     <string name="adaptive_charging_caution">Dikkat: Bazı cihazlarda bu alarm türü pil optimizasyonundan daha fazla etkilenir, bu nedenle ezan ve hatırlatıcılar gecikebilir veya kaçırılabilir. Dikkatli kullanın.</string>
     <string name="different_alarm_enable">Farklı bir alarm türü kullan</string>
+    <string name="different_alarm_notification_rationale">Bu alarm türü tam ekran alarmı kendi başına gösteremez, bu yüzden ezanı durdurabilmeniz için bildirimler gereklidir. Kullanmak için bildirimlere izin verin.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)
