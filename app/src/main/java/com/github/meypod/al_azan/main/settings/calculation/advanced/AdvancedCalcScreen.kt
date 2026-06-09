@@ -2,9 +2,7 @@ package com.github.meypod.al_azan.main.settings.calculation.advanced
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,17 +40,16 @@ fun AdvancedCalcScreen(
         DropdownCard(stringResource(R.string.rounding_method)) {
             BottomSelect(
                 modifier = Modifier.fillMaxWidth(),
-                options = Rounding.entries.union(listOf(null)),
-                optionKey = { it?.name ?: "null" },
+                options = Rounding.entries,
+                optionKey = { it.name },
                 optionLabel = {
                     when (it) {
                         Rounding.NEAREST -> resources.getString(R.string.rounding_nearest)
                         Rounding.UP -> resources.getString(R.string.rounding_up)
                         Rounding.NONE -> resources.getString(R.string.none)
-                        null -> resources.getString(R.string.rounding_auto_default)
                     }
                 },
-                selectedKey = uiState.rounding?.name ?: "null",
+                selectedKey = uiState.rounding.name,
                 onSelect = { onAction(AdvancedCalcUiAction.OnRoundingChange(it)) },
             )
         }

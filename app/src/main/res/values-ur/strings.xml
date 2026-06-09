@@ -12,7 +12,7 @@
     <string name="okay">ٹھیک ہے</string>
     <string name="dismiss">برطرف کریں</string>
     <string name="none">کوئی نہیں</string>
-    <string name="default">طے شدہ</string>
+    <string name="default_value">طے شدہ</string>
     <string name="play">چلائیں</string>
     <string name="stop">روکیں</string>
     <string name="add">شامل کریں۔</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">اعلی درجے کی حساب کی ترتیبات</string>
     <string name="rounding_method">گول کرنے کا طریقہ</string>
-    <string name="rounding_auto_default">خودکار (پہلے سے طے شدہ)</string>
     <string name="rounding_nearest">قریب ترین</string>
     <string name="rounding_up">اوپر کی طرف</string>
     <string name="midnight_method">آدھی رات کا طریقہ</string>

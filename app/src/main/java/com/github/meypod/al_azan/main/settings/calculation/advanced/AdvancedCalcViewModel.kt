@@ -41,7 +41,7 @@ class AdvancedCalcViewModel @Inject constructor(
         viewModelScope.launch {
             calculationSettingsRepository.update {
                 val params = (it.parameters ?: CalculationParameters())
-                it.copy(parameters = params.copy(rounding = action.value ?: params.rounding))
+                it.copy(parameters = params.copy(rounding = action.value))
             }
         }
     }

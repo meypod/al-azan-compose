@@ -12,7 +12,7 @@
     <string name="okay">ठीक</string>
     <string name="dismiss">हटाएँ</string>
     <string name="none">कोई नहीं</string>
-    <string name="default">डिफ़ॉल्ट</string>
+    <string name="default_value">डिफ़ॉल्ट</string>
     <string name="play">चलाएँ</string>
     <string name="stop">रोकें</string>
     <string name="add">जोड़ें</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">उन्नत गणना सेटिंग्स</string>
     <string name="rounding_method">गोल करने की विधि</string>
-    <string name="rounding_auto_default">स्वतः (डिफ़ॉल्ट)</string>
     <string name="rounding_nearest">निकटतम</string>
     <string name="rounding_up">ऊपर की ओर</string>
     <string name="midnight_method">आधी रात की विधि</string>

@@ -12,7 +12,7 @@
     <string name="okay">Sawa</string>
     <string name="dismiss">Puuzilia</string>
     <string name="none">Tupu</string>
-    <string name="default">Chaguomsingi</string>
+    <string name="default_value">Chaguomsingi</string>
     <string name="play">Cheza</string>
     <string name="stop">Acha</string>
     <string name="add">Ongeza</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Mipangilio ya Hesabu Endelevu</string>
     <string name="rounding_method">Njia ya Kuviringisha</string>
-    <string name="rounding_auto_default">Otomatiki (Chaguomsingi)</string>
     <string name="rounding_nearest">Karibu zaidi</string>
     <string name="rounding_up">Juu</string>
     <string name="midnight_method">Njia ya Usiku wa manane</string>

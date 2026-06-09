@@ -12,7 +12,7 @@
     <string name="okay">Oke</string>
     <string name="dismiss">Hentikan</string>
     <string name="none">Tidak ada</string>
-    <string name="default">Bawaan</string>
+    <string name="default_value">Bawaan</string>
     <string name="play">Putar</string>
     <string name="stop">Berhenti</string>
     <string name="add">Tambah</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Pengaturan Lanjutan</string>
     <string name="rounding_method">Metode Pembulatan</string>
-    <string name="rounding_auto_default">Otomatis (Default)</string>
     <string name="rounding_nearest">Terdekat</string>
     <string name="rounding_up">Ke atas</string>
     <string name="midnight_method">Metode Tengah Malam</string>
