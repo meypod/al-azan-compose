@@ -20,6 +20,9 @@ object ReminderContract {
     const val EXTRA_REMINDER_ID = "reminder_id"
     const val EXTRA_TIMESTAMP = "reminder_timestamp"
 
+    /** "true"/"false": whether this alarm sounds/vibrates intrusively (drives the Scheduled-alarms list). */
+    const val EXTRA_INTRUSIVE = "reminder_intrusive"
+
     fun alarmId(reminderId: String) = "$ALARM_ID_PREFIX$reminderId"
 
     fun preAlarmId(reminderId: String) = "$PRE_ALARM_ID_PREFIX$reminderId"

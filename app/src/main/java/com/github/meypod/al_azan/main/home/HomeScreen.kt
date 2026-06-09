@@ -136,6 +136,16 @@ fun HomeScreen(
                 )
                 NavigationDrawerItem(
                     icon = {
+                        Icon(painterResource(R.drawable.outline_calendar_month_24), contentDescription = null)
+                    },
+                    label = { Text(stringResource(R.string.upcoming_alarms)) },
+                    selected = false,
+                    onClick = {
+                        onAction(HomeUiAction.OnUpcomingAlarmsClick)
+                    },
+                )
+                NavigationDrawerItem(
+                    icon = {
                         Icon(painterResource(R.drawable.info_variant_outline), contentDescription = null)
                     },
                     label = { Text(stringResource(R.string.about)) },

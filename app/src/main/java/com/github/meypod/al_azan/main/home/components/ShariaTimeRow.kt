@@ -27,6 +27,7 @@ import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.ClassicHighlightBackground
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
+import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.TertiaryFixed
 import com.github.meypod.al_azan.core.presentation.util.dashedBorder
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2Up
@@ -88,7 +89,20 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                 .fillMaxWidth()
                 .then(
                     if (state.prayer.isNonPrayer) {
-                        Modifier.dashedBorder(textColor)
+                        val highlighted = state.highlightState == HighlightState.Highlighted
+                        val classicLightHighlight =
+                            highlighted && state.themeColor == ThemeColor.ClassicLight
+                        Modifier
+                            .then(
+                                if (classicLightHighlight) {
+                                    Modifier
+                                        .clip(MaterialTheme.shapes.medium)
+                                        .background(ClassicHighlightBackground)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .dashedBorder(if (classic && highlighted) DarkTertiaryContainer else textColor)
                     } else if (classic) {
                         val highlighted = state.highlightState == HighlightState.Highlighted
                         val classicLightHighlight =

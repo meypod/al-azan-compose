@@ -637,4 +637,17 @@
     <string name="license">Lisans</string>
     <string name="about_credits">Ezan seslerinin tüm telif hakları sahiplerine aittir.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Yaklaşan alarmlar</string>
+    <string name="upcoming_alarms_empty">Yaklaşan alarm yok</string>
+    <string name="upcoming_alarms_info">Bunlar sesli çalacak olan sıradaki ezan ve hatırlatma alarmlarıdır. Birini atlayarak susturun ya da atlanan birini geri getirmek için yeniden zamanlayın.</string>
+    <string name="upcoming_alarm_skipped">Atlandı</string>
+    <string name="reschedule">Yeniden zamanla</string>
+    <string name="today">Bugün</string>
+    <string name="tomorrow">Yarın</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

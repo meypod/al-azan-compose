@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerialName
@@ -121,6 +122,12 @@ data class Settings(
     val travelModeLastUpdateMillis: Long? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
     val countdownSkipNonPrayers: Boolean = false,
+    /**
+     * Occurrences the user skipped from the Scheduled-alarms screen. Schedulers arm strictly after each
+     * matching entry's fire time, so the *following* occurrence fires instead, and prune their own past
+     * entries on every run. See [com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm].
+     */
+    val skippedAlarms: List<SkippedAlarm> = emptyList(),
     /** Epoch millis until which adhan alarms are suppressed ("Dismiss & silent"). Null = not silenced. */
     val adhanSilencedUntilMillis: Long? = null,
     /** Interruption filter to restore when the "Dismiss & silent" DND window ends. Null = nothing to restore. */

@@ -35,6 +35,9 @@ object AdhanContract {
     /** Extras carried by the alarm broadcast / playback intents. */
     const val EXTRA_PLAY_SOUND = "adhan_play_sound"
     const val EXTRA_TIMESTAMP = "adhan_timestamp"
+
+    /** "true"/"false": whether this alarm sounds/vibrates intrusively (drives the Scheduled-alarms list). */
+    const val EXTRA_INTRUSIVE = "adhan_intrusive"
     const val EXTRA_REMIND_MINUTES = "adhan_remind_minutes"
 
     /** "Remind me later" durations offered on the full-screen alarm. */

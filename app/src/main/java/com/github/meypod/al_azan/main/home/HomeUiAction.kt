@@ -11,6 +11,7 @@ sealed interface HomeUiAction {
     object OnQiblaLinkClick : HomeUiAction
     object OnCounterLinkClick : HomeUiAction
     object OnSettingsLinkClick : HomeUiAction
+    object OnUpcomingAlarmsClick : HomeUiAction
     object OnAboutLinkClick : HomeUiAction
     object OnMonthlyViewClick : HomeUiAction
     object OnDeveloperLinkClick : HomeUiAction

@@ -637,4 +637,17 @@
     <string name="license">লাইসেন্স</string>
     <string name="about_credits">আযান কণ্ঠের সমস্ত কপিরাইট তাদের নিজ নিজ মালিকদের।</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">আসন্ন অ্যালার্ম</string>
+    <string name="upcoming_alarms_empty">কোনো আসন্ন অ্যালার্ম নেই</string>
+    <string name="upcoming_alarms_info">এগুলো পরবর্তী আযান ও রিমাইন্ডার অ্যালার্ম যেগুলো শব্দ করে বাজবে। একটি এড়িয়ে গিয়ে নীরব করুন, অথবা এড়িয়ে যাওয়া একটি পুনরায় শিডিউল করে ফিরিয়ে আনুন।</string>
+    <string name="upcoming_alarm_skipped">এড়ানো হয়েছে</string>
+    <string name="reschedule">পুনরায় শিডিউল</string>
+    <string name="today">আজ</string>
+    <string name="tomorrow">আগামীকাল</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

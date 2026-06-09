@@ -25,6 +25,8 @@ class AlarmRepositoryImpl(
 
     private val alarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
 
+    override val data get() = store.data
+
     override suspend fun schedule(alarm: ScheduledAlarm) {
         store.update { alarms -> alarms.filterNot { it.id == alarm.id } + alarm }
         register(alarm)

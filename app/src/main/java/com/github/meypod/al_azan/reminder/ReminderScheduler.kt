@@ -5,6 +5,7 @@ import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
@@ -77,6 +78,16 @@ class ReminderScheduler @Inject constructor(
                 .firstOrNull { it.id == calc.locationId }?.locationDetail
             val reminders = reminderRepository.data.first()
 
+            // Prune our own past skip entries (the scheduler runs on every settings change / boot / fire,
+            // so this is the reliable cleanup point); past entries are inert (now dominates) anyway.
+            val nowMs = Clock.System.now().toEpochMilliseconds()
+            val livePruned = settings.skippedAlarms.filterNot {
+                it is SkippedAlarm.Reminder && it.fireTimeMs <= nowMs
+            }
+            if (livePruned.size != settings.skippedAlarms.size) {
+                settingsRepository.update { it.copy(skippedAlarms = livePruned) }
+            }
+
             // Drop any scheduled reminder alarm (main or pre) that no longer maps to an enabled reminder.
             val enabledIds = reminders.filter { it.enabled }.map { it.id }.toSet()
             alarmRepository.getScheduled()
@@ -107,7 +118,11 @@ class ReminderScheduler @Inject constructor(
             for (reminder in reminders) {
                 if (!reminder.enabled) continue
                 val deliveredMs = settings.deliveredAlarmTimestamps[ReminderContract.notificationId(reminder.id)] ?: 0L
-                val fromMs = maxOf(Clock.System.now().toEpochMilliseconds(), deliveredMs + REFIRE_GUARD_MS)
+                // "Skip next": arm strictly after the latest skipped occurrence so a later one fires instead.
+                val skippedMs = livePruned
+                    .filter { it.alarmId == ReminderContract.alarmId(reminder.id) }
+                    .maxOfOrNull { it.fireTimeMs } ?: 0L
+                val fromMs = maxOf(nowMs, deliveredMs + REFIRE_GUARD_MS, skippedMs + REFIRE_GUARD_MS)
                 val triggerMs = nextTriggerMs(reminder, fromMs, calc, settings, location) ?: continue
 
                 val changed = lastSignatures[reminder.id] != triggerMs
@@ -122,6 +137,13 @@ class ReminderScheduler @Inject constructor(
                     changed = changed,
                 )
 
+                // Intrusive = looping/long sound OR continuous vibration; a short chime with at most a
+                // single buzz is not. Drives the pre-reminder below and the Scheduled-alarms list
+                // (stamped into the main alarm's extras).
+                val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
+                val vibration = reminder.vibration ?: alarmSettings.vibrationMode
+                val intrusive = vibration == VibrationMode.Continuous || audioDurationProbe.isIntrusive(soundEntry)
+
                 Log.i(TAG, "Reminder ${reminder.id} (${reminder.prayer}) in ${(triggerMs - fromMs) / 1000}s")
                 alarmRepository.schedule(
                     ScheduledAlarm(
@@ -132,16 +154,13 @@ class ReminderScheduler @Inject constructor(
                         extras = mapOf(
                             ReminderContract.EXTRA_REMINDER_ID to reminder.id,
                             ReminderContract.EXTRA_TIMESTAMP to triggerMs.toString(),
+                            ReminderContract.EXTRA_INTRUSIVE to intrusive.toString(),
                         ),
                     ),
                 )
 
                 // Pre-reminder ("upcoming") notification, only for intrusive reminders, unless the user
-                // disabled upcoming reminders. Intrusive = looping/long sound OR continuous vibration; a
-                // short chime with at most a single buzz gets no pre-reminder.
-                val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
-                val vibration = reminder.vibration ?: alarmSettings.vibrationMode
-                val intrusive = vibration == VibrationMode.Continuous || audioDurationProbe.isIntrusive(soundEntry)
+                // disabled upcoming reminders.
                 if (intrusive && !alarmSettings.dontNotifyUpcoming) {
                     val preMs = (triggerMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
                         .coerceAtLeast(fromMs + REFIRE_GUARD_MS)
