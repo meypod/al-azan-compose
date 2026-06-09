@@ -10,6 +10,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.upsert
 import com.github.meypod.al_azan.core.domain.model.alarm.withoutFrom
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
+import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.playback.PlaybackService
@@ -40,6 +41,7 @@ class UpcomingAlarmsViewModel @Inject constructor(
     private val alarmRepository: AlarmRepository,
     private val settingsRepository: SettingsRepository,
     private val reminderRepository: ReminderRepository,
+    private val notificationRepository: NotificationRepository,
     private val adhanScheduler: AdhanScheduler,
     private val reminderScheduler: ReminderScheduler,
 ) : ViewModel() {
@@ -165,7 +167,20 @@ class UpcomingAlarmsViewModel @Inject constructor(
                 )
             }
             settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.upsert(entry)) }
+            // If the pre-alarm already fired, its "upcoming" notification is still showing — dismiss it,
+            // otherwise the user just skipped an alarm whose heads-up keeps lingering. No-op if absent.
+            dismissUpcomingNotification(armed)
             reschedule(id)
+        }
+    }
+
+    private suspend fun dismissUpcomingNotification(armed: ScheduledAlarm) {
+        if (armed.action == AdhanContract.ACTION_ADHAN) {
+            notificationRepository.cancelNotification(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
+        } else {
+            armed.extras[ReminderContract.EXTRA_REMINDER_ID]?.let {
+                notificationRepository.cancelNotification(ReminderContract.preNotificationId(it))
+            }
         }
     }
 
