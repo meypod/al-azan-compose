@@ -78,14 +78,14 @@ fun AdjustmentsScreen(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    AdjustIconButton(isPlus = true) { onAction(AdjustmentsUiAction.OnLunarDayChange(1)) }
+                    AdjustIconButton(isPlus = false) { onAction(AdjustmentsUiAction.OnLunarDayChange(-1)) }
                     IntInputField(
                         value = uiState.adjustments.hijriDate,
                         onValueChange = { onAction(AdjustmentsUiAction.OnLunarDaySet(it)) },
                         modifier = Modifier.weight(1f),
                         textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                     )
-                    AdjustIconButton(isPlus = false) { onAction(AdjustmentsUiAction.OnLunarDayChange(-1)) }
+                    AdjustIconButton(isPlus = true) { onAction(AdjustmentsUiAction.OnLunarDayChange(1)) }
                 }
             }
         }
@@ -108,14 +108,14 @@ private fun AdjusterCell(
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            AdjustIconButton(isPlus = true, onClick = onInc)
+            AdjustIconButton(isPlus = false, onClick = onDec)
             IntInputField(
                 value = value,
                 onValueChange = onSet,
                 modifier = Modifier.width(58.dp),
                 textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
             )
-            AdjustIconButton(isPlus = false, onClick = onDec)
+            AdjustIconButton(isPlus = true, onClick = onInc)
         }
     }
 }
