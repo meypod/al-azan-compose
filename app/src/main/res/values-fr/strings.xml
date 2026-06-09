@@ -174,8 +174,7 @@
     <string name="set_as_default">Définir par défaut</string>
     <string name="delete_location">Supprimer le lieu</string>
     <string name="delete_location_confirm_title">Supprimer le lieu ?</string>
-    <string name="delete_location_confirm_body">Cela supprimera le lieu suivant de votre liste enregistrée :
-%1$s</string>
+    <string name="delete_location_confirm_body">Cela supprimera le lieu suivant de votre liste enregistrée :\n%1$s</string>
     <string name="new_location_description">Vous pouvez ajouter un lieu de trois manières différentes. Choisissez-en une ci-dessous :</string>
     <string name="search_by_city_title">Utilisation de la recherche</string>
     <string name="country">Pays</string>
@@ -488,8 +487,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">Clause de non-responsabilité</string>
-    <string name="qibla_disclaimer">Notez qu\'en raison d\'erreurs logicielles et matérielles, la direction de la Qibla affichée par cette application peut être erronée.
-D\'autres appareils magnétiques peuvent interférer avec la boussole de votre téléphone et votre boussole peut nécessiter un étalonnage.</string>
+    <string name="qibla_disclaimer">Notez qu\'en raison d\'erreurs logicielles et matérielles, la direction de la Qibla affichée par cette application peut être erronée.\nD\'autres appareils magnétiques peuvent interférer avec la boussole de votre téléphone et votre boussole peut nécessiter un étalonnage.</string>
     <string name="qibla_i_understand">Je comprends</string>
     <string name="qibla_use_map">Utiliser la carte</string>
     <string name="qibla_use_compass">Utiliser la boussole</string>
@@ -541,7 +539,7 @@ D\'autres appareils magnétiques peuvent interférer avec la boussole de votre t
     <string name="adhan_dnd_revoked_title">Téléphone non mis en silence</string>
     <string name="adhan_dnd_revoked_body">L\'accès au mode Ne pas déranger est désactivé, le téléphone n\'a donc pas été mis en silence après que vous ayez ignoré l\'Adhan. Réactivez-le dans les paramètres de dépannage.</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
-    <string name="adaptive_charging">Chargement adaptatif</string>
+    <string name="adaptive_charging">Charge adaptative</string>
     <string name="adaptive_charging_help">Sur certains appareils (comme Google Pixel), le type d\'alarme par défaut est enregistré comme une alarme de réveil, ce qui peut interférer avec la Charge adaptative et afficher une icône d\'alarme. Activez cette option pour utiliser un type d\'alarme qui évite les deux.</string>
     <string name="adaptive_charging_caution">Attention : sur certains appareils, ce type d\'alarme est davantage affecté par l\'optimisation de la batterie, l\'Adhan et les rappels peuvent donc être retardés ou manqués. À utiliser avec précaution.</string>
     <string name="different_alarm_enable">Utiliser un autre type d\'alarme</string>

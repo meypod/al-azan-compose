@@ -273,7 +273,7 @@
     <string name="calculation_method_modified">%1$s (اصلاح‌شده)</string>
     <string name="fajr_angle">زاویه فجر</string>
     <string name="isha_angle">زاویه عشاء</string>
-    <string name="isha_interval">فاصله عشا</string>
+    <string name="isha_interval">فاصله عشاء</string>
     <string name="maghrib_angle">زاویه مغرب</string>
     <string name="edit_calculation_parameters">ویرایش پارامترهای محاسبه</string>
     <string name="minutes_unit">دقیقه</string>
@@ -328,7 +328,7 @@
     <string name="polar_aqrab_balad">اقرب بلد</string>
     <string name="polar_aqrab_yaum">اقرب یوم</string>
     <string name="shafaq">شفق</string>
-    <string name="shafaq_help">«شفق» در روش محاسبهٔ «کمیته رویت هلال ماه» برای تعیین نوع گرگ و میش به‌منظور تعیین زمان عشا استفاده می‌شود.</string>
+    <string name="shafaq_help">«شفق» در روش محاسبهٔ «کمیته رویت هلال ماه» برای تعیین نوع گرگ و میش به‌منظور تعیین زمان عشاء استفاده می‌شود.</string>
     <string name="shafaq_general_default">عمومی (پیش‌فرض)</string>
     <string name="shafaq_ahmer">قرمز</string>
     <string name="shafaq_abyad">سفید</string>

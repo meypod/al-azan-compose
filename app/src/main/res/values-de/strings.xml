@@ -174,8 +174,7 @@
     <string name="set_as_default">Als Standard festlegen</string>
     <string name="delete_location">Standort löschen</string>
     <string name="delete_location_confirm_title">Standort löschen?</string>
-    <string name="delete_location_confirm_body">Dadurch wird der folgende Standort aus Ihrer gespeicherten Liste entfernt:
-%1$s</string>
+    <string name="delete_location_confirm_body">Dadurch wird der folgende Standort aus Ihrer gespeicherten Liste entfernt:\n%1$s</string>
     <string name="new_location_description">Sie können einen Standort auf drei verschiedene Arten hinzufügen. Wählen Sie unten eine aus:</string>
     <string name="search_by_city_title">Suche verwenden</string>
     <string name="country">Land</string>
@@ -488,8 +487,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">Haftungsausschluss</string>
-    <string name="qibla_disclaimer">Beachten Sie, dass die von dieser App angezeigte Qibla-Richtung aufgrund von Software- und Hardwarefehlern falsch sein kann.
-Andere magnetische Geräte können den Kompass Ihres Telefons stören, und Ihr Kompass muss möglicherweise kalibriert werden.</string>
+    <string name="qibla_disclaimer">Beachten Sie, dass die von dieser App angezeigte Qibla-Richtung aufgrund von Software- und Hardwarefehlern falsch sein kann.\nAndere magnetische Geräte können den Kompass Ihres Telefons stören, und Ihr Kompass muss möglicherweise kalibriert werden.</string>
     <string name="qibla_i_understand">Ich verstehe</string>
     <string name="qibla_use_map">Karte verwenden</string>
     <string name="qibla_use_compass">Kompass verwenden</string>

@@ -174,8 +174,7 @@
     <string name="set_as_default">Weka kama chaguomsingi</string>
     <string name="delete_location">Futa eneo</string>
     <string name="delete_location_confirm_title">Futa eneo?</string>
-    <string name="delete_location_confirm_body">Hii itaondoa eneo lifuatalo kutoka kwa orodha yako iliyohifadhiwa:
-%1$s</string>
+    <string name="delete_location_confirm_body">Hii itaondoa eneo lifuatalo kutoka kwa orodha yako iliyohifadhiwa:\n%1$s</string>
     <string name="new_location_description">Unaweza kuongeza eneo kwa njia tatu tofauti. Chagua moja hapa chini:</string>
     <string name="search_by_city_title">Kwa kutumia Utafutaji</string>
     <string name="country">Nchi</string>
@@ -488,8 +487,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">Kanusho</string>
-    <string name="qibla_disclaimer">Kumbuka kwamba kutokana na hitilafu za programu na maunzi, mwelekeo wa Kibla unaoonyeshwa na programu hii unaweza kuwa si sahihi.
-Vifaa vingine vya sumaku vinaweza kuingilia dira ya simu yako na dira yako inaweza kuhitaji kurekebishwa.</string>
+    <string name="qibla_disclaimer">Kumbuka kwamba kutokana na hitilafu za programu na maunzi, mwelekeo wa Kibla unaoonyeshwa na programu hii unaweza kuwa si sahihi.\nVifaa vingine vya sumaku vinaweza kuingilia dira ya simu yako na dira yako inaweza kuhitaji kurekebishwa.</string>
     <string name="qibla_i_understand">Nimeelewa</string>
     <string name="qibla_use_map">Tumia Ramani</string>
     <string name="qibla_use_compass">Tumia Dira</string>
