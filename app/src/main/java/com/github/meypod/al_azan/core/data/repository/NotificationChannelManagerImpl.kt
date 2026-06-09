@@ -30,12 +30,15 @@ class NotificationChannelManagerImpl @Inject constructor(
     /**
      * Ensures all defined channels exist with the latest configuration.
      * Safe to call multiple times; only creates/updates if necessary.
+     *
+     * Channels are created unconditionally — NOT gated on [NotificationManagerCompat.areNotificationsEnabled].
+     * Creating a channel needs no notification permission, and a foreground-service notification posted to a
+     * non-existent channel is a hard crash on Android 14+ (CannotPostForegroundServiceNotificationException),
+     * so the adhan/reminder playback service must always find its channel even when notifications are off.
      */
     override fun ensureChannelsExist(configs: List<NotificationChannelConfig>) {
-        if (notificationManager.areNotificationsEnabled()) {
-            configs.forEach { config ->
-                createOrUpdateChannel(config)
-            }
+        configs.forEach { config ->
+            createOrUpdateChannel(config)
         }
     }
 
