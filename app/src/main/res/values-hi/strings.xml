@@ -637,4 +637,17 @@
     <string name="license">लाइसेंस</string>
     <string name="about_credits">अज़ान की आवाज़ों के सभी कॉपीराइट उनके संबंधित मालिकों के हैं।</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">आगामी अलार्म</string>
+    <string name="upcoming_alarms_empty">कोई आगामी अलार्म नहीं</string>
+    <string name="upcoming_alarms_info">ये अगले अज़ान और रिमाइंडर अलार्म हैं जो ज़ोर से बजेंगे। किसी एक को छोड़कर उसे चुप करें, या छोड़े गए को वापस लाने के लिए पुनर्निर्धारित करें।</string>
+    <string name="upcoming_alarm_skipped">छोड़ा गया</string>
+    <string name="reschedule">पुनर्निर्धारित करें</string>
+    <string name="today">आज</string>
+    <string name="tomorrow">कल</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

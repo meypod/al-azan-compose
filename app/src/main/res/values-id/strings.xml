@@ -637,4 +637,17 @@
     <string name="license">Lisensi</string>
     <string name="about_credits">Semua hak cipta untuk suara adzan adalah milik masing-masing pemiliknya.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Alarm mendatang</string>
+    <string name="upcoming_alarms_empty">Tidak ada alarm mendatang</string>
+    <string name="upcoming_alarms_info">Ini adalah alarm azan dan pengingat berikutnya yang akan berbunyi nyaring. Lewati salah satu untuk membisukannya, atau jadwalkan ulang yang dilewati untuk mengembalikannya.</string>
+    <string name="upcoming_alarm_skipped">Dilewati</string>
+    <string name="reschedule">Jadwalkan ulang</string>
+    <string name="today">Hari ini</string>
+    <string name="tomorrow">Besok</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

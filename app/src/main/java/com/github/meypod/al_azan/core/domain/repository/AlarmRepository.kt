@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.domain.repository
 
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Tracks and schedules [ScheduledAlarm]s with the platform alarm scheduler.
@@ -9,6 +10,9 @@ import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
  * after events that wipe platform alarms (reboot, time/timezone change).
  */
 interface AlarmRepository {
+
+    /** The currently tracked alarms, emitting on every schedule/cancel (in-process). */
+    val data: Flow<List<ScheduledAlarm>>
 
     /** Schedules (or, for an existing [ScheduledAlarm.id], replaces) an alarm and tracks it. */
     suspend fun schedule(alarm: ScheduledAlarm)

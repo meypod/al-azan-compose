@@ -68,6 +68,8 @@ import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTro
 import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootViewModel
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsScreen
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsViewModel
+import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsScreen
+import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -123,6 +125,7 @@ fun MainNavigation(
                                 Route.Main.Settings.SoundAndNotifications.PrayerSchedule::class,
                                 Route.Main.Settings.SoundAndNotifications.PrayerSchedule.serializer(),
                             )
+                            subclass(Route.Main.UpcomingAlarms::class, Route.Main.UpcomingAlarms.serializer())
                             subclass(Route.Main.About::class, Route.Main.About.serializer())
                         }
                     }
@@ -183,6 +186,11 @@ fun MainNavigation(
                 val vm = hiltViewModel<SettingsMenuViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 SettingsMenuScreen(s, vm::onAction)
+            }
+            entry<Route.Main.UpcomingAlarms> {
+                val vm = hiltViewModel<UpcomingAlarmsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                UpcomingAlarmsScreen(s, vm::onAction)
             }
             entry<Route.Main.About> {
                 val vm = hiltViewModel<AboutViewModel>()

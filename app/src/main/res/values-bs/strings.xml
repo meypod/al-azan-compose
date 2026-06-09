@@ -637,4 +637,17 @@
     <string name="license">Licenca</string>
     <string name="about_credits">Sva autorska prava za glasove ezana pripadaju njihovim vlasnicima.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Nadolazeći alarmi</string>
+    <string name="upcoming_alarms_empty">Nema nadolazećih alarma</string>
+    <string name="upcoming_alarms_info">Ovo su sljedeći alarmi za ezan i podsjetnike koji će se oglasiti naglas. Preskočite jedan da ga utišate ili ponovo zakažite preskočeni da ga vratite.</string>
+    <string name="upcoming_alarm_skipped">Preskočeno</string>
+    <string name="reschedule">Ponovo zakaži</string>
+    <string name="today">Danas</string>
+    <string name="tomorrow">Sutra</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

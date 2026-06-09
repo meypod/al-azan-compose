@@ -637,4 +637,17 @@
     <string name="license">Leseni</string>
     <string name="about_credits">Hakimiliki zote za sauti za adhana ni za wamiliki wao.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Kengele zinazokuja</string>
+    <string name="upcoming_alarms_empty">Hakuna kengele zinazokuja</string>
+    <string name="upcoming_alarms_info">Hizi ni kengele zinazofuata za adhana na vikumbusho zitakazolia kwa sauti. Ruka moja ili kuinyamazisha, au panga upya iliyorukwa ili kuirudisha.</string>
+    <string name="upcoming_alarm_skipped">Imerukwa</string>
+    <string name="reschedule">Panga upya</string>
+    <string name="today">Leo</string>
+    <string name="tomorrow">Kesho</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

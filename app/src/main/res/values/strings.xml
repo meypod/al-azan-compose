@@ -638,5 +638,18 @@
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">License</string>
     <string name="about_credits">All copyright for Adhan voices belongs to their respective owners.</string>
+    
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Upcoming alarms</string>
+    <string name="upcoming_alarms_empty">No upcoming alarms</string>
+    <string name="upcoming_alarms_info">These are the next adhan and reminder alarms that will play out loud. Skip one to silence it, or reschedule a skipped one to bring it back.</string>
+    <string name="upcoming_alarm_skipped">Skipped</string>
+    <string name="reschedule">Reschedule</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
 
 </resources>

@@ -657,4 +657,17 @@
     <string name="license">رخصة</string>
     <string name="about_credits">جميع حقوق نشر أصوات الأذان تعود إلى أصحابها.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">التنبيهات القادمة</string>
+    <string name="upcoming_alarms_empty">لا توجد تنبيهات قادمة</string>
+    <string name="upcoming_alarms_info">هذه هي تنبيهات الأذان والتذكير القادمة التي ستُشغَّل بصوت عالٍ. تخطَّ تنبيهًا لكتمه، أو أعِد جدولة تنبيه متخطًّى لإعادته.</string>
+    <string name="upcoming_alarm_skipped">تم التخطي</string>
+    <string name="reschedule">إعادة الجدولة</string>
+    <string name="today">اليوم</string>
+    <string name="tomorrow">غدًا</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

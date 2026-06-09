@@ -637,4 +637,17 @@
     <string name="license">Giấy phép</string>
     <string name="about_credits">Tất cả bản quyền cho giọng Azan thuộc về chủ sở hữu tương ứng.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Báo thức sắp tới</string>
+    <string name="upcoming_alarms_empty">Không có báo thức sắp tới</string>
+    <string name="upcoming_alarms_info">Đây là các báo thức adhan và nhắc nhở tiếp theo sẽ phát ra tiếng. Bỏ qua một báo thức để tắt tiếng nó, hoặc lên lịch lại báo thức đã bỏ qua để khôi phục.</string>
+    <string name="upcoming_alarm_skipped">Đã bỏ qua</string>
+    <string name="reschedule">Lên lịch lại</string>
+    <string name="today">Hôm nay</string>
+    <string name="tomorrow">Ngày mai</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

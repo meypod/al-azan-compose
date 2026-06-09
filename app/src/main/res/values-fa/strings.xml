@@ -637,4 +637,17 @@
     <string name="license">مجوز</string>
     <string name="about_credits">تمامی حقوق صداهای اذان متعلق به صاحبان مربوطهٔ آن است.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">هشدارهای آینده</string>
+    <string name="upcoming_alarms_empty">هشدار آینده‌ای وجود ندارد</string>
+    <string name="upcoming_alarms_info">این‌ها هشدارهای بعدی اذان و یادآوری هستند که با صدای بلند پخش می‌شوند. یکی را رد کنید تا بی‌صدا شود، یا هشدار ردشده را دوباره زمان‌بندی کنید تا بازگردد.</string>
+    <string name="upcoming_alarm_skipped">رد شد</string>
+    <string name="reschedule">زمان‌بندی مجدد</string>
+    <string name="today">امروز</string>
+    <string name="tomorrow">فردا</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>

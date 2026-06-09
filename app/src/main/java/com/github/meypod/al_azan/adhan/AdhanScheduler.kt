@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -79,7 +80,19 @@ class AdhanScheduler @Inject constructor(
             val nowMs = Clock.System.now().toEpochMilliseconds()
             val deliveredMs = settings.deliveredAlarmTimestamps[AdhanContract.ADHAN_NOTIFICATION_ID] ?: 0L
             val silencedUntilMs = settings.adhanSilencedUntilMillis ?: 0L
-            val fromMs = maxOf(nowMs, deliveredMs + REFIRE_GUARD_MS, silencedUntilMs)
+            // "Skip next": arm strictly after the latest skipped occurrence so a later prayer fires instead.
+            // Prune our own past skip entries here (the scheduler runs on every settings change / boot /
+            // fire, so this is the reliable cleanup point); past entries are inert (nowMs dominates) anyway.
+            val livePruned = settings.skippedAlarms.filterNot {
+                it is SkippedAlarm.Adhan && it.fireTimeMs <= nowMs
+            }
+            if (livePruned.size != settings.skippedAlarms.size) {
+                settingsRepository.update { it.copy(skippedAlarms = livePruned) }
+            }
+            val skippedMs = livePruned
+                .filter { it.alarmId == AdhanContract.ADHAN_ALARM_ID }
+                .maxOfOrNull { it.fireTimeMs } ?: 0L
+            val fromMs = maxOf(nowMs, deliveredMs + REFIRE_GUARD_MS, silencedUntilMs, skippedMs + REFIRE_GUARD_MS)
 
             val next = getNextShariaTimesUseCase(
                 instant = Instant.fromEpochMilliseconds(fromMs),
@@ -102,6 +115,18 @@ class AdhanScheduler @Inject constructor(
             val alarmType = if (settings.useDifferentAlarmType) AlarmType.ExactAllowWhileIdle else AlarmType.AlarmClock
             Log.i(TAG, "Next adhan ${next.prayer} in ${(prayerTimeMs - nowMs) / 1000}s (sound=${next.sound})")
 
+            // Intrusive = a sounding prayer whose muezzin loops/runs long OR has continuous vibration; a
+            // short notification chime with at most a single buzz is not. Drives the pre-alarm below and
+            // the Scheduled-alarms list (stamped into the main alarm's extras).
+            val soundEntry = settings.selectedAdhanEntries[next.prayer.toAdhanKey()]
+                ?: settings.selectedAdhanEntries[AdhanKey.Default]
+                ?: settings.savedAdhanAudioEntries.firstOrNull()
+            val vibration = alarmSettings.getVibrationSettings(next.prayer) ?: alarmSettings.vibrationMode
+            val intrusive = next.sound && (
+                vibration == VibrationMode.Continuous ||
+                    (soundEntry != null && audioDurationProbe.isIntrusive(soundEntry))
+                )
+
             alarmRepository.schedule(
                 ScheduledAlarm(
                     id = AdhanContract.ADHAN_ALARM_ID,
@@ -112,20 +137,13 @@ class AdhanScheduler @Inject constructor(
                         PlaybackService.EXTRA_PRAYER to next.prayer.name,
                         AdhanContract.EXTRA_PLAY_SOUND to next.sound.toString(),
                         AdhanContract.EXTRA_TIMESTAMP to prayerTimeMs.toString(),
+                        AdhanContract.EXTRA_INTRUSIVE to intrusive.toString(),
                     ),
                 ),
             )
 
-            // Pre-alarm: only for sounding prayers whose alarm is intrusive, unless the user disabled
-            // upcoming reminders. Intrusive = looping/long muezzin OR continuous vibration; a short
-            // notification chime with at most a single buzz gets no pre-alarm.
-            val soundEntry = settings.selectedAdhanEntries[next.prayer.toAdhanKey()]
-                ?: settings.selectedAdhanEntries[AdhanKey.Default]
-                ?: settings.savedAdhanAudioEntries.firstOrNull()
-            val vibration = alarmSettings.getVibrationSettings(next.prayer) ?: alarmSettings.vibrationMode
-            val intrusive = vibration == VibrationMode.Continuous ||
-                (soundEntry != null && audioDurationProbe.isIntrusive(soundEntry))
-            if (next.sound && intrusive && !alarmSettings.dontNotifyUpcoming) {
+            // Pre-alarm: only for intrusive prayers, unless the user disabled upcoming reminders.
+            if (intrusive && !alarmSettings.dontNotifyUpcoming) {
                 val preMs = (prayerTimeMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
                     .coerceAtLeast(nowMs + REFIRE_GUARD_MS)
                 alarmRepository.schedule(

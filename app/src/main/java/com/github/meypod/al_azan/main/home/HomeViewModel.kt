@@ -148,6 +148,7 @@ class HomeViewModel
             HomeUiAction.OnQiblaLinkClick -> onQiblaLinkClick()
             HomeUiAction.OnCounterLinkClick -> onCounterLinkClick()
             HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
+            HomeUiAction.OnUpcomingAlarmsClick -> onUpcomingAlarmsClick()
             HomeUiAction.OnAboutLinkClick -> onAboutLinkClick()
             HomeUiAction.OnMonthlyViewClick -> onMonthlyViewClick()
             HomeUiAction.OnDeveloperLinkClick -> onDeveloperLinkClick()
@@ -200,6 +201,10 @@ class HomeViewModel
 
     private fun onSettingsLinkClick() {
         NavigationController.navigateTo(Route.Main.Settings)
+    }
+
+    private fun onUpcomingAlarmsClick() {
+        NavigationController.navigateTo(Route.Main.UpcomingAlarms)
     }
 
     private fun onAboutLinkClick() {

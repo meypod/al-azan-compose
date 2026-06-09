@@ -116,6 +116,9 @@ sealed interface Route : NavKey {
         }
 
         @Serializable
+        data object UpcomingAlarms : Route
+
+        @Serializable
         data object About : Route
     }
 }

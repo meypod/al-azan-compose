@@ -637,4 +637,17 @@
     <string name="license">Lizenz</string>
     <string name="about_credits">Alle Urheberrechte für Adhan-Stimmen gehören ihren jeweiligen Eigentümern.</string>
 
+    <!-- ============================================================
+         Upcoming alarms  (main/upcoming_alarms)
+         ============================================================ -->
+    <string name="upcoming_alarms">Anstehende Alarme</string>
+    <string name="upcoming_alarms_empty">Keine anstehenden Alarme</string>
+    <string name="upcoming_alarms_info">Dies sind die nächsten Adhan- und Erinnerungsalarme, die laut abgespielt werden. Überspringe einen, um ihn stummzuschalten, oder plane einen übersprungenen neu, um ihn zurückzuholen.</string>
+    <string name="upcoming_alarm_skipped">Übersprungen</string>
+    <string name="reschedule">Neu planen</string>
+    <string name="today">Heute</string>
+    <string name="tomorrow">Morgen</string>
+    <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
+    <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
 </resources>
