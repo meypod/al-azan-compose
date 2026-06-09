@@ -174,8 +174,7 @@
     <string name="set_as_default">Jadikan default</string>
     <string name="delete_location">Hapus lokasi</string>
     <string name="delete_location_confirm_title">Hapus lokasi?</string>
-    <string name="delete_location_confirm_body">Ini akan menghapus lokasi berikut dari daftar tersimpan Anda:
-%1$s</string>
+    <string name="delete_location_confirm_body">Ini akan menghapus lokasi berikut dari daftar tersimpan Anda:\n%1$s</string>
     <string name="new_location_description">Anda dapat menambahkan lokasi dengan tiga cara berbeda. Pilih salah satu di bawah ini:</string>
     <string name="search_by_city_title">Menggunakan Pencarian</string>
     <string name="country">Negara</string>
@@ -488,8 +487,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">Penafian</string>
-    <string name="qibla_disclaimer">Perhatikan bahwa karena kesalahan perangkat lunak dan perangkat keras, arah Kiblat yang ditampilkan oleh aplikasi ini bisa salah.
-Perangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mungkin perlu dikalibrasi.</string>
+    <string name="qibla_disclaimer">Perhatikan bahwa karena kesalahan perangkat lunak dan perangkat keras, arah Kiblat yang ditampilkan oleh aplikasi ini bisa salah.\nPerangkat magnetis lain dapat mengganggu kompas ponsel Anda dan kompas Anda mungkin perlu dikalibrasi.</string>
     <string name="qibla_i_understand">Saya Mengerti</string>
     <string name="qibla_use_map">Gunakan Peta</string>
     <string name="qibla_use_compass">Gunakan Kompas</string>

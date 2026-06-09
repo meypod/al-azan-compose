@@ -174,8 +174,7 @@
     <string name="set_as_default">ডিফল্ট হিসেবে সেট করুন</string>
     <string name="delete_location">অবস্থান মুছুন</string>
     <string name="delete_location_confirm_title">অবস্থান মুছবেন?</string>
-    <string name="delete_location_confirm_body">এটি আপনার সংরক্ষিত তালিকা থেকে নিম্নলিখিত অবস্থানটি সরিয়ে দেবে:
-%1$s</string>
+    <string name="delete_location_confirm_body">এটি আপনার সংরক্ষিত তালিকা থেকে নিম্নলিখিত অবস্থানটি সরিয়ে দেবে:\n%1$s</string>
     <string name="new_location_description">আপনি তিনটি ভিন্ন উপায়ে একটি অবস্থান যোগ করতে পারেন। নিচ থেকে একটি বেছে নিন:</string>
     <string name="search_by_city_title">অনুসন্ধান করে</string>
     <string name="country">দেশ</string>
@@ -488,8 +487,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">দাবিত্যাগ</string>
-    <string name="qibla_disclaimer">মনে রাখবেন যে সফটওয়্যার ও হার্ডওয়্যারের ত্রুটির কারণে, এই অ্যাপ দ্বারা দেখানো কিবলার দিক ভুল হতে পারে।
-অন্যান্য চৌম্বকীয় ডিভাইস আপনার ফোনের কম্পাসে হস্তক্ষেপ করতে পারে এবং আপনার কম্পাসের ক্যালিব্রেশন প্রয়োজন হতে পারে।</string>
+    <string name="qibla_disclaimer">মনে রাখবেন যে সফটওয়্যার ও হার্ডওয়্যারের ত্রুটির কারণে, এই অ্যাপ দ্বারা দেখানো কিবলার দিক ভুল হতে পারে।\nঅন্যান্য চৌম্বকীয় ডিভাইস আপনার ফোনের কম্পাসে হস্তক্ষেপ করতে পারে এবং আপনার কম্পাসের ক্যালিব্রেশন প্রয়োজন হতে পারে।</string>
     <string name="qibla_i_understand">আমি বুঝেছি</string>
     <string name="qibla_use_map">মানচিত্র ব্যবহার করুন</string>
     <string name="qibla_use_compass">কম্পাস ব্যবহার করুন</string>

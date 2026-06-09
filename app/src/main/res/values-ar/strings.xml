@@ -174,8 +174,7 @@
     <string name="set_as_default">تعيين كافتراضي</string>
     <string name="delete_location">حذف الموقع</string>
     <string name="delete_location_confirm_title">حذف الموقع؟</string>
-    <string name="delete_location_confirm_body">سيؤدي هذا إلى إزالة الموقع التالي من قائمتك المحفوظة:
-%1$s</string>
+    <string name="delete_location_confirm_body">سيؤدي هذا إلى إزالة الموقع التالي من قائمتك المحفوظة:\n%1$s</string>
     <string name="new_location_description">يمكنك إضافة موقع بثلاث طرق مختلفة. اختر إحداها أدناه:</string>
     <string name="search_by_city_title">باستخدام البحث</string>
     <string name="country">دولة</string>
@@ -500,8 +499,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">تنويه</string>
-    <string name="qibla_disclaimer">لاحظ أنه بسبب أخطاء البرامج والأجهزة، قد يكون اتجاه القبلة الذي يعرضه هذا التطبيق غير صحيح.
-قد تتداخل الأجهزة المغناطيسية الأخرى مع بوصلة هاتفك وقد تحتاج بوصلتك إلى معايرة.</string>
+    <string name="qibla_disclaimer">لاحظ أنه بسبب أخطاء البرامج والأجهزة، قد يكون اتجاه القبلة الذي يعرضه هذا التطبيق غير صحيح.\nقد تتداخل الأجهزة المغناطيسية الأخرى مع بوصلة هاتفك وقد تحتاج بوصلتك إلى معايرة.</string>
     <string name="qibla_i_understand">فهمت</string>
     <string name="qibla_use_map">استخدم الخريطة</string>
     <string name="qibla_use_compass">استخدم البوصلة</string>

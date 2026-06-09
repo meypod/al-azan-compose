@@ -174,8 +174,7 @@
     <string name="set_as_default">بطور طے شدہ مقرر کریں</string>
     <string name="delete_location">مقام حذف کریں</string>
     <string name="delete_location_confirm_title">مقام حذف کریں؟</string>
-    <string name="delete_location_confirm_body">اس سے درج ذیل مقام آپ کی محفوظ شدہ فہرست سے ہٹا دیا جائے گا:
-%1$s</string>
+    <string name="delete_location_confirm_body">اس سے درج ذیل مقام آپ کی محفوظ شدہ فہرست سے ہٹا دیا جائے گا:\n%1$s</string>
     <string name="new_location_description">آپ تین مختلف طریقوں سے مقام شامل کر سکتے ہیں۔ نیچے سے ایک منتخب کریں:</string>
     <string name="search_by_city_title">تلاش کا استعمال کرتے ہوئے</string>
     <string name="country">ملک</string>
@@ -488,8 +487,7 @@
          Qibla  (main/qibla)
          ============================================================ -->
     <string name="qibla_disclaimer_title">دستبرداری</string>
-    <string name="qibla_disclaimer">نوٹ کریں کہ سافٹ ویئر اور ہارڈ ویئر کی خرابیوں کی وجہ سے، اس ایپ کی دکھائی گئی قبلے کی سمت غلط ہو سکتی ہے۔
-دیگر مقناطیسی آلات آپ کے فون کے کمپاس میں مداخلت کر سکتے ہیں اور آپ کے کمپاس کو کیلیبریشن کی ضرورت ہو سکتی ہے۔</string>
+    <string name="qibla_disclaimer">نوٹ کریں کہ سافٹ ویئر اور ہارڈ ویئر کی خرابیوں کی وجہ سے، اس ایپ کی دکھائی گئی قبلے کی سمت غلط ہو سکتی ہے۔\nدیگر مقناطیسی آلات آپ کے فون کے کمپاس میں مداخلت کر سکتے ہیں اور آپ کے کمپاس کو کیلیبریشن کی ضرورت ہو سکتی ہے۔</string>
     <string name="qibla_i_understand">میں سمجھتا ہوں۔</string>
     <string name="qibla_use_map">نقشہ استعمال کریں۔</string>
     <string name="qibla_use_compass">کمپاس استعمال کریں۔</string>
