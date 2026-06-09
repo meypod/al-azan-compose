@@ -41,7 +41,7 @@ jobs:
         vn=$(jq -er '.elements[0].versionName' "$meta")
         vc=$(jq -er '.elements[0].versionCode' "$meta")
         src=$(jq -er '.elements[0].outputFile' "$meta")
-        dst="al-azan-release-${vn}-universal-${vc}.apk"
+        dst="al-azan--release-${vn}-universal-${vc}.apk"
         mv "$src" "$dst"
         test -f "$dst"
         echo "renamed $src -> $dst"
