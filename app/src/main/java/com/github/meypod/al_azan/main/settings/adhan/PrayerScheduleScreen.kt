@@ -16,11 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerSection
@@ -47,7 +49,10 @@ fun PrayerScheduleScreen(
     onAction: (AdhanSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val customMuezzin = uiState.settings.selectedAdhanEntries[prayer.toAdhanKey()]
+    val globalDefaultMuezzin = uiState.settings.selectedAdhanEntries[AdhanKey.Default]
+    // An unresolvable override (orphaned/corrupted) is treated as no override, so the row falls back to
+    // the global default instead of showing "unknown" — matching what actually plays (resolveSound).
+    val customMuezzin = uiState.settings.selectedAdhanEntries[prayer.toAdhanKey()]?.takeIf { it.isResolvable() }
     val soundDays = uiState.alarmSettings.getSoundSettings(prayer).selectedDays()
     val notifyDays = uiState.alarmSettings.getNotifSettings(prayer).selectedDays()
     val customVibration = uiState.alarmSettings.getVibrationSettings(prayer)
@@ -139,10 +144,13 @@ fun PrayerScheduleScreen(
                 playingId = uiState.playingId,
                 optionKey = { it?.id ?: DEFAULT_MUEZZIN_KEY },
                 optionLabel = { it?.let(labelFn) ?: defaultLabel },
-                optionPreviewable = { it != null },
+                optionSubtitle = { if (it == null) globalDefaultMuezzin?.let(labelFn) else null },
+                // The "use default" item previews the resolved global muezzin, so its play/stop state
+                // tracks that sound's id rather than the synthetic default key.
+                optionPreviewKey = { it?.id ?: globalDefaultMuezzin?.id ?: DEFAULT_MUEZZIN_KEY },
                 optionCanDelete = { it != null && it.id in userIds },
                 onSelect = { onAction(AdhanSettingsUiAction.OnScheduleMuezzinChange(prayer, it)) },
-                onPreview = { it?.let { e -> onAction(AdhanSettingsUiAction.OnPreviewAudio(e)) } },
+                onPreview = { (it ?: globalDefaultMuezzin)?.let { e -> onAction(AdhanSettingsUiAction.OnPreviewAudio(e)) } },
                 onStopPreview = { onAction(AdhanSettingsUiAction.OnStopPreview) },
                 onAddLocalFile = { filepath, name ->
                     onAction(AdhanSettingsUiAction.OnAddPrayerMuezzinFile(prayer, filepath, name))

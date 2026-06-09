@@ -280,15 +280,29 @@ sealed interface AudioEntry {
         }
 }
 
+/**
+ * Whether this entry can actually resolve to a playable sound. A [AudioEntry.ResourceAudioEntry] with
+ * a null [AudioEntry.ResourceAudioEntry.resId], or an [AudioEntry.ExternalAudioEntry] with a null path,
+ * is a broken/orphaned selection (a deleted sound, or data corrupted by an older build) — callers
+ * should fall back to the global default rather than show "unknown" or play nothing.
+ */
+fun AudioEntry.isResolvable(): Boolean =
+    when (this) {
+        is AudioEntry.ResourceAudioEntry -> resId != null
+        is AudioEntry.ExternalAudioEntry -> !filepath.isNullOrEmpty()
+    }
+
 object AudioEntrySerializer :
     JsonContentPolymorphicSerializer<AudioEntry>(AudioEntry::class) {
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<AudioEntry> {
-        val fp = element.jsonObject.getOrDefault("resId", JsonNull)
-        if (fp == JsonNull) {
-            AudioEntry.ExternalAudioEntry.serializer()
-        } else {
+        // Bundled sounds persist a non-null `resId`; external (device/user) sounds never do. The
+        // discriminator must pick the matching deserializer — using ResourceAudioEntry for everything
+        // strips the filepath/label off external entries and leaves them resolving to "unknown".
+        val hasResId = element.jsonObject["resId"]?.takeIf { it != JsonNull } != null
+        return if (hasResId) {
             AudioEntry.ResourceAudioEntry.serializer()
+        } else {
+            AudioEntry.ExternalAudioEntry.serializer()
         }
-        return AudioEntry.ResourceAudioEntry.serializer()
     }
 }

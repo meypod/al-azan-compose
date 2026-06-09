@@ -5,8 +5,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import com.github.meypod.al_azan.R
-import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.adhan.AdhanFiringHandler.Companion.DEV_TEST_PRAYER
+import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
@@ -25,6 +25,7 @@ import com.github.meypod.al_azan.core.domain.model.notification.NotificationConf
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -426,11 +427,13 @@ class AdhanFiringHandler @Inject constructor(
             EnsureNotificationChannelsUseCase.ADHAN_CHANNEL_ID
         }
 
+    // A per-prayer override only wins when it's actually playable; an unresolvable one (orphaned/
+    // corrupted) falls through to the global default, then to the first bundled sound — never "nothing".
     private fun resolveSound(
         settings: Settings,
         prayer: Prayer,
     ): AudioEntry? =
-        settings.selectedAdhanEntries[prayer.toAdhanKey()]
-            ?: settings.selectedAdhanEntries[AdhanKey.Default]
+        settings.selectedAdhanEntries[prayer.toAdhanKey()]?.takeIf { it.isResolvable() }
+            ?: settings.selectedAdhanEntries[AdhanKey.Default]?.takeIf { it.isResolvable() }
             ?: settings.savedAdhanAudioEntries.firstOrNull()
 }
