@@ -56,6 +56,22 @@ jobs:
       env:
         BUILD_TOOLS_VERSION: "36.0.0"
 
+    - name: Upload apk artifact
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: signed-apk
+        path: app/build/outputs/apk/release/*signed.apk
+        if-no-files-found: error
+
+    - name: Upload bundle artifact
+      if: ${{ github.event_name == 'release' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: signed-bundle
+        path: app/build/outputs/bundle/release/*.aab
+        if-no-files-found: error
+
     - name: Release on GitHub
       if: ${{ github.event_name == 'release' }}
       uses: ncipollo/release-action@v1
