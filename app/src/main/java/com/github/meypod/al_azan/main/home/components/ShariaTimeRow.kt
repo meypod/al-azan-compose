@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,10 +38,14 @@ import kotlin.time.toDuration
 @Composable
 fun ShariaTimeRow(state: ShariaTimeRowUiState) {
     val classic = state.themeColor.isClassic()
+    val fadeTarget = if (state.themeColor == ThemeColor.ClassicLight) Color.White else Color.Black
     val textColor = if (classic) {
         when (state.highlightState) {
-            HighlightState.BeforeHighlight -> MaterialTheme.colorScheme.outline
+            HighlightState.BeforeHighlight ->
+                lerp(MaterialTheme.colorScheme.outline, fadeTarget, 0.3f)
+
             HighlightState.Highlighted -> MaterialTheme.colorScheme.primary
+
             HighlightState.AfterHighlight -> MaterialTheme.colorScheme.onSurface
         }
     } else {
@@ -82,7 +88,7 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                 .fillMaxWidth()
                 .then(
                     if (state.prayer.isNonPrayer) {
-                        Modifier.dashedBorder(MaterialTheme.colorScheme.outline)
+                        Modifier.dashedBorder(textColor)
                     } else if (classic) {
                         val highlighted = state.highlightState == HighlightState.Highlighted
                         val classicLightHighlight =
