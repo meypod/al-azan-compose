@@ -9,9 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.adhan.AdhanFiringHandler
-import com.github.meypod.al_azan.playback.PlaybackService
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.playback.PlaybackService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
@@ -28,6 +29,7 @@ class AlarmFullscreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val adhanFiringHandler: AdhanFiringHandler,
     alarmSettingsRepository: AlarmSettingsRepository,
+    settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     private val prayer: Prayer? =
@@ -75,6 +77,11 @@ class AlarmFullscreenViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
+        viewModelScope.launch {
+            settingsRepository.data.collect { settings ->
+                _uiState.update { it.copy(themeColor = settings.themeColor) }
+            }
+        }
         // Auto-silence (and its dismiss-button wording) is an adhan-only concept.
         if (!isReminder) {
             viewModelScope.launch {
@@ -109,11 +116,9 @@ class AlarmFullscreenViewModel @Inject constructor(
         _finish.trySend(Unit)
     }
 
-    private fun onDismiss() =
-        adhanFiringHandler.dismissFromUi(autoSilentOnDismiss, autoSilentDurationMinutes)
+    private fun onDismiss() = adhanFiringHandler.dismissFromUi(autoSilentOnDismiss, autoSilentDurationMinutes)
 
-    private fun onDismissAndSilent() =
-        adhanFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
+    private fun onDismissAndSilent() = adhanFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
 
     private fun onShortRemind() {
         prayer?.let { adhanFiringHandler.remindLaterFromUi(it, AdhanContract.SHORT_REMIND_MINUTES) }

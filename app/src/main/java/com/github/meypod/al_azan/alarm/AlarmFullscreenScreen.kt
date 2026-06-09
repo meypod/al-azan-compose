@@ -161,6 +161,9 @@ fun AlarmFullscreenScreen(
     }
     val isCircle = !menuVisible && (isPressed || settling || offsetNonZero)
 
+    val classic = uiState.themeColor.isClassic()
+    val darkClassic = uiState.themeColor == ThemeColor.ClassicDark
+    val contentColor = if (classic) MaterialTheme.colorScheme.onBackground else Color.White
     val pattern = rememberPatternImageBitmap(R.drawable.pattern)
 
     val pillWidth by animateDpAsState(
@@ -186,10 +189,17 @@ fun AlarmFullscreenScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(listOf(BG_GRADIENT_START, BG_GRADIENT_END)))
-            .background(
-                ShaderBrush(ImageShader(pattern, TileMode.Repeated, TileMode.Repeated)),
-                alpha = PATTERN_ALPHA,
+            .then(
+                if (classic) {
+                    Modifier.background(MaterialTheme.colorScheme.background)
+                } else {
+                    Modifier
+                        .background(Brush.verticalGradient(listOf(BG_GRADIENT_START, BG_GRADIENT_END)))
+                        .background(
+                            ShaderBrush(ImageShader(pattern, TileMode.Repeated, TileMode.Repeated)),
+                            alpha = PATTERN_ALPHA,
+                        )
+                },
             ),
     ) {
         Box(
@@ -207,12 +217,12 @@ fun AlarmFullscreenScreen(
                 Spacer(Modifier.height(30.dp))
                 Text(
                     uiState.header,
-                    color = Color.White,
+                    color = contentColor,
                     letterSpacing = 2.sp,
                     style = MaterialTheme.typography.headlineSmall,
                 )
-                Text(uiState.title, color = Color.White, style = MaterialTheme.typography.displayMedium)
-                Text(uiState.timeLabel, color = Color.White, style = MaterialTheme.typography.headlineLarge)
+                Text(uiState.title, color = contentColor, style = MaterialTheme.typography.displayMedium)
+                Text(uiState.timeLabel, color = contentColor, style = MaterialTheme.typography.headlineLarge)
             }
 
             if (menuVisible) {
@@ -220,6 +230,7 @@ fun AlarmFullscreenScreen(
                     onDismissRequest = { resetToPill() },
                 ) {
                     AlarmActionMenu(
+                        darkClassic = darkClassic,
                         dismissAndSilentMinutes = uiState.dismissAndSilentMinutes,
                         shortRemindMinutes = uiState.shortRemindMinutes,
                         longRemindMinutes = uiState.longRemindMinutes,
@@ -252,12 +263,12 @@ fun AlarmFullscreenScreen(
             ) {
                 Box(contentAlignment = Alignment.BottomCenter) {
                     ChevronsUpAnimated(
-                        tint = Color.White,
+                        tint = contentColor,
                         modifier = Modifier.alpha(chevronAlpha),
                     )
                     Text(
                         stringResource(R.string.alarm_swipe_up_hint),
-                        color = Color.White,
+                        color = contentColor,
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.alpha(hintAlpha),
                     )
@@ -266,7 +277,12 @@ fun AlarmFullscreenScreen(
 
                 Box(contentAlignment = Alignment.Center) {
                     if (!isCircle && !menuVisible) {
-                        PulseHalo(baseWidth = pillWidth, baseHeight = pillHeight, baseCorner = corner)
+                        PulseHalo(
+                            baseWidth = pillWidth,
+                            baseHeight = pillHeight,
+                            baseCorner = corner,
+                            color = contentColor,
+                        )
                     }
                     Surface(
                         color = Color.White,
@@ -414,6 +430,7 @@ private fun Ring(
 
 @Composable
 private fun AlarmActionMenu(
+    darkClassic: Boolean,
     dismissAndSilentMinutes: Int,
     shortRemindMinutes: Int,
     longRemindMinutes: Int,
@@ -424,7 +441,7 @@ private fun AlarmActionMenu(
     onJustDismiss: () -> Unit,
 ) {
     Surface(
-        color = Color(0xFFEDEDED),
+        color = if (darkClassic) MaterialTheme.colorScheme.surface else Color(0xFFEDEDED),
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 6.dp,
         modifier = Modifier.padding(24.dp),
@@ -437,6 +454,7 @@ private fun AlarmActionMenu(
             // Hidden unless the app holds DND policy access (minutes gated to 0 in the ViewModel).
             if (dismissAndSilentMinutes > 0) {
                 MenuPillButton(
+                    darkClassic = darkClassic,
                     text = stringResource(R.string.alarm_dismiss_and_silent, dismissAndSilentMinutes),
                     iconRes = R.drawable.alarm_silent,
                     onClick = onDismissAndSilent,
@@ -444,6 +462,7 @@ private fun AlarmActionMenu(
             }
             if (shortRemindMinutes > 0) {
                 MenuPillButton(
+                    darkClassic = darkClassic,
                     text = stringResource(R.string.alarm_remind, shortRemindMinutes),
                     iconRes = R.drawable.alarm_snooze,
                     onClick = onShortRemind,
@@ -451,6 +470,7 @@ private fun AlarmActionMenu(
             }
             if (longRemindMinutes > 0) {
                 MenuPillButton(
+                    darkClassic = darkClassic,
                     text = stringResource(R.string.alarm_remind, longRemindMinutes),
                     iconRes = R.drawable.alarm_snooze,
                     onClick = onLongRemind,
@@ -459,10 +479,17 @@ private fun AlarmActionMenu(
             Button(
                 onClick = onJustDismiss,
                 shape = RoundedCornerShape(40.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFB8E0DE),
-                    contentColor = ACCENT_DARK,
-                ),
+                colors = if (darkClassic) {
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+                } else {
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFB8E0DE),
+                        contentColor = ACCENT_DARK,
+                    )
+                },
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
             ) {
                 Text(
@@ -477,6 +504,7 @@ private fun AlarmActionMenu(
 
 @Composable
 private fun MenuPillButton(
+    darkClassic: Boolean,
     text: String,
     iconRes: Int,
     onClick: () -> Unit,
@@ -484,10 +512,17 @@ private fun MenuPillButton(
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(40.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = ACCENT_DARK,
-            contentColor = Color.White,
-        ),
+        colors = if (darkClassic) {
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+            )
+        } else {
+            ButtonDefaults.buttonColors(
+                containerColor = ACCENT_DARK,
+                contentColor = Color.White,
+            )
+        },
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
         modifier = Modifier.wrapContentWidth(),
     ) {
@@ -515,6 +550,44 @@ private fun AlarmFullscreenInitialPreview() {
     }
 }
 
+@Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Classic light")
+@Composable
+private fun AlarmFullscreenClassicLightPreview() {
+    AlAzanTheme(ThemeColor.ClassicLight) {
+        AlarmFullscreenScreen(
+            uiState = AlarmFullscreenUiState(
+                header = stringResource(R.string.alarm_azan_header),
+                title = "Maghrib",
+                timeLabel = "19:38",
+                dismissAndSilentMinutes = 15,
+                shortRemindMinutes = 15,
+                longRemindMinutes = 30,
+                themeColor = ThemeColor.ClassicLight,
+            ),
+            onAction = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Classic dark")
+@Composable
+private fun AlarmFullscreenClassicDarkPreview() {
+    AlAzanTheme(ThemeColor.ClassicDark) {
+        AlarmFullscreenScreen(
+            uiState = AlarmFullscreenUiState(
+                header = stringResource(R.string.alarm_azan_header),
+                title = "Maghrib",
+                timeLabel = "19:38",
+                dismissAndSilentMinutes = 15,
+                shortRemindMinutes = 15,
+                longRemindMinutes = 30,
+                themeColor = ThemeColor.ClassicDark,
+            ),
+            onAction = {},
+        )
+    }
+}
+
 @Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Menu open")
 @Composable
 private fun AlarmFullscreenMenuPreview() {
@@ -526,6 +599,44 @@ private fun AlarmFullscreenMenuPreview() {
         ) {
             Box(Modifier.align(Alignment.Center)) {
                 AlarmActionMenu(
+                    darkClassic = false,
+                    dismissAndSilentMinutes = 15,
+                    shortRemindMinutes = 15,
+                    longRemindMinutes = 30,
+                    autoSilentOnDismiss = false,
+                    onDismissAndSilent = {},
+                    onShortRemind = {},
+                    onLongRemind = {},
+                    onJustDismiss = {},
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Menu classic light")
+@Composable
+private fun AlarmMenuClassicLightPreview() {
+    ClassicMenuPreview(ThemeColor.ClassicLight)
+}
+
+@Preview(showBackground = true, heightDp = 700, widthDp = 360, name = "Menu classic dark")
+@Composable
+private fun AlarmMenuClassicDarkPreview() {
+    ClassicMenuPreview(ThemeColor.ClassicDark)
+}
+
+@Composable
+private fun ClassicMenuPreview(themeColor: ThemeColor) {
+    AlAzanTheme(themeColor) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+        ) {
+            Box(Modifier.align(Alignment.Center)) {
+                AlarmActionMenu(
+                    darkClassic = themeColor == ThemeColor.ClassicDark,
                     dismissAndSilentMinutes = 15,
                     shortRemindMinutes = 15,
                     longRemindMinutes = 30,
