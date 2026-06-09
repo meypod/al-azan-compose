@@ -39,3 +39,6 @@ fun AlAzanThemePaddedPreview(
         }
     }
 }
+
+const val LOREM_IMPSUM_SHORT =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac purus dolor. Curabitur efficitur hendrerit suscipit. Phasellus auctor blandit lacus, et sollicitudin sem consequat at. Suspendisse accumsan eros diam, eu laoreet est efficitur dignissim."

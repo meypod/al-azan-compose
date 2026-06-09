@@ -59,16 +59,25 @@ fun HomeHeader(
     uiState: HomeUiState,
     onAction: (HomeUiAction) -> Unit,
 ) {
+    val classic = uiState.themeColor.isClassic()
+    val headerContentColor = if (classic) MaterialTheme.colorScheme.onSurface else Color.White
+    val countdownColor = if (classic) MaterialTheme.colorScheme.onSurface else DarkTertiary
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
     val patternBackgroundColor =
         colorResource(if (uiState.themeColor.isDark()) R.color.header_background_dark else R.color.header_background_light)
     Column(
         Modifier
             .fillMaxWidth()
-            .patternedBackground(
-                pattern = patternImage,
-                backgroundColor = patternBackgroundColor,
-                patternAlpha = 0.03f,
+            .then(
+                if (classic) {
+                    Modifier
+                } else {
+                    Modifier.patternedBackground(
+                        pattern = patternImage,
+                        backgroundColor = patternBackgroundColor,
+                        patternAlpha = 0.03f,
+                    )
+                },
             )
             .padding(dimensionResource(R.dimen.element_padding)),
     ) {
@@ -95,7 +104,7 @@ fun HomeHeader(
                 }
                 Text(
                     stringResource(R.string.prev_day),
-                    color = Color.White,
+                    color = headerContentColor,
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                 )
@@ -113,7 +122,7 @@ fun HomeHeader(
             ) {
                 Text(
                     stringResource(R.string.next_day),
-                    color = Color.White,
+                    color = headerContentColor,
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                 )
@@ -129,7 +138,7 @@ fun HomeHeader(
             ) {
                 Text(
                     formatInstant(uiState.viewingInstant, uiState.locale, uiState.calendar, DateFormat.WEEKDAY),
-                    color = Color.White,
+                    color = headerContentColor,
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
@@ -138,7 +147,7 @@ fun HomeHeader(
                         uiState.arabicCalendarLocale,
                         uiState.arabicCalendar,
                     ),
-                    color = Color.White,
+                    color = headerContentColor,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     softWrap = false,
@@ -163,8 +172,8 @@ fun HomeHeader(
                 onClick = { onAction(HomeUiAction.OnLocationTextClick) },
                 colors = ButtonColors(
                     Color.Transparent,
-                    Color.White,
-                    Color.White.copy(alpha = 0.6f),
+                    headerContentColor,
+                    headerContentColor.copy(alpha = 0.6f),
                     Color.Transparent,
                 ),
             ) {
@@ -176,7 +185,7 @@ fun HomeHeader(
                     Text(
                         uiState.location?.locationDetail?.toDisplayString()
                             ?: stringResource(R.string.set_location_hint),
-                        color = Color.White,
+                        color = headerContentColor,
                         style = MaterialTheme.typography.labelMedium,
                         textDecoration = TextDecoration.Underline,
                     )
@@ -189,10 +198,10 @@ fun HomeHeader(
                     {},
                     label = { Text(uiState.nextShariaTime.prayer.i18n()) },
                     colors = OutlinedTextFieldDefaults.colors().copy(
-                        unfocusedTextColor = DarkTertiary,
-                        disabledIndicatorColor = DarkTertiary,
-                        disabledTextColor = DarkTertiary,
-                        disabledLabelColor = DarkTertiary,
+                        unfocusedTextColor = countdownColor,
+                        disabledIndicatorColor = countdownColor,
+                        disabledTextColor = countdownColor,
+                        disabledLabelColor = countdownColor,
                     ),
                     shape = MaterialTheme.shapes.medium,
                     readOnly = true,

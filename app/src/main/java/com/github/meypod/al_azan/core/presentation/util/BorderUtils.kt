@@ -90,3 +90,30 @@ fun Modifier.dashedBorder(
             paint,
         )
     }
+
+@Stable
+fun Modifier.solidBorder(
+    borderColor: Color,
+    strokeWidth: Float = 2f,
+): Modifier =
+    this.drawBehind {
+        val paint = android.graphics
+            .Paint()
+            .apply {
+                color = borderColor.toArgb()
+                style = android.graphics.Paint.Style.STROKE
+                this.strokeWidth = strokeWidth
+            }
+        val borderRect = android.graphics.RectF(
+            0f + strokeWidth / 2,
+            0f + strokeWidth / 2,
+            size.width - strokeWidth / 2,
+            size.height - strokeWidth / 2,
+        )
+        drawContext.canvas.nativeCanvas.drawRoundRect(
+            borderRect,
+            30f,
+            30f,
+            paint,
+        )
+    }

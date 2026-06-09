@@ -284,7 +284,7 @@ private fun ReminderRow(
     val layoutDirection = LocalLayoutDirection.current
     ACard(
         shadowElevation = if (reminder.enabled) 2.dp else 0.dp,
-        tonalElevation = if (reminder.enabled) 1.dp else 0.dp,
+        tonalElevation = if (reminder.enabled) 2.dp else 1.dp,
     ) { cardPadding ->
         Row(
             Modifier
