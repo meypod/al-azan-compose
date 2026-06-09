@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Jika Anda sudah memiliki file cadangan, Anda dapat memulihkannya di sini.</string>
     <string name="restore_backup_button">Pulihkan File Cadangan</string>
     <string name="skip">Lewati</string>
-    <string name="skip_confirm">Lewati</string>
     <string name="skip_dialog_body">Pengaturan yang diperlukan tidak lengkap. Agar aplikasi menampilkan waktu sholat, proses pengaturan perlu dilanjutkan kembali nanti.</string>
     <string name="restoring_backup">Memulihkan cadangan…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Geser Ke Atas Untuk Opsi Lainnya</string>
-    <string name="alarm_dismiss">Hentikan</string>
     <string name="alarm_just_dismiss">Hentikan Saja</string>
     <string name="alarm_just_dismiss_silence">Hentikan &amp; bisukan ponsel</string>
     <string name="alarm_dismiss_and_silent">Hentikan dan Bisukan %1$dm</string>

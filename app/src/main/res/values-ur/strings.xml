@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">اگر آپ کے پاس پہلے سے بیک اپ فائل ہے، تو آپ اسے یہاں بحال کر سکتے ہیں۔</string>
     <string name="restore_backup_button">بیک اپ فائل بحال کریں</string>
     <string name="skip">آگے بڑھیں</string>
-    <string name="skip_confirm">آگے بڑھیں</string>
     <string name="skip_dialog_body">مطلوبہ ترتیبات نامکمل ہیں۔ ایپ کو نماز کے اوقات دکھانے کے لیے، آپ کو اسے بعد میں سیٹنگز سے کنفیگر کرنا ہوگا۔</string>
     <string name="restoring_backup">بیک اپ بحال ہو رہا ہے…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">اذان</string>
     <string name="alarm_swipe_up_hint">مزید اختیارات کے لیے اوپر سوائپ کریں</string>
-    <string name="alarm_dismiss">برطرف کریں</string>
     <string name="alarm_just_dismiss">صرف برطرف کریں</string>
     <string name="alarm_just_dismiss_silence">برطرف کریں اور فون خاموش کریں</string>
     <string name="alarm_dismiss_and_silent">برطرف کریں اور %1$dm خاموش کریں</string>

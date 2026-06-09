@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Ako već imate sigurnosnu kopiju, možete je obnoviti ovdje.</string>
     <string name="restore_backup_button">Obnovi sigurnosnu kopiju</string>
     <string name="skip">Preskoči</string>
-    <string name="skip_confirm">Preskoči</string>
     <string name="skip_dialog_body">Potrebne postavke su nepotpune. Da bi aplikacija prikazivala vremena molitve, morate je kasnije konfigurirati iz postavki.</string>
     <string name="restoring_backup">Obnavljanje sigurnosne kopije…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">EZAN</string>
     <string name="alarm_swipe_up_hint">Prevucite gore za više opcija</string>
-    <string name="alarm_dismiss">Odbaci</string>
     <string name="alarm_just_dismiss">Samo odbaci</string>
     <string name="alarm_just_dismiss_silence">Odbaci i utišaj telefon</string>
     <string name="alarm_dismiss_and_silent">Odbaci i utišaj %1$dm</string>

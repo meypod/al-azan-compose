@@ -362,7 +362,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
         TimedDangerDialog(
             title = stringResource(R.string.attention_title),
             text = stringResource(R.string.skip_dialog_body),
-            confirmLabel = stringResource(R.string.skip_confirm),
+            confirmLabel = stringResource(R.string.skip),
             dismissLabel = stringResource(R.string.cancel),
             seconds = 3,
             onDismissRequest = { introViewModel.onAction(IntroUiAction.OnSkipDismiss) },

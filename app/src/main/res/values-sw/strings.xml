@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Iwapo tayari una faili ya nakala rudufu, unaweza kuirejesha hapa.</string>
     <string name="restore_backup_button">Rejesha Faili ya Nakala Rudufu</string>
     <string name="skip">Ruka</string>
-    <string name="skip_confirm">ruka</string>
     <string name="skip_dialog_body">Mipangilio inayohitajika haijakamilika. Ili programu ionyeshe nyakati za swala, inabidi uisanidi kutoka kwa mipangilio baadaye.</string>
     <string name="restoring_backup">Inarejesha nakala rudufu…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Telezesha Juu Kwa Chaguo Zaidi</string>
-    <string name="alarm_dismiss">Puuzilia</string>
     <string name="alarm_just_dismiss">Puuzilia Tu</string>
     <string name="alarm_just_dismiss_silence">Puuzilia &amp; nyamazisha simu</string>
     <string name="alarm_dismiss_and_silent">Puuzilia na Nyamazisha %1$dm</string>

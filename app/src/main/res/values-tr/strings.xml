@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">Zaten bir yedek dosyanız varsa, buradan geri yükleyebilirsiniz.</string>
     <string name="restore_backup_button">Yedek Dosyasını Geri Yükle</string>
     <string name="skip">Atla</string>
-    <string name="skip_confirm">Atla</string>
     <string name="skip_dialog_body">Gerekli ayarlar tamamlanmadı. Uygulamanın namaz vakitlerini göstermesi için daha sonra ayarlardan yapılandırmanız gerekmektedir.</string>
     <string name="restoring_backup">Yedek geri yükleniyor…</string>
 
@@ -577,7 +576,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">EZAN</string>
     <string name="alarm_swipe_up_hint">Daha Fazla Seçenek İçin Yukarı Kaydır</string>
-    <string name="alarm_dismiss">Reddet</string>
     <string name="alarm_just_dismiss">Sadece Reddet</string>
     <string name="alarm_just_dismiss_silence">Reddet &amp; telefonu sustur</string>
     <string name="alarm_dismiss_and_silent">Reddet ve %1$dd Sustur</string>

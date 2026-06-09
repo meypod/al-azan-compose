@@ -131,7 +131,6 @@
     <string name="restore_backup_hint">If you already have a backup file, you can restore it here.</string>
     <string name="restore_backup_button">Restore Backup File</string>
     <string name="skip">Skip</string>
-    <string name="skip_confirm">skip</string>
     <string name="skip_dialog_body">Required settings are incomplete. For app to show prayer times, You have to configure it from settings later.</string>
     <string name="restoring_backup">Restoring backup…</string>
 
@@ -579,7 +578,6 @@
          ============================================================ -->
     <string name="alarm_azan_header">AZAN</string>
     <string name="alarm_swipe_up_hint">Swipe Up For More Options</string>
-    <string name="alarm_dismiss">Dismiss</string>
     <string name="alarm_just_dismiss">Just Dismiss</string>
     <string name="alarm_just_dismiss_silence">Dismiss &amp; silence phone</string>
     <string name="alarm_dismiss_and_silent">Dismiss and Silent %1$dm</string>
