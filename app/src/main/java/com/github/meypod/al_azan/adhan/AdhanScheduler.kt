@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.adhan
 import android.util.Log
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
@@ -15,6 +16,7 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.playback.PlaybackService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
@@ -41,6 +43,9 @@ class AdhanScheduler @Inject constructor(
 ) {
     private val mutex = Mutex()
 
+    /** The (prayer, fire-time) of the currently scheduled next adhan, to detect no-op reschedules. */
+    private var lastSignature: Pair<Prayer, Long>? = null
+
     private companion object {
         const val TAG = "AdhanScheduler"
 
@@ -48,7 +53,14 @@ class AdhanScheduler @Inject constructor(
         const val REFIRE_GUARD_MS = 10_000L
     }
 
-    suspend fun schedule() =
+    /** The scheduled next adhan plus whether it differs from the previously scheduled one. */
+    data class Outcome(
+        val next: ShariaTimeDetails,
+        val changed: Boolean,
+    )
+
+    /** Returns the scheduled next adhan, or null when nothing was scheduled (cancelled / no times). */
+    suspend fun schedule(): Outcome? =
         mutex.withLock {
             val settings = settingsRepository.data.first()
             val alarmSettings = alarmSettingsRepository.data.first()
@@ -59,7 +71,8 @@ class AdhanScheduler @Inject constructor(
 
             if (parameters == null || location == null || !alarmSettings.hasAnyNotification()) {
                 cancelAll()
-                return@withLock
+                lastSignature = null
+                return@withLock null
             }
 
             // Schedule strictly after the last delivered adhan (no re-fire) and past any "silence" window.
@@ -78,10 +91,14 @@ class AdhanScheduler @Inject constructor(
             )
             if (next == null) {
                 cancelAll()
-                return@withLock
+                lastSignature = null
+                return@withLock null
             }
 
             val prayerTimeMs = next.prayerTime.toEpochMilliseconds()
+            val signature = next.prayer to prayerTimeMs
+            val changed = signature != lastSignature
+            lastSignature = signature
             val alarmType = if (settings.useDifferentAlarmType) AlarmType.ExactAllowWhileIdle else AlarmType.AlarmClock
             Log.i(TAG, "Next adhan ${next.prayer} in ${(prayerTimeMs - nowMs) / 1000}s (sound=${next.sound})")
 
@@ -126,6 +143,8 @@ class AdhanScheduler @Inject constructor(
             } else {
                 alarmRepository.cancel(AdhanContract.PRE_ADHAN_ALARM_ID)
             }
+
+            Outcome(next, changed)
         }
 
     private suspend fun cancelAll() {

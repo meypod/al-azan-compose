@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.reminder
 
 import android.util.Log
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
@@ -44,6 +45,9 @@ class ReminderScheduler @Inject constructor(
 ) {
     private val mutex = Mutex()
 
+    /** Per-reminder fire time of the last scheduled occurrence, to detect no-op reschedules. */
+    private val lastSignatures = mutableMapOf<String, Long>()
+
     private companion object {
         const val TAG = "ReminderScheduler"
         const val REFIRE_GUARD_MS = 10_000L
@@ -52,7 +56,18 @@ class ReminderScheduler @Inject constructor(
         const val SEARCH_DAYS = 8
     }
 
-    suspend fun schedule() =
+    /** A reminder that was scheduled this run, plus whether its fire time differs from before. */
+    data class Outcome(
+        val id: String,
+        val label: String,
+        val prayer: Prayer,
+        val duration: Int,
+        val durationModifier: Int,
+        val fireTimeMs: Long,
+        val changed: Boolean,
+    )
+
+    suspend fun schedule(): List<Outcome> =
         mutex.withLock {
             val settings = settingsRepository.data.first()
             val alarmSettings = alarmSettingsRepository.data.first()
@@ -80,15 +95,32 @@ class ReminderScheduler @Inject constructor(
                 .filter { (_, reminderId) -> reminderId !in enabledIds }
                 .forEach { (id, _) -> alarmRepository.cancel(id) }
 
-            if (parameters == null || location == null) return@withLock
+            if (parameters == null || location == null) {
+                lastSignatures.clear()
+                return@withLock emptyList()
+            }
 
             val alarmType = if (settings.useDifferentAlarmType) AlarmType.ExactAllowWhileIdle else AlarmType.AlarmClock
+            val outcomes = mutableListOf<Outcome>()
+            val newSignatures = mutableMapOf<String, Long>()
 
             for (reminder in reminders) {
                 if (!reminder.enabled) continue
                 val deliveredMs = settings.deliveredAlarmTimestamps[ReminderContract.notificationId(reminder.id)] ?: 0L
                 val fromMs = maxOf(Clock.System.now().toEpochMilliseconds(), deliveredMs + REFIRE_GUARD_MS)
                 val triggerMs = nextTriggerMs(reminder, fromMs, calc, settings, location) ?: continue
+
+                val changed = lastSignatures[reminder.id] != triggerMs
+                newSignatures[reminder.id] = triggerMs
+                outcomes += Outcome(
+                    id = reminder.id,
+                    label = reminder.label,
+                    prayer = reminder.prayer,
+                    duration = reminder.duration,
+                    durationModifier = reminder.durationModifier,
+                    fireTimeMs = triggerMs,
+                    changed = changed,
+                )
 
                 Log.i(TAG, "Reminder ${reminder.id} (${reminder.prayer}) in ${(triggerMs - fromMs) / 1000}s")
                 alarmRepository.schedule(
@@ -133,6 +165,13 @@ class ReminderScheduler @Inject constructor(
                     alarmRepository.cancel(ReminderContract.preAlarmId(reminder.id))
                 }
             }
+
+            // Replace the signature set so disabled/removed reminders no longer count as "unchanged"
+            // (so re-enabling one surfaces feedback again).
+            lastSignatures.clear()
+            lastSignatures.putAll(newSignatures)
+
+            outcomes
         }
 
     private fun nextTriggerMs(

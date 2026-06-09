@@ -390,6 +390,7 @@
     <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
     <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
     <string name="moazen_zade">Moazen Zade</string>
+    <string name="prayer_times_rescheduled">Adhana inayofuata: %1$s saa %2$s</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)
@@ -458,6 +459,16 @@
     <plurals name="time_unit_hours">
         <item quantity="one">saa %1$d</item>
         <item quantity="other">saa %1$d</item>
+    </plurals>
+    <string name="reminder_rescheduled">Kikumbusho: %1$s saa %2$s</string>
+    <string name="reminders_rescheduled_batch">Vikumbusho %1$d vimepangwa upya</string>
+    <plurals name="reminder_minutes_before">
+        <item quantity="one">dakika %1$d kabla ya %2$s</item>
+        <item quantity="other">dakika %1$d kabla ya %2$s</item>
+    </plurals>
+    <plurals name="reminder_minutes_after">
+        <item quantity="one">dakika %1$d baada ya %2$s</item>
+        <item quantity="other">dakika %1$d baada ya %2$s</item>
     </plurals>
 
     <!-- ============================================================

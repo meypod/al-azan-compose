@@ -7,12 +7,12 @@ import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
 import com.github.meypod.al_azan.core.domain.model.TextResource
+import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
-import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
@@ -22,6 +22,7 @@ import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.presentation.mapper.displayName
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
@@ -63,7 +64,7 @@ class ReminderFiringHandler @Inject constructor(
         val settings = settingsRepository.data.first()
         val alarmSettings = alarmSettingsRepository.data.first()
 
-        val title = reminder.label.ifBlank { context.getString(reminder.prayer.stringRes) }
+        val title = reminder.displayName(context.resources)
         val timeLabel = settings.formatTime(timestamp)
         // The adhan "Dismiss & silent" window suppresses reminders too: post a silent missed notice
         // instead of sounding, so the user still sees it passed.
@@ -122,7 +123,7 @@ class ReminderFiringHandler @Inject constructor(
         val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId } ?: return
         if (!reminder.enabled) return
         val settings = settingsRepository.data.first()
-        val title = reminder.label.ifBlank { context.getString(reminder.prayer.stringRes) }
+        val title = reminder.displayName(context.resources)
         val timeLabel = settings.formatTime(timestamp)
         notificationRepository.notify(
             NotificationConfig(
@@ -162,8 +163,7 @@ class ReminderFiringHandler @Inject constructor(
         reminderScheduler.schedule()
 
         val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId }
-        val name = reminder?.label?.ifBlank { context.getString(reminder.prayer.stringRes) }
-            ?: context.getString(R.string.reminder)
+        val name = reminder?.displayName(context.resources) ?: context.getString(R.string.reminder)
         withContext(Dispatchers.Main) {
             Toast.makeText(context, context.getString(R.string.reminder_cancelled_toast, name), Toast.LENGTH_SHORT).show()
         }

@@ -45,6 +45,8 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
+import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
+import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
@@ -81,6 +83,9 @@ fun ReminderScreen(
 
     Scaffold(
         modifier = modifier,
+        // This screen uses a plain Scaffold (not ScreenScaffold), so wire the app-wide snackbar host
+        // explicitly — otherwise reschedule feedback (e.g. toggling a reminder) has nowhere to render.
+        snackbarHost = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {

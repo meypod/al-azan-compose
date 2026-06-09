@@ -6,13 +6,18 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedback
+import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedbackInfo
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import io.github.meypod.adhan_kotlin.CalculationParameters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,6 +32,7 @@ class ReminderSyncInitializer @Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val reminderRepository: ReminderRepository,
     private val reminderScheduler: ReminderScheduler,
+    private val scheduleFeedback: ScheduleFeedback,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -68,7 +74,35 @@ class ReminderSyncInitializer @Inject constructor(
                 )
             }
                 .distinctUntilChanged()
-                .collect { reminderScheduler.schedule() }
+                .collectIndexed { index, _ ->
+                    val outcomes = reminderScheduler.schedule()
+                    // Index 0 is the initial value on app start, not a user edit — stay silent. Boot/
+                    // time-change/after-fire reschedules call the scheduler directly (bypassing this
+                    // flow). Only signal reminders whose next fire time actually changed.
+                    if (index == 0) return@collectIndexed
+                    val changed = outcomes.filter { it.changed }
+                    when (changed.size) {
+                        0 -> Unit
+
+                        // One signal for a single edit; collapse a multi-reminder shift into a count so
+                        // the snackbar doesn't get clobbered N times.
+                        1 -> {
+                            val outcome = changed.single()
+                            val settings = settingsRepository.data.first()
+                            scheduleFeedback.notify(
+                                ScheduleFeedbackInfo.Reminder(
+                                    label = outcome.label,
+                                    prayer = outcome.prayer,
+                                    duration = outcome.duration,
+                                    durationModifier = outcome.durationModifier,
+                                    formattedTime = settings.formatTime(outcome.fireTimeMs),
+                                ),
+                            )
+                        }
+
+                        else -> scheduleFeedback.notify(ScheduleFeedbackInfo.ReminderBatch(changed.size))
+                    }
+                }
         }
     }
 }
