@@ -11,6 +11,8 @@
     <string name="delete">Xóa</string>
     <string name="okay">OK</string>
     <string name="dismiss">Bỏ qua</string>
+    <string name="none">Không có</string>
+    <string name="default">Mặc định</string>
     <string name="play">Phát</string>
     <string name="stop">Dừng</string>
     <string name="add">Thêm</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
     <string name="numbering_system">Hệ chữ số</string>
     <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn.</string>
-    <string name="numbering_system_default">Mặc định</string>
     <string name="numbering_system_latn">Tây Ả Rập</string>
     <string name="numbering_system_arab">Đông Ả Rập</string>
     <string name="numbering_system_arabext">Ba Tư</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Ngôn ngữ âm lịch</string>
     <string name="lunar_calendar_language_help">Thay đổi ngôn ngữ dùng cho âm lịch.</string>
-    <string name="default_value">Mặc định</string>
     <string name="primary_calendar">Lịch Chính</string>
     <string name="primary_calendar_help">Lịch hiển thị ở trên cùng của trang.</string>
     <string name="secondary_calendar">Lịch phụ</string>
     <string name="secondary_calendar_help">Lịch hiển thị bên dưới ngày trong tuần.</string>
     <string name="calendar_gregorian">Dương lịch</string>
     <string name="calendar_lunar">Âm lịch</string>
-    <string name="calendar_none">Không có</string>
     <string name="calendar_persian">Ba Tư</string>
     <string name="calendar_ethiopic">Lịch Ê-ti-ô-pi-a</string>
     <string name="calendar_buddhist">Phật lịch</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Tự động (Mặc định)</string>
     <string name="rounding_nearest">Gần nhất</string>
     <string name="rounding_up">Làm tròn lên</string>
-    <string name="rounding_none">Không làm tròn</string>
     <string name="midnight_method">Phương pháp nửa đêm</string>
     <string name="midnight_sunset_to_fajr_default">Hoàng hôn đến Fajr (Mặc định)</string>
     <string name="midnight_sunset_to_sunrise">Hoàng hôn đến mặt trời mọc</string>

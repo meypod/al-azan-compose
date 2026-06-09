@@ -11,6 +11,8 @@
     <string name="delete">Delete</string>
     <string name="okay">Okay</string>
     <string name="dismiss">Dismiss</string>
+    <string name="none">None</string>
+    <string name="default">Default</string>
     <string name="play">Play</string>
     <string name="stop">Stop</string>
     <string name="add">Add</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">Use 24-Hour Format</string>
     <string name="numbering_system">Numbering System</string>
     <string name="numbering_system_help">Forces all numbers to be in the selected system.</string>
-    <string name="numbering_system_default">Default</string>
     <string name="numbering_system_latn">Western Arabic</string>
     <string name="numbering_system_arab">Eastern Arabic</string>
     <string name="numbering_system_arabext">Persian</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Lunar Calendar Language</string>
     <string name="lunar_calendar_language_help">Change the language used for lunar calendar.</string>
-    <string name="default_value">Default</string>
     <string name="primary_calendar">Primary Calendar</string>
     <string name="primary_calendar_help">The calendar that shows on top of the page.</string>
     <string name="secondary_calendar">Secondary Calendar</string>
     <string name="secondary_calendar_help">The calendar that shows below the day of the week.</string>
     <string name="calendar_gregorian">Gregorian</string>
     <string name="calendar_lunar">Lunar</string>
-    <string name="calendar_none">None</string>
     <string name="calendar_persian">Persian</string>
     <string name="calendar_ethiopic">Ethiopic</string>
     <string name="calendar_buddhist">Buddhist</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Auto (Default)</string>
     <string name="rounding_nearest">Nearest</string>
     <string name="rounding_up">Up</string>
-    <string name="rounding_none">None</string>
     <string name="midnight_method">Midnight Method</string>
     <string name="midnight_sunset_to_fajr_default">Sunset to Fajr (Default)</string>
     <string name="midnight_sunset_to_sunrise">Sunset to Sunrise</string>

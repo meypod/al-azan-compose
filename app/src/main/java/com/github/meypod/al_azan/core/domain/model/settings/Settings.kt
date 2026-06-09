@@ -182,7 +182,7 @@ enum class WidgetCityNamePos {
 
 fun WidgetCityNamePos.i18n(resources: Resources): String =
     when (this) {
-        WidgetCityNamePos.None -> resources.getString(R.string.calendar_none)
+        WidgetCityNamePos.None -> resources.getString(R.string.none)
         WidgetCityNamePos.TopStart -> resources.getString(R.string.lunar_calendar)
         WidgetCityNamePos.TopEnd -> resources.getString(R.string.secondary_calendar)
     }

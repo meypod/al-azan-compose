@@ -11,6 +11,8 @@
     <string name="delete">حذف</string>
     <string name="okay">باشه</string>
     <string name="dismiss">رد کردن</string>
+    <string name="none">هیچکدام</string>
+    <string name="default">پیش‌فرض</string>
     <string name="play">پخش</string>
     <string name="stop">توقف</string>
     <string name="add">اضافه کردن</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
     <string name="numbering_system">سیستم شماره‌گذاری</string>
     <string name="numbering_system_help">همهٔ اعداد را به سیستم انتخاب‌شده تبدیل می‌کند.</string>
-    <string name="numbering_system_default">پیش‌فرض</string>
     <string name="numbering_system_latn">عربی غربی</string>
     <string name="numbering_system_arab">عربی شرقی</string>
     <string name="numbering_system_arabext">فارسی</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">دیواناگری</string>
     <string name="lunar_calendar_language">زبان تقویم قمری</string>
     <string name="lunar_calendar_language_help">تغییر زبان مورد استفاده برای تقویم قمری.</string>
-    <string name="default_value">پیش‌فرض</string>
     <string name="primary_calendar">تقویم اصلی</string>
     <string name="primary_calendar_help">تقویمی که در بالای صفحه نمایش داده می‌شود.</string>
     <string name="secondary_calendar">تقویم ثانویه</string>
     <string name="secondary_calendar_help">تقویمی که زیر روز هفته نمایش داده می‌شود.</string>
     <string name="calendar_gregorian">میلادی</string>
     <string name="calendar_lunar">قمری</string>
-    <string name="calendar_none">هیچکدام</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">اتیوپیایی</string>
     <string name="calendar_buddhist">بودایی</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">خودکار (پیش‌فرض)</string>
     <string name="rounding_nearest">نزدیکترین</string>
     <string name="rounding_up">گرد کردن به بالا</string>
-    <string name="rounding_none">هیچکدام</string>
     <string name="midnight_method">روش نیمه شب</string>
     <string name="midnight_sunset_to_fajr_default">غروب تا فجر (پیش‌فرض)</string>
     <string name="midnight_sunset_to_sunrise">غروب تا طلوع</string>
