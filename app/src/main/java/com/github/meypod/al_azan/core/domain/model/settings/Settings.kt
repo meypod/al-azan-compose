@@ -128,10 +128,19 @@ data class Settings(
      * entries on every run. See [com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm].
      */
     val skippedAlarms: List<SkippedAlarm> = emptyList(),
-    /** Epoch millis until which adhan alarms are suppressed ("Dismiss & silent"). Null = not silenced. */
-    val adhanSilencedUntilMillis: Long? = null,
-    /** Interruption filter to restore when the "Dismiss & silent" DND window ends. Null = nothing to restore. */
+    /** Epoch millis until which alarms (adhan and reminders) are suppressed ("Dismiss & silent"). Null = not silenced. */
+    val silencedUntilMillis: Long? = null,
+    /**
+     * Interruption filter to restore when the "Dismiss & silent" DND window ends (API < 35 only, where
+     * apps still own the global filter). Null = nothing to restore. See [adhanSilenceZenRuleId].
+     */
     val dndRestoreFilter: Int? = null,
+    /**
+     * Id of the app's [android.app.AutomaticZenRule] used for "Dismiss & silent" on API 35+, where apps
+     * can no longer set the global interruption filter and must contribute their own zen rule instead.
+     * Null = no active silence rule.
+     */
+    val adhanSilenceZenRuleId: String? = null,
 )
 
 @Serializable

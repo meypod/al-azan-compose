@@ -5,6 +5,8 @@ import android.content.Context
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.alarm.DndSilenceController
+import com.github.meypod.al_azan.adhan.AdhanFiringHandler.Companion.DEV_TEST_PRAYER
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
@@ -68,6 +70,7 @@ class AdhanFiringHandler @Inject constructor(
     private val playbackLauncher: PlaybackLauncher,
     private val audioDurationProbe: AudioDurationProbe,
     private val softSoundPlayer: SoftSoundPlayer,
+    private val dndSilenceController: DndSilenceController,
 ) {
     private companion object {
         /** Fixed prayer used by dev test helpers so they don't depend on real schedule settings. */
@@ -88,7 +91,7 @@ class AdhanFiringHandler @Inject constructor(
 
         // Honor an active "Dismiss & silent" window: never sound, but post a silent missed notice so
         // the user still learns the prayer passed, then just reschedule.
-        val silencedUntil = settings.adhanSilencedUntilMillis ?: 0L
+        val silencedUntil = settings.silencedUntilMillis ?: 0L
         if (Clock.System.now().toEpochMilliseconds() < silencedUntil) {
             postMissedNotification(prayer, timestamp, settings)
             adhanScheduler.schedule()
@@ -182,35 +185,16 @@ class AdhanFiringHandler @Inject constructor(
     }.getOrNull()
 
     /**
-     * "Dismiss & silent": stop the adhan, suppress any adhan for [minutes], and put the phone into
-     * total-silence Do Not Disturb for the same window. The previous interruption filter is captured so
-     * [onUnsilence] can restore it instead of clobbering a DND the user had set manually.
+     * "Dismiss & silent": stop the adhan, cancel its scheduled alarms, and silence the phone for
+     * [minutes] via [DndSilenceController], then reschedule the next adhan (it stays suppressed while
+     * the silence window is open).
      */
     suspend fun onDismissAndSilent(minutes: Int) {
         PlaybackService.stop(context)
         notificationRepository.cancelNotification(AdhanContract.ADHAN_NOTIFICATION_ID)
-        val until = Clock.System.now().toEpochMilliseconds() + minutes * 60_000L
-
-        val nm = context.getSystemService<NotificationManager>()
-        val silenced = nm != null && nm.isNotificationPolicyAccessGranted
-        val previousFilter = if (silenced) nm.currentInterruptionFilter else null
-        if (silenced) nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE)
-
-        settingsRepository.update {
-            it.copy(adhanSilencedUntilMillis = until, dndRestoreFilter = previousFilter)
-        }
+        dndSilenceController.silence(minutes)
         alarmRepository.cancel(AdhanContract.ADHAN_ALARM_ID)
         alarmRepository.cancel(AdhanContract.PRE_ADHAN_ALARM_ID)
-        if (silenced) {
-            alarmRepository.schedule(
-                ScheduledAlarm(
-                    id = AdhanContract.UNSILENCE_ALARM_ID,
-                    triggerAtMillis = until,
-                    action = AdhanContract.ACTION_UNSILENCE,
-                    type = AlarmType.ExactAllowWhileIdle,
-                ),
-            )
-        }
         adhanScheduler.schedule()
     }
 
@@ -218,15 +202,9 @@ class AdhanFiringHandler @Inject constructor(
         uiScope.launch { onDismissAndSilent(minutes) }
     }
 
-    /** The "Dismiss & silent" window ended: restore the saved interruption filter and reschedule adhan. */
+    /** The "Dismiss & silent" window ended: release the DND silence and reschedule adhan. */
     suspend fun onUnsilence() {
-        val settings = settingsRepository.data.first()
-        val nm = context.getSystemService<NotificationManager>()
-        if (nm != null && nm.isNotificationPolicyAccessGranted) {
-            nm.setInterruptionFilter(settings.dndRestoreFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL)
-        }
-        settingsRepository.update { it.copy(adhanSilencedUntilMillis = null, dndRestoreFilter = null) }
-        alarmRepository.cancel(AdhanContract.UNSILENCE_ALARM_ID)
+        dndSilenceController.unsilence()
         adhanScheduler.schedule()
     }
 

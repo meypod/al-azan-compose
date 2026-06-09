@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Jangan nyalakan layar atau tampilkan alarm layar penuh saat adzan atau pengingat diputar.</string>
     <string name="notifications">Notifikasi</string>
     <string name="auto_silent_on_dismiss">Bisukan ponsel setelah dihentikan</string>
-    <string name="auto_silent_on_dismiss_help">Saat Anda menghentikan adzan, ponsel masuk ke mode Jangan Ganggu untuk sementara waktu. Menunda tidak.</string>
+    <string name="auto_silent_on_dismiss_help">Saat Anda menghentikan adzan, ponsel masuk ke mode Jangan Ganggu untuk sementara waktu. Menunda tidak. Hanya berlaku untuk azan.</string>
     <string name="auto_silent_duration">Durasi pembisuan</string>
     <string name="auto_silent_duration_help">Berapa lama ponsel tetap dibisukan setelah dihentikan.</string>
 

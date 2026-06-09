@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">عدم تشغيل الشاشة أو عرض المنبه بملء الشاشة عند تشغيل أذان أو تذكير.</string>
     <string name="notifications">إشعارات</string>
     <string name="auto_silent_on_dismiss">كتم الهاتف بعد التجاهل</string>
-    <string name="auto_silent_on_dismiss_help">عند تجاهلك للأذان، يدخل الهاتف في وضع عدم الإزعاج لفترة. الغفوة لا تفعل ذلك.</string>
+    <string name="auto_silent_on_dismiss_help">عند تجاهلك للأذان، يدخل الهاتف في وضع عدم الإزعاج لفترة. الغفوة لا تفعل ذلك. ينطبق على الأذان فقط.</string>
     <string name="auto_silent_duration">مدة الكتم</string>
     <string name="auto_silent_duration_help">المدة التي يبقى فيها الهاتف مكتومًا بعد التجاهل.</string>
 

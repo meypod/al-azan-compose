@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Nemoj uključivati ekran niti prikazivati alarm preko cijelog ekrana kada se reproducira ezan ili podsjetnik.</string>
     <string name="notifications">Obavijesti</string>
     <string name="auto_silent_on_dismiss">Utišaj telefon nakon odbacivanja</string>
-    <string name="auto_silent_on_dismiss_help">Kada odbacite ezan, telefon prelazi u režim Ne smetaj na neko vrijeme. Odgađanje to ne čini.</string>
+    <string name="auto_silent_on_dismiss_help">Kada odbacite ezan, telefon prelazi u režim Ne smetaj na neko vrijeme. Odgađanje to ne čini. Odnosi se samo na ezan.</string>
     <string name="auto_silent_duration">Trajanje utišavanja</string>
     <string name="auto_silent_duration_help">Koliko dugo telefon ostaje utišan nakon odbacivanja.</string>
 

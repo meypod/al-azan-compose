@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Không bật màn hình hoặc hiển thị báo thức toàn màn hình khi Azan hoặc lời nhắc phát.</string>
     <string name="notifications">Thông báo</string>
     <string name="auto_silent_on_dismiss">Tắt tiếng điện thoại sau khi bỏ qua</string>
-    <string name="auto_silent_on_dismiss_help">Khi bạn bỏ qua một lần Azan, điện thoại chuyển sang chế độ Không làm phiền trong một khoảng thời gian. Báo lại thì không.</string>
+    <string name="auto_silent_on_dismiss_help">Khi bạn bỏ qua một lần Azan, điện thoại chuyển sang chế độ Không làm phiền trong một khoảng thời gian. Báo lại thì không. Chỉ áp dụng cho azan.</string>
     <string name="auto_silent_duration">Thời lượng tắt tiếng</string>
     <string name="auto_silent_duration_help">Điện thoại giữ im lặng trong bao lâu sau khi bỏ qua.</string>
 

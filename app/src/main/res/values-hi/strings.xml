@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">जब अज़ान या अनुस्मारक बजे तो स्क्रीन चालू न करें या फ़ुल-स्क्रीन अलार्म न दिखाएँ।</string>
     <string name="notifications">सूचनाएँ</string>
     <string name="auto_silent_on_dismiss">हटाने के बाद फ़ोन साइलेंट करें</string>
-    <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता।</string>
+    <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता। केवल अज़ान पर लागू होता है।</string>
     <string name="auto_silent_duration">साइलेंट अवधि</string>
     <string name="auto_silent_duration_help">हटाने के बाद फ़ोन कितनी देर साइलेंट रहता है।</string>
 

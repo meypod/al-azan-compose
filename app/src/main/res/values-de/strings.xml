@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Bildschirm nicht einschalten und keinen Vollbild-Alarm anzeigen, wenn ein Adhan oder eine Erinnerung abgespielt wird.</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="auto_silent_on_dismiss">Telefon nach dem Ablehnen stummschalten</string>
-    <string name="auto_silent_on_dismiss_help">Wenn Sie einen Adhan ablehnen, wechselt das Telefon eine Weile in den Modus „Bitte nicht stören“. Beim Schlummern nicht.</string>
+    <string name="auto_silent_on_dismiss_help">Wenn Sie einen Adhan ablehnen, wechselt das Telefon eine Weile in den Modus „Bitte nicht stören“. Beim Schlummern nicht. Gilt nur für den Adhan.</string>
     <string name="auto_silent_duration">Dauer der Stummschaltung</string>
     <string name="auto_silent_duration_help">Wie lange das Telefon nach dem Ablehnen stummgeschaltet bleibt.</string>
 

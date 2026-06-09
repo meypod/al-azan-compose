@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">আযান বা রিমাইন্ডার বাজার সময় স্ক্রিন চালু করবেন না বা ফুল-স্ক্রিন অ্যালার্ম দেখাবেন না।</string>
     <string name="notifications">নোটিফিকেশন</string>
     <string name="auto_silent_on_dismiss">খারিজের পর ফোন নীরব করুন</string>
-    <string name="auto_silent_on_dismiss_help">আপনি যখন একটি আযান খারিজ করেন, ফোনটি কিছুক্ষণের জন্য ডু নট ডিস্টার্বে চলে যায়। স্নুজ করলে নয়।</string>
+    <string name="auto_silent_on_dismiss_help">আপনি যখন একটি আযান খারিজ করেন, ফোনটি কিছুক্ষণের জন্য ডু নট ডিস্টার্বে চলে যায়। স্নুজ করলে নয়। শুধু আযানের জন্য প্রযোজ্য।</string>
     <string name="auto_silent_duration">নীরবতার সময়কাল</string>
     <string name="auto_silent_duration_help">খারিজ করার পর ফোন কতক্ষণ নীরব থাকবে।</string>
 

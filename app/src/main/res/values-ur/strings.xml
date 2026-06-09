@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">جب کوئی اذان یا یاد دہانی چلے تو اسکرین آن نہ کریں اور نہ ہی فُل اسکرین الارم دکھائیں۔</string>
     <string name="notifications">اطلاعات</string>
     <string name="auto_silent_on_dismiss">برطرف کرنے کے بعد فون خاموش کریں</string>
-    <string name="auto_silent_on_dismiss_help">جب آپ اذان برطرف کرتے ہیں، تو فون کچھ دیر کے لیے ڈسٹرب نہ کریں میں چلا جاتا ہے۔ اسنوز کرنے سے ایسا نہیں ہوتا۔</string>
+    <string name="auto_silent_on_dismiss_help">جب آپ اذان برطرف کرتے ہیں، تو فون کچھ دیر کے لیے ڈسٹرب نہ کریں میں چلا جاتا ہے۔ اسنوز کرنے سے ایسا نہیں ہوتا۔ صرف اذان پر لاگو ہوتا ہے۔</string>
     <string name="auto_silent_duration">خاموشی کی مدت</string>
     <string name="auto_silent_duration_help">برطرف کرنے کے بعد فون کتنی دیر خاموش رہتا ہے۔</string>
 

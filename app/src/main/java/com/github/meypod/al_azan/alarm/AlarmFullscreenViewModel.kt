@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.adhan.AdhanFiringHandler
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.reminder.ReminderFiringHandler
 import com.github.meypod.al_azan.playback.PlaybackService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -28,6 +29,7 @@ class AlarmFullscreenViewModel @Inject constructor(
     @ApplicationContext context: Context,
     savedStateHandle: SavedStateHandle,
     private val adhanFiringHandler: AdhanFiringHandler,
+    private val reminderFiringHandler: ReminderFiringHandler,
     alarmSettingsRepository: AlarmSettingsRepository,
     settingsRepository: SettingsRepository,
 ) : ViewModel() {
@@ -36,7 +38,8 @@ class AlarmFullscreenViewModel @Inject constructor(
         savedStateHandle.get<String>(PlaybackService.EXTRA_PRAYER)
             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
 
-    // Reminders reuse this screen but have no snooze / dismiss-and-silent semantics.
+    // Reminders reuse this screen but have no snooze and no *auto*-silence (manual "Dismiss & silent"
+    // is still offered when DND access is held).
     private val isReminder: Boolean =
         savedStateHandle.get<Boolean>(PlaybackService.EXTRA_IS_REMINDER) == true
 
@@ -71,7 +74,9 @@ class AlarmFullscreenViewModel @Inject constructor(
             timeLabel = timeLabel,
             shortRemindMinutes = if (isReminder) 0 else AdhanContract.SHORT_REMIND_MINUTES,
             longRemindMinutes = if (isReminder) 0 else AdhanContract.LONG_REMIND_MINUTES,
-            dismissAndSilentMinutes = if (!isReminder && dndAccessGranted) AdhanContract.DISMISS_SILENT_MINUTES else 0,
+            // Manual "Dismiss & silent" is offered for both adhans and reminders whenever the app can
+            // change DND. (Auto-silence, below, stays adhan-only.)
+            dismissAndSilentMinutes = if (dndAccessGranted) AdhanContract.DISMISS_SILENT_MINUTES else 0,
         ),
     )
     val uiState = _uiState.asStateFlow()
@@ -116,9 +121,19 @@ class AlarmFullscreenViewModel @Inject constructor(
         _finish.trySend(Unit)
     }
 
-    private fun onDismiss() = adhanFiringHandler.dismissFromUi(autoSilentOnDismiss, autoSilentDurationMinutes)
+    private fun onDismiss() =
+        if (isReminder) {
+            reminderFiringHandler.dismissFromUi()
+        } else {
+            adhanFiringHandler.dismissFromUi(autoSilentOnDismiss, autoSilentDurationMinutes)
+        }
 
-    private fun onDismissAndSilent() = adhanFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
+    private fun onDismissAndSilent() =
+        if (isReminder) {
+            reminderFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
+        } else {
+            adhanFiringHandler.dismissAndSilentFromUi(AdhanContract.DISMISS_SILENT_MINUTES)
+        }
 
     private fun onShortRemind() {
         prayer?.let { adhanFiringHandler.remindLaterFromUi(it, AdhanContract.SHORT_REMIND_MINUTES) }

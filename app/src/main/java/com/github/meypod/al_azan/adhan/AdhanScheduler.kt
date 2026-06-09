@@ -81,7 +81,7 @@ class AdhanScheduler @Inject constructor(
             // Schedule strictly after the last delivered adhan (no re-fire) and past any "silence" window.
             val nowMs = Clock.System.now().toEpochMilliseconds()
             val deliveredMs = settings.deliveredAlarmTimestamps[AdhanContract.ADHAN_NOTIFICATION_ID] ?: 0L
-            val silencedUntilMs = settings.adhanSilencedUntilMillis ?: 0L
+            val silencedUntilMs = settings.silencedUntilMillis ?: 0L
             // "Skip next": arm strictly after the latest skipped occurrence so a later prayer fires instead.
             // Prune our own past skip entries here (the scheduler runs on every settings change / boot /
             // fire, so this is the reliable cleanup point); past entries are inert (nowMs dominates) anyway.

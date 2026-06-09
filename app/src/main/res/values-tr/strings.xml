@@ -375,7 +375,7 @@
     <string name="dont_show_alarm_screen_help">Bir ezan veya hatırlatıcı çalarken ekranı açma veya tam ekran alarmı gösterme.</string>
     <string name="notifications">Bildirimler</string>
     <string name="auto_silent_on_dismiss">Reddettikten sonra telefonu sustur</string>
-    <string name="auto_silent_on_dismiss_help">Bir ezanı reddettiğinizde, telefon bir süreliğine Rahatsız Etmeyin moduna geçer. Erteleme bunu yapmaz.</string>
+    <string name="auto_silent_on_dismiss_help">Bir ezanı reddettiğinizde, telefon bir süreliğine Rahatsız Etmeyin moduna geçer. Erteleme bunu yapmaz. Yalnızca ezan için geçerlidir.</string>
     <string name="auto_silent_duration">Susturma süresi</string>
     <string name="auto_silent_duration_help">Reddettikten sonra telefonun ne kadar süre susturulmuş kalacağı.</string>
 
