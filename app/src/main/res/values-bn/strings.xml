@@ -12,7 +12,7 @@
     <string name="okay">ঠিক আছে</string>
     <string name="dismiss">খারিজ</string>
     <string name="none">কোনোটিই নয়</string>
-    <string name="default">ডিফল্ট</string>
+    <string name="default_value">ডিফল্ট</string>
     <string name="play">শুনুন</string>
     <string name="stop">থামান</string>
     <string name="add">যোগ করুন</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">আরও গণনার সেটিংস</string>
     <string name="rounding_method">রাউন্ডিং পদ্ধতি</string>
-    <string name="rounding_auto_default">স্বয়ংক্রিয় (ডিফল্ট)</string>
     <string name="rounding_nearest">নিকটতম</string>
     <string name="rounding_up">ঊর্ধ্বমুখী</string>
     <string name="midnight_method">মধ্যরাত হিসাবের পদ্ধতি</string>

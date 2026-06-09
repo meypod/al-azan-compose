@@ -12,7 +12,7 @@
     <string name="okay">Tamam</string>
     <string name="dismiss">Yoksay</string>
     <string name="none">Hiçbiri</string>
-    <string name="default">Varsayılan</string>
+    <string name="default_value">Varsayılan</string>
     <string name="play">Oynat</string>
     <string name="stop">Durdur</string>
     <string name="add">Ekle</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Gelişmiş hesaplama ayarları</string>
     <string name="rounding_method">Yuvarlama Yöntemi</string>
-    <string name="rounding_auto_default">Otomatik (Varsayılan)</string>
     <string name="rounding_nearest">En yakın</string>
     <string name="rounding_up">Yukarı</string>
     <string name="midnight_method">Gece Yarısı Yöntemi</string>

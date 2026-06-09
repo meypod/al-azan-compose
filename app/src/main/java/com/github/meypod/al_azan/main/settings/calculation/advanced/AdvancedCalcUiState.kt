@@ -13,7 +13,7 @@ import io.github.meypod.adhan_kotlin.model.Shafaq
 data class AdvancedCalcUiState(
     val calculationSettings: CalculationSettings? = null,
 ) {
-    val rounding: Rounding? get() = calculationSettings?.parameters?.rounding
+    val rounding: Rounding get() = calculationSettings?.parameters?.rounding ?: Rounding.NEAREST
     val midnight: MidnightMethod get() = calculationSettings?.midnightMethod ?: MidnightMethod.SunsetToFajr
     val highLatitude: HighLatitudeRule? get() = calculationSettings?.parameters?.highLatitudeRule
     val madhab: Madhab get() = calculationSettings?.parameters?.madhab ?: Madhab.SHAFI

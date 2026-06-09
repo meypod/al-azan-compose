@@ -12,7 +12,7 @@
     <string name="okay">U redu</string>
     <string name="dismiss">Odbaci</string>
     <string name="none">Nema</string>
-    <string name="default">Zadano</string>
+    <string name="default_value">Zadano</string>
     <string name="play">Pokreni</string>
     <string name="stop">Zaustavi</string>
     <string name="add">Dodaj</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Napredne Postavke Kalkulacije</string>
     <string name="rounding_method">Metoda zaokruživanja</string>
-    <string name="rounding_auto_default">Automatski (zadano)</string>
     <string name="rounding_nearest">Najbliži</string>
     <string name="rounding_up">Naviše</string>
     <string name="midnight_method">Ponoćna Metoda</string>

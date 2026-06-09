@@ -12,7 +12,7 @@
     <string name="okay">OK</string>
     <string name="dismiss">Bỏ qua</string>
     <string name="none">Không có</string>
-    <string name="default">Mặc định</string>
+    <string name="default_value">Mặc định</string>
     <string name="play">Phát</string>
     <string name="stop">Dừng</string>
     <string name="add">Thêm</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Cài đặt Tính toán Nâng cao</string>
     <string name="rounding_method">Phương pháp làm tròn</string>
-    <string name="rounding_auto_default">Tự động (Mặc định)</string>
     <string name="rounding_nearest">Gần nhất</string>
     <string name="rounding_up">Làm tròn lên</string>
     <string name="midnight_method">Phương pháp nửa đêm</string>

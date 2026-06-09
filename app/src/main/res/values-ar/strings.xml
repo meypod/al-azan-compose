@@ -12,7 +12,7 @@
     <string name="okay">موافق</string>
     <string name="dismiss">تجاهل</string>
     <string name="none">لا شيء</string>
-    <string name="default">افتراضي</string>
+    <string name="default_value">افتراضي</string>
     <string name="play">تشغيل</string>
     <string name="stop">إيقاف</string>
     <string name="add">إضافة</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">إعدادات الحسابات المتقدمة</string>
     <string name="rounding_method">طريقة التقريب</string>
-    <string name="rounding_auto_default">تلقائي (الافتراضي)</string>
     <string name="rounding_nearest">الأقرب</string>
     <string name="rounding_up">تقريب لأعلى</string>
     <string name="midnight_method">طريقة منتصف الليل</string>

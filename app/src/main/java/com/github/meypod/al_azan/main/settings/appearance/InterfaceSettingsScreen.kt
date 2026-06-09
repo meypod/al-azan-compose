@@ -219,7 +219,7 @@ private fun NumberingSystemCard(
                 optionKey = { it.name },
                 optionLabel = {
                     when (it) {
-                        NumberingSystem.Default -> resources.getString(R.string.default)
+                        NumberingSystem.Default -> resources.getString(R.string.default_value)
                         NumberingSystem.Latn -> resources.getString(R.string.numbering_system_latn)
                         NumberingSystem.Arab -> resources.getString(R.string.numbering_system_arab)
                         NumberingSystem.Arabext -> resources.getString(R.string.numbering_system_arabext)
@@ -248,7 +248,7 @@ private fun CalendarsCard(
                 stringResource(R.string.lunar_calendar_language_help),
             )
             val langOptions = listOf<Pair<String?, String>>(
-                null to stringResource(R.string.default),
+                null to stringResource(R.string.default_value),
             ) + SupportedLocales.map { it.value to it.label }
             BottomSelect(
                 modifier = Modifier.fillMaxWidth(),

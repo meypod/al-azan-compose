@@ -12,7 +12,7 @@
     <string name="okay">باشه</string>
     <string name="dismiss">رد کردن</string>
     <string name="none">هیچکدام</string>
-    <string name="default">پیش‌فرض</string>
+    <string name="default_value">پیش‌فرض</string>
     <string name="play">پخش</string>
     <string name="stop">توقف</string>
     <string name="add">اضافه کردن</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">تنظیمات پیشرفته محاسبه</string>
     <string name="rounding_method">روش گرد کردن</string>
-    <string name="rounding_auto_default">خودکار (پیش‌فرض)</string>
     <string name="rounding_nearest">نزدیکترین</string>
     <string name="rounding_up">گرد کردن به بالا</string>
     <string name="midnight_method">روش نیمه شب</string>

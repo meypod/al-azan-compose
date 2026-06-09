@@ -9,7 +9,7 @@ import io.github.meypod.adhan_kotlin.model.Shafaq
 
 sealed interface AdvancedCalcUiAction {
     data class OnRoundingChange(
-        val value: Rounding?,
+        val value: Rounding,
     ) : AdvancedCalcUiAction
 
     data class OnMidnightChange(

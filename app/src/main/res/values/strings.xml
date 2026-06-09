@@ -12,7 +12,7 @@
     <string name="okay">Okay</string>
     <string name="dismiss">Dismiss</string>
     <string name="none">None</string>
-    <string name="default">Default</string>
+    <string name="default_value">Default</string>
     <string name="play">Play</string>
     <string name="stop">Stop</string>
     <string name="add">Add</string>
@@ -306,7 +306,6 @@
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Advanced Calculation Settings</string>
     <string name="rounding_method">Rounding Method</string>
-    <string name="rounding_auto_default">Auto (Default)</string>
     <string name="rounding_nearest">Nearest</string>
     <string name="rounding_up">Up</string>
     <string name="midnight_method">Midnight Method</string>
