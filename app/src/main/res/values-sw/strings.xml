@@ -15,6 +15,7 @@
     <string name="default_value">Chaguomsingi</string>
     <string name="play">Cheza</string>
     <string name="stop">Acha</string>
+    <string name="preview_muted_hint">Pandisha sauti ya media</string>
     <string name="add">Ongeza</string>
     <string name="increase">Ongeza</string>
     <string name="decrease">Punguza</string>

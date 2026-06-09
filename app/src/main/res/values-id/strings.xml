@@ -15,6 +15,7 @@
     <string name="default_value">Bawaan</string>
     <string name="play">Putar</string>
     <string name="stop">Berhenti</string>
+    <string name="preview_muted_hint">Naikkan volume media</string>
     <string name="add">Tambah</string>
     <string name="increase">Naikkan</string>
     <string name="decrease">Kurangi</string>

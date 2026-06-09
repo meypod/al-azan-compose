@@ -1,7 +1,10 @@
 package com.github.meypod.al_azan.core.data.audio
 
 import android.content.Context
+import android.media.AudioManager
 import android.net.Uri
+import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
@@ -13,6 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Drives [AdhanPreviewPlaybackService] for previewing audio entries. State is process-global (held
@@ -30,6 +34,7 @@ class AudioPreviewPlayerImpl(
         scope.launch {
             val uri = entry.toUri() ?: return@launch
             AdhanPreviewPlaybackService.play(context, uri, entry.id, entry.label(), entry.loop)
+            warnIfMediaMuted()
         }
     }
 
@@ -37,10 +42,23 @@ class AudioPreviewPlayerImpl(
         scope.launch {
             val uri = entry.toAudioUri(context) ?: return@launch
             AdhanPreviewPlaybackService.play(context, uri, entry.previewId(), entry.previewLabel(), entry.loop)
+            warnIfMediaMuted()
         }
     }
 
     override fun stop() = AdhanPreviewPlaybackService.stop(context)
+
+    /**
+     * Preview plays on [AudioManager.STREAM_MUSIC] (USAGE_MEDIA). If that stream is silent the user
+     * hears nothing; hint them to raise the volume instead of leaving them confused.
+     */
+    private suspend fun warnIfMediaMuted() {
+        val audioManager = context.getSystemService<AudioManager>() ?: return
+        if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) > 0) return
+        withContext(Dispatchers.Main) {
+            Toast.makeText(context, R.string.preview_muted_hint, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun release() {
         scope.cancel()

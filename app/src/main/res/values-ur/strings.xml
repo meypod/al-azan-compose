@@ -15,6 +15,7 @@
     <string name="default_value">طے شدہ</string>
     <string name="play">چلائیں</string>
     <string name="stop">روکیں</string>
+    <string name="preview_muted_hint">میڈیا والیوم بڑھائیں</string>
     <string name="add">شامل کریں۔</string>
     <string name="increase">اضافہ کریں</string>
     <string name="decrease">کمی کریں</string>

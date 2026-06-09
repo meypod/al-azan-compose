@@ -15,6 +15,7 @@
     <string name="default_value">डिफ़ॉल्ट</string>
     <string name="play">चलाएँ</string>
     <string name="stop">रोकें</string>
+    <string name="preview_muted_hint">मीडिया वॉल्यूम बढ़ाएँ</string>
     <string name="add">जोड़ें</string>
     <string name="increase">बढ़ाएँ</string>
     <string name="decrease">घटाएँ</string>

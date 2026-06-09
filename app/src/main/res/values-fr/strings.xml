@@ -15,6 +15,7 @@
     <string name="default_value">Défaut</string>
     <string name="play">Jouer</string>
     <string name="stop">Arrêter</string>
+    <string name="preview_muted_hint">Augmentez le volume multimédia</string>
     <string name="add">Ajouter</string>
     <string name="increase">Augmenter</string>
     <string name="decrease">Diminuer</string>

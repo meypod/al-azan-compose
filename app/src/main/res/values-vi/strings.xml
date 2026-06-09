@@ -15,6 +15,7 @@
     <string name="default_value">Mặc định</string>
     <string name="play">Phát</string>
     <string name="stop">Dừng</string>
+    <string name="preview_muted_hint">Tăng âm lượng phương tiện</string>
     <string name="add">Thêm</string>
     <string name="increase">Tăng</string>
     <string name="decrease">Giảm</string>
