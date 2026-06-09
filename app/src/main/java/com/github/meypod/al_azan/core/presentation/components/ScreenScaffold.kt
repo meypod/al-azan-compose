@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -35,27 +36,26 @@ fun ScreenScaffold(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     titleIcon: Int? = null,
+    navigationIcon: @Composable () -> Unit = { BackButton(onBackClick) },
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     snackbarHost: @Composable () -> Unit = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
     scrollable: Boolean = true,
+    contentPadding: PaddingValues? = null,
+    verticalArrangement: Arrangement.Vertical? = null,
     bottomBar: @Composable () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val resolvedPadding = contentPadding ?: PaddingValues(dimensionResource(R.dimen.page_padding))
+    val resolvedArrangement =
+        verticalArrangement ?: Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))
     val scrollState = if (scrollable) rememberScrollState() else null
     Scaffold(
         modifier = modifier,
         snackbarHost = snackbarHost,
         topBar = {
             CenterAlignedTopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            painterResource(R.drawable.arrow_back),
-                            contentDescription = stringResource(R.string.back_button),
-                        )
-                    }
-                },
+                navigationIcon = navigationIcon,
                 title = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -86,11 +86,21 @@ fun ScreenScaffold(
                     Modifier
                 },
             )
-            .padding(dimensionResource(R.dimen.page_padding))
+            .padding(resolvedPadding)
         Column(
             modifier = inner,
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            verticalArrangement = resolvedArrangement,
             content = content,
+        )
+    }
+}
+
+@Composable
+fun BackButton(onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(
+            painterResource(R.drawable.arrow_back),
+            contentDescription = stringResource(R.string.back_button),
         )
     }
 }

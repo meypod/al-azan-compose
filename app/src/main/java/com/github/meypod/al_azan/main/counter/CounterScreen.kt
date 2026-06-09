@@ -7,18 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +40,7 @@ import com.github.meypod.al_azan.core.domain.util.getDateDiff
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyColumn
+import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.counter.components.AddCounterDialog
@@ -65,20 +62,12 @@ fun CounterScreen(
             delay(30_000)
         }
     }
-    Scaffold(
+    ScreenScaffold(
+        title = stringResource(R.string.qada_counter_title),
+        onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
-        topBar = {
-            CenterAlignedTopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = { NavigationController.navigateBack() }) {
-                        Icon(painterResource(R.drawable.arrow_back), null)
-                    }
-                },
-                title = {
-                    Text(stringResource(R.string.qada_counter_title))
-                },
-            )
-        },
+        scrollable = false,
+        contentPadding = PaddingValues(0.dp),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onAction(CounterUiAction.OnAddClick) },
@@ -88,13 +77,10 @@ fun CounterScreen(
                 Icon(painterResource(R.drawable.add), contentDescription = stringResource(R.string.add_counter))
             }
         },
-    ) { paddingValues ->
+    ) {
+        val pagePadding = dimensionResource(R.dimen.page_padding)
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(dimensionResource(R.dimen.page_padding)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            Modifier.padding(start = pagePadding, end = pagePadding, top = pagePadding),
         ) {
             ACard { cardPadding ->
                 Box(Modifier.padding(cardPadding)) {
@@ -106,30 +92,33 @@ fun CounterScreen(
                     )
                 }
             }
-
-            uiState.addDialog?.let { AddCounterDialog(draft = it, onAction = onAction) }
-            uiState.editDialog?.let { EditCounterDialog(draft = it, onAction = onAction) }
-
-            ReorderableLazyColumn(
-                items = uiState.counters,
-                key = { it.id },
-                onMove = { from, to -> onAction(CounterUiAction.OnMove(from, to)) },
-                modifier = Modifier.weight(1f).fillMaxWidth(),
-                itemContent = { counter, isPlaceholder, itemModifier, dragHandleModifier ->
-                    CounterRow(
-                        counter = counter,
-                        onAction = onAction,
-                        showLastChange = uiState.showLastChangeTime,
-                        numberingSystem = uiState.numberingSystem,
-                        now = now,
-                        modifier = itemModifier.graphicsLayer { alpha = if (isPlaceholder) 0f else 1f },
-                        dragHandleModifier = dragHandleModifier,
-                    )
-                },
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-                footerContent = { Spacer(Modifier.height(96.dp)) },
-            )
         }
+
+        uiState.addDialog?.let { AddCounterDialog(draft = it, onAction = onAction) }
+        uiState.editDialog?.let { EditCounterDialog(draft = it, onAction = onAction) }
+
+        ReorderableLazyColumn(
+            items = uiState.counters,
+            key = { it.id },
+            onMove = { from, to -> onAction(CounterUiAction.OnMove(from, to)) },
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = pagePadding),
+            itemContent = { counter, isPlaceholder, itemModifier, dragHandleModifier ->
+                CounterRow(
+                    counter = counter,
+                    onAction = onAction,
+                    showLastChange = uiState.showLastChangeTime,
+                    numberingSystem = uiState.numberingSystem,
+                    now = now,
+                    modifier = itemModifier.graphicsLayer { alpha = if (isPlaceholder) 0f else 1f },
+                    dragHandleModifier = dragHandleModifier,
+                )
+            },
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            footerContent = { Spacer(Modifier.height(62.dp)) },
+        )
     }
 }
 
