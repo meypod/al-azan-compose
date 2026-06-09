@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.data.model.old
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.mapAdhanIdToEntryOrNull
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -13,6 +14,9 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 @Serializable
 data class OldReminderStore(
@@ -87,28 +91,22 @@ internal object OldAudioEntrySerializer : KSerializer<OldAudioEntry> {
 
         val element: JsonElement = jsonDecoder.decodeJsonElement()
 
-        // Try resource entry first (filepath as Int)
-        try {
-            return jsonDecoder.json.decodeFromJsonElement(
-                OldAudioEntry.OldResourceOldAudioEntry.serializer(),
-                element,
-            )
-        } catch (_: Exception) {
-        }
+        // Discriminate by the `filepath` field instead of trial-and-error decoding: a resource entry
+        // has it as an Int, an external entry as a String, and the default entry omits it. This mirrors
+        // OldAdhanAudioEntrySerializer and avoids the old chain throwing on an unexpected shape.
+        val filepath = element.jsonObject["filepath"]
+        val serializer =
+            when {
+                // The default entry stores `filepath` as JSON null (present, not absent).
+                filepath == null || filepath is JsonNull -> OldAudioEntry.OldDefaultAudioEntry.serializer()
 
-        // Then try external entry (filepath as String)
+                filepath.jsonPrimitive.isString -> OldAudioEntry.OldExternalAudioEntry.serializer()
+
+                else -> OldAudioEntry.OldResourceOldAudioEntry.serializer()
+            }
+
         try {
-            return jsonDecoder.json.decodeFromJsonElement(
-                OldAudioEntry.OldExternalAudioEntry.serializer(),
-                element,
-            )
-        } catch (e: Exception) {
-        }
-        try {
-            return jsonDecoder.json.decodeFromJsonElement(
-                OldAudioEntry.OldDefaultAudioEntry.serializer(),
-                element,
-            )
+            return jsonDecoder.json.decodeFromJsonElement(serializer, element)
         } catch (e: Exception) {
             throw SerializationException("Cannot deserialize OldAudioEntry: ${e.message}")
         }
@@ -159,14 +157,19 @@ fun OldReminder.toReminder() =
 fun OldAudioEntry.toReminderAudioEntry() =
     when (this) {
         is OldAudioEntry.OldResourceOldAudioEntry -> {
-            ReminderAudioEntry.ResourceReminderAudioEntry(
-                id = this.id,
-                resourceId = this.filepath,
-                label = this.label,
-                canDelete = this.canDelete,
-                loop = this.loop,
-                notif = this.notif,
-            )
+            // The old app's stored resource int is meaningless here — Android resource ids are not
+            // stable across builds/apps. Re-resolve the current resource int from the stable string id;
+            // an id this build no longer bundles falls back to the default notification sound.
+            mapAdhanIdToEntryOrNull(this.id)?.resId?.let { resourceId ->
+                ReminderAudioEntry.ResourceReminderAudioEntry(
+                    id = this.id,
+                    resourceId = resourceId,
+                    label = this.label,
+                    canDelete = this.canDelete,
+                    loop = this.loop,
+                    notif = this.notif,
+                )
+            } ?: ReminderAudioEntry.DefaultReminderAudioEntry
         }
 
         is OldAudioEntry.OldExternalAudioEntry -> {
