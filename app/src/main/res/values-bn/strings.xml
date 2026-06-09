@@ -11,6 +11,8 @@
     <string name="delete">মুছে ফেলুন</string>
     <string name="okay">ঠিক আছে</string>
     <string name="dismiss">খারিজ</string>
+    <string name="none">কোনোটিই নয়</string>
+    <string name="default">ডিফল্ট</string>
     <string name="play">শুনুন</string>
     <string name="stop">থামান</string>
     <string name="add">যোগ করুন</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">২৪-ঘন্টা বিন্যাস ব্যবহার করুন</string>
     <string name="numbering_system">সংখ্যা পদ্ধতি</string>
     <string name="numbering_system_help">সমস্ত সংখ্যাকে নির্বাচিত সিস্টেমে থাকতে বাধ্য করে।</string>
-    <string name="numbering_system_default">ডিফল্ট</string>
     <string name="numbering_system_latn">পশ্চিমা আরবি</string>
     <string name="numbering_system_arab">পূর্ব আরবি</string>
     <string name="numbering_system_arabext">ফার্সি</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">দেবনাগরী</string>
     <string name="lunar_calendar_language">চন্দ্র ক্যালেন্ডারের ভাষা</string>
     <string name="lunar_calendar_language_help">চন্দ্র ক্যালেন্ডারের জন্য ব্যবহৃত ভাষা পরিবর্তন করুন।</string>
-    <string name="default_value">ডিফল্ট</string>
     <string name="primary_calendar">প্রাথমিক ক্যালেন্ডার</string>
     <string name="primary_calendar_help">যে ক্যালেন্ডারটি পৃষ্ঠার উপরে দেখায়।</string>
     <string name="secondary_calendar">দ্বিতীয় ক্যালেন্ডার</string>
     <string name="secondary_calendar_help">যে ক্যালেন্ডারটি সপ্তাহের দিনের নিচে দেখায়।</string>
     <string name="calendar_gregorian">গ্রেগরিয়ান</string>
     <string name="calendar_lunar">চন্দ্র</string>
-    <string name="calendar_none">কোনোটিই নয়</string>
     <string name="calendar_persian">ফার্সি</string>
     <string name="calendar_ethiopic">ইথিওপিক</string>
     <string name="calendar_buddhist">বৌদ্ধ</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">স্বয়ংক্রিয় (ডিফল্ট)</string>
     <string name="rounding_nearest">নিকটতম</string>
     <string name="rounding_up">ঊর্ধ্বমুখী</string>
-    <string name="rounding_none">কোনোটিই নয়</string>
     <string name="midnight_method">মধ্যরাত হিসাবের পদ্ধতি</string>
     <string name="midnight_sunset_to_fajr_default">সূর্যাস্ত থেকে ফজর (ডিফল্ট)</string>
     <string name="midnight_sunset_to_sunrise">সূর্যাস্ত থেকে সূর্যোদয়</string>

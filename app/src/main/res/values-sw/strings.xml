@@ -11,6 +11,8 @@
     <string name="delete">Futa</string>
     <string name="okay">Sawa</string>
     <string name="dismiss">Puuzilia</string>
+    <string name="none">Tupu</string>
+    <string name="default">Chaguomsingi</string>
     <string name="play">Cheza</string>
     <string name="stop">Acha</string>
     <string name="add">Ongeza</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">Tumia umbizo la Saa 24</string>
     <string name="numbering_system">Mfumo wa Unambarishaji</string>
     <string name="numbering_system_help">Hulazimisha nambari zote kuwa katika mfumo uliochaguliwa.</string>
-    <string name="numbering_system_default">Chaguomsingi</string>
     <string name="numbering_system_latn">Kiarabu cha Magharibi</string>
     <string name="numbering_system_arab">Kiarabu cha Mashariki</string>
     <string name="numbering_system_arabext">Kiajemi</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Kidevanagari</string>
     <string name="lunar_calendar_language">Lugha ya Kalenda ya Mwezi</string>
     <string name="lunar_calendar_language_help">Badilisha lugha inayotumika kwa kalenda ya mwezi.</string>
-    <string name="default_value">Chaguomsingi</string>
     <string name="primary_calendar">Kalenda ya Msingi</string>
     <string name="primary_calendar_help">Kalenda inayoonyeshwa juu ya ukurasa.</string>
     <string name="secondary_calendar">Kalenda ya Sekondari</string>
     <string name="secondary_calendar_help">Kalenda inayoonyeshwa chini ya siku ya wiki.</string>
     <string name="calendar_gregorian">Kigregori</string>
     <string name="calendar_lunar">Mwezi</string>
-    <string name="calendar_none">Tupu</string>
     <string name="calendar_persian">Kiajemi</string>
     <string name="calendar_ethiopic">Kiethiopia</string>
     <string name="calendar_buddhist">Kibuddha</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Otomatiki (Chaguomsingi)</string>
     <string name="rounding_nearest">Karibu zaidi</string>
     <string name="rounding_up">Juu</string>
-    <string name="rounding_none">Tupu</string>
     <string name="midnight_method">Njia ya Usiku wa manane</string>
     <string name="midnight_sunset_to_fajr_default">Machweo hadi Fajr (Chaguomsingi)</string>
     <string name="midnight_sunset_to_sunrise">Machweo hadi Macheo</string>

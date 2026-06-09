@@ -11,6 +11,8 @@
     <string name="delete">Sil</string>
     <string name="okay">Tamam</string>
     <string name="dismiss">Yoksay</string>
+    <string name="none">Hiçbiri</string>
+    <string name="default">Varsayılan</string>
     <string name="play">Oynat</string>
     <string name="stop">Durdur</string>
     <string name="add">Ekle</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">24 Saat biçimini kullan</string>
     <string name="numbering_system">Sayı sistemi</string>
     <string name="numbering_system_help">Tüm sayıları seçilen sistemde olmaya zorlar.</string>
-    <string name="numbering_system_default">Varsayılan</string>
     <string name="numbering_system_latn">Batı Arapçası</string>
     <string name="numbering_system_arab">Doğu Arapçası</string>
     <string name="numbering_system_arabext">Farsça</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Ay Takvimi Dili</string>
     <string name="lunar_calendar_language_help">Ay takvimi için kullanılan dili değiştirin.</string>
-    <string name="default_value">Varsayılan</string>
     <string name="primary_calendar">Birincil Takvim</string>
     <string name="primary_calendar_help">Sayfanın üstünde gösterilen takvim.</string>
     <string name="secondary_calendar">İkincil takvim</string>
     <string name="secondary_calendar_help">Haftanın gününün altında gösterilen takvim.</string>
     <string name="calendar_gregorian">Gregoryen</string>
     <string name="calendar_lunar">Ay</string>
-    <string name="calendar_none">Hiçbiri</string>
     <string name="calendar_persian">Farsça</string>
     <string name="calendar_ethiopic">Etiyopya</string>
     <string name="calendar_buddhist">Budist</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Otomatik (Varsayılan)</string>
     <string name="rounding_nearest">En yakın</string>
     <string name="rounding_up">Yukarı</string>
-    <string name="rounding_none">Hiçbiri</string>
     <string name="midnight_method">Gece Yarısı Yöntemi</string>
     <string name="midnight_sunset_to_fajr_default">Günbatımından Fecr\'e (Varsayılan)</string>
     <string name="midnight_sunset_to_sunrise">Günbatımından Gündoğumuna</string>

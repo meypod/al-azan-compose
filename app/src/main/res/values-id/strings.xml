@@ -11,6 +11,8 @@
     <string name="delete">Hapus</string>
     <string name="okay">Oke</string>
     <string name="dismiss">Hentikan</string>
+    <string name="none">Tidak ada</string>
+    <string name="default">Bawaan</string>
     <string name="play">Putar</string>
     <string name="stop">Berhenti</string>
     <string name="add">Tambah</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">Gunakan format 24 Jam</string>
     <string name="numbering_system">Sistem penomoran</string>
     <string name="numbering_system_help">Memaksa semua angka menggunakan sistem yang dipilih.</string>
-    <string name="numbering_system_default">Bawaan</string>
     <string name="numbering_system_latn">Arab Barat</string>
     <string name="numbering_system_arab">Arab Timur</string>
     <string name="numbering_system_arabext">Persia</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Bahasa Kalender Lunar</string>
     <string name="lunar_calendar_language_help">Ubah bahasa yang digunakan untuk kalender lunar.</string>
-    <string name="default_value">Bawaan</string>
     <string name="primary_calendar">Kalender Utama</string>
     <string name="primary_calendar_help">Kalender yang ditampilkan di bagian atas halaman.</string>
     <string name="secondary_calendar">Kalender Sekunder</string>
     <string name="secondary_calendar_help">Kalender yang ditampilkan di bawah hari dalam seminggu.</string>
     <string name="calendar_gregorian">Gregorian</string>
     <string name="calendar_lunar">Lunar</string>
-    <string name="calendar_none">Tidak ada</string>
     <string name="calendar_persian">Persia</string>
     <string name="calendar_ethiopic">Etiopia</string>
     <string name="calendar_buddhist">Buddha</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Otomatis (Default)</string>
     <string name="rounding_nearest">Terdekat</string>
     <string name="rounding_up">Ke atas</string>
-    <string name="rounding_none">Tidak ada</string>
     <string name="midnight_method">Metode Tengah Malam</string>
     <string name="midnight_sunset_to_fajr_default">Matahari Terbenam hingga Subuh (Default)</string>
     <string name="midnight_sunset_to_sunrise">Matahari Terbenam hingga Matahari Terbit</string>

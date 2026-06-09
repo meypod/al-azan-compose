@@ -11,6 +11,8 @@
     <string name="delete">حذف کریں۔</string>
     <string name="okay">ٹھیک ہے</string>
     <string name="dismiss">برطرف کریں</string>
+    <string name="none">کوئی نہیں</string>
+    <string name="default">طے شدہ</string>
     <string name="play">چلائیں</string>
     <string name="stop">روکیں</string>
     <string name="add">شامل کریں۔</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">24 گھنٹے کا فارمیٹ استعمال کریں۔</string>
     <string name="numbering_system">نمبر سازی کا نظام</string>
     <string name="numbering_system_help">تمام نمبروں کو منتخب نظام میں ہونے پر مجبور کرتا ہے۔</string>
-    <string name="numbering_system_default">طے شدہ</string>
     <string name="numbering_system_latn">مغربی عربی</string>
     <string name="numbering_system_arab">مشرقی عربی</string>
     <string name="numbering_system_arabext">فارسی</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">دیوناگری</string>
     <string name="lunar_calendar_language">قمری کیلنڈر کی زبان</string>
     <string name="lunar_calendar_language_help">قمری کیلنڈر کے لیے استعمال ہونے والی زبان تبدیل کریں۔</string>
-    <string name="default_value">طے شدہ</string>
     <string name="primary_calendar">بنیادی کیلنڈر</string>
     <string name="primary_calendar_help">وہ کیلنڈر جو صفحے کے اوپر دکھائی دیتا ہے۔</string>
     <string name="secondary_calendar">ثانوی کیلنڈر</string>
     <string name="secondary_calendar_help">وہ کیلنڈر جو ہفتے کے دن کے نیچے دکھائی دیتا ہے۔</string>
     <string name="calendar_gregorian">گریگورین</string>
     <string name="calendar_lunar">قمری</string>
-    <string name="calendar_none">کوئی نہیں</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">ایتھوپیک</string>
     <string name="calendar_buddhist">بدھ مت</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">خودکار (پہلے سے طے شدہ)</string>
     <string name="rounding_nearest">قریب ترین</string>
     <string name="rounding_up">اوپر کی طرف</string>
-    <string name="rounding_none">کوئی نہیں</string>
     <string name="midnight_method">آدھی رات کا طریقہ</string>
     <string name="midnight_sunset_to_fajr_default">غروب آفتاب سے فجر تک (پہلے سے طے شدہ)</string>
     <string name="midnight_sunset_to_sunrise">غروب آفتاب سے طلوع آفتاب</string>

@@ -11,6 +11,8 @@
     <string name="delete">Izbrišite</string>
     <string name="okay">U redu</string>
     <string name="dismiss">Odbaci</string>
+    <string name="none">Nema</string>
+    <string name="default">Zadano</string>
     <string name="play">Pokreni</string>
     <string name="stop">Zaustavi</string>
     <string name="add">Dodaj</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">Koristite 24-satni format</string>
     <string name="numbering_system">Sistem Numerisanja</string>
     <string name="numbering_system_help">Prisiljava sve brojeve da budu u odabranom sistemu.</string>
-    <string name="numbering_system_default">Zadano</string>
     <string name="numbering_system_latn">Zapadno-Arapski</string>
     <string name="numbering_system_arab">Istočno-Arapski</string>
     <string name="numbering_system_arabext">Perzijski</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Jezik lunarnog kalendara</string>
     <string name="lunar_calendar_language_help">Promijeni jezik koji se koristi za lunarni kalendar.</string>
-    <string name="default_value">Zadano</string>
     <string name="primary_calendar">Primarni kalendar</string>
     <string name="primary_calendar_help">Kalendar koji se prikazuje na vrhu stranice.</string>
     <string name="secondary_calendar">Sekundarni Kalendar</string>
     <string name="secondary_calendar_help">Kalendar koji se prikazuje ispod dana u sedmici.</string>
     <string name="calendar_gregorian">Gregorijanski</string>
     <string name="calendar_lunar">Lunarni</string>
-    <string name="calendar_none">Nema</string>
     <string name="calendar_persian">Perzijski</string>
     <string name="calendar_ethiopic">Etiopski</string>
     <string name="calendar_buddhist">Budistički</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Automatski (zadano)</string>
     <string name="rounding_nearest">Najbliži</string>
     <string name="rounding_up">Naviše</string>
-    <string name="rounding_none">Nema</string>
     <string name="midnight_method">Ponoćna Metoda</string>
     <string name="midnight_sunset_to_fajr_default">Od zalaska do Sabaha (zadano)</string>
     <string name="midnight_sunset_to_sunrise">Od zalaska do izlaska sunca</string>

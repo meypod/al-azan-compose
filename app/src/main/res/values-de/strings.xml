@@ -11,6 +11,8 @@
     <string name="delete">Löschen</string>
     <string name="okay">OK</string>
     <string name="dismiss">Ablehnen</string>
+    <string name="none">Keine</string>
+    <string name="default">Standard</string>
     <string name="play">Abspielen</string>
     <string name="stop">Stopp</string>
     <string name="add">Hinzufügen</string>
@@ -228,7 +230,6 @@
     <string name="use_24_hour_format">Das 24-Stunden-Format verwenden</string>
     <string name="numbering_system">Nummerierungssystem</string>
     <string name="numbering_system_help">Erzwingt, dass alle Zahlen im ausgewählten System dargestellt werden.</string>
-    <string name="numbering_system_default">Standard</string>
     <string name="numbering_system_latn">Westarabisch</string>
     <string name="numbering_system_arab">Ostarabisch</string>
     <string name="numbering_system_arabext">Persisch</string>
@@ -236,14 +237,12 @@
     <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Sprache des Mondkalenders</string>
     <string name="lunar_calendar_language_help">Ändern Sie die für den Mondkalender verwendete Sprache.</string>
-    <string name="default_value">Standard</string>
     <string name="primary_calendar">Primärer Kalender</string>
     <string name="primary_calendar_help">Der Kalender, der oben auf der Seite angezeigt wird.</string>
     <string name="secondary_calendar">Sekundärer Kalender</string>
     <string name="secondary_calendar_help">Der Kalender, der unter dem Wochentag angezeigt wird.</string>
     <string name="calendar_gregorian">Gregorianisch</string>
     <string name="calendar_lunar">Lunar</string>
-    <string name="calendar_none">Keine</string>
     <string name="calendar_persian">Persisch</string>
     <string name="calendar_ethiopic">Äthiopisch</string>
     <string name="calendar_buddhist">Buddhistisch</string>
@@ -310,7 +309,6 @@
     <string name="rounding_auto_default">Automatisch (Standard)</string>
     <string name="rounding_nearest">Nächste</string>
     <string name="rounding_up">Nach oben</string>
-    <string name="rounding_none">Keine</string>
     <string name="midnight_method">Mitternachtsmethode</string>
     <string name="midnight_sunset_to_fajr_default">Sonnenuntergang bis Fajr (Standard)</string>
     <string name="midnight_sunset_to_sunrise">Sonnenuntergang bis Sonnenaufgang</string>
