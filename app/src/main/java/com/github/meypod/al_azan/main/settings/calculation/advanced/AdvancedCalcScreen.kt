@@ -46,7 +46,7 @@ fun AdvancedCalcScreen(
                 optionKey = { it?.name ?: "null" },
                 optionLabel = {
                     when (it) {
-                        Rounding.NEAREST -> resources.getString(R.string.rounding_auto_default)
+                        Rounding.NEAREST -> resources.getString(R.string.rounding_nearest)
                         Rounding.UP -> resources.getString(R.string.rounding_up)
                         Rounding.NONE -> resources.getString(R.string.none)
                         null -> resources.getString(R.string.rounding_auto_default)
