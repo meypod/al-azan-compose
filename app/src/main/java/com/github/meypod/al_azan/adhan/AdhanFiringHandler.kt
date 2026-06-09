@@ -34,6 +34,7 @@ import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.domain.util.formatTime
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
@@ -105,7 +106,7 @@ class AdhanFiringHandler @Inject constructor(
         val vibration = alarmSettings.getVibrationSettings(prayer) ?: alarmSettings.vibrationMode
         // Continuous vibration must loop until dismissed, so it's intrusive regardless of the sound.
         val intrusive = vibration == VibrationMode.Continuous ||
-            (soundUri != null && entry != null && audioDurationProbe.isIntrusive(entry))
+            (soundUri != null && audioDurationProbe.isIntrusive(entry))
         if (soundUri != null && intrusive) {
             playbackLauncher.launch(
                 PlaybackRequest.from(
@@ -170,20 +171,21 @@ class AdhanFiringHandler @Inject constructor(
         timestamp: Long,
         settings: Settings,
         alarmSettings: AlarmSettings,
-    ) = runCatching {
-        val calc = calculationSettingsRepository.data.first()
-        val params = calc.parameters ?: return null
-        val location = favoriteLocationsRepository.data.first()
-            .firstOrNull { it.id == calc.locationId }?.locationDetail ?: return null
-        getNextShariaTimesUseCase(
-            instant = Instant.fromEpochMilliseconds(timestamp + 1_000),
-            calculationParameters = params,
-            calculationAdjustments = calc.calculationAdjustments,
-            arabicCalendar = settings.selectedArabicCalendar,
-            locationDetail = location,
-            alarmSettings = alarmSettings,
-        )
-    }.getOrNull()
+    ): ShariaTimeDetails? =
+        runCatching {
+            val calc = calculationSettingsRepository.data.first()
+            val params = calc.parameters ?: return null
+            val location = favoriteLocationsRepository.data.first()
+                .firstOrNull { it.id == calc.locationId }?.locationDetail ?: return null
+            getNextShariaTimesUseCase(
+                instant = Instant.fromEpochMilliseconds(timestamp + 1_000),
+                calculationParameters = params,
+                calculationAdjustments = calc.calculationAdjustments,
+                arabicCalendar = settings.selectedArabicCalendar,
+                locationDetail = location,
+                alarmSettings = alarmSettings,
+            )
+        }.getOrNull()
 
     /**
      * "Dismiss & silent": stop the adhan, cancel its scheduled alarms, and silence the phone for
