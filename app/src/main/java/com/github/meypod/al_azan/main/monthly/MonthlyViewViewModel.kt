@@ -140,6 +140,7 @@ class MonthlyViewViewModel @Inject constructor(
                     rows = rows,
                     isCurrentMonth = isSameCalendarMonth(anchorInCalendar, addDaysTimeZoneAware(now, adjustment), calendar),
                     calendarMode = mode,
+                    themeColor = settings.themeColor,
                 )
             }.collect { state -> _uiState.value = state }
         }

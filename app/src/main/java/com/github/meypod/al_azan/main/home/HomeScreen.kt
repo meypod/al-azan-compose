@@ -25,7 +25,6 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
-import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -49,6 +48,11 @@ import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.DarkOnTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.LightOnTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
 import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.main.home.components.ConfigHintCard
@@ -204,14 +208,27 @@ fun HomeScreen(
                     ),
                 ) {
                     val buttonShape = MaterialTheme.shapes.extraLarge
+                    // classic themes use the high-contrast scheme; keep this button on the
+                    // normal tertiary tones so it looks the same across themes
+                    val dark = uiState.themeColor.isDark()
+                    val containerColor = if (uiState.themeColor.isClassic()) {
+                        if (dark) DarkTertiaryContainer else LightTertiaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.tertiaryContainer
+                    }
+                    val contentColor = if (uiState.themeColor.isClassic()) {
+                        if (dark) DarkOnTertiaryContainer else LightOnTertiaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onTertiaryContainer
+                    }
                     ExtendedFloatingActionButton(
                         onClick = { onAction(HomeUiAction.OnShowTodayClick) },
                         shape = buttonShape,
                         modifier = Modifier
                             .widthIn(min = 160.dp)
                             .dropShadow2(buttonShape),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        containerColor = containerColor,
+                        contentColor = contentColor,
                     ) {
                         Text(
                             stringResource(R.string.show_today),
@@ -237,14 +254,17 @@ fun HomeScreen(
                 Column(
                     Modifier
                         .weight(1f)
-                        .padding(
-                            horizontal = dimensionResource(R.dimen.element_padding),
-                        )
                         .then(
-                            if (!uiState.themeColor.isClassic()) {
-                                Modifier.offset(y = -dimensionResource(R.dimen.home_card_padding))
+                            if (uiState.themeColor.isClassic()) {
+                                Modifier.padding(
+                                    dimensionResource(R.dimen.page_padding),
+                                )
                             } else {
                                 Modifier
+                                    .padding(
+                                        horizontal = dimensionResource(R.dimen.element_padding),
+                                    )
+                                    .offset(y = -dimensionResource(R.dimen.home_card_padding))
                             },
                         ),
                 ) {
@@ -265,6 +285,7 @@ fun HomeScreen(
                             is24Hours = uiState.is24Hour,
                             highlightedShariaTime = uiState.highlightedShariaTime,
                             hiddenPrayers = uiState.hiddenPrayers,
+                            themeColor = uiState.themeColor,
                         ),
                     )
                 }

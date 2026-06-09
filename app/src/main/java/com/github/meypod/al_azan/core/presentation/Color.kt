@@ -101,6 +101,11 @@ val LightHighContrastInverseSurface = Color(0xFF2C3131)
 val LightHighContrastInverseOnSurface = Color(0xFFFFFFFF)
 val LightHighContrastInversePrimary = Color(0xFF9DFCFF)
 val LightHighContrastSurfaceTint = Color(0xFF00696C)
+val LightHighContrastSurfaceContainerLowest = Color(0xFFFFFFFF)
+val LightHighContrastSurfaceContainerLow = Color(0xFFF1F6F6)
+val LightHighContrastSurfaceContainer = Color(0xFFEBF2F2)
+val LightHighContrastSurfaceContainerHigh = Color(0xFFE5EDED)
+val LightHighContrastSurfaceContainerHighest = Color(0xFFDEE8E8)
 
 val DarkHighContrastPrimary = Color(0xFFEAFFFF)
 val DarkHighContrastOnPrimary = Color(0xFF000000)
@@ -131,11 +136,17 @@ val DarkHighContrastInverseSurface = Color(0xFFDFE3E3)
 val DarkHighContrastInverseOnSurface = Color(0xFF000000)
 val DarkHighContrastInversePrimary = Color(0xFF003031)
 val DarkHighContrastSurfaceTint = Color(0xFF76D5D8)
+val DarkHighContrastSurfaceContainerLowest = Color(0xFF0B0F0F)
+val DarkHighContrastSurfaceContainerLow = Color(0xFF181D1D)
+val DarkHighContrastSurfaceContainer = Color(0xFF1C2121)
+val DarkHighContrastSurfaceContainerHigh = Color(0xFF262B2B)
+val DarkHighContrastSurfaceContainerHighest = Color(0xFF313636)
 
 // For sharia times
 
 val TertiaryFixed = Color(0xFFFFE175)
 val Tertiary95 = Color(0xFFFFF0C5)
+val ClassicHighlightBackground = Color(0xFFFFEBA6)
 
 // Custom status roles (no built-in M3 slot). Follow the M3 tonal pattern: darker tone (~40) on
 // light surfaces, lighter tone (~80) on dark surfaces, for accessible contrast either way.

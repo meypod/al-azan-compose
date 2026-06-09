@@ -13,7 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.LOREM_IMPSUM_SHORT
 
 @Composable
 fun ACard(
@@ -81,9 +83,55 @@ private fun CardPreview() {
     AlAzanTheme {
         ACard { cardPadding ->
             Column(Modifier.padding(cardPadding)) {
-                Text("a very long text to test the surface of this area and multi line")
-                Text("a very long text to test the surface of this area and multi line")
-                Text("a very long text to test the surface of this area and multi line")
+                Text(LOREM_IMPSUM_SHORT)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CardOnBackgroundPreview() {
+    AlAzanTheme {
+        Surface(color = MaterialTheme.colorScheme.background) {
+            Column(Modifier.padding(16.dp)) {
+                ACard { cardPadding ->
+                    Column(Modifier.padding(cardPadding)) {
+                        Text(LOREM_IMPSUM_SHORT)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CardOnBackgroundClassicLightPreview() {
+    AlAzanTheme(themeColor = ThemeColor.ClassicLight) {
+        Surface(color = MaterialTheme.colorScheme.background) {
+            Column(Modifier.padding(16.dp)) {
+                ACard { cardPadding ->
+                    Column(Modifier.padding(cardPadding)) {
+                        Text(LOREM_IMPSUM_SHORT)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CardOnBackgroundClassicDarkPreview() {
+    AlAzanTheme(themeColor = ThemeColor.ClassicDark) {
+        Surface(color = MaterialTheme.colorScheme.background) {
+            Column(Modifier.padding(16.dp)) {
+                ACard { cardPadding ->
+                    Column(Modifier.padding(cardPadding)) {
+                        Text(LOREM_IMPSUM_SHORT)
+                    }
+                }
             }
         }
     }

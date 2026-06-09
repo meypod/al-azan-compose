@@ -31,6 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
+import com.github.meypod.al_azan.core.presentation.DarkOnTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.LightOnTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
@@ -61,14 +65,27 @@ fun MonthlyViewScreen(
                 ),
             ) {
                 val buttonShape = MaterialTheme.shapes.extraLarge
+                // classic themes use the high-contrast scheme; keep this button on the
+                // normal tertiary tones so it looks the same across themes
+                val dark = uiState.themeColor.isDark()
+                val containerColor = if (uiState.themeColor.isClassic()) {
+                    if (dark) DarkTertiaryContainer else LightTertiaryContainer
+                } else {
+                    MaterialTheme.colorScheme.tertiaryContainer
+                }
+                val contentColor = if (uiState.themeColor.isClassic()) {
+                    if (dark) DarkOnTertiaryContainer else LightOnTertiaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                }
                 ExtendedFloatingActionButton(
                     onClick = { onAction(MonthlyViewUiAction.OnShowThisMonthClick) },
                     shape = buttonShape,
                     modifier = Modifier
                         .widthIn(min = 160.dp)
                         .dropShadow2(buttonShape),
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    containerColor = containerColor,
+                    contentColor = contentColor,
                 ) {
                     Text(
                         stringResource(R.string.show_this_month),

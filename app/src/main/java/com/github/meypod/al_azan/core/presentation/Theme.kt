@@ -117,6 +117,11 @@ private val LightHighContrastColorScheme = lightColorScheme(
     inverseOnSurface = LightHighContrastInverseOnSurface,
     inversePrimary = LightHighContrastInversePrimary,
     surfaceTint = LightHighContrastSurfaceTint,
+    surfaceContainerLowest = LightHighContrastSurfaceContainerLowest,
+    surfaceContainerLow = LightHighContrastSurfaceContainerLow,
+    surfaceContainer = LightHighContrastSurfaceContainer,
+    surfaceContainerHigh = LightHighContrastSurfaceContainerHigh,
+    surfaceContainerHighest = LightHighContrastSurfaceContainerHighest,
 )
 
 private val DarkHighContrastColorScheme = darkColorScheme(
@@ -149,6 +154,11 @@ private val DarkHighContrastColorScheme = darkColorScheme(
     inverseOnSurface = DarkHighContrastInverseOnSurface,
     inversePrimary = DarkHighContrastInversePrimary,
     surfaceTint = DarkHighContrastSurfaceTint,
+    surfaceContainerLowest = DarkHighContrastSurfaceContainerLowest,
+    surfaceContainerLow = DarkHighContrastSurfaceContainerLow,
+    surfaceContainer = DarkHighContrastSurfaceContainer,
+    surfaceContainerHigh = DarkHighContrastSurfaceContainerHigh,
+    surfaceContainerHighest = DarkHighContrastSurfaceContainerHighest,
 )
 
 @Composable

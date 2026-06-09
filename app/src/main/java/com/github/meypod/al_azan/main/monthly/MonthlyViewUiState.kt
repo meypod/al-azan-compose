@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.monthly
 
 import androidx.compose.runtime.Immutable
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 
 @Immutable
 data class MonthlyDayRow(
@@ -24,4 +25,5 @@ data class MonthlyViewUiState(
     val rows: List<MonthlyDayRow> = emptyList(),
     val isCurrentMonth: Boolean = true,
     val calendarMode: MonthlyCalendarMode = MonthlyCalendarMode.SECONDARY,
+    val themeColor: ThemeColor = ThemeColor.Default,
 )
