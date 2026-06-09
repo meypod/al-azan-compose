@@ -7,6 +7,8 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.alarm.latestFireMsFor
+import com.github.meypod.al_azan.core.domain.model.alarm.prunePast
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
@@ -81,9 +83,7 @@ class ReminderScheduler @Inject constructor(
             // Prune our own past skip entries (the scheduler runs on every settings change / boot / fire,
             // so this is the reliable cleanup point); past entries are inert (now dominates) anyway.
             val nowMs = Clock.System.now().toEpochMilliseconds()
-            val livePruned = settings.skippedAlarms.filterNot {
-                it is SkippedAlarm.Reminder && it.fireTimeMs <= nowMs
-            }
+            val livePruned = settings.skippedAlarms.prunePast<SkippedAlarm.Reminder>(nowMs)
             if (livePruned.size != settings.skippedAlarms.size) {
                 settingsRepository.update { it.copy(skippedAlarms = livePruned) }
             }
@@ -119,9 +119,7 @@ class ReminderScheduler @Inject constructor(
                 if (!reminder.enabled) continue
                 val deliveredMs = settings.deliveredAlarmTimestamps[ReminderContract.notificationId(reminder.id)] ?: 0L
                 // "Skip next": arm strictly after the latest skipped occurrence so a later one fires instead.
-                val skippedMs = livePruned
-                    .filter { it.alarmId == ReminderContract.alarmId(reminder.id) }
-                    .maxOfOrNull { it.fireTimeMs } ?: 0L
+                val skippedMs = livePruned.latestFireMsFor(ReminderContract.alarmId(reminder.id))
                 val fromMs = maxOf(nowMs, deliveredMs + REFIRE_GUARD_MS, skippedMs + REFIRE_GUARD_MS)
                 val triggerMs = nextTriggerMs(reminder, fromMs, calc, settings, location) ?: continue
 
