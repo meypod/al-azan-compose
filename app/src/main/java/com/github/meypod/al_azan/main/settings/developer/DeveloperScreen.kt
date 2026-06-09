@@ -61,7 +61,6 @@ fun DeveloperScreen(
     ScreenScaffold(
         title = stringResource(R.string.developer_title),
         onBackClick = { NavigationController.navigateBack() },
-        titleIcon = R.drawable.outline_developer_mode_24,
         modifier = modifier,
     ) {
         DevCard {

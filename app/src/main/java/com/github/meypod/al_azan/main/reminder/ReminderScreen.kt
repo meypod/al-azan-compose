@@ -109,10 +109,7 @@ fun ReminderScreen(
                     }
                 },
                 title = {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(painterResource(R.drawable.alarm), null)
-                        Text(stringResource(R.string.reminders_title))
-                    }
+                    Text(stringResource(R.string.reminders_title))
                 },
             )
         },

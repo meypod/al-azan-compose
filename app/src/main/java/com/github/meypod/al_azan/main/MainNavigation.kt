@@ -237,7 +237,6 @@ fun MainNavigation(
                 ScreenScaffold(
                     title = stringResource(R.string.calculation_title),
                     onBackClick = { NavigationController.navigateBack() },
-                    titleIcon = R.drawable.calculator_variant_outline,
                 ) {
                     CalculationSettingsScreen(s, vm::onAction)
                 }
@@ -248,7 +247,6 @@ fun MainNavigation(
                 ScreenScaffold(
                     title = stringResource(R.string.troubleshoot_title),
                     onBackClick = { NavigationController.navigateBack() },
-                    titleIcon = R.drawable.tools,
                 ) {
                     TroubleshootScreen(s, vm::onAction)
                 }

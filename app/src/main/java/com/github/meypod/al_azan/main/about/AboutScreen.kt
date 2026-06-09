@@ -38,7 +38,7 @@ fun AboutScreen(onAction: (AboutUiAction) -> Unit = {}) {
     val tapCount = remember { intArrayOf(0) }
 
     ScreenScaffold(
-        title = stringResource(R.string.calculation_title),
+        title = stringResource(R.string.about),
         onBackClick = { NavigationController.navigateBack() },
     ) {
         ACard { cardPadding ->

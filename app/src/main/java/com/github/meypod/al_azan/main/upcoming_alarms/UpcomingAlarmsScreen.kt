@@ -48,7 +48,6 @@ fun UpcomingAlarmsScreen(
     ScreenScaffold(
         modifier = modifier,
         title = stringResource(R.string.upcoming_alarms),
-        titleIcon = R.drawable.outline_calendar_month_24,
         onBackClick = { NavigationController.navigateBack() },
         scrollable = false,
     ) {
