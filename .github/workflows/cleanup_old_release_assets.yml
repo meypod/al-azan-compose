@@ -1,0 +1,51 @@
+name: Cleanup old release assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      keep:
+        description: 'Number of latest releases to keep assets for'
+        required: false
+        default: '5'
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Delete assets from older releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KEEP: ${{ github.event.inputs.keep }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          KEEP="${KEEP:-5}"
+          echo "Keeping assets for latest $KEEP releases"
+
+          mapfile -t OLD_TAGS < <(
+            gh release list --repo "$REPO" --limit 1000 \
+              --json tagName,createdAt,isDraft,isPrerelease \
+              --jq 'sort_by(.createdAt) | reverse | .['"$KEEP"':] | .[].tagName'
+          )
+
+          if [ ${#OLD_TAGS[@]} -eq 0 ]; then
+            echo "No older releases to clean."
+            exit 0
+          fi
+
+          for tag in "${OLD_TAGS[@]}"; do
+            echo "Release: $tag"
+            mapfile -t ASSETS < <(
+              gh release view "$tag" --repo "$REPO" --json assets --jq '.assets[].name'
+            )
+            if [ ${#ASSETS[@]} -eq 0 ]; then
+              echo "  (no assets)"
+              continue
+            fi
+            for asset in "${ASSETS[@]}"; do
+              echo "  deleting $asset"
+              gh release delete-asset "$tag" "$asset" --repo "$REPO" --yes
+            done
+          done
