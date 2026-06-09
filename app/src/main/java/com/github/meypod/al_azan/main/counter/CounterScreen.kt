@@ -75,10 +75,7 @@ fun CounterScreen(
                     }
                 },
                 title = {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(painterResource(R.drawable.counter), null)
-                        Text(stringResource(R.string.qada_counter_title))
-                    }
+                    Text(stringResource(R.string.qada_counter_title))
                 },
             )
         },
