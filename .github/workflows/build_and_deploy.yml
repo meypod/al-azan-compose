@@ -33,6 +33,19 @@ jobs:
     - name: build apk
       run: ./gradlew --no-daemon :app:assembleRelease --stacktrace
 
+    - name: Rename apk
+      working-directory: app/build/outputs/apk/release
+      run: |
+        set -euo pipefail
+        meta=output-metadata.json
+        vn=$(jq -er '.elements[0].versionName' "$meta")
+        vc=$(jq -er '.elements[0].versionCode' "$meta")
+        src=$(jq -er '.elements[0].outputFile' "$meta")
+        dst="al-azan-release-${vn}-universal-${vc}.apk"
+        mv "$src" "$dst"
+        test -f "$dst"
+        echo "renamed $src -> $dst"
+
     - name: Sign App Apk
       uses: r0adkll/sign-android-release@v1
       with:
