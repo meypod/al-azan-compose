@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -31,7 +30,13 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val initialSettings = runBlocking { settingsRepository.fetch() }
+        // Reconcile the app locale with stored settings before composing: applies the migrated/selected
+        // language and its layout direction (RTL). Done here (not Application.onCreate) so it lands at
+        // the lifecycle point where autoStoreLocales actually persists setApplicationLocales.
+        val initialSettings = runBlocking {
+            languageSync.reconcile()
+            settingsRepository.fetch()
+        }
 
         val startingRoute = intent.data?.let {
             intent = null // consume
@@ -41,11 +46,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContent {
-            LaunchedEffect(Unit) {
-                // ensures our view of settings stays up to date with user's selected language
-                // in case they decide to change it outside the app
-                languageSync.run()
-            }
             val settings by settingsRepository.data.collectAsState(initial = initialSettings)
 
             AlAzanTheme(settings.themeColor) {
