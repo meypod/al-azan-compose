@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">الوصول إلى الإشعارات مطلوب للتذكيرات. فعّل الإشعارات لهذا التطبيق من الإعدادات.</string>
     <string name="reminder_exact_alarm_permission_rationale">يجب أن تُطلق التذكيرات في الوقت المجدول بالضبط. اسمح لهذا التطبيق بجدولة المنبهات الدقيقة.</string>
     <string name="reminder_exact_alarm_permission_denied_text">الوصول إلى المنبهات الدقيقة مطلوب لإطلاق التذكيرات في وقتها. اسمح به لهذا التطبيق من الإعدادات.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">لعرض التذكير فوق شاشة القفل وإيقاظ الشاشة، اسمح لهذا التطبيق باستخدام المنبهات بملء الشاشة.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">بدون الوصول إلى ملء الشاشة لن يظهر التذكير فوق شاشة القفل. يمكنك السماح به لاحقًا من الإعدادات.</string>
+    <string name="reminder_phone_state_permission_rationale">اسمح بالوصول إلى الهاتف ليتوقف التذكير مؤقتًا عند المكالمات الواردة أو النشطة. يُستخدم فقط لقراءة حالة المكالمة.</string>
+    <string name="reminder_phone_state_permission_denied_text">الوصول إلى الهاتف معطّل، لذا لن يتوقف التذكير مؤقتًا عند المكالمات. يمكنك السماح به لاحقًا من الإعدادات.</string>
     <string name="phone_state_permission_title">السماح بالوصول إلى الهاتف</string>
     <string name="dnd_permission_title">السماح بالوصول إلى وضع عدم الإزعاج</string>
     <string name="dnd_permission_rationale">اسمح لهذا التطبيق بالتحكم في وضع عدم الإزعاج. هذا يتيح تشغيل الأذان أثناء تفعيل عدم الإزعاج، ويُفعّل خيار كتم صوت هاتفك بعد تجاهل المنبه.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">الضغط على زر الصوت يوقف الأذان الجاري تشغيله.</string>
     <string name="dont_show_alarm_screen">إبقاء الشاشة مطفأة</string>
     <string name="dont_show_alarm_screen_help">عدم تشغيل الشاشة أو عرض المنبه بملء الشاشة عند تشغيل أذان أو تذكير.</string>
+    <string name="force_launch_alarm_screen">افتح شاشة المنبه دائمًا</string>
+    <string name="force_launch_alarm_screen_help">أجبر منبه ملء الشاشة على الفتح مباشرةً. جرّب هذا إذا كان هاتفك لا يعرضه فوق شاشة القفل.</string>
     <string name="notifications">إشعارات</string>
     <string name="auto_silent_on_dismiss">كتم الهاتف بعد التجاهل</string>
     <string name="auto_silent_on_dismiss_help">عند تجاهلك للأذان، يدخل الهاتف في وضع عدم الإزعاج لفترة. الغفوة لا تفعل ذلك. ينطبق على الأذان فقط.</string>
@@ -571,6 +577,7 @@
     <string name="adaptive_charging_help">في بعض الأجهزة (مثل Google Pixel)، يُسجَّل نوع المنبه الافتراضي كمنبه ساعة، مما قد يتداخل مع الشحن المتكيّف ويعرض أيقونة منبه. فعّل هذا لاستخدام نوع منبه يتجنّب كليهما.</string>
     <string name="adaptive_charging_caution">تنبيه: في بعض الأجهزة يتأثر نوع المنبه هذا أكثر بتحسين البطارية، لذا قد يتأخر الأذان والتذكيرات أو يفوتان. استخدمه بحذر.</string>
     <string name="different_alarm_enable">استخدم نوع منبه مختلف</string>
+    <string name="different_alarm_notification_rationale">لا يمكن لنوع المنبه هذا عرض منبه ملء الشاشة بمفرده، لذا تُطلب الإشعارات لتتمكن من إيقاف الأذان. اسمح بالإشعارات لاستخدامه.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

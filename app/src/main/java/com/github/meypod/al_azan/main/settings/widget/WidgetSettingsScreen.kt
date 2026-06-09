@@ -21,10 +21,8 @@ import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.PrayerCheckboxTable
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
-import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
-import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
@@ -41,8 +39,9 @@ fun WidgetSettingsScreen(
     val snackbarController = LocalSnackbarController.current
     // Snap the toggle back off when a required permission is missing, so the user can retry cleanly.
     val requestWidgetPermissions = rememberSchedulingPermissionRequest(
-        isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
-        onDontAskAgain = { onAction(WidgetSettingsUiAction.OnPermissionDontAskAgain(it)) },
+        // "Don't ask again" is offered/respected only by the home re-check (allowDontAskAgain stays false here).
+        isDontAskAgain = { false },
+        onDontAskAgain = {},
         onComplete = { results ->
             if (!results.requiredAllGranted()) onAction(WidgetSettingsUiAction.OnShowNotificationWidgetToggle(false))
         },

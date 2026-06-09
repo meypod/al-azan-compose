@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Ufikiaji wa arifa unahitajika kwa vikumbusho. Washa arifa kwa programu hii katika mipangilio.</string>
     <string name="reminder_exact_alarm_permission_rationale">Vikumbusho lazima vilie kwa wakati kamili uliopangwa. Ruhusu programu hii kupanga kengele kamili.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Ufikiaji wa kengele kamili unahitajika ili vikumbusho vilie kwa wakati. Iruhusu kwa programu hii katika mipangilio.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Ili kuonyesha kikumbusho juu ya skrini yako iliyofungwa na kuamsha onyesho, ruhusu programu hii kutumia kengele za skrini nzima.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Bila ufikiaji wa skrini nzima kikumbusho hakitaonekana juu ya skrini iliyofungwa. Unaweza kuiruhusu baadaye katika mipangilio.</string>
+    <string name="reminder_phone_state_permission_rationale">Ruhusu ufikiaji wa simu ili kikumbusho kiweze kusimama kwa simu zinazoingia au zinazoendelea. Hutumika tu kusoma hali ya simu.</string>
+    <string name="reminder_phone_state_permission_denied_text">Ufikiaji wa simu umezimwa, hivyo kikumbusho hakitasimama kwa simu. Unaweza kuiruhusu baadaye katika mipangilio.</string>
     <string name="phone_state_permission_title">Ruhusu ufikiaji wa simu</string>
     <string name="dnd_permission_title">Ruhusu ufikiaji wa Usisumbue</string>
     <string name="dnd_permission_rationale">Ruhusu programu hii kudhibiti Usisumbue. Hili huruhusu adhana kucheza wakati Usisumbue umewashwa, na huwezesha chaguo la kunyamazisha simu yako baada ya kupuuzia kengele.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Kubonyeza kitufe cha sauti husimamisha adhana inayocheza.</string>
     <string name="dont_show_alarm_screen">Weka skrini imezimwa</string>
     <string name="dont_show_alarm_screen_help">Usiwashe skrini au kuonyesha kengele ya skrini nzima wakati adhana au kikumbusho kinacheza.</string>
+    <string name="force_launch_alarm_screen">Fungua skrini ya kengele kila wakati</string>
+    <string name="force_launch_alarm_screen_help">Lazimisha kengele ya skrini nzima ifunguke moja kwa moja. Jaribu hii ikiwa simu yako haiionyeshi juu ya skrini iliyofungwa.</string>
     <string name="notifications">Ujulisho</string>
     <string name="auto_silent_on_dismiss">Nyamazisha simu baada ya kupuuzia</string>
     <string name="auto_silent_on_dismiss_help">Unapopuuzia adhana, simu huingia katika Usisumbue kwa muda. Kuahirisha hakufanyi hivyo. Inahusu adhana pekee.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Kwenye baadhi ya vifaa (kama Google Pixel), aina ya kengele ya chaguomsingi husajiliwa kama kengele ya saa, ambayo inaweza kuingilia Uchaji Unaojirekebisha na kuonyesha aikoni ya kengele. Washa hii ili kutumia aina ya kengele inayoepuka vyote viwili.</string>
     <string name="adaptive_charging_caution">Tahadhari: Kwenye baadhi ya vifaa aina hii ya kengele huathiriwa zaidi na uboreshaji wa betri, hivyo adhana na vikumbusho vinaweza kucheleweshwa au kukosekana. Tumia kwa uangalifu.</string>
     <string name="different_alarm_enable">Tumia aina tofauti ya kengele</string>
+    <string name="different_alarm_notification_rationale">Aina hii ya kengele haiwezi kuonyesha kengele ya skrini nzima yenyewe, hivyo arifa zinahitajika ili uweze kusimamisha adhana. Ruhusu arifa ili kuitumia.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

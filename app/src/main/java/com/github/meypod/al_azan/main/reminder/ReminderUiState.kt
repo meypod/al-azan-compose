@@ -7,6 +7,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import kotlinx.datetime.DayOfWeek
 
 enum class ReminderTimeModifier { Before, After }
@@ -43,6 +44,8 @@ data class ReminderUiState(
     val editDraft: ReminderEditDraft? = null,
     val deletingReminderId: String? = null,
     val deletingBulk: Boolean = false,
+    /** Used by the permission flow to read persisted "don't ask again" flags (optional permissions). */
+    val settings: Settings = Settings(selectedLocale = "en"),
 ) {
     fun allSelected(): Boolean = reminders.isNotEmpty() && selectedIds.size == reminders.size
 }

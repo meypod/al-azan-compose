@@ -102,6 +102,10 @@ sealed interface AdhanSettingsUiAction {
         val enabled: Boolean,
     ) : AdhanSettingsUiAction
 
+    data class OnForceLaunchAlarmActivityToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
     data class OnAutoSilentOnDismissToggle(
         val enabled: Boolean,
     ) : AdhanSettingsUiAction
@@ -113,6 +117,7 @@ sealed interface AdhanSettingsUiAction {
     object OnNotificationSettingsClick : AdhanSettingsUiAction
     object OnPlaybackSettingsClick : AdhanSettingsUiAction
 
+    /** Persist "don't ask again" for a permission. In the enable flow only phone-state can reach this. */
     data class OnPermissionDontAskAgain(
         val permission: SchedulingPermission,
     ) : AdhanSettingsUiAction

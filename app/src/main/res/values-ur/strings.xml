@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">یاد دہانیوں کے لیے اطلاعات تک رسائی ضروری ہے۔ ترتیبات میں اس ایپ کے لیے اطلاعات فعال کریں۔</string>
     <string name="reminder_exact_alarm_permission_rationale">یاد دہانیوں کو بالکل درست مقررہ وقت پر بجنا چاہیے۔ اس ایپ کو بالکل درست الارم شیڈول کرنے کی اجازت دیں۔</string>
     <string name="reminder_exact_alarm_permission_denied_text">یاد دہانیوں کو وقت پر بجنے کے لیے بالکل درست الارم تک رسائی ضروری ہے۔ ترتیبات میں اس ایپ کے لیے اس کی اجازت دیں۔</string>
+    <string name="reminder_full_screen_intent_permission_rationale">یاد دہانی کو آپ کی لاک اسکرین کے اوپر دکھانے اور ڈسپلے کو جگانے کے لیے، اس ایپ کو فُل اسکرین الارم استعمال کرنے کی اجازت دیں۔</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">فُل اسکرین رسائی کے بغیر یاد دہانی لاک اسکرین کے اوپر نہیں دکھے گی۔ آپ اسے بعد میں ترتیبات میں اجازت دے سکتے ہیں۔</string>
+    <string name="reminder_phone_state_permission_rationale">فون تک رسائی کی اجازت دیں تاکہ آنے والی یا جاری کالوں کے لیے یاد دہانی رک سکے۔ صرف کال کی حالت پڑھنے کے لیے استعمال ہوتا ہے۔</string>
+    <string name="reminder_phone_state_permission_denied_text">فون تک رسائی بند ہے، اس لیے یاد دہانی کالوں کے لیے نہیں رکے گی۔ آپ اسے بعد میں ترتیبات میں اجازت دے سکتے ہیں۔</string>
     <string name="phone_state_permission_title">فون تک رسائی کی اجازت دیں</string>
     <string name="dnd_permission_title">ڈسٹرب نہ کریں تک رسائی کی اجازت دیں</string>
     <string name="dnd_permission_rationale">اس ایپ کو ڈسٹرب نہ کریں کو کنٹرول کرنے کی اجازت دیں۔ اس سے اذان ڈسٹرب نہ کریں آن ہونے کے دوران بھی چل سکتی ہے، اور الارم برطرف کرنے کے بعد فون خاموش کرنے کا اختیار فعال ہوتا ہے۔</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">والیوم بٹن دبانے سے چلتی ہوئی اذان رک جاتی ہے۔</string>
     <string name="dont_show_alarm_screen">اسکرین بند رکھیں</string>
     <string name="dont_show_alarm_screen_help">جب کوئی اذان یا یاد دہانی چلے تو اسکرین آن نہ کریں اور نہ ہی فُل اسکرین الارم دکھائیں۔</string>
+    <string name="force_launch_alarm_screen">ہمیشہ الارم اسکرین کھولیں</string>
+    <string name="force_launch_alarm_screen_help">فُل اسکرین الارم کو براہِ راست کھلنے پر مجبور کریں۔ اگر آپ کا فون اسے لاک اسکرین کے اوپر نہیں دکھاتا تو یہ آزمائیں۔</string>
     <string name="notifications">اطلاعات</string>
     <string name="auto_silent_on_dismiss">برطرف کرنے کے بعد فون خاموش کریں</string>
     <string name="auto_silent_on_dismiss_help">جب آپ اذان برطرف کرتے ہیں، تو فون کچھ دیر کے لیے ڈسٹرب نہ کریں میں چلا جاتا ہے۔ اسنوز کرنے سے ایسا نہیں ہوتا۔ صرف اذان پر لاگو ہوتا ہے۔</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">کچھ آلات پر (جیسے Google Pixel)، طے شدہ الارم کی قسم ایک گھڑی کے الارم کے طور پر رجسٹر ہوتی ہے، جو اڈاپٹیو چارجنگ میں مداخلت کر سکتی ہے اور ایک الارم آئیکن دکھا سکتی ہے۔ ان دونوں سے بچنے والی الارم کی قسم استعمال کرنے کے لیے اسے فعال کریں۔</string>
     <string name="adaptive_charging_caution">احتیاط: کچھ آلات پر یہ الارم کی قسم بیٹری آپٹیمائزیشن سے زیادہ متاثر ہوتی ہے، اس لیے اذان اور یاد دہانیاں تاخیر سے یا چھوٹ سکتی ہیں۔ احتیاط سے استعمال کریں۔</string>
     <string name="different_alarm_enable">ایک مختلف الارم کی قسم استعمال کریں</string>
+    <string name="different_alarm_notification_rationale">یہ الارم قسم خود سے فُل اسکرین الارم نہیں دکھا سکتی، اس لیے اذان روکنے کے لیے اطلاعات درکار ہیں۔ اسے استعمال کرنے کے لیے اطلاعات کی اجازت دیں۔</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

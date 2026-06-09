@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">L\'accès aux notifications est requis pour les rappels. Activez les notifications pour cette application dans les paramètres.</string>
     <string name="reminder_exact_alarm_permission_rationale">Les rappels doivent se déclencher à l\'horaire exact programmé. Autorisez cette application à programmer des alarmes exactes.</string>
     <string name="reminder_exact_alarm_permission_denied_text">L\'accès aux alarmes exactes est requis pour que les rappels se déclenchent à l\'heure. Autorisez-le pour cette application dans les paramètres.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Pour afficher le rappel sur votre écran de verrouillage et réveiller l\'écran, autorisez cette application à utiliser les alarmes en plein écran.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Sans l\'accès au plein écran, le rappel ne s\'affichera pas sur l\'écran de verrouillage. Vous pourrez l\'autoriser plus tard dans les paramètres.</string>
+    <string name="reminder_phone_state_permission_rationale">Autorisez l\'accès au téléphone afin que le rappel puisse s\'interrompre lors d\'appels entrants ou en cours. Utilisé uniquement pour lire l\'état des appels.</string>
+    <string name="reminder_phone_state_permission_denied_text">L\'accès au téléphone est désactivé, le rappel ne s\'interrompra donc pas pour les appels. Vous pourrez l\'autoriser plus tard dans les paramètres.</string>
     <string name="phone_state_permission_title">Autoriser l\'accès au téléphone</string>
     <string name="dnd_permission_title">Autoriser l\'accès au mode Ne pas déranger</string>
     <string name="dnd_permission_rationale">Autorisez cette application à contrôler le mode Ne pas déranger. Cela permet à l\'Adhan de retentir lorsque le mode Ne pas déranger est activé, et active l\'option de mettre votre téléphone en silence après avoir ignoré l\'alarme.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Appuyer sur un bouton de volume arrête l\'Adhan en cours de lecture.</string>
     <string name="dont_show_alarm_screen">Garder l\'écran éteint</string>
     <string name="dont_show_alarm_screen_help">Ne pas allumer l\'écran ni afficher l\'alarme en plein écran lorsqu\'un Adhan ou un rappel retentit.</string>
+    <string name="force_launch_alarm_screen">Toujours ouvrir l\'écran d\'alarme</string>
+    <string name="force_launch_alarm_screen_help">Forcer l\'alarme en plein écran à s\'ouvrir directement. Essayez ceci si votre téléphone ne l\'affiche pas sur l\'écran de verrouillage.</string>
     <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Mettre le téléphone en silence après avoir ignoré</string>
     <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas. Ne s\'applique qu\'à l\'adhan.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Sur certains appareils (comme Google Pixel), le type d\'alarme par défaut est enregistré comme une alarme de réveil, ce qui peut interférer avec la Charge adaptative et afficher une icône d\'alarme. Activez cette option pour utiliser un type d\'alarme qui évite les deux.</string>
     <string name="adaptive_charging_caution">Attention : sur certains appareils, ce type d\'alarme est davantage affecté par l\'optimisation de la batterie, l\'Adhan et les rappels peuvent donc être retardés ou manqués. À utiliser avec précaution.</string>
     <string name="different_alarm_enable">Utiliser un autre type d\'alarme</string>
+    <string name="different_alarm_notification_rationale">Ce type d\'alarme ne peut pas afficher l\'alarme en plein écran par lui-même, les notifications sont donc nécessaires pour vous permettre d\'arrêter l\'Adhan. Autorisez les notifications pour l\'utiliser.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

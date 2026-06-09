@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">برای یادآوری‌ها، دسترسی به اعلان‌ها لازم است. اعلان‌های این برنامه را در تنظیمات فعال کنید.</string>
     <string name="reminder_exact_alarm_permission_rationale">یادآوری‌ها باید دقیقاً در زمان تعیین‌شده به صدا درآیند. به این برنامه اجازهٔ تنظیم زنگ‌های دقیق را بدهید.</string>
     <string name="reminder_exact_alarm_permission_denied_text">برای اینکه یادآوری‌ها به‌موقع به صدا درآیند، دسترسی به زنگ دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">برای نمایش یادآوری روی صفحهٔ قفل و روشن کردن نمایشگر، به این برنامه اجازهٔ استفاده از زنگ‌های تمام‌صفحه را بدهید.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">بدون دسترسی تمام‌صفحه، یادآوری روی صفحهٔ قفل نمایش داده نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
+    <string name="reminder_phone_state_permission_rationale">اجازهٔ دسترسی به تلفن را بدهید تا یادآوری هنگام تماس‌های ورودی یا فعال متوقف شود. فقط برای خواندن وضعیت تماس استفاده می‌شود.</string>
+    <string name="reminder_phone_state_permission_denied_text">دسترسی به تلفن خاموش است، بنابراین یادآوری برای تماس‌ها متوقف نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
     <string name="phone_state_permission_title">اجازهٔ دسترسی به تلفن</string>
     <string name="dnd_permission_title">اجازهٔ دسترسی به «مزاحم نشوید»</string>
     <string name="dnd_permission_rationale">به این برنامه اجازه دهید «مزاحم نشوید» را کنترل کند. این کار باعث می‌شود اذان هنگام روشن بودن «مزاحم نشوید» پخش شود و گزینهٔ بی‌صدا کردن تلفن پس از رد کردن زنگ را فعال می‌کند.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">فشردن دکمهٔ صدا، اذان در حال پخش را متوقف می‌کند.</string>
     <string name="dont_show_alarm_screen">صفحه خاموش بماند</string>
     <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و زنگ تمام‌صفحه نمایش داده نشود.</string>
+    <string name="force_launch_alarm_screen">همیشه صفحهٔ زنگ را باز کن</string>
+    <string name="force_launch_alarm_screen_help">زنگ تمام‌صفحه را وادار کن مستقیماً باز شود. اگر تلفن شما آن را روی صفحهٔ قفل نشان نمی‌دهد، این را امتحان کنید.</string>
     <string name="notifications">اعلان‌ها</string>
     <string name="auto_silent_on_dismiss">بی‌صدا کردن تلفن پس از رد کردن</string>
     <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد. فقط برای اذان اعمال می‌شود.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">در برخی دستگاه‌ها (مانند گوگل پیکسل)، نوع زنگ پیش‌فرض به‌عنوان زنگ ساعت ثبت می‌شود که می‌تواند با شارژ تطبیقی تداخل ایجاد کند و نماد زنگ را نشان دهد. این گزینه را فعال کنید تا از نوع زنگی استفاده شود که از هر دو جلوگیری می‌کند.</string>
     <string name="adaptive_charging_caution">احتیاط: در برخی دستگاه‌ها این نوع زنگ بیشتر تحت تأثیر بهینه‌سازی باتری قرار می‌گیرد، بنابراین اذان و یادآوری‌ها ممکن است با تأخیر یا از دست رفته باشند. با احتیاط استفاده کنید.</string>
     <string name="different_alarm_enable">استفاده از نوع دیگری از زنگ هشدار</string>
+    <string name="different_alarm_notification_rationale">این نوع زنگ نمی‌تواند به‌تنهایی زنگ تمام‌صفحه را نشان دهد، بنابراین برای توقف اذان به اعلان‌ها نیاز است. برای استفاده از آن اعلان‌ها را اجازه دهید.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

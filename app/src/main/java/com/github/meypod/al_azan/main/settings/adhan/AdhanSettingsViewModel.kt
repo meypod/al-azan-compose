@@ -58,64 +58,38 @@ class AdhanSettingsViewModel
     fun onAction(action: AdhanSettingsUiAction) {
         when (action) {
             is AdhanSettingsUiAction.OnGlobalMuezzinSelect -> onGlobalMuezzinSelect(action)
-
             is AdhanSettingsUiAction.OnPreviewAudio -> onPreviewAudio(action)
-
             AdhanSettingsUiAction.OnStopPreview -> onStopPreview()
-
             is AdhanSettingsUiAction.OnAddGlobalMuezzinFile -> onAddGlobalMuezzinFile(action)
-
             is AdhanSettingsUiAction.OnAddPrayerMuezzinFile -> onAddPrayerMuezzinFile(action)
-
             is AdhanSettingsUiAction.OnDeleteUserAudio -> onDeleteUserAudio(action)
-
             is AdhanSettingsUiAction.OnNotifyClick -> onNotifyClick(action)
-
             is AdhanSettingsUiAction.OnSoundClick -> onSoundClick(action)
-
             is AdhanSettingsUiAction.OnCogClick -> onCogClick(action)
-
             is AdhanSettingsUiAction.OnScheduleMuezzinChange -> onScheduleMuezzinChange(action)
-
             is AdhanSettingsUiAction.OnScheduleSoundDayToggle -> onScheduleSoundDayToggle(action)
-
             is AdhanSettingsUiAction.OnScheduleNotifyDayToggle -> onScheduleNotifyDayToggle(action)
-
             is AdhanSettingsUiAction.OnScheduleVibrationChange -> onScheduleVibrationChange(action)
-
             is AdhanSettingsUiAction.OnVibrationModeChange -> onVibrationModeChange(action)
-
             is AdhanSettingsUiAction.OnShowUpcomingAlarmToggle -> onShowUpcomingAlarmToggle(action)
-
             is AdhanSettingsUiAction.OnUpcomingTimeChange -> onUpcomingTimeChange(action)
-
             is AdhanSettingsUiAction.OnShowNextInNotificationToggle -> onShowNextInNotificationToggle(action)
-
             is AdhanSettingsUiAction.OnBypassDndToggle -> onBypassDndToggle(action)
-
             is AdhanSettingsUiAction.OnPreferHeadphonesToggle -> onPreferHeadphonesToggle(action)
-
             is AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle -> onVolumeButtonStopsAdhanToggle(action)
-
             is AdhanSettingsUiAction.OnDontShowAlarmScreenToggle -> onDontShowAlarmScreenToggle(action)
-
+            is AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle -> onForceLaunchAlarmActivityToggle(action)
             is AdhanSettingsUiAction.OnAutoSilentOnDismissToggle -> onAutoSilentOnDismissToggle(action)
-
             is AdhanSettingsUiAction.OnAutoSilentDurationChange -> onAutoSilentDurationChange(action)
-
             is AdhanSettingsUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action)
-
             AdhanSettingsUiAction.OnNotificationSettingsClick -> onNotificationSettingsClick()
-
             AdhanSettingsUiAction.OnPlaybackSettingsClick -> onPlaybackSettingsClick()
         }
     }
 
-    private fun onGlobalMuezzinSelect(action: AdhanSettingsUiAction.OnGlobalMuezzinSelect) =
-        setGlobalMuezzin(action.entry)
+    private fun onGlobalMuezzinSelect(action: AdhanSettingsUiAction.OnGlobalMuezzinSelect) = setGlobalMuezzin(action.entry)
 
-    private fun onPreviewAudio(action: AdhanSettingsUiAction.OnPreviewAudio) =
-        audioPreviewPlayer.play(action.entry)
+    private fun onPreviewAudio(action: AdhanSettingsUiAction.OnPreviewAudio) = audioPreviewPlayer.play(action.entry)
 
     private fun onStopPreview() = audioPreviewPlayer.stop()
 
@@ -129,17 +103,13 @@ class AdhanSettingsViewModel
             s.copy(selectedAdhanEntries = s.selectedAdhanEntries + (action.prayer.toAdhanKey() to e))
         }
 
-    private fun onDeleteUserAudio(action: AdhanSettingsUiAction.OnDeleteUserAudio) =
-        deleteUserAudio(action.entry)
+    private fun onDeleteUserAudio(action: AdhanSettingsUiAction.OnDeleteUserAudio) = deleteUserAudio(action.entry)
 
-    private fun onNotifyClick(action: AdhanSettingsUiAction.OnNotifyClick) =
-        toggleNotify(action.prayer)
+    private fun onNotifyClick(action: AdhanSettingsUiAction.OnNotifyClick) = toggleNotify(action.prayer)
 
-    private fun onSoundClick(action: AdhanSettingsUiAction.OnSoundClick) =
-        toggleSound(action.prayer)
+    private fun onSoundClick(action: AdhanSettingsUiAction.OnSoundClick) = toggleSound(action.prayer)
 
-    private fun onCogClick(action: AdhanSettingsUiAction.OnCogClick) =
-        NavigationController.navigateTo(action.route)
+    private fun onCogClick(action: AdhanSettingsUiAction.OnCogClick) = NavigationController.navigateTo(action.route)
 
     private fun onScheduleMuezzinChange(action: AdhanSettingsUiAction.OnScheduleMuezzinChange) =
         setCustomMuezzin(action.prayer, action.entry)
@@ -198,9 +168,19 @@ class AdhanSettingsViewModel
         }
     }
 
+    // "Keep screen off" and "Always open the alarm screen" are mutually exclusive — enabling one turns the
+    // other off (they live in different repositories).
     private fun onDontShowAlarmScreenToggle(action: AdhanSettingsUiAction.OnDontShowAlarmScreenToggle) {
         viewModelScope.launch {
             alarmSettingsRepository.update { it.copy(dontTurnOnScreen = action.enabled) }
+            if (action.enabled) settingsRepository.update { it.copy(forceLaunchAlarmActivity = false) }
+        }
+    }
+
+    private fun onForceLaunchAlarmActivityToggle(action: AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(forceLaunchAlarmActivity = action.enabled) }
+            if (action.enabled) alarmSettingsRepository.update { it.copy(dontTurnOnScreen = false) }
         }
     }
 

@@ -24,6 +24,8 @@ data class PlaybackRequest(
     val loop: Boolean,
     val volumePercent: Int,
     val fullScreen: Boolean,
+    /** Always launch the alarm activity directly, not only via the notification's full-screen-intent. */
+    val forceLaunchActivity: Boolean,
     val vibration: VibrationMode,
     val volumeButtonStops: Boolean,
     /** When set, playback may route to an external/media output instead of the alarm stream. */
@@ -62,6 +64,7 @@ data class PlaybackRequest(
             loop = loop,
             volumePercent = settings.adhanVolume ?: -1,
             fullScreen = !alarmSettings.dontTurnOnScreen,
+            forceLaunchActivity = settings.forceLaunchAlarmActivity,
             vibration = vibration,
             volumeButtonStops = settings.volumeButtonStopsAdhan,
             preferExternalAudioDevice = settings.preferExternalAudioDevice,
@@ -95,6 +98,7 @@ class PlaybackLauncher @Inject constructor(
             putInt(PlaybackService.EXTRA_VOLUME_PERCENT, request.volumePercent)
             putBoolean(PlaybackService.EXTRA_USE_MEDIA_USAGE, useMediaUsage)
             putBoolean(PlaybackService.EXTRA_FULL_SCREEN, request.fullScreen)
+            putBoolean(PlaybackService.EXTRA_FORCE_LAUNCH_ACTIVITY, request.forceLaunchActivity)
             putString(PlaybackService.EXTRA_VIBRATION, request.vibration.name)
             putBoolean(PlaybackService.EXTRA_VOLUME_BUTTON_STOPS, request.volumeButtonStops)
         }

@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Notification access is required for reminders. Enable notifications for this app in settings.</string>
     <string name="reminder_exact_alarm_permission_rationale">Reminders must fire at the exact scheduled time. Allow this app to schedule exact alarms.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Exact alarm access is required for reminders to fire on time. Allow it for this app in settings.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">To show the reminder over your lock screen and wake the display, allow this app to use full-screen alarms.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Without full-screen access the reminder won\'t show over the lock screen. You can allow it later in settings.</string>
+    <string name="reminder_phone_state_permission_rationale">Allow phone access so the reminder can pause for incoming or active calls. Used only to read call state.</string>
+    <string name="reminder_phone_state_permission_denied_text">Phone access is off, so the reminder won\'t pause for calls. You can allow it later in settings.</string>
     <string name="phone_state_permission_title">Allow phone access</string>
     <string name="dnd_permission_title">Allow Do Not Disturb access</string>
     <string name="dnd_permission_rationale">Allow this app to control Do Not Disturb. This lets the adhan play while Do Not Disturb is on, and enables the option to silence your phone after you dismiss the alarm.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Pressing a volume button stops the playing adhan.</string>
     <string name="dont_show_alarm_screen">Keep screen off</string>
     <string name="dont_show_alarm_screen_help">Don\'t turn on the screen or show the full-screen alarm when an adhan or reminder plays.</string>
+    <string name="force_launch_alarm_screen">Always open the alarm screen</string>
+    <string name="force_launch_alarm_screen_help">Force the full-screen alarm to open directly. Try this if your phone doesn\'t show it over the lock screen.</string>
     <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Silence phone after dismiss</string>
     <string name="auto_silent_on_dismiss_help">When you dismiss an adhan, the phone goes into Do Not Disturb for a while. Snoozing doesn\'t. Applies to adhans only.</string>

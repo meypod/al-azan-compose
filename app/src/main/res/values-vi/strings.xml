@@ -82,6 +82,10 @@
     <string name="reminder_notification_permission_denied_text">Cần quyền truy cập thông báo cho lời nhắc. Bật thông báo cho ứng dụng này trong cài đặt.</string>
     <string name="reminder_exact_alarm_permission_rationale">Lời nhắc phải kích hoạt vào đúng thời gian đã lên lịch. Cho phép ứng dụng này lên lịch báo thức chính xác.</string>
     <string name="reminder_exact_alarm_permission_denied_text">Cần quyền báo thức chính xác để lời nhắc kích hoạt đúng giờ. Cho phép nó cho ứng dụng này trong cài đặt.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">Để hiển thị lời nhắc trên màn hình khóa và đánh thức màn hình, hãy cho phép ứng dụng này sử dụng báo thức toàn màn hình.</string>
+    <string name="reminder_full_screen_intent_permission_denied_text">Nếu không có quyền toàn màn hình, lời nhắc sẽ không hiển thị trên màn hình khóa. Bạn có thể cho phép nó sau trong cài đặt.</string>
+    <string name="reminder_phone_state_permission_rationale">Cho phép truy cập điện thoại để lời nhắc có thể tạm dừng khi có cuộc gọi đến hoặc đang diễn ra. Chỉ dùng để đọc trạng thái cuộc gọi.</string>
+    <string name="reminder_phone_state_permission_denied_text">Quyền truy cập điện thoại đang tắt, nên lời nhắc sẽ không tạm dừng khi có cuộc gọi. Bạn có thể cho phép nó sau trong cài đặt.</string>
     <string name="phone_state_permission_title">Cho phép truy cập điện thoại</string>
     <string name="dnd_permission_title">Cho phép truy cập Không làm phiền</string>
     <string name="dnd_permission_rationale">Cho phép ứng dụng này điều khiển chế độ Không làm phiền. Điều này cho phép Azan phát ngay cả khi Không làm phiền đang bật, và bật tùy chọn tắt tiếng điện thoại sau khi bạn bỏ qua báo thức.</string>
@@ -374,6 +378,8 @@
     <string name="volume_button_stops_adhan_help">Nhấn nút âm lượng sẽ dừng Azan đang phát.</string>
     <string name="dont_show_alarm_screen">Giữ màn hình tắt</string>
     <string name="dont_show_alarm_screen_help">Không bật màn hình hoặc hiển thị báo thức toàn màn hình khi Azan hoặc lời nhắc phát.</string>
+    <string name="force_launch_alarm_screen">Luôn mở màn hình báo thức</string>
+    <string name="force_launch_alarm_screen_help">Buộc báo thức toàn màn hình mở trực tiếp. Hãy thử cách này nếu điện thoại của bạn không hiển thị nó trên màn hình khóa.</string>
     <string name="notifications">Thông báo</string>
     <string name="auto_silent_on_dismiss">Tắt tiếng điện thoại sau khi bỏ qua</string>
     <string name="auto_silent_on_dismiss_help">Khi bạn bỏ qua một lần Azan, điện thoại chuyển sang chế độ Không làm phiền trong một khoảng thời gian. Báo lại thì không. Chỉ áp dụng cho azan.</string>
@@ -551,6 +557,7 @@
     <string name="adaptive_charging_help">Trên một số thiết bị (như Google Pixel), loại báo thức mặc định được đăng ký như báo thức đồng hồ, điều này có thể gây nhiễu Sạc Thích ứng và hiển thị biểu tượng báo thức. Bật tùy chọn này để dùng loại báo thức tránh được cả hai.</string>
     <string name="adaptive_charging_caution">Thận trọng: Trên một số thiết bị, loại báo thức này bị ảnh hưởng nhiều hơn bởi tối ưu hóa pin, nên Azan và lời nhắc có thể bị trễ hoặc bỏ lỡ. Sử dụng cẩn thận.</string>
     <string name="different_alarm_enable">Sử dụng một loại báo thức khác</string>
+    <string name="different_alarm_notification_rationale">Loại báo thức này không thể tự hiển thị báo thức toàn màn hình, vì vậy cần có thông báo để bạn dừng Azan. Cho phép thông báo để sử dụng nó.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)

@@ -59,6 +59,7 @@ class PlaybackService :
         const val EXTRA_VOLUME_PERCENT = "volume_percent"
         const val EXTRA_USE_MEDIA_USAGE = "use_media_usage"
         const val EXTRA_FULL_SCREEN = "full_screen"
+        const val EXTRA_FORCE_LAUNCH_ACTIVITY = "force_launch_activity"
         const val EXTRA_VIBRATION = "vibration"
         const val EXTRA_VOLUME_BUTTON_STOPS = "volume_button_stops"
         const val EXTRA_TIME_LABEL = "time_label"
@@ -142,6 +143,7 @@ class PlaybackService :
         val header = intent.getStringExtra(EXTRA_HEADER).orEmpty()
         val isReminder = intent.getBooleanExtra(EXTRA_IS_REMINDER, false)
         val fullScreen = intent.getBooleanExtra(EXTRA_FULL_SCREEN, true)
+        val forceLaunchActivity = intent.getBooleanExtra(EXTRA_FORCE_LAUNCH_ACTIVITY, false)
         val volumeButtonStops = intent.getBooleanExtra(EXTRA_VOLUME_BUTTON_STOPS, false)
         val useMediaUsage = intent.getBooleanExtra(EXTRA_USE_MEDIA_USAGE, false)
         playbackStream = if (useMediaUsage) AudioManager.STREAM_MUSIC else AudioManager.STREAM_ALARM
@@ -184,6 +186,21 @@ class PlaybackService :
         // mirrors a non-playback stream's change onto the adhan (the playback stream already self-scales).
         registerVolumeReceiver()
         VibrationController.vibrate(this, vibration)
+        // Directly open the full-screen alarm when either:
+        //  - the user forced it (some OEMs ignore the full-screen-intent over the lock screen), or
+        //  - notifications are denied, so the OS suppresses the FGS notification AND its full-screen-intent,
+        //    leaving no Stop control. In that case we launch even when "keep screen off" (fullScreen=false)
+        //    is set — otherwise the adhan would be unstoppable from the UI.
+        // When notifications are on and force-launch is off we rely on the FSI/heads-up + notification, so the
+        // alarm screen doesn't needlessly take over while the phone is in active use. The adhan fires via
+        // setAlarmClock, whose background-activity-launch exemption permits this; if unavailable (e.g. the
+        // alternate ExactAllowWhileIdle alarm type) the launch is silently dropped.
+        val notificationsEnabled = NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()
+        if (forceLaunchActivity || !notificationsEnabled) {
+            runCatching {
+                startActivity(alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops))
+            }
+        }
         startPlayer(uri, useMediaUsage)
         return START_NOT_STICKY
     }
@@ -434,15 +451,8 @@ class PlaybackService :
         volumeButtonStops: Boolean,
         fullScreen: Boolean,
     ): android.app.Notification {
-        val alarmActivityIntent = Intent(this, AlarmActivity::class.java).apply {
-            putExtra(EXTRA_PRAYER, prayerName)
-            putExtra(EXTRA_TIME_LABEL, timeLabel)
-            putExtra(EXTRA_TITLE, title)
-            putExtra(EXTRA_HEADER, header)
-            putExtra(EXTRA_IS_REMINDER, isReminder)
-            putExtra(EXTRA_VOLUME_BUTTON_STOPS, volumeButtonStops)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
+        val alarmActivityIntent =
+            alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops)
         val contentIntent = PendingIntent.getActivity(
             this,
             0,
@@ -478,6 +488,24 @@ class PlaybackService :
         }
         return builder.build()
     }
+
+    private fun alarmActivityIntent(
+        prayerName: String,
+        timeLabel: String,
+        title: String,
+        header: String,
+        isReminder: Boolean,
+        volumeButtonStops: Boolean,
+    ): Intent =
+        Intent(this, AlarmActivity::class.java).apply {
+            putExtra(EXTRA_PRAYER, prayerName)
+            putExtra(EXTRA_TIME_LABEL, timeLabel)
+            putExtra(EXTRA_TITLE, title)
+            putExtra(EXTRA_HEADER, header)
+            putExtra(EXTRA_IS_REMINDER, isReminder)
+            putExtra(EXTRA_VOLUME_BUTTON_STOPS, volumeButtonStops)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
 
     private fun cleanupAndStop() {
         mainHandler.removeCallbacks(loopCapRunnable)

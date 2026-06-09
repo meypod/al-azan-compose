@@ -141,6 +141,12 @@ data class Settings(
      * Null = no active silence rule.
      */
     val adhanSilenceZenRuleId: String? = null,
+    /**
+     * Always launch the full-screen alarm activity when an alarm sounds, instead of relying on the
+     * notification's full-screen-intent. Some users prefer it, and some OEMs don't honor the full-screen
+     * intent over the lock screen. Only takes effect when the full-screen alarm is enabled.
+     */
+    val forceLaunchAlarmActivity: Boolean = false,
 )
 
 @Serializable

@@ -46,6 +46,7 @@ import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
+import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.localized
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
@@ -58,13 +59,14 @@ fun ReminderScreen(
     onAction: (ReminderUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // Enabling a reminder needs notification + exact-alarm permissions, same flow as adhan/widget.
-    // guardEnable runs the flow on enable and stores how to snap the reminder(s) back off if denied.
-    // "Don't ask again" is offered only by the home re-check, not here (allowDontAskAgain stays false).
+    // Enabling a reminder needs the same permissions as adhan (notification, phone-state, exact-alarm,
+    // full-screen-intent). guardEnable runs the flow on enable and stores how to snap the reminder(s) back
+    // off if denied. Required perms keep asking; the optional ones (phone-state, FSI) honor/offer "don't
+    // ask again" here too — the flow special-cases them.
     val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
     val requestPermissions = rememberSchedulingPermissionRequest(
-        isDontAskAgain = { false },
-        onDontAskAgain = {},
+        isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
+        onDontAskAgain = { onAction(ReminderUiAction.OnPermissionDontAskAgain(it)) },
         onComplete = { results -> if (!results.requiredAllGranted()) pendingRevert.value?.invoke() },
     )
 

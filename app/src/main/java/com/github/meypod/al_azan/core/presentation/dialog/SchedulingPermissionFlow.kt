@@ -78,16 +78,18 @@ data class PermissionResults(
     fun granted(permission: SchedulingPermission): Boolean = outcomes[permission]?.granted == true
 
     /**
-     * True when every requested REQUIRED permission is granted. [SchedulingPermission.PhoneState] and
-     * [SchedulingPermission.FullScreenIntent] are optional — they degrade gracefully and never block.
+     * True when every requested REQUIRED permission is granted. The optional permissions
+     * ([SchedulingPermission.isOptional]) degrade gracefully and never block.
      */
-    fun requiredAllGranted(): Boolean =
-        outcomes.all { (permission, outcome) ->
-            permission == SchedulingPermission.PhoneState ||
-                permission == SchedulingPermission.FullScreenIntent ||
-                outcome.granted
-        }
+    fun requiredAllGranted(): Boolean = outcomes.all { (permission, outcome) -> permission.isOptional() || outcome.granted }
 }
+
+/**
+ * Optional permissions: they degrade gracefully (never block enabling a feature), and so they also
+ * offer/honor "don't ask again" even in the normal enable flow — unlike required permissions, which keep
+ * asking until granted.
+ */
+fun SchedulingPermission.isOptional(): Boolean = this == SchedulingPermission.PhoneState || this == SchedulingPermission.FullScreenIntent
 
 /** Reads the persisted "don't ask again" flag for a permission off [Settings]. */
 fun Settings.isDontAskAgain(permission: SchedulingPermission): Boolean =
@@ -109,7 +111,7 @@ fun Settings.withDontAskAgain(permission: SchedulingPermission): Settings =
         SchedulingPermission.DndAccess -> copy(dontAskPermissionDndAccess = true)
     }
 
-/** Standard step lists. PhoneState is only for adhan (call interruption). */
+/** Standard step lists. PhoneState (optional, call interruption) is requested for both adhan and reminders. */
 object SchedulingPermissionSteps {
     val widget: List<PermissionStep> = listOf(
         PermissionStep(
@@ -154,9 +156,19 @@ object SchedulingPermissionSteps {
             R.string.reminder_notification_permission_denied_text,
         ),
         PermissionStep(
+            SchedulingPermission.PhoneState,
+            R.string.reminder_phone_state_permission_rationale,
+            R.string.reminder_phone_state_permission_denied_text,
+        ),
+        PermissionStep(
             SchedulingPermission.ExactAlarm,
             R.string.reminder_exact_alarm_permission_rationale,
             R.string.reminder_exact_alarm_permission_denied_text,
+        ),
+        PermissionStep(
+            SchedulingPermission.FullScreenIntent,
+            R.string.reminder_full_screen_intent_permission_rationale,
+            R.string.reminder_full_screen_intent_permission_denied_text,
         ),
     )
 
@@ -330,9 +342,9 @@ fun rememberSchedulingPermissionRequest(
             onCompleteState.value(PermissionResults(outcomes.value))
             return
         }
-        // The "don't ask again" flag is honored only on the home re-check (allowDontAskAgain) and,
-        // always, for the optional phone-state permission. The normal enable flow keeps asking.
-        val respectFlag = allowDontAskAgain || step.permission == SchedulingPermission.PhoneState
+        // The "don't ask again" flag is honored on the home re-check (allowDontAskAgain) and, always, for
+        // the optional permissions. The normal enable flow keeps asking for required permissions.
+        val respectFlag = allowDontAskAgain || step.permission.isOptional()
         when {
             isGranted(context, step.permission) -> finishStep(step, granted = true, asked = false)
             respectFlag && isSuppressed.value(step.permission) -> finishStep(step, granted = false, asked = false)
@@ -354,7 +366,10 @@ fun rememberSchedulingPermissionRequest(
                 dialogStep.value = null
                 finishStep(step, granted = false, asked = true)
             },
-            onDontAskAgain = if (allowDontAskAgain) {
+            // "Don't ask again" is offered on the home re-check (allowDontAskAgain) and, always, for the
+            // optional permissions — they never block, so users should be able to dismiss them for good even
+            // in the normal enable flow. [process] honors the persisted flag under the same rule.
+            onDontAskAgain = if (allowDontAskAgain || step.permission.isOptional()) {
                 {
                     dialogStep.value = null
                     persistDontAsk.value(step.permission)
