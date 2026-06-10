@@ -1,6 +1,5 @@
 package com.github.meypod.al_azan
 
-import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -65,14 +64,8 @@ class MainActivity : AppCompatActivity() {
         routeFromIntent(intent)?.let { NavigationController.navigateTo(it) }
     }
 
+    // MainActivity is exported, so the URI is attacker-reachable; a malformed deep link must not crash
+    // launch. Fall back to the default start destination on any parse failure.
     private fun routeFromIntent(launchIntent: Intent?): Route? =
-        when {
-            // The system opens our AutomaticZenRule's configuration activity (this Activity) with this action
-            // when the user taps the silence rule in DND settings — land them on the status screen.
-            launchIntent?.action == NotificationManager.ACTION_AUTOMATIC_ZEN_RULE -> Route.Main.SilenceStatus
-
-            // MainActivity is exported, so the URI is attacker-reachable; a malformed deep link must not
-            // crash launch. Fall back to the default start destination on any parse failure.
-            else -> launchIntent?.data?.let { runCatching { parseUriToRoute(it, deepLinkPatterns) }.getOrNull() }
-        }
+        launchIntent?.data?.let { runCatching { parseUriToRoute(it, deepLinkPatterns) }.getOrNull() }
 }

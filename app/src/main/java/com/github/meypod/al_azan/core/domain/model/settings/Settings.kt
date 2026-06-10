@@ -140,16 +140,10 @@ data class Settings(
     /** Epoch millis until which alarms (adhan and reminders) are suppressed ("Dismiss & silent"). Null = not silenced. */
     val silencedUntilMillis: Long? = null,
     /**
-     * Interruption filter to restore when the "Dismiss & silent" DND window ends (API < 35 only, where
-     * apps still own the global filter). Null = nothing to restore. See [adhanSilenceZenRuleId].
+     * Interruption filter captured before the "Dismiss & silent" DND window, restored when it ends.
+     * Null = nothing to restore.
      */
     val dndRestoreFilter: Int? = null,
-    /**
-     * Id of the app's [android.app.AutomaticZenRule] used for "Dismiss & silent" on API 35+, where apps
-     * can no longer set the global interruption filter and must contribute their own zen rule instead.
-     * Null = no active silence rule.
-     */
-    val adhanSilenceZenRuleId: String? = null,
     /**
      * Always launch the full-screen alarm activity when an alarm sounds, instead of relying on the
      * notification's full-screen-intent. Some users prefer it, and some OEMs don't honor the full-screen

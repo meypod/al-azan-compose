@@ -1,16 +1,8 @@
 package com.github.meypod.al_azan.alarm
 
-import android.app.AutomaticZenRule
 import android.app.NotificationManager
-import android.content.ComponentName
 import android.content.Context
-import android.net.Uri
-import android.os.Build
-import android.service.notification.Condition
-import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
-import androidx.core.net.toUri
-import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.core.domain.model.TextResource
@@ -39,10 +31,11 @@ import kotlin.time.Clock
  * [com.github.meypod.al_azan.core.domain.model.settings.Settings.silencedUntilMillis]) for a
  * window, then restores when it ends.
  *
- * The DND mechanism is version-split: apps targeting API 35+ can no longer set the global interruption
- * filter, so we contribute our own [AutomaticZenRule] (most-restrictive-policy-wins) and toggle it,
- * never touching the user's own modes. On API < 35 we set the global filter to total silence and
- * capture the previous one so [unsilence] can restore it.
+ * DND is engaged with [NotificationManager.setInterruptionFilter] (total silence), capturing the
+ * previous filter into [com.github.meypod.al_azan.core.domain.model.settings.Settings.dndRestoreFilter]
+ * so [unsilence] can put it back. On API 35+ the platform reroutes this to an app-managed implicit zen
+ * rule rather than the global filter, but the call still engages DND — so a single code path covers all
+ * versions, with no explicit [android.app.AutomaticZenRule] for the user to find and manage.
  */
 @Singleton
 class DndSilenceController @Inject constructor(
@@ -60,9 +53,9 @@ class DndSilenceController @Inject constructor(
 
     /**
      * Re-establish an in-progress silence window that the OS may have torn down (reboot clears alarms +
-     * notifications; the zen rule's active state can reset). If the saved window already elapsed, clean
-     * up instead. Idempotent — safe to call on every boot/reconcile. Without this, a reboot mid-window
-     * would strip the control notice and the unsilence alarm, trapping the user in silence.
+     * notifications). If the saved window already elapsed, clean up instead. Idempotent — safe to call on
+     * every boot/reconcile. Without this, a reboot mid-window would strip the control notice and the
+     * unsilence alarm, trapping the user in silence.
      */
     suspend fun reconcile() {
         val until = settingsRepository.data.first().silencedUntilMillis ?: return
@@ -86,21 +79,14 @@ class DndSilenceController @Inject constructor(
         // Preserve any filter captured by an earlier engage so a reconcile doesn't overwrite it with the
         // already-silenced value.
         var restoreFilter: Int? = settings.dndRestoreFilter
-        var zenRuleId: String? = settings.adhanSilenceZenRuleId
         if (nm != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                zenRuleId = nm.engageSilenceRule(zenRuleId)
-            } else {
-                if (restoreFilter == null) restoreFilter = nm.currentInterruptionFilter
-                nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE)
-            }
+            if (restoreFilter == null) restoreFilter = nm.currentInterruptionFilter
+            nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE)
         }
-        // DND engaged → an unsilence alarm must undo it. On API 35+ that hinges on the rule being created.
-        val dndEngaged = nm != null &&
-            (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM || zenRuleId != null)
+        val dndEngaged = nm != null
 
         settingsRepository.update {
-            it.copy(silencedUntilMillis = until, dndRestoreFilter = restoreFilter, adhanSilenceZenRuleId = zenRuleId)
+            it.copy(silencedUntilMillis = until, dndRestoreFilter = restoreFilter)
         }
         if (dndEngaged) {
             alarmRepository.schedule(
@@ -152,60 +138,12 @@ class DndSilenceController @Inject constructor(
         val settings = settingsRepository.data.first()
         val nm = context.getSystemService<NotificationManager>()
         if (nm != null && nm.isNotificationPolicyAccessGranted) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                settings.adhanSilenceZenRuleId?.let { nm.releaseSilenceRule(it) }
-            } else {
-                nm.setInterruptionFilter(settings.dndRestoreFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL)
-            }
+            nm.setInterruptionFilter(settings.dndRestoreFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL)
         }
         settingsRepository.update {
-            it.copy(silencedUntilMillis = null, dndRestoreFilter = null, adhanSilenceZenRuleId = null)
+            it.copy(silencedUntilMillis = null, dndRestoreFilter = null)
         }
         alarmRepository.cancel(AdhanContract.UNSILENCE_ALARM_ID)
         notificationRepository.cancelNotification(AdhanContract.DND_ACTIVE_NOTIFICATION_ID)
-    }
-
-    /**
-     * Ensures the app's total-silence [AutomaticZenRule] exists (reusing [existingId] when still valid),
-     * activates it, and returns its id — or null if the platform rejected the rule.
-     */
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-    private fun NotificationManager.engageSilenceRule(existingId: String?): String? {
-        val ruleId = runCatching {
-            existingId?.takeIf { automaticZenRules.containsKey(it) } ?: addAutomaticZenRule(
-                AutomaticZenRule.Builder(context.getString(R.string.app_name), SILENCE_CONDITION_ID)
-                    .setType(AutomaticZenRule.TYPE_OTHER)
-                    .setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE)
-                    // The platform rejects a rule with neither a ConditionProviderService nor a
-                    // configuration activity; point it at MainActivity (where the user lands if they
-                    // open the rule from system DND settings).
-                    .setConfigurationActivity(ComponentName(context, MainActivity::class.java))
-                    // Rule has no ConditionProviderService; we drive it imperatively, so the platform
-                    // only honors our setAutomaticZenRuleState toggles when manual invocation is allowed.
-                    .setManualInvocationAllowed(true)
-                    .build(),
-            )
-        }.getOrNull() ?: return null
-        runCatching { setAutomaticZenRuleState(ruleId, silenceCondition(Condition.STATE_TRUE)) }
-        return ruleId
-    }
-
-    /** Deactivates the app's silence [AutomaticZenRule]; the rule is kept (disabled) for reuse. */
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-    private fun NotificationManager.releaseSilenceRule(ruleId: String) {
-        runCatching { setAutomaticZenRuleState(ruleId, silenceCondition(Condition.STATE_FALSE)) }
-    }
-
-    /**
-     * Built with [Condition.SOURCE_USER_ACTION]: an automatic-sourced condition would be treated as
-     * ignorable, but the platform never ignores user-action rule-state changes.
-     */
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-    private fun silenceCondition(state: Int): Condition =
-        Condition(SILENCE_CONDITION_ID, context.getString(R.string.app_name), state, Condition.SOURCE_USER_ACTION)
-
-    private companion object {
-        /** Stable condition id tying the silence [AutomaticZenRule] to its toggle [Condition]. */
-        val SILENCE_CONDITION_ID: Uri = "al_azan://dnd/adhan_silence".toUri()
     }
 }
