@@ -2,10 +2,12 @@ package com.github.meypod.al_azan.main.settings.troubleshoot
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -102,7 +104,12 @@ fun TroubleshootScreen(
         }
 
         uiState.powerManagerInfo?.let {
-            PowerManagerCard(uiState.powerManagerInfo) {
+            val samsungHintRes = if (it.manufacturer.equals("samsung", ignoreCase = true)) {
+                samsungHintRes()
+            } else {
+                null
+            }
+            PowerManagerCard(samsungHintRes = samsungHintRes) {
                 onAction(TroubleshootUiAction.OnOpenPowerManagerSettingsClick(activity))
             }
         }
@@ -205,7 +212,7 @@ private fun DndStatusBadge(granted: Boolean) {
 
 @Composable
 fun PowerManagerCard(
-    powerManagerInfo: PowerManagerUtils.PowerManagerInfo,
+    @StringRes samsungHintRes: Int? = null,
     onButtonClick: () -> Unit,
 ) {
     ACard { cardPadding ->
@@ -218,8 +225,8 @@ fun PowerManagerCard(
             SettingLabel(stringResource(R.string.power_manager_card_title))
             Text(stringResource(R.string.power_manager_card_body), style = MaterialTheme.typography.bodyMedium)
 
-            if (powerManagerInfo.manufacturer.equals("samsung", ignoreCase = true)) {
-                Text(stringResource(R.string.power_manager_samsung_hint), style = MaterialTheme.typography.bodyMedium)
+            if (samsungHintRes != null) {
+                Text(stringResource(samsungHintRes), style = MaterialTheme.typography.bodyMedium)
             }
 
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -230,6 +237,19 @@ fun PowerManagerCard(
         }
     }
 }
+
+/**
+ * Samsung's battery-saving UI ("Device Care"/"Device maintenance") and the menu path to
+ * exclude an app changed across One UI versions, so pick the matching hint per API level.
+ */
+@StringRes
+private fun samsungHintRes(): Int =
+    when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> R.string.power_manager_samsung_hint_oneui6
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> R.string.power_manager_samsung_hint_oneui4
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> R.string.power_manager_samsung_hint_oneui1
+        else -> R.string.power_manager_samsung_hint_oreo
+    }
 
 @Preview
 @Composable
@@ -244,15 +264,47 @@ private fun BatterSaverCTAPreview() {
     }
 }
 
-@Preview
+@Preview(name = "PowerManager - generic")
 @Composable
 private fun PowerManagerCardPreview() {
     AlAzanTheme {
-        ACard { cardPadding ->
-            Column(Modifier.padding(cardPadding)) {
-                PowerManagerCard(PowerManagerUtils.PowerManagerInfo("SAMSUNG", "foo", "foo", "foo")) {}
-            }
-        }
+        PowerManagerCard {}
+    }
+}
+
+@Preview(name = "PowerManager - Samsung Oreo")
+@Preview(name = "PowerManager - Samsung Oreo (fa)", locale = "fa")
+@Composable
+private fun PowerManagerCardSamsungOreoPreview() {
+    AlAzanTheme {
+        PowerManagerCard(samsungHintRes = R.string.power_manager_samsung_hint_oreo) {}
+    }
+}
+
+@Preview(name = "PowerManager - Samsung One UI 1-3")
+@Preview(name = "PowerManager - Samsung One UI 1-3 (fa)", locale = "fa")
+@Composable
+private fun PowerManagerCardSamsungOneUi1Preview() {
+    AlAzanTheme {
+        PowerManagerCard(samsungHintRes = R.string.power_manager_samsung_hint_oneui1) {}
+    }
+}
+
+@Preview(name = "PowerManager - Samsung One UI 4-5")
+@Preview(name = "PowerManager - Samsung One UI 4-5 (fa)", locale = "fa")
+@Composable
+private fun PowerManagerCardSamsungOneUi4Preview() {
+    AlAzanTheme {
+        PowerManagerCard(samsungHintRes = R.string.power_manager_samsung_hint_oneui4) {}
+    }
+}
+
+@Preview(name = "PowerManager - Samsung One UI 6+")
+@Preview(name = "PowerManager - Samsung One UI 6+ (fa)", locale = "fa")
+@Composable
+private fun PowerManagerCardSamsungOneUi6Preview() {
+    AlAzanTheme {
+        PowerManagerCard(samsungHintRes = R.string.power_manager_samsung_hint_oneui6) {}
     }
 }
 
