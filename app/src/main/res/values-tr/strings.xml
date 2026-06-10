@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">Ayarlar</string>
     <string name="qibla">Kıble</string>
-    <string name="counter">Sayaç</string>
+    <string name="counter">Kaza namazı sayacı</string>
     <string name="reminder">Hatırlatıcı</string>
     <string name="notification_and_sound_title"><![CDATA[Bildirim & Ses]]></string>
     <string name="alarm_settings_title">Alarm Ayarları</string>

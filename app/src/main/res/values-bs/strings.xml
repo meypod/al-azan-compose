@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">Postavke</string>
     <string name="qibla">Kibla</string>
-    <string name="counter">Brojač</string>
+    <string name="counter">Kada brojač</string>
     <string name="reminder">Podsjetnik</string>
     <string name="notification_and_sound_title"><![CDATA[Obavijest i Zvuk]]></string>
     <string name="alarm_settings_title">Postavke alarma</string>

@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">Paramètres</string>
     <string name="qibla">Qibla</string>
-    <string name="counter">Compteur</string>
+    <string name="counter">Compteur de Qada</string>
     <string name="reminder">Rappel</string>
     <string name="notification_and_sound_title"><![CDATA[Notification et son]]></string>
     <string name="alarm_settings_title">Paramètres d\'alarme</string>

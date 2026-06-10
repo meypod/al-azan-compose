@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">Pengaturan</string>
     <string name="qibla">Kiblat</string>
-    <string name="counter">Penghitung</string>
+    <string name="counter">Penghitung Qada</string>
     <string name="reminder">Pengingat</string>
     <string name="notification_and_sound_title"><![CDATA[Notifikasi & Suara]]></string>
     <string name="alarm_settings_title">Pengaturan Alarm</string>
