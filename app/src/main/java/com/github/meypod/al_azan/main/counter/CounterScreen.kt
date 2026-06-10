@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
@@ -161,7 +162,7 @@ private fun CounterRow(
                 Column(
                     Modifier
                         .weight(1f)
-                        .clickable { onAction(CounterUiAction.OnRowClick(counter.id)) }
+                        .clickable(role = Role.Button) { onAction(CounterUiAction.OnRowClick(counter.id)) }
                         .padding(vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
