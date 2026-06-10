@@ -75,11 +75,6 @@ data class OldCalculationSettingsState(
     @SerialName("HIJRI_DATE_ADJUSTMENT") val hijriDateAdjustment: Int,
 ) {
     fun getCalculationParameters(): CalculationParameters {
-        val fajrAngle = this.fajrAngleOverride ?: 0.0
-        val ishaAngle = this.ishaAngleOverride ?: 0.0
-        val maghribAngle = this.maghribAngleOverride ?: 0.0
-        val ishaInterval = this.ishaIntervalOverride ?: 0
-
         val method =
             this.calculationMethodKey?.let { key ->
                 try {
@@ -89,10 +84,17 @@ data class OldCalculationSettingsState(
                 }
             } ?: CalculationMethod.OTHER
 
+        // Start from the method's canonical parameters so the angles/interval and the method's built-in
+        // adjustments are preserved. The legacy override fields are non-null only when the user diverged
+        // from the method, so fall back to the canonical value when absent — otherwise migrated settings
+        // would show 0 angles and drop the method adjustments.
+        val base = method.parameters
+
         val madhab =
             when (this.asrCalculation?.lowercase()) {
                 "hanafi" -> Madhab.HANAFI
-                else -> Madhab.SHAFI
+                "shafi" -> Madhab.SHAFI
+                else -> base.madhab
             }
 
         val highLatitudeRule =
@@ -100,7 +102,7 @@ data class OldCalculationSettingsState(
                 "middleofthenight" -> HighLatitudeRule.MIDDLE_OF_THE_NIGHT
                 "seventhofthenight" -> HighLatitudeRule.SEVENTH_OF_THE_NIGHT
                 "twilightangle" -> HighLatitudeRule.TWILIGHT_ANGLE
-                else -> null
+                else -> base.highLatitudeRule
             }
 
         val prayerAdjustments =
@@ -121,26 +123,24 @@ data class OldCalculationSettingsState(
                 "general" -> Shafaq.GENERAL
                 "ahmer" -> Shafaq.AHMER
                 "abyad" -> Shafaq.ABYAD
-                else -> Shafaq.GENERAL
+                else -> base.shafaq
             }
 
         val polarCircleResolution =
             when (this.polarResolution?.lowercase()) {
                 "aqrabbalad" -> PolarCircleResolution.AqrabBalad
                 "aqrabyaum" -> PolarCircleResolution.AqrabYaum
-                else -> PolarCircleResolution.Unresolved
+                else -> base.polarCircleResolution
             }
 
-        return CalculationParameters(
-            fajrAngle = fajrAngle,
-            ishaAngle = ishaAngle,
-            ishaInterval = ishaInterval,
-            maghribAngle = maghribAngle,
-            method = method,
+        return base.copy(
+            fajrAngle = this.fajrAngleOverride ?: base.fajrAngle,
+            ishaAngle = this.ishaAngleOverride ?: base.ishaAngle,
+            ishaInterval = this.ishaIntervalOverride ?: base.ishaInterval,
+            maghribAngle = this.maghribAngleOverride ?: base.maghribAngle,
             madhab = madhab,
             highLatitudeRule = highLatitudeRule,
             prayerAdjustments = prayerAdjustments,
-            methodAdjustments = PrayerAdjustments(),
             rounding = rounding,
             shafaq = shafaq,
             polarCircleResolution = polarCircleResolution,
