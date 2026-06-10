@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Toujours ouvrir l\'écran d\'alarme</string>
     <string name="force_launch_alarm_screen_help">Forcer l\'alarme en plein écran à s\'ouvrir directement. Essayez ceci si votre téléphone ne l\'affiche pas sur l\'écran de verrouillage.</string>
     <string name="notifications">Notifications</string>
-    <string name="auto_silent_on_dismiss">Mettre le téléphone en silence après avoir ignoré</string>
+    <string name="auto_silent_on_dismiss">Ne pas déranger après avoir ignoré</string>
     <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas. Ne s\'applique qu\'à l\'adhan.</string>
-    <string name="auto_silent_duration">Durée du silence</string>
-    <string name="auto_silent_duration_help">Durée pendant laquelle le téléphone reste en silence après avoir ignoré.</string>
+    <string name="auto_silent_duration">Durée du mode Ne pas déranger</string>
+    <string name="auto_silent_duration_help">Durée pendant laquelle le mode Ne pas déranger reste actif après avoir ignoré.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Accordé</string>
     <string name="dnd_access_status_missing">Non accordé</string>
     <string name="dnd_access_card_button">Ouvrir les paramètres</string>
-    <string name="adhan_dnd_revoked_title">Téléphone non mis en silence</string>
+    <string name="adhan_dnd_revoked_title">Le mode Ne pas déranger ne s\'est pas activé</string>
     <string name="adhan_dnd_revoked_body">L\'accès au mode Ne pas déranger est désactivé, le téléphone n\'a donc pas été mis en silence après que vous ayez ignoré l\'Adhan. Réactivez-le dans les paramètres de dépannage.</string>
+    <string name="dnd_active_title">Ne pas déranger activé</string>
+    <string name="dnd_active_body">Le mode Ne pas déranger est activé jusqu\'à %1$s. Appuyez sur Désactiver pour rétablir le son maintenant.</string>
+    <string name="dnd_active_end_action">Désactiver</string>
+    <string name="dnd_status_title">Ne pas déranger</string>
+    <string name="dnd_status_end">Désactiver Ne pas déranger</string>
+    <string name="dnd_status_inactive_title">Ne pas déranger est désactivé</string>
+    <string name="dnd_status_inactive_body">Le mode Ne pas déranger n\'est pas actif pour le moment.</string>
+    <string name="dnd_status_open_app">Ouvrir l\'application</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Charge adaptative</string>
     <string name="adaptive_charging_help">Sur certains appareils (comme Google Pixel), le type d\'alarme par défaut est enregistré comme une alarme de réveil, ce qui peut interférer avec la Charge adaptative et afficher une icône d\'alarme. Activez cette option pour utiliser un type d\'alarme qui évite les deux.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Tester la vibration (longue)</string>
     <string name="dev_stop_vibration">Arrêter la vibration</string>
     <string name="dev_update_widgets">Mettre à jour les widgets maintenant</string>
+    <string name="dev_reset_silence">Réinitialiser la fenêtre Ne pas déranger</string>
     <string name="dev_disable">Désactiver le mode développeur</string>
     <string name="dev_scheduled_toast">Adhan programmé dans %1$d secondes</string>
+    <string name="dev_silence_reset_toast">Fenêtre Ne pas déranger effacée</string>
     <string name="dev_unlocked_toast">Mode développeur activé</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">Adhan de %1$s annulé</string>
     <string name="upcoming_reminder_title">Rappel à venir</string>
     <string name="reminder_cancelled_toast">Rappel de %1$s annulé</string>
-    <string name="missed_during_silence_body">Passé pendant le silence à %1$s</string>
+    <string name="missed_during_silence_body">Passé pendant le mode Ne pas déranger à %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Avis affiché peu avant un rappel.</string>
     <string name="missed_channel_name">Alarmes et rappels manqués</string>
     <string name="missed_channel_description">Avis silencieux pour les alarmes d\'Adhan et les rappels passés pendant que les sons étaient en silence.</string>
+    <string name="dnd_active_channel_name">Ne pas déranger actif</string>
+    <string name="dnd_active_channel_description">L\'avis silencieux et persistant affiché lorsque le mode Ne pas déranger « Ignorer et mettre en silence » est actif, vous permettant de le désactiver plus tôt.</string>
     <string name="ramadan_notice_channel_name">Avis du Ramadan</string>
     <string name="ramadan_notice_channel_description">Un rappel annuel indiquant que le calendrier précalculé peut être inexact pour le début et la fin du Ramadan.</string>
     <string name="permission_revoked_channel_name">Autorisation révoquée</string>

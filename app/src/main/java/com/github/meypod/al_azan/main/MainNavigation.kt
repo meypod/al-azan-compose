@@ -68,6 +68,8 @@ import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTro
 import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootViewModel
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsScreen
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsViewModel
+import com.github.meypod.al_azan.main.silence.SilenceStatusScreen
+import com.github.meypod.al_azan.main.silence.SilenceStatusViewModel
 import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsScreen
 import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsViewModel
 import kotlinx.serialization.modules.SerializersModule
@@ -87,6 +89,7 @@ fun MainNavigation(
                     serializersModule = SerializersModule {
                         polymorphic(NavKey::class) {
                             subclass(Route.Main.Home::class, Route.Main.Home.serializer())
+                            subclass(Route.Main.SilenceStatus::class, Route.Main.SilenceStatus.serializer())
                             subclass(Route.Main.Location::class, Route.Main.Location.serializer())
                             subclass(Route.Main.CalendarView::class, Route.Main.CalendarView.serializer())
                             subclass(Route.Main.MonthlyView::class, Route.Main.MonthlyView.serializer())
@@ -130,7 +133,12 @@ fun MainNavigation(
                         }
                     }
                 },
-            startingRoute ?: Route.Main.Home,
+            // A deep-link / DND-rule launch arrives as a single starting route; seed Home beneath it so
+            // Back (and the screen's own close) lands on Home instead of dead-ending on one entry.
+            *when {
+                startingRoute == null || startingRoute == Route.Main.Home -> arrayOf<NavKey>(Route.Main.Home)
+                else -> arrayOf<NavKey>(Route.Main.Home, startingRoute)
+            },
         )
 
     BindBackStackWithController(
@@ -176,6 +184,11 @@ fun MainNavigation(
                     onRemindNextYear = vm::onRamadanRemindNextYear,
                     onDontShowAgain = vm::onRamadanDontShowAgain,
                 )
+            }
+            entry<Route.Main.SilenceStatus> {
+                val vm = hiltViewModel<SilenceStatusViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                SilenceStatusScreen(s, vm::onAction)
             }
             entry<Route.Main.Location> {
                 val vm = hiltViewModel<LocationViewModel>()

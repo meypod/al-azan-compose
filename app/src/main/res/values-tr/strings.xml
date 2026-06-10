@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Alarm ekranını her zaman aç</string>
     <string name="force_launch_alarm_screen_help">Tam ekran alarmının doğrudan açılmasını zorla. Telefonunuz onu kilit ekranının üzerinde göstermiyorsa bunu deneyin.</string>
     <string name="notifications">Bildirimler</string>
-    <string name="auto_silent_on_dismiss">Reddettikten sonra telefonu sustur</string>
+    <string name="auto_silent_on_dismiss">Reddettikten sonra Rahatsız Etmeyin</string>
     <string name="auto_silent_on_dismiss_help">Bir ezanı reddettiğinizde, telefon bir süreliğine Rahatsız Etmeyin moduna geçer. Erteleme bunu yapmaz. Yalnızca ezan için geçerlidir.</string>
-    <string name="auto_silent_duration">Susturma süresi</string>
-    <string name="auto_silent_duration_help">Reddettikten sonra telefonun ne kadar süre susturulmuş kalacağı.</string>
+    <string name="auto_silent_duration">Rahatsız Etmeyin süresi</string>
+    <string name="auto_silent_duration_help">Reddettikten sonra Rahatsız Etmeyin\'in ne kadar süre açık kalacağı.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Müezzin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Verildi</string>
     <string name="dnd_access_status_missing">Verilmedi</string>
     <string name="dnd_access_card_button">Ayarları aç</string>
-    <string name="adhan_dnd_revoked_title">Telefon susturulmadı</string>
+    <string name="adhan_dnd_revoked_title">Rahatsız Etmeyin açılmadı</string>
     <string name="adhan_dnd_revoked_body">Rahatsız Etmeyin erişimi kapalı olduğundan, ezanı reddettikten sonra telefon susturulmadı. Sorun Giderme ayarlarından yeniden etkinleştirin.</string>
+    <string name="dnd_active_title">Rahatsız Etmeyin açık</string>
+    <string name="dnd_active_body">Rahatsız Etmeyin %1$s\'e kadar açık. Sesi şimdi geri yüklemek için Kapat\'a dokunun.</string>
+    <string name="dnd_active_end_action">Kapat</string>
+    <string name="dnd_status_title">Rahatsız Etmeyin</string>
+    <string name="dnd_status_end">Rahatsız Etmeyin\'i kapat</string>
+    <string name="dnd_status_inactive_title">Rahatsız Etmeyin kapalı</string>
+    <string name="dnd_status_inactive_body">Rahatsız Etmeyin şu anda etkin değil.</string>
+    <string name="dnd_status_open_app">Uygulamayı aç</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Uyarlanabilir Şarj</string>
     <string name="adaptive_charging_help">Bazı cihazlarda (Google Pixel gibi), varsayılan alarm türü bir saat alarmı olarak kaydedilir ve bu, Uyarlanabilir Şarj\'ı etkileyebilir ve bir alarm simgesi gösterebilir. Her ikisinden de kaçınan bir alarm türü kullanmak için bunu etkinleştirin.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Titreşimi test et (uzun)</string>
     <string name="dev_stop_vibration">Titreşimi durdur</string>
     <string name="dev_update_widgets">Widget\'ları şimdi güncelle</string>
+    <string name="dev_reset_silence">Rahatsız Etmeyin penceresini sıfırla</string>
     <string name="dev_disable">Geliştirici modunu devre dışı bırak</string>
     <string name="dev_scheduled_toast">Ezan %1$d saniye içinde zamanlandı</string>
+    <string name="dev_silence_reset_toast">Rahatsız Etmeyin penceresi temizlendi</string>
     <string name="dev_unlocked_toast">Geliştirici modu etkinleştirildi</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">%1$s ezanı iptal edildi</string>
     <string name="upcoming_reminder_title">Yaklaşan hatırlatıcı</string>
     <string name="reminder_cancelled_toast">%1$s hatırlatıcısı iptal edildi</string>
-    <string name="missed_during_silence_body">Susturma sırasında %1$s\'te geçti</string>
+    <string name="missed_during_silence_body">Rahatsız Etmeyin sırasında %1$s\'te geçti</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Bir hatırlatıcıdan kısa süre önce gösterilen uyarı.</string>
     <string name="missed_channel_name">Kaçırılan alarmlar ve hatırlatıcılar</string>
     <string name="missed_channel_description">Sesler susturulmuşken geçen ezan alarmları ve hatırlatıcılar için sessiz uyarılar.</string>
+    <string name="dnd_active_channel_name">Rahatsız Etmeyin etkin</string>
+    <string name="dnd_active_channel_description">\"Reddet ve sustur\" Rahatsız Etmeyin etkinken gösterilen, erken kapatmanıza olanak tanıyan sessiz, sürekli bildirim.</string>
     <string name="ramadan_notice_channel_name">Ramazan uyarısı</string>
     <string name="ramadan_notice_channel_description">Önceden hesaplanan takvimin Ramazan\'ın başlangıcı ve bitişi için yanlış olabileceğine dair yıllık bir hatırlatma.</string>
     <string name="permission_revoked_channel_name">İzin İptal Edildi</string>

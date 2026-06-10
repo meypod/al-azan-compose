@@ -22,6 +22,7 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
         const val REMINDER_DND_CHANNEL_ID = "reminder_dnd_channel_id"
         const val PRE_REMINDER_CHANNEL_ID = "pre_reminder_channel_id"
         const val MISSED_CHANNEL_ID = "missed_channel_id"
+        const val DND_ACTIVE_CHANNEL_ID = "dnd_active_channel_id"
         const val RAMADAN_NOTICE_CHANNEL_ID = "ramadan_notice_channel_id"
     }
 
@@ -107,8 +108,22 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     id = MISSED_CHANNEL_ID,
                     name = TextResource.StringResId(R.string.missed_channel_name),
                     description = TextResource.StringResId(R.string.missed_channel_description),
-                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_LOW,
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_DEFAULT,
                     vibrationEnabled = false,
+                    soundHandledExternally = true,
+                ),
+                // Silent, low-importance, and DND-bypassing: this is the "Do Not Disturb on" control
+                // notice itself, which must stay reachable while OUR total-silence DND window hides
+                // everything else — so the user can always turn it off / swipe to restore sound.
+                NotificationChannelConfig(
+                    id = DND_ACTIVE_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.dnd_active_channel_name),
+                    description = TextResource.StringResId(R.string.dnd_active_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_MAX,
+                    soundHandledExternally = true,
+                    showBadge = false,
+                    vibrationEnabled = false,
+                    canBypassDnd = true,
                 ),
                 NotificationChannelConfig(
                     id = RAMADAN_NOTICE_CHANNEL_ID,

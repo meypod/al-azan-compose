@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan
 
 import com.github.meypod.al_azan.adhan.AdhanScheduler
+import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.ramadan.RamadanNoticeScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
@@ -23,11 +24,15 @@ class SchedulerReconciler @Inject constructor(
     private val reminderScheduler: ReminderScheduler,
     private val ramadanNoticeScheduler: RamadanNoticeScheduler,
     private val widgetUpdater: WidgetUpdater,
+    private val dndSilenceController: DndSilenceController,
 ) {
     suspend fun reconcileAll() {
         adhanScheduler.schedule()
         reminderScheduler.schedule()
         ramadanNoticeScheduler.schedule()
         widgetUpdater.update()
+        // Reboot strips the silence window's unsilence alarm + control notice while the suppression
+        // state persists; rebuild it (or clean up if it already elapsed) so the user can still end it.
+        dndSilenceController.reconcile()
     }
 }

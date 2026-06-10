@@ -39,6 +39,7 @@ class DeveloperViewModel
             DeveloperUiAction.OnVibrateLong -> onVibrateLong()
             DeveloperUiAction.OnStopVibration -> onStopVibration()
             DeveloperUiAction.OnUpdateWidgets -> onUpdateWidgets()
+            DeveloperUiAction.OnResetSilence -> onResetSilence()
             DeveloperUiAction.OnDisableDeveloperMode -> onDisableDeveloperMode()
         }
     }
@@ -63,6 +64,15 @@ class DeveloperViewModel
 
     private fun onUpdateWidgets() {
         viewModelScope.launch { widgetUpdater.update() }
+    }
+
+    /** Tear down a stuck "Dismiss & silent" window: releases DND, clears the suppression state,
+     *  cancels the unsilence alarm, and reschedules the adhan. */
+    private fun onResetSilence() {
+        viewModelScope.launch {
+            adhanFiringHandler.onUnsilence()
+            toast(context.getString(R.string.dev_silence_reset_toast))
+        }
     }
 
     private fun onDisableDeveloperMode() {

@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Luôn mở màn hình báo thức</string>
     <string name="force_launch_alarm_screen_help">Buộc báo thức toàn màn hình mở trực tiếp. Hãy thử cách này nếu điện thoại của bạn không hiển thị nó trên màn hình khóa.</string>
     <string name="notifications">Thông báo</string>
-    <string name="auto_silent_on_dismiss">Tắt tiếng điện thoại sau khi bỏ qua</string>
+    <string name="auto_silent_on_dismiss">Không làm phiền sau khi bỏ qua</string>
     <string name="auto_silent_on_dismiss_help">Khi bạn bỏ qua một lần Azan, điện thoại chuyển sang chế độ Không làm phiền trong một khoảng thời gian. Báo lại thì không. Chỉ áp dụng cho azan.</string>
-    <string name="auto_silent_duration">Thời lượng tắt tiếng</string>
-    <string name="auto_silent_duration_help">Điện thoại giữ im lặng trong bao lâu sau khi bỏ qua.</string>
+    <string name="auto_silent_duration">Thời lượng Không làm phiền</string>
+    <string name="auto_silent_duration_help">Không làm phiền duy trì trong bao lâu sau khi bỏ qua.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Đã cấp</string>
     <string name="dnd_access_status_missing">Chưa cấp</string>
     <string name="dnd_access_card_button">Mở cài đặt</string>
-    <string name="adhan_dnd_revoked_title">Điện thoại không được tắt tiếng</string>
+    <string name="adhan_dnd_revoked_title">Không làm phiền đã không bật</string>
     <string name="adhan_dnd_revoked_body">Quyền truy cập Không làm phiền đang tắt, nên điện thoại không được tắt tiếng sau khi bạn bỏ qua Azan. Bật lại nó trong cài đặt Khắc phục Sự cố.</string>
+    <string name="dnd_active_title">Không làm phiền đang bật</string>
+    <string name="dnd_active_body">Không làm phiền đang bật cho đến %1$s. Nhấn Tắt để khôi phục âm thanh ngay.</string>
+    <string name="dnd_active_end_action">Tắt</string>
+    <string name="dnd_status_title">Không làm phiền</string>
+    <string name="dnd_status_end">Tắt Không làm phiền</string>
+    <string name="dnd_status_inactive_title">Không làm phiền đã tắt</string>
+    <string name="dnd_status_inactive_body">Không làm phiền hiện không hoạt động.</string>
+    <string name="dnd_status_open_app">Mở ứng dụng</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Sạc Thích ứng</string>
     <string name="adaptive_charging_help">Trên một số thiết bị (như Google Pixel), loại báo thức mặc định được đăng ký như báo thức đồng hồ, điều này có thể gây nhiễu Sạc Thích ứng và hiển thị biểu tượng báo thức. Bật tùy chọn này để dùng loại báo thức tránh được cả hai.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Kiểm tra rung (dài)</string>
     <string name="dev_stop_vibration">Dừng rung</string>
     <string name="dev_update_widgets">Cập nhật tiện ích ngay</string>
+    <string name="dev_reset_silence">Đặt lại khoảng Không làm phiền</string>
     <string name="dev_disable">Tắt chế độ nhà phát triển</string>
     <string name="dev_scheduled_toast">Đã lên lịch Azan sau %1$d giây</string>
+    <string name="dev_silence_reset_toast">Đã xóa khoảng Không làm phiền</string>
     <string name="dev_unlocked_toast">Đã bật chế độ nhà phát triển</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">Đã hủy Azan %1$s</string>
     <string name="upcoming_reminder_title">Lời nhắc sắp tới</string>
     <string name="reminder_cancelled_toast">Đã hủy lời nhắc %1$s</string>
-    <string name="missed_during_silence_body">Đã qua trong lúc im lặng lúc %1$s</string>
+    <string name="missed_during_silence_body">Đã qua trong lúc Không làm phiền lúc %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Thông báo hiển thị ngay trước một lời nhắc.</string>
     <string name="missed_channel_name">Báo thức và lời nhắc bị bỏ lỡ</string>
     <string name="missed_channel_description">Thông báo im lặng cho báo thức Azan và lời nhắc đã qua trong lúc âm thanh bị tắt tiếng.</string>
+    <string name="dnd_active_channel_name">Không làm phiền đang hoạt động</string>
+    <string name="dnd_active_channel_description">Thông báo im lặng, đang diễn ra được hiển thị khi chế độ Không làm phiền \"Bỏ qua &amp; tắt tiếng\" đang hoạt động, cho phép bạn tắt nó sớm.</string>
     <string name="ramadan_notice_channel_name">Thông báo Ramadan</string>
     <string name="ramadan_notice_channel_description">Lời nhắc hàng năm rằng lịch được tính toán trước có thể bị lệch vào đầu và cuối tháng Ramadan.</string>
     <string name="permission_revoked_channel_name">Quyền Bị Thu hồi</string>

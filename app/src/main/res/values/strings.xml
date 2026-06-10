@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Always open the alarm screen</string>
     <string name="force_launch_alarm_screen_help">Force the full-screen alarm to open directly. Try this if your phone doesn\'t show it over the lock screen.</string>
     <string name="notifications">Notifications</string>
-    <string name="auto_silent_on_dismiss">Silence phone after dismiss</string>
+    <string name="auto_silent_on_dismiss">Do Not Disturb after dismiss</string>
     <string name="auto_silent_on_dismiss_help">When you dismiss an adhan, the phone goes into Do Not Disturb for a while. Snoozing doesn\'t. Applies to adhans only.</string>
-    <string name="auto_silent_duration">Silence duration</string>
-    <string name="auto_silent_duration_help">How long the phone stays silenced after dismissing.</string>
+    <string name="auto_silent_duration">Do Not Disturb duration</string>
+    <string name="auto_silent_duration_help">How long Do Not Disturb stays on after dismissing.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
@@ -555,8 +555,16 @@
     <string name="dnd_access_status_granted">Granted</string>
     <string name="dnd_access_status_missing">Not granted</string>
     <string name="dnd_access_card_button">Open settings</string>
-    <string name="adhan_dnd_revoked_title">Phone not silenced</string>
+    <string name="adhan_dnd_revoked_title">Do Not Disturb didn\'t turn on</string>
     <string name="adhan_dnd_revoked_body">Do Not Disturb access is off, so the phone wasn\'t silenced after you dismissed the adhan. Re-enable it in Troubleshoot settings.</string>
+    <string name="dnd_active_title">Do Not Disturb on</string>
+    <string name="dnd_active_body">Do Not Disturb is on until %1$s. Tap Turn off to restore sound now.</string>
+    <string name="dnd_active_end_action">Turn off</string>
+    <string name="dnd_status_title">Do Not Disturb</string>
+    <string name="dnd_status_end">Turn off Do Not Disturb</string>
+    <string name="dnd_status_inactive_title">Do Not Disturb is off</string>
+    <string name="dnd_status_inactive_body">Do Not Disturb isn\'t active right now.</string>
+    <string name="dnd_status_open_app">Open app</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Adaptive Charging</string>
     <string name="adaptive_charging_help">On some devices (like Google Pixel), the default alarm type registers as a clock alarm, which can interfere with Adaptive Charging and show an alarm icon. Enable this to use an alarm type that avoids both.</string>
@@ -577,8 +585,10 @@
     <string name="dev_vibrate_long">Test vibration (long)</string>
     <string name="dev_stop_vibration">Stop vibration</string>
     <string name="dev_update_widgets">Update widgets now</string>
+    <string name="dev_reset_silence">Reset Do Not Disturb window</string>
     <string name="dev_disable">Disable developer mode</string>
     <string name="dev_scheduled_toast">Adhan scheduled in %1$d seconds</string>
+    <string name="dev_silence_reset_toast">Do Not Disturb window cleared</string>
     <string name="dev_unlocked_toast">Developer mode enabled</string>
 
     <!-- ============================================================
@@ -598,7 +608,7 @@
     <string name="adhan_cancelled_named_toast">%1$s adhan cancelled</string>
     <string name="upcoming_reminder_title">Upcoming reminder</string>
     <string name="reminder_cancelled_toast">%1$s reminder cancelled</string>
-    <string name="missed_during_silence_body">Passed during silence at %1$s</string>
+    <string name="missed_during_silence_body">Passed during Do Not Disturb at %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -628,6 +638,8 @@
     <string name="pre_reminder_channel_description">Notice shown shortly before a reminder.</string>
     <string name="missed_channel_name">Missed alarms and reminders</string>
     <string name="missed_channel_description">Silent notices for adhan alarms and reminders that passed while sounds were silenced.</string>
+    <string name="dnd_active_channel_name">Do Not Disturb active</string>
+    <string name="dnd_active_channel_description">The silent, ongoing notice shown while \"Dismiss &amp; silent\" Do Not Disturb is active, letting you turn it off early.</string>
     <string name="ramadan_notice_channel_name">Ramadan notice</string>
     <string name="ramadan_notice_channel_description">A yearly reminder that the pre-calculated calendar may be off for the start and end of Ramadan.</string>
     <string name="permission_revoked_channel_name">Permission Revoked</string>

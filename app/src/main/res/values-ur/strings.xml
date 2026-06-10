@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">ہمیشہ الارم اسکرین کھولیں</string>
     <string name="force_launch_alarm_screen_help">فُل اسکرین الارم کو براہِ راست کھلنے پر مجبور کریں۔ اگر آپ کا فون اسے لاک اسکرین کے اوپر نہیں دکھاتا تو یہ آزمائیں۔</string>
     <string name="notifications">اطلاعات</string>
-    <string name="auto_silent_on_dismiss">برطرف کرنے کے بعد فون خاموش کریں</string>
+    <string name="auto_silent_on_dismiss">برطرف کرنے کے بعد ڈسٹرب نہ کریں</string>
     <string name="auto_silent_on_dismiss_help">جب آپ اذان برطرف کرتے ہیں، تو فون کچھ دیر کے لیے ڈسٹرب نہ کریں میں چلا جاتا ہے۔ اسنوز کرنے سے ایسا نہیں ہوتا۔ صرف اذان پر لاگو ہوتا ہے۔</string>
-    <string name="auto_silent_duration">خاموشی کی مدت</string>
-    <string name="auto_silent_duration_help">برطرف کرنے کے بعد فون کتنی دیر خاموش رہتا ہے۔</string>
+    <string name="auto_silent_duration">ڈسٹرب نہ کریں کی مدت</string>
+    <string name="auto_silent_duration_help">برطرف کرنے کے بعد ڈسٹرب نہ کریں کتنی دیر آن رہتا ہے۔</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">مؤذن</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">اجازت دی گئی</string>
     <string name="dnd_access_status_missing">اجازت نہیں دی گئی</string>
     <string name="dnd_access_card_button">ترتیبات کھولیں</string>
-    <string name="adhan_dnd_revoked_title">فون خاموش نہیں ہوا</string>
+    <string name="adhan_dnd_revoked_title">ڈسٹرب نہ کریں آن نہیں ہوا</string>
     <string name="adhan_dnd_revoked_body">ڈسٹرب نہ کریں تک رسائی بند ہے، اس لیے آپ کے اذان برطرف کرنے کے بعد فون خاموش نہیں ہوا۔ اسے ٹربل شوٹ کی ترتیبات میں دوبارہ فعال کریں۔</string>
+    <string name="dnd_active_title">ڈسٹرب نہ کریں آن ہے</string>
+    <string name="dnd_active_body">ڈسٹرب نہ کریں %1$s تک آن ہے۔ ابھی آواز بحال کرنے کے لیے بند کریں پر دبائیں۔</string>
+    <string name="dnd_active_end_action">بند کریں</string>
+    <string name="dnd_status_title">ڈسٹرب نہ کریں</string>
+    <string name="dnd_status_end">ڈسٹرب نہ کریں بند کریں</string>
+    <string name="dnd_status_inactive_title">ڈسٹرب نہ کریں بند ہے</string>
+    <string name="dnd_status_inactive_body">ڈسٹرب نہ کریں اس وقت فعال نہیں ہے۔</string>
+    <string name="dnd_status_open_app">ایپ کھولیں</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">اڈاپٹیو چارجنگ</string>
     <string name="adaptive_charging_help">کچھ آلات پر (جیسے Google Pixel)، طے شدہ الارم کی قسم ایک گھڑی کے الارم کے طور پر رجسٹر ہوتی ہے، جو اڈاپٹیو چارجنگ میں مداخلت کر سکتی ہے اور ایک الارم آئیکن دکھا سکتی ہے۔ ان دونوں سے بچنے والی الارم کی قسم استعمال کرنے کے لیے اسے فعال کریں۔</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">وائبریشن آزمائیں (طویل)</string>
     <string name="dev_stop_vibration">وائبریشن روکیں</string>
     <string name="dev_update_widgets">ابھی ویجٹس اپ ڈیٹ کریں</string>
+    <string name="dev_reset_silence">ڈسٹرب نہ کریں ونڈو ری سیٹ کریں</string>
     <string name="dev_disable">ڈیولپر موڈ غیر فعال کریں</string>
     <string name="dev_scheduled_toast">اذان %1$d سیکنڈ میں شیڈول کر دی گئی</string>
+    <string name="dev_silence_reset_toast">ڈسٹرب نہ کریں ونڈو صاف کر دی گئی</string>
     <string name="dev_unlocked_toast">ڈیولپر موڈ فعال ہو گیا</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">%1$s اذان منسوخ کر دی گئی</string>
     <string name="upcoming_reminder_title">آنے والی یاد دہانی</string>
     <string name="reminder_cancelled_toast">%1$s یاد دہانی منسوخ کر دی گئی</string>
-    <string name="missed_during_silence_body">%1$s پر خاموشی کے دوران گزر گئی</string>
+    <string name="missed_during_silence_body">%1$s پر ڈسٹرب نہ کریں کے دوران گزر گئی</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">یاد دہانی سے کچھ دیر پہلے دکھائی جانے والی اطلاع۔</string>
     <string name="missed_channel_name">چھوٹے ہوئے الارم اور یاد دہانیاں</string>
     <string name="missed_channel_description">اذان کے الارم اور یاد دہانیوں کے لیے خاموش اطلاعات جو آوازیں خاموش ہونے کے دوران گزر گئیں۔</string>
+    <string name="dnd_active_channel_name">ڈسٹرب نہ کریں فعال</string>
+    <string name="dnd_active_channel_description">خاموش، جاری اطلاع جو \"برطرف کریں اور خاموش\" ڈسٹرب نہ کریں فعال ہونے کے دوران دکھائی جاتی ہے، تاکہ آپ اسے جلد بند کر سکیں۔</string>
     <string name="ramadan_notice_channel_name">رمضان کی اطلاع</string>
     <string name="ramadan_notice_channel_description">ایک سالانہ یاد دہانی کہ پہلے سے شمار شدہ کیلنڈر رمضان کے آغاز اور اختتام کے لیے غلط ہو سکتا ہے۔</string>
     <string name="permission_revoked_channel_name">اجازت منسوخ کر دی گئی</string>

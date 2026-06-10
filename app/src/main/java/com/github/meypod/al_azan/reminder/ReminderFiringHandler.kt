@@ -8,7 +8,9 @@ import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
 import com.github.meypod.al_azan.core.domain.model.TextResource
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.alarm.upsert
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
@@ -174,20 +176,31 @@ class ReminderFiringHandler @Inject constructor(
         )
     }
 
-    /** Cancel an upcoming reminder: skip this occurrence and reschedule the next. */
+    /**
+     * Cancel an upcoming reminder: skip this occurrence and reschedule the next. Identical to the
+     * Upcoming-alarms screen's Skip — it records a [SkippedAlarm] so the skipped row appears there with
+     * an undo (Reschedule) action, instead of silently dropping the firing.
+     */
     suspend fun onCancelReminder(reminderId: String) {
         val scheduledTs = alarmRepository.getScheduled()
             .firstOrNull { it.id == ReminderContract.alarmId(reminderId) }?.triggerAtMillis
+        val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId }
         if (scheduledTs != null) {
-            settingsRepository.markDelivered(ReminderContract.notificationId(reminderId), scheduledTs)
+            val entry = SkippedAlarm.Reminder(
+                alarmId = ReminderContract.alarmId(reminderId),
+                fireTimeMs = scheduledTs,
+                prayer = reminder?.prayer,
+                label = reminder?.label,
+                duration = reminder?.duration ?: 0,
+                durationModifier = reminder?.durationModifier ?: 0,
+            )
+            settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.upsert(entry)) }
         }
-        alarmRepository.cancel(ReminderContract.alarmId(reminderId))
-        alarmRepository.cancel(ReminderContract.preAlarmId(reminderId))
         notificationRepository.cancelNotification(ReminderContract.notificationId(reminderId))
         notificationRepository.cancelNotification(ReminderContract.preNotificationId(reminderId))
+        PlaybackService.stop(context)
         reminderScheduler.schedule()
 
-        val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId }
         val name = reminder?.displayName(context.resources) ?: context.getString(R.string.reminder)
         withContext(Dispatchers.Main) {
             Toast.makeText(context, context.getString(R.string.reminder_cancelled_toast, name), Toast.LENGTH_SHORT).show()

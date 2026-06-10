@@ -99,6 +99,17 @@ class NotificationRepositoryImpl @Inject constructor(
             }
         }
 
+        when (val dismissAction = payload.android.dismissAction) {
+            is NotificationPressAction.Broadcast ->
+                builder.setDeleteIntent(createBroadcastPendingIntent(dismissAction))
+
+            is NotificationPressAction.Route ->
+                builder.setDeleteIntent(createNavDeepLinkPendingIntent(dismissAction.route))
+
+            // Default/null carry no dismissal target; nothing to fire.
+            else -> {}
+        }
+
         payload.android.actions?.let { actionsList ->
             if (actionsList.isNotEmpty()) {
                 actionsList.forEach { action ->

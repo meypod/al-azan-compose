@@ -93,6 +93,13 @@ data class AndroidNotificationConfig(
     var actions: List<NotificationButton>? = null,
 
     /**
+     * Action fired when the user dismisses the notification (swipe away or "clear all"). Maps to the
+     * Android platform's `setDeleteIntent`. Use it to react to dismissal — e.g. tearing down state the
+     * notification represents.
+     */
+    var dismissAction: NotificationPressAction? = null,
+
+    /**
      * Custom collapsed-state content view. When set (together with [customBigContentView]), the
      * notification is rendered with [androidx.core.app.NotificationCompat.DecoratedCustomViewStyle]
      * and the default alerting (sound/vibrate) is suppressed.

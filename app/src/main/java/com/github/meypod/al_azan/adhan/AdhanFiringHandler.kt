@@ -17,7 +17,9 @@ import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.alarm.upsert
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
@@ -242,18 +244,24 @@ class AdhanFiringHandler @Inject constructor(
         )
     }
 
-    /** Cancel the upcoming adhan: skip it (mark delivered to its time) and reschedule the one after. */
+    /**
+     * Cancel the upcoming adhan: skip this occurrence and reschedule the one after. Identical to the
+     * Upcoming-alarms screen's Skip — it records a [SkippedAlarm] so the skipped row appears there with
+     * an undo (Reschedule) action, instead of silently dropping the firing.
+     */
     suspend fun onCancelAdhan() {
         val scheduled = alarmRepository.getScheduled()
             .firstOrNull { it.id == AdhanContract.ADHAN_ALARM_ID }
-        val scheduledTs = scheduled?.triggerAtMillis
         val prayer = scheduled?.extras?.get(PlaybackService.EXTRA_PRAYER)
             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
-        if (scheduledTs != null) {
-            settingsRepository.markDelivered(AdhanContract.ADHAN_NOTIFICATION_ID, scheduledTs)
+        if (scheduled != null) {
+            val entry = SkippedAlarm.Adhan(
+                alarmId = AdhanContract.ADHAN_ALARM_ID,
+                fireTimeMs = scheduled.triggerAtMillis,
+                prayer = prayer,
+            )
+            settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.upsert(entry)) }
         }
-        alarmRepository.cancel(AdhanContract.ADHAN_ALARM_ID)
-        alarmRepository.cancel(AdhanContract.PRE_ADHAN_ALARM_ID)
         notificationRepository.cancelNotification(AdhanContract.ADHAN_NOTIFICATION_ID)
         notificationRepository.cancelNotification(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
         PlaybackService.stop(context)

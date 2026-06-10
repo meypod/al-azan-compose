@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Uvijek otvori ekran alarma</string>
     <string name="force_launch_alarm_screen_help">Prisili alarm preko cijelog ekrana da se otvori direktno. Pokušajte ovo ako ga vaš telefon ne prikazuje preko zaključanog ekrana.</string>
     <string name="notifications">Obavijesti</string>
-    <string name="auto_silent_on_dismiss">Utišaj telefon nakon odbacivanja</string>
+    <string name="auto_silent_on_dismiss">Ne smetaj nakon odbacivanja</string>
     <string name="auto_silent_on_dismiss_help">Kada odbacite ezan, telefon prelazi u režim Ne smetaj na neko vrijeme. Odgađanje to ne čini. Odnosi se samo na ezan.</string>
-    <string name="auto_silent_duration">Trajanje utišavanja</string>
-    <string name="auto_silent_duration_help">Koliko dugo telefon ostaje utišan nakon odbacivanja.</string>
+    <string name="auto_silent_duration">Trajanje režima Ne smetaj</string>
+    <string name="auto_silent_duration_help">Koliko dugo režim Ne smetaj ostaje uključen nakon odbacivanja.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Dodijeljen</string>
     <string name="dnd_access_status_missing">Nije dodijeljen</string>
     <string name="dnd_access_card_button">Otvori postavke</string>
-    <string name="adhan_dnd_revoked_title">Telefon nije utišan</string>
+    <string name="adhan_dnd_revoked_title">Režim Ne smetaj se nije uključio</string>
     <string name="adhan_dnd_revoked_body">Pristup režimu Ne smetaj je isključen, pa telefon nije utišan nakon što ste odbacili ezan. Ponovo ga omogućite u postavkama Rješavanja problema.</string>
+    <string name="dnd_active_title">Ne smetaj uključen</string>
+    <string name="dnd_active_body">Režim Ne smetaj je uključen do %1$s. Dodirnite Isključi da odmah vratite zvuk.</string>
+    <string name="dnd_active_end_action">Isključi</string>
+    <string name="dnd_status_title">Ne smetaj</string>
+    <string name="dnd_status_end">Isključi režim Ne smetaj</string>
+    <string name="dnd_status_inactive_title">Ne smetaj je isključen</string>
+    <string name="dnd_status_inactive_body">Režim Ne smetaj trenutno nije aktivan.</string>
+    <string name="dnd_status_open_app">Otvori aplikaciju</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Adaptivno Punjenje</string>
     <string name="adaptive_charging_help">Na nekim uređajima (poput Google Pixel), zadani tip alarma registruje se kao alarm sata, što može ometati Adaptivno punjenje i prikazati ikonu alarma. Omogućite ovo da koristite tip alarma koji izbjegava oboje.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Testiraj vibraciju (dugo)</string>
     <string name="dev_stop_vibration">Zaustavi vibraciju</string>
     <string name="dev_update_widgets">Ažuriraj vidžete sada</string>
+    <string name="dev_reset_silence">Resetuj prozor režima Ne smetaj</string>
     <string name="dev_disable">Onemogući programerski režim</string>
     <string name="dev_scheduled_toast">Ezan zakazan za %1$d sekundi</string>
+    <string name="dev_silence_reset_toast">Prozor režima Ne smetaj očišćen</string>
     <string name="dev_unlocked_toast">Programerski režim omogućen</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">%1$s ezan otkazan</string>
     <string name="upcoming_reminder_title">Nadolazeći podsjetnik</string>
     <string name="reminder_cancelled_toast">%1$s podsjetnik otkazan</string>
-    <string name="missed_during_silence_body">Prošao tokom tišine u %1$s</string>
+    <string name="missed_during_silence_body">Prošao tokom režima Ne smetaj u %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Obavijest prikazana neposredno prije podsjetnika.</string>
     <string name="missed_channel_name">Propušteni alarmi i podsjetnici</string>
     <string name="missed_channel_description">Tihe obavijesti za ezan alarme i podsjetnike koji su prošli dok su zvukovi bili utišani.</string>
+    <string name="dnd_active_channel_name">Ne smetaj aktivan</string>
+    <string name="dnd_active_channel_description">Tiha, trajna obavijest prikazana dok je aktivan režim Ne smetaj iz opcije \"Odbaci i utišaj\", koja vam omogućava da ga ranije isključite.</string>
     <string name="ramadan_notice_channel_name">Obavijest o Ramazanu</string>
     <string name="ramadan_notice_channel_description">Godišnji podsjetnik da unaprijed izračunati kalendar može biti netačan za početak i kraj Ramazana.</string>
     <string name="permission_revoked_channel_name">Dozvola opozvana</string>

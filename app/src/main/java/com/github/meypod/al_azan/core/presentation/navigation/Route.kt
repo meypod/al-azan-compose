@@ -52,6 +52,11 @@ sealed interface Route : NavKey {
         @Serializable
         data object Home : Route, DeepLinkableRoute
 
+        /** Status + manual-end screen for an active "Dismiss & silent" window. Reached from the control
+         *  notification and from the system DND-rule configuration entry point. */
+        @Serializable
+        data object SilenceStatus : Route, DeepLinkableRoute
+
         @Serializable
         data object Location : Route
 
@@ -127,5 +132,7 @@ internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
     listOf(
         // "al-azan://home"
         DeepLinkPattern(Route.Main.Home.serializer(), Route.Main.Home.toUriString().toUri()),
+        // "al-azan://SilenceStatus"
+        DeepLinkPattern(Route.Main.SilenceStatus.serializer(), Route.Main.SilenceStatus.toUriString().toUri()),
     )
 }
