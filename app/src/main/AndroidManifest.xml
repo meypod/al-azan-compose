@@ -105,6 +105,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.github.meypod.al_azan.action.CANCEL_ADHAN" />
+                <action android:name="com.github.meypod.al_azan.action.UNSILENCE" />
                 <action android:name="com.github.meypod.al_azan.action.CANCEL_REMINDER" />
                 <action android:name="com.github.meypod.al_azan.action.RAMADAN_REMIND_NEXT_YEAR" />
                 <action android:name="com.github.meypod.al_azan.action.RAMADAN_DONT_SHOW_AGAIN" />

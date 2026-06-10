@@ -53,6 +53,7 @@ fun DeveloperScreen(
             }
         },
     )
+
     fun guardedSchedule(action: DeveloperUiAction) {
         pendingSchedule.value = action
         requestPermissions(SchedulingPermissionSteps.adhan)
@@ -86,6 +87,9 @@ fun DeveloperScreen(
         DevCard {
             DevActionRow(R.string.dev_update_widgets, R.string.dev_run) {
                 onAction(DeveloperUiAction.OnUpdateWidgets)
+            }
+            DevActionRow(R.string.dev_reset_silence, R.string.dev_run) {
+                onAction(DeveloperUiAction.OnResetSilence)
             }
             DevActionRow(R.string.dev_disable, R.string.dev_run) {
                 onAction(DeveloperUiAction.OnDisableDeveloperMode)

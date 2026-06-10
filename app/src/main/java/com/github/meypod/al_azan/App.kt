@@ -4,8 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.github.meypod.al_azan.di.MigrationEntryPoint
 import com.github.meypod.al_azan.di.AdhanSyncInitializer
+import com.github.meypod.al_azan.di.DndSyncInitializer
+import com.github.meypod.al_azan.di.MigrationEntryPoint
 import com.github.meypod.al_azan.di.NotificationChannelInitializer
 import com.github.meypod.al_azan.di.RamadanNoticeInitializer
 import com.github.meypod.al_azan.di.ReminderSyncInitializer
@@ -44,6 +45,9 @@ class App :
     @Inject
     lateinit var ramadanNoticeInitializer: dagger.Lazy<RamadanNoticeInitializer>
 
+    @Inject
+    lateinit var dndSyncInitializer: dagger.Lazy<DndSyncInitializer>
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
 
@@ -73,5 +77,6 @@ class App :
         adhanSyncInitializer.get().start()
         reminderSyncInitializer.get().start()
         ramadanNoticeInitializer.get().start()
+        dndSyncInitializer.get().start()
     }
 }

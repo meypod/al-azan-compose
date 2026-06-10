@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">همیشه صفحهٔ هشدار را باز کن</string>
     <string name="force_launch_alarm_screen_help">هشدار تمام‌صفحه را وادار کن مستقیماً باز شود. اگر تلفن شما آن را روی صفحهٔ قفل نشان نمی‌دهد، این را امتحان کنید.</string>
     <string name="notifications">اعلان‌ها</string>
-    <string name="auto_silent_on_dismiss">بی‌صدا کردن تلفن پس از رد کردن</string>
+    <string name="auto_silent_on_dismiss">مزاحم نشوید پس از رد کردن</string>
     <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد. فقط برای اذان اعمال می‌شود.</string>
-    <string name="auto_silent_duration">مدت بی‌صدایی</string>
-    <string name="auto_silent_duration_help">تلفن پس از رد کردن، چه مدت بی‌صدا می‌ماند.</string>
+    <string name="auto_silent_duration">مدت مزاحم نشوید</string>
+    <string name="auto_silent_duration_help">مزاحم نشوید پس از رد کردن، چه مدت روشن می‌ماند.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">مؤذن</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">اعطا شده</string>
     <string name="dnd_access_status_missing">اعطا نشده</string>
     <string name="dnd_access_card_button">باز کردن تنظیمات</string>
-    <string name="adhan_dnd_revoked_title">تلفن بی‌صدا نشد</string>
+    <string name="adhan_dnd_revoked_title">مزاحم نشوید روشن نشد</string>
     <string name="adhan_dnd_revoked_body">دسترسی به «مزاحم نشوید» خاموش است، بنابراین پس از رد کردن اذان، تلفن بی‌صدا نشد. آن را در تنظیمات رفع مشکلات دوباره فعال کنید.</string>
+    <string name="dnd_active_title">مزاحم نشوید روشن است</string>
+    <string name="dnd_active_body">مزاحم نشوید تا %1$s روشن است. برای بازگرداندن صدا همین حالا روی خاموش کردن بزنید.</string>
+    <string name="dnd_active_end_action">خاموش کردن</string>
+    <string name="dnd_status_title">مزاحم نشوید</string>
+    <string name="dnd_status_end">خاموش کردن مزاحم نشوید</string>
+    <string name="dnd_status_inactive_title">مزاحم نشوید خاموش است</string>
+    <string name="dnd_status_inactive_body">مزاحم نشوید در حال حاضر فعال نیست.</string>
+    <string name="dnd_status_open_app">باز کردن برنامه</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">شارژ تطبیقی</string>
     <string name="adaptive_charging_help">در برخی دستگاه‌ها (مانند گوگل پیکسل)، نوع هشدار پیش‌فرض به‌عنوان هشدار ساعت ثبت می‌شود که می‌تواند با شارژ تطبیقی تداخل ایجاد کند و نماد هشدار را نشان دهد. این گزینه را فعال کنید تا از نوع هشداری استفاده شود که از هر دو جلوگیری می‌کند.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">آزمایش لرزش (بلند)</string>
     <string name="dev_stop_vibration">توقف لرزش</string>
     <string name="dev_update_widgets">به‌روزرسانی ابزارک‌ها همین حالا</string>
+    <string name="dev_reset_silence">بازنشانی بازهٔ مزاحم نشوید</string>
     <string name="dev_disable">غیرفعال کردن حالت توسعه‌دهنده</string>
     <string name="dev_scheduled_toast">اذان در %1$d ثانیه زمان‌بندی شد</string>
+    <string name="dev_silence_reset_toast">بازهٔ مزاحم نشوید پاک شد</string>
     <string name="dev_unlocked_toast">حالت توسعه‌دهنده فعال شد</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">اذان %1$s لغو شد</string>
     <string name="upcoming_reminder_title">یادآوری آینده</string>
     <string name="reminder_cancelled_toast">یادآوری %1$s لغو شد</string>
-    <string name="missed_during_silence_body">در زمان بی‌صدایی در %1$s گذشت</string>
+    <string name="missed_during_silence_body">در زمان مزاحم نشوید در %1$s گذشت</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">اطلاعیه‌ای که کمی قبل از یک یادآوری نمایش داده می‌شود.</string>
     <string name="missed_channel_name">هشدار‌ها و یادآوری‌های از‌دست‌رفته</string>
     <string name="missed_channel_description">اطلاعیه‌های بی‌صدا برای هشدار‌های اذان و یادآوری‌هایی که هنگام بی‌صدا بودن صداها گذشتند.</string>
+    <string name="dnd_active_channel_name">مزاحم نشوید فعال</string>
+    <string name="dnd_active_channel_description">اطلاعیهٔ بی‌صدا و دائمی که هنگام فعال بودن مزاحم نشوید «رد کردن و بی‌صدا» نمایش داده می‌شود تا بتوانید آن را زودتر خاموش کنید.</string>
     <string name="ramadan_notice_channel_name">اطلاعیهٔ رمضان</string>
     <string name="ramadan_notice_channel_description">یادآوری سالانه‌ای مبنی بر اینکه تقویم از‌پیش‌محاسبه‌شده ممکن است برای آغاز و پایان رمضان دقیق نباشد.</string>
     <string name="permission_revoked_channel_name">دسترسی لغو شد</string>

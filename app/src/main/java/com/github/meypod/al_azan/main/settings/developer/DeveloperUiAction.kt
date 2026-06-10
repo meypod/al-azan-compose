@@ -9,5 +9,6 @@ sealed interface DeveloperUiAction {
     object OnVibrateLong : DeveloperUiAction
     object OnStopVibration : DeveloperUiAction
     object OnUpdateWidgets : DeveloperUiAction
+    object OnResetSilence : DeveloperUiAction
     object OnDisableDeveloperMode : DeveloperUiAction
 }

@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Selalu buka layar alarm</string>
     <string name="force_launch_alarm_screen_help">Paksa alarm layar penuh untuk terbuka langsung. Coba ini jika ponsel Anda tidak menampilkannya di atas layar kunci.</string>
     <string name="notifications">Notifikasi</string>
-    <string name="auto_silent_on_dismiss">Bisukan ponsel setelah dihentikan</string>
+    <string name="auto_silent_on_dismiss">Jangan Ganggu setelah dihentikan</string>
     <string name="auto_silent_on_dismiss_help">Saat Anda menghentikan adzan, ponsel masuk ke mode Jangan Ganggu untuk sementara waktu. Menunda tidak. Hanya berlaku untuk azan.</string>
-    <string name="auto_silent_duration">Durasi pembisuan</string>
-    <string name="auto_silent_duration_help">Berapa lama ponsel tetap dibisukan setelah dihentikan.</string>
+    <string name="auto_silent_duration">Durasi Jangan Ganggu</string>
+    <string name="auto_silent_duration_help">Berapa lama Jangan Ganggu tetap aktif setelah dihentikan.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Diberikan</string>
     <string name="dnd_access_status_missing">Tidak diberikan</string>
     <string name="dnd_access_card_button">Buka pengaturan</string>
-    <string name="adhan_dnd_revoked_title">Ponsel tidak dibisukan</string>
+    <string name="adhan_dnd_revoked_title">Jangan Ganggu tidak aktif</string>
     <string name="adhan_dnd_revoked_body">Akses Jangan Ganggu dimatikan, sehingga ponsel tidak dibisukan setelah Anda menghentikan adzan. Aktifkan kembali di pengaturan Perbaiki Masalah.</string>
+    <string name="dnd_active_title">Jangan Ganggu aktif</string>
+    <string name="dnd_active_body">Jangan Ganggu aktif hingga %1$s. Ketuk Matikan untuk memulihkan suara sekarang.</string>
+    <string name="dnd_active_end_action">Matikan</string>
+    <string name="dnd_status_title">Jangan Ganggu</string>
+    <string name="dnd_status_end">Matikan Jangan Ganggu</string>
+    <string name="dnd_status_inactive_title">Jangan Ganggu nonaktif</string>
+    <string name="dnd_status_inactive_body">Jangan Ganggu tidak aktif saat ini.</string>
+    <string name="dnd_status_open_app">Buka aplikasi</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Pengisian Daya Adaptif</string>
     <string name="adaptive_charging_help">Pada beberapa perangkat (seperti Google Pixel), jenis alarm default terdaftar sebagai alarm jam, yang dapat mengganggu Pengisian Daya Adaptif dan menampilkan ikon alarm. Aktifkan ini untuk menggunakan jenis alarm yang menghindari keduanya.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Uji getaran (panjang)</string>
     <string name="dev_stop_vibration">Hentikan getaran</string>
     <string name="dev_update_widgets">Perbarui widget sekarang</string>
+    <string name="dev_reset_silence">Setel ulang jendela Jangan Ganggu</string>
     <string name="dev_disable">Nonaktifkan mode pengembang</string>
     <string name="dev_scheduled_toast">Adzan dijadwalkan dalam %1$d detik</string>
+    <string name="dev_silence_reset_toast">Jendela Jangan Ganggu dihapus</string>
     <string name="dev_unlocked_toast">Mode pengembang diaktifkan</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">Adzan %1$s dibatalkan</string>
     <string name="upcoming_reminder_title">Pengingat yang akan datang</string>
     <string name="reminder_cancelled_toast">Pengingat %1$s dibatalkan</string>
-    <string name="missed_during_silence_body">Terlewat saat senyap pada %1$s</string>
+    <string name="missed_during_silence_body">Terlewat saat Jangan Ganggu pada %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Pemberitahuan yang ditampilkan sesaat sebelum pengingat.</string>
     <string name="missed_channel_name">Alarm dan pengingat yang terlewat</string>
     <string name="missed_channel_description">Pemberitahuan senyap untuk alarm adzan dan pengingat yang terlewat saat suara dibisukan.</string>
+    <string name="dnd_active_channel_name">Jangan Ganggu aktif</string>
+    <string name="dnd_active_channel_description">Pemberitahuan senyap yang terus ditampilkan saat Jangan Ganggu \"Hentikan &amp; senyap\" aktif, sehingga Anda dapat mematikannya lebih awal.</string>
     <string name="ramadan_notice_channel_name">Pemberitahuan Ramadan</string>
     <string name="ramadan_notice_channel_description">Pengingat tahunan bahwa kalender yang dihitung sebelumnya mungkin meleset untuk awal dan akhir Ramadan.</string>
     <string name="permission_revoked_channel_name">Izin Dicabut</string>

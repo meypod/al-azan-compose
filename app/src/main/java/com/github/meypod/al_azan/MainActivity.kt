@@ -1,5 +1,7 @@
 package com.github.meypod.al_azan
 
+import android.app.NotificationManager
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,7 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationRoot
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.deepLinkPatterns
 import com.github.meypod.al_azan.core.presentation.navigation.deeplink.parseUriToRoute
 import com.github.meypod.al_azan.di.LanguageSync
@@ -38,12 +42,8 @@ class MainActivity : AppCompatActivity() {
             settingsRepository.fetch()
         }
 
-        val startingRoute = intent.data?.let {
-            intent = null // consume
-            // MainActivity is exported, so the URI is attacker-reachable; a malformed deep link must
-            // not crash launch. Fall back to the default start destination on any parse failure.
-            runCatching { parseUriToRoute(it, deepLinkPatterns) }.getOrNull()
-        }
+        val startingRoute = routeFromIntent(intent)
+        intent = null // consume
 
         setContent {
             val settings by settingsRepository.data.collectAsState(initial = initialSettings)
@@ -56,4 +56,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    // A deep link / DND-rule tap that arrives while the Activity is already running comes here (the
+    // PendingIntent is SINGLE_TOP | CLEAR_TOP), not through onCreate — route it onto the live backstack.
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        routeFromIntent(intent)?.let { NavigationController.navigateTo(it) }
+    }
+
+    private fun routeFromIntent(launchIntent: Intent?): Route? =
+        when {
+            // The system opens our AutomaticZenRule's configuration activity (this Activity) with this action
+            // when the user taps the silence rule in DND settings — land them on the status screen.
+            launchIntent?.action == NotificationManager.ACTION_AUTOMATIC_ZEN_RULE -> Route.Main.SilenceStatus
+
+            // MainActivity is exported, so the URI is attacker-reachable; a malformed deep link must not
+            // crash launch. Fall back to the default start destination on any parse failure.
+            else -> launchIntent?.data?.let { runCatching { parseUriToRoute(it, deepLinkPatterns) }.getOrNull() }
+        }
 }

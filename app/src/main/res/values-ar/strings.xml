@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">افتح شاشة المنبه دائمًا</string>
     <string name="force_launch_alarm_screen_help">أجبر منبه ملء الشاشة على الفتح مباشرةً. جرّب هذا إذا كان هاتفك لا يعرضه فوق شاشة القفل.</string>
     <string name="notifications">إشعارات</string>
-    <string name="auto_silent_on_dismiss">كتم الهاتف بعد التجاهل</string>
+    <string name="auto_silent_on_dismiss">عدم الإزعاج بعد التجاهل</string>
     <string name="auto_silent_on_dismiss_help">عند تجاهلك للأذان، يدخل الهاتف في وضع عدم الإزعاج لفترة. الغفوة لا تفعل ذلك. ينطبق على الأذان فقط.</string>
-    <string name="auto_silent_duration">مدة الكتم</string>
-    <string name="auto_silent_duration_help">المدة التي يبقى فيها الهاتف مكتومًا بعد التجاهل.</string>
+    <string name="auto_silent_duration">مدة عدم الإزعاج</string>
+    <string name="auto_silent_duration_help">المدة التي يبقى فيها وضع عدم الإزعاج مفعّلًا بعد التجاهل.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">المؤذّن</string>
@@ -573,8 +573,16 @@
     <string name="dnd_access_status_granted">مُمنوح</string>
     <string name="dnd_access_status_missing">غير مُمنوح</string>
     <string name="dnd_access_card_button">فتح الإعدادات</string>
-    <string name="adhan_dnd_revoked_title">لم يُكتم الهاتف</string>
+    <string name="adhan_dnd_revoked_title">لم يُفعَّل وضع عدم الإزعاج</string>
     <string name="adhan_dnd_revoked_body">الوصول إلى وضع عدم الإزعاج معطّل، لذا لم يُكتم الهاتف بعد تجاهلك للأذان. أعِد تفعيله من إعدادات استكشاف الأخطاء وإصلاحها.</string>
+    <string name="dnd_active_title">وضع عدم الإزعاج مفعّل</string>
+    <string name="dnd_active_body">وضع عدم الإزعاج مفعّل حتى %1$s. اضغط على إيقاف لاستعادة الصوت الآن.</string>
+    <string name="dnd_active_end_action">إيقاف</string>
+    <string name="dnd_status_title">عدم الإزعاج</string>
+    <string name="dnd_status_end">إيقاف وضع عدم الإزعاج</string>
+    <string name="dnd_status_inactive_title">وضع عدم الإزعاج متوقّف</string>
+    <string name="dnd_status_inactive_body">وضع عدم الإزعاج غير مفعّل حاليًا.</string>
+    <string name="dnd_status_open_app">فتح التطبيق</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">الشحن المتكيف</string>
     <string name="adaptive_charging_help">في بعض الأجهزة (مثل Google Pixel)، يُسجَّل نوع المنبه الافتراضي كمنبه ساعة، مما قد يتداخل مع الشحن المتكيّف ويعرض أيقونة منبه. فعّل هذا لاستخدام نوع منبه يتجنّب كليهما.</string>
@@ -595,8 +603,10 @@
     <string name="dev_vibrate_long">اختبار الاهتزاز (طويل)</string>
     <string name="dev_stop_vibration">إيقاف الاهتزاز</string>
     <string name="dev_update_widgets">تحديث المصغّرات الآن</string>
+    <string name="dev_reset_silence">إعادة تعيين فترة عدم الإزعاج</string>
     <string name="dev_disable">تعطيل وضع المطوّر</string>
     <string name="dev_scheduled_toast">تمت جدولة الأذان خلال %1$d ثانية</string>
+    <string name="dev_silence_reset_toast">تم مسح فترة عدم الإزعاج</string>
     <string name="dev_unlocked_toast">تم تفعيل وضع المطوّر</string>
 
     <!-- ============================================================
@@ -616,7 +626,7 @@
     <string name="adhan_cancelled_named_toast">تم إلغاء أذان %1$s</string>
     <string name="upcoming_reminder_title">تذكير قادم</string>
     <string name="reminder_cancelled_toast">تم إلغاء تذكير %1$s</string>
-    <string name="missed_during_silence_body">مرّ أثناء الكتم في %1$s</string>
+    <string name="missed_during_silence_body">مرّ أثناء وضع عدم الإزعاج في %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -646,6 +656,8 @@
     <string name="pre_reminder_channel_description">إشعار يظهر قبل التذكير بقليل.</string>
     <string name="missed_channel_name">المنبهات والتذكيرات الفائتة</string>
     <string name="missed_channel_description">إشعارات صامتة لمنبهات الأذان والتذكيرات التي مرّت أثناء كتم الأصوات.</string>
+    <string name="dnd_active_channel_name">عدم الإزعاج مفعّل</string>
+    <string name="dnd_active_channel_description">الإشعار الصامت المستمر الذي يظهر أثناء تفعيل وضع عدم الإزعاج عبر \"التجاهل والكتم\"، ليتيح لك إيقافه مبكرًا.</string>
     <string name="ramadan_notice_channel_name">إشعار رمضان</string>
     <string name="ramadan_notice_channel_description">تذكير سنوي بأن التقويم المحسوب مسبقًا قد يكون غير دقيق لبداية رمضان ونهايته.</string>
     <string name="permission_revoked_channel_name">تم إلغاء الإذن</string>

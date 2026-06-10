@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">हमेशा अलार्म स्क्रीन खोलें</string>
     <string name="force_launch_alarm_screen_help">फ़ुल-स्क्रीन अलार्म को सीधे खुलने के लिए बाध्य करें। अगर आपका फ़ोन इसे लॉक स्क्रीन के ऊपर नहीं दिखाता तो इसे आज़माएँ।</string>
     <string name="notifications">सूचनाएँ</string>
-    <string name="auto_silent_on_dismiss">हटाने के बाद फ़ोन साइलेंट करें</string>
+    <string name="auto_silent_on_dismiss">हटाने के बाद परेशान न करें</string>
     <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता। केवल अज़ान पर लागू होता है।</string>
-    <string name="auto_silent_duration">साइलेंट अवधि</string>
-    <string name="auto_silent_duration_help">हटाने के बाद फ़ोन कितनी देर साइलेंट रहता है।</string>
+    <string name="auto_silent_duration">परेशान न करें अवधि</string>
+    <string name="auto_silent_duration_help">हटाने के बाद परेशान न करें कितनी देर चालू रहता है।</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">मुअज़्ज़िन</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">दी गई</string>
     <string name="dnd_access_status_missing">नहीं दी गई</string>
     <string name="dnd_access_card_button">सेटिंग्स खोलें</string>
-    <string name="adhan_dnd_revoked_title">फ़ोन साइलेंट नहीं हुआ</string>
+    <string name="adhan_dnd_revoked_title">परेशान न करें चालू नहीं हुआ</string>
     <string name="adhan_dnd_revoked_body">डू नॉट डिस्टर्ब एक्सेस बंद है, इसलिए अज़ान हटाने के बाद फ़ोन साइलेंट नहीं हुआ। इसे ट्रबलशूट सेटिंग्स में फिर से सक्षम करें।</string>
+    <string name="dnd_active_title">परेशान न करें चालू है</string>
+    <string name="dnd_active_body">परेशान न करें %1$s तक चालू है। ध्वनि अभी वापस लाने के लिए बंद करें टैप करें।</string>
+    <string name="dnd_active_end_action">बंद करें</string>
+    <string name="dnd_status_title">परेशान न करें</string>
+    <string name="dnd_status_end">परेशान न करें बंद करें</string>
+    <string name="dnd_status_inactive_title">परेशान न करें बंद है</string>
+    <string name="dnd_status_inactive_body">परेशान न करें अभी सक्रिय नहीं है।</string>
+    <string name="dnd_status_open_app">ऐप खोलें</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">अनुकूली चार्जिंग</string>
     <string name="adaptive_charging_help">कुछ डिवाइस (जैसे Google Pixel) पर, डिफ़ॉल्ट अलार्म प्रकार एक घड़ी अलार्म के रूप में दर्ज होता है, जो एडैप्टिव चार्जिंग में हस्तक्षेप कर सकता है और एक अलार्म आइकन दिखा सकता है। दोनों से बचने वाले अलार्म प्रकार का उपयोग करने के लिए इसे सक्षम करें।</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">कंपन परीक्षण (लंबा)</string>
     <string name="dev_stop_vibration">कंपन रोकें</string>
     <string name="dev_update_widgets">विजेट अभी अपडेट करें</string>
+    <string name="dev_reset_silence">परेशान न करें विंडो रीसेट करें</string>
     <string name="dev_disable">डेवलपर मोड अक्षम करें</string>
     <string name="dev_scheduled_toast">अज़ान %1$d सेकंड में शेड्यूल किया गया</string>
+    <string name="dev_silence_reset_toast">परेशान न करें विंडो साफ़ कर दी गई</string>
     <string name="dev_unlocked_toast">डेवलपर मोड सक्षम</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">%1$s अज़ान रद्द कर दिया गया</string>
     <string name="upcoming_reminder_title">आगामी अनुस्मारक</string>
     <string name="reminder_cancelled_toast">%1$s अनुस्मारक रद्द कर दिया गया</string>
-    <string name="missed_during_silence_body">%1$s पर साइलेंस के दौरान बीत गया</string>
+    <string name="missed_during_silence_body">%1$s पर परेशान न करें के दौरान बीत गया</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">अनुस्मारक से कुछ पहले दिखाई जाने वाली सूचना।</string>
     <string name="missed_channel_name">छूटे हुए अलार्म और अनुस्मारक</string>
     <string name="missed_channel_description">उन अज़ान अलार्म और अनुस्मारकों के लिए साइलेंट सूचनाएँ जो ध्वनियाँ साइलेंट रहने के दौरान बीत गए।</string>
+    <string name="dnd_active_channel_name">परेशान न करें सक्रिय</string>
+    <string name="dnd_active_channel_description">\"हटाएँ और साइलेंट\" परेशान न करें सक्रिय रहने के दौरान दिखाई जाने वाली साइलेंट, जारी सूचना, जो आपको इसे जल्दी बंद करने देती है।</string>
     <string name="ramadan_notice_channel_name">रमज़ान सूचना</string>
     <string name="ramadan_notice_channel_description">एक वार्षिक अनुस्मारक कि पूर्व-गणना किया गया कैलेंडर रमज़ान के आरंभ और अंत के लिए ग़लत हो सकता है।</string>
     <string name="permission_revoked_channel_name">अनुमति रद्द</string>

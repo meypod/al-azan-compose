@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">সবসময় অ্যালার্ম স্ক্রিন খুলুন</string>
     <string name="force_launch_alarm_screen_help">ফুল-স্ক্রিন অ্যালার্মকে সরাসরি খুলতে বাধ্য করুন। আপনার ফোন লক স্ক্রিনের উপর এটি না দেখালে এটি চেষ্টা করুন।</string>
     <string name="notifications">নোটিফিকেশন</string>
-    <string name="auto_silent_on_dismiss">খারিজের পর ফোন নীরব করুন</string>
+    <string name="auto_silent_on_dismiss">খারিজের পর ডু নট ডিস্টার্ব</string>
     <string name="auto_silent_on_dismiss_help">আপনি যখন একটি আযান খারিজ করেন, ফোনটি কিছুক্ষণের জন্য ডু নট ডিস্টার্বে চলে যায়। স্নুজ করলে নয়। শুধু আযানের জন্য প্রযোজ্য।</string>
-    <string name="auto_silent_duration">নীরবতার সময়কাল</string>
-    <string name="auto_silent_duration_help">খারিজ করার পর ফোন কতক্ষণ নীরব থাকবে।</string>
+    <string name="auto_silent_duration">ডু নট ডিস্টার্বের সময়কাল</string>
+    <string name="auto_silent_duration_help">খারিজ করার পর ডু নট ডিস্টার্ব কতক্ষণ চালু থাকবে।</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">মুয়াজ্জিন</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">অনুমোদিত</string>
     <string name="dnd_access_status_missing">অনুমোদিত নয়</string>
     <string name="dnd_access_card_button">সেটিংস খুলুন</string>
-    <string name="adhan_dnd_revoked_title">ফোন নীরব করা হয়নি</string>
+    <string name="adhan_dnd_revoked_title">ডু নট ডিস্টার্ব চালু হয়নি</string>
     <string name="adhan_dnd_revoked_body">ডু নট ডিস্টার্ব অ্যাক্সেস বন্ধ, তাই আপনি আযান খারিজ করার পর ফোনটি নীরব করা হয়নি। সমস্যা সমাধান সেটিংসে এটি পুনরায় সক্রিয় করুন।</string>
+    <string name="dnd_active_title">ডু নট ডিস্টার্ব চালু</string>
+    <string name="dnd_active_body">%1$s পর্যন্ত ডু নট ডিস্টার্ব চালু আছে। এখনই শব্দ ফিরিয়ে আনতে বন্ধ করুন-এ ট্যাপ করুন।</string>
+    <string name="dnd_active_end_action">বন্ধ করুন</string>
+    <string name="dnd_status_title">ডু নট ডিস্টার্ব</string>
+    <string name="dnd_status_end">ডু নট ডিস্টার্ব বন্ধ করুন</string>
+    <string name="dnd_status_inactive_title">ডু নট ডিস্টার্ব বন্ধ</string>
+    <string name="dnd_status_inactive_body">ডু নট ডিস্টার্ব এখন সক্রিয় নেই।</string>
+    <string name="dnd_status_open_app">অ্যাপ খুলুন</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">অ্যাডাপ্টিভ চার্জিং</string>
     <string name="adaptive_charging_help">কিছু ডিভাইসে (যেমন Google Pixel), ডিফল্ট অ্যালার্ম টাইপ একটি ঘড়ির অ্যালার্ম হিসেবে নিবন্ধিত হয়, যা অ্যাডাপ্টিভ চার্জিংয়ে হস্তক্ষেপ করতে পারে এবং একটি অ্যালার্ম আইকন দেখাতে পারে। উভয়ই এড়াতে এমন একটি অ্যালার্ম টাইপ ব্যবহার করতে এটি সক্রিয় করুন।</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">ভাইব্রেশন পরীক্ষা করুন (দীর্ঘ)</string>
     <string name="dev_stop_vibration">ভাইব্রেশন বন্ধ করুন</string>
     <string name="dev_update_widgets">এখনই উইজেট আপডেট করুন</string>
+    <string name="dev_reset_silence">ডু নট ডিস্টার্ব উইন্ডো রিসেট করুন</string>
     <string name="dev_disable">ডেভেলপার মোড নিষ্ক্রিয় করুন</string>
     <string name="dev_scheduled_toast">%1$d সেকেন্ডে আযান নির্ধারণ করা হয়েছে</string>
+    <string name="dev_silence_reset_toast">ডু নট ডিস্টার্ব উইন্ডো মুছে ফেলা হয়েছে</string>
     <string name="dev_unlocked_toast">ডেভেলপার মোড সক্রিয় করা হয়েছে</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">%1$s আযান বাতিল করা হয়েছে</string>
     <string name="upcoming_reminder_title">আসন্ন রিমাইন্ডার</string>
     <string name="reminder_cancelled_toast">%1$s রিমাইন্ডার বাতিল করা হয়েছে</string>
-    <string name="missed_during_silence_body">%1$s-এ নীরবতার সময় অতিবাহিত হয়েছে</string>
+    <string name="missed_during_silence_body">%1$s-এ ডু নট ডিস্টার্বের সময় অতিবাহিত হয়েছে</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">একটি রিমাইন্ডারের কিছুক্ষণ আগে দেখানো নোটিশ।</string>
     <string name="missed_channel_name">মিস হওয়া অ্যালার্ম ও রিমাইন্ডার</string>
     <string name="missed_channel_description">শব্দ নীরব থাকা অবস্থায় অতিবাহিত হওয়া আযান অ্যালার্ম ও রিমাইন্ডারের জন্য নীরব নোটিশ।</string>
+    <string name="dnd_active_channel_name">ডু নট ডিস্টার্ব সক্রিয়</string>
+    <string name="dnd_active_channel_description">\"খারিজ করুন ও নীরব করুন\" ডু নট ডিস্টার্ব সক্রিয় থাকা অবস্থায় দেখানো নীরব, চলমান নোটিশ, যা আপনাকে আগেই এটি বন্ধ করতে দেয়।</string>
     <string name="ramadan_notice_channel_name">রমজান বিজ্ঞপ্তি</string>
     <string name="ramadan_notice_channel_description">একটি বার্ষিক রিমাইন্ডার যে রমজানের শুরু ও শেষের জন্য পূর্ব-গণনাকৃত ক্যালেন্ডার ভুল হতে পারে।</string>
     <string name="permission_revoked_channel_name">অনুমতি প্রত্যাহার করা হয়েছে</string>

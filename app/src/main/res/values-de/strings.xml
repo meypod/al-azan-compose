@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Alarmbildschirm immer öffnen</string>
     <string name="force_launch_alarm_screen_help">Erzwingt, dass der Vollbild-Alarm direkt geöffnet wird. Versuchen Sie dies, wenn Ihr Telefon ihn nicht über dem Sperrbildschirm anzeigt.</string>
     <string name="notifications">Benachrichtigungen</string>
-    <string name="auto_silent_on_dismiss">Telefon nach dem Ablehnen stummschalten</string>
+    <string name="auto_silent_on_dismiss">„Bitte nicht stören“ nach dem Ablehnen</string>
     <string name="auto_silent_on_dismiss_help">Wenn Sie einen Adhan ablehnen, wechselt das Telefon eine Weile in den Modus „Bitte nicht stören“. Beim Schlummern nicht. Gilt nur für den Adhan.</string>
-    <string name="auto_silent_duration">Dauer der Stummschaltung</string>
-    <string name="auto_silent_duration_help">Wie lange das Telefon nach dem Ablehnen stummgeschaltet bleibt.</string>
+    <string name="auto_silent_duration">Dauer von „Bitte nicht stören“</string>
+    <string name="auto_silent_duration_help">Wie lange „Bitte nicht stören“ nach dem Ablehnen aktiv bleibt.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Erteilt</string>
     <string name="dnd_access_status_missing">Nicht erteilt</string>
     <string name="dnd_access_card_button">Einstellungen öffnen</string>
-    <string name="adhan_dnd_revoked_title">Telefon nicht stummgeschaltet</string>
+    <string name="adhan_dnd_revoked_title">„Bitte nicht stören“ wurde nicht aktiviert</string>
     <string name="adhan_dnd_revoked_body">Der Zugriff auf „Bitte nicht stören“ ist deaktiviert, daher wurde das Telefon nicht stummgeschaltet, nachdem Sie den Adhan abgelehnt haben. Aktivieren Sie ihn erneut in den Einstellungen zur Problembehebung.</string>
+    <string name="dnd_active_title">„Bitte nicht stören“ aktiv</string>
+    <string name="dnd_active_body">„Bitte nicht stören“ ist bis %1$s aktiv. Tippen Sie auf „Ausschalten“, um den Ton jetzt wiederherzustellen.</string>
+    <string name="dnd_active_end_action">Ausschalten</string>
+    <string name="dnd_status_title">Bitte nicht stören</string>
+    <string name="dnd_status_end">„Bitte nicht stören“ ausschalten</string>
+    <string name="dnd_status_inactive_title">„Bitte nicht stören“ ist aus</string>
+    <string name="dnd_status_inactive_body">„Bitte nicht stören“ ist derzeit nicht aktiv.</string>
+    <string name="dnd_status_open_app">App öffnen</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Adaptives Laden</string>
     <string name="adaptive_charging_help">Auf einigen Geräten (wie Google Pixel) wird der Standard-Alarmtyp als Wecker registriert, was das adaptive Laden beeinträchtigen und ein Alarmsymbol anzeigen kann. Aktivieren Sie diese Option, um einen Alarmtyp zu verwenden, der beides vermeidet.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Vibration testen (lang)</string>
     <string name="dev_stop_vibration">Vibration stoppen</string>
     <string name="dev_update_widgets">Widgets jetzt aktualisieren</string>
+    <string name="dev_reset_silence">Zeitfenster für „Bitte nicht stören“ zurücksetzen</string>
     <string name="dev_disable">Entwicklermodus deaktivieren</string>
     <string name="dev_scheduled_toast">Adhan in %1$d Sekunden geplant</string>
+    <string name="dev_silence_reset_toast">Zeitfenster für „Bitte nicht stören“ gelöscht</string>
     <string name="dev_unlocked_toast">Entwicklermodus aktiviert</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">%1$s-Adhan abgebrochen</string>
     <string name="upcoming_reminder_title">Bevorstehende Erinnerung</string>
     <string name="reminder_cancelled_toast">%1$s-Erinnerung abgebrochen</string>
-    <string name="missed_during_silence_body">Während der Stummschaltung um %1$s verstrichen</string>
+    <string name="missed_during_silence_body">Während „Bitte nicht stören“ um %1$s verstrichen</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Hinweis, der kurz vor einer Erinnerung angezeigt wird.</string>
     <string name="missed_channel_name">Verpasste Alarme und Erinnerungen</string>
     <string name="missed_channel_description">Stille Hinweise für Adhan-Alarme und Erinnerungen, die verstrichen sind, während die Töne stummgeschaltet waren.</string>
+    <string name="dnd_active_channel_name">„Bitte nicht stören“ aktiv</string>
+    <string name="dnd_active_channel_description">Der stille, fortlaufende Hinweis, der angezeigt wird, während „Bitte nicht stören“ durch „Ablehnen &amp; stummschalten“ aktiv ist, damit Sie es vorzeitig ausschalten können.</string>
     <string name="ramadan_notice_channel_name">Ramadan-Hinweis</string>
     <string name="ramadan_notice_channel_description">Eine jährliche Erinnerung daran, dass der vorberechnete Kalender für den Beginn und das Ende des Ramadan abweichen kann.</string>
     <string name="permission_revoked_channel_name">Berechtigung widerrufen</string>

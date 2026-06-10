@@ -384,10 +384,10 @@
     <string name="force_launch_alarm_screen">Fungua skrini ya kengele kila wakati</string>
     <string name="force_launch_alarm_screen_help">Lazimisha kengele ya skrini nzima ifunguke moja kwa moja. Jaribu hii ikiwa simu yako haiionyeshi juu ya skrini iliyofungwa.</string>
     <string name="notifications">Ujulisho</string>
-    <string name="auto_silent_on_dismiss">Nyamazisha simu baada ya kupuuzia</string>
+    <string name="auto_silent_on_dismiss">Usisumbue baada ya kupuuzia</string>
     <string name="auto_silent_on_dismiss_help">Unapopuuzia adhana, simu huingia katika Usisumbue kwa muda. Kuahirisha hakufanyi hivyo. Inahusu adhana pekee.</string>
-    <string name="auto_silent_duration">Muda wa kunyamazisha</string>
-    <string name="auto_silent_duration_help">Muda ambao simu hubaki imenyamazishwa baada ya kupuuzia.</string>
+    <string name="auto_silent_duration">Muda wa Usisumbue</string>
+    <string name="auto_silent_duration_help">Muda ambao Usisumbue hubaki umewashwa baada ya kupuuzia.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
@@ -553,8 +553,16 @@
     <string name="dnd_access_status_granted">Imeruhusiwa</string>
     <string name="dnd_access_status_missing">Haijaruhusiwa</string>
     <string name="dnd_access_card_button">Fungua mipangilio</string>
-    <string name="adhan_dnd_revoked_title">Simu haikunyamazishwa</string>
+    <string name="adhan_dnd_revoked_title">Usisumbue haukuwashwa</string>
     <string name="adhan_dnd_revoked_body">Ufikiaji wa Usisumbue umezimwa, hivyo simu haikunyamazishwa baada ya kupuuzia adhana. Iwashe tena katika mipangilio ya Kurekebisha Matatizo.</string>
+    <string name="dnd_active_title">Usisumbue umewashwa</string>
+    <string name="dnd_active_body">Usisumbue umewashwa hadi %1$s. Gusa Zima ili kurejesha sauti sasa.</string>
+    <string name="dnd_active_end_action">Zima</string>
+    <string name="dnd_status_title">Usisumbue</string>
+    <string name="dnd_status_end">Zima Usisumbue</string>
+    <string name="dnd_status_inactive_title">Usisumbue umezimwa</string>
+    <string name="dnd_status_inactive_body">Usisumbue hauko hai kwa sasa.</string>
+    <string name="dnd_status_open_app">Fungua programu</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">Uchaji Unaojirekebisha</string>
     <string name="adaptive_charging_help">Kwenye baadhi ya vifaa (kama Google Pixel), aina ya kengele ya chaguomsingi husajiliwa kama kengele ya saa, ambayo inaweza kuingilia Uchaji Unaojirekebisha na kuonyesha aikoni ya kengele. Washa hii ili kutumia aina ya kengele inayoepuka vyote viwili.</string>
@@ -575,8 +583,10 @@
     <string name="dev_vibrate_long">Jaribu mtetemo (mrefu)</string>
     <string name="dev_stop_vibration">Simamisha mtetemo</string>
     <string name="dev_update_widgets">Sasisha wijeti sasa</string>
+    <string name="dev_reset_silence">Weka upya dirisha la Usisumbue</string>
     <string name="dev_disable">Zima hali ya msanidi programu</string>
     <string name="dev_scheduled_toast">Adhana imepangwa baada ya sekunde %1$d</string>
+    <string name="dev_silence_reset_toast">Dirisha la Usisumbue limefutwa</string>
     <string name="dev_unlocked_toast">Hali ya msanidi programu imewashwa</string>
 
     <!-- ============================================================
@@ -596,7 +606,7 @@
     <string name="adhan_cancelled_named_toast">Adhana ya %1$s imeghairiwa</string>
     <string name="upcoming_reminder_title">Kikumbusho kinachokuja</string>
     <string name="reminder_cancelled_toast">Kikumbusho cha %1$s kimeghairiwa</string>
-    <string name="missed_during_silence_body">Ilipita wakati wa ukimya saa %1$s</string>
+    <string name="missed_during_silence_body">Ilipita wakati wa Usisumbue saa %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
@@ -626,6 +636,8 @@
     <string name="pre_reminder_channel_description">Ilani inayoonyeshwa muda mfupi kabla ya kikumbusho.</string>
     <string name="missed_channel_name">Kengele na vikumbusho vilivyokosekana</string>
     <string name="missed_channel_description">Ilani kimya kwa kengele za adhana na vikumbusho vilivyopita wakati sauti zilipokuwa zimenyamazishwa.</string>
+    <string name="dnd_active_channel_name">Usisumbue umewashwa</string>
+    <string name="dnd_active_channel_description">Ilani kimya inayoendelea inayoonyeshwa wakati Usisumbue wa \"Puuzilia &amp; nyamazisha simu\" umewashwa, ikikuwezesha kuuzima mapema.</string>
     <string name="ramadan_notice_channel_name">Ilani ya Ramadhani</string>
     <string name="ramadan_notice_channel_description">Kikumbusho cha kila mwaka kwamba kalenda iliyokokotolewa awali inaweza kuwa si sahihi kwa mwanzo na mwisho wa Ramadhani.</string>
     <string name="permission_revoked_channel_name">Ruhusa Imebatilishwa</string>

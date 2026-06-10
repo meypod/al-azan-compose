@@ -32,6 +32,9 @@ object AdhanContract {
     /** Posted when "silence after dismiss" couldn't run because DND access was revoked. */
     const val DND_REVOKED_NOTIFICATION_ID = "adhan_dnd_revoked_notification"
 
+    /** Ongoing notice shown while a "Dismiss & silent" Do Not Disturb window is active; its action/dismissal ends it. */
+    const val DND_ACTIVE_NOTIFICATION_ID = "adhan_dnd_active_notification"
+
     /** Extras carried by the alarm broadcast / playback intents. */
     const val EXTRA_PLAY_SOUND = "adhan_play_sound"
     const val EXTRA_TIMESTAMP = "adhan_timestamp"
