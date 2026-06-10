@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Prayer-times widget colors, dark variant. notif_* stay light because the notification
-         widget always renders on the system notification surface (handled by DecoratedCustomViewStyle). -->
+    <!-- Prayer-times widget colors, dark variant. notif_* also need dark-mode variants: the
+         notification shade follows the system theme and turns dark on Android 10+ (API 29), where
+         RemoteViews resolve this values-night qualifier against SystemUI's config. Near-black notif
+         text was unreadable there. (API 31+ adaptive layouts handle this via system attrs instead.) -->
     <color name="bg_compat">#DE474747</color>
     <color name="active_prayer">#fde047</color>
     <color name="secondary_text_color">#ffffffff</color>
+    <color name="notif_active_prayer">#fde047</color>
+    <color name="notif_secondary_text_color">#ffffffff</color>
 </resources>
