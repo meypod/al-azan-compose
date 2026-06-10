@@ -576,6 +576,7 @@
     <string name="developer_title">Développeur</string>
     <string name="dev_run">Exécuter</string>
     <string name="dev_fire_adhan_now">Jouer l\'Adhan maintenant</string>
+    <string name="dev_fire_reminder_now">Jouer le rappel maintenant</string>
     <string name="dev_schedule_adhan_sound">Programmer l\'Adhan dans 10 s (son + notification)</string>
     <string name="dev_schedule_adhan_notify">Programmer un Adhan notification seule dans 10 s</string>
     <string name="dev_post_upcoming">Publier la notification d\'Adhan à venir</string>

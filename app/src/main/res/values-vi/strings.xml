@@ -576,6 +576,7 @@
     <string name="developer_title">Nhà phát triển</string>
     <string name="dev_run">Chạy</string>
     <string name="dev_fire_adhan_now">Phát Azan ngay</string>
+    <string name="dev_fire_reminder_now">Phát lời nhắc ngay</string>
     <string name="dev_schedule_adhan_sound">Lên lịch Azan sau 10 giây (âm thanh + thông báo)</string>
     <string name="dev_schedule_adhan_notify">Lên lịch Azan chỉ thông báo sau 10 giây</string>
     <string name="dev_post_upcoming">Đăng thông báo Azan sắp tới</string>

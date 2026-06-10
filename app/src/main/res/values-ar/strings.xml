@@ -596,6 +596,7 @@
     <string name="developer_title">المطوّر</string>
     <string name="dev_run">تشغيل</string>
     <string name="dev_fire_adhan_now">تشغيل الأذان الآن</string>
+    <string name="dev_fire_reminder_now">تشغيل التذكير الآن</string>
     <string name="dev_schedule_adhan_sound">جدولة أذان خلال 10 ثوانٍ (صوت + إشعار)</string>
     <string name="dev_schedule_adhan_notify">جدولة أذان بإشعار فقط خلال 10 ثوانٍ</string>
     <string name="dev_post_upcoming">نشر إشعار الأذان القادم</string>

@@ -576,6 +576,7 @@
     <string name="developer_title">Pengembang</string>
     <string name="dev_run">Jalankan</string>
     <string name="dev_fire_adhan_now">Putar adzan sekarang</string>
+    <string name="dev_fire_reminder_now">Putar pengingat sekarang</string>
     <string name="dev_schedule_adhan_sound">Jadwalkan adzan dalam 10d (suara + notifikasi)</string>
     <string name="dev_schedule_adhan_notify">Jadwalkan adzan notifikasi saja dalam 10d</string>
     <string name="dev_post_upcoming">Tampilkan notifikasi adzan yang akan datang</string>

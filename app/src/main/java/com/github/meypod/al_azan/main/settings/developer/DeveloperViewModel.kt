@@ -10,6 +10,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.util.device.VibrationController
+import com.github.meypod.al_azan.reminder.ReminderFiringHandler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,6 +22,7 @@ class DeveloperViewModel
 @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val adhanFiringHandler: AdhanFiringHandler,
+    private val reminderFiringHandler: ReminderFiringHandler,
     private val widgetUpdater: WidgetUpdater,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
@@ -32,6 +34,7 @@ class DeveloperViewModel
     fun onAction(action: DeveloperUiAction) {
         when (action) {
             DeveloperUiAction.OnFireAdhanNow -> onFireAdhanNow()
+            DeveloperUiAction.OnFireReminderNow -> onFireReminderNow()
             DeveloperUiAction.OnScheduleAdhanWithSound -> onScheduleAdhanWithSound()
             DeveloperUiAction.OnScheduleAdhanNotifyOnly -> onScheduleAdhanNotifyOnly()
             DeveloperUiAction.OnPostUpcoming -> onPostUpcoming()
@@ -46,6 +49,10 @@ class DeveloperViewModel
 
     private fun onFireAdhanNow() {
         viewModelScope.launch { adhanFiringHandler.devFireNow() }
+    }
+
+    private fun onFireReminderNow() {
+        viewModelScope.launch { reminderFiringHandler.devFireNow() }
     }
 
     private fun onScheduleAdhanWithSound() = scheduleAdhan(playSound = true)
