@@ -31,6 +31,8 @@ data class WidgetData(
     val adaptiveTheme: Boolean,
     val showCountdown: Boolean,
     val showNotification: Boolean,
+    /** When true, the widget rows/header render left-to-right instead of the default right-to-left. */
+    val swapLayoutDirection: Boolean,
     /** Wall-clock millis at which the widget should be redrawn next (next prayer / day rollover). */
     val nextUpdateAtMillis: Long?,
 )

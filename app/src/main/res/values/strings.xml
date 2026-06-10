@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">You can choose to replace one of calendars with your current location.</string>
     <string name="widget_city_name_pos_placeholder">Choose which calendar to replace</string>
     <string name="widget_max_shown_prayers_warning">Only six items can be shown at the same time</string>
+    <string name="widget_swap_layout_direction">Swap layout direction</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

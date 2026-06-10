@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Unaweza kuchagua kubadilisha moja ya kalenda na eneo lako la sasa.</string>
     <string name="widget_city_name_pos_placeholder">Chagua ni kalenda ipi ya kubadilisha</string>
     <string name="widget_max_shown_prayers_warning">Sehemu sita zinaweza kuonyeshwa kwa wakati mmoja</string>
+    <string name="widget_swap_layout_direction">Badilisha mwelekeo wa mpangilio</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

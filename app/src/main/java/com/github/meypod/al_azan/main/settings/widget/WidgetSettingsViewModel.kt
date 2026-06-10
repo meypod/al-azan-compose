@@ -43,6 +43,7 @@ class WidgetSettingsViewModel @Inject constructor(
             is WidgetSettingsUiAction.OnShowCountdownToggle -> onShowCountdownToggle(action)
             is WidgetSettingsUiAction.OnAdaptiveThemeToggle -> onAdaptiveThemeToggle(action)
             is WidgetSettingsUiAction.OnCityNamePosChange -> onCityNamePosChange(action)
+            is WidgetSettingsUiAction.OnSwapLayoutDirectionToggle -> onSwapLayoutDirectionToggle(action)
             is WidgetSettingsUiAction.OnPrayerVisibilityChange -> onPrayerVisibilityChange(action)
         }
     }
@@ -61,6 +62,10 @@ class WidgetSettingsViewModel @Inject constructor(
 
     private fun onCityNamePosChange(action: WidgetSettingsUiAction.OnCityNamePosChange) {
         update { it.copy(widgetCityNamePos = action.value) }
+    }
+
+    private fun onSwapLayoutDirectionToggle(action: WidgetSettingsUiAction.OnSwapLayoutDirectionToggle) {
+        update { it.copy(swapWidgetLayoutDirection = action.value) }
     }
 
     private fun onPrayerVisibilityChange(action: WidgetSettingsUiAction.OnPrayerVisibilityChange) {

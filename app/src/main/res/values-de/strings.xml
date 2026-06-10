@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Sie können wählen, ob Sie einen der Kalender durch Ihren aktuellen Standort ersetzen möchten.</string>
     <string name="widget_city_name_pos_placeholder">Wählen Sie den zu ersetzenden Kalender</string>
     <string name="widget_max_shown_prayers_warning">Es können nur sechs Elemente gleichzeitig angezeigt werden</string>
+    <string name="widget_swap_layout_direction">Layoutrichtung tauschen</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

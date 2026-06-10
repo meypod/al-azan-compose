@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">يمكنك استبدال أحد التقاويم بموقعك الحالي.</string>
     <string name="widget_city_name_pos_placeholder">اختر التقويم الذي تريد استبداله</string>
     <string name="widget_max_shown_prayers_warning">يمكن عرض ستة عناصر فقط في نفس الوقت</string>
+    <string name="widget_swap_layout_direction">تبديل اتجاه التخطيط</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
