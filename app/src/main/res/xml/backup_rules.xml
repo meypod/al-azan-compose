@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Sample backup rules file; uncomment and customize as necessary.
-   See https://developer.android.com/guide/topics/data/autobackup
-   for details.
-   Note: This file is ignored for devices older than API 31
-   See https://developer.android.com/about/versions/12/backup-restore
+   Auto Backup rules for API 30 and lower (cloud backup only on these versions).
+   https://developer.android.com/guide/topics/data/autobackup
+
+   No <include> means "back up everything by default". We keep the whole files/mmkv
+   folder (the single MMKV store all settings/reminders/locations/counters live in)
+   so its data file and its .crc companion are restored together and stay consistent.
+
+   We only exclude files/audio: user-imported adhan/reminder sounds can be many MB and
+   would push the backup past the 25 MB cloud quota, silently failing the whole backup.
+   Settings that reference a missing custom sound fall back to the default (isResolvable),
+   so dropping them never crashes a restore.
 -->
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <exclude domain="file" path="audio" />
 </full-backup-content>
