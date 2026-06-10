@@ -81,7 +81,13 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                 },
             )
             .then(
-                if (classic) Modifier else Modifier.padding(dimensionResource(R.dimen.element_padding)),
+                if (classic) {
+                    Modifier
+                } else {
+                    Modifier.padding(
+                        dimensionResource(R.dimen.element_padding_compact),
+                    )
+                },
             ),
     ) {
         Row(
