@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,22 +25,27 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
-import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
@@ -50,6 +56,7 @@ import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSt
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.localized
+import com.github.meypod.al_azan.core.presentation.mapper.reminderDurationTitle
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.reminder.components.ReminderEditSheet
 
@@ -157,38 +164,57 @@ fun ReminderScreen(
                 }
             }
         },
+        verticalArrangement = Arrangement.Top,
     ) {
-        if (uiState.reminders.isEmpty()) {
-            EmptyState(onAction)
-        } else {
+        if (!uiState.reminders.isEmpty()) {
             AnimatedVisibility(visible = uiState.selectionMode) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Checkbox(
-                        checked = uiState.allSelected(),
-                        onCheckedChange = { onAction(ReminderUiAction.OnSelectAllToggle) },
-                    )
-                    Column {
-                        Text(stringResource(R.string.reminder_selected_count, uiState.selectedIds.size))
-                        Text(stringResource(R.string.select_all), style = MaterialTheme.typography.bodySmall)
+                Column {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .clip(MaterialTheme.shapes.medium)
+                            .toggleable(
+                                value = uiState.allSelected(),
+                                role = Role.Checkbox,
+                                onValueChange = { onAction(ReminderUiAction.OnSelectAllToggle) },
+                            )
+                            .padding(vertical = dimensionResource(R.dimen.card_padding_v)),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        // Non-interactive Checkbox (row handles toggling) skips M3's 48dp minimum
+                        // box; restore it so the glyph and texts line up with ReminderRow's checkbox.
+                        Checkbox(
+                            checked = uiState.allSelected(),
+                            onCheckedChange = null,
+                            modifier = Modifier.minimumInteractiveComponentSize(),
+                        )
+                        Column {
+                            Text(stringResource(R.string.reminder_selected_count, uiState.selectedIds.size))
+                            Text(stringResource(R.string.select_all), style = MaterialTheme.typography.bodySmall)
+                        }
                     }
+                    Spacer(Modifier.height(dimensionResource((R.dimen.element_padding))))
                 }
             }
-            uiState.reminders.forEach { r ->
-                ReminderRow(
-                    reminder = r,
-                    isSelected = r.id in uiState.selectedIds,
-                    selectionMode = uiState.selectionMode,
-                    onAction = onAction,
-                    onEnabledChange = { enabled ->
-                        onAction(ReminderUiAction.OnToggleEnabled(r.id, enabled))
-                        guardEnable(enabled) { onAction(ReminderUiAction.OnSetEnabled(setOf(r.id), false)) }
-                    },
-                )
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+            if (uiState.reminders.isEmpty()) {
+                EmptyState(onAction)
+            } else {
+                uiState.reminders.forEach { r ->
+                    ReminderRow(
+                        reminder = r,
+                        isSelected = r.id in uiState.selectedIds,
+                        selectionMode = uiState.selectionMode,
+                        onAction = onAction,
+                        onEnabledChange = { enabled ->
+                            onAction(ReminderUiAction.OnToggleEnabled(r.id, enabled))
+                            guardEnable(enabled) { onAction(ReminderUiAction.OnSetEnabled(setOf(r.id), false)) }
+                        },
+                    )
+                }
+                Spacer(Modifier.height(62.dp))
             }
-            Spacer(Modifier.height(62.dp))
         }
     }
 
@@ -269,6 +295,12 @@ private fun ReminderRow(
 ) {
     val bg = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f) else Color.Transparent
     val layoutDirection = LocalLayoutDirection.current
+    val title = reminderDurationTitle(
+        LocalResources.current,
+        reminder.duration,
+        reminder.durationModifier,
+        reminder.prayer,
+    )
     ACard(
         shadowElevation = if (reminder.enabled) 2.dp else 0.dp,
         tonalElevation = if (reminder.enabled) 2.dp else 0.dp,
@@ -278,6 +310,8 @@ private fun ReminderRow(
                 .fillMaxWidth()
                 .background(bg)
                 .combinedClickable(
+                    role = Role.Button,
+                    onClickLabel = stringResource(R.string.reminder_edit),
                     onClick = { onAction(ReminderUiAction.OnItemClick(reminder.id)) },
                     onLongClick = { onAction(ReminderUiAction.OnItemLongPress(reminder.id)) },
                 )
@@ -298,25 +332,13 @@ private fun ReminderRow(
                 Checkbox(
                     checked = isSelected,
                     onCheckedChange = { onAction(ReminderUiAction.OnSelectionToggle(reminder.id)) },
+                    modifier = Modifier.semantics {
+                        contentDescription = reminder.label.ifEmpty { title }
+                    },
                 )
             }
             Column(Modifier.weight(1f)) {
-                val prefix =
-                    if (reminder.durationModifier >=
-                        0
-                    ) {
-                        stringResource(R.string.reminder_after)
-                    } else {
-                        stringResource(R.string.reminder_before)
-                    }
-                val durationLabel = if (reminder.duration >= 60 && reminder.duration % 60 == 0) {
-                    val hours = reminder.duration / 60
-                    pluralStringResource(R.plurals.time_unit_hours, hours, hours)
-                } else {
-                    val mins = reminder.duration
-                    pluralStringResource(R.plurals.time_unit_minutes, mins, mins)
-                }
-                Text("$durationLabel $prefix ${reminder.prayer.i18n()}")
+                Text(title)
                 Text(
                     reminder.label.ifEmpty { "—" },
                     style = MaterialTheme.typography.bodyMedium,
@@ -336,6 +358,9 @@ private fun ReminderRow(
             Switch(
                 checked = reminder.enabled,
                 onCheckedChange = onEnabledChange,
+                modifier = Modifier.semantics {
+                    contentDescription = reminder.label.ifEmpty { title }
+                },
             )
         }
     }
@@ -394,6 +419,32 @@ private fun ReminderRowSelectionSelectedPreview() {
             reminder = sampleReminder,
             isSelected = true,
             selectionMode = true,
+            onAction = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ReminderScreenSelectionModePreview() {
+    AlAzanThemePreview {
+        ReminderScreen(
+            uiState = ReminderUiState(
+                reminders = listOf(
+                    sampleReminder,
+                    Reminder(
+                        id = "2",
+                        label = "Quran",
+                        enabled = false,
+                        prayer = Prayer.Dhuhr,
+                        duration = 30,
+                        durationModifier = 1,
+                        once = false,
+                    ),
+                ),
+                selectionMode = true,
+                selectedIds = setOf("1"),
+            ),
             onAction = {},
         )
     }

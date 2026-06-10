@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -93,8 +92,11 @@ private fun CityGeoInfo.displayName() = selectedName ?: name
  * label — i.e. it's blank or still matches the previously selected city's name. Pass null
  * [newCity] when the city is being cleared, which empties an auto-filled label.
  */
-private fun syncedLabel(current: String, oldCity: CityGeoInfo?, newCity: CityGeoInfo?): String =
-    if (current.isBlank() || current == oldCity?.displayName()) newCity?.displayName().orEmpty() else current
+private fun syncedLabel(
+    current: String,
+    oldCity: CityGeoInfo?,
+    newCity: CityGeoInfo?,
+): String = if (current.isBlank() || current == oldCity?.displayName()) newCity?.displayName().orEmpty() else current
 
 @Composable
 private fun NewLocationDialogContent(
@@ -175,7 +177,7 @@ private fun NewLocationDialogContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = dimensionResource(R.dimen.tiny_padding))
-                    .height(40.dp),
+                    .heightIn(min = 40.dp),
                 value = uiState.label,
                 onValueChange = { uiState = uiState.copy(label = it) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -313,7 +315,7 @@ private fun NewLocationDialogContent(
                 ) {
                     val coordinateFieldModifier = Modifier
                         .weight(1f)
-                        .height(40.dp)
+                        .heightIn(min = 40.dp)
 
                     CompactOutlinedTextField(
                         modifier = coordinateFieldModifier,

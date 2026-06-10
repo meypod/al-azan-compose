@@ -149,8 +149,6 @@ fun HomeHeader(
                     ),
                     color = headerContentColor,
                     style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    softWrap = false,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                 )

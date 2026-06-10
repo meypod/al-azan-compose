@@ -28,6 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -177,7 +180,8 @@ private fun HeaderRow() {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .semantics(mergeDescendants = true) { heading() },
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         listOf(R.string.date_column, R.string.fajr, R.string.dhuhr, R.string.asr, R.string.maghrib, R.string.isha).forEach {
@@ -210,6 +214,16 @@ private fun DayRow(
 ) {
     val accent = todayAccentColor(themeColor)
     val classicLightToday = row.isToday && themeColor == ThemeColor.ClassicLight
+    // One merged node per day: TalkBack reads each time with its prayer name, plus "Today".
+    val rowDescription = listOf(
+        stringResource(R.string.date_column) to row.day,
+        stringResource(R.string.fajr) to row.fajr,
+        stringResource(R.string.dhuhr) to row.dhuhr,
+        stringResource(R.string.asr) to row.asr,
+        stringResource(R.string.maghrib) to row.maghrib,
+        stringResource(R.string.isha) to row.isha,
+    ).joinToString(", ") { (name, value) -> "$name $value" }
+        .let { if (row.isToday) "${stringResource(R.string.today)}, $it" else it }
     Row(
         Modifier
             .fillMaxWidth()
@@ -222,7 +236,8 @@ private fun DayRow(
                     Modifier
                 },
             )
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .semantics(mergeDescendants = true) { contentDescription = rowDescription },
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         listOf(row.day, row.fajr, row.dhuhr, row.asr, row.maghrib, row.isha).forEach {

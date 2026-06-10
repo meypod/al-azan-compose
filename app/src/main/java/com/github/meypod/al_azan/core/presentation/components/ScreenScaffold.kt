@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
@@ -64,7 +66,7 @@ fun ScreenScaffold(
                         titleIcon?.let {
                             Icon(painterResource(it), contentDescription = null)
                         }
-                        Text(title)
+                        Text(title, modifier = Modifier.semantics { heading() })
                     }
                 },
             )

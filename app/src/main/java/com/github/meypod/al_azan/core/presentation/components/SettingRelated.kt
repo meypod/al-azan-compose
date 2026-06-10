@@ -21,6 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -71,7 +74,7 @@ fun SettingHeader(
     subtitle: String,
 ) {
     Column {
-        SettingLabel(title)
+        SettingLabel(title, modifier = Modifier.semantics { heading() })
         SettingHelp(subtitle)
     }
 }
@@ -82,7 +85,7 @@ fun SettingHeader(
     subtitle: AnnotatedString,
 ) {
     Column {
-        SettingLabel(title)
+        SettingLabel(title, modifier = Modifier.semantics { heading() })
         SettingHelp(subtitle)
     }
 }
@@ -118,7 +121,13 @@ fun SettingSwitch(
             }
         }
         Spacer(Modifier.padding(start = dimensionResource(R.dimen.element_padding)))
-        Switch(checked, onCheckedChange, enabled = enabled)
+        Switch(
+            checked,
+            onCheckedChange,
+            enabled = enabled,
+            // Lone Switch announces only on/off; give TalkBack the setting's name.
+            modifier = Modifier.semantics { contentDescription = title },
+        )
     }
 }
 
