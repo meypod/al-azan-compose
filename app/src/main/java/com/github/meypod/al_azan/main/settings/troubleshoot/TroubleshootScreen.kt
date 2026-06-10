@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -36,6 +37,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
+import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingLinkButton
@@ -111,6 +113,12 @@ fun TroubleshootScreen(
             }
             PowerManagerCard(samsungHintRes = samsungHintRes) {
                 onAction(TroubleshootUiAction.OnOpenPowerManagerSettingsClick(activity))
+            }
+        }
+
+        if (uiState.autostartAvailable) {
+            AutostartCard {
+                onAction(TroubleshootUiAction.OnOpenAutostartSettingsClick(activity))
             }
         }
 
@@ -211,6 +219,42 @@ private fun DndStatusBadge(granted: Boolean) {
 }
 
 @Composable
+fun AutostartCard(onButtonClick: () -> Unit) {
+    ACard { cardPadding ->
+        Column(
+            Modifier
+                .padding(cardPadding)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            SettingLabel(stringResource(R.string.autostart_card_title))
+            Text(stringResource(R.string.autostart_card_body), style = MaterialTheme.typography.bodyMedium)
+
+            ACard(tonalElevation = 2.dp) { innerCardPadding ->
+                InformationRow(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(innerCardPadding),
+                    iconDescription = null,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        stringResource(R.string.autostart_card_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                PrimaryButton(onButtonClick) {
+                    Text(stringResource(R.string.open_autostart_settings))
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun PowerManagerCard(
     @StringRes samsungHintRes: Int? = null,
     onButtonClick: () -> Unit,
@@ -261,6 +305,15 @@ private fun BatterSaverCTAPreview() {
                 BatterSaverCTA(false) {}
             }
         }
+    }
+}
+
+@Preview(name = "Autostart")
+@Preview(name = "Autostart (fa)", locale = "fa")
+@Composable
+private fun AutostartCardPreview() {
+    AlAzanTheme {
+        AutostartCard {}
     }
 }
 
