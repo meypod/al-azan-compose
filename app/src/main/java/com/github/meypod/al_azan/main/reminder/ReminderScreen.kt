@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
@@ -118,6 +119,7 @@ fun ReminderScreen(
                 Column(
                     Modifier
                         .fillMaxWidth()
+                        .navigationBarsPadding()
                         .padding(dimensionResource(R.dimen.page_padding)),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                 ) {
