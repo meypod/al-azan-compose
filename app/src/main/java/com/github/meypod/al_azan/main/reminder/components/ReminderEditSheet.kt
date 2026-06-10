@@ -36,6 +36,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
@@ -206,12 +208,13 @@ fun ReminderEditSheet(
             }
             Column {
                 var showOnlyOnceHelp by remember { mutableStateOf(false) }
+                val onlyOnceLabel = stringResource(R.string.reminder_only_once)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
                 ) {
-                    Text(stringResource(R.string.reminder_only_once))
+                    Text(onlyOnceLabel)
                     Icon(
                         painterResource(R.drawable.info_variant_outline),
                         contentDescription = stringResource(R.string.reminder_only_once_help),
@@ -224,6 +227,9 @@ fun ReminderEditSheet(
                     Switch(
                         checked = draft.only,
                         onCheckedChange = { onAction(ReminderUiAction.OnDraftOnlyOnceToggle(it)) },
+                        modifier = Modifier.semantics {
+                            contentDescription = onlyOnceLabel
+                        },
                     )
                 }
                 HorizontalDivider()

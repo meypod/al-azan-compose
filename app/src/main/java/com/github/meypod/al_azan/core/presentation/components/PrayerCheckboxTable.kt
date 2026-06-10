@@ -1,7 +1,6 @@
 package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -60,7 +60,11 @@ fun PrayerCheckboxTable(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .clickable(role = Role.Checkbox) { onToggle(prayer, !checked) }
+                    .toggleable(
+                        value = checked,
+                        role = Role.Checkbox,
+                        onValueChange = { onToggle(prayer, it) },
+                    )
                     .padding(
                         vertical = dimensionResource(R.dimen.element_padding),
                         horizontal = dimensionResource(R.dimen.element_padding),

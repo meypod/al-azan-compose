@@ -1,11 +1,11 @@
 package com.github.meypod.al_azan.main.settings.adhan.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.triStateToggleable
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,8 +20,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -88,8 +86,7 @@ fun AdhanToggleChip(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
         modifier = modifier
             .clip(MaterialTheme.shapes.small)
-            .clickable(role = Role.Checkbox, onClick = onClick)
-            .semantics(mergeDescendants = true) { role = Role.Checkbox }
+            .triStateToggleable(state = state, role = Role.Checkbox, onClick = onClick)
             .padding(dimensionResource(R.dimen.tiny_padding)),
     ) {
         Text(label, style = MaterialTheme.typography.bodySmall)
