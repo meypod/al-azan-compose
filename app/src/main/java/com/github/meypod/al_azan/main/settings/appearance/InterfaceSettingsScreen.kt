@@ -37,6 +37,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.SupportedLocales
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
+import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.DarkSurface
 import com.github.meypod.al_azan.core.presentation.LightSecondaryContainer
@@ -218,11 +219,19 @@ private fun NumberingSystemCard(
                 options = NumberingSystem.entries,
                 optionKey = { it.name },
                 optionLabel = {
-                    when (it) {
-                        NumberingSystem.Default -> resources.getString(R.string.default_value)
-                        NumberingSystem.Latn -> resources.getString(R.string.numbering_system_latn)
-                        NumberingSystem.Arab -> resources.getString(R.string.numbering_system_arab)
-                        NumberingSystem.Arabext -> resources.getString(R.string.numbering_system_arabext)
+                    val label =
+                        when (it) {
+                            NumberingSystem.Default -> resources.getString(R.string.default_value)
+                            NumberingSystem.Latn -> resources.getString(R.string.numbering_system_latn)
+                            NumberingSystem.Arab -> resources.getString(R.string.numbering_system_arab)
+                            NumberingSystem.Arabext -> resources.getString(R.string.numbering_system_arabext)
+                        }
+                    // 4,5,6 are the only digits that differ between Eastern Arabic and Persian,
+                    // so the preview must show them to be useful.
+                    if (it == NumberingSystem.Default) {
+                        label
+                    } else {
+                        "$label (${formatWithUnicodeDigits("456", it)})"
                     }
                 },
                 selectedKey = uiState.settings.numberingSystem.name,
