@@ -38,6 +38,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -196,7 +197,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
                             modifier = Modifier
                                 .clip(MaterialTheme.shapes.small)
-                                .clickable { onAction(HomeUiAction.OnMonthlyViewClick) }
+                                .clickable(role = Role.Button) { onAction(HomeUiAction.OnMonthlyViewClick) }
                                 .padding(6.dp),
                         ) {
                             Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)

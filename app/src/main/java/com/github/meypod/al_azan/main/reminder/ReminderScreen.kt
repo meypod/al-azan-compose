@@ -99,7 +99,9 @@ fun ReminderScreen(
                     painterResource(
                         if (uiState.selectionMode) R.drawable.baseline_close_24 else R.drawable.arrow_back,
                     ),
-                    null,
+                    contentDescription = stringResource(
+                        if (uiState.selectionMode) R.string.close else R.string.back_button,
+                    ),
                 )
             }
         },

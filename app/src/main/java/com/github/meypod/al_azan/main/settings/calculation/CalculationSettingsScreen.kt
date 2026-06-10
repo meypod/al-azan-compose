@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -97,7 +98,7 @@ fun CalculationSettingsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .unifiedBorder()
-                        .clickable(enabled = uiState.calculationParameters != null) { editingParams = true }
+                        .clickable(enabled = uiState.calculationParameters != null, role = Role.Button) { editingParams = true }
                         .padding(dimensionResource(R.dimen.element_padding)),
                 ) {
                     ParamAdjustBox(
