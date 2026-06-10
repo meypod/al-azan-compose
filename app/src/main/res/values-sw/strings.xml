@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Ufikiaji wa Usisumbue unahitajika kwa hili. Iruhusu kwa programu hii katika mipangilio.</string>
     <string name="home_notification_permission_rationale">Arifa zilizimwa. Ziruhusu tena ili kengele za adhana ziweze kukufikia.</string>
     <string name="home_exact_alarm_permission_rationale">Ufikiaji wa kengele kamili ulizimwa. Uruhusu tena ili kengele zako za swala ziendelee kulia kwa wakati.</string>
+    <string name="battery_optimization_permission_title">Weka kengele za kuaminika</string>
+    <string name="battery_optimization_permission_rationale">Ili kuwasilisha kengele zako kwa uhakika, ruhusu programu hii iendelee kufanya kazi chinichini. Bila hili, mfumo unaweza kuizima ili kuokoa betri, na kengele zikachelewa au kukosekana.</string>
+    <string name="battery_optimization_permission_denied_text">Uboreshaji wa betri bado umewashwa, hivyo kengele zinaweza kuchelewa au kukosekana. Unaweza kuruhusu hili baadaye katika mipangilio.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.PowerManager
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -52,6 +53,12 @@ enum class SchedulingPermission {
 
     /** Do Not Disturb policy access, granted via a special-access settings screen. */
     DndAccess,
+
+    /**
+     * Battery optimization exemption ("keep running in the background"), granted via a system dialog.
+     * Optional — improves delivery reliability for background alarms; never blocks.
+     */
+    BatteryOptimization,
 }
 
 /** One permission to request, with the rationale/denied copy that fits the calling feature. */
@@ -89,7 +96,10 @@ data class PermissionResults(
  * offer/honor "don't ask again" even in the normal enable flow — unlike required permissions, which keep
  * asking until granted.
  */
-fun SchedulingPermission.isOptional(): Boolean = this == SchedulingPermission.PhoneState || this == SchedulingPermission.FullScreenIntent
+fun SchedulingPermission.isOptional(): Boolean =
+    this == SchedulingPermission.PhoneState ||
+        this == SchedulingPermission.FullScreenIntent ||
+        this == SchedulingPermission.BatteryOptimization
 
 /** Reads the persisted "don't ask again" flag for a permission off [Settings]. */
 fun Settings.isDontAskAgain(permission: SchedulingPermission): Boolean =
@@ -99,6 +109,7 @@ fun Settings.isDontAskAgain(permission: SchedulingPermission): Boolean =
         SchedulingPermission.ExactAlarm -> dontAskPermissionAlarm
         SchedulingPermission.FullScreenIntent -> dontAskPermissionFullScreenIntent
         SchedulingPermission.DndAccess -> dontAskPermissionDndAccess
+        SchedulingPermission.BatteryOptimization -> dontAskPermissionBatteryOptimization
     }
 
 /** Sets the persisted "don't ask again" flag for a permission. */
@@ -109,6 +120,7 @@ fun Settings.withDontAskAgain(permission: SchedulingPermission): Settings =
         SchedulingPermission.ExactAlarm -> copy(dontAskPermissionAlarm = true)
         SchedulingPermission.FullScreenIntent -> copy(dontAskPermissionFullScreenIntent = true)
         SchedulingPermission.DndAccess -> copy(dontAskPermissionDndAccess = true)
+        SchedulingPermission.BatteryOptimization -> copy(dontAskPermissionBatteryOptimization = true)
     }
 
 /** Standard step lists. PhoneState (optional, call interruption) is requested for both adhan and reminders. */
@@ -291,6 +303,12 @@ fun rememberSchedulingPermissionRequest(
             resolveSettingsStep(step, { fullScreenIntentGranted(context) }) { openFullScreenIntentSettings(context) }
         }
 
+    val batteryOptimizationLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
+            resolveSettingsStep(step, { batteryOptimizationGranted(context) }) { openBatteryOptimizationSettings(context) }
+        }
+
     fun ask(step: PermissionStep) {
         when (step.permission) {
             SchedulingPermission.Notification -> notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -331,6 +349,15 @@ fun rememberSchedulingPermissionRequest(
                     }
                 } else {
                     finishStep(step, granted = true, asked = true) // < API 34: always allowed
+                }
+            }
+
+            SchedulingPermission.BatteryOptimization -> {
+                try {
+                    batteryOptimizationLauncher.launch(batteryOptimizationIntent(context))
+                } catch (_: ActivityNotFoundException) {
+                    Toast.makeText(context, R.string.open_settings_failed, Toast.LENGTH_LONG).show()
+                    finishStep(step, granted = false, asked = true)
                 }
             }
         }
@@ -411,7 +438,14 @@ private fun isGranted(
         SchedulingPermission.FullScreenIntent -> fullScreenIntentGranted(context)
 
         SchedulingPermission.DndAccess -> dndAccessGranted(context)
+
+        SchedulingPermission.BatteryOptimization -> batteryOptimizationGranted(context)
     }
+
+private fun batteryOptimizationGranted(context: Context): Boolean {
+    val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+    return pm.isIgnoringBatteryOptimizations(context.packageName)
+}
 
 private fun dndAccessGranted(context: Context): Boolean {
     val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -442,6 +476,7 @@ private fun titleResFor(permission: SchedulingPermission): Int =
         SchedulingPermission.ExactAlarm -> R.string.exact_alarm_permission_title
         SchedulingPermission.FullScreenIntent -> R.string.full_screen_intent_permission_title
         SchedulingPermission.DndAccess -> R.string.dnd_permission_title
+        SchedulingPermission.BatteryOptimization -> R.string.battery_optimization_permission_title
     }
 
 @StringRes
@@ -484,6 +519,22 @@ private fun fullScreenIntentSettingsIntent(context: Context): Intent? {
 
 private fun openFullScreenIntentSettings(context: Context) {
     safeStart(context, fullScreenIntentSettingsIntent(context) ?: return)
+}
+
+@SuppressLint("BatteryLife") // App is a prayer-alarm app; exemption is a documented, allowed use case.
+private fun batteryOptimizationIntent(context: Context): Intent =
+    Intent(
+        AndroidSettings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+        "package:${context.packageName}".toUri(),
+    ).apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP }
+
+// Recovery path when the user returns without granting: the app-wide battery-optimization list screen.
+private fun openBatteryOptimizationSettings(context: Context) {
+    safeStart(
+        context,
+        Intent(AndroidSettings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+            .apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP },
+    )
 }
 
 private fun openDndSettings(context: Context) {

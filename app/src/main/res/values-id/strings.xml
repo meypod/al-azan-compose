@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Akses Jangan Ganggu diperlukan untuk ini. Izinkan untuk aplikasi ini di pengaturan.</string>
     <string name="home_notification_permission_rationale">Notifikasi dimatikan. Izinkan kembali agar alarm adzan dapat menjangkau Anda.</string>
     <string name="home_exact_alarm_permission_rationale">Akses alarm tepat dimatikan. Izinkan kembali agar alarm sholat Anda tetap berbunyi tepat waktu.</string>
+    <string name="battery_optimization_permission_title">Jaga keandalan alarm</string>
+    <string name="battery_optimization_permission_rationale">Agar alarm Anda terkirim dengan andal, izinkan aplikasi ini tetap berjalan di latar belakang. Tanpa ini, sistem dapat menghentikannya untuk menghemat baterai sehingga alarm tertunda atau terlewat.</string>
+    <string name="battery_optimization_permission_denied_text">Pengoptimalan baterai masih aktif, jadi alarm bisa tertunda atau terlewat. Anda dapat mengizinkannya nanti di pengaturan.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

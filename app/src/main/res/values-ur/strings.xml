@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">اس کے لیے ڈسٹرب نہ کریں تک رسائی ضروری ہے۔ ترتیبات میں اس ایپ کے لیے اس کی اجازت دیں۔</string>
     <string name="home_notification_permission_rationale">اطلاعات بند کر دی گئی تھیں۔ انہیں دوبارہ اجازت دیں تاکہ اذان کے الارم آپ تک پہنچ سکیں۔</string>
     <string name="home_exact_alarm_permission_rationale">بالکل درست الارم تک رسائی بند کر دی گئی تھی۔ اسے دوبارہ اجازت دیں تاکہ آپ کے نماز کے الارم وقت پر بجتے رہیں۔</string>
+    <string name="battery_optimization_permission_title">الارم قابلِ اعتماد رکھیں</string>
+    <string name="battery_optimization_permission_rationale">آپ کے الارم قابلِ اعتماد طریقے سے پہنچانے کے لیے، اس ایپ کو پس منظر میں چلتے رہنے کی اجازت دیں۔ اس کے بغیر، نظام بیٹری بچانے کے لیے اسے روک سکتا ہے اور الارم تاخیر سے بج سکتے ہیں یا چھوٹ سکتے ہیں۔</string>
+    <string name="battery_optimization_permission_denied_text">بیٹری آپٹیمائزیشن اب بھی آن ہے، اس لیے الارم تاخیر سے بج سکتے ہیں یا چھوٹ سکتے ہیں۔ آپ بعد میں ترتیبات میں اس کی اجازت دے سکتے ہیں۔</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

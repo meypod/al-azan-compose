@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Bunun için Rahatsız Etmeyin erişimi gereklidir. Ayarlardan bu uygulama için izin verin.</string>
     <string name="home_notification_permission_rationale">Bildirimler kapatıldı. Ezan alarmlarının size ulaşabilmesi için tekrar izin verin.</string>
     <string name="home_exact_alarm_permission_rationale">Tam zamanlı alarm erişimi kapatıldı. Namaz alarmlarınızın zamanında çalmaya devam etmesi için tekrar izin verin.</string>
+    <string name="battery_optimization_permission_title">Alarmları güvenilir tutun</string>
+    <string name="battery_optimization_permission_rationale">Alarmlarınızın güvenilir şekilde iletilmesi için bu uygulamanın arka planda çalışmaya devam etmesine izin verin. Aksi takdirde sistem, pil tasarrufu için uygulamayı durdurabilir ve alarmlar gecikebilir veya kaçırılabilir.</string>
+    <string name="battery_optimization_permission_denied_text">Pil optimizasyonu hâlâ açık, bu yüzden alarmlar gecikebilir veya kaçırılabilir. Buna daha sonra ayarlardan izin verebilirsiniz.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

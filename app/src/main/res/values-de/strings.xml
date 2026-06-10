@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Dafür ist der Zugriff auf „Bitte nicht stören“ erforderlich. Erlauben Sie ihn für diese App in den Einstellungen.</string>
     <string name="home_notification_permission_rationale">Benachrichtigungen wurden deaktiviert. Erlauben Sie sie erneut, damit Adhan-Alarme Sie erreichen können.</string>
     <string name="home_exact_alarm_permission_rationale">Der Zugriff auf exakte Alarme wurde deaktiviert. Erlauben Sie ihn erneut, damit Ihre Gebetsalarme weiterhin pünktlich ausgelöst werden.</string>
+    <string name="battery_optimization_permission_title">Alarme zuverlässig halten</string>
+    <string name="battery_optimization_permission_rationale">Damit Ihre Alarme zuverlässig zugestellt werden, erlauben Sie dieser App, im Hintergrund weiterzulaufen. Andernfalls kann das System sie zum Energiesparen beenden, wodurch Alarme verzögert werden oder ausbleiben.</string>
+    <string name="battery_optimization_permission_denied_text">Die Akkuoptimierung ist noch aktiv, daher können Alarme verzögert werden oder ausbleiben. Sie können dies später in den Einstellungen erlauben.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

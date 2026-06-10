@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">الوصول إلى وضع عدم الإزعاج مطلوب لهذا. اسمح به لهذا التطبيق من الإعدادات.</string>
     <string name="home_notification_permission_rationale">تم إيقاف الإشعارات. اسمح بها مجددًا حتى تصلك منبهات الأذان.</string>
     <string name="home_exact_alarm_permission_rationale">تم إيقاف الوصول إلى المنبهات الدقيقة. اسمح به مجددًا حتى تستمر منبهات الصلاة في الإطلاق في وقتها.</string>
+    <string name="battery_optimization_permission_title">حافظ على موثوقية المنبهات</string>
+    <string name="battery_optimization_permission_rationale">لتسليم منبهاتك بشكل موثوق، اسمح لهذا التطبيق بالاستمرار في العمل في الخلفية. بدون ذلك، قد يوقفه النظام لتوفير البطارية فتتأخر المنبهات أو تفوتك.</string>
+    <string name="battery_optimization_permission_denied_text">لا يزال تحسين البطارية مفعّلًا، لذا قد تتأخر المنبهات أو تفوتك. يمكنك السماح بذلك لاحقًا من الإعدادات.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

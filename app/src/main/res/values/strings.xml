@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Do Not Disturb access is required for this. Allow it for this app in settings.</string>
     <string name="home_notification_permission_rationale">Notifications were turned off. Allow them again so adhan alarms can reach you.</string>
     <string name="home_exact_alarm_permission_rationale">Exact alarm access was turned off. Allow it again so your prayer alarms keep firing on time.</string>
+    <string name="battery_optimization_permission_title">Keep alarms reliable</string>
+    <string name="battery_optimization_permission_rationale">To deliver your alarms reliably, allow this app to keep running in the background. Without this, the system may stop it to save battery and delay or miss alarms.</string>
+    <string name="battery_optimization_permission_denied_text">Battery optimization is still on, so alarms may be delayed or missed. You can allow this later in settings.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Pristup režimu Ne smetaj je potreban za ovo. Dozvolite ga za ovu aplikaciju u postavkama.</string>
     <string name="home_notification_permission_rationale">Obavijesti su bile isključene. Dozvolite ih ponovo kako bi vas ezan alarmi mogli dostići.</string>
     <string name="home_exact_alarm_permission_rationale">Pristup tačnim alarmima je bio isključen. Dozvolite ga ponovo kako bi se vaši alarmi molitve i dalje oglašavali na vrijeme.</string>
+    <string name="battery_optimization_permission_title">Održite pouzdanost alarma</string>
+    <string name="battery_optimization_permission_rationale">Da bi se vaši alarmi pouzdano isporučivali, dozvolite ovoj aplikaciji da nastavi raditi u pozadini. Bez toga, sistem je može zaustaviti radi uštede baterije, pa alarmi mogu kasniti ili izostati.</string>
+    <string name="battery_optimization_permission_denied_text">Optimizacija baterije je još uvijek uključena, pa alarmi mogu kasniti ili izostati. Ovo možete dozvoliti kasnije u postavkama.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

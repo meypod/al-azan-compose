@@ -99,6 +99,16 @@ fun HomePermissionGate(
                     ),
                 )
             }
+            // Any active alarm benefits from a battery-optimization exemption for reliable background delivery.
+            if (check.hasScheduledAlarms && !isSchedulingPermissionGranted(context, SchedulingPermission.BatteryOptimization)) {
+                add(
+                    PermissionStep(
+                        SchedulingPermission.BatteryOptimization,
+                        R.string.battery_optimization_permission_rationale,
+                        R.string.battery_optimization_permission_denied_text,
+                    ),
+                )
+            }
         }
         if (steps.isNotEmpty()) request(steps)
     }
