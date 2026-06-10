@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
@@ -78,6 +79,10 @@ fun HomeScreen(
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    BackHandler(enabled = drawerState.isOpen) {
+        scope.launch { drawerState.close() }
+    }
 
     ModalNavigationDrawer(
         modifier = modifier,
