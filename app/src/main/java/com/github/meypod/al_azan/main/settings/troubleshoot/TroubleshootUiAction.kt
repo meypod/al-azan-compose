@@ -12,6 +12,10 @@ sealed interface TroubleshootUiAction {
         val activity: Activity?,
     ) : TroubleshootUiAction
 
+    data class OnOpenAutostartSettingsClick(
+        val activity: Activity?,
+    ) : TroubleshootUiAction
+
     data class OnAdvancedSettingsClick(
         val route: Route,
     ) : TroubleshootUiAction
