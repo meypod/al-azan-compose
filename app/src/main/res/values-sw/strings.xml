@@ -576,6 +576,7 @@
     <string name="developer_title">Msanidi Programu</string>
     <string name="dev_run">Endesha</string>
     <string name="dev_fire_adhan_now">Cheza adhana sasa</string>
+    <string name="dev_fire_reminder_now">Cheza kikumbusho sasa</string>
     <string name="dev_schedule_adhan_sound">Panga adhana baada ya sekunde 10 (sauti + arifa)</string>
     <string name="dev_schedule_adhan_notify">Panga adhana ya arifa pekee baada ya sekunde 10</string>
     <string name="dev_post_upcoming">Chapisha arifa ya adhana inayokuja</string>

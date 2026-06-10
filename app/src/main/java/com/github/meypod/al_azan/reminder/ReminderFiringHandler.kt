@@ -15,8 +15,10 @@ import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificat
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -74,6 +76,36 @@ class ReminderFiringHandler @Inject constructor(
             PlaybackService.stop(context)
             dndSilenceController.silence(minutes)
         }
+    }
+
+    /**
+     * Play a reminder right now (sound + full-screen) as if one fired, for testing. Uses the default
+     * adhan sound (long audio) so the full-screen alarm exercises the intrusive playback path, and the
+     * global vibration mode, so it never depends on a stored reminder existing.
+     */
+    suspend fun devFireNow() {
+        val settings = settingsRepository.data.first()
+        val alarmSettings = alarmSettingsRepository.data.first()
+        val title = context.getString(R.string.reminder)
+        val timeLabel = settings.formatTime(Clock.System.now().toEpochMilliseconds())
+        val soundEntry = settings.selectedAdhanEntries[AdhanKey.Default]?.takeIf { it.isResolvable() }
+            ?: settings.savedAdhanAudioEntries.firstOrNull()
+        val soundUri = soundEntry?.toAudioUri(context) ?: return
+        playbackLauncher.launch(
+            PlaybackRequest.from(
+                settings = settings,
+                alarmSettings = alarmSettings,
+                title = title,
+                body = timeLabel,
+                timeLabel = timeLabel,
+                soundUri = soundUri,
+                channelId = reminderChannel(settings),
+                loop = soundEntry.loop,
+                vibration = alarmSettings.vibrationMode,
+                header = context.getString(R.string.reminder),
+                isReminder = true,
+            ),
+        )
     }
 
     suspend fun onReminderFired(

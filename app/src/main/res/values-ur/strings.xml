@@ -576,6 +576,7 @@
     <string name="developer_title">ڈیولپر</string>
     <string name="dev_run">چلائیں</string>
     <string name="dev_fire_adhan_now">ابھی اذان چلائیں</string>
+    <string name="dev_fire_reminder_now">ابھی یاد دہانی چلائیں</string>
     <string name="dev_schedule_adhan_sound">10 سیکنڈ میں اذان شیڈول کریں (آواز + اطلاع)</string>
     <string name="dev_schedule_adhan_notify">10 سیکنڈ میں صرف اطلاع والی اذان شیڈول کریں</string>
     <string name="dev_post_upcoming">آنے والی اذان کی اطلاع بھیجیں</string>

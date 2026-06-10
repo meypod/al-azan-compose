@@ -576,6 +576,7 @@
     <string name="developer_title">Geliştirici</string>
     <string name="dev_run">Çalıştır</string>
     <string name="dev_fire_adhan_now">Ezanı şimdi çal</string>
+    <string name="dev_fire_reminder_now">Hatırlatıcıyı şimdi çal</string>
     <string name="dev_schedule_adhan_sound">10sn içinde ezan zamanla (ses + bildirim)</string>
     <string name="dev_schedule_adhan_notify">10sn içinde yalnızca bildirimli ezan zamanla</string>
     <string name="dev_post_upcoming">Yaklaşan ezan bildirimi gönder</string>

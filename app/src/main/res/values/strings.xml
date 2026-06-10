@@ -578,6 +578,7 @@
     <string name="developer_title">Developer</string>
     <string name="dev_run">Run</string>
     <string name="dev_fire_adhan_now">Play adhan now</string>
+    <string name="dev_fire_reminder_now">Play reminder now</string>
     <string name="dev_schedule_adhan_sound">Schedule adhan in 10s (sound + notify)</string>
     <string name="dev_schedule_adhan_notify">Schedule notification-only adhan in 10s</string>
     <string name="dev_post_upcoming">Post upcoming adhan notification</string>
