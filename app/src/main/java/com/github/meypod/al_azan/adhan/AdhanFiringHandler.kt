@@ -88,6 +88,8 @@ class AdhanFiringHandler @Inject constructor(
     ) {
         // Mark delivered so the reschedule below targets the *next* prayer, not this one again.
         settingsRepository.markDelivered(AdhanContract.ADHAN_NOTIFICATION_ID, timestamp)
+        // The adhan has arrived: dismiss its "upcoming" pre-notification so it doesn't linger.
+        notificationRepository.cancelNotification(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
         val settings = settingsRepository.data.first()
         val alarmSettings = alarmSettingsRepository.data.first()
 
