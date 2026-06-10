@@ -66,7 +66,7 @@ fun DeveloperScreen(
     ) {
         DevCard {
             DevActionRow(R.string.dev_fire_adhan_now, R.string.dev_run) {
-                onAction(DeveloperUiAction.OnFireAdhanNow)
+                guardedSchedule(DeveloperUiAction.OnFireAdhanNow)
             }
             DevActionRow(R.string.dev_schedule_adhan_sound, R.string.dev_run) {
                 guardedSchedule(DeveloperUiAction.OnScheduleAdhanWithSound)
@@ -75,7 +75,7 @@ fun DeveloperScreen(
                 guardedSchedule(DeveloperUiAction.OnScheduleAdhanNotifyOnly)
             }
             DevActionRow(R.string.dev_post_upcoming, R.string.dev_run) {
-                onAction(DeveloperUiAction.OnPostUpcoming)
+                guardedSchedule(DeveloperUiAction.OnPostUpcoming)
             }
         }
         DevCard {
