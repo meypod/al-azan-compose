@@ -81,7 +81,7 @@ private val BG_GRADIENT_END = Color(0xFF006876)
 private val ACCENT_DARK = Color(0xFF00585A)
 private const val PATTERN_ALPHA = 0.05f
 private val DRAG_MENU_THRESHOLD_DP = 160.dp
-private val DRAG_MORPH_THRESHOLD_DP = 10.dp
+private val DRAG_MORPH_THRESHOLD_DP = 16.dp
 private const val MORPH_DURATION_MS = 260
 
 private enum class DismissAnchor { Rest, Menu }
