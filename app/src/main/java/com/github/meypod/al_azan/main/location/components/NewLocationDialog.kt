@@ -86,6 +86,16 @@ fun NewLocationDialog(
     }
 }
 
+private fun CityGeoInfo.displayName() = selectedName ?: name
+
+/**
+ * Auto-fills [current] with the new city's name, but only when the user hasn't typed their own
+ * label — i.e. it's blank or still matches the previously selected city's name. Pass null
+ * [newCity] when the city is being cleared, which empties an auto-filled label.
+ */
+private fun syncedLabel(current: String, oldCity: CityGeoInfo?, newCity: CityGeoInfo?): String =
+    if (current.isBlank() || current == oldCity?.displayName()) newCity?.displayName().orEmpty() else current
+
 @Composable
 private fun NewLocationDialogContent(
     onAction: (LocationUiAction) -> Unit,
@@ -122,6 +132,7 @@ private fun NewLocationDialogContent(
                 fetchingLocation = false,
                 selectedCountry = null,
                 selectedCity = null,
+                label = syncedLabel(uiState.label, uiState.selectedCity, null),
             )
         },
     )
@@ -196,6 +207,7 @@ private fun NewLocationDialogContent(
                             uiState = uiState.copy(
                                 selectedCountry = chosen,
                                 selectedCity = null,
+                                label = syncedLabel(uiState.label, uiState.selectedCity, null),
                             )
                         },
                         onTriggerClick = {
@@ -229,8 +241,12 @@ private fun NewLocationDialogContent(
                             cities = cities.map { c ->
                                 if (c.isSameCity(chosen)) chosen else c
                             }
-                            uiState =
-                                uiState.copy(selectedCity = chosen, latitude = chosen.lat.toString(), longitude = chosen.long.toString())
+                            uiState = uiState.copy(
+                                selectedCity = chosen,
+                                latitude = chosen.lat.toString(),
+                                longitude = chosen.long.toString(),
+                                label = syncedLabel(uiState.label, uiState.selectedCity, chosen),
+                            )
                         },
                         onTriggerClick = {
                             val countryCode = uiState.selectedCountry?.code
@@ -425,6 +441,7 @@ private fun NewLocationDialogContent(
                                     longitude = "",
                                     selectedCity = null,
                                     selectedCountry = null,
+                                    label = syncedLabel(uiState.label, uiState.selectedCity, null),
                                 )
                             },
                         ) {
