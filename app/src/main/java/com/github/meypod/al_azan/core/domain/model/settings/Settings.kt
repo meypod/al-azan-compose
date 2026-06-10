@@ -12,8 +12,11 @@ import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
@@ -295,9 +298,32 @@ object AudioEntrySerializer :
         // strips the filepath/label off external entries and leaves them resolving to "unknown".
         val hasResId = element.jsonObject["resId"]?.takeIf { it != JsonNull } != null
         return if (hasResId) {
-            AudioEntry.ResourceAudioEntry.serializer()
+            ReResolvingResourceAudioEntrySerializer
         } else {
             AudioEntry.ExternalAudioEntry.serializer()
         }
+    }
+}
+
+/**
+ * Persisted [AudioEntry.ResourceAudioEntry.resId]/[AudioEntry.ResourceAudioEntry.labelResId] are raw
+ * `R` ints, which are **not stable across builds** — a value saved by an older build can point to a
+ * different resource or to none at all, crashing with `Resources$NotFoundException` when the label is
+ * resolved. On read, re-resolve the entry from its stable string [AudioEntry.id]; an id no longer
+ * bundled degrades to an unresolvable entry ("unknown" label, null sound) instead of crashing.
+ */
+private object ReResolvingResourceAudioEntrySerializer : KSerializer<AudioEntry.ResourceAudioEntry> {
+    private val delegate = AudioEntry.ResourceAudioEntry.serializer()
+    override val descriptor = delegate.descriptor
+
+    override fun serialize(
+        encoder: Encoder,
+        value: AudioEntry.ResourceAudioEntry,
+    ) = delegate.serialize(encoder, value)
+
+    override fun deserialize(decoder: Decoder): AudioEntry.ResourceAudioEntry {
+        val decoded = delegate.deserialize(decoder)
+        return mapAdhanIdToEntryOrNull(decoded.id)
+            ?: decoded.copy(resId = null, labelResId = R.string.unknown)
     }
 }
