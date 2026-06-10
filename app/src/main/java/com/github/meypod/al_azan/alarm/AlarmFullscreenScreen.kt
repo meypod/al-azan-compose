@@ -48,7 +48,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -59,7 +58,6 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.dimensionResource
@@ -76,7 +74,6 @@ import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ChevronsUpAnimated
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 private val BG_GRADIENT_START = Color(0xFF00AC83)
@@ -84,6 +81,7 @@ private val BG_GRADIENT_END = Color(0xFF006876)
 private val ACCENT_DARK = Color(0xFF00585A)
 private const val PATTERN_ALPHA = 0.05f
 private val DRAG_MENU_THRESHOLD_DP = 160.dp
+private val DRAG_MORPH_THRESHOLD_DP = 10.dp
 private const val MORPH_DURATION_MS = 260
 
 private enum class DismissAnchor { Rest, Menu }
@@ -103,10 +101,16 @@ fun AlarmFullscreenScreen(
     onAction: (AlarmFullscreenUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // When the only available action is plain dismiss, the swipe-up menu would hold a single button
+    // duplicating the pill's tap-to-dismiss. Drop the whole drag/menu affordance in that case.
+    val menuEnabled = uiState.dismissAndSilentMinutes > 0 ||
+        uiState.shortRemindMinutes > 0 ||
+        uiState.longRemindMinutes > 0
+
     var menuVisible by remember { mutableStateOf(false) }
-    var isPressed by remember { mutableStateOf(false) }
     val density = androidx.compose.ui.platform.LocalDensity.current
     val menuThresholdPx = with(density) { DRAG_MENU_THRESHOLD_DP.toPx() }
+    val morphThresholdPx = with(density) { DRAG_MORPH_THRESHOLD_DP.toPx() }
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
 
@@ -138,28 +142,19 @@ fun AlarmFullscreenScreen(
             }
         }
     }
-    LaunchedEffect(isPressed) {
-        if (isPressed) {
+    // Morph to circle (and buzz) only once pulled up past the morph threshold.
+    val draggedPastMorph by remember {
+        derivedStateOf {
+            val o = dragState.offset
+            !o.isNaN() && o <= -morphThresholdPx
+        }
+    }
+    LaunchedEffect(draggedPastMorph) {
+        if (draggedPastMorph) {
             haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
         }
     }
-
-    var settling by remember { mutableStateOf(false) }
-    LaunchedEffect(isPressed) {
-        val off = dragState.offset
-        if (!isPressed && !off.isNaN() && off != 0f) {
-            settling = true
-            snapshotFlow { dragState.offset }.first { it == 0f || it.isNaN() }
-            settling = false
-        }
-    }
-    val offsetNonZero by remember {
-        derivedStateOf {
-            val o = dragState.offset
-            !o.isNaN() && o != 0f
-        }
-    }
-    val isCircle = !menuVisible && (isPressed || settling || offsetNonZero)
+    val isCircle = menuEnabled && !menuVisible && draggedPastMorph
 
     val classic = uiState.themeColor.isClassic()
     val darkClassic = uiState.themeColor == ThemeColor.ClassicDark
@@ -261,19 +256,21 @@ fun AlarmFullscreenScreen(
                     .padding(bottom = 56.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Box(contentAlignment = Alignment.BottomCenter) {
-                    ChevronsUpAnimated(
-                        tint = contentColor,
-                        modifier = Modifier.alpha(chevronAlpha),
-                    )
-                    Text(
-                        stringResource(R.string.alarm_swipe_up_hint),
-                        color = contentColor,
-                        style = MaterialTheme.typography.labelLarge,
-                        modifier = Modifier.alpha(hintAlpha),
-                    )
+                if (menuEnabled) {
+                    Box(contentAlignment = Alignment.BottomCenter) {
+                        ChevronsUpAnimated(
+                            tint = contentColor,
+                            modifier = Modifier.alpha(chevronAlpha),
+                        )
+                        Text(
+                            stringResource(R.string.alarm_swipe_up_hint),
+                            color = contentColor,
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.alpha(hintAlpha),
+                        )
+                    }
+                    Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
                 }
-                Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
 
                 Box(contentAlignment = Alignment.Center) {
                     if (!isCircle && !menuVisible) {
@@ -295,21 +292,16 @@ fun AlarmFullscreenScreen(
                             }
                             .width(pillWidth)
                             .height(pillHeight)
-                            // Initial-pass press observer. Does not consume, so anchoredDraggable
-                            // still receives all events. Drives morph-on-touch.
-                            .pointerInput(Unit) {
-                                awaitPointerEventScope {
-                                    while (true) {
-                                        val event = awaitPointerEvent(PointerEventPass.Initial)
-                                        val pressed = event.changes.any { it.pressed }
-                                        if (pressed != isPressed) isPressed = pressed
-                                    }
-                                }
-                            }
-                            .anchoredDraggable(
-                                state = dragState,
-                                orientation = Orientation.Vertical,
-                                flingBehavior = flingBehavior,
+                            .then(
+                                if (menuEnabled) {
+                                    Modifier.anchoredDraggable(
+                                        state = dragState,
+                                        orientation = Orientation.Vertical,
+                                        flingBehavior = flingBehavior,
+                                    )
+                                } else {
+                                    Modifier
+                                },
                             )
                             // Tapping the pill dismisses, same as "just dismiss" in the swipe-up menu.
                             .pointerInput(Unit) {
