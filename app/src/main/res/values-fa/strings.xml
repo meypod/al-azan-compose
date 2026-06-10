@@ -66,32 +66,35 @@
     <string name="notification_permission_title">اجازهٔ اعلان‌ها</string>
     <string name="notification_permission_rationale">ابزارک اعلان، اوقات شرعی را در کشوی اعلان‌های شما نمایش می‌دهد. برای روشن کردن آن، اعلان‌ها را اجازه دهید.</string>
     <string name="notification_permission_denied_text">برای نمایش ابزارک، دسترسی به اعلان‌ها لازم است. اعلان‌های این برنامه را در تنظیمات فعال کنید.</string>
-    <string name="exact_alarm_permission_title">اجازهٔ زنگ‌های دقیق</string>
-    <string name="exact_alarm_permission_rationale">برای دقیق ماندن اوقات شرعی و شمارش معکوس ابزارک، به این برنامه اجازهٔ تنظیم زنگ‌های دقیق را بدهید.</string>
-    <string name="exact_alarm_permission_denied_text">برای دقیق ماندن اوقات شرعی و شمارش معکوس ابزارک، دسترسی به زنگ دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
-    <string name="full_screen_intent_permission_title">اجازهٔ زنگ‌های تمام‌صفحه</string>
-    <string name="adhan_notification_permission_rationale">زنگ اذان در هر وقت شرعی یک اعلان نمایش می‌دهد. برای فعال‌سازی آن‌ها، اعلان‌ها را اجازه دهید.</string>
-    <string name="adhan_notification_permission_denied_text">برای زنگ‌های اذان، دسترسی به اعلان‌ها لازم است. اعلان‌های این برنامه را در تنظیمات فعال کنید.</string>
-    <string name="adhan_exact_alarm_permission_rationale">زنگ اذان باید دقیقاً در وقت شرعی به صدا درآید. به این برنامه اجازهٔ تنظیم زنگ‌های دقیق را بدهید.</string>
-    <string name="adhan_exact_alarm_permission_denied_text">برای اینکه زنگ اذان به‌موقع به صدا درآید، دسترسی به زنگ دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
-    <string name="adhan_full_screen_intent_permission_rationale">برای نمایش زنگ اذان روی صفحهٔ قفل و روشن کردن نمایشگر، به این برنامه اجازهٔ استفاده از زنگ‌های تمام‌صفحه را بدهید.</string>
-    <string name="adhan_full_screen_intent_permission_denied_text">بدون دسترسی تمام‌صفحه، زنگ اذان روی صفحهٔ قفل نمایش داده نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
+    <string name="exact_alarm_permission_title">اجازهٔ هشدار‌های دقیق</string>
+    <string name="exact_alarm_permission_rationale">برای دقیق ماندن اوقات شرعی و شمارش معکوس ابزارک، به این برنامه اجازهٔ تنظیم هشدار‌های دقیق را بدهید.</string>
+    <string name="exact_alarm_permission_denied_text">برای دقیق ماندن اوقات شرعی و شمارش معکوس ابزارک، دسترسی به هشدار دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
+    <string name="full_screen_intent_permission_title">اجازهٔ هشدار‌های تمام‌صفحه</string>
+    <string name="adhan_notification_permission_rationale">هشدار اذان در هر وقت شرعی یک اعلان نمایش می‌دهد. برای فعال‌سازی آن‌ها، اعلان‌ها را اجازه دهید.</string>
+    <string name="adhan_notification_permission_denied_text">برای هشدار‌های اذان، دسترسی به اعلان‌ها لازم است. اعلان‌های این برنامه را در تنظیمات فعال کنید.</string>
+    <string name="adhan_exact_alarm_permission_rationale">هشدار اذان باید دقیقاً در وقت شرعی به صدا درآید. به این برنامه اجازهٔ تنظیم هشدار‌های دقیق را بدهید.</string>
+    <string name="adhan_exact_alarm_permission_denied_text">برای اینکه هشدار اذان به‌موقع به صدا درآید، دسترسی به هشدار دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
+    <string name="adhan_full_screen_intent_permission_rationale">برای نمایش هشدار اذان روی صفحهٔ قفل و روشن کردن نمایشگر، به این برنامه اجازهٔ استفاده از هشدار‌های تمام‌صفحه را بدهید.</string>
+    <string name="adhan_full_screen_intent_permission_denied_text">بدون دسترسی تمام‌صفحه، هشدار اذان روی صفحهٔ قفل نمایش داده نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
     <string name="adhan_phone_state_permission_rationale">اجازهٔ دسترسی به تلفن را بدهید تا اذان هنگام تماس‌های ورودی یا فعال متوقف شود. فقط برای خواندن وضعیت تماس استفاده می‌شود.</string>
     <string name="adhan_phone_state_permission_denied_text">دسترسی به تلفن خاموش است، بنابراین اذان برای تماس‌ها متوقف نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
     <string name="reminder_notification_permission_rationale">یادآوری‌ها در زمان تعیین‌شده یک اعلان نمایش می‌دهند. برای فعال‌سازی آن‌ها، اعلان‌ها را اجازه دهید.</string>
     <string name="reminder_notification_permission_denied_text">برای یادآوری‌ها، دسترسی به اعلان‌ها لازم است. اعلان‌های این برنامه را در تنظیمات فعال کنید.</string>
-    <string name="reminder_exact_alarm_permission_rationale">یادآوری‌ها باید دقیقاً در زمان تعیین‌شده به صدا درآیند. به این برنامه اجازهٔ تنظیم زنگ‌های دقیق را بدهید.</string>
-    <string name="reminder_exact_alarm_permission_denied_text">برای اینکه یادآوری‌ها به‌موقع به صدا درآیند، دسترسی به زنگ دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
-    <string name="reminder_full_screen_intent_permission_rationale">برای نمایش یادآوری روی صفحهٔ قفل و روشن کردن نمایشگر، به این برنامه اجازهٔ استفاده از زنگ‌های تمام‌صفحه را بدهید.</string>
+    <string name="reminder_exact_alarm_permission_rationale">یادآوری‌ها باید دقیقاً در زمان تعیین‌شده به صدا درآیند. به این برنامه اجازهٔ تنظیم هشدار‌های دقیق را بدهید.</string>
+    <string name="reminder_exact_alarm_permission_denied_text">برای اینکه یادآوری‌ها به‌موقع به صدا درآیند، دسترسی به هشدار دقیق لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
+    <string name="reminder_full_screen_intent_permission_rationale">برای نمایش یادآوری روی صفحهٔ قفل و روشن کردن نمایشگر، به این برنامه اجازهٔ استفاده از هشدار‌های تمام‌صفحه را بدهید.</string>
     <string name="reminder_full_screen_intent_permission_denied_text">بدون دسترسی تمام‌صفحه، یادآوری روی صفحهٔ قفل نمایش داده نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
     <string name="reminder_phone_state_permission_rationale">اجازهٔ دسترسی به تلفن را بدهید تا یادآوری هنگام تماس‌های ورودی یا فعال متوقف شود. فقط برای خواندن وضعیت تماس استفاده می‌شود.</string>
     <string name="reminder_phone_state_permission_denied_text">دسترسی به تلفن خاموش است، بنابراین یادآوری برای تماس‌ها متوقف نمی‌شود. می‌توانید بعداً آن را در تنظیمات اجازه دهید.</string>
     <string name="phone_state_permission_title">اجازهٔ دسترسی به تلفن</string>
     <string name="dnd_permission_title">اجازهٔ دسترسی به «مزاحم نشوید»</string>
-    <string name="dnd_permission_rationale">به این برنامه اجازه دهید «مزاحم نشوید» را کنترل کند. این کار باعث می‌شود اذان هنگام روشن بودن «مزاحم نشوید» پخش شود و گزینهٔ بی‌صدا کردن تلفن پس از رد کردن زنگ را فعال می‌کند.</string>
+    <string name="dnd_permission_rationale">به این برنامه اجازه دهید «مزاحم نشوید» را کنترل کند. این کار باعث می‌شود اذان هنگام روشن بودن «مزاحم نشوید» پخش شود و گزینهٔ بی‌صدا کردن تلفن پس از رد کردن هشدار را فعال می‌کند.</string>
     <string name="dnd_permission_denied_text">برای این کار، دسترسی به «مزاحم نشوید» لازم است. آن را برای این برنامه در تنظیمات اجازه دهید.</string>
-    <string name="home_notification_permission_rationale">اعلان‌ها خاموش شده بودند. دوباره آن‌ها را اجازه دهید تا زنگ‌های اذان به شما برسند.</string>
-    <string name="home_exact_alarm_permission_rationale">دسترسی به زنگ دقیق خاموش شده بود. دوباره آن را اجازه دهید تا زنگ‌های اوقات شرعی شما به‌موقع به صدا درآیند.</string>
+    <string name="home_notification_permission_rationale">اعلان‌ها خاموش شده بودند. دوباره آن‌ها را اجازه دهید تا هشدار‌های اذان به شما برسند.</string>
+    <string name="home_exact_alarm_permission_rationale">دسترسی به هشدار دقیق خاموش شده بود. دوباره آن را اجازه دهید تا هشدار‌های اوقات شرعی شما به‌موقع به صدا درآیند.</string>
+    <string name="battery_optimization_permission_title">هشدار‌ها را قابل‌اعتماد نگه دارید</string>
+    <string name="battery_optimization_permission_rationale">برای رساندن مطمئن هشدار‌ها، به این برنامه اجازه دهید در پس‌زمینه فعال بماند. بدون آن، سیستم ممکن است برای صرفه‌جویی در باتری آن را متوقف کند و هشدار‌ها با تأخیر بزنند یا از دست بروند.</string>
+    <string name="battery_optimization_permission_denied_text">بهینه‌سازی باتری هنوز روشن است، بنابراین ممکن است هشدار‌ها با تأخیر بزنند یا از دست بروند. می‌توانید بعداً این را در تنظیمات اجازه دهید.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -161,7 +164,7 @@
     <string name="counter">شمارنده</string>
     <string name="reminder">یادآوری</string>
     <string name="notification_and_sound_title"><![CDATA[اعلان و صدا]]></string>
-    <string name="alarm_settings_title">تنظیمات زنگ</string>
+    <string name="alarm_settings_title">تنظیمات هشدار</string>
     <string name="schedule_and_muezzin_title"><![CDATA[زمان‌بندی و مؤذن]]></string>
     <string name="calculation_title">محاسبه</string>
     <string name="interface_settings">تنظیمات رابط کاربری</string>
@@ -364,7 +367,7 @@
     <string name="use_default_vibration">استفاده از پیش‌فرض</string>
     <string name="vibration_mode">حالت ویبره</string>
     <string name="vibration_mode_help">آیا هنگام شروع پخش اذان یا یادآوری، تلفن باید بلرزد؟</string>
-    <string name="show_upcoming_alarm">نمایش اعلان «زنگ آینده»</string>
+    <string name="show_upcoming_alarm">نمایش اعلان «هشدار آینده»</string>
     <string name="show_upcoming_alarm_help">در صورت فعال بودن، حدود یک ساعت قبل از هر اذان یک اعلان نمایش داده می‌شود.</string>
     <string name="custom_upcoming_time">اطلاع قبل از اذان</string>
     <string name="custom_upcoming_time_help">چند دقیقه قبل از هر اذان یا یادآوری، اعلان آینده نمایش داده شود.</string>
@@ -377,9 +380,9 @@
     <string name="volume_button_stops_adhan">دکمهٔ صدا اذان را متوقف می‌کند</string>
     <string name="volume_button_stops_adhan_help">فشردن دکمهٔ صدا، اذان در حال پخش را متوقف می‌کند.</string>
     <string name="dont_show_alarm_screen">صفحه خاموش بماند</string>
-    <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و زنگ تمام‌صفحه نمایش داده نشود.</string>
-    <string name="force_launch_alarm_screen">همیشه صفحهٔ زنگ را باز کن</string>
-    <string name="force_launch_alarm_screen_help">زنگ تمام‌صفحه را وادار کن مستقیماً باز شود. اگر تلفن شما آن را روی صفحهٔ قفل نشان نمی‌دهد، این را امتحان کنید.</string>
+    <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و هشدار تمام‌صفحه نمایش داده نشود.</string>
+    <string name="force_launch_alarm_screen">همیشه صفحهٔ هشدار را باز کن</string>
+    <string name="force_launch_alarm_screen_help">هشدار تمام‌صفحه را وادار کن مستقیماً باز شود. اگر تلفن شما آن را روی صفحهٔ قفل نشان نمی‌دهد، این را امتحان کنید.</string>
     <string name="notifications">اعلان‌ها</string>
     <string name="auto_silent_on_dismiss">بی‌صدا کردن تلفن پس از رد کردن</string>
     <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد. فقط برای اذان اعمال می‌شود.</string>
@@ -537,7 +540,7 @@
     <string name="advanced">پیشرفته</string>
     <string name="advanced_title">پیشرفته</string>
     <string name="battery_problem_final_hint">اگر همچنان با توقف برنامه پس از مدتی مشکل دارید، لطفاً برای راه‌حل‌های بیشتر به <a href="%1$s">%2$s</a> مراجعه کنید.</string>
-    <string name="battery_problem_body">برای اطمینان از تحویل قابل‌اعتماد زنگ‌ها و اعلان‌ها، لطفاً بهینه‌سازی مصرف انرژی را برای این برنامه غیرفعال کنید. برخی دستگاه‌ها ممکن است برای صرفه‌جویی در باتری، برنامه را در پس‌زمینه متوقف کنند.</string>
+    <string name="battery_problem_body">برای اطمینان از تحویل قابل‌اعتماد هشدار‌ها و اعلان‌ها، لطفاً بهینه‌سازی مصرف انرژی را برای این برنامه غیرفعال کنید. برخی دستگاه‌ها ممکن است برای صرفه‌جویی در باتری، برنامه را در پس‌زمینه متوقف کنند.</string>
     <string name="battery_problem_title">به برنامه کمک کنید روشن بماند</string>
     <string name="allow_app_to_keep_running">اجازه به اجرای برنامه در پس‌زمینه</string>
     <string name="app_is_allowed_to_keep_running">برنامه اجازه دارد روشن بماند</string>
@@ -554,10 +557,10 @@
     <string name="adhan_dnd_revoked_body">دسترسی به «مزاحم نشوید» خاموش است، بنابراین پس از رد کردن اذان، تلفن بی‌صدا نشد. آن را در تنظیمات رفع مشکلات دوباره فعال کنید.</string>
     <!-- Troubleshoot — advanced (main/settings/troubleshoot/advanced) -->
     <string name="adaptive_charging">شارژ تطبیقی</string>
-    <string name="adaptive_charging_help">در برخی دستگاه‌ها (مانند گوگل پیکسل)، نوع زنگ پیش‌فرض به‌عنوان زنگ ساعت ثبت می‌شود که می‌تواند با شارژ تطبیقی تداخل ایجاد کند و نماد زنگ را نشان دهد. این گزینه را فعال کنید تا از نوع زنگی استفاده شود که از هر دو جلوگیری می‌کند.</string>
-    <string name="adaptive_charging_caution">احتیاط: در برخی دستگاه‌ها این نوع زنگ بیشتر تحت تأثیر بهینه‌سازی باتری قرار می‌گیرد، بنابراین اذان و یادآوری‌ها ممکن است با تأخیر یا از دست رفته باشند. با احتیاط استفاده کنید.</string>
+    <string name="adaptive_charging_help">در برخی دستگاه‌ها (مانند گوگل پیکسل)، نوع هشدار پیش‌فرض به‌عنوان هشدار ساعت ثبت می‌شود که می‌تواند با شارژ تطبیقی تداخل ایجاد کند و نماد هشدار را نشان دهد. این گزینه را فعال کنید تا از نوع هشداری استفاده شود که از هر دو جلوگیری می‌کند.</string>
+    <string name="adaptive_charging_caution">احتیاط: در برخی دستگاه‌ها این نوع هشدار بیشتر تحت تأثیر بهینه‌سازی باتری قرار می‌گیرد، بنابراین اذان و یادآوری‌ها ممکن است با تأخیر یا از دست رفته باشند. با احتیاط استفاده کنید.</string>
     <string name="different_alarm_enable">استفاده از نوع دیگری از زنگ هشدار</string>
-    <string name="different_alarm_notification_rationale">این نوع زنگ نمی‌تواند به‌تنهایی زنگ تمام‌صفحه را نشان دهد، بنابراین برای توقف اذان به اعلان‌ها نیاز است. برای استفاده از آن اعلان‌ها را اجازه دهید.</string>
+    <string name="different_alarm_notification_rationale">این نوع هشدار نمی‌تواند به‌تنهایی هشدار تمام‌صفحه را نشان دهد، بنابراین برای توقف اذان به اعلان‌ها نیاز است. برای استفاده از آن اعلان‌ها را اجازه دهید.</string>
 
     <!-- ============================================================
          Developer  (main/settings/developer)
@@ -587,7 +590,7 @@
     <string name="alarm_remind">یادآوری تا %1$d دقیقه دیگر</string>
     <string name="adhan_remind_body">%1$s، %2$d دقیقه پیش بود</string>
     <string name="next_prayer_label">بعدی</string>
-    <string name="upcoming_alarm_title">زنگ آینده</string>
+    <string name="upcoming_alarm_title">هشدار آینده</string>
     <string name="cancel_alarm">لغو زنگ هشدار</string>
     <string name="adhan_cancelled_toast">اذان آینده لغو شد</string>
     <string name="adhan_cancelled_named_toast">اذان %1$s لغو شد</string>
@@ -608,21 +611,21 @@
     <string name="widget_channel_name">ابزارک اوقات شرعی</string>
     <string name="widget_channel_description">اعلان دائمی که اوقات شرعی را نمایش می‌دهد.</string>
     <string name="adhan_channel_name">اذان</string>
-    <string name="adhan_channel_description">زنگ‌های اذان در اوقات شرعی.</string>
+    <string name="adhan_channel_description">هشدار‌های اذان در اوقات شرعی.</string>
     <string name="adhan_dnd_channel_name">اذان (دور زدن «مزاحم نشوید»)</string>
-    <string name="adhan_dnd_channel_description">زنگ‌های اذان که حتی هنگام «مزاحم نشوید» به صدا درمی‌آیند.</string>
+    <string name="adhan_dnd_channel_description">هشدار‌های اذان که حتی هنگام «مزاحم نشوید» به صدا درمی‌آیند.</string>
     <string name="pre_adhan_channel_name">اذان آینده</string>
     <string name="pre_adhan_channel_description">یادآوری که کمی قبل از وقت شرعی نمایش داده می‌شود.</string>
     <string name="adhan_remind_channel_name">یادآوری‌های اذان</string>
-    <string name="adhan_remind_channel_description">یادآوری‌های پیگیری از «بعداً یادآوری کن» در زنگ اذان.</string>
+    <string name="adhan_remind_channel_description">یادآوری‌های پیگیری از «بعداً یادآوری کن» در هشدار اذان.</string>
     <string name="reminder_channel_name">یادآوری‌ها</string>
     <string name="reminder_channel_description">یادآوری‌های دلخواه نسبت به اوقات شرعی.</string>
     <string name="reminder_dnd_channel_name">یادآوری‌ها (دور زدن «مزاحم نشوید»)</string>
     <string name="reminder_dnd_channel_description">یادآوری‌هایی که حتی هنگام «مزاحم نشوید» به صدا درمی‌آیند.</string>
     <string name="pre_reminder_channel_name">یادآوری آینده</string>
     <string name="pre_reminder_channel_description">اطلاعیه‌ای که کمی قبل از یک یادآوری نمایش داده می‌شود.</string>
-    <string name="missed_channel_name">زنگ‌ها و یادآوری‌های از‌دست‌رفته</string>
-    <string name="missed_channel_description">اطلاعیه‌های بی‌صدا برای زنگ‌های اذان و یادآوری‌هایی که هنگام بی‌صدا بودن صداها گذشتند.</string>
+    <string name="missed_channel_name">هشدار‌ها و یادآوری‌های از‌دست‌رفته</string>
+    <string name="missed_channel_description">اطلاعیه‌های بی‌صدا برای هشدار‌های اذان و یادآوری‌هایی که هنگام بی‌صدا بودن صداها گذشتند.</string>
     <string name="ramadan_notice_channel_name">اطلاعیهٔ رمضان</string>
     <string name="ramadan_notice_channel_description">یادآوری سالانه‌ای مبنی بر اینکه تقویم از‌پیش‌محاسبه‌شده ممکن است برای آغاز و پایان رمضان دقیق نباشد.</string>
     <string name="permission_revoked_channel_name">دسترسی لغو شد</string>

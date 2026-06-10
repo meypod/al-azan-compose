@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">এর জন্য ডু নট ডিস্টার্ব অ্যাক্সেস প্রয়োজন। সেটিংসে এই অ্যাপের জন্য এটি অনুমোদন করুন।</string>
     <string name="home_notification_permission_rationale">নোটিফিকেশন বন্ধ করা হয়েছিল। আযান অ্যালার্ম যেন আপনার কাছে পৌঁছায় সেজন্য আবার অনুমতি দিন।</string>
     <string name="home_exact_alarm_permission_rationale">সুনির্দিষ্ট অ্যালার্মের অ্যাক্সেস বন্ধ করা হয়েছিল। আপনার সালাতের অ্যালার্ম যেন সময়মতো বাজতে থাকে সেজন্য আবার অনুমতি দিন।</string>
+    <string name="battery_optimization_permission_title">অ্যালার্ম নির্ভরযোগ্য রাখুন</string>
+    <string name="battery_optimization_permission_rationale">আপনার অ্যালার্মগুলো নির্ভরযোগ্যভাবে পৌঁছে দিতে, এই অ্যাপটিকে ব্যাকগ্রাউন্ডে চালু থাকার অনুমতি দিন। এটি ছাড়া, ব্যাটারি বাঁচাতে সিস্টেম এটি বন্ধ করে দিতে পারে এবং অ্যালার্ম দেরিতে বাজতে পারে বা মিস হতে পারে।</string>
+    <string name="battery_optimization_permission_denied_text">ব্যাটারি অপ্টিমাইজেশন এখনও চালু আছে, তাই অ্যালার্ম দেরিতে বাজতে পারে বা মিস হতে পারে। আপনি পরে সেটিংসে এটি অনুমতি দিতে পারেন।</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

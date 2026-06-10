@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">Tính năng này yêu cầu quyền truy cập Không làm phiền. Cho phép nó cho ứng dụng này trong cài đặt.</string>
     <string name="home_notification_permission_rationale">Thông báo đã bị tắt. Cho phép lại để báo thức Azan có thể đến với bạn.</string>
     <string name="home_exact_alarm_permission_rationale">Quyền báo thức chính xác đã bị tắt. Cho phép lại để báo thức cầu nguyện của bạn tiếp tục kích hoạt đúng giờ.</string>
+    <string name="battery_optimization_permission_title">Giữ báo thức đáng tin cậy</string>
+    <string name="battery_optimization_permission_rationale">Để báo thức được gửi đáng tin cậy, hãy cho phép ứng dụng này tiếp tục chạy trong nền. Nếu không, hệ thống có thể dừng ứng dụng để tiết kiệm pin, khiến báo thức bị trễ hoặc bị bỏ lỡ.</string>
+    <string name="battery_optimization_permission_denied_text">Tối ưu hóa pin vẫn đang bật, nên báo thức có thể bị trễ hoặc bị bỏ lỡ. Bạn có thể cho phép việc này sau trong phần cài đặt.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

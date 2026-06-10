@@ -115,6 +115,7 @@ data class Settings(
     val dontAskPermissionPhoneState: Boolean = false,
     val dontAskPermissionFullScreenIntent: Boolean = false,
     val dontAskPermissionDndAccess: Boolean = false,
+    val dontAskPermissionBatteryOptimization: Boolean = false,
     val devMode: Boolean = false,
     val qiblaFinderUnderstood: Boolean = false,
     val qiblaFinderOrientationLocked: Boolean = true,

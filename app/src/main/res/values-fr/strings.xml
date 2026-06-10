@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">L\'accès au mode Ne pas déranger est requis pour cela. Autorisez-le pour cette application dans les paramètres.</string>
     <string name="home_notification_permission_rationale">Les notifications ont été désactivées. Autorisez-les à nouveau afin que les alarmes d\'Adhan puissent vous parvenir.</string>
     <string name="home_exact_alarm_permission_rationale">L\'accès aux alarmes exactes a été désactivé. Autorisez-le à nouveau afin que vos alarmes de prières continuent de se déclencher à l\'heure.</string>
+    <string name="battery_optimization_permission_title">Garder les alarmes fiables</string>
+    <string name="battery_optimization_permission_rationale">Pour que vos alarmes soient diffusées de manière fiable, autorisez cette application à continuer de fonctionner en arrière-plan. Sans cela, le système peut l\'arrêter pour économiser la batterie, retardant ou manquant les alarmes.</string>
+    <string name="battery_optimization_permission_denied_text">L\'optimisation de la batterie est toujours activée, donc les alarmes peuvent être retardées ou manquées. Vous pouvez l\'autoriser plus tard dans les paramètres.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)

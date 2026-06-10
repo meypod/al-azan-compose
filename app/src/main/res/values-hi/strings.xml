@@ -92,6 +92,9 @@
     <string name="dnd_permission_denied_text">इसके लिए डू नॉट डिस्टर्ब एक्सेस आवश्यक है। सेटिंग्स में इस ऐप के लिए इसकी अनुमति दें।</string>
     <string name="home_notification_permission_rationale">सूचनाएँ बंद कर दी गई थीं। इन्हें फिर से अनुमति दें ताकि अज़ान अलार्म आप तक पहुँच सकें।</string>
     <string name="home_exact_alarm_permission_rationale">सटीक अलार्म एक्सेस बंद कर दिया गया था। इसे फिर से अनुमति दें ताकि आपके नमाज़ के अलार्म समय पर बजते रहें।</string>
+    <string name="battery_optimization_permission_title">अलार्म भरोसेमंद रखें</string>
+    <string name="battery_optimization_permission_rationale">आपके अलार्म भरोसेमंद तरीके से पहुँचाने के लिए, इस ऐप को बैकग्राउंड में चलते रहने की अनुमति दें। इसके बिना, सिस्टम बैटरी बचाने के लिए इसे रोक सकता है और अलार्म देर से बज सकते हैं या छूट सकते हैं।</string>
+    <string name="battery_optimization_permission_denied_text">बैटरी ऑप्टिमाइज़ेशन अब भी चालू है, इसलिए अलार्म देर से बज सकते हैं या छूट सकते हैं। आप इसे बाद में सेटिंग्स में अनुमति दे सकते हैं।</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
