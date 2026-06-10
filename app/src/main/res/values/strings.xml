@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">Settings</string>
     <string name="qibla">Qibla</string>
-    <string name="counter">Counter</string>
+    <string name="counter">Qada Counter</string>
     <string name="reminder">Reminder</string>
     <string name="notification_and_sound_title"><![CDATA[Notification & Sound]]></string>
     <string name="alarm_settings_title">Alarm Settings</string>

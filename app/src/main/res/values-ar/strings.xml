@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">إعدادات</string>
     <string name="qibla">القبلة</string>
-    <string name="counter">العدّاد</string>
+    <string name="counter">عداد القضاء</string>
     <string name="reminder">تذكير</string>
     <string name="notification_and_sound_title"><![CDATA[الإشعار والصوت]]></string>
     <string name="alarm_settings_title">إعدادات المنبه</string>

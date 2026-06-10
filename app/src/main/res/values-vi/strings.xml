@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">Cài đặt</string>
     <string name="qibla">Qibla</string>
-    <string name="counter">Bộ đếm</string>
+    <string name="counter">Bộ đếm Qada</string>
     <string name="reminder">Lời nhắc</string>
     <string name="notification_and_sound_title"><![CDATA[Thông báo & Âm báo]]></string>
     <string name="alarm_settings_title">Cài đặt Báo thức</string>

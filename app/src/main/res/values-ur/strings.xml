@@ -161,7 +161,7 @@
          ============================================================ -->
     <string name="settings">ترتیبات</string>
     <string name="qibla">قبلہ</string>
-    <string name="counter">کاؤنٹر</string>
+    <string name="counter">قضا کاؤنٹر</string>
     <string name="reminder">یاد دہانی</string>
     <string name="notification_and_sound_title"><![CDATA[اطلاع اور آواز]]></string>
     <string name="alarm_settings_title">الارم کی ترتیبات</string>
