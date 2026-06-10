@@ -116,14 +116,14 @@ fun TroubleshootScreen(
             }
         }
 
+        DndAccessCard(granted = uiState.dndAccessGranted) {
+            dndAccessLauncher.launch(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+        }
+
         if (uiState.autostartAvailable) {
             AutostartCard {
                 onAction(TroubleshootUiAction.OnOpenAutostartSettingsClick(activity))
             }
-        }
-
-        DndAccessCard(granted = uiState.dndAccessGranted) {
-            dndAccessLauncher.launch(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
         }
 
         SettingLinkButton(stringResource(R.string.advanced)) {
