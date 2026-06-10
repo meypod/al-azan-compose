@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Sample data extraction rules file; uncomment and customize as necessary.
-   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
-   for details.
+   Backup/transfer rules for API 31+.
+   https://developer.android.com/about/versions/12/backup-restore#xml-changes
+
+   No <include> means "back up everything by default". We keep the whole files/mmkv
+   folder (the single MMKV store all settings/reminders/locations/counters live in) so
+   its data file and its .crc companion are restored together and stay consistent.
+   Scheduled alarms ride along in that blob but are recomputed on first launch / boot
+   by SchedulerReconciler, so stale alarm state is harmless.
 -->
 <data-extraction-rules>
-    <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+    <!--
+       Cloud backup: exclude user-imported audio. Custom adhan/reminder sounds can be
+       many MB and would push the backup past the 25 MB cloud quota, silently failing
+       the whole backup. Settings referencing a missing sound fall back to the default
+       (isResolvable), so dropping them never breaks a restore.
+       disableIfNoEncryptionCapabilities keeps location/prayer data out of the cloud on
+       devices that can't encrypt the backup.
+    -->
+    <cloud-backup disableIfNoEncryptionCapabilities="true">
+        <exclude domain="file" path="audio" />
     </cloud-backup>
     <!--
-    <device-transfer>
-        <include .../>
-        <exclude .../>
-    </device-transfer>
+       Device-to-device transfer has no size quota and is local, so keep the audio
+       library too — the new device gets the user's custom sounds intact.
     -->
+    <device-transfer />
 </data-extraction-rules>
