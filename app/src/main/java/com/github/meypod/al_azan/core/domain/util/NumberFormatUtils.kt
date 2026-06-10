@@ -31,7 +31,7 @@ private fun replaceDigits(
 ): String {
     val builder = StringBuilder()
     for (char in input) {
-        if (char.isDigit()) {
+        if (char in '0'..'9') {
             builder.append(replacementDigits[char - '0'])
         } else {
             builder.append(char)
