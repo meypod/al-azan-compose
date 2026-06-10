@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">می‌توانید یکی از تقویم‌ها را با مکان فعلی خود جایگزین کنید.</string>
     <string name="widget_city_name_pos_placeholder">انتخاب کنید کدام تقویم جایگزین شود</string>
     <string name="widget_max_shown_prayers_warning">فقط شش مورد را می‌توان همزمان نشان داد</string>
+    <string name="widget_swap_layout_direction">جابجایی جهت چیدمان</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

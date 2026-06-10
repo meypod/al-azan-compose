@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Anda dapat memilih untuk mengganti salah satu kalender dengan lokasi Anda saat ini.</string>
     <string name="widget_city_name_pos_placeholder">Pilih kalender mana yang akan diganti</string>
     <string name="widget_max_shown_prayers_warning">Hanya enam item yang dapat ditampilkan secara bersamaan</string>
+    <string name="widget_swap_layout_direction">Tukar arah tata letak</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

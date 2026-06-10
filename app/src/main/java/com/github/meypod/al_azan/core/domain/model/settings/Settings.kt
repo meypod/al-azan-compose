@@ -106,6 +106,7 @@ data class Settings(
     val showWidgetCountdown: Boolean = false,
     val adaptiveWidgets: Boolean = false,
     val widgetCityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
+    val swapWidgetLayoutDirection: Boolean = false,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val calcSettingsHash: String? = null,
     @Serializable(with = EmptyStringAsNullSerializer::class)

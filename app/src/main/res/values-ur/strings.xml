@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">آپ اپنے موجودہ مقام کے ساتھ کیلنڈرز میں سے کسی ایک کو تبدیل کرنے کا انتخاب کر سکتے ہیں۔</string>
     <string name="widget_city_name_pos_placeholder">منتخب کریں کہ کون سا کیلنڈر تبدیل کرنا ہے۔</string>
     <string name="widget_max_shown_prayers_warning">ایک ہی وقت میں صرف چھ اشیاء دکھائی جا سکتی ہیں۔</string>
+    <string name="widget_swap_layout_direction">لے آؤٹ کی سمت بدلیں</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

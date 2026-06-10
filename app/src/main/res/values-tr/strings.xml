@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Takvimlerden birini geçerli konumunuzla değiştirmeyi seçebilirsiniz.</string>
     <string name="widget_city_name_pos_placeholder">Hangi takvimin değiştirileceğini seçin</string>
     <string name="widget_max_shown_prayers_warning">Aynı anda yalnızca altı öğe gösterilebilir</string>
+    <string name="widget_swap_layout_direction">Düzen yönünü değiştir</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

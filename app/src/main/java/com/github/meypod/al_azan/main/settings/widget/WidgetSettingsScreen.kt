@@ -91,6 +91,12 @@ fun WidgetSettingsScreen(
                     checked = uiState.settings.adaptiveWidgets,
                     onCheckedChange = { onAction(WidgetSettingsUiAction.OnAdaptiveThemeToggle(it)) },
                 )
+                SettingSwitch(
+                    title = stringResource(R.string.widget_swap_layout_direction),
+                    subtitle = null,
+                    checked = uiState.settings.swapWidgetLayoutDirection,
+                    onCheckedChange = { onAction(WidgetSettingsUiAction.OnSwapLayoutDirectionToggle(it)) },
+                )
             }
         }
 

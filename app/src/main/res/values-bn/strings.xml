@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">আপনি আপনার বর্তমান অবস্থানের সাথে একটি ক্যালেন্ডার প্রতিস্থাপন করতে পারেন।</string>
     <string name="widget_city_name_pos_placeholder">কোন ক্যালেন্ডার প্রতিস্থাপন করতে হবে তা বেছে নিন</string>
     <string name="widget_max_shown_prayers_warning">একই সময়ে মাত্র ছয়টি আইটেম দেখানো যাবে</string>
+    <string name="widget_swap_layout_direction">লেআউটের দিক অদলবদল করুন</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

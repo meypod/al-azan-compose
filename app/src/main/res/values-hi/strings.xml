@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">आप किसी एक कैलेंडर को अपने वर्तमान स्थान से बदलना चुन सकते हैं।</string>
     <string name="widget_city_name_pos_placeholder">चुनें कि कौन सा कैलेंडर बदलना है</string>
     <string name="widget_max_shown_prayers_warning">एक ही समय में केवल छह चीज़ें दिखाए जा सकती हैं</string>
+    <string name="widget_swap_layout_direction">लेआउट दिशा बदलें</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

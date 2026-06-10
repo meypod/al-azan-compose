@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Možete odabrati da zamijenite jedan od kalendara svojom trenutnom lokacijom.</string>
     <string name="widget_city_name_pos_placeholder">Odaberite koji kalendar želite zamijeniti</string>
     <string name="widget_max_shown_prayers_warning">Istovremeno se može prikazati samo šest stavki</string>
+    <string name="widget_swap_layout_direction">Zamijeni smjer rasporeda</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

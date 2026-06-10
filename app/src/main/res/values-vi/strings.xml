@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Bạn có thể chọn thay thế một trong các lịch bằng vị trí hiện tại của mình.</string>
     <string name="widget_city_name_pos_placeholder">Chọn lịch để thay thế</string>
     <string name="widget_max_shown_prayers_warning">Chỉ có sáu mục có thể được hiển thị cùng một lúc</string>
+    <string name="widget_swap_layout_direction">Đổi hướng bố cục</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

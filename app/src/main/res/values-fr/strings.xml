@@ -412,6 +412,7 @@
     <string name="widget_city_name_pos_help">Vous pouvez choisir de remplacer l\'un des calendriers par votre position actuelle.</string>
     <string name="widget_city_name_pos_placeholder">Choisir le calendrier à remplacer</string>
     <string name="widget_max_shown_prayers_warning">Seuls six éléments peuvent être affichés en même temps</string>
+    <string name="widget_swap_layout_direction">Inverser le sens de mise en page</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

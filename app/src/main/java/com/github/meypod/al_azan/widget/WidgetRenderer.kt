@@ -53,6 +53,12 @@ object WidgetRenderer {
     ): RemoteViews {
         val views = RemoteViews(context.packageName, layoutResId)
 
+        // Flip the widget's reading direction. RTL is the default (prayers laid out right-to-left);
+        // the swap toggle forces LTR. Set explicitly each build so toggling off restores RTL.
+        val direction = if (data.swapLayoutDirection) View.LAYOUT_DIRECTION_LTR else View.LAYOUT_DIRECTION_RTL
+        views.setInt(R.id.widget_header, "setLayoutDirection", direction)
+        views.setInt(R.id.widget_content, "setLayoutDirection", direction)
+
         // Header texts. Ids are absent in the small notification layout; RemoteViews ignores those.
         views.setTextViewText(R.id.top_start_text, data.topStartText)
         views.setTextViewText(R.id.top_end_text, data.topEndText)
