@@ -187,9 +187,15 @@ fun OldSettingsState.toSettings() =
             it.toAdhanAudioEntry()
         }.filterIsInstance<AudioEntry.ExternalAudioEntry>(),
         selectedAdhanEntries =
-            this.selectedAdhanEntries.mapValues { (_, value) ->
-                value.toAdhanAudioEntry()
-            },
+            this.selectedAdhanEntries
+                // A per-prayer entry with the legacy "default" id is a placeholder meaning "follow the
+                // global muezzin", not a real selection. Migrating it would let mapAdhanIdToEntry coerce
+                // it into a concrete muezzin override the user never set (e.g. an unwanted fajr adhan or
+                // per-prayer muezzin). Drop these; the global AdhanKey.Default entry is always kept.
+                .filter { (key, value) -> key == AdhanKey.Default || !value.isUnsetPlaceholder() }
+                .mapValues { (_, value) ->
+                    value.toAdhanAudioEntry()
+                },
         lastAppFocusTimestamp = this.lastAppFocusTimestamp,
         hiddenPrayers = this.hiddenPrayers,
         adhanVolume = this.adhanVolume,
@@ -224,6 +230,16 @@ fun OldThemeColors.toThemeColors() =
         OldThemeColors.Default -> ThemeColor.Default
         OldThemeColors.Light -> ThemeColor.ClassicLight
         OldThemeColors.Dark -> ThemeColor.ClassicDark
+    }
+
+/** Legacy id used by the old app's per-prayer picker to mean "use the default muezzin" — a placeholder,
+ *  not a concrete selection. */
+private const val LEGACY_UNSET_ADHAN_ID = "default"
+
+fun OldAdhanAudioEntry.isUnsetPlaceholder(): Boolean =
+    when (this) {
+        is OldAdhanAudioEntry.OldResourceAdhanAudioEntry -> id == LEGACY_UNSET_ADHAN_ID
+        is OldAdhanAudioEntry.OldExternalAdhanAudioEntry -> id == LEGACY_UNSET_ADHAN_ID
     }
 
 fun OldAdhanAudioEntry.toAdhanAudioEntry(): AudioEntry =

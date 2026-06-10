@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.data.model
 
 import com.github.meypod.al_azan.core.data.model.old.OldExportedSettings
 import com.github.meypod.al_azan.core.data.model.old.toRestoreData
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
@@ -56,5 +57,42 @@ class OldExportedSettingsToRestoreDataTest {
             it is AudioEntry.ExternalAudioEntry
         }
         assertTrue("expected an external muezzin selection to survive migration", hasExternalMuezzin)
+    }
+
+    @Test
+    fun derivesCalculationAnglesFromMethodWhenNoOverride() {
+        // Jafari method: fajr 16.0, isha 14.0, maghrib 4.0. The fixture sets no angle overrides, so the
+        // migrated parameters must carry the method's canonical angles, not 0.
+        val params = parse("al_azan_settings.json").toRestoreData().calculationSettings.parameters!!
+
+        assertEquals(16.0, params.fajrAngle, 0.0001)
+        assertEquals(14.0, params.ishaAngle, 0.0001)
+        assertEquals(4.0, params.maghribAngle, 0.0001)
+    }
+
+    @Test
+    fun keepsAngleOverrideButFillsRestFromMethod() {
+        // Fixture overrides only the fajr angle (15.9); isha/maghrib must still come from the method.
+        val params = parse("al_azan_settings_2.json").toRestoreData().calculationSettings.parameters!!
+
+        assertEquals(15.9, params.fajrAngle, 0.0001)
+        assertEquals(14.0, params.ishaAngle, 0.0001)
+        assertEquals(4.0, params.maghribAngle, 0.0001)
+    }
+
+    @Test
+    fun dropsUnsetPerPrayerPlaceholders() {
+        // Fixture has a per-prayer "isha" entry with the legacy "default" id (a placeholder meaning
+        // "follow the global muezzin"). It must not be migrated as a concrete per-prayer override.
+        val data = parse("al_azan_settings_2.json").toRestoreData()
+        val entries = data.settings.selectedAdhanEntries
+
+        assertTrue("global default muezzin must be kept", entries.containsKey(AdhanKey.Default))
+        assertTrue("genuine dhuhr override must survive", entries.containsKey(AdhanKey.Dhuhr))
+        assertEquals(
+            "placeholder isha entry must be dropped",
+            false,
+            entries.containsKey(AdhanKey.Isha),
+        )
     }
 }
