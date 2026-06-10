@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,8 +33,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
+import com.github.meypod.al_azan.core.presentation.ClassicHighlightBackground
 import com.github.meypod.al_azan.core.presentation.DarkOnTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.DarkTertiary
 import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightOnTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
@@ -129,9 +135,11 @@ fun MonthlyViewScreen(
                 HeaderRow()
                 HorizontalDivider()
                 uiState.rows.forEach { row ->
-                    DayRow(row)
-                    if (row.isToday) {
-                        HorizontalDivider(color = MaterialTheme.colorScheme.primary)
+                    DayRow(row, uiState.themeColor)
+                    // classic-light marks today with a filled background, so leave its
+                    // divider default; other themes get an accent-colored divider.
+                    if (row.isToday && uiState.themeColor != ThemeColor.ClassicLight) {
+                        HorizontalDivider(color = todayAccentColor(uiState.themeColor))
                     } else {
                         HorizontalDivider()
                     }
@@ -184,11 +192,36 @@ private fun HeaderRow() {
     }
 }
 
+// classic themes' primary is near-black/near-white, so it barely reads as a highlight.
+// mirror the sharia times box: classic-light gets a cream background with dark text,
+// classic-dark a gold accent, others the normal primary tint.
 @Composable
-private fun DayRow(row: MonthlyDayRow) {
+private fun todayAccentColor(themeColor: ThemeColor): Color =
+    when {
+        themeColor == ThemeColor.ClassicLight -> MaterialTheme.colorScheme.primary
+        themeColor == ThemeColor.ClassicDark -> DarkTertiary
+        else -> MaterialTheme.colorScheme.primary
+    }
+
+@Composable
+private fun DayRow(
+    row: MonthlyDayRow,
+    themeColor: ThemeColor,
+) {
+    val accent = todayAccentColor(themeColor)
+    val classicLightToday = row.isToday && themeColor == ThemeColor.ClassicLight
     Row(
         Modifier
             .fillMaxWidth()
+            .then(
+                if (classicLightToday) {
+                    Modifier
+                        .clip(MaterialTheme.shapes.medium)
+                        .background(ClassicHighlightBackground)
+                } else {
+                    Modifier
+                },
+            )
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -199,7 +232,7 @@ private fun DayRow(row: MonthlyDayRow) {
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = if (row.isToday) FontWeight.ExtraBold else FontWeight.Normal,
-                color = if (row.isToday) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                color = if (row.isToday) accent else MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
@@ -246,8 +279,8 @@ private fun HeaderRowPreview() {
 private fun DayRowPreview() {
     AlAzanThemePreview {
         Column {
-            DayRow(MonthlyDayRow("15", "03:59", "13:00", "16:30", "20:15", "21:45", isToday = true))
-            DayRow(MonthlyDayRow("16", "04:00", "13:00", "16:30", "20:16", "21:46"))
+            DayRow(MonthlyDayRow("15", "03:59", "13:00", "16:30", "20:15", "21:45", isToday = true), ThemeColor.Default)
+            DayRow(MonthlyDayRow("16", "04:00", "13:00", "16:30", "20:16", "21:46"), ThemeColor.Default)
         }
     }
 }

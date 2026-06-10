@@ -33,12 +33,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
@@ -282,6 +284,7 @@ fun HomeScreen(
                                     .offset(y = -dimensionResource(R.dimen.home_card_padding))
                             },
                         ),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                 ) {
                     if (uiState.location == null || !uiState.isCalculationConfigured) {
                         ConfigHintCard(
@@ -302,12 +305,40 @@ fun HomeScreen(
                             hiddenPrayers = uiState.hiddenPrayers,
                             themeColor = uiState.themeColor,
                         ),
+                        modifier = if (uiState.themeColor.isClassic()) {
+                            Modifier
+                        } else {
+                            // Counter the column's upward offset so the box reaches the
+                            // screen bottom instead of leaving the offset as a dead gap.
+                            Modifier.fillHeightExtendedBy(
+                                dimensionResource(R.dimen.home_card_padding),
+                            )
+                        },
                     )
                 }
             }
         }
     }
 }
+
+/**
+ * Offers the content [extra] more room than the parent allows, without forcing it to grow.
+ * Content that already fits keeps its natural size; content that would otherwise be capped
+ * gets the extra height, so a parent drawing it with an upward offset of [extra] lands its
+ * bottom edge at the original bottom instead of leaving a gap.
+ */
+private fun Modifier.fillHeightExtendedBy(extra: Dp) =
+    layout { measurable, constraints ->
+        val maxHeight = if (constraints.hasBoundedHeight) {
+            constraints.maxHeight + extra.roundToPx()
+        } else {
+            constraints.maxHeight
+        }
+        val placeable = measurable.measure(constraints.copy(maxHeight = maxHeight))
+        layout(placeable.width, placeable.height) {
+            placeable.place(0, 0)
+        }
+    }
 
 @Preview(
     showBackground = true,
