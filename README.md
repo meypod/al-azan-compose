@@ -16,7 +16,7 @@ an open-source Adhan (أذان) - prayer times application, built natively for A
 
 * Ad-Free
 
-* No internet permission — the app can never access the internet
+* No internet permission: the app can never access the internet
 
 * Doesn't use any kind of trackers
 
@@ -33,8 +33,6 @@ an open-source Adhan (أذان) - prayer times application, built natively for A
 * Many options for Adhan (اذان) calculation
 
 * Light and Dark theme, with Material You dynamic colors
-
-* Hijri calendar with multiple variants, plus other calendars and numbering systems
 
 * Monthly prayer times view
 
@@ -54,7 +52,7 @@ an open-source Adhan (أذان) - prayer times application, built natively for A
 
 * Backup and restore your settings
 
-* Is localized in English, Persian, Arabic, Turkish, Indonesian, French, Urdu, Hindi, German, Bosnian, Vietnamese, Bangla, Kiswahili
+* Is localized in English, Arabic, Persian, Turkish, Indonesian, French, Urdu, Hindi, German, Bosnian, Vietnamese, Bangla, Kiswahili
 
 ## Screenshots
 
