@@ -1,0 +1,49 @@
+Datenschutzfreundliche, werbefreie Open-Source-App für den Adhan (islamische Gebetszeiten) und die Qibla
+
+Features der App:
+
+* Frei von Werbung
+
+* Keine Internet-Berechtigung: die App kann niemals auf das Internet zugreifen
+
+* Verwendet keine Tracking-Methoden
+
+* Open-Source
+
+* Sie können offline nach Ihrem Standort suchen oder GPS verwenden
+
+* Benutzerdefinierte Adhan-Stimmen auswählbar, oder wählen Sie einen beliebigen Klang von Ihrem Gerät
+
+* Unterstützt unterschiedliche Adhan-Stimmen für das Fajr-Gebet
+
+* Neben den fünf Gebeten gibt es Einstellungen für den Sonnenaufgang und -untergang, für die Mitternacht und das Nachtgebet (Tahajjud)
+
+* Mehrere Methoden für die Berechnung des Adhan (اذان)
+
+* Heller und dunkler Farbmodus, mit dynamischen Material-You-Farben
+
+* Monatsansicht der Gebetszeiten
+
+* Ausblenden nicht benötigter Gebetszeiten möglich
+
+* Erstellung von Erinnerungen vor und nach den Gebetszeiten
+
+* Schaltet Ihr Telefon nach dem Adhan automatisch für eine von Ihnen gewählte Dauer stumm (Nicht stören)
+
+* Anstehende Alarme anzeigen und nicht gewünschte überspringen
+
+* Startbildschirm- und Benachrichtigungs-Widgets
+
+* Ermittlung der Qibla (Karte und Kompass)
+
+* Qada-Zähler
+
+* Sichern und Wiederherstellen Ihrer Einstellungen
+
+* Ist lokalisiert in Englisch, Arabisch, Persisch, Türkisch, Indonesisch, Französisch, Urdu, Hindi, Deutsch, Bosnisch, Vietnamesisch, Bengalisch, Kiswahili
+
+Open-Source Repository:
+https://github.com/meypod/al-azan/
+
+Da in der App keine Tracker und Analysewerkzeuge eingebaut sind, melden Sie Fehler oder Vorschläge bitte an das folgende GitHub-Repository:
+https://github.com/meypod/al-azan/issues

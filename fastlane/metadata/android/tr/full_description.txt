@@ -1,0 +1,49 @@
+Mahremiyete saygılı, reklamsız, açık kaynak Ezan (İslami namaz vakitleri) ve kıble uygulaması
+
+Uygulama özellikleri:
+
+* Reklamsız
+
+* İnternet izni yok: uygulama internete asla erişemez
+
+* Herhangi bir izleyici kullanmaz
+
+* Açık kaynak
+
+* Konumunuzu çevrimdışı arayabilir veya GPS kullanabilirsiniz
+
+* Özel Ezan sesi ayarlama veya cihazınızdan herhangi bir ses seçme
+
+* Sabah namazı için farklı Ezan sesi seçme
+
+* Beş vakit namaza ek olarak Gün Doğumu, Gün Batımı, Gece Yarısı ve Gece Namazı (Teheccüd) ayarları vardır
+
+* Ezan hesaplaması için birçok seçenek
+
+* Material You dinamik renkleriyle Açık ve Koyu tema
+
+* Aylık namaz vakitleri görünümü
+
+* İhtiyacınız olmayan vakitleri gizleme
+
+* Namaz vaktinden önce veya sonra hatırlatıcı ayarlama
+
+* Ezandan sonra telefonunuzu seçtiğiniz bir süre boyunca otomatik olarak sessize alma (Rahatsız Etmeyin)
+
+* Yaklaşan alarmları görüntüleme ve istemediklerinizi atlama
+
+* Ana ekran ve bildirim Widget'ları
+
+* Kıble bulucu (harita ve pusula)
+
+* Kaza namazı sayacı
+
+* Ayarlarınızı yedekleme ve geri yükleme
+
+* İngilizce, Arapça, Farsça, Türkçe, Endonezce, Fransızca, Urduca, Hintçe, Almanca, Boşnakça, Vietnamca, Bangla, Kiswahili dillerinde yerelleştirilmiştir
+
+Açık kaynak deposu:
+https://github.com/meypod/al-azan/
+
+Herhangi bir izleyici veya çökme analizi kullanmadığımız için, lütfen yaşadığınız sorunları veya önerilerinizi GitHub depomuza bildirin:
+https://github.com/meypod/al-azan/issues

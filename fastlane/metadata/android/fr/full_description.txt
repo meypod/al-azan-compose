@@ -1,0 +1,49 @@
+Application musulmane d'Adhan (horaires de prière islamiques) et de Qibla, respectueuse de la vie privée, open-source et sans publicité
+
+Caractéristiques de l'application :
+
+* Sans publicité
+
+* Aucune permission Internet : l'application ne peut jamais accéder à Internet
+
+* N'utilise aucun type de traqueur
+
+* Open-source
+
+* Vous pouvez rechercher votre position hors ligne ou utiliser le GPS
+
+* Définissez un audio personnalisé pour l'Adhan, ou choisissez n'importe quel son de votre appareil
+
+* Sélectionnez un son Adhan différent pour la prière du Fajr
+
+* En plus des cinq prières quotidiennes, il y a des réglages pour le lever du soleil, le coucher du soleil, minuit et la prière de nuit (Tahajjud)
+
+* Nombreuses options pour le calcul de l'Adhan (اذان)
+
+* Thème clair et foncé, avec les couleurs dynamiques Material You
+
+* Vue mensuelle des horaires de prière
+
+* Cachez les horaires dont vous n'avez pas besoin
+
+* Définissez des rappels avant ou après un temps de prière
+
+* Mettez automatiquement votre téléphone en silence après l'Adhan pendant la durée de votre choix (Ne pas déranger)
+
+* Affichez les alarmes à venir et sautez celles que vous ne voulez pas
+
+* Widgets pour l'écran d'accueil et les notifications
+
+* Recherche de Qibla (carte et boussole)
+
+* Compteur de Qada
+
+* Sauvegardez et restaurez vos réglages
+
+* Est localisée en anglais, arabe, persan, turc, indonésien, français, urdu, hindi, allemand, bosniaque, vietnamien, bengali, kiswahili
+
+Dépôt open source :
+https://github.com/meypod/al-azan/
+
+Puisque nous n'utilisons aucune sorte de traqueur ou de crash analytics, merci de nous faire part de tout problème ou suggestion sur notre dépôt GitHub :
+https://github.com/meypod/al-azan/issues

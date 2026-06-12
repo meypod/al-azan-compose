@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.presentation.navigation
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
 import androidx.navigation3.runtime.NavKey
+import com.github.meypod.al_azan.BuildConfig
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.navigation.DeepLinkableRoute
 import com.github.meypod.al_azan.core.presentation.navigation.deeplink.DeepLinkPattern
@@ -64,30 +65,30 @@ sealed interface Route : NavKey {
         data object CalendarView : Route
 
         @Serializable
-        data object MonthlyView : Route
+        data object MonthlyView : Route, DeepLinkableRoute
 
         @Serializable
-        data object Reminder : Route
+        data object Reminder : Route, DeepLinkableRoute
 
         @Serializable
         data object Qibla : Route
 
         @Serializable
-        data object QiblaCompass : Route
+        data object QiblaCompass : Route, DeepLinkableRoute
 
         @Serializable
-        data object Counter : Route
+        data object Counter : Route, DeepLinkableRoute
 
         @Serializable
         data object Settings : Route {
 
             @Serializable
-            data object InterfaceSettings : Route
+            data object InterfaceSettings : Route, DeepLinkableRoute
 
             @Serializable
-            data object SoundAndNotifications : Route {
+            data object SoundAndNotifications : Route, DeepLinkableRoute {
                 @Serializable
-                data object ScheduleAndMuezzin : Route
+                data object ScheduleAndMuezzin : Route, DeepLinkableRoute
 
                 @Serializable
                 data class PrayerSchedule(
@@ -129,10 +130,35 @@ sealed interface Route : NavKey {
 }
 
 internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
-    listOf(
+    buildList {
         // "al-azan://home"
-        DeepLinkPattern(Route.Main.Home.serializer(), Route.Main.Home.toUriString().toUri()),
+        add(DeepLinkPattern(Route.Main.Home.serializer(), Route.Main.Home.toUriString().toUri()))
         // "al-azan://SilenceStatus"
-        DeepLinkPattern(Route.Main.SilenceStatus.serializer(), Route.Main.SilenceStatus.toUriString().toUri()),
-    )
+        add(DeepLinkPattern(Route.Main.SilenceStatus.serializer(), Route.Main.SilenceStatus.toUriString().toUri()))
+        // Debug-only: extra screens for tooling (fastlane screenshot scripts) to open directly via adb.
+        if (BuildConfig.DEBUG) {
+            add(DeepLinkPattern(Route.Main.MonthlyView.serializer(), Route.Main.MonthlyView.toUriString().toUri()))
+            add(DeepLinkPattern(Route.Main.Reminder.serializer(), Route.Main.Reminder.toUriString().toUri()))
+            add(DeepLinkPattern(Route.Main.QiblaCompass.serializer(), Route.Main.QiblaCompass.toUriString().toUri()))
+            add(DeepLinkPattern(Route.Main.Counter.serializer(), Route.Main.Counter.toUriString().toUri()))
+            add(
+                DeepLinkPattern(
+                    Route.Main.Settings.InterfaceSettings.serializer(),
+                    Route.Main.Settings.InterfaceSettings.toUriString().toUri(),
+                ),
+            )
+            add(
+                DeepLinkPattern(
+                    Route.Main.Settings.SoundAndNotifications.serializer(),
+                    Route.Main.Settings.SoundAndNotifications.toUriString().toUri(),
+                ),
+            )
+            add(
+                DeepLinkPattern(
+                    Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin.serializer(),
+                    Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin.toUriString().toUri(),
+                ),
+            )
+        }
+    }
 }

@@ -1,0 +1,49 @@
+Privacy focused ad-free open-source muslim Adhan (islamic prayer times) and Qibla app
+
+App features:
+
+* Ad-Free
+
+* No internet permission: the app can never access the internet
+
+* Doesn't use any kind of trackers
+
+* Open-source
+
+* You can search for your location offline Or use GPS
+
+* Set custom Adhan audio, or pick any sound from your device
+
+* Select different Adhan audio for Fajr namaz
+
+* In addition to five daily prayers, it has settings for Sunrise, Sunset, Midnight and Night Prayer (Tahajjud)
+
+* Many options for Adhan (اذان) calculation
+
+* Light and Dark theme, with Material You dynamic colors
+
+* Monthly prayer times view
+
+* Hide times you don't need
+
+* Set reminders before or after a prayer time
+
+* Automatically silence your phone after Adhan for a duration you choose (Do Not Disturb)
+
+* View upcoming alarms, and skip the ones you don't want
+
+* Homescreen and notification Widgets
+
+* Qibla finder (map and compass)
+
+* Qada counter
+
+* Backup and restore your settings
+
+* Is localized in English, Arabic, Persian, Turkish, Indonesian, French, Urdu, Hindi, German, Bosnian, Vietnamese, Bangla, Kiswahili
+
+Open-Source repository:
+https://github.com/meypod/al-azan/
+
+Since we don't use any kind of tracker or crash analytics, Please report any problem or suggestion you have on our GitHub repo:
+https://github.com/meypod/al-azan/issues

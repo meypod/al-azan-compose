@@ -27,3 +27,7 @@ local.properties
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
 todo
+
+# tablet store screenshots (not published yet)
+**/sevenInchScreenshots/
+**/tenInchScreenshots/

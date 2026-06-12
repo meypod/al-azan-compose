@@ -1,0 +1,49 @@
+Programu huria ya Adhana ya Kiislamu (nyakati za sala) na Kibla, isiyo na matangazo na inayozingatia faragha
+
+Vipengele vya programu:
+
+* Bila matangazo
+
+* Hakuna ruhusa ya intaneti: programu haiwezi kamwe kufikia intaneti
+
+* Haitumii aina yoyote ya vifuatiliaji
+
+* Programu huria
+
+* Unaweza kutafuta eneo lako nje ya mtandao au kutumia GPS
+
+* Weka sauti maalum ya Adhana, au chagua sauti yoyote kutoka kwenye kifaa chako
+
+* Chagua sauti tofauti ya Adhana kwa sala ya Alfajiri
+
+* Mbali na sala tano za kila siku, ina mipangilio ya Kuchomoza kwa Jua, Kuzama kwa Jua, Usiku wa Manane na Sala ya Usiku (Tahajjud)
+
+* Chaguo nyingi za kukokotoa nyakati za Adhana (اذان)
+
+* Mandhari angavu na ya giza, pamoja na rangi badilifu za Material You
+
+* Mwonekano wa nyakati za sala za mwezi mzima
+
+* Ficha nyakati ambazo huzihitaji
+
+* Weka vikumbusho kabla au baada ya wakati wa sala
+
+* Nyamazisha simu yako kiotomatiki baada ya Adhana kwa muda unaouchagua (Usinisumbue)
+
+* Tazama kengele zijazo, na ruka zile usizozitaka
+
+* Wijeti za skrini ya nyumbani na za arifa
+
+* Kitafuta Kibla (ramani na dira)
+
+* Kaunta ya Qada
+
+* Hifadhi nakala na urejeshe mipangilio yako
+
+* Imejanibishwa katika Kiingereza, Kiarabu, Kiajemi, Kituruki, Kiindonesia, Kifaransa, Kiurdu, Kihindi, Kijerumani, Kibosnia, Kivietinamu, Kibangla, Kiswahili
+
+Hifadhi ya msimbo huria:
+https://github.com/meypod/al-azan/
+
+Kwa kuwa hatutumii aina yoyote ya kifuatiliaji au uchanganuzi wa hitilafu, tafadhali ripoti tatizo au pendekezo lolote ulilo nalo kwenye hifadhi yetu ya GitHub:
+https://github.com/meypod/al-azan/issues
