@@ -1,0 +1,49 @@
+Aplikasi Adzan (jadwal salat) dan kiblat untuk muslim yang bersumber terbuka, bebas iklan, dan mengutamakan privasi
+
+Fitur aplikasi:
+
+* Bebas Iklan
+
+* Tanpa izin internet: aplikasi tidak akan pernah dapat mengakses internet
+
+* Tidak menggunakan pelacak apa pun
+
+* Sumber terbuka
+
+* Anda dapat mencari lokasi Anda secara offline atau menggunakan GPS
+
+* Mengatur audio Adzan khusus, atau memilih suara apa pun dari perangkat Anda
+
+* Pilih audio Adzan yang berbeda untuk salat Subuh
+
+* Selain salat lima waktu, aplikasi ini juga memiliki pengaturan untuk Matahari Terbit, Matahari Terbenam, Tengah Malam, dan Salat Malam (Tahajjud)
+
+* Banyak pilihan untuk perhitungan Adzan (اذان)
+
+* Tema Terang dan Gelap, dengan warna dinamis Material You
+
+* Tampilan jadwal salat bulanan
+
+* Sembunyikan waktu yang tidak Anda perlukan
+
+* Mengatur pengingat sebelum atau sesudah waktu salat
+
+* Menyenyapkan ponsel Anda secara otomatis setelah Adzan selama durasi yang Anda pilih (Jangan Ganggu)
+
+* Lihat alarm yang akan datang, dan lewati alarm yang tidak Anda inginkan
+
+* Widget Layar Beranda dan pemberitahuan
+
+* Penunjuk arah kiblat (peta dan kompas)
+
+* Penghitung Qada
+
+* Cadangkan dan pulihkan pengaturan Anda
+
+* Dilokalkan dalam bahasa Inggris, Arab, Persia, Turki, Indonesia, Prancis, Urdu, Hindi, Jerman, Bosnia, Vietnam, Bangla, Kiswahili
+
+Repositori sumber terbuka:
+https://github.com/meypod/al-azan/
+
+Karena kami tidak menggunakan pelacak atau analisis kerusakan apa pun, silakan laporkan masalah atau saran apa pun yang Anda miliki di repo GitHub kami:
+https://github.com/meypod/al-azan/issues

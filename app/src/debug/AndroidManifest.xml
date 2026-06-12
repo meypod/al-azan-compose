@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- Debug-only: lets the screenshot tooling configure the app in one adb broadcast.
+             Never shipped in release builds. -->
+        <receiver
+            android:name=".ScreenshotSetupReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.github.meypod.al_azan.action.SETUP_SCREENSHOTS" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

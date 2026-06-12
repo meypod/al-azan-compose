@@ -1,0 +1,49 @@
+Privatna, bez oglasa i otvorenog koda muslimanska aplikacija za Ezan (islamska vremena molitve) i kiblu
+
+Funkcije aplikacije:
+
+* Bez oglasa
+
+* Bez dozvole za internet: aplikacija nikada ne može pristupiti internetu
+
+* Ne koristi nikakvu vrstu tragača
+
+* Otvorenog koda
+
+* Možete pronaći svoju lokaciju bez interneta ili koristeći GPS
+
+* Postavite prilagođeni zvuk ezana ili odaberite bilo koji zvuk sa svog uređaja
+
+* Odaberite drugačiji zvuk ezana za sabah
+
+* Pored pet dnevnih namaza, ima postavke za izlazak sunca, zalazak sunca, ponoć i noćni namaz (tahadžud)
+
+* Mnogo opcija za izračunavanje ezana (اذان)
+
+* Svijetla i tamna tema, sa Material You dinamičkim bojama
+
+* Mjesečni prikaz vremena namaza
+
+* Sakrijte vremena koja vam nisu potrebna
+
+* Postavite podsjetnike prije ili poslije molitvenog vremena
+
+* Automatski utišajte telefon nakon ezana na vrijeme koje odaberete (Ne ometaj)
+
+* Pregledajte nadolazeće alarme i preskočite one koje ne želite
+
+* Vidžeti za početni ekran i obavještenja
+
+* Pronalaznik kible (mapa i kompas)
+
+* Brojač kada-namaza
+
+* Napravite sigurnosnu kopiju i vratite svoje postavke
+
+* Lokalizirana je na engleski, arapski, perzijski, turski, indonezijski, francuski, urdu, hindi, njemački, bosanski, vijetnamski, bangla i svahili
+
+Repozitorij otvorenog koda:
+https://github.com/meypod/al-azan/
+
+Budući da ne koristimo nikakvu vrstu tragača ili analitike rušenja, molimo prijavite svaki problem ili prijedlog koji imate na našem GitHub repozitoriju:
+https://github.com/meypod/al-azan/issues

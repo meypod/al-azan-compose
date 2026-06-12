@@ -1,0 +1,6 @@
+Al-Azan 2.0.0: full rewrite, now native Android with Jetpack Compose.
+
+* Internet permission removed (all assets are bundled now)
+* Faster and lighter
+* Auto-silence after Adhan (Do Not Disturb)
+* View and skip upcoming alarms

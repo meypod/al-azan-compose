@@ -34,7 +34,9 @@ constructor(
         if (appLocales.isEmpty) {
             if (settingsLocale.isNotBlank()) appLocaleManager.apply(settingsLocale)
         } else {
-            val appLang = appLocales.get(0)!!.language
+            // language alone returns legacy ISO codes ("in" for Indonesian); toLanguageTag maps them
+            // back to the modern tags that SupportedLocales and settings store ("id").
+            val appLang = appLocales.get(0)!!.toLanguageTag().substringBefore('-')
             if (appLang != settingsLocale) {
                 settingsRepository.update { it.copy(selectedLocale = appLang) }
             }
