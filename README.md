@@ -10,7 +10,7 @@ an open-source Adhan (أذان) - prayer times application, built natively for A
      height="80">](https://play.google.com/store/apps/details?id=com.github.meypod.al_azan)
 [<img src="fastlane/get-it-on-github.png"
      alt='Get it on GitHub'
-     height="80">](https://github.com/meypod/al-azan/releases/latest)
+     height="80">](https://github.com/meypod/al-azan-compose/releases/latest)
 
 ## Features
 
