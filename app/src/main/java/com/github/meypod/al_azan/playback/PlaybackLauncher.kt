@@ -35,6 +35,11 @@ data class PlaybackRequest(
     /** Reminder only: header shown above the title on the full-screen alarm. */
     val header: String? = null,
     val isReminder: Boolean = false,
+    /**
+     * Selected app language; the service resolves its own strings (e.g. the Dismiss action) in it,
+     * since service contexts don't carry the per-app locale on pre-API 33.
+     */
+    val languageTags: String = "",
 ) {
     companion object {
         /**
@@ -71,6 +76,7 @@ data class PlaybackRequest(
             prayerName = prayerName,
             header = header,
             isReminder = isReminder,
+            languageTags = settings.selectedLocale,
         )
     }
 }
@@ -101,6 +107,7 @@ class PlaybackLauncher @Inject constructor(
             putBoolean(PlaybackService.EXTRA_FORCE_LAUNCH_ACTIVITY, request.forceLaunchActivity)
             putString(PlaybackService.EXTRA_VIBRATION, request.vibration.name)
             putBoolean(PlaybackService.EXTRA_VOLUME_BUTTON_STOPS, request.volumeButtonStops)
+            putString(PlaybackService.EXTRA_LANGUAGE_TAGS, request.languageTags)
         }
         PlaybackService.start(context, extras)
     }

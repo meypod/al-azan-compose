@@ -7,7 +7,9 @@ import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.model.TextResource
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.alarm.upsert
@@ -15,11 +17,10 @@ import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificat
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
-import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
-import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
@@ -58,6 +59,7 @@ class ReminderFiringHandler @Inject constructor(
     private val audioDurationProbe: AudioDurationProbe,
     private val softSoundPlayer: SoftSoundPlayer,
     private val dndSilenceController: DndSilenceController,
+    private val localizedResources: LocalizedResources,
 ) {
     private val uiScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -86,7 +88,7 @@ class ReminderFiringHandler @Inject constructor(
     suspend fun devFireNow() {
         val settings = settingsRepository.data.first()
         val alarmSettings = alarmSettingsRepository.data.first()
-        val title = context.getString(R.string.reminder)
+        val title = localizedResources.current.getString(R.string.reminder)
         val timeLabel = settings.formatTime(Clock.System.now().toEpochMilliseconds())
         val soundEntry = settings.selectedAdhanEntries[AdhanKey.Default]?.takeIf { it.isResolvable() }
             ?: settings.savedAdhanAudioEntries.firstOrNull()
@@ -102,7 +104,7 @@ class ReminderFiringHandler @Inject constructor(
                 channelId = reminderChannel(settings),
                 loop = soundEntry.loop,
                 vibration = alarmSettings.vibrationMode,
-                header = context.getString(R.string.reminder),
+                header = localizedResources.current.getString(R.string.reminder),
                 isReminder = true,
             ),
         )
@@ -123,7 +125,7 @@ class ReminderFiringHandler @Inject constructor(
         val settings = settingsRepository.data.first()
         val alarmSettings = alarmSettingsRepository.data.first()
 
-        val title = reminder.displayName(context.resources)
+        val title = reminder.displayName(localizedResources.current)
         val timeLabel = settings.formatTime(timestamp)
         // The adhan "Dismiss & silent" window suppresses reminders too: post a silent missed notice
         // instead of sounding, so the user still sees it passed.
@@ -149,7 +151,7 @@ class ReminderFiringHandler @Inject constructor(
                         channelId = reminderChannel(settings),
                         loop = soundEntry.loop,
                         vibration = vibration,
-                        header = context.getString(R.string.reminder),
+                        header = localizedResources.current.getString(R.string.reminder),
                         isReminder = true,
                     ),
                 )
@@ -182,7 +184,7 @@ class ReminderFiringHandler @Inject constructor(
         val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId } ?: return
         if (!reminder.enabled) return
         val settings = settingsRepository.data.first()
-        val title = reminder.displayName(context.resources)
+        val title = reminder.displayName(localizedResources.current)
         val timeLabel = settings.formatTime(timestamp)
         notificationRepository.notify(
             NotificationConfig(
@@ -233,9 +235,10 @@ class ReminderFiringHandler @Inject constructor(
         PlaybackService.stop(context)
         reminderScheduler.schedule()
 
-        val name = reminder?.displayName(context.resources) ?: context.getString(R.string.reminder)
+        val name = reminder?.displayName(localizedResources.current) ?: localizedResources.current.getString(R.string.reminder)
         withContext(Dispatchers.Main) {
-            Toast.makeText(context, context.getString(R.string.reminder_cancelled_toast, name), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, localizedResources.current.getString(R.string.reminder_cancelled_toast, name), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

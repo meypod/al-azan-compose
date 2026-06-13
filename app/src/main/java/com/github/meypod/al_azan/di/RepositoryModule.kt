@@ -5,6 +5,8 @@ import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
 import com.github.meypod.al_azan.core.data.format.WidgetFormatterImpl
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
+import com.github.meypod.al_azan.core.data.locale.PerAppLocaleMarker
 import com.github.meypod.al_azan.core.data.repository.AlarmRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
@@ -74,24 +76,26 @@ private object StorageKeysV2 {
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideAppLocaleManager(): AppLocaleManager = AppLocaleManagerImpl()
+    fun provideAppLocaleManager(perAppLocaleMarker: PerAppLocaleMarker): AppLocaleManager = AppLocaleManagerImpl(perAppLocaleMarker)
 
     @Provides
     @Singleton
-    fun provideNewSettingsRepository(
+    fun provideSettingsDataStore(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
-    ): SettingsRepository =
-        SettingsRepositoryImpl(
-            settingsDatastore =
-                MMKVDataStore(
-                    mmkv = mmkv,
-                    key = StorageKeysV2.SETTINGS,
-                    serializer = Settings.serializer(),
-                    defaultValue = Settings(selectedLocale = "en"),
-                    json = storageJson,
-                ),
+    ): MMKVDataStore<Settings> =
+        MMKVDataStore(
+            mmkv = mmkv,
+            key = StorageKeysV2.SETTINGS,
+            serializer = Settings.serializer(),
+            defaultValue = Settings(selectedLocale = "en"),
+            json = storageJson,
         )
+
+    @Provides
+    @Singleton
+    fun provideNewSettingsRepository(settingsDatastore: MMKVDataStore<Settings>): SettingsRepository =
+        SettingsRepositoryImpl(settingsDatastore = settingsDatastore)
 
     @Provides
     @Singleton
@@ -233,7 +237,10 @@ object RepositoryModule {
     fun provideWidgetFormatter(): WidgetFormatter = WidgetFormatterImpl()
 
     @Provides
-    fun provideAudioPreviewPlayer(@ApplicationContext context: Context): AudioPreviewPlayer = AudioPreviewPlayerImpl(context)
+    fun provideAudioPreviewPlayer(
+        @ApplicationContext context: Context,
+        localizedResources: LocalizedResources,
+    ): AudioPreviewPlayer = AudioPreviewPlayerImpl(context, localizedResources)
 
     @Provides
     @Singleton
@@ -253,14 +260,20 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNotificationChannelManager(@ApplicationContext context: Context): NotificationChannelManager =
-        NotificationChannelManagerImpl(context)
+    fun provideNotificationChannelManager(
+        @ApplicationContext context: Context,
+        localizedResources: LocalizedResources,
+    ): NotificationChannelManager = NotificationChannelManagerImpl(context, localizedResources)
 
     @Provides
     @Singleton
-    fun provideNotificationManager(@ApplicationContext context: Context): NotificationRepository =
+    fun provideNotificationManager(
+        @ApplicationContext context: Context,
+        localizedResources: LocalizedResources,
+    ): NotificationRepository =
         NotificationRepositoryImpl(
             context,
             MainActivity::class.java,
+            localizedResources,
         )
 }

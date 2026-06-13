@@ -35,4 +35,10 @@ data class WidgetData(
     val swapLayoutDirection: Boolean,
     /** Wall-clock millis at which the widget should be redrawn next (next prayer / day rollover). */
     val nextUpdateAtMillis: Long?,
+    /**
+     * Language tag the widget strings must resolve in. The renderer runs from contexts that never get
+     * the AppCompat per-app locale (application context, receivers — pre-API 33), so it can't rely on
+     * the context's own configuration.
+     */
+    val locale: String,
 )

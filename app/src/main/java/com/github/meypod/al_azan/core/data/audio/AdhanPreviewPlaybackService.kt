@@ -26,6 +26,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.data.audio.AdhanPreviewPlaybackService.Companion.playingId
+import com.github.meypod.al_azan.core.data.locale.withAppLocale
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -257,7 +258,11 @@ class AdhanPreviewPlaybackService :
     }
 
     private fun buildNotification(label: String): android.app.Notification {
-        ensureChannel()
+        // Service contexts don't carry the per-app locale on pre-API 33; resolve strings localized.
+        // The preview only ever starts from in-app UI, so the AppCompat locale store is written and
+        // the parameterless lookup is reliable here.
+        val localized = withAppLocale()
+        ensureChannel(localized)
         val stopIntent = PendingIntent.getService(
             this,
             0,
@@ -266,22 +271,22 @@ class AdhanPreviewPlaybackService :
         )
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.monochrome_notif)
-            .setContentTitle(getString(R.string.adhan_preview_playing))
+            .setContentTitle(localized.getString(R.string.adhan_preview_playing))
             .setContentText(label)
             .setOngoing(true)
             .setSilent(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
-            .addAction(R.drawable.outline_stop_24, getString(R.string.stop), stopIntent)
+            .addAction(R.drawable.outline_stop_24, localized.getString(R.string.stop), stopIntent)
             .build()
     }
 
-    private fun ensureChannel() {
+    private fun ensureChannel(localized: Context) {
         val channel = NotificationChannelCompat.Builder(
             CHANNEL_ID,
             NotificationManagerCompat.IMPORTANCE_LOW,
         )
-            .setName(getString(R.string.adhan_preview_channel_name))
+            .setName(localized.getString(R.string.adhan_preview_channel_name))
             .setShowBadge(false)
             .build()
         NotificationManagerCompat.from(this).createNotificationChannel(channel)

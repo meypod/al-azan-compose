@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.PendingIntentCompat
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.data.mapping.asString
 import com.github.meypod.al_azan.core.domain.model.navigation.DeepLinkableRoute
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
@@ -28,6 +29,7 @@ import javax.inject.Inject
 class NotificationRepositoryImpl @Inject constructor(
     @param:ApplicationContext private val context: Context,
     val activityClassForIntents: Class<*>,
+    private val localizedResources: LocalizedResources,
 ) : NotificationRepository {
 
     companion object {
@@ -63,9 +65,12 @@ class NotificationRepositoryImpl @Inject constructor(
             builder.setDefaults(NotificationCompat.DEFAULT_ALL)
         }
 
-        payload.title?.let { builder.setContentTitle(it.asString(context)) }
-        payload.subtitle?.let { builder.setSubText(it.asString(context)) }
-        payload.body?.let { builder.setContentText(it.asString(context)) }
+        // String resources must resolve in the app language; the plain application context doesn't
+        // carry the per-app locale on pre-API 33.
+        val localized = localizedResources.current
+        payload.title?.let { builder.setContentTitle(it.asString(localized)) }
+        payload.subtitle?.let { builder.setSubText(it.asString(localized)) }
+        payload.body?.let { builder.setContentText(it.asString(localized)) }
         payload.badgeCount?.let { builder.setNumber(it) }
         builder.setOngoing(payload.android.ongoing)
         builder.setCategory(payload.android.category.toNotificationCompat())
@@ -119,7 +124,7 @@ class NotificationRepositoryImpl @Inject constructor(
                         else -> createNavDeepLinkPendingIntent(Route.Main.Home)
                     }
                     pendingIntent?.let {
-                        builder.addAction(NotificationCompat.Action(null, action.title.asString(context), it))
+                        builder.addAction(NotificationCompat.Action(null, action.title.asString(localized), it))
                     }
                 }
             }

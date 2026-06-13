@@ -9,11 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.adhan.AdhanFiringHandler
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.reminder.ReminderFiringHandler
 import com.github.meypod.al_azan.playback.PlaybackService
+import com.github.meypod.al_azan.reminder.ReminderFiringHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
@@ -32,6 +33,7 @@ class AlarmFullscreenViewModel @Inject constructor(
     private val reminderFiringHandler: ReminderFiringHandler,
     alarmSettingsRepository: AlarmSettingsRepository,
     settingsRepository: SettingsRepository,
+    localizedResources: LocalizedResources,
 ) : ViewModel() {
 
     private val prayer: Prayer? =
@@ -47,15 +49,20 @@ class AlarmFullscreenViewModel @Inject constructor(
     private val timeLabel: String =
         savedStateHandle.get<String>(PlaybackService.EXTRA_TIME_LABEL).orEmpty()
 
-    private val header: String =
-        savedStateHandle.get<String>(PlaybackService.EXTRA_HEADER)
-            ?.takeIf { it.isNotBlank() }
-            ?: context.getString(R.string.adhan_channel_name)
+    private val header: String
+    private val title: String
 
-    private val title: String =
-        savedStateHandle.get<String>(PlaybackService.EXTRA_TITLE)
+    init {
+        // The injected application context doesn't carry the per-app locale on pre-API 33; fallback
+        // strings (the header fires for every adhan — the handler only passes one for reminders)
+        // must resolve in the app language like the extras the handler localized.
+        header = savedStateHandle.get<String>(PlaybackService.EXTRA_HEADER)
             ?.takeIf { it.isNotBlank() }
-            ?: prayer?.let { context.getString(it.stringRes) }.orEmpty()
+            ?: localizedResources.current.getString(R.string.adhan_channel_name)
+        title = savedStateHandle.get<String>(PlaybackService.EXTRA_TITLE)
+            ?.takeIf { it.isNotBlank() }
+            ?: prayer?.let { localizedResources.current.getString(it.stringRes) }.orEmpty()
+    }
 
     // "Dismiss & silent" actually puts the phone into Do Not Disturb, which needs policy access.
     private val dndAccessGranted: Boolean =
