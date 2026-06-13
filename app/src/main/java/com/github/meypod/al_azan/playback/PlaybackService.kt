@@ -26,6 +26,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.alarm.AlarmActivity
+import com.github.meypod.al_azan.core.data.locale.withAppLocale
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.util.device.VibrationController
@@ -66,6 +67,7 @@ class PlaybackService :
         const val EXTRA_HEADER = "header"
         const val EXTRA_IS_REMINDER = "is_reminder"
         const val EXTRA_LOOP = "loop"
+        const val EXTRA_LANGUAGE_TAGS = "language_tags"
 
         private const val NOTIFICATION_ID = 0xADA2
 
@@ -146,6 +148,7 @@ class PlaybackService :
         val forceLaunchActivity = intent.getBooleanExtra(EXTRA_FORCE_LAUNCH_ACTIVITY, false)
         val volumeButtonStops = intent.getBooleanExtra(EXTRA_VOLUME_BUTTON_STOPS, false)
         val useMediaUsage = intent.getBooleanExtra(EXTRA_USE_MEDIA_USAGE, false)
+        val languageTags = intent.getStringExtra(EXTRA_LANGUAGE_TAGS).orEmpty()
         playbackStream = if (useMediaUsage) AudioManager.STREAM_MUSIC else AudioManager.STREAM_ALARM
         // ACTION_PLAY always arrives via startForegroundService, so we MUST call startForeground (a
         // bail without it crashes). A blank channel id would itself crash startForeground (the channel
@@ -154,7 +157,18 @@ class PlaybackService :
             ?: EnsureNotificationChannelsUseCase.ADHAN_CHANNEL_ID
         startForeground(
             NOTIFICATION_ID,
-            buildNotification(safeChannelId, title, body, prayerName, timeLabel, header, isReminder, volumeButtonStops, fullScreen),
+            buildNotification(
+                safeChannelId,
+                title,
+                body,
+                prayerName,
+                timeLabel,
+                header,
+                isReminder,
+                volumeButtonStops,
+                fullScreen,
+                languageTags,
+            ),
         )
         if (channelId.isNullOrEmpty()) {
             cleanupAndStop()
@@ -450,6 +464,7 @@ class PlaybackService :
         isReminder: Boolean,
         volumeButtonStops: Boolean,
         fullScreen: Boolean,
+        languageTags: String,
     ): android.app.Notification {
         val alarmActivityIntent =
             alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops)
@@ -478,7 +493,9 @@ class PlaybackService :
             .setContentIntent(contentIntent)
             // Swiping the notification away (where the OS allows it) stops playback too.
             .setDeleteIntent(stopIntent)
-            .addAction(R.drawable.outline_stop_24, getString(R.string.dismiss), stopIntent)
+            // Service context doesn't carry the per-app locale on pre-API 33; resolve in the language
+            // the launcher passed along (same source as the title/body the handler resolved).
+            .addAction(R.drawable.outline_stop_24, withAppLocale(languageTags).getString(R.string.dismiss), stopIntent)
             .setOnlyAlertOnce(true)
         // Only attach the full-screen intent when we're actually allowed to use it (Android 14+ gates
         // it behind USE_FULL_SCREEN_INTENT). Posting one without the grant is wasted and degrades the

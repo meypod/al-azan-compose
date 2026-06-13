@@ -10,6 +10,7 @@ import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.data.audio.toAudioUri
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.model.TextResource
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
@@ -75,6 +76,7 @@ class AdhanFiringHandler @Inject constructor(
     private val audioDurationProbe: AudioDurationProbe,
     private val softSoundPlayer: SoftSoundPlayer,
     private val dndSilenceController: DndSilenceController,
+    private val localizedResources: LocalizedResources,
 ) {
     private companion object {
         /** Fixed prayer used by dev test helpers so they don't depend on real schedule settings. */
@@ -116,7 +118,7 @@ class AdhanFiringHandler @Inject constructor(
                 PlaybackRequest.from(
                     settings = settings,
                     alarmSettings = alarmSettings,
-                    title = context.getString(prayer.stringRes),
+                    title = localizedResources.current.getString(prayer.stringRes),
                     body = body,
                     timeLabel = settings.formatTime(timestamp),
                     soundUri = soundUri,
@@ -164,8 +166,10 @@ class AdhanFiringHandler @Inject constructor(
         var body = settings.formatTime(timestamp)
         if (alarmSettings.showNextPrayerTime) {
             nextAfter(timestamp, settings, alarmSettings)?.let { next ->
-                body += " - ${context.getString(R.string.next_prayer_label)}: " +
-                    "${context.getString(next.prayer.stringRes)}, ${settings.formatTime(next.prayerTime.toEpochMilliseconds())}"
+                body += " - ${localizedResources.current.getString(R.string.next_prayer_label)}: " +
+                    "${localizedResources.current.getString(
+                        next.prayer.stringRes,
+                    )}, ${settings.formatTime(next.prayerTime.toEpochMilliseconds())}"
             }
         }
         return body
@@ -220,7 +224,7 @@ class AdhanFiringHandler @Inject constructor(
         timestamp: Long,
     ) {
         val settings = settingsRepository.data.first()
-        val prayerName = context.getString(prayer.stringRes)
+        val prayerName = localizedResources.current.getString(prayer.stringRes)
         notificationRepository.notify(
             NotificationConfig(
                 id = AdhanContract.PRE_ADHAN_NOTIFICATION_ID,
@@ -267,9 +271,12 @@ class AdhanFiringHandler @Inject constructor(
         PlaybackService.stop(context)
         adhanScheduler.schedule()
         val message = if (prayer != null) {
-            context.getString(R.string.adhan_cancelled_named_toast, context.getString(prayer.stringRes))
+            localizedResources.current.getString(
+                R.string.adhan_cancelled_named_toast,
+                localizedResources.current.getString(prayer.stringRes),
+            )
         } else {
-            context.getString(R.string.adhan_cancelled_toast)
+            localizedResources.current.getString(R.string.adhan_cancelled_toast)
         }
         withContext(Dispatchers.Main) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -306,13 +313,14 @@ class AdhanFiringHandler @Inject constructor(
         prayer: Prayer,
         minutes: Int,
     ) {
-        val prayerName = context.getString(prayer.stringRes)
         notificationRepository.notify(
             NotificationConfig(
                 id = AdhanContract.REMIND_NOTIFICATION_ID,
                 title = TextResource.StringResId(R.string.reminder),
-                body = TextResource.Literal(
-                    context.getString(R.string.adhan_remind_body, prayerName, minutes),
+                body = TextResource.StringResIdWithArgs(
+                    R.string.adhan_remind_body,
+                    TextResource.StringResId(prayer.stringRes),
+                    minutes,
                 ),
                 android = AndroidNotificationConfig(
                     channelId = EnsureNotificationChannelsUseCase.ADHAN_REMIND_CHANNEL_ID,

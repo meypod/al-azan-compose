@@ -256,6 +256,12 @@ class BuildWidgetDataUseCaseTest {
     }
 
     @Test
+    fun `locale carries the selected locale for the renderer`() {
+        val result = useCase().invoke(at(9.0), settings(), calc(), location)!!
+        assertEquals("en", result.locale)
+    }
+
+    @Test
     fun `showNotification reflects the showWidget setting`() {
         assertTrue(useCase().invoke(at(9.0), settings(showWidget = true), calc(), location)!!.showNotification)
         assertFalse(useCase().invoke(at(9.0), settings(showWidget = false), calc(), location)!!.showNotification)

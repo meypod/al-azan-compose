@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
@@ -25,6 +26,8 @@ import kotlinx.coroutines.withContext
  */
 class AudioPreviewPlayerImpl(
     private val context: Context,
+    /** Resolves entry labels and the muted-hint toast in the app language. */
+    private val localizedResources: LocalizedResources,
 ) : AudioPreviewPlayer {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -56,7 +59,7 @@ class AudioPreviewPlayerImpl(
         val audioManager = context.getSystemService<AudioManager>() ?: return
         if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) > 0) return
         withContext(Dispatchers.Main) {
-            Toast.makeText(context, R.string.preview_muted_hint, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, localizedResources.current.getString(R.string.preview_muted_hint), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -75,7 +78,7 @@ class AudioPreviewPlayerImpl(
 
     private fun AudioEntry.label(): String =
         when (this) {
-            is AudioEntry.ResourceAudioEntry -> context.getString(labelResId)
+            is AudioEntry.ResourceAudioEntry -> localizedResources.current.getString(labelResId)
             is AudioEntry.ExternalAudioEntry -> label
         }
 
@@ -90,6 +93,6 @@ class AudioPreviewPlayerImpl(
         when (this) {
             is ReminderAudioEntry.ResourceReminderAudioEntry -> label
             is ReminderAudioEntry.ExternalReminderAudioEntry -> label
-            ReminderAudioEntry.DefaultReminderAudioEntry -> context.getString(R.string.reminder_default_sound)
+            ReminderAudioEntry.DefaultReminderAudioEntry -> localizedResources.current.getString(R.string.reminder_default_sound)
         }
 }

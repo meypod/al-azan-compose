@@ -28,7 +28,7 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
 
     operator fun invoke() {
         channelManager.ensureChannelsExist(
-            listOf(
+            configs = listOf(
                 NotificationChannelConfig(
                     id = PERMISSION_REVOKED_CHANNEL_ID,
                     name = TextResource.StringResId(R.string.permission_revoked_channel_name),

@@ -145,6 +145,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             showNotification = settings.showWidget,
             swapLayoutDirection = settings.swapWidgetLayoutDirection,
             nextUpdateAtMillis = nextUpdateAtMillis,
+            locale = settings.selectedLocale,
         )
     }
 }

@@ -2,10 +2,12 @@ package com.github.meypod.al_azan.core.data.repository
 
 import android.app.NotificationChannel
 import android.content.Context
+import android.content.res.Resources
 import android.media.AudioAttributes
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.data.mapping.asString
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationChannelConfig
 import com.github.meypod.al_azan.core.domain.model.notification.toNotificationManagerCompat
@@ -15,6 +17,7 @@ import javax.inject.Inject
 
 class NotificationChannelManagerImpl @Inject constructor(
     @param:ApplicationContext private val context: Context,
+    private val localizedResources: LocalizedResources,
 ) : NotificationChannelManager {
     private val notificationManager = NotificationManagerCompat.from(context)
 
@@ -37,8 +40,12 @@ class NotificationChannelManagerImpl @Inject constructor(
      * so the adhan/reminder playback service must always find its channel even when notifications are off.
      */
     override fun ensureChannelsExist(configs: List<NotificationChannelConfig>) {
+        // Channel names/descriptions show in system settings; [localizedResources] resolves them in
+        // the app language (the application context doesn't carry the per-app locale on pre-API 33).
+        // The initializer re-runs this whenever the selected locale changes, refreshing the names.
+        val localized = localizedResources.current
         configs.forEach { config ->
-            createOrUpdateChannel(config)
+            createOrUpdateChannel(config, localized)
         }
     }
 
@@ -51,13 +58,16 @@ class NotificationChannelManagerImpl @Inject constructor(
      * available, and only the platform type can set [NotificationChannel.setBypassDnd]). The bypass
      * flag only takes effect once the user grants notification-policy access.
      */
-    private fun createOrUpdateChannel(config: NotificationChannelConfig) {
+    private fun createOrUpdateChannel(
+        config: NotificationChannelConfig,
+        localized: Resources,
+    ) {
         val channel = NotificationChannel(
             config.id,
-            config.name.asString(context),
+            config.name.asString(localized),
             config.importanceLevel.toNotificationManagerCompat(),
         ).apply {
-            description = config.description.asString(context)
+            description = config.description.asString(localized)
             setShowBadge(config.showBadge)
             enableVibration(config.vibrationEnabled)
             config.vibrationPattern?.let { vibrationPattern = it.toLongArray() }

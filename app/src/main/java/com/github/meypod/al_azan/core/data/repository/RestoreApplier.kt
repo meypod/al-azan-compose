@@ -1,11 +1,10 @@
 package com.github.meypod.al_azan.core.data.repository
 
-import android.content.res.Resources
+import com.github.meypod.al_azan.core.data.locale.deviceSupportedLanguageOrEnglish
 import com.github.meypod.al_azan.core.data.model.RestoreData
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
-import com.github.meypod.al_azan.core.domain.model.settings.SupportedLocales
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -59,16 +58,6 @@ constructor(
             selectedLocale = locale,
             selectedArabicCalendar = if (locale.startsWith("fa")) "islamic-civil" else "islamic",
         )
-    }
-
-    /** First device language the app has translations for, else "en". */
-    private fun deviceSupportedLanguageOrEnglish(): String {
-        val deviceLocales = Resources.getSystem().configuration.locales
-        for (i in 0 until deviceLocales.size()) {
-            val language = deviceLocales[i].language
-            if (SupportedLocales.any { it.value == language }) return language
-        }
-        return "en"
     }
 
     /**
