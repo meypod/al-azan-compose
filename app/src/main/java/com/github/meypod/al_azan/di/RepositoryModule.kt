@@ -94,12 +94,12 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNewSettingsRepository(settingsDatastore: MMKVDataStore<Settings>): SettingsRepository =
+    fun provideSettingsRepository(settingsDatastore: MMKVDataStore<Settings>): SettingsRepository =
         SettingsRepositoryImpl(settingsDatastore = settingsDatastore)
 
     @Provides
     @Singleton
-    fun provideNewCalculationSettingsRepository(
+    fun provideCalculationSettingsRepository(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
     ): CalculationSettingsRepository =
@@ -116,7 +116,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNewAlarmSettingsRepository(
+    fun provideAlarmSettingsRepository(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
     ): AlarmSettingsRepository =
@@ -133,7 +133,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNewCounterRepository(
+    fun provideCounterRepository(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
     ): CounterRepository =
@@ -150,7 +150,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNewReminderRepository(
+    fun provideReminderRepository(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
     ): ReminderRepository =
@@ -167,7 +167,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNewFavoriteLocationsRepository(
+    fun provideFavoriteLocationsRepository(
         mmkv: MMKV,
         @Named("storage") storageJson: Json,
     ): FavoriteLocationsRepository =
