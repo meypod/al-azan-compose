@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">আসন্ন রিমাইন্ডার</string>
     <string name="reminder_cancelled_toast">%1$s রিমাইন্ডার বাতিল করা হয়েছে</string>
     <string name="missed_during_silence_body">%1$s-এ ডু নট ডিস্টার্বের সময় অতিবাহিত হয়েছে</string>
+    <string name="missed_during_call_body">%1$s-এ ফোন কলের সময় অতিবাহিত হয়েছে</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

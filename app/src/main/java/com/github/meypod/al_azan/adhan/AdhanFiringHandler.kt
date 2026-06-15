@@ -39,6 +39,7 @@ import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsU
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
@@ -114,20 +115,32 @@ class AdhanFiringHandler @Inject constructor(
         val intrusive = vibration == VibrationMode.Continuous ||
             (soundUri != null && audioDurationProbe.isIntrusive(entry))
         if (soundUri != null && intrusive) {
-            playbackLauncher.launch(
-                PlaybackRequest.from(
-                    settings = settings,
-                    alarmSettings = alarmSettings,
-                    title = localizedResources.current.getString(prayer.stringRes),
-                    body = body,
-                    timeLabel = settings.formatTime(timestamp),
-                    soundUri = soundUri,
-                    channelId = adhanChannel(settings),
-                    loop = entry.loop,
-                    vibration = vibration,
-                    prayerName = prayer.name,
-                ),
-            )
+            // A live phone call denies the playback service audio focus, so the adhan would silently
+            // never start. Don't sound over the call, but a passed prayer is still high priority: post
+            // the normal high-importance (silent) adhan notification with a "during a call" body so the
+            // user is clearly alerted. (The notify-only branch below already notifies, so no guard there.)
+            if (CallStateInspector.isCallActive(context)) {
+                val callBody = localizedResources.current.getString(
+                    R.string.missed_during_call_body,
+                    settings.formatTime(timestamp),
+                )
+                postNotifyOnlyNotification(prayer, callBody, settings)
+            } else {
+                playbackLauncher.launch(
+                    PlaybackRequest.from(
+                        settings = settings,
+                        alarmSettings = alarmSettings,
+                        title = localizedResources.current.getString(prayer.stringRes),
+                        body = body,
+                        timeLabel = settings.formatTime(timestamp),
+                        soundUri = soundUri,
+                        channelId = adhanChannel(settings),
+                        loop = entry.loop,
+                        vibration = vibration,
+                        prayerName = prayer.name,
+                    ),
+                )
+            }
         } else {
             // Soft (short, non-looping) muezzin or notify-only: plain notification, the sound played
             // once via a lightweight player when there is one (no foreground service / stop UI), and a
@@ -167,9 +180,11 @@ class AdhanFiringHandler @Inject constructor(
         if (alarmSettings.showNextPrayerTime) {
             nextAfter(timestamp, settings, alarmSettings)?.let { next ->
                 body += " - ${localizedResources.current.getString(R.string.next_prayer_label)}: " +
-                    "${localizedResources.current.getString(
-                        next.prayer.stringRes,
-                    )}, ${settings.formatTime(next.prayerTime.toEpochMilliseconds())}"
+                    "${
+                        localizedResources.current.getString(
+                            next.prayer.stringRes,
+                        )
+                    }, ${settings.formatTime(next.prayerTime.toEpochMilliseconds())}"
             }
         }
         return body

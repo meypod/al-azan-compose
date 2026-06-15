@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Lời nhắc sắp tới</string>
     <string name="reminder_cancelled_toast">Đã hủy lời nhắc %1$s</string>
     <string name="missed_during_silence_body">Đã qua trong lúc Không làm phiền lúc %1$s</string>
+    <string name="missed_during_call_body">Đã qua trong lúc gọi điện thoại lúc %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">یادآوری آینده</string>
     <string name="reminder_cancelled_toast">یادآوری %1$s لغو شد</string>
     <string name="missed_during_silence_body">در زمان مزاحم نشوید در %1$s گذشت</string>
+    <string name="missed_during_call_body">در زمان تماس تلفنی در %1$s گذشت</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

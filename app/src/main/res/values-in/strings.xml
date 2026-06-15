@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Pengingat yang akan datang</string>
     <string name="reminder_cancelled_toast">Pengingat %1$s dibatalkan</string>
     <string name="missed_during_silence_body">Terlewat saat Jangan Ganggu pada %1$s</string>
+    <string name="missed_during_call_body">Terlewat saat panggilan telepon pada %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

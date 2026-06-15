@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Rappel à venir</string>
     <string name="reminder_cancelled_toast">Rappel de %1$s annulé</string>
     <string name="missed_during_silence_body">Passé pendant le mode Ne pas déranger à %1$s</string>
+    <string name="missed_during_call_body">Passé pendant un appel téléphonique à %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

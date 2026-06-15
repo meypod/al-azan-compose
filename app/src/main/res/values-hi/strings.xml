@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">आगामी अनुस्मारक</string>
     <string name="reminder_cancelled_toast">%1$s अनुस्मारक रद्द कर दिया गया</string>
     <string name="missed_during_silence_body">%1$s पर परेशान न करें के दौरान बीत गया</string>
+    <string name="missed_during_call_body">%1$s पर फ़ोन कॉल के दौरान बीत गया</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

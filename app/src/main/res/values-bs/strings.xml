@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Nadolazeći podsjetnik</string>
     <string name="reminder_cancelled_toast">%1$s podsjetnik otkazan</string>
     <string name="missed_during_silence_body">Prošao tokom režima Ne smetaj u %1$s</string>
+    <string name="missed_during_call_body">Prošao tokom telefonskog poziva u %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

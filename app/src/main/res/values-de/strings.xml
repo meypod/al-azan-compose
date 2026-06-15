@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Bevorstehende Erinnerung</string>
     <string name="reminder_cancelled_toast">%1$s-Erinnerung abgebrochen</string>
     <string name="missed_during_silence_body">Während „Bitte nicht stören“ um %1$s verstrichen</string>
+    <string name="missed_during_call_body">Während eines Anrufs um %1$s verstrichen</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

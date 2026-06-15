@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">آنے والی یاد دہانی</string>
     <string name="reminder_cancelled_toast">%1$s یاد دہانی منسوخ کر دی گئی</string>
     <string name="missed_during_silence_body">%1$s پر ڈسٹرب نہ کریں کے دوران گزر گئی</string>
+    <string name="missed_during_call_body">%1$s پر فون کال کے دوران گزر گئی</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

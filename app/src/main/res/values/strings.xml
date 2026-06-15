@@ -618,6 +618,7 @@
     <string name="upcoming_reminder_title">Upcoming reminder</string>
     <string name="reminder_cancelled_toast">%1$s reminder cancelled</string>
     <string name="missed_during_silence_body">Passed during Do Not Disturb at %1$s</string>
+    <string name="missed_during_call_body">Passed during a phone call at %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

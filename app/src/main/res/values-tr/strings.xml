@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Yaklaşan hatırlatıcı</string>
     <string name="reminder_cancelled_toast">%1$s hatırlatıcısı iptal edildi</string>
     <string name="missed_during_silence_body">Rahatsız Etmeyin sırasında %1$s\'te geçti</string>
+    <string name="missed_during_call_body">Telefon görüşmesi sırasında %1$s\'te geçti</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

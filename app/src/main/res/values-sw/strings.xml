@@ -616,6 +616,7 @@
     <string name="upcoming_reminder_title">Kikumbusho kinachokuja</string>
     <string name="reminder_cancelled_toast">Kikumbusho cha %1$s kimeghairiwa</string>
     <string name="missed_during_silence_body">Ilipita wakati wa Usisumbue saa %1$s</string>
+    <string name="missed_during_call_body">Ilipita wakati wa simu saa %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

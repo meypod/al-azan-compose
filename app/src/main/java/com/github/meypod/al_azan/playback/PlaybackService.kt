@@ -29,6 +29,7 @@ import com.github.meypod.al_azan.alarm.AlarmActivity
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
+import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -302,18 +303,7 @@ class PlaybackService :
         return am.requestAudioFocus(request) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
     }
 
-    private fun isCallActive(): Boolean {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE)
-            != android.content.pm.PackageManager.PERMISSION_GRANTED
-        ) {
-            return false
-        }
-        val tm = telephonyManager ?: return false
-
-        @Suppress("DEPRECATION")
-        val state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) tm.callStateForSubscription else tm.callState
-        return state != TelephonyManager.CALL_STATE_IDLE
-    }
+    private fun isCallActive(): Boolean = CallStateInspector.isCallActive(this)
 
     private fun registerCallStateListener() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE)

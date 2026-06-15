@@ -29,6 +29,7 @@ import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.util.formatTime
 import com.github.meypod.al_azan.core.presentation.mapper.displayName
+import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
@@ -140,21 +141,32 @@ class ReminderFiringHandler @Inject constructor(
             val intrusive = vibration == VibrationMode.Continuous ||
                 (soundUri != null && audioDurationProbe.isIntrusive(soundEntry))
             if (soundUri != null && intrusive) {
-                playbackLauncher.launch(
-                    PlaybackRequest.from(
-                        settings = settings,
-                        alarmSettings = alarmSettings,
-                        title = title,
-                        body = timeLabel,
-                        timeLabel = timeLabel,
-                        soundUri = soundUri,
-                        channelId = reminderChannel(settings),
-                        loop = soundEntry.loop,
-                        vibration = vibration,
-                        header = localizedResources.current.getString(R.string.reminder),
-                        isReminder = true,
-                    ),
-                )
+                // A live phone call denies the playback service audio focus, so the reminder would
+                // silently never start. Don't sound over the call, but it's still high priority: post
+                // the normal high-importance (silent) reminder notification with a "during a call" body.
+                if (CallStateInspector.isCallActive(context)) {
+                    val callBody = localizedResources.current.getString(
+                        R.string.missed_during_call_body,
+                        timeLabel,
+                    )
+                    postNotifyOnlyNotification(reminderId, title, callBody, settings)
+                } else {
+                    playbackLauncher.launch(
+                        PlaybackRequest.from(
+                            settings = settings,
+                            alarmSettings = alarmSettings,
+                            title = title,
+                            body = timeLabel,
+                            timeLabel = timeLabel,
+                            soundUri = soundUri,
+                            channelId = reminderChannel(settings),
+                            loop = soundEntry.loop,
+                            vibration = vibration,
+                            header = localizedResources.current.getString(R.string.reminder),
+                            isReminder = true,
+                        ),
+                    )
+                }
             } else {
                 // Soft (short, non-looping) sound or no sound: a plain auto-cancel notification, the
                 // sound played once via a lightweight player (no foreground service / stop UI), and a
@@ -259,14 +271,14 @@ class ReminderFiringHandler @Inject constructor(
     private suspend fun postNotifyOnlyNotification(
         reminderId: String,
         title: String,
-        timeLabel: String,
+        body: String,
         settings: Settings,
     ) {
         notificationRepository.notify(
             NotificationConfig(
                 id = ReminderContract.notificationId(reminderId),
                 title = TextResource.Literal(title),
-                body = TextResource.Literal(timeLabel),
+                body = TextResource.Literal(body),
                 android = AndroidNotificationConfig(
                     channelId = reminderChannel(settings),
                     category = AndroidNotificationCategory.CATEGORY_ALARM,

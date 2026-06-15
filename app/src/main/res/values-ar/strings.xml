@@ -636,6 +636,7 @@
     <string name="upcoming_reminder_title">تذكير قادم</string>
     <string name="reminder_cancelled_toast">تم إلغاء تذكير %1$s</string>
     <string name="missed_during_silence_body">مرّ أثناء وضع عدم الإزعاج في %1$s</string>
+    <string name="missed_during_call_body">مرّ أثناء مكالمة هاتفية في %1$s</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
