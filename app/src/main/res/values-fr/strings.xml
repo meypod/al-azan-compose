@@ -108,8 +108,6 @@
     <string name="add_custom_audio">Ajouter un son personnalisé</string>
     <string name="audio_name">Nom</string>
     <string name="audio_name_required">La sélection d\'un nom est obligatoire</string>
-    <string name="delete_audio_title">Supprimer l\'audio ?</string>
-    <string name="delete_audio_body">Retirer « %1$s » de vos sons ?</string>
     <string name="repeat">Répéter</string>
     <string name="your_sounds">Vos sons</string>
     <string name="device_sounds">Sons de l\'appareil</string>
@@ -150,7 +148,6 @@
     <string name="menu">Menu</string>
     <string name="prev_day">Jour précédent</string>
     <string name="next_day">Jour suivant</string>
-    <string name="next_prayer">Prochaine prière</string>
     <string name="show_today">Afficher aujourd\'hui</string>
     <string name="set_location_hint">Définir la localisation</string>
     <string name="set_calculation_hint">Définir la méthode de calcul</string>
@@ -163,7 +160,6 @@
     <string name="qibla">Qibla</string>
     <string name="counter">Compteur de Qada</string>
     <string name="reminder">Rappel</string>
-    <string name="notification_and_sound_title"><![CDATA[Notification et son]]></string>
     <string name="alarm_settings_title">Paramètres d\'alarme</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Programmation et Muezzin]]></string>
     <string name="calculation_title">Calcul</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">Mode voyage</string>
     <string name="location_traveling_hint">Met à jour votre localisation périodiquement. Peut augmenter la consommation de la batterie.</string>
     <string name="last_updated_at">Dernière mise à jour à : %1$s</string>
-    <string name="location_is_disabled">La localisation est désactivée</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">Ignorer le lever du soleil, le coucher du soleil, minuit et le tahajjud lors du compte à rebours vers le prochain horaire.</string>
     <string name="highlight_current_prayer_time">Mettre en évidence l\'horaire de prière actuel</string>
     <string name="highlight_current_prayer_time_help">Mettre en évidence l\'horaire de prière actuel au lieu du suivant.</string>
-    <string name="countdown_to">Compte à rebours vers</string>
-    <string name="countdown_target_next_active_azan">Prochain Azan actif</string>
-    <string name="countdown_target_next_prayer">Prochaine prière</string>
-    <string name="date_and_time">Date et heure</string>
-    <string name="time_format">Format de l\'heure</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>
     <string name="numbering_system_help">Force tous les chiffres à utiliser le système sélectionné.</string>
     <string name="numbering_system_latn">Arabe occidental</string>
     <string name="numbering_system_arab">Arabe oriental</string>
     <string name="numbering_system_arabext">Perse</string>
-    <string name="numbering_system_beng">Bengali</string>
-    <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Langue du calendrier lunaire</string>
     <string name="lunar_calendar_language_help">Modifier la langue utilisée pour le calendrier lunaire.</string>
-    <string name="primary_calendar">Calendrier principal</string>
-    <string name="primary_calendar_help">Le calendrier qui s\'affiche en haut de la page.</string>
     <string name="secondary_calendar">Calendrier secondaire</string>
     <string name="secondary_calendar_help">Le calendrier qui s\'affiche sous le jour de la semaine.</string>
     <string name="calendar_gregorian">Grégorien</string>
-    <string name="calendar_lunar">Lunaire</string>
     <string name="calendar_persian">Perse</string>
     <string name="calendar_ethiopic">Éthiopique</string>
     <string name="calendar_buddhist">Bouddhiste</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">Paramètres de lecture</string>
-    <string name="notification_settings">Paramètres de notification</string>
-    <string name="notification_sound">Son de notification</string>
-    <string name="schedule">Programmation</string>
-    <string name="schedule_help">Activez les notifications et les sons pour chaque entrée. Appuyez sur l\'icône d\'engrenage pour choisir des jours spécifiques ou définir un audio personnalisé.</string>
     <string name="adhan_schedule">Programmation</string>
     <string name="adhan_schedule_help">Activez et désactivez l\'Adhan ou les notifications pour chaque horaire de prière.</string>
     <string name="adhan">Adhan</string>
     <string name="notification">Notification</string>
     <string name="sound">Son</string>
     <string name="prayer_setting_accessibility">Paramètres de %1$s</string>
-    <string name="tahajjud_hint">Le Tahajjud est une prière surérogatoire qu\'il est préférable d\'accomplir durant le dernier tiers de la nuit.</string>
     <string name="tahajjud_is_last_third_hint">Le Tahajjud correspond au dernier tiers de la nuit</string>
-    <string name="my_muezzins">Mes Muezzins</string>
-    <string name="my_muezzins_empty">Vous n\'en avez encore ajouté aucun.</string>
     <string name="use_default_muezzin">Utiliser par défaut</string>
     <string name="custom_muezzin">Muezzin personnalisé</string>
     <string name="use_default_vibration">Utiliser par défaut</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">Afficher le widget dans les notifications</string>
-    <string name="show_notification_widget_help">Une version réduite du widget dans la notification.</string>
     <string name="show_countdown_timer">Afficher le compte à rebours</string>
     <string name="use_adaptive_theme">Utiliser un thème adaptatif</string>
-    <string name="widget_calendar_help">Choisissez le calendrier du widget.</string>
     <string name="widget_show_prayer_times">Afficher les horaires de prières</string>
     <string name="widget_show_prayer_times_help">Choisissez les horaires de prières à afficher sur le widget.</string>
     <string name="widget_city_name_pos_label">Localisation</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">Donnez un nom</string>
     <string name="reminder_time">Heure</string>
     <string name="reminder_sound">Son</string>
-    <string name="reminder_options">Options</string>
     <string name="reminder_only_once">Une seule fois</string>
     <string name="reminder_only_once_help">Lorsqu\'il est activé, ce rappel se déclenche une seule fois puis se désactive automatiquement. Lorsqu\'il est désactivé, il se répète les jours que vous sélectionnez ci-dessous.</string>
     <string name="reminder_before">avant</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minute</item>
         <item quantity="other">%1$d minutes</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d heure</item>
-        <item quantity="other">%1$d heures</item>
     </plurals>
     <string name="reminder_rescheduled">Rappel : %1$s à %2$s</string>
     <string name="reminders_rescheduled_batch">%1$d rappels reprogrammés</string>

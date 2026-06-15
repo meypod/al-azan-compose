@@ -108,8 +108,6 @@
     <string name="add_custom_audio">إضافة صوت مخصص</string>
     <string name="audio_name">اسم</string>
     <string name="audio_name_required">اختيار الاسم مطلوب</string>
-    <string name="delete_audio_title">حذف الصوت؟</string>
-    <string name="delete_audio_body">إزالة \"%1$s\" من أصواتك؟</string>
     <string name="repeat">تكرار</string>
     <string name="your_sounds">أصواتك</string>
     <string name="device_sounds">أصوات الجهاز</string>
@@ -150,7 +148,6 @@
     <string name="menu">القائمة</string>
     <string name="prev_day">اليوم\nالسابق</string>
     <string name="next_day">اليوم\nالتالي</string>
-    <string name="next_prayer">الصلاة التالية</string>
     <string name="show_today">عرض اليوم</string>
     <string name="set_location_hint">تعيين الموقع</string>
     <string name="set_calculation_hint">تعيين طريقة الحساب</string>
@@ -163,7 +160,6 @@
     <string name="qibla">القبلة</string>
     <string name="counter">عداد القضاء</string>
     <string name="reminder">تذكير</string>
-    <string name="notification_and_sound_title"><![CDATA[الإشعار والصوت]]></string>
     <string name="alarm_settings_title">إعدادات المنبه</string>
     <string name="schedule_and_muezzin_title"><![CDATA[الجدول والمؤذّن]]></string>
     <string name="calculation_title">حساب</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">وضع السفر</string>
     <string name="location_traveling_hint">يحدّث موقعك بشكل دوري. قد يزيد من استهلاك البطارية.</string>
     <string name="last_updated_at">آخر تحديث في: %1$s</string>
-    <string name="location_is_disabled">الموقع معطّل</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">تخطّي الشروق والغروب ومنتصف الليل والتهجد عند العد التنازلي للوقت التالي.</string>
     <string name="highlight_current_prayer_time">إبراز وقت الصلاة الحالي</string>
     <string name="highlight_current_prayer_time_help">إبراز وقت الصلاة الحالي بدلًا من التالي.</string>
-    <string name="countdown_to">العد التنازلي إلى</string>
-    <string name="countdown_target_next_active_azan">الأذان النشط التالي</string>
-    <string name="countdown_target_next_prayer">الصلاة التالية</string>
-    <string name="date_and_time">التاريخ والوقت</string>
-    <string name="time_format">تنسيق الوقت</string>
     <string name="use_24_hour_format">استخدام تنسيق 24 ساعة</string>
     <string name="numbering_system">نظام الترقيم</string>
     <string name="numbering_system_help">يفرض أن تكون جميع الأرقام في النظام المحدد.</string>
     <string name="numbering_system_latn">الأرقام العربية الغربية</string>
     <string name="numbering_system_arab">الأرقام العربية الشرقية</string>
     <string name="numbering_system_arabext">الفارسية</string>
-    <string name="numbering_system_beng">البنغالية</string>
-    <string name="numbering_system_deva">الديفاناغارية</string>
     <string name="lunar_calendar_language">لغة التقويم القمري</string>
     <string name="lunar_calendar_language_help">تغيير اللغة المستخدمة للتقويم القمري.</string>
-    <string name="primary_calendar">التقويم الرئيسي</string>
-    <string name="primary_calendar_help">التقويم الذي يظهر أعلى الصفحة.</string>
     <string name="secondary_calendar">التقويم الثانوي</string>
     <string name="secondary_calendar_help">التقويم الذي يظهر أسفل يوم الأسبوع.</string>
     <string name="calendar_gregorian">ميلادي</string>
-    <string name="calendar_lunar">قمري</string>
     <string name="calendar_persian">الفارسية</string>
     <string name="calendar_ethiopic">إثيوبي</string>
     <string name="calendar_buddhist">بوذي</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">إعدادات التشغيل</string>
-    <string name="notification_settings">إعدادات الإشعارات</string>
-    <string name="notification_sound">صوت الإشعار</string>
-    <string name="schedule">الجدول</string>
-    <string name="schedule_help">فعّل الإشعارات والأصوات لكل عنصر. اضغط على أيقونة الترس لاختيار أيام محددة أو تعيين صوت مخصص.</string>
     <string name="adhan_schedule">الجدول</string>
     <string name="adhan_schedule_help">تفعيل وتعطيل الأذان أو الإشعارات لكل وقت صلاة.</string>
     <string name="adhan">أذان</string>
     <string name="notification">إشعار</string>
     <string name="sound">صوت</string>
     <string name="prayer_setting_accessibility">إعدادات %1$s</string>
-    <string name="tahajjud_hint">التهجد صلاة تطوعية يُستحب أداؤها في الثلث الأخير من الليل.</string>
     <string name="tahajjud_is_last_third_hint">التهجد هو الثلث الأخير من الليل</string>
-    <string name="my_muezzins">مؤذّنوني</string>
-    <string name="my_muezzins_empty">لم تُضِف أيَّ مؤذّن بعد.</string>
     <string name="use_default_muezzin">استخدام الافتراضي</string>
     <string name="custom_muezzin">مؤذّن مخصص</string>
     <string name="use_default_vibration">استخدام الافتراضي</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">عرض المصغّر في الإشعارات</string>
-    <string name="show_notification_widget_help">نسخة صغيرة من المصغّر داخل الإشعار.</string>
     <string name="show_countdown_timer">عرض مؤقّت العد التنازلي</string>
     <string name="use_adaptive_theme">استخدم السمة المتكيفة</string>
-    <string name="widget_calendar_help">اختر تقويم المصغّر.</string>
     <string name="widget_show_prayer_times">عرض أوقات الصلاة</string>
     <string name="widget_show_prayer_times_help">اختر أوقات الصلاة التي تريد عرضها على المصغّر.</string>
     <string name="widget_city_name_pos_label">موقع</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">أعطِ اسمًا</string>
     <string name="reminder_time">وقت</string>
     <string name="reminder_sound">صوت</string>
-    <string name="reminder_options">خيارات</string>
     <string name="reminder_only_once">مرة واحدة فقط</string>
     <string name="reminder_only_once_help">عند التفعيل، يُطلق هذا التذكير مرة واحدة ثم يُوقف نفسه. عند الإيقاف، يتكرر في الأيام التي تحددها أدناه.</string>
     <string name="reminder_before">قبل</string>
@@ -470,14 +444,6 @@
         <item quantity="few">%1$d دقائق</item>
         <item quantity="many">%1$d دقيقة</item>
         <item quantity="other">%1$d دقيقة</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="zero">%1$d ساعة</item>
-        <item quantity="one">ساعة واحدة</item>
-        <item quantity="two">ساعتان</item>
-        <item quantity="few">%1$d ساعات</item>
-        <item quantity="many">%1$d ساعة</item>
-        <item quantity="other">%1$d ساعة</item>
     </plurals>
     <string name="reminder_rescheduled">تذكير: %1$s في %2$s</string>
     <string name="reminders_rescheduled_batch">تمت إعادة جدولة %1$d تذكيرات</string>

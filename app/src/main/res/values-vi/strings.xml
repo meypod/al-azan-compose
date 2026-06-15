@@ -108,8 +108,6 @@
     <string name="add_custom_audio">Thêm Âm báo Tùy chỉnh</string>
     <string name="audio_name">Tên</string>
     <string name="audio_name_required">Chọn tên là bắt buộc</string>
-    <string name="delete_audio_title">Xóa âm báo?</string>
-    <string name="delete_audio_body">Gỡ \"%1$s\" khỏi âm báo của bạn?</string>
     <string name="repeat">Lặp lại</string>
     <string name="your_sounds">Âm báo của bạn</string>
     <string name="device_sounds">Âm thanh thiết bị</string>
@@ -150,7 +148,6 @@
     <string name="menu">Menu</string>
     <string name="prev_day">Ngày\nTrước</string>
     <string name="next_day">Ngày\nSau</string>
-    <string name="next_prayer">Lần Cầu nguyện Tiếp theo</string>
     <string name="show_today">Hôm nay</string>
     <string name="set_location_hint">Đặt vị trí</string>
     <string name="set_calculation_hint">Đặt phương pháp tính</string>
@@ -163,7 +160,6 @@
     <string name="qibla">Qibla</string>
     <string name="counter">Bộ đếm Qada</string>
     <string name="reminder">Lời nhắc</string>
-    <string name="notification_and_sound_title"><![CDATA[Thông báo & Âm báo]]></string>
     <string name="alarm_settings_title">Cài đặt Báo thức</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Lịch & Muezzin]]></string>
     <string name="calculation_title">Tính toán</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">Chế độ du lịch</string>
     <string name="location_traveling_hint">Cập nhật vị trí của bạn định kỳ. Có thể tăng mức tiêu thụ pin.</string>
     <string name="last_updated_at">Cập nhật lần cuối lúc: %1$s</string>
-    <string name="location_is_disabled">Vị trí đã bị tắt</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">Bỏ qua mọc mặt trời, lặn mặt trời, nửa đêm và tahajjud khi đếm ngược đến lần tiếp theo.</string>
     <string name="highlight_current_prayer_time">Làm nổi bật giờ cầu nguyện hiện tại</string>
     <string name="highlight_current_prayer_time_help">Làm nổi bật giờ cầu nguyện hiện tại thay vì lần tiếp theo.</string>
-    <string name="countdown_to">Đếm ngược Đến</string>
-    <string name="countdown_target_next_active_azan">Azan Hoạt động Tiếp theo</string>
-    <string name="countdown_target_next_prayer">Lần Cầu nguyện Tiếp theo</string>
-    <string name="date_and_time">Ngày và Giờ</string>
-    <string name="time_format">Định dạng giờ</string>
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
     <string name="numbering_system">Hệ chữ số</string>
     <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn.</string>
     <string name="numbering_system_latn">Tây Ả Rập</string>
     <string name="numbering_system_arab">Đông Ả Rập</string>
     <string name="numbering_system_arabext">Ba Tư</string>
-    <string name="numbering_system_beng">Bengali</string>
-    <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Ngôn ngữ âm lịch</string>
     <string name="lunar_calendar_language_help">Thay đổi ngôn ngữ dùng cho âm lịch.</string>
-    <string name="primary_calendar">Lịch Chính</string>
-    <string name="primary_calendar_help">Lịch hiển thị ở trên cùng của trang.</string>
     <string name="secondary_calendar">Lịch phụ</string>
     <string name="secondary_calendar_help">Lịch hiển thị bên dưới ngày trong tuần.</string>
     <string name="calendar_gregorian">Dương lịch</string>
-    <string name="calendar_lunar">Âm lịch</string>
     <string name="calendar_persian">Ba Tư</string>
     <string name="calendar_ethiopic">Lịch Ê-ti-ô-pi-a</string>
     <string name="calendar_buddhist">Phật lịch</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">Cài đặt Phát</string>
-    <string name="notification_settings">Cài đặt Thông báo</string>
-    <string name="notification_sound">Âm báo Thông báo</string>
-    <string name="schedule">Lịch</string>
-    <string name="schedule_help">Bật thông báo và âm báo cho mỗi mục. Nhấn biểu tượng bánh răng để chọn các ngày cụ thể hoặc đặt âm báo tùy chỉnh.</string>
     <string name="adhan_schedule">Lịch</string>
     <string name="adhan_schedule_help">Bật và tắt Azan hoặc Thông báo cho mỗi giờ cầu nguyện.</string>
     <string name="adhan">Azan</string>
     <string name="notification">Thông báo</string>
     <string name="sound">Âm báo</string>
     <string name="prayer_setting_accessibility">Cài đặt %1$s</string>
-    <string name="tahajjud_hint">Tahajjud là lời cầu nguyện tự nguyện, tốt nhất nên thực hiện trong một phần ba cuối của đêm.</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud là một phần ba cuối của đêm</string>
-    <string name="my_muezzins">Muezzin của tôi</string>
-    <string name="my_muezzins_empty">Bạn chưa thêm cái nào.</string>
     <string name="use_default_muezzin">Dùng mặc định</string>
     <string name="custom_muezzin">Muezzin Tùy chỉnh</string>
     <string name="use_default_vibration">Dùng mặc định</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">Hiện tiện ích thông báo</string>
-    <string name="show_notification_widget_help">Phiên bản nhỏ của tiện ích trong thông báo.</string>
     <string name="show_countdown_timer">Hiển thị Đồng hồ Đếm ngược</string>
     <string name="use_adaptive_theme">Sử dụng chủ đề thích ứng</string>
-    <string name="widget_calendar_help">Chọn lịch của tiện ích.</string>
     <string name="widget_show_prayer_times">Hiển thị giờ cầu nguyện</string>
     <string name="widget_show_prayer_times_help">Chọn giờ cầu nguyện nào sẽ hiển thị trên tiện ích.</string>
     <string name="widget_city_name_pos_label">Vị trí</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">Đặt một tên</string>
     <string name="reminder_time">Giờ</string>
     <string name="reminder_sound">Âm báo</string>
-    <string name="reminder_options">Tùy chọn</string>
     <string name="reminder_only_once">Chỉ một lần</string>
     <string name="reminder_only_once_help">Khi bật, lời nhắc này kích hoạt một lần rồi tự tắt. Khi tắt, nó lặp lại vào các ngày bạn chọn bên dưới.</string>
     <string name="reminder_before">trước</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d phút</item>
         <item quantity="other">%1$d phút</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d giờ</item>
-        <item quantity="other">%1$d giờ</item>
     </plurals>
     <string name="reminder_rescheduled">Lời nhắc: %1$s lúc %2$s</string>
     <string name="reminders_rescheduled_batch">Đã lên lịch lại %1$d lời nhắc</string>

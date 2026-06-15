@@ -108,8 +108,6 @@
     <string name="add_custom_audio">Tambah Audio Kustom</string>
     <string name="audio_name">Nama</string>
     <string name="audio_name_required">Nama wajib diisi</string>
-    <string name="delete_audio_title">Hapus audio?</string>
-    <string name="delete_audio_body">Hapus \"%1$s\" dari suara Anda?</string>
     <string name="repeat">Ulangi</string>
     <string name="your_sounds">Suara Anda</string>
     <string name="device_sounds">Suara perangkat</string>
@@ -150,7 +148,6 @@
     <string name="menu">Menu</string>
     <string name="prev_day">Hari\nSblmnya</string>
     <string name="next_day">Hari\nBrkutnya</string>
-    <string name="next_prayer">Sholat Berikutnya</string>
     <string name="show_today">Hari Ini</string>
     <string name="set_location_hint">Atur lokasi</string>
     <string name="set_calculation_hint">Atur metode perhitungan</string>
@@ -163,7 +160,6 @@
     <string name="qibla">Kiblat</string>
     <string name="counter">Penghitung Qada</string>
     <string name="reminder">Pengingat</string>
-    <string name="notification_and_sound_title"><![CDATA[Notifikasi & Suara]]></string>
     <string name="alarm_settings_title">Pengaturan Alarm</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Jadwal & Muezzin]]></string>
     <string name="calculation_title">Perhitungan</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">Mode perjalanan</string>
     <string name="location_traveling_hint">Memperbarui lokasi Anda secara berkala. Dapat meningkatkan konsumsi baterai.</string>
     <string name="last_updated_at">Terakhir diperbarui pada: %1$s</string>
-    <string name="location_is_disabled">Lokasi dinonaktifkan</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">Lewati terbit, terbenam, tengah malam, dan tahajjud saat menghitung mundur ke waktu berikutnya.</string>
     <string name="highlight_current_prayer_time">Sorot waktu sholat saat ini</string>
     <string name="highlight_current_prayer_time_help">Sorot waktu sholat saat ini alih-alih yang berikutnya.</string>
-    <string name="countdown_to">Hitung Mundur Ke</string>
-    <string name="countdown_target_next_active_azan">Azan Aktif Berikutnya</string>
-    <string name="countdown_target_next_prayer">Sholat Berikutnya</string>
-    <string name="date_and_time">Tanggal dan Waktu</string>
-    <string name="time_format">Format waktu</string>
     <string name="use_24_hour_format">Gunakan format 24 Jam</string>
     <string name="numbering_system">Sistem penomoran</string>
     <string name="numbering_system_help">Memaksa semua angka menggunakan sistem yang dipilih.</string>
     <string name="numbering_system_latn">Arab Barat</string>
     <string name="numbering_system_arab">Arab Timur</string>
     <string name="numbering_system_arabext">Persia</string>
-    <string name="numbering_system_beng">Bengali</string>
-    <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Bahasa Kalender Lunar</string>
     <string name="lunar_calendar_language_help">Ubah bahasa yang digunakan untuk kalender lunar.</string>
-    <string name="primary_calendar">Kalender Utama</string>
-    <string name="primary_calendar_help">Kalender yang ditampilkan di bagian atas halaman.</string>
     <string name="secondary_calendar">Kalender Sekunder</string>
     <string name="secondary_calendar_help">Kalender yang ditampilkan di bawah hari dalam seminggu.</string>
     <string name="calendar_gregorian">Gregorian</string>
-    <string name="calendar_lunar">Lunar</string>
     <string name="calendar_persian">Persia</string>
     <string name="calendar_ethiopic">Etiopia</string>
     <string name="calendar_buddhist">Buddha</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">Pengaturan Pemutaran</string>
-    <string name="notification_settings">Pengaturan Notifikasi</string>
-    <string name="notification_sound">Suara Notifikasi</string>
-    <string name="schedule">Jadwal</string>
-    <string name="schedule_help">Aktifkan notifikasi dan suara untuk setiap entri. Ketuk ikon roda gigi untuk memilih hari tertentu atau mengatur audio kustom.</string>
     <string name="adhan_schedule">Jadwal</string>
     <string name="adhan_schedule_help">Aktifkan dan nonaktifkan Adzan atau Notifikasi untuk setiap waktu sholat.</string>
     <string name="adhan">Adzan</string>
     <string name="notification">Notifikasi</string>
     <string name="sound">Suara</string>
     <string name="prayer_setting_accessibility">Pengaturan %1$s</string>
-    <string name="tahajjud_hint">Tahajjud adalah sholat sunnah yang paling baik dilakukan pada sepertiga malam terakhir.</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud adalah sepertiga bagian terakhir malam</string>
-    <string name="my_muezzins">Muezzin Saya</string>
-    <string name="my_muezzins_empty">Anda belum menambahkan apa pun.</string>
     <string name="use_default_muezzin">Gunakan default</string>
     <string name="custom_muezzin">Muazin Kustom</string>
     <string name="use_default_vibration">Gunakan default</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">Tampilkan widget notifikasi</string>
-    <string name="show_notification_widget_help">Versi kecil widget di notifikasi.</string>
     <string name="show_countdown_timer">Tampilkan Timer Hitung Mundur</string>
     <string name="use_adaptive_theme">Gunakan tema adaptif</string>
-    <string name="widget_calendar_help">Pilih kalender widget.</string>
     <string name="widget_show_prayer_times">Tampilkan waktu sholat</string>
     <string name="widget_show_prayer_times_help">Pilih waktu sholat mana yang ditampilkan di widget.</string>
     <string name="widget_city_name_pos_label">Lokasi</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">Beri nama</string>
     <string name="reminder_time">Waktu</string>
     <string name="reminder_sound">Suara</string>
-    <string name="reminder_options">Opsi</string>
     <string name="reminder_only_once">Hanya sekali</string>
     <string name="reminder_only_once_help">Saat aktif, pengingat ini berbunyi satu kali lalu mematikan dirinya sendiri. Saat nonaktif, pengingat berulang pada hari yang Anda pilih di bawah.</string>
     <string name="reminder_before">sebelum</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d menit</item>
         <item quantity="other">%1$d menit</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d jam</item>
-        <item quantity="other">%1$d jam</item>
     </plurals>
     <string name="reminder_rescheduled">Pengingat: %1$s pukul %2$s</string>
     <string name="reminders_rescheduled_batch">%1$d pengingat dijadwalkan ulang</string>

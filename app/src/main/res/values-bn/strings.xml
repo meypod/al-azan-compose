@@ -108,8 +108,6 @@
     <string name="add_custom_audio">কাস্টম অডিও যোগ করুন</string>
     <string name="audio_name">নাম</string>
     <string name="audio_name_required">একটি নাম নির্বাচন করা প্রয়োজন</string>
-    <string name="delete_audio_title">অডিও মুছবেন?</string>
-    <string name="delete_audio_body">আপনার শব্দসমূহ থেকে \"%1$s\" সরাবেন?</string>
     <string name="repeat">পুনরাবৃত্তি করুন</string>
     <string name="your_sounds">আপনার শব্দসমূহ</string>
     <string name="device_sounds">ডিভাইসের শব্দ</string>
@@ -150,7 +148,6 @@
     <string name="menu">মেনু</string>
     <string name="prev_day">আগের\nদিন</string>
     <string name="next_day">পরের\nদিন</string>
-    <string name="next_prayer">পরবর্তী সালাত</string>
     <string name="show_today">আজ দেখুন</string>
     <string name="set_location_hint">অবস্থান সেট করুন</string>
     <string name="set_calculation_hint">হিসাব পদ্ধতি সেট করুন</string>
@@ -163,7 +160,6 @@
     <string name="qibla">কিবলা</string>
     <string name="counter">কাযা কাউন্টার</string>
     <string name="reminder">রিমাইন্ডার</string>
-    <string name="notification_and_sound_title"><![CDATA[নোটিফিকেশন এবং শব্দ]]></string>
     <string name="alarm_settings_title">অ্যালার্ম সেটিংস</string>
     <string name="schedule_and_muezzin_title"><![CDATA[সময়সূচি ও মুয়াজ্জিন]]></string>
     <string name="calculation_title">হিসাব</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">ভ্রমণ মোড</string>
     <string name="location_traveling_hint">পর্যায়ক্রমে আপনার অবস্থান আপডেট করে। ব্যাটারি খরচ বাড়াতে পারে।</string>
     <string name="last_updated_at">সর্বশেষ আপডেট: %1$s</string>
-    <string name="location_is_disabled">অবস্থান নিষ্ক্রিয়</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">পরবর্তী সময়ের কাউন্টডাউনের সময় সূর্যোদয়, সূর্যাস্ত, মধ্যরাত ও তাহাজ্জুদ এড়িয়ে যান।</string>
     <string name="highlight_current_prayer_time">বর্তমান সালাতের সময় হাইলাইট করুন</string>
     <string name="highlight_current_prayer_time_help">পরবর্তীটির পরিবর্তে বর্তমান সালাতের সময় হাইলাইট করুন।</string>
-    <string name="countdown_to">কাউন্টডাউন</string>
-    <string name="countdown_target_next_active_azan">পরবর্তী সক্রিয় আযান</string>
-    <string name="countdown_target_next_prayer">পরবর্তী সালাত</string>
-    <string name="date_and_time">তারিখ ও সময়</string>
-    <string name="time_format">সময় ফর্ম্যাট</string>
     <string name="use_24_hour_format">২৪-ঘন্টা বিন্যাস ব্যবহার করুন</string>
     <string name="numbering_system">সংখ্যা পদ্ধতি</string>
     <string name="numbering_system_help">সমস্ত সংখ্যাকে নির্বাচিত সিস্টেমে থাকতে বাধ্য করে।</string>
     <string name="numbering_system_latn">পশ্চিমা আরবি</string>
     <string name="numbering_system_arab">পূর্ব আরবি</string>
     <string name="numbering_system_arabext">ফার্সি</string>
-    <string name="numbering_system_beng">বাংলা</string>
-    <string name="numbering_system_deva">দেবনাগরী</string>
     <string name="lunar_calendar_language">চন্দ্র ক্যালেন্ডারের ভাষা</string>
     <string name="lunar_calendar_language_help">চন্দ্র ক্যালেন্ডারের জন্য ব্যবহৃত ভাষা পরিবর্তন করুন।</string>
-    <string name="primary_calendar">প্রাথমিক ক্যালেন্ডার</string>
-    <string name="primary_calendar_help">যে ক্যালেন্ডারটি পৃষ্ঠার উপরে দেখায়।</string>
     <string name="secondary_calendar">দ্বিতীয় ক্যালেন্ডার</string>
     <string name="secondary_calendar_help">যে ক্যালেন্ডারটি সপ্তাহের দিনের নিচে দেখায়।</string>
     <string name="calendar_gregorian">গ্রেগরিয়ান</string>
-    <string name="calendar_lunar">চন্দ্র</string>
     <string name="calendar_persian">ফার্সি</string>
     <string name="calendar_ethiopic">ইথিওপিক</string>
     <string name="calendar_buddhist">বৌদ্ধ</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">প্লেব্যাক সেটিংস</string>
-    <string name="notification_settings">নোটিফিকেশন সেটিংস</string>
-    <string name="notification_sound">নোটিফিকেশন শব্দ</string>
-    <string name="schedule">সময়সূচি</string>
-    <string name="schedule_help">প্রতিটি এন্ট্রির জন্য নোটিফিকেশন ও শব্দ সক্রিয় করুন। নির্দিষ্ট দিন বেছে নিতে বা কাস্টম অডিও সেট করতে গিয়ার আইকনে ট্যাপ করুন।</string>
     <string name="adhan_schedule">সময়সূচি</string>
     <string name="adhan_schedule_help">প্রতিটি সালাতের সময়ের জন্য আযান বা নোটিফিকেশন সক্রিয় ও নিষ্ক্রিয় করুন।</string>
     <string name="adhan">আযান</string>
     <string name="notification">নোটিফিকেশন</string>
     <string name="sound">শব্দ</string>
     <string name="prayer_setting_accessibility">%1$s সেটিংস</string>
-    <string name="tahajjud_hint">তাহাজ্জুদ একটি নফল সালাত যা রাতের শেষ তৃতীয়াংশে আদায় করা সর্বোত্তম।</string>
     <string name="tahajjud_is_last_third_hint">তাহাজ্জুদ রাতের শেষ তৃতীয়াংশ</string>
-    <string name="my_muezzins">আমার মুয়াজ্জিনগণ</string>
-    <string name="my_muezzins_empty">আপনি এখনও কোনোটি যোগ করেননি।</string>
     <string name="use_default_muezzin">ডিফল্ট ব্যবহার করুন</string>
     <string name="custom_muezzin">কাস্টম মুয়াজ্জিন</string>
     <string name="use_default_vibration">ডিফল্ট ব্যবহার করুন</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">নোটিফিকেশন উইজেট দেখান</string>
-    <string name="show_notification_widget_help">নোটিফিকেশনে উইজেটের একটি ছোট সংস্করণ।</string>
     <string name="show_countdown_timer">কাউন্টডাউন টাইমার দেখান</string>
     <string name="use_adaptive_theme">অ্যাডাপ্টিভ থিম ব্যবহার করুন</string>
-    <string name="widget_calendar_help">উইজেটের ক্যালেন্ডার বেছে নিন।</string>
     <string name="widget_show_prayer_times">সালাতের সময় দেখান</string>
     <string name="widget_show_prayer_times_help">উইজেটে কোন সালাতের সময়গুলো দেখাবে তা বেছে নিন।</string>
     <string name="widget_city_name_pos_label">অবস্থান</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">একটি নাম দিন</string>
     <string name="reminder_time">সময়</string>
     <string name="reminder_sound">শব্দ</string>
-    <string name="reminder_options">অপশনসমূহ</string>
     <string name="reminder_only_once">শুধুমাত্র একবার</string>
     <string name="reminder_only_once_help">চালু থাকলে, এই রিমাইন্ডারটি একবার বাজে এবং তারপর নিজে নিজে বন্ধ হয়ে যায়। বন্ধ থাকলে, এটি নিচে বেছে নেওয়া দিনগুলোতে পুনরাবৃত্তি হয়।</string>
     <string name="reminder_before">আগে</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d মিনিট</item>
         <item quantity="other">%1$d মিনিট</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d ঘণ্টা</item>
-        <item quantity="other">%1$d ঘণ্টা</item>
     </plurals>
     <string name="reminder_rescheduled">রিমাইন্ডার: %1$s, %2$s এ</string>
     <string name="reminders_rescheduled_batch">%1$d রিমাইন্ডার পুনঃনির্ধারিত হয়েছে</string>

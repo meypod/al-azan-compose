@@ -108,8 +108,6 @@
     <string name="add_custom_audio">कस्टम ऑडियो जोड़ें</string>
     <string name="audio_name">नाम</string>
     <string name="audio_name_required">नाम चुनना आवश्यक है</string>
-    <string name="delete_audio_title">ऑडियो मिटाएँ?</string>
-    <string name="delete_audio_body">\"%1$s\" को अपनी ध्वनियों से हटाएँ?</string>
     <string name="repeat">दोहराएँ</string>
     <string name="your_sounds">आपकी ध्वनियाँ</string>
     <string name="device_sounds">डिवाइस ध्वनियाँ</string>
@@ -150,7 +148,6 @@
     <string name="menu">मेन्यू</string>
     <string name="prev_day">पिछला\nदिन</string>
     <string name="next_day">अगला\nदिन</string>
-    <string name="next_prayer">अगली नमाज़</string>
     <string name="show_today">आज दिखाएँ</string>
     <string name="set_location_hint">स्थान सेट करें</string>
     <string name="set_calculation_hint">गणना विधि सेट करें</string>
@@ -163,7 +160,6 @@
     <string name="qibla">क़िबला</string>
     <string name="counter">क़ज़ा काउंटर</string>
     <string name="reminder">अनुस्मारक</string>
-    <string name="notification_and_sound_title"><![CDATA[सूचना और ध्वनि]]></string>
     <string name="alarm_settings_title">अलार्म सेटिंग्स</string>
     <string name="schedule_and_muezzin_title"><![CDATA[शेड्यूल और मुअज़्ज़िन]]></string>
     <string name="calculation_title">गणना</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">यात्रा मोड</string>
     <string name="location_traveling_hint">आपके स्थान को समय-समय पर अपडेट करता है। बैटरी की खपत बढ़ा सकता है।</string>
     <string name="last_updated_at">अंतिम बार अपडेट किया गया: %1$s</string>
-    <string name="location_is_disabled">स्थान अक्षम है</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">अगले समय तक काउंटडाउन करते समय सूर्योदय, सूर्यास्त, मध्यरात्रि और तहज्जुद को छोड़ दें।</string>
     <string name="highlight_current_prayer_time">वर्तमान नमाज़ का समय हाइलाइट करें</string>
     <string name="highlight_current_prayer_time_help">अगले के बजाय वर्तमान नमाज़ के समय को हाइलाइट करें।</string>
-    <string name="countdown_to">काउंटडाउन इसके लिए</string>
-    <string name="countdown_target_next_active_azan">अगली सक्रिय अज़ान</string>
-    <string name="countdown_target_next_prayer">अगली नमाज़</string>
-    <string name="date_and_time">तारीख़ और समय</string>
-    <string name="time_format">समय प्रारूप</string>
     <string name="use_24_hour_format">24 घंटे के प्रारूप का प्रयोग करें</string>
     <string name="numbering_system">नंबरिंग सिस्टम</string>
     <string name="numbering_system_help">सभी नंबरों को चयनित सिस्टम में होने के लिए बाध्य करता है।</string>
     <string name="numbering_system_latn">पश्चिमी अरबी</string>
     <string name="numbering_system_arab">पूर्वी अरबी</string>
     <string name="numbering_system_arabext">फ़ारसी</string>
-    <string name="numbering_system_beng">बंगाली</string>
-    <string name="numbering_system_deva">देवनागरी</string>
     <string name="lunar_calendar_language">चंद्र कैलेंडर भाषा</string>
     <string name="lunar_calendar_language_help">चंद्र कैलेंडर के लिए उपयोग की जाने वाली भाषा बदलें।</string>
-    <string name="primary_calendar">प्राथमिक कैलेंडर</string>
-    <string name="primary_calendar_help">वह कैलेंडर जो पृष्ठ के शीर्ष पर दिखता है।</string>
     <string name="secondary_calendar">माध्यमिक कैलेंडर</string>
     <string name="secondary_calendar_help">वह कैलेंडर जो सप्ताह के दिन के नीचे दिखता है।</string>
     <string name="calendar_gregorian">ग्रेगोरियन</string>
-    <string name="calendar_lunar">चंद्र</string>
     <string name="calendar_persian">फ़ारसी</string>
     <string name="calendar_ethiopic">इथियोपिक</string>
     <string name="calendar_buddhist">बौद्ध</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">प्लेबैक सेटिंग्स</string>
-    <string name="notification_settings">सूचना सेटिंग्स</string>
-    <string name="notification_sound">सूचना ध्वनि</string>
-    <string name="schedule">शेड्यूल</string>
-    <string name="schedule_help">प्रत्येक प्रविष्टि के लिए सूचनाएँ और ध्वनियाँ सक्षम करें। विशिष्ट दिन चुनने या कस्टम ऑडियो सेट करने के लिए गियर आइकन टैप करें।</string>
     <string name="adhan_schedule">शेड्यूल</string>
     <string name="adhan_schedule_help">प्रत्येक नमाज़ के समय के लिए अज़ान या सूचनाएँ सक्षम और अक्षम करें।</string>
     <string name="adhan">अज़ान</string>
     <string name="notification">सूचना</string>
     <string name="sound">ध्वनि</string>
     <string name="prayer_setting_accessibility">%1$s सेटिंग्स</string>
-    <string name="tahajjud_hint">तहज्जुद एक नफ़्ल नमाज़ है जो रात के अंतिम तिहाई हिस्से में पढ़ना सबसे अच्छा होता है।</string>
     <string name="tahajjud_is_last_third_hint">तहज्जुद रात का अंतिम तिहाई हिस्सा है</string>
-    <string name="my_muezzins">मेरे मुअज़्ज़िन</string>
-    <string name="my_muezzins_empty">आपने अभी तक कोई नहीं जोड़ा है।</string>
     <string name="use_default_muezzin">डिफ़ॉल्ट उपयोग करें</string>
     <string name="custom_muezzin">कस्टम मुअज़्ज़िन</string>
     <string name="use_default_vibration">डिफ़ॉल्ट उपयोग करें</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">सूचना विजेट दिखाएँ</string>
-    <string name="show_notification_widget_help">सूचना में विजेट का एक छोटा संस्करण।</string>
     <string name="show_countdown_timer">काउंटडाउन टाइमर दिखाएँ</string>
     <string name="use_adaptive_theme">एडाप्टिव थीम का प्रयोग करें</string>
-    <string name="widget_calendar_help">विजेट का कैलेंडर चुनें।</string>
     <string name="widget_show_prayer_times">नमाज़ के समय दिखाएँ</string>
     <string name="widget_show_prayer_times_help">विजेट पर कौन-से नमाज़ के समय दिखाने हैं, चुनें।</string>
     <string name="widget_city_name_pos_label">स्थान</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">एक नाम दें</string>
     <string name="reminder_time">समय</string>
     <string name="reminder_sound">ध्वनि</string>
-    <string name="reminder_options">विकल्प</string>
     <string name="reminder_only_once">सिर्फ एक बार</string>
     <string name="reminder_only_once_help">चालू होने पर, यह अनुस्मारक एक बार बजता है और फिर स्वयं बंद हो जाता है। बंद होने पर, यह नीचे चुने गए दिनों पर दोहराता है।</string>
     <string name="reminder_before">इससे पहले</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d मिनट</item>
         <item quantity="other">%1$d मिनट</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d घंटा</item>
-        <item quantity="other">%1$d घंटे</item>
     </plurals>
     <string name="reminder_rescheduled">अनुस्मारक: %1$s, %2$s बजे</string>
     <string name="reminders_rescheduled_batch">%1$d अनुस्मारक पुनर्निर्धारित किए गए</string>

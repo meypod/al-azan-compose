@@ -108,8 +108,6 @@
     <string name="add_custom_audio">Dodajte Prilagođeni Audio</string>
     <string name="audio_name">Naziv</string>
     <string name="audio_name_required">Odabir imena je obavezan</string>
-    <string name="delete_audio_title">Izbrisati audio?</string>
-    <string name="delete_audio_body">Ukloniti \"%1$s\" iz vaših zvukova?</string>
     <string name="repeat">Ponovite</string>
     <string name="your_sounds">Vaši zvukovi</string>
     <string name="device_sounds">Zvukovi uređaja</string>
@@ -150,7 +148,6 @@
     <string name="menu">Meni</string>
     <string name="prev_day">Prošli\nDan</string>
     <string name="next_day">Sljedeći\nDan</string>
-    <string name="next_prayer">Sljedeća molitva</string>
     <string name="show_today">Prikažite Danas</string>
     <string name="set_location_hint">Postavi lokaciju</string>
     <string name="set_calculation_hint">Postavi metodu kalkulacije</string>
@@ -163,7 +160,6 @@
     <string name="qibla">Kibla</string>
     <string name="counter">Kada brojač</string>
     <string name="reminder">Podsjetnik</string>
-    <string name="notification_and_sound_title"><![CDATA[Obavijest i Zvuk]]></string>
     <string name="alarm_settings_title">Postavke alarma</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Raspored i muezin]]></string>
     <string name="calculation_title">Kalkulacija</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">Režim putovanja</string>
     <string name="location_traveling_hint">Periodično ažurira vašu lokaciju. Može povećati potrošnju baterije.</string>
     <string name="last_updated_at">Posljednje ažuriranje: %1$s</string>
-    <string name="location_is_disabled">Lokacija je onemogućena</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">Preskoči izlazak sunca, zalazak, ponoć i noćni namaz pri odbrojavanju do sljedećeg vremena.</string>
     <string name="highlight_current_prayer_time">Istakni trenutno vrijeme molitve</string>
     <string name="highlight_current_prayer_time_help">Istakni trenutno vrijeme molitve umjesto sljedećeg.</string>
-    <string name="countdown_to">Odbrojavanje do</string>
-    <string name="countdown_target_next_active_azan">Sljedeći aktivni ezan</string>
-    <string name="countdown_target_next_prayer">Sljedeća molitva</string>
-    <string name="date_and_time">Datum i vrijeme</string>
-    <string name="time_format">Vremenski format</string>
     <string name="use_24_hour_format">Koristite 24-satni format</string>
     <string name="numbering_system">Sistem Numerisanja</string>
     <string name="numbering_system_help">Prisiljava sve brojeve da budu u odabranom sistemu.</string>
     <string name="numbering_system_latn">Zapadno-Arapski</string>
     <string name="numbering_system_arab">Istočno-Arapski</string>
     <string name="numbering_system_arabext">Perzijski</string>
-    <string name="numbering_system_beng">Bengalski</string>
-    <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Jezik lunarnog kalendara</string>
     <string name="lunar_calendar_language_help">Promijeni jezik koji se koristi za lunarni kalendar.</string>
-    <string name="primary_calendar">Primarni kalendar</string>
-    <string name="primary_calendar_help">Kalendar koji se prikazuje na vrhu stranice.</string>
     <string name="secondary_calendar">Sekundarni Kalendar</string>
     <string name="secondary_calendar_help">Kalendar koji se prikazuje ispod dana u sedmici.</string>
     <string name="calendar_gregorian">Gregorijanski</string>
-    <string name="calendar_lunar">Lunarni</string>
     <string name="calendar_persian">Perzijski</string>
     <string name="calendar_ethiopic">Etiopski</string>
     <string name="calendar_buddhist">Budistički</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">Postavke reprodukcije</string>
-    <string name="notification_settings">Postavke obavijesti</string>
-    <string name="notification_sound">Zvuk obavijesti</string>
-    <string name="schedule">Raspored</string>
-    <string name="schedule_help">Omogućite obavijesti i zvukove za svaku stavku. Dodirnite ikonu zupčanika da odaberete određene dane ili postavite prilagođeni audio.</string>
     <string name="adhan_schedule">Raspored</string>
     <string name="adhan_schedule_help">Omogućite i onemogućite ezan ili obavijesti za svako vrijeme molitve.</string>
     <string name="adhan">Ezan</string>
     <string name="notification">Obavijest</string>
     <string name="sound">Zvuk</string>
     <string name="prayer_setting_accessibility">%1$s postavke</string>
-    <string name="tahajjud_hint">Noćni namaz je dobrovoljni namaz koji se najbolje obavlja tokom posljednje trećine noći.</string>
     <string name="tahajjud_is_last_third_hint">Noćni namaz je posljednja trećina noći</string>
-    <string name="my_muezzins">Moji muezini</string>
-    <string name="my_muezzins_empty">Još niste dodali nijednog.</string>
     <string name="use_default_muezzin">Koristi zadano</string>
     <string name="custom_muezzin">Prilagođeni muezin</string>
     <string name="use_default_vibration">Koristi zadano</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">Prikaži vidžet u obavijesti</string>
-    <string name="show_notification_widget_help">Mala verzija vidžeta u obavijesti.</string>
     <string name="show_countdown_timer">Prikaži odbrojavanje</string>
     <string name="use_adaptive_theme">Koristi adaptivnu temu</string>
-    <string name="widget_calendar_help">Odaberite kalendar vidžeta.</string>
     <string name="widget_show_prayer_times">Prikaži vremena molitve</string>
     <string name="widget_show_prayer_times_help">Odaberite koja vremena molitve da se prikažu na vidžetu.</string>
     <string name="widget_city_name_pos_label">Lokacija</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">Dajte naziv</string>
     <string name="reminder_time">Vrijeme</string>
     <string name="reminder_sound">Zvuk</string>
-    <string name="reminder_options">Postavke</string>
     <string name="reminder_only_once">Samo jednom</string>
     <string name="reminder_only_once_help">Kada je uključeno, ovaj podsjetnik se oglasi jednom i zatim se sam isključi. Kada je isključeno, ponavlja se u danima koje odaberete ispod.</string>
     <string name="reminder_before">prije</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minuta</item>
         <item quantity="other">%1$d minuta</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d sat</item>
-        <item quantity="other">%1$d sati</item>
     </plurals>
     <string name="reminder_rescheduled">Podsjetnik: %1$s u %2$s</string>
     <string name="reminders_rescheduled_batch">%1$d podsjetnika ponovo zakazano</string>

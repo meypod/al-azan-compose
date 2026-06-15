@@ -108,8 +108,6 @@
     <string name="add_custom_audio">حسب ضرورت آڈیو شامل کریں۔</string>
     <string name="audio_name">نام</string>
     <string name="audio_name_required">نام کا انتخاب ضروری ہے۔</string>
-    <string name="delete_audio_title">آڈیو حذف کریں؟</string>
-    <string name="delete_audio_body">\"%1$s\" کو اپنی آوازوں سے ہٹائیں؟</string>
     <string name="repeat">دہرائیں۔</string>
     <string name="your_sounds">آپ کی آوازیں</string>
     <string name="device_sounds">ڈیوائس کی آوازیں۔</string>
@@ -150,7 +148,6 @@
     <string name="menu">مینو</string>
     <string name="prev_day">پچھلا\nدن</string>
     <string name="next_day">اگلا\nدن</string>
-    <string name="next_prayer">اگلی نماز</string>
     <string name="show_today">آج دکھائیں۔</string>
     <string name="set_location_hint">مقام طے کریں</string>
     <string name="set_calculation_hint">حساب کتاب کا طریقہ طے کریں</string>
@@ -163,7 +160,6 @@
     <string name="qibla">قبلہ</string>
     <string name="counter">قضا کاؤنٹر</string>
     <string name="reminder">یاد دہانی</string>
-    <string name="notification_and_sound_title"><![CDATA[اطلاع اور آواز]]></string>
     <string name="alarm_settings_title">الارم کی ترتیبات</string>
     <string name="schedule_and_muezzin_title"><![CDATA[شیڈول اور مؤذن]]></string>
     <string name="calculation_title">حساب کتاب</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">سفر موڈ</string>
     <string name="location_traveling_hint">آپ کا مقام وقتاً فوقتاً اپ ڈیٹ کرتا ہے۔ بیٹری کی کھپت بڑھ سکتی ہے۔</string>
     <string name="last_updated_at">آخری بار اپ ڈیٹ ہوا: %1$s</string>
-    <string name="location_is_disabled">مقام غیر فعال ہے</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">اگلے وقت تک کاؤنٹ ڈاؤن کرتے وقت طلوع آفتاب، غروب آفتاب، آدھی رات اور تہجد کو چھوڑ دیں۔</string>
     <string name="highlight_current_prayer_time">موجودہ نماز کا وقت نمایاں کریں</string>
     <string name="highlight_current_prayer_time_help">اگلی نماز کے بجائے موجودہ نماز کا وقت نمایاں کریں۔</string>
-    <string name="countdown_to">کاؤنٹ ڈاؤن تا</string>
-    <string name="countdown_target_next_active_azan">اگلی فعال اذان</string>
-    <string name="countdown_target_next_prayer">اگلی نماز</string>
-    <string name="date_and_time">تاریخ اور وقت</string>
-    <string name="time_format">وقت کی ترتیب</string>
     <string name="use_24_hour_format">24 گھنٹے کا فارمیٹ استعمال کریں۔</string>
     <string name="numbering_system">نمبر سازی کا نظام</string>
     <string name="numbering_system_help">تمام نمبروں کو منتخب نظام میں ہونے پر مجبور کرتا ہے۔</string>
     <string name="numbering_system_latn">مغربی عربی</string>
     <string name="numbering_system_arab">مشرقی عربی</string>
     <string name="numbering_system_arabext">فارسی</string>
-    <string name="numbering_system_beng">بنگالی</string>
-    <string name="numbering_system_deva">دیوناگری</string>
     <string name="lunar_calendar_language">قمری کیلنڈر کی زبان</string>
     <string name="lunar_calendar_language_help">قمری کیلنڈر کے لیے استعمال ہونے والی زبان تبدیل کریں۔</string>
-    <string name="primary_calendar">بنیادی کیلنڈر</string>
-    <string name="primary_calendar_help">وہ کیلنڈر جو صفحے کے اوپر دکھائی دیتا ہے۔</string>
     <string name="secondary_calendar">ثانوی کیلنڈر</string>
     <string name="secondary_calendar_help">وہ کیلنڈر جو ہفتے کے دن کے نیچے دکھائی دیتا ہے۔</string>
     <string name="calendar_gregorian">گریگورین</string>
-    <string name="calendar_lunar">قمری</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">ایتھوپیک</string>
     <string name="calendar_buddhist">بدھ مت</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">پلے بیک کی ترتیبات</string>
-    <string name="notification_settings">اطلاع کی ترتیبات</string>
-    <string name="notification_sound">اطلاع کی آواز</string>
-    <string name="schedule">شیڈول</string>
-    <string name="schedule_help">ہر اندراج کے لیے اطلاعات اور آوازیں فعال کریں۔ مخصوص دن منتخب کرنے یا اپنی مرضی کی آڈیو طے کرنے کے لیے گیئر کے آئیکن کو دبائیں۔</string>
     <string name="adhan_schedule">شیڈول</string>
     <string name="adhan_schedule_help">ہر نماز کے وقت کے لیے اذان یا اطلاعات کو فعال اور غیر فعال کریں۔</string>
     <string name="adhan">اذان</string>
     <string name="notification">اطلاع</string>
     <string name="sound">آواز</string>
     <string name="prayer_setting_accessibility">%1$s کی ترتیبات</string>
-    <string name="tahajjud_hint">تہجد ایک نفلی نماز ہے جو رات کے آخری تہائی حصے میں ادا کرنا بہترین ہے۔</string>
     <string name="tahajjud_is_last_third_hint">تہجد رات کا آخری تہائی حصہ ہے</string>
-    <string name="my_muezzins">میرے مؤذن</string>
-    <string name="my_muezzins_empty">آپ نے ابھی کوئی شامل نہیں کیا۔</string>
     <string name="use_default_muezzin">طے شدہ استعمال کریں</string>
     <string name="custom_muezzin">اپنی مرضی کا مؤذن</string>
     <string name="use_default_vibration">طے شدہ استعمال کریں</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">اطلاع ویجٹ دکھائیں</string>
-    <string name="show_notification_widget_help">اطلاع میں ویجٹ کا ایک چھوٹا نسخہ۔</string>
     <string name="show_countdown_timer">کاؤنٹ ڈاؤن ٹائمر دکھائیں</string>
     <string name="use_adaptive_theme">انکولی تھیم استعمال کریں</string>
-    <string name="widget_calendar_help">ویجٹ کا کیلنڈر منتخب کریں۔</string>
     <string name="widget_show_prayer_times">نماز کے اوقات دکھائیں</string>
     <string name="widget_show_prayer_times_help">منتخب کریں کہ ویجٹ پر کون سے نماز کے اوقات دکھائے جائیں۔</string>
     <string name="widget_city_name_pos_label">مقام</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">ایک نام دیں</string>
     <string name="reminder_time">وقت</string>
     <string name="reminder_sound">آواز</string>
-    <string name="reminder_options">اختیارات</string>
     <string name="reminder_only_once">صرف ایک بار</string>
     <string name="reminder_only_once_help">جب آن ہو، تو یہ یاد دہانی ایک بار بجتی ہے اور پھر خود کو بند کر دیتی ہے۔ جب بند ہو، تو یہ نیچے منتخب کردہ دنوں پر دہرائی جاتی ہے۔</string>
     <string name="reminder_before">پہلے</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d منٹ</item>
         <item quantity="other">%1$d منٹ</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d گھنٹہ</item>
-        <item quantity="other">%1$d گھنٹے</item>
     </plurals>
     <string name="reminder_rescheduled">یاد دہانی: %1$s، %2$s بجے</string>
     <string name="reminders_rescheduled_batch">%1$d یاد دہانیاں دوبارہ شیڈول کی گئیں</string>

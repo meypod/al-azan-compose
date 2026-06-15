@@ -108,8 +108,6 @@
     <string name="add_custom_audio">Ongeza Sauti Maalum</string>
     <string name="audio_name">Jina</string>
     <string name="audio_name_required">Inahitajika kuchagua jina</string>
-    <string name="delete_audio_title">Futa sauti?</string>
-    <string name="delete_audio_body">Ondoa \"%1$s\" kutoka kwa sauti zako?</string>
     <string name="repeat">Rudia</string>
     <string name="your_sounds">Sauti zako</string>
     <string name="device_sounds">Sauti za chombo</string>
@@ -150,7 +148,6 @@
     <string name="menu">Menyu</string>
     <string name="prev_day">Siku\nIliyotangulia</string>
     <string name="next_day">Siku\nInayofuata</string>
-    <string name="next_prayer">Swala Inayofuata</string>
     <string name="show_today">Onyesha Leo</string>
     <string name="set_location_hint">Weka eneo</string>
     <string name="set_calculation_hint">Weka njia ya kuhesabu</string>
@@ -163,7 +160,6 @@
     <string name="qibla">Kibla</string>
     <string name="counter">Kaunta ya Qada</string>
     <string name="reminder">Kikumbusho</string>
-    <string name="notification_and_sound_title"><![CDATA[Ujulisho na Sauti]]></string>
     <string name="alarm_settings_title">Mipangilio ya Kengele</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Ratiba & Muezzin]]></string>
     <string name="calculation_title">Hesabu</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">Hali ya kusafiri</string>
     <string name="location_traveling_hint">Husasisha eneo lako mara kwa mara. Inaweza kuongeza matumizi ya betri.</string>
     <string name="last_updated_at">Ilisasishwa mara ya mwisho: %1$s</string>
-    <string name="location_is_disabled">Eneo limezimwa</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">Ruka macheo, machweo, katikati ya usiku na tahajjud unapohesabu hadi wakati unaofuata.</string>
     <string name="highlight_current_prayer_time">Angazia wakati wa swala wa sasa</string>
     <string name="highlight_current_prayer_time_help">Angazia wakati wa swala wa sasa badala ya unaofuata.</string>
-    <string name="countdown_to">Hesabu Hadi</string>
-    <string name="countdown_target_next_active_azan">Adhana Inayofuata Iliyowashwa</string>
-    <string name="countdown_target_next_prayer">Swala Inayofuata</string>
-    <string name="date_and_time">Tarehe na Wakati</string>
-    <string name="time_format">Umbizo la wakati</string>
     <string name="use_24_hour_format">Tumia umbizo la Saa 24</string>
     <string name="numbering_system">Mfumo wa Unambarishaji</string>
     <string name="numbering_system_help">Hulazimisha nambari zote kuwa katika mfumo uliochaguliwa.</string>
     <string name="numbering_system_latn">Kiarabu cha Magharibi</string>
     <string name="numbering_system_arab">Kiarabu cha Mashariki</string>
     <string name="numbering_system_arabext">Kiajemi</string>
-    <string name="numbering_system_beng">Kibengali</string>
-    <string name="numbering_system_deva">Kidevanagari</string>
     <string name="lunar_calendar_language">Lugha ya Kalenda ya Mwezi</string>
     <string name="lunar_calendar_language_help">Badilisha lugha inayotumika kwa kalenda ya mwezi.</string>
-    <string name="primary_calendar">Kalenda ya Msingi</string>
-    <string name="primary_calendar_help">Kalenda inayoonyeshwa juu ya ukurasa.</string>
     <string name="secondary_calendar">Kalenda ya Sekondari</string>
     <string name="secondary_calendar_help">Kalenda inayoonyeshwa chini ya siku ya wiki.</string>
     <string name="calendar_gregorian">Kigregori</string>
-    <string name="calendar_lunar">Mwezi</string>
     <string name="calendar_persian">Kiajemi</string>
     <string name="calendar_ethiopic">Kiethiopia</string>
     <string name="calendar_buddhist">Kibuddha</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">Mipangilio ya Uchezaji</string>
-    <string name="notification_settings">Mipangilio ya Ujulisho</string>
-    <string name="notification_sound">Sauti ya Ujulisho</string>
-    <string name="schedule">Ratiba</string>
-    <string name="schedule_help">Washa arifa na sauti kwa kila kipengee. Gusa aikoni ya gia ili kuchagua siku mahususi au kuweka sauti maalum.</string>
     <string name="adhan_schedule">Ratiba</string>
     <string name="adhan_schedule_help">Washa na zima Adhana au Arifa kwa kila wakati wa swala.</string>
     <string name="adhan">Adhana</string>
     <string name="notification">Ujulisho</string>
     <string name="sound">Sauti</string>
     <string name="prayer_setting_accessibility">Mipangilio ya %1$s</string>
-    <string name="tahajjud_hint">Tahajjud ni swala ya hiari inayofaa zaidi kuswaliwa katika theluthi ya mwisho ya usiku.</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud ni theluthi ya mwisho ya usiku</string>
-    <string name="my_muezzins">Muezzin Wangu</string>
-    <string name="my_muezzins_empty">Hujaongeza yeyote bado.</string>
     <string name="use_default_muezzin">Tumia chaguomsingi</string>
     <string name="custom_muezzin">Muezzin Maalum</string>
     <string name="use_default_vibration">Tumia chaguomsingi</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">Onyesha Wijeti ya Arifa</string>
-    <string name="show_notification_widget_help">Toleo dogo la wijeti katika arifa.</string>
     <string name="show_countdown_timer">Onyesha Kipima Muda</string>
     <string name="use_adaptive_theme">Tumia Mandhari Yanayobadilika</string>
-    <string name="widget_calendar_help">Chagua kalenda ya wijeti.</string>
     <string name="widget_show_prayer_times">Onyesha nyakati za swala</string>
     <string name="widget_show_prayer_times_help">Chagua nyakati za swala za kuonyesha kwenye wijeti.</string>
     <string name="widget_city_name_pos_label">Eneo</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">Toa jina</string>
     <string name="reminder_time">Wakati</string>
     <string name="reminder_sound">Sauti</string>
-    <string name="reminder_options">Chaguo</string>
     <string name="reminder_only_once">Mara moja tu</string>
     <string name="reminder_only_once_help">Ikiwashwa, kikumbusho hiki hulia mara moja kisha hujizima chenyewe. Ikizimwa, hujirudia katika siku unazochagua hapa chini.</string>
     <string name="reminder_before">kabla</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">dakika %1$d</item>
         <item quantity="other">dakika %1$d</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">saa %1$d</item>
-        <item quantity="other">saa %1$d</item>
     </plurals>
     <string name="reminder_rescheduled">Kikumbusho: %1$s saa %2$s</string>
     <string name="reminders_rescheduled_batch">Vikumbusho %1$d vimepangwa upya</string>

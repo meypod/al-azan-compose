@@ -108,8 +108,6 @@
     <string name="add_custom_audio">Benutzerdefiniertes Audio hinzufügen</string>
     <string name="audio_name">Name</string>
     <string name="audio_name_required">Die Auswahl eines Namens ist erforderlich</string>
-    <string name="delete_audio_title">Audio löschen?</string>
-    <string name="delete_audio_body">„%1$s“ aus Ihren Tönen entfernen?</string>
     <string name="repeat">Wiederholen</string>
     <string name="your_sounds">Ihre Töne</string>
     <string name="device_sounds">Gerätetöne</string>
@@ -150,7 +148,6 @@
     <string name="menu">Menü</string>
     <string name="prev_day">Voriger\nTag</string>
     <string name="next_day">Nächster\nTag</string>
-    <string name="next_prayer">Nächstes Gebet</string>
     <string name="show_today">Heute anzeigen</string>
     <string name="set_location_hint">Standort festlegen</string>
     <string name="set_calculation_hint">Berechnungsmethode festlegen</string>
@@ -163,7 +160,6 @@
     <string name="qibla">Qibla</string>
     <string name="counter">Qada-Zähler</string>
     <string name="reminder">Erinnerung</string>
-    <string name="notification_and_sound_title"><![CDATA[Benachrichtigung & Ton]]></string>
     <string name="alarm_settings_title">Alarmeinstellungen</string>
     <string name="schedule_and_muezzin_title"><![CDATA[Zeitplan & Muezzin]]></string>
     <string name="calculation_title">Berechnung</string>
@@ -203,7 +199,6 @@
     <string name="location_traveling_mode">Reisemodus</string>
     <string name="location_traveling_hint">Aktualisiert Ihren Standort regelmäßig. Kann den Akkuverbrauch erhöhen.</string>
     <string name="last_updated_at">Zuletzt aktualisiert am: %1$s</string>
-    <string name="location_is_disabled">Standort ist deaktiviert</string>
 
     <!-- ============================================================
          Travel mode  (worker)
@@ -230,27 +225,17 @@
     <string name="countdown_skip_non_prayers_help">Sonnenaufgang, Sonnenuntergang, Mitternacht und Tahajjud beim Herunterzählen zur nächsten Zeit überspringen.</string>
     <string name="highlight_current_prayer_time">Aktuelle Gebetszeit hervorheben</string>
     <string name="highlight_current_prayer_time_help">Hebt die aktuelle Gebetszeit anstelle der nächsten hervor.</string>
-    <string name="countdown_to">Countdown bis</string>
-    <string name="countdown_target_next_active_azan">Nächster aktiver Azan</string>
-    <string name="countdown_target_next_prayer">Nächstes Gebet</string>
-    <string name="date_and_time">Datum und Uhrzeit</string>
-    <string name="time_format">Zeitformat</string>
     <string name="use_24_hour_format">Das 24-Stunden-Format verwenden</string>
     <string name="numbering_system">Nummerierungssystem</string>
     <string name="numbering_system_help">Erzwingt, dass alle Zahlen im ausgewählten System dargestellt werden.</string>
     <string name="numbering_system_latn">Westarabisch</string>
     <string name="numbering_system_arab">Ostarabisch</string>
     <string name="numbering_system_arabext">Persisch</string>
-    <string name="numbering_system_beng">Bengalisch</string>
-    <string name="numbering_system_deva">Devanagari</string>
     <string name="lunar_calendar_language">Sprache des Mondkalenders</string>
     <string name="lunar_calendar_language_help">Ändern Sie die für den Mondkalender verwendete Sprache.</string>
-    <string name="primary_calendar">Primärer Kalender</string>
-    <string name="primary_calendar_help">Der Kalender, der oben auf der Seite angezeigt wird.</string>
     <string name="secondary_calendar">Sekundärer Kalender</string>
     <string name="secondary_calendar_help">Der Kalender, der unter dem Wochentag angezeigt wird.</string>
     <string name="calendar_gregorian">Gregorianisch</string>
-    <string name="calendar_lunar">Lunar</string>
     <string name="calendar_persian">Persisch</string>
     <string name="calendar_ethiopic">Äthiopisch</string>
     <string name="calendar_buddhist">Buddhistisch</string>
@@ -347,21 +332,13 @@
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
-    <string name="playback_settings">Wiedergabeeinstellungen</string>
-    <string name="notification_settings">Benachrichtigungseinstellungen</string>
-    <string name="notification_sound">Benachrichtigungston</string>
-    <string name="schedule">Zeitplan</string>
-    <string name="schedule_help">Aktivieren Sie Benachrichtigungen und Töne für jeden Eintrag. Tippen Sie auf das Zahnradsymbol, um bestimmte Tage auszuwählen oder ein benutzerdefiniertes Audio festzulegen.</string>
     <string name="adhan_schedule">Zeitplan</string>
     <string name="adhan_schedule_help">Aktivieren und deaktivieren Sie Adhan oder Benachrichtigungen für jede Gebetszeit.</string>
     <string name="adhan">Adhan</string>
     <string name="notification">Benachrichtigung</string>
     <string name="sound">Ton</string>
     <string name="prayer_setting_accessibility">%1$s-Einstellungen</string>
-    <string name="tahajjud_hint">Tahajjud ist ein freiwilliges Gebet, das am besten im letzten Drittel der Nacht verrichtet wird.</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud ist das letzte Drittel der Nacht</string>
-    <string name="my_muezzins">Meine Muezzine</string>
-    <string name="my_muezzins_empty">Sie haben noch keine hinzugefügt.</string>
     <string name="use_default_muezzin">Standard verwenden</string>
     <string name="custom_muezzin">Benutzerdefinierter Muezzin</string>
     <string name="use_default_vibration">Standard verwenden</string>
@@ -402,10 +379,8 @@
          Widget settings  (main/settings/widget)
          ============================================================ -->
     <string name="show_notification_widget">Benachrichtigungs-Widget anzeigen</string>
-    <string name="show_notification_widget_help">Eine kleine Version des Widgets in der Benachrichtigung.</string>
     <string name="show_countdown_timer">Countdown anzeigen</string>
     <string name="use_adaptive_theme">Adaptives Design verwenden</string>
-    <string name="widget_calendar_help">Wählen Sie den Kalender des Widgets.</string>
     <string name="widget_show_prayer_times">Gebetszeiten anzeigen</string>
     <string name="widget_show_prayer_times_help">Wählen Sie aus, welche Gebetszeiten im Widget angezeigt werden sollen.</string>
     <string name="widget_city_name_pos_label">Standort</string>
@@ -439,7 +414,6 @@
     <string name="reminder_label_placeholder">Namen vergeben</string>
     <string name="reminder_time">Zeit</string>
     <string name="reminder_sound">Ton</string>
-    <string name="reminder_options">Optionen</string>
     <string name="reminder_only_once">Nur einmal</string>
     <string name="reminder_only_once_help">Wenn aktiviert, wird diese Erinnerung einmal ausgelöst und schaltet sich dann selbst aus. Wenn deaktiviert, wiederholt sie sich an den unten ausgewählten Tagen.</string>
     <string name="reminder_before">vor</string>
@@ -462,10 +436,6 @@
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d Minute</item>
         <item quantity="other">%1$d Minuten</item>
-    </plurals>
-    <plurals name="time_unit_hours">
-        <item quantity="one">%1$d Stunde</item>
-        <item quantity="other">%1$d Stunden</item>
     </plurals>
     <string name="reminder_rescheduled">Erinnerung: %1$s um %2$s</string>
     <string name="reminders_rescheduled_batch">%1$d Erinnerungen neu geplant</string>
