@@ -1,12 +1,14 @@
 package com.github.meypod.al_azan.di
 
+import com.github.meypod.al_azan.core.data.locale.LocalizedResources
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.domain.util.formatRescheduleWhen
 import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedback
 import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedbackInfo
 import com.github.meypod.al_azan.reminder.ReminderScheduler
@@ -23,6 +25,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.concurrent.atomics.AtomicBoolean
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.time.Clock
 
 /** Reschedules reminders whenever the reminder list or calculation config / location changes. */
 @Singleton
@@ -33,6 +36,7 @@ class ReminderSyncInitializer @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val reminderScheduler: ReminderScheduler,
     private val scheduleFeedback: ScheduleFeedback,
+    private val localizedResources: LocalizedResources,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -48,6 +52,9 @@ class ReminderSyncInitializer @Inject constructor(
         val locationLong: Double?,
         val arabicCalendar: String,
         val useDifferentAlarmType: Boolean,
+        // Skipping/un-skipping a reminder occurrence reschedules it — only the reminder stream entries
+        // matter here, so an adhan skip doesn't needlessly wake this flow.
+        val skippedReminders: List<SkippedAlarm.Reminder>,
     )
 
     @OptIn(ExperimentalAtomicApi::class)
@@ -71,6 +78,7 @@ class ReminderSyncInitializer @Inject constructor(
                     locationLong = location?.long,
                     arabicCalendar = settings.selectedArabicCalendar,
                     useDifferentAlarmType = settings.useDifferentAlarmType,
+                    skippedReminders = settings.skippedOccurrences.filterIsInstance<SkippedAlarm.Reminder>(),
                 )
             }
                 .distinctUntilChanged()
@@ -78,7 +86,8 @@ class ReminderSyncInitializer @Inject constructor(
                     val outcomes = reminderScheduler.schedule()
                     // Index 0 is the initial value on app start, not a user edit — stay silent. Boot/
                     // time-change/after-fire reschedules call the scheduler directly (bypassing this
-                    // flow). Only signal reminders whose next fire time actually changed.
+                    // flow). Only signal reminders whose next fire time actually changed — so the
+                    // scheduler's own past-entry pruning (which rewrites settings) never re-announces.
                     if (index == 0) return@collectIndexed
                     val changed = outcomes.filter { it.changed }
                     when (changed.size) {
@@ -88,6 +97,7 @@ class ReminderSyncInitializer @Inject constructor(
                         // the snackbar doesn't get clobbered N times.
                         1 -> {
                             val outcome = changed.single()
+                            val now = Clock.System.now().toEpochMilliseconds()
                             val settings = settingsRepository.data.first()
                             scheduleFeedback.notify(
                                 ScheduleFeedbackInfo.Reminder(
@@ -95,7 +105,7 @@ class ReminderSyncInitializer @Inject constructor(
                                     prayer = outcome.prayer,
                                     duration = outcome.duration,
                                     durationModifier = outcome.durationModifier,
-                                    formattedTime = settings.formatTime(outcome.fireTimeMs),
+                                    formattedTime = settings.formatRescheduleWhen(outcome.fireTimeMs, now, localizedResources.current),
                                 ),
                             )
                         }

@@ -27,4 +27,21 @@ class ParseUriToRouteTest {
 
         assertEquals(Route.Main.Home, result)
     }
+
+    @Test
+    fun `parseUriToRoute round-trips Route Main UpcomingAlarms`() {
+        // getDeepLinkUriString(Route.Main.UpcomingAlarms) == "al-azan://UpcomingAlarms" — the deep link a
+        // pre-alarm ("upcoming") notification opens.
+        val uri = mock(Uri::class.java)
+        `when`(uri.scheme).thenReturn("al-azan")
+        `when`(uri.authority).thenReturn("UpcomingAlarms")
+        `when`(uri.pathSegments).thenReturn(emptyList())
+        `when`(uri.queryParameterNames).thenReturn(emptySet())
+
+        val patterns = listOf(DeepLinkPattern(Route.Main.UpcomingAlarms.serializer(), uri))
+
+        val result = parseUriToRoute(uri, patterns)
+
+        assertEquals(Route.Main.UpcomingAlarms, result)
+    }
 }

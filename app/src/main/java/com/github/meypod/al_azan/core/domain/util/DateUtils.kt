@@ -1,11 +1,15 @@
 package com.github.meypod.al_azan.core.domain.util
 
+import android.content.res.Resources
 import android.icu.text.DateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.icu.util.ULocale
+import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toLocalDateTime
 import java.time.ZoneId
 import java.util.Date
 import kotlin.math.abs
@@ -13,6 +17,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.Instant
 import kotlin.time.toDuration
 import kotlin.time.toJavaInstant
+import kotlinx.datetime.TimeZone as KotlinxTimeZone
 
 fun formatInstant(
     instant: Instant,
@@ -47,6 +52,27 @@ fun Settings.formatTime(timestamp: Long): String =
         numberingSystem = numberingSystem,
         locale = selectedLocale,
     )
+
+/**
+ * Time-of-day for [timestamp] with a relative day appended once it isn't today: just the time today,
+ * "<time>, Tomorrow" tomorrow, and "<time>, <weekday>" later. Used for reschedule feedback, which is
+ * otherwise ambiguous once a skip pushes the next firing past today. [nowMs] is the reference instant.
+ */
+fun Settings.formatRescheduleWhen(
+    timestamp: Long,
+    nowMs: Long,
+    resources: Resources,
+): String {
+    val fire = Instant.fromEpochMilliseconds(timestamp)
+    val now = Instant.fromEpochMilliseconds(nowMs)
+    val time = formatTime(timestamp)
+    val day = when {
+        isSameGregorianDay(fire, now) -> return time
+        isSameGregorianDay(fire, addDaysTimeZoneAware(now, 1)) -> resources.getString(R.string.tomorrow)
+        else -> formatInstant(fire, selectedLocale, "gregorian", DateFormat.WEEKDAY, numberingSystem)
+    }
+    return resources.getString(R.string.reschedule_when, time, day)
+}
 
 fun isInRamadan(
     instant: Instant,
@@ -164,6 +190,9 @@ fun isSameGregorianDay(
 ): Boolean =
     formatInstant(a, "en", "gregorian", DateFormat.YEAR_NUM_MONTH_DAY) ==
         formatInstant(b, "en", "gregorian", DateFormat.YEAR_NUM_MONTH_DAY)
+
+/** Local calendar date of [instant] in the system time zone — the stable key for a skipped occurrence. */
+fun Instant.toLocalDate(): LocalDate = toLocalDateTime(KotlinxTimeZone.currentSystemDefault()).date
 
 fun getDayBeginning(instant: Instant): Instant {
     val utcInstant = instant.toJavaInstant()

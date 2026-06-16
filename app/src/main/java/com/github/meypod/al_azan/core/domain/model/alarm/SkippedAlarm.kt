@@ -1,65 +1,62 @@
 package com.github.meypod.al_azan.core.domain.model.alarm
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
 /**
- * A skipped intrusive-alarm occurrence. Self-contained display data is captured at skip time so the
- * skipped row renders even after the underlying reminder is deleted or the armed alarm has moved on to
- * a later occurrence. Schedulers treat [fireTimeMs] as a floor (arm strictly after it), so the
- * occurrence after the skipped one fires instead, and prune entries once [fireTimeMs] is in the past.
+ * A skipped intrusive-alarm occurrence, identified **logically** rather than by a volatile fire
+ * timestamp: today's Dhuhr stays "today's Dhuhr" even if a calculation-parameter change shifts its
+ * exact time, so a skip never churns and an arbitrary upcoming occurrence (not only the next one) can
+ * be skipped. Schedulers exclude matching occurrences when picking what to arm; both schedulers and
+ * the upcoming-alarms screen flag a row as skipped by membership.
  *
- * [alarmId] is the owning scheduled-alarm id (e.g. [com.github.meypod.al_azan.adhan.AdhanContract.ADHAN_ALARM_ID]
- * or [com.github.meypod.al_azan.reminder.ReminderContract.alarmId]); multiple entries may share it when
- * several consecutive occurrences are skipped.
+ * Identity:
+ *  - [Adhan] is `(prayer, date)` — one adhan per prayer per day.
+ *  - [Reminder] is `(reminderId, date)` — one occurrence per reminder per day; the reminder id already
+ *    fixes the anchor prayer, so it isn't part of the key.
+ *
+ * [date] is the local date of the occurrence (system time zone).
  */
 @Serializable
 sealed interface SkippedAlarm {
-    val alarmId: String
-    val fireTimeMs: Long
+    val date: LocalDate
 
     @Serializable
     data class Adhan(
-        override val alarmId: String,
-        override val fireTimeMs: Long,
-        val prayer: Prayer? = null,
+        val prayer: Prayer,
+        override val date: LocalDate,
     ) : SkippedAlarm
 
     @Serializable
     data class Reminder(
-        override val alarmId: String,
-        override val fireTimeMs: Long,
-        /** Anchor prayer, captured for the blank-label display fallback ("N minutes before/after <prayer>"). */
-        val prayer: Prayer? = null,
-        val label: String? = null,
-        val duration: Int = 0,
-        val durationModifier: Int = 0,
+        val reminderId: String,
+        override val date: LocalDate,
     ) : SkippedAlarm
 }
 
-/**
- * Latest skipped fire time recorded for [alarmId], or `0L` if none. Schedulers arm strictly after this
- * (treat it as a floor), so the occurrence following the last skipped one fires instead.
- */
-fun List<SkippedAlarm>.latestFireMsFor(alarmId: String): Long = filter { it.alarmId == alarmId }.maxOfOrNull { it.fireTimeMs } ?: 0L
+/** Whether [prayer] on [date] is recorded as skipped. */
+fun List<SkippedAlarm>.isAdhanSkipped(
+    prayer: Prayer,
+    date: LocalDate,
+): Boolean = any { it is SkippedAlarm.Adhan && it.prayer == prayer && it.date == date }
+
+/** Whether reminder [reminderId] on [date] is recorded as skipped. */
+fun List<SkippedAlarm>.isReminderSkipped(
+    reminderId: String,
+    date: LocalDate,
+): Boolean = any { it is SkippedAlarm.Reminder && it.reminderId == reminderId && it.date == date }
 
 /**
- * Drops entries of owner type [T] whose occurrence is already in the past (`fireTimeMs <= nowMs`). Such
- * entries are inert (schedulers floor on `now` regardless); pruning bounds the persisted list's growth.
- * Other streams' entries are left untouched so each scheduler owns only its own cleanup.
+ * Drops entries of owner type [T] whose occurrence is on a past day (`date < today`). Such entries are
+ * inert (the day is gone) and pruning bounds the persisted list. Other streams' entries are left
+ * untouched so each scheduler owns only its own cleanup.
  */
-inline fun <reified T : SkippedAlarm> List<SkippedAlarm>.prunePast(nowMs: Long): List<SkippedAlarm> =
-    filterNot { it is T && it.fireTimeMs <= nowMs }
+inline fun <reified T : SkippedAlarm> List<SkippedAlarm>.prunePastDays(today: LocalDate): List<SkippedAlarm> =
+    filterNot { it is T && it.date < today }
 
-/**
- * Undo: removes the skip at [alarmId]/[fireTimeMs] **and every later one on the same stream**. Re-arming
- * at the rescheduled occurrence makes all occurrences after it moot, so they must not linger as floors.
- */
-fun List<SkippedAlarm>.withoutFrom(
-    alarmId: String,
-    fireTimeMs: Long,
-): List<SkippedAlarm> = filterNot { it.alarmId == alarmId && it.fireTimeMs >= fireTimeMs }
+/** Adds [entry] (idempotent: identity equals the data-class equality, so a duplicate is replaced). */
+fun List<SkippedAlarm>.upsert(entry: SkippedAlarm): List<SkippedAlarm> = filterNot { it == entry } + entry
 
-/** Adds [entry], replacing any existing skip for the same occurrence (same `alarmId` + `fireTimeMs`). */
-fun List<SkippedAlarm>.upsert(entry: SkippedAlarm): List<SkippedAlarm> =
-    filterNot { it.alarmId == entry.alarmId && it.fireTimeMs == entry.fireTimeMs } + entry
+/** Undo: removes the skip for [entry]'s occurrence so the scheduler re-arms it. */
+fun List<SkippedAlarm>.without(entry: SkippedAlarm): List<SkippedAlarm> = filterNot { it == entry }

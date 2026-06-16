@@ -1,86 +1,99 @@
 package com.github.meypod.al_azan.core.domain.model.alarm
 
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import kotlinx.datetime.LocalDate
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Pure-logic coverage for the skip/reschedule policy: the floor schedulers arm after, lazy pruning,
- * and the undo set-math that makes an early reschedule cancel the skipped occurrence and every later
- * one on the same stream.
+ * Pure-logic coverage for the skip/reschedule policy: logical (prayer/reminder + date) membership,
+ * past-day pruning per stream, and the idempotent upsert/without set-math.
  */
 class SkippedAlarmPolicyTest {
 
-    private val adhanId = "adhan_alarm"
-    private val reminderId = "reminder_alarm_x"
-
-    private fun adhan(
-        fire: Long,
-        id: String = adhanId,
-    ) = SkippedAlarm.Adhan(id, fire)
-    private fun reminder(
-        fire: Long,
-        id: String = reminderId,
-    ) = SkippedAlarm.Reminder(id, fire)
+    private val d1 = LocalDate(2026, 1, 10)
+    private val d2 = LocalDate(2026, 1, 11)
+    private val reminderId = "rem_x"
 
     @Test
-    fun `latestFireMsFor returns the max fire time for the matching id`() {
-        val entries = listOf(adhan(100), adhan(300), adhan(200))
-        assertEquals(300L, entries.latestFireMsFor(adhanId))
+    fun `isAdhanSkipped matches only the same prayer and date`() {
+        val entries = listOf(SkippedAlarm.Adhan(Prayer.Dhuhr, d1))
+        assertTrue(entries.isAdhanSkipped(Prayer.Dhuhr, d1))
+        assertFalse(entries.isAdhanSkipped(Prayer.Dhuhr, d2))
+        assertFalse(entries.isAdhanSkipped(Prayer.Asr, d1))
     }
 
     @Test
-    fun `latestFireMsFor ignores other streams`() {
-        val entries = listOf(adhan(100), reminder(999))
-        assertEquals(100L, entries.latestFireMsFor(adhanId))
-        assertEquals(999L, entries.latestFireMsFor(reminderId))
+    fun `isReminderSkipped matches only the same reminder and date`() {
+        val entries = listOf(SkippedAlarm.Reminder(reminderId, d1))
+        assertTrue(entries.isReminderSkipped(reminderId, d1))
+        assertFalse(entries.isReminderSkipped(reminderId, d2))
+        assertFalse(entries.isReminderSkipped("other", d1))
     }
 
     @Test
-    fun `latestFireMsFor is zero when no entry matches`() {
-        assertEquals(0L, listOf(reminder(500)).latestFireMsFor(adhanId))
-        assertEquals(0L, emptyList<SkippedAlarm>().latestFireMsFor(adhanId))
+    fun `prunePastDays drops own past-day entries including nothing on today`() {
+        val entries = listOf(
+            SkippedAlarm.Adhan(Prayer.Fajr, d1),
+            SkippedAlarm.Adhan(Prayer.Isha, d2),
+        )
+        // today == d2: the d1 entry is in the past and dropped, the d2 entry stays.
+        assertEquals(listOf(SkippedAlarm.Adhan(Prayer.Isha, d2)), entries.prunePastDays<SkippedAlarm.Adhan>(d2))
     }
 
     @Test
-    fun `prunePast drops own past entries including the now boundary`() {
-        val now = 1_000L
-        val entries = listOf(adhan(now - 1), adhan(now), adhan(now + 1))
-        assertEquals(listOf(adhan(now + 1)), entries.prunePast<SkippedAlarm.Adhan>(now))
-    }
-
-    @Test
-    fun `prunePast leaves other streams' past entries untouched`() {
-        val now = 1_000L
-        val entries = listOf(adhan(now - 1), reminder(now - 1))
+    fun `prunePastDays leaves other streams' past entries untouched`() {
+        val entries = listOf(
+            SkippedAlarm.Adhan(Prayer.Fajr, d1),
+            SkippedAlarm.Reminder(reminderId, d1),
+        )
         // Adhan scheduler prunes only adhan; the reminder's stale entry is the reminder scheduler's job.
-        assertEquals(listOf(reminder(now - 1)), entries.prunePast<SkippedAlarm.Adhan>(now))
+        assertEquals(listOf(SkippedAlarm.Reminder(reminderId, d1)), entries.prunePastDays<SkippedAlarm.Adhan>(d2))
     }
 
     @Test
-    fun `withoutFrom removes the target and every later occurrence on the same stream`() {
-        val entries = listOf(adhan(100), adhan(200), adhan(300))
-        // Rescheduling the 200 occurrence re-arms it, making 200 and 300 moot; 100 stays.
-        assertEquals(listOf(adhan(100)), entries.withoutFrom(adhanId, 200))
+    fun `upsert is idempotent for the same occurrence`() {
+        val entry = SkippedAlarm.Adhan(Prayer.Dhuhr, d1)
+        val result = listOf(entry).upsert(SkippedAlarm.Adhan(Prayer.Dhuhr, d1))
+        assertEquals(listOf(entry), result)
     }
 
     @Test
-    fun `withoutFrom keeps earlier occurrences and other streams`() {
-        val entries = listOf(adhan(100), adhan(300), reminder(300))
-        assertEquals(listOf(adhan(100), reminder(300)), entries.withoutFrom(adhanId, 300))
+    fun `upsert appends a different occurrence`() {
+        val entries = listOf(SkippedAlarm.Adhan(Prayer.Dhuhr, d1))
+        assertEquals(
+            listOf(SkippedAlarm.Adhan(Prayer.Dhuhr, d1), SkippedAlarm.Adhan(Prayer.Dhuhr, d2)),
+            entries.upsert(SkippedAlarm.Adhan(Prayer.Dhuhr, d2)),
+        )
     }
 
     @Test
-    fun `upsert replaces an existing skip for the same occurrence`() {
-        val old = SkippedAlarm.Adhan(adhanId, 200)
-        val new = SkippedAlarm.Adhan(adhanId, 200)
-        val result = listOf(old).upsert(new)
-        assertEquals(1, result.size)
-        assertEquals(new, result.single())
+    fun `without removes exactly the target occurrence`() {
+        val entries = listOf(
+            SkippedAlarm.Adhan(Prayer.Dhuhr, d1),
+            SkippedAlarm.Adhan(Prayer.Dhuhr, d2),
+        )
+        assertEquals(
+            listOf(SkippedAlarm.Adhan(Prayer.Dhuhr, d2)),
+            entries.without(SkippedAlarm.Adhan(Prayer.Dhuhr, d1)),
+        )
     }
 
     @Test
-    fun `upsert appends a skip for a different occurrence`() {
-        val entries = listOf(adhan(100))
-        assertEquals(listOf(adhan(100), adhan(200)), entries.upsert(adhan(200)))
+    fun `without a missing occurrence is a no-op`() {
+        val entries = listOf(SkippedAlarm.Adhan(Prayer.Dhuhr, d1))
+        assertEquals(entries, entries.without(SkippedAlarm.Adhan(Prayer.Asr, d1)))
+    }
+
+    @Test
+    fun `membership checks ignore the other stream`() {
+        // An adhan entry and a reminder entry sharing prayer/date must not cross-match.
+        val entries = listOf(SkippedAlarm.Adhan(Prayer.Dhuhr, d1), SkippedAlarm.Reminder(reminderId, d1))
+        assertFalse(entries.isReminderSkipped("rem_y", d1))
+        assertFalse(emptyList<SkippedAlarm>().isAdhanSkipped(Prayer.Dhuhr, d1))
+        assertTrue(entries.isAdhanSkipped(Prayer.Dhuhr, d1))
+        assertTrue(entries.isReminderSkipped(reminderId, d1))
     }
 }

@@ -642,7 +642,7 @@
          ============================================================ -->
     <string name="upcoming_alarms">Alarmes à venir</string>
     <string name="upcoming_alarms_empty">Aucune alarme à venir</string>
-    <string name="upcoming_alarms_info">Voici les prochaines alarmes d\'adhan et de rappel qui retentiront. Ignorez-en une pour la rendre silencieuse, ou reprogrammez-en une ignorée pour la rétablir.</string>
+    <string name="upcoming_alarms_info">Voici les alarmes d\'adhan et de rappel qui retentiront aujourd\'hui et demain. Ignorez-en une pour la rendre silencieuse, ou reprogrammez-en une ignorée pour la rétablir.</string>
     <string name="upcoming_alarm_skipped">Ignorée</string>
     <string name="reschedule">Reprogrammer</string>
     <string name="today">Aujourd\'hui</string>

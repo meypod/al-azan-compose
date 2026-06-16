@@ -114,4 +114,49 @@ class ShariaTimesTest {
             times().nextPrayer(at(5.5), excluding = NON_PRAYERS_IN_ORDER.toSet()),
         )
     }
+
+    // --- nextPrayerForAlarm: isSkipped passes over the matching occurrence ---
+
+    @Test
+    fun `nextPrayerForAlarm returns the upcoming prayer when nothing skipped`() {
+        assertEquals(Prayer.Asr, times().nextPrayerForAlarm(at(13.0), alarmSettings = null))
+    }
+
+    @Test
+    fun `nextPrayerForAlarm skips the skipped prayer and returns the next`() {
+        // at 13:00 the next is Asr; skipping Asr must roll forward to Sunset.
+        assertEquals(
+            Prayer.Sunset,
+            times().nextPrayerForAlarm(at(13.0), alarmSettings = null, isSkipped = { p, _ -> p == Prayer.Asr }),
+        )
+    }
+
+    @Test
+    fun `nextPrayerForAlarm passes the prayer time to the skip predicate`() {
+        // Predicate keyed on the instant (not the enum) — skipping Asr's exact time still skips Asr.
+        val asrTime = at(15.0)
+        assertEquals(
+            Prayer.Sunset,
+            times().nextPrayerForAlarm(at(13.0), alarmSettings = null, isSkipped = { _, t -> t == asrTime }),
+        )
+    }
+
+    @Test
+    fun `nextPrayerForAlarm combines excluding and skip`() {
+        // at 13:00; Asr excluded, Sunset skipped -> Maghrib.
+        assertEquals(
+            Prayer.Maghrib,
+            times().nextPrayerForAlarm(
+                at(13.0),
+                alarmSettings = null,
+                excluding = setOf(Prayer.Asr),
+                isSkipped = { p, _ -> p == Prayer.Sunset },
+            ),
+        )
+    }
+
+    @Test
+    fun `nextPrayerForAlarm is null when every remaining occurrence is skipped`() {
+        assertNull(times().nextPrayerForAlarm(at(13.0), alarmSettings = null, isSkipped = { _, _ -> true }))
+    }
 }

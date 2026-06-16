@@ -1,14 +1,15 @@
 package com.github.meypod.al_azan.main.upcoming_alarms
 
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
+
 sealed interface UpcomingAlarmsUiAction {
-    /** Skip the armed alarm with [id]; the following occurrence fires instead. */
+    /** Skip [occurrence]; the scheduler arms the next non-skipped firing instead. */
     data class OnSkip(
-        val id: String,
+        val occurrence: SkippedAlarm,
     ) : UpcomingAlarmsUiAction
 
-    /** Undo the skip of the [id] occurrence at [fireTimeMs], re-arming the original next firing. */
+    /** Undo the skip of [occurrence], re-arming it. */
     data class OnReschedule(
-        val id: String,
-        val fireTimeMs: Long,
+        val occurrence: SkippedAlarm,
     ) : UpcomingAlarmsUiAction
 }

@@ -642,7 +642,7 @@
          ============================================================ -->
     <string name="upcoming_alarms">Nadolazeći alarmi</string>
     <string name="upcoming_alarms_empty">Nema nadolazećih alarma</string>
-    <string name="upcoming_alarms_info">Ovo su sljedeći alarmi za ezan i podsjetnike koji će se oglasiti naglas. Preskočite jedan da ga utišate ili ponovo zakažite preskočeni da ga vratite.</string>
+    <string name="upcoming_alarms_info">Ovo su alarmi za ezan i podsjetnike koji će se oglasiti naglas danas i sutra. Preskočite jedan da ga utišate ili ponovo zakažite preskočeni da ga vratite.</string>
     <string name="upcoming_alarm_skipped">Preskočeno</string>
     <string name="reschedule">Ponovo zakaži</string>
     <string name="today">Danas</string>

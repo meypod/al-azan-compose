@@ -3,12 +3,12 @@ package com.github.meypod.al_azan.reminder
 import android.util.Log
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
-import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
+import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSchedulingDefaults
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
-import com.github.meypod.al_azan.core.domain.model.alarm.latestFireMsFor
-import com.github.meypod.al_azan.core.domain.model.alarm.prunePast
+import com.github.meypod.al_azan.core.domain.model.alarm.isReminderSkipped
+import com.github.meypod.al_azan.core.domain.model.alarm.prunePastDays
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
@@ -21,6 +21,7 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -53,10 +54,6 @@ class ReminderScheduler @Inject constructor(
 
     private companion object {
         const val TAG = "ReminderScheduler"
-        const val REFIRE_GUARD_MS = 10_000L
-
-        /** How many days ahead to search for the next matching occurrence. */
-        const val SEARCH_DAYS = 8
     }
 
     /** A reminder that was scheduled this run, plus whether its fire time differs from before. */
@@ -80,12 +77,13 @@ class ReminderScheduler @Inject constructor(
                 .firstOrNull { it.id == calc.locationId }?.locationDetail
             val reminders = reminderRepository.data.first()
 
-            // Prune our own past skip entries (the scheduler runs on every settings change / boot / fire,
-            // so this is the reliable cleanup point); past entries are inert (now dominates) anyway.
+            // Prune our own past-day skip entries (the scheduler runs on every settings change / boot /
+            // fire, so this is the reliable cleanup point); past-day entries can never match anyway.
             val nowMs = Clock.System.now().toEpochMilliseconds()
-            val livePruned = settings.skippedAlarms.prunePast<SkippedAlarm.Reminder>(nowMs)
-            if (livePruned.size != settings.skippedAlarms.size) {
-                settingsRepository.update { it.copy(skippedAlarms = livePruned) }
+            val today = Instant.fromEpochMilliseconds(nowMs).toLocalDate()
+            val livePruned = settings.skippedOccurrences.prunePastDays<SkippedAlarm.Reminder>(today)
+            if (livePruned.size != settings.skippedOccurrences.size) {
+                settingsRepository.update { it.copy(skippedOccurrences = livePruned) }
             }
 
             // Drop any scheduled reminder alarm (main or pre) that no longer maps to an enabled reminder.
@@ -111,17 +109,17 @@ class ReminderScheduler @Inject constructor(
                 return@withLock emptyList()
             }
 
-            val alarmType = if (settings.useDifferentAlarmType) AlarmType.ExactAllowWhileIdle else AlarmType.AlarmClock
+            val alarmType = AlarmSchedulingDefaults.alarmType(settings.useDifferentAlarmType)
             val outcomes = mutableListOf<Outcome>()
             val newSignatures = mutableMapOf<String, Long>()
 
             for (reminder in reminders) {
                 if (!reminder.enabled) continue
                 val deliveredMs = settings.deliveredAlarmTimestamps[ReminderContract.notificationId(reminder.id)] ?: 0L
-                // "Skip next": arm strictly after the latest skipped occurrence so a later one fires instead.
-                val skippedMs = livePruned.latestFireMsFor(ReminderContract.alarmId(reminder.id))
-                val fromMs = maxOf(nowMs, deliveredMs + REFIRE_GUARD_MS, skippedMs + REFIRE_GUARD_MS)
-                val triggerMs = nextTriggerMs(reminder, fromMs, calc, settings, location) ?: continue
+                val fromMs = maxOf(nowMs, deliveredMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS)
+                // "Skip": pass over any occurrence the user skipped (logical (reminderId, date) match) so
+                // the next non-skipped day fires instead — no time-based floor, survives re-calcs.
+                val triggerMs = nextTriggerMs(reminder, fromMs, calc, settings, location, livePruned) ?: continue
 
                 val changed = lastSignatures[reminder.id] != triggerMs
                 newSignatures[reminder.id] = triggerMs
@@ -161,7 +159,7 @@ class ReminderScheduler @Inject constructor(
                 // disabled upcoming reminders.
                 if (intrusive && !alarmSettings.dontNotifyUpcoming) {
                     val preMs = (triggerMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
-                        .coerceAtLeast(fromMs + REFIRE_GUARD_MS)
+                        .coerceAtLeast(fromMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS)
                     if (preMs < triggerMs) {
                         alarmRepository.schedule(
                             ScheduledAlarm(
@@ -197,10 +195,11 @@ class ReminderScheduler @Inject constructor(
         calc: CalculationSettings,
         settings: Settings,
         location: CalculationLocationDetail,
+        skipped: List<SkippedAlarm>,
     ): Long? {
         val parameters = calc.parameters ?: return null
         val offsetMinutes = (reminder.duration * reminder.durationModifier).toDuration(DurationUnit.MINUTES)
-        for (dayOffset in 0..SEARCH_DAYS) {
+        for (dayOffset in 0..AlarmSchedulingDefaults.SEARCH_DAYS) {
             val dayInstant = Instant.fromEpochMilliseconds(fromMs) + dayOffset.toDuration(DurationUnit.DAYS)
             val times = getShariaTimesUseCase(
                 instant = dayInstant,
@@ -211,7 +210,8 @@ class ReminderScheduler @Inject constructor(
             )
             val trigger = times.forPrayer(reminder.prayer) + offsetMinutes
             val matchesDay = reminder.days?.shouldFireFor(trigger) ?: true
-            if (matchesDay && trigger.toEpochMilliseconds() >= fromMs) {
+            val isSkipped = skipped.isReminderSkipped(reminder.id, trigger.toLocalDate())
+            if (matchesDay && !isSkipped && trigger.toEpochMilliseconds() >= fromMs) {
                 return trigger.toEpochMilliseconds()
             }
         }

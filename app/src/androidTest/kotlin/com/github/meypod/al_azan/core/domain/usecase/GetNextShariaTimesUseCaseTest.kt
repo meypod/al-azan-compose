@@ -6,9 +6,11 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -159,5 +161,98 @@ class GetNextShariaTimesUseCaseTest {
         assertEquals(DateComponents(2024, 1, 28), result.forDate)
         assertTrue(result.notify)
         assertTrue(result.prayerTime > instant)
+    }
+
+    // --- isSkipped: the logical (prayer, fire-date) predicate passes over a skipped occurrence ---
+
+    private fun nextWithSkip(
+        instant: Instant,
+        alarmSettings: AlarmSettings? = null,
+        isSkipped: (Prayer, Instant) -> Boolean,
+    ) = getNext(
+        instant = instant,
+        calculationParameters = params,
+        calculationAdjustments = CalculationAdjustments(),
+        arabicCalendar = "islamic",
+        locationDetail = location,
+        alarmSettings = alarmSettings,
+        isSkipped = isSkipped,
+    )
+
+    @Test
+    fun skip_sameDay_returnsNextVisiblePrayer() {
+        // 11:00: next is Dhuhr; skip today's Dhuhr -> Asr, same day.
+        val instant = Instant.parse("2024-01-15T11:00:00Z")
+        val result = nextWithSkip(instant) { p, t ->
+            p == Prayer.Dhuhr && t.toLocalDate() == LocalDate(2024, 1, 15)
+        }
+        assertNotNull(result)
+        assertEquals(Prayer.Asr, result!!.prayer)
+        assertEquals(DateComponents(2024, 1, 15), result.forDate)
+    }
+
+    @Test
+    fun skip_isPerDate_tomorrowsOccurrenceRollsToTheDayAfter() {
+        // Daily Dhuhr; at 14:00 today's (~12:00) has passed so the next is tomorrow (16th). Skipping the
+        // 16th must roll exactly one day to the 17th — proving the skip is per-date, not "skip the stream".
+        val instant = Instant.parse("2024-01-15T14:00:00Z")
+        val alarmSettings = AlarmSettings(
+            dhuhrNotify = PrayerAlarmSettings.Bool(true),
+            dhuhrSound = PrayerAlarmSettings.Bool(true),
+        )
+        val result = nextWithSkip(instant, alarmSettings) { p, t ->
+            p == Prayer.Dhuhr && t.toLocalDate() == LocalDate(2024, 1, 16)
+        }
+        assertNotNull(result)
+        assertEquals(Prayer.Dhuhr, result!!.prayer)
+        assertEquals(DateComponents(2024, 1, 17), result.forDate)
+    }
+
+    @Test
+    fun skip_weeklyTomorrow_recursNextWeek_reachedByDeepScan() {
+        // Worst case the search depth guards: 2024-01-15 is Monday, Dhuhr enabled only Tuesday -> the next
+        // occurrence is tomorrow (16th). Skipping it pushes to the following Tuesday (23rd) = prayer-day
+        // +8, the deepest the scan must reach. A too-shallow loop would return null here.
+        val instant = Instant.parse("2024-01-15T11:00:00Z")
+        val alarmSettings = AlarmSettings(
+            dhuhrNotify = PrayerAlarmSettings.ByWeekDay(mapOf(DayOfWeek.TUESDAY to true)),
+        )
+        val result = nextWithSkip(instant, alarmSettings) { p, t ->
+            p == Prayer.Dhuhr && t.toLocalDate() == LocalDate(2024, 1, 16)
+        }
+        assertNotNull("deep skip-scan must still find the next-week occurrence", result)
+        assertEquals(Prayer.Dhuhr, result!!.prayer)
+        assertEquals(DateComponents(2024, 1, 23), result.forDate)
+        assertTrue(result.notify)
+    }
+
+    @Test
+    fun skip_tahajjud_keyedByFireDate_rollsOneNight() {
+        // Tahajjud is computed from a day's times but FIRES the next calendar day. At 12:00 on the 15th
+        // the next tahajjud fires on the 16th; a skip keyed to that fire-date (16th) must roll to the
+        // following night (prayer-day 16th, firing the 17th) — confirming fire-date keying end to end.
+        val instant = Instant.parse("2024-01-15T12:00:00Z")
+        val alarmSettings = AlarmSettings(
+            tahajjudNotify = PrayerAlarmSettings.Bool(true),
+            tahajjudSound = PrayerAlarmSettings.Bool(true),
+        )
+        val baseline = getNext(
+            instant = instant,
+            calculationParameters = params,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = location,
+            alarmSettings = alarmSettings,
+        )
+        assertNotNull(baseline)
+        assertEquals(Prayer.Tahajjud, baseline!!.prayer)
+        assertEquals(LocalDate(2024, 1, 16), baseline.prayerTime.toLocalDate())
+
+        val result = nextWithSkip(instant, alarmSettings) { p, t ->
+            p == Prayer.Tahajjud && t.toLocalDate() == LocalDate(2024, 1, 16)
+        }
+        assertNotNull(result)
+        assertEquals(Prayer.Tahajjud, result!!.prayer)
+        assertEquals(LocalDate(2024, 1, 17), result.prayerTime.toLocalDate())
     }
 }

@@ -122,7 +122,7 @@ sealed interface Route : NavKey {
         }
 
         @Serializable
-        data object UpcomingAlarms : Route
+        data object UpcomingAlarms : Route, DeepLinkableRoute
 
         @Serializable
         data object About : Route
@@ -135,6 +135,8 @@ internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
         add(DeepLinkPattern(Route.Main.Home.serializer(), Route.Main.Home.toUriString().toUri()))
         // "al-azan://SilenceStatus"
         add(DeepLinkPattern(Route.Main.SilenceStatus.serializer(), Route.Main.SilenceStatus.toUriString().toUri()))
+        // "al-azan://UpcomingAlarms" — opened by tapping a pre-alarm ("upcoming") notification.
+        add(DeepLinkPattern(Route.Main.UpcomingAlarms.serializer(), Route.Main.UpcomingAlarms.toUriString().toUri()))
         // Debug-only: extra screens for tooling (fastlane screenshot scripts) to open directly via adb.
         if (BuildConfig.DEBUG) {
             add(DeepLinkPattern(Route.Main.MonthlyView.serializer(), Route.Main.MonthlyView.toUriString().toUri()))

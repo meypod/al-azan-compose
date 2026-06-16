@@ -54,12 +54,16 @@ data class ShariaTimes(
         instant: Instant,
         alarmSettings: AlarmSettings?,
         excluding: Set<Prayer> = emptySet(),
+        // The user skipped this prayer's occurrence at the given (recomputed) time: pass it over so a
+        // later one is armed instead. Keyed logically by the caller, so it survives time-shifts.
+        isSkipped: (Prayer, Instant) -> Boolean = { _, _ -> false },
     ): Prayer? =
         SHARIA_TIMES_IN_ORDER.firstOrNull {
             if (it in excluding) return@firstOrNull false
             val should = alarmSettings?.shouldNotifyFor(instant, it) ?: true
             if (!should) return@firstOrNull false
-            instant <= forPrayer(it)
+            val prayerTime = forPrayer(it)
+            instant <= prayerTime && !isSkipped(it, prayerTime)
         }
 
     companion object {

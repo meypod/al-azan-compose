@@ -28,7 +28,9 @@ import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.mapper.displayName
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
@@ -45,6 +47,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Clock
+import kotlin.time.Instant
 
 /** Handles fired reminder alarms: plays the sound (full-screen) or notifies, then reschedules. */
 @Singleton
@@ -207,6 +210,8 @@ class ReminderFiringHandler @Inject constructor(
                     channelId = EnsureNotificationChannelsUseCase.PRE_REMINDER_CHANNEL_ID,
                     category = AndroidNotificationCategory.CATEGORY_REMINDER,
                     autoCancel = true,
+                    // Tapping the body opens the Upcoming-alarms screen, where the user can skip it.
+                    pressAction = NotificationPressAction.Route(Route.Main.UpcomingAlarms),
                     actions = listOf(
                         NotificationButton(
                             title = TextResource.StringResId(R.string.cancel_alarm),
@@ -233,14 +238,10 @@ class ReminderFiringHandler @Inject constructor(
         val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId }
         if (scheduledTs != null) {
             val entry = SkippedAlarm.Reminder(
-                alarmId = ReminderContract.alarmId(reminderId),
-                fireTimeMs = scheduledTs,
-                prayer = reminder?.prayer,
-                label = reminder?.label,
-                duration = reminder?.duration ?: 0,
-                durationModifier = reminder?.durationModifier ?: 0,
+                reminderId = reminderId,
+                date = Instant.fromEpochMilliseconds(scheduledTs).toLocalDate(),
             )
-            settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.upsert(entry)) }
+            settingsRepository.update { it.copy(skippedOccurrences = it.skippedOccurrences.upsert(entry)) }
         }
         notificationRepository.cancelNotification(ReminderContract.notificationId(reminderId))
         notificationRepository.cancelNotification(ReminderContract.preNotificationId(reminderId))

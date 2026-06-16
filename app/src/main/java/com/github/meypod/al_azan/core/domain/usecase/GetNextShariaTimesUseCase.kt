@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSchedulingDefaults
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
@@ -44,6 +45,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         locationDetail: CalculationLocationDetail,
         alarmSettings: AlarmSettings? = null,
         excluding: Set<Prayer> = emptySet(),
+        isSkipped: (Prayer, Instant) -> Boolean = { _, _ -> false },
     ): ShariaTimeDetails? {
         val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -57,7 +59,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
                 arabicCalendar,
                 locationDetail,
             )
-            val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding)
+            val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding, isSkipped)
             if (nextPrayer != null) {
                 return ShariaTimeDetails(
                     forInstant = prevDayInstant,
@@ -73,15 +75,17 @@ class GetNextShariaTimesUseCase @Inject constructor(
         var instantToCheck = instant
         var shariahTimes: ShariaTimes? = null
         var nextPrayer: Prayer? = null
-        // Scan today + the next 7 days: a weekly schedule whose only enabled day is today (but already
-        // passed) recurs exactly 7 days later, which is the 8th day counting from today.
-        for (day in 1..8) {
-            shariahTimes = getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
+        // Scan today (offset 0) through +SEARCH_DAYS. Worst case is prayer-day +8 (a weekly alarm whose
+        // only enabled day is tomorrow, once skipped, recurs +7; a night prayer like tahajjud fires the
+        // *following* calendar day but is found while iterating its prayer-day) — the horizon leaves slack.
+        for (dayOffset in 0..AlarmSchedulingDefaults.SEARCH_DAYS) {
+            shariahTimes =
+                getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
             // On the current day, match against "now" (the next upcoming prayer). On any later day,
             // match against the start of that day so we get its first prayer AND so the weekday used by
             // alarmSettings' per-weekday checks is that day's, not today's.
-            val reference = if (day == 1) instant else getDayBeginning(instantToCheck)
-            nextPrayer = shariahTimes.nextPrayerForAlarm(reference, alarmSettings, excluding)
+            val reference = if (dayOffset == 0) instant else getDayBeginning(instantToCheck)
+            nextPrayer = shariahTimes.nextPrayerForAlarm(reference, alarmSettings, excluding, isSkipped)
             if (nextPrayer == null) {
                 instantToCheck = addDaysTimeZoneAware(instantToCheck, 1)
             } else {

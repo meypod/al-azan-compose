@@ -642,7 +642,7 @@
          ============================================================ -->
     <string name="upcoming_alarms">آنے والے الارمز</string>
     <string name="upcoming_alarms_empty">کوئی آنے والا الارم نہیں</string>
-    <string name="upcoming_alarms_info">یہ اگلے اذان اور یاد دہانی کے الارمز ہیں جو بلند آواز میں بجیں گے۔ کسی ایک کو چھوڑ کر خاموش کریں، یا چھوڑے گئے کو واپس لانے کے لیے دوبارہ شیڈول کریں۔</string>
+    <string name="upcoming_alarms_info">یہ آج اور کل کے اذان اور یاد دہانی کے الارمز ہیں جو بلند آواز میں بجیں گے۔ کسی ایک کو چھوڑ کر خاموش کریں، یا چھوڑے گئے کو واپس لانے کے لیے دوبارہ شیڈول کریں۔</string>
     <string name="upcoming_alarm_skipped">چھوڑ دیا گیا</string>
     <string name="reschedule">دوبارہ شیڈول کریں</string>
     <string name="today">آج</string>

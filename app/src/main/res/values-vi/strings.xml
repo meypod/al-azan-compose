@@ -642,7 +642,7 @@
          ============================================================ -->
     <string name="upcoming_alarms">Báo thức sắp tới</string>
     <string name="upcoming_alarms_empty">Không có báo thức sắp tới</string>
-    <string name="upcoming_alarms_info">Đây là các báo thức adhan và nhắc nhở tiếp theo sẽ phát ra tiếng. Bỏ qua một báo thức để tắt tiếng nó, hoặc lên lịch lại báo thức đã bỏ qua để khôi phục.</string>
+    <string name="upcoming_alarms_info">Đây là các báo thức adhan và nhắc nhở sẽ phát ra tiếng hôm nay và ngày mai. Bỏ qua một báo thức để tắt tiếng nó, hoặc lên lịch lại báo thức đã bỏ qua để khôi phục.</string>
     <string name="upcoming_alarm_skipped">Đã bỏ qua</string>
     <string name="reschedule">Lên lịch lại</string>
     <string name="today">Hôm nay</string>

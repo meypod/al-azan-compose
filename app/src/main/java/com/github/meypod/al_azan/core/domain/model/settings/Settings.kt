@@ -136,11 +136,15 @@ data class Settings(
     val showHomeNextPrayerCountdown: Boolean = true,
     val countdownSkipNonPrayers: Boolean = false,
     /**
-     * Occurrences the user skipped from the Scheduled-alarms screen. Schedulers arm strictly after each
-     * matching entry's fire time, so the *following* occurrence fires instead, and prune their own past
-     * entries on every run. See [com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm].
+     * Occurrences the user skipped from the Scheduled-alarms screen, keyed logically (prayer/reminder +
+     * date). Schedulers exclude a matching occurrence when picking what to arm, so the *following* one
+     * fires instead, and prune their own past-day entries on every run. See
+     * [com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm].
+     *
+     * Renamed from the legacy `skippedAlarms` (timestamp-keyed): legacy entries decode as an ignored
+     * unknown key and are dropped — harmless, since skips are ephemeral future-only state.
      */
-    val skippedAlarms: List<SkippedAlarm> = emptyList(),
+    val skippedOccurrences: List<SkippedAlarm> = emptyList(),
     /** Epoch millis until which alarms (adhan and reminders) are suppressed ("Dismiss & silent"). Null = not silenced. */
     val silencedUntilMillis: Long? = null,
     /**

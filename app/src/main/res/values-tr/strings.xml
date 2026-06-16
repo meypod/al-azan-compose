@@ -642,7 +642,7 @@
          ============================================================ -->
     <string name="upcoming_alarms">Yaklaşan alarmlar</string>
     <string name="upcoming_alarms_empty">Yaklaşan alarm yok</string>
-    <string name="upcoming_alarms_info">Bunlar sesli çalacak olan sıradaki ezan ve hatırlatma alarmlarıdır. Birini atlayarak susturun ya da atlanan birini geri getirmek için yeniden zamanlayın.</string>
+    <string name="upcoming_alarms_info">Bunlar bugün ve yarın sesli çalacak olan ezan ve hatırlatma alarmlarıdır. Birini atlayarak susturun ya da atlanan birini geri getirmek için yeniden zamanlayın.</string>
     <string name="upcoming_alarm_skipped">Atlandı</string>
     <string name="reschedule">Yeniden zamanla</string>
     <string name="today">Bugün</string>

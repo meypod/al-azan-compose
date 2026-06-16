@@ -2,13 +2,14 @@ package com.github.meypod.al_azan.main.upcoming_alarms
 
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 
-/** A single intrusive alarm currently armed with the platform scheduler, as shown in the list. */
+/** A single intrusive alarm occurrence in the upcoming (today + tomorrow) schedule, as shown in the list. */
 @Immutable
 data class UpcomingAlarmUi(
-    /** The scheduled alarm id, used as the skip/reschedule key. */
-    val id: String,
+    /** Logical identity of the occurrence; the skip/reschedule key. */
+    val occurrence: SkippedAlarm,
     val isAdhan: Boolean,
     /** Prayer this alarm is tied to (adhan: the prayer; reminder: its anchor prayer). */
     val prayer: Prayer?,
@@ -16,7 +17,7 @@ data class UpcomingAlarmUi(
     val reminderLabel: String?,
     /** Fire time of the occurrence, epoch millis. Sort key + formatted for display. */
     val fireTimeMs: Long,
-    /** Whether the user skipped the upcoming occurrence (row shows disabled + reschedule). */
+    /** Whether the user skipped this occurrence (row shows disabled + reschedule). */
     val skipped: Boolean,
     /** Reminder offset, used to build the blank-label fallback ("N minutes before/after <prayer>"). */
     val reminderDuration: Int = 0,

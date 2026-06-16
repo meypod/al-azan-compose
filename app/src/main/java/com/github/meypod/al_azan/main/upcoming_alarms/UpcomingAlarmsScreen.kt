@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.domain.util.formatTimeOfDay
@@ -36,7 +37,10 @@ import com.github.meypod.al_azan.core.presentation.components.InformationCard
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.mapper.reminderDisplayName
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import kotlinx.datetime.LocalDate
 import kotlin.time.Instant
+
+private val previewDate = LocalDate(2024, 1, 1)
 
 @Composable
 fun UpcomingAlarmsScreen(
@@ -72,12 +76,12 @@ fun UpcomingAlarmsScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
-                items(uiState.alarms, key = { "${it.id}@${it.fireTimeMs}@${it.skipped}" }) { alarm ->
+                items(uiState.alarms, key = { "${it.occurrence}@${it.fireTimeMs}@${it.skipped}" }) { alarm ->
                     AlarmRow(
                         alarm = alarm,
                         whenText = alarmWhenText(alarm.fireTimeMs, uiState),
-                        onSkip = { onAction(UpcomingAlarmsUiAction.OnSkip(alarm.id)) },
-                        onReschedule = { onAction(UpcomingAlarmsUiAction.OnReschedule(alarm.id, alarm.fireTimeMs)) },
+                        onSkip = { onAction(UpcomingAlarmsUiAction.OnSkip(alarm.occurrence)) },
+                        onReschedule = { onAction(UpcomingAlarmsUiAction.OnReschedule(alarm.occurrence)) },
                         modifier = Modifier.animateItem(),
                     )
                 }
@@ -182,9 +186,9 @@ private fun UpcomingAlarmsPreview() {
             uiState = UpcomingAlarmsUiState(
                 loading = false,
                 alarms = listOf(
-                    UpcomingAlarmUi("adhan_alarm", true, Prayer.Dhuhr, null, 1L, skipped = false),
-                    UpcomingAlarmUi("reminder_alarm_1", false, Prayer.Fajr, "Wake up", 2L, skipped = true),
-                    UpcomingAlarmUi("reminder_alarm_2", false, Prayer.Asr, "", 3L, skipped = false),
+                    UpcomingAlarmUi(SkippedAlarm.Adhan(Prayer.Dhuhr, previewDate), true, Prayer.Dhuhr, null, 1L, skipped = false),
+                    UpcomingAlarmUi(SkippedAlarm.Reminder("1", previewDate), false, Prayer.Fajr, "Wake up", 2L, skipped = true),
+                    UpcomingAlarmUi(SkippedAlarm.Reminder("2", previewDate), false, Prayer.Asr, "", 3L, skipped = false),
                 ),
             ),
             onAction = {},

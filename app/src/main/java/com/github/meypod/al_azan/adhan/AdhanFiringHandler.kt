@@ -39,6 +39,8 @@ import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsU
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.domain.util.formatTime
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
@@ -249,6 +251,8 @@ class AdhanFiringHandler @Inject constructor(
                     channelId = EnsureNotificationChannelsUseCase.PRE_ADHAN_CHANNEL_ID,
                     category = AndroidNotificationCategory.CATEGORY_ALARM,
                     autoCancel = true,
+                    // Tapping the body opens the Upcoming-alarms screen, where the user can skip it.
+                    pressAction = NotificationPressAction.Route(Route.Main.UpcomingAlarms),
                     actions = listOf(
                         NotificationButton(
                             title = TextResource.StringResId(R.string.cancel_alarm),
@@ -273,13 +277,12 @@ class AdhanFiringHandler @Inject constructor(
             .firstOrNull { it.id == AdhanContract.ADHAN_ALARM_ID }
         val prayer = scheduled?.extras?.get(PlaybackService.EXTRA_PRAYER)
             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
-        if (scheduled != null) {
+        if (scheduled != null && prayer != null) {
             val entry = SkippedAlarm.Adhan(
-                alarmId = AdhanContract.ADHAN_ALARM_ID,
-                fireTimeMs = scheduled.triggerAtMillis,
                 prayer = prayer,
+                date = Instant.fromEpochMilliseconds(scheduled.triggerAtMillis).toLocalDate(),
             )
-            settingsRepository.update { it.copy(skippedAlarms = it.skippedAlarms.upsert(entry)) }
+            settingsRepository.update { it.copy(skippedOccurrences = it.skippedOccurrences.upsert(entry)) }
         }
         notificationRepository.cancelNotification(AdhanContract.ADHAN_NOTIFICATION_ID)
         notificationRepository.cancelNotification(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
