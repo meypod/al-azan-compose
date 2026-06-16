@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">Choisir le calendrier à remplacer</string>
     <string name="widget_max_shown_prayers_warning">Seuls six éléments peuvent être affichés en même temps</string>
     <string name="widget_swap_layout_direction">Inverser le sens de mise en page</string>
+    <string name="next_prayer_widget_countdown_prayers">Compte à rebours du widget prière suivante</string>
+    <string name="next_prayer_widget_countdown_prayers_help">Choisissez vers quelles prières le widget 1×1 de prière suivante décompte.</string>
+    <string name="widget_min_countdown_prayers_warning">Au moins une prière doit être sélectionnée</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

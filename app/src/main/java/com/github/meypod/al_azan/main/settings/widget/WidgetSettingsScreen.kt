@@ -129,6 +129,20 @@ fun WidgetSettingsScreen(
                 modifier = Modifier.padding(cardPadding),
             )
         }
+
+        ACard { cardPadding ->
+            PrayerCheckboxTable(
+                title = stringResource(R.string.next_prayer_widget_countdown_prayers),
+                helpText = stringResource(R.string.next_prayer_widget_countdown_prayers_help),
+                leftColumn = stringResource(R.string.time_column),
+                rightColumn = stringResource(R.string.show_column),
+                isChecked = { it in uiState.settings.countdownWidgetPrayers },
+                onToggle = { prayer, enabled ->
+                    onAction(WidgetSettingsUiAction.OnCountdownPrayerToggle(prayer, enabled))
+                },
+                modifier = Modifier.padding(cardPadding),
+            )
+        }
     }
 }
 

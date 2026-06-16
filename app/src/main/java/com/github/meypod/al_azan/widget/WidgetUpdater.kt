@@ -15,6 +15,7 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.usecase.BuildNextPrayerWidgetDataUseCase
 import com.github.meypod.al_azan.core.domain.usecase.BuildWidgetDataUseCase
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -40,6 +41,7 @@ class WidgetUpdater @Inject constructor(
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val buildWidgetDataUseCase: BuildWidgetDataUseCase,
+    private val buildNextPrayerWidgetDataUseCase: BuildNextPrayerWidgetDataUseCase,
     private val alarmRepository: AlarmRepository,
     private val notificationRepository: NotificationRepository,
 ) {
@@ -57,31 +59,43 @@ class WidgetUpdater @Inject constructor(
             val locations = favoriteLocationsRepository.data.first()
             val location = locations.firstOrNull { it.id == calcSettings.locationId }?.locationDetail
 
-            val data = buildWidgetDataUseCase(Clock.System.now(), settings, calcSettings, location)
+            val now = Clock.System.now()
+            val data = buildWidgetDataUseCase(now, settings, calcSettings, location)
+            val nextData = buildNextPrayerWidgetDataUseCase(now, settings, calcSettings, location)
 
+            val screenIds = appWidgetManager.getAppWidgetIds(ComponentName(context, PrayerTimesWidget::class.java))
+            val nextIds = appWidgetManager.getAppWidgetIds(ComponentName(context, NextPrayerWidget::class.java))
+
+            // Prayer-times widget + notification.
+            WidgetRenderCache.lastData = data
             if (data == null) {
                 // Not configured yet: nothing meaningful to show.
-                WidgetRenderCache.lastData = null
                 notificationRepository.cancelNotification(WidgetContract.NOTIFICATION_ID)
-                alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
-                return@withLock
-            }
-
-            // Cache so PrayerTimesWidget.onUpdate can cheaply re-push if the launcher resets the widget.
-            WidgetRenderCache.lastData = data
-
-            val widgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context, PrayerTimesWidget::class.java))
-            if (widgetIds.isNotEmpty()) {
-                appWidgetManager.updateAppWidget(widgetIds, WidgetRenderer.buildScreenWidget(context, data))
-            }
-            updateNotification(data)
-
-            // Only keep recomputing on a schedule while something is actually on screen.
-            if (widgetIds.isNotEmpty() || data.showNotification) {
-                scheduleNextRedraw(data)
             } else {
-                alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
+                if (screenIds.isNotEmpty()) {
+                    appWidgetManager.updateAppWidget(screenIds, WidgetRenderer.buildScreenWidget(context, data))
+                }
+                updateNotification(data)
             }
+
+            // 1x1 next-prayer widget. When not computable (unconfigured / empty selection) leave it on its
+            // placeholder rather than blanking it.
+            NextPrayerRenderCache.lastData = nextData
+            if (nextData != null && nextIds.isNotEmpty()) {
+                appWidgetManager.updateAppWidget(nextIds, WidgetRenderer.buildNextPrayerWidget(context, nextData))
+            }
+
+            // Only keep recomputing on a schedule while something is actually on screen. Each surface
+            // contributes its own next transition; redraw at the earliest of them.
+            val nextUpdateCandidates = buildList {
+                if (data != null && (screenIds.isNotEmpty() || data.showNotification)) {
+                    data.nextUpdateAtMillis?.let { add(it) }
+                }
+                if (nextData != null && nextIds.isNotEmpty()) {
+                    nextData.nextUpdateAtMillis?.let { add(it) }
+                }
+            }
+            scheduleNextRedraw(nextUpdateCandidates.minOrNull())
         }
 
     private suspend fun updateNotification(data: WidgetData) {
@@ -108,8 +122,7 @@ class WidgetUpdater @Inject constructor(
         )
     }
 
-    private suspend fun scheduleNextRedraw(data: WidgetData) {
-        val nextMillis = data.nextUpdateAtMillis
+    private suspend fun scheduleNextRedraw(nextMillis: Long?) {
         if (nextMillis == null) {
             alarmRepository.cancel(WidgetContract.REDRAW_ALARM_ID)
             return

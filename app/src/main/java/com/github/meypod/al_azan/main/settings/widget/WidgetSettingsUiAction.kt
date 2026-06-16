@@ -7,20 +7,30 @@ sealed interface WidgetSettingsUiAction {
     data class OnShowNotificationWidgetToggle(
         val value: Boolean,
     ) : WidgetSettingsUiAction
+
     data class OnShowCountdownToggle(
         val value: Boolean,
     ) : WidgetSettingsUiAction
+
     data class OnAdaptiveThemeToggle(
         val value: Boolean,
     ) : WidgetSettingsUiAction
+
     data class OnCityNamePosChange(
         val value: WidgetCityNamePos,
     ) : WidgetSettingsUiAction
+
     data class OnSwapLayoutDirectionToggle(
         val value: Boolean,
     ) : WidgetSettingsUiAction
+
     data class OnPrayerVisibilityChange(
         val prayer: Prayer,
         val visible: Boolean,
+    ) : WidgetSettingsUiAction
+
+    data class OnCountdownPrayerToggle(
+        val prayer: Prayer,
+        val enabled: Boolean,
     ) : WidgetSettingsUiAction
 }

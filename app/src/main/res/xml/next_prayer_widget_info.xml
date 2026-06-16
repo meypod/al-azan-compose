@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+  android:initialLayout="@layout/next_prayer_widget"
+  android:minHeight="40dp"
+  android:minWidth="40dp"
+  android:minResizeHeight="40dp"
+  android:minResizeWidth="40dp"
+  android:maxResizeHeight="180dp"
+  android:maxResizeWidth="180dp"
+  android:previewLayout="@layout/next_prayer_widget"
+  android:resizeMode="horizontal|vertical"
+  android:targetCellHeight="1"
+  android:targetCellWidth="1"
+  android:updatePeriodMillis="0"
+  android:widgetCategory="home_screen" />

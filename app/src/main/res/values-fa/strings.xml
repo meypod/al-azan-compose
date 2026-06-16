@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">انتخاب کنید کدام تقویم جایگزین شود</string>
     <string name="widget_max_shown_prayers_warning">فقط شش مورد را می‌توان همزمان نشان داد</string>
     <string name="widget_swap_layout_direction">جابجایی جهت چیدمان</string>
+    <string name="next_prayer_widget_countdown_prayers">شمارش معکوس ابزارک نماز بعدی</string>
+    <string name="next_prayer_widget_countdown_prayers_help">انتخاب کنید ابزارک ۱×۱ نماز بعدی به سمت کدام نمازها شمارش معکوس کند.</string>
+    <string name="widget_min_countdown_prayers_warning">حداقل یک نماز باید انتخاب شود</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

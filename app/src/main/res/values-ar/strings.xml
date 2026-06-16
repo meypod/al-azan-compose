@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">اختر التقويم الذي تريد استبداله</string>
     <string name="widget_max_shown_prayers_warning">يمكن عرض ستة عناصر فقط في نفس الوقت</string>
     <string name="widget_swap_layout_direction">تبديل اتجاه التخطيط</string>
+    <string name="next_prayer_widget_countdown_prayers">العد التنازلي لأداة الصلاة التالية</string>
+    <string name="next_prayer_widget_countdown_prayers_help">اختر الصلوات التي تعدّ إليها أداة الصلاة التالية ١×١ تنازليًا.</string>
+    <string name="widget_min_countdown_prayers_warning">يجب اختيار صلاة واحدة على الأقل</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

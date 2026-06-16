@@ -3,12 +3,16 @@ package com.github.meypod.al_azan.widget
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.SystemClock
+import android.util.SizeF
+import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
+import com.github.meypod.al_azan.core.domain.model.widget.NextPrayerWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetData
 
 /**
@@ -124,6 +128,58 @@ object WidgetRenderer {
             adaptive -> R.layout.screen_widget_adaptive
             else -> R.layout.screen_widget
         }
+
+    /** Font sizes (sp) for the next-prayer widget, scaling with the widget's size: name to countdown. */
+    private enum class NextPrayerSize(
+        val nameSp: Float,
+        val timeSp: Float,
+    ) {
+        Small(14f, 14f),
+        Medium(22f, 20f),
+        Large(30f, 28f),
+    }
+
+    // Width thresholds (dp) at which the next size bucket kicks in. ~1 launcher cell ≈ 56dp + spacing,
+    // so ~110dp ≈ 2 cells wide, ~170dp ≈ 3 cells wide. The smallest key matches the widget's minResize.
+    private const val MIN_WIDTH_DP = 40f
+    private const val MEDIUM_MIN_WIDTH_DP = 110f
+    private const val LARGE_MIN_WIDTH_DP = 170f
+
+    /**
+     * Builds the next-prayer widget: the targeted prayer name above a live countdown chronometer.
+     * Resizable 1x1..3x3; the font grows with width. On API 31+ the launcher swaps between size buckets
+     * as the user resizes (responsive [RemoteViews]); below that a single small rendering is used (a
+     * static build can't read the widget's current size pre-31).
+     */
+    fun buildNextPrayerWidget(
+        context: Context,
+        data: NextPrayerWidgetData,
+    ): RemoteViews {
+        val localized = context.withAppLocale(data.locale)
+        val layout = if (data.adaptiveTheme) R.layout.next_prayer_widget_adaptive else R.layout.next_prayer_widget
+        val base = SystemClock.elapsedRealtime() + (data.countdownBaseMillis - System.currentTimeMillis())
+        val name = localized.getString(data.prayer.stringRes)
+
+        fun render(size: NextPrayerSize): RemoteViews =
+            RemoteViews(context.packageName, layout).apply {
+                setTextViewText(R.id.next_prayer_name, name)
+                setChronometer(R.id.next_prayer_countdown, base, null, true)
+                setTextViewTextSize(R.id.next_prayer_name, TypedValue.COMPLEX_UNIT_SP, size.nameSp)
+                setTextViewTextSize(R.id.next_prayer_countdown, TypedValue.COMPLEX_UNIT_SP, size.timeSp)
+                setOnClickPendingIntent(R.id.next_prayer_widget_layout, launchPendingIntent(context))
+            }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return render(NextPrayerSize.Small)
+
+        // Keyed on width; the shared min height lets the launcher select purely by how wide the widget is.
+        return RemoteViews(
+            mapOf(
+                SizeF(MIN_WIDTH_DP, MIN_WIDTH_DP) to render(NextPrayerSize.Small),
+                SizeF(MEDIUM_MIN_WIDTH_DP, MIN_WIDTH_DP) to render(NextPrayerSize.Medium),
+                SizeF(LARGE_MIN_WIDTH_DP, MIN_WIDTH_DP) to render(NextPrayerSize.Large),
+            ),
+        )
+    }
 
     private fun launchPendingIntent(context: Context): PendingIntent {
         val intent = Intent(context, MainActivity::class.java).apply {

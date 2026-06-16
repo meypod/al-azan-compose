@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">منتخب کریں کہ کون سا کیلنڈر تبدیل کرنا ہے۔</string>
     <string name="widget_max_shown_prayers_warning">ایک ہی وقت میں صرف چھ اشیاء دکھائی جا سکتی ہیں۔</string>
     <string name="widget_swap_layout_direction">لے آؤٹ کی سمت بدلیں</string>
+    <string name="next_prayer_widget_countdown_prayers">اگلی نماز ویجٹ کاؤنٹ ڈاؤن</string>
+    <string name="next_prayer_widget_countdown_prayers_help">منتخب کریں کہ 1×1 اگلی نماز ویجٹ کن نمازوں کی طرف گنتی کرے۔</string>
+    <string name="widget_min_countdown_prayers_warning">کم از کم ایک نماز منتخب کرنا ضروری ہے</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

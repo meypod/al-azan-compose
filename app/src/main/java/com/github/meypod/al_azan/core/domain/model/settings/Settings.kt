@@ -107,6 +107,14 @@ data class Settings(
     val adaptiveWidgets: Boolean = false,
     val widgetCityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
     val swapWidgetLayoutDirection: Boolean = false,
+    /** Prayers the 1x1 next-prayer widget's countdown counts toward. */
+    val countdownWidgetPrayers: List<Prayer> = listOf(
+        Prayer.Fajr,
+        Prayer.Dhuhr,
+        Prayer.Asr,
+        Prayer.Maghrib,
+        Prayer.Isha,
+    ),
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val calcSettingsHash: String? = null,
     @Serializable(with = EmptyStringAsNullSerializer::class)

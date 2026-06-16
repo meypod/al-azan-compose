@@ -130,6 +130,18 @@
                 android:resource="@xml/prayer_times_widget_info" />
         </receiver>
 
+        <!-- 1x1 next-prayer app widget: prayer name + countdown chronometer. -->
+        <receiver
+            android:name=".widget.NextPrayerWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/next_prayer_widget_info" />
+        </receiver>
+
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
             android:enabled="false"

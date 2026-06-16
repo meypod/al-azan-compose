@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">Hangi takvimin değiştirileceğini seçin</string>
     <string name="widget_max_shown_prayers_warning">Aynı anda yalnızca altı öğe gösterilebilir</string>
     <string name="widget_swap_layout_direction">Düzen yönünü değiştir</string>
+    <string name="next_prayer_widget_countdown_prayers">Sonraki namaz widget\'ı geri sayımı</string>
+    <string name="next_prayer_widget_countdown_prayers_help">1×1 sonraki namaz widget\'ının hangi namazlara doğru geri sayacağını seçin.</string>
+    <string name="widget_min_countdown_prayers_warning">En az bir namaz seçilmelidir</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

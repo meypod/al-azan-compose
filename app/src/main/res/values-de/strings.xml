@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">Wählen Sie den zu ersetzenden Kalender</string>
     <string name="widget_max_shown_prayers_warning">Es können nur sechs Elemente gleichzeitig angezeigt werden</string>
     <string name="widget_swap_layout_direction">Layoutrichtung tauschen</string>
+    <string name="next_prayer_widget_countdown_prayers">Countdown des Nächste-Gebet-Widgets</string>
+    <string name="next_prayer_widget_countdown_prayers_help">Wähle, zu welchen Gebeten das 1×1-Widget für das nächste Gebet herunterzählt.</string>
+    <string name="widget_min_countdown_prayers_warning">Mindestens ein Gebet muss ausgewählt sein</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

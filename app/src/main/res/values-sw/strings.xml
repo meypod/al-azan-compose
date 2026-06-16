@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">Chagua ni kalenda ipi ya kubadilisha</string>
     <string name="widget_max_shown_prayers_warning">Sehemu sita zinaweza kuonyeshwa kwa wakati mmoja</string>
     <string name="widget_swap_layout_direction">Badilisha mwelekeo wa mpangilio</string>
+    <string name="next_prayer_widget_countdown_prayers">Kihesabu cha kishirikishi cha sala inayofuata</string>
+    <string name="next_prayer_widget_countdown_prayers_help">Chagua sala zipi ambazo kishirikishi cha 1×1 cha sala inayofuata kinahesabu kuelekea.</string>
+    <string name="widget_min_countdown_prayers_warning">Angalau sala moja lazima ichaguliwe</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

@@ -45,6 +45,7 @@ class WidgetSettingsViewModel @Inject constructor(
             is WidgetSettingsUiAction.OnCityNamePosChange -> onCityNamePosChange(action)
             is WidgetSettingsUiAction.OnSwapLayoutDirectionToggle -> onSwapLayoutDirectionToggle(action)
             is WidgetSettingsUiAction.OnPrayerVisibilityChange -> onPrayerVisibilityChange(action)
+            is WidgetSettingsUiAction.OnCountdownPrayerToggle -> onCountdownPrayerToggle(action)
         }
     }
 
@@ -85,6 +86,23 @@ class WidgetSettingsViewModel @Inject constructor(
                 hidden.add(action.prayer)
             }
             settings.copy(hiddenWidgetPrayers = hidden)
+        }
+    }
+
+    private fun onCountdownPrayerToggle(action: WidgetSettingsUiAction.OnCountdownPrayerToggle) {
+        val current = _uiState.value.settings.countdownWidgetPrayers
+        // The countdown needs at least one target prayer to count toward; block removing the last one.
+        if (!action.enabled && current.size <= 1 && action.prayer in current) {
+            viewModelScope.launch {
+                _events.send(WidgetSettingsUiEvent.ShowMessage(R.string.widget_min_countdown_prayers_warning))
+            }
+            return
+        }
+        update { settings ->
+            // Preserve the canonical prayer order so the stored list is stable regardless of toggle order.
+            val selected = settings.countdownWidgetPrayers.toMutableSet()
+            if (action.enabled) selected.add(action.prayer) else selected.remove(action.prayer)
+            settings.copy(countdownWidgetPrayers = SHARIA_TIMES_IN_ORDER.filter { it in selected })
         }
     }
 

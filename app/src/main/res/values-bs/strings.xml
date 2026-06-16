@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">Odaberite koji kalendar želite zamijeniti</string>
     <string name="widget_max_shown_prayers_warning">Istovremeno se može prikazati samo šest stavki</string>
     <string name="widget_swap_layout_direction">Zamijeni smjer rasporeda</string>
+    <string name="next_prayer_widget_countdown_prayers">Odbrojavanje vidžeta sljedećeg namaza</string>
+    <string name="next_prayer_widget_countdown_prayers_help">Odaberite prema kojim namazima vidžet 1×1 sljedećeg namaza odbrojava.</string>
+    <string name="widget_min_countdown_prayers_warning">Mora biti odabran najmanje jedan namaz</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

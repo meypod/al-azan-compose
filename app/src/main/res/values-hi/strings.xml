@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">चुनें कि कौन सा कैलेंडर बदलना है</string>
     <string name="widget_max_shown_prayers_warning">एक ही समय में केवल छह चीज़ें दिखाए जा सकती हैं</string>
     <string name="widget_swap_layout_direction">लेआउट दिशा बदलें</string>
+    <string name="next_prayer_widget_countdown_prayers">अगली नमाज़ विजेट काउंटडाउन</string>
+    <string name="next_prayer_widget_countdown_prayers_help">चुनें कि 1×1 अगली नमाज़ विजेट किन नमाज़ों की ओर गिनती करे।</string>
+    <string name="widget_min_countdown_prayers_warning">कम से कम एक नमाज़ चुननी होगी</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

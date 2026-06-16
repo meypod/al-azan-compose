@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">কোন ক্যালেন্ডার প্রতিস্থাপন করতে হবে তা বেছে নিন</string>
     <string name="widget_max_shown_prayers_warning">একই সময়ে মাত্র ছয়টি আইটেম দেখানো যাবে</string>
     <string name="widget_swap_layout_direction">লেআউটের দিক অদলবদল করুন</string>
+    <string name="next_prayer_widget_countdown_prayers">পরবর্তী নামাজ উইজেট কাউন্টডাউন</string>
+    <string name="next_prayer_widget_countdown_prayers_help">১×১ পরবর্তী নামাজ উইজেট কোন নামাজগুলোর দিকে গণনা করবে তা বেছে নিন।</string>
+    <string name="widget_min_countdown_prayers_warning">কমপক্ষে একটি নামাজ নির্বাচন করতে হবে</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

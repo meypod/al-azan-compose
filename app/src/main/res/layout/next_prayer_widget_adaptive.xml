@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/next_prayer_widget_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:theme="@style/WidgetExpandedBaseThemeAdaptive">
+
+    <TextView
+        android:id="@+id/next_prayer_name"
+        style="@style/PrayerLabels"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Fajr"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <Chronometer
+        android:id="@+id/next_prayer_countdown"
+        style="@style/PrayerLabels"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:countDown="true"
+        android:enabled="false"
+        android:fontFamily="monospace" />
+
+</LinearLayout>

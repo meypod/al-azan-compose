@@ -388,6 +388,9 @@
     <string name="widget_city_name_pos_placeholder">Choose which calendar to replace</string>
     <string name="widget_max_shown_prayers_warning">Only six items can be shown at the same time</string>
     <string name="widget_swap_layout_direction">Swap layout direction</string>
+    <string name="next_prayer_widget_countdown_prayers">Next-prayer widget countdown</string>
+    <string name="next_prayer_widget_countdown_prayers_help">Choose which prayers the 1x1 next-prayer widget counts down toward.</string>
+    <string name="widget_min_countdown_prayers_warning">At least one prayer must be selected</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
