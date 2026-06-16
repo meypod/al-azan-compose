@@ -26,7 +26,7 @@ data class HomeUiState(
     val shariaTimes: ShariaTimes? = null,
     val nextShariaTime: ShariaTimeDetails? = null,
     val highlightedShariaTime: ShariaTimeDetails? = null,
-    val countdownText: String = "00:00:00",
+    val countdownText: String = "--:--:--",
     val is24Hour: Boolean = true,
     val hiddenPrayers: List<Prayer> = emptyList(),
     val isDeveloper: Boolean = false,
