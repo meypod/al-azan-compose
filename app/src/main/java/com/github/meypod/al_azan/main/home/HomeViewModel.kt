@@ -282,6 +282,13 @@ class HomeViewModel
                         } else {
                             nextShariaTime
                         }
+                    val countdownText = if (settings.showHomeNextPrayerCountdown && nextShariaTime != null &&
+                        currentInstant <= nextShariaTime.prayerTime
+                    ) {
+                        formatCountdownToHHmmss(currentInstant, nextShariaTime.prayerTime, settings.numberingSystem)
+                    } else {
+                        it.countdownText
+                    }
                     updateScreenJob?.cancel()
                     updateScreenJob = viewModelScope.launch {
                         launch {
@@ -309,6 +316,7 @@ class HomeViewModel
                         isCalculationConfigured = calcSettings.parameters != null,
                         showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
                         nextShariaTime = nextShariaTime,
+                        countdownText = countdownText,
                         highlightedShariaTime = highlightedShariaTime,
                         is24Hour = settings.is24HourFormat,
                         hiddenPrayers = settings.hiddenPrayers,
