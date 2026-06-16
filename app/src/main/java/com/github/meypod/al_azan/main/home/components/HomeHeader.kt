@@ -201,7 +201,7 @@ fun HomeHeader(
                         disabledTextColor = countdownColor,
                         disabledLabelColor = countdownColor,
                     ),
-                    shape = MaterialTheme.shapes.medium,
+                    shape = if (classic) MaterialTheme.shapes.medium else MaterialTheme.shapes.large,
                     readOnly = true,
                     enabled = false,
                     textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
