@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.github.meypod.al_azan"
-    compileSdk { version = release(36) }
+    compileSdk { version = release(37) }
 
     defaultConfig {
         applicationId = "com.github.meypod.al_azan"
         minSdk = 26
-        compileSdk = 36
+        compileSdk = 37
         targetSdk = 36
         versionCode = 78
         versionName = "2.0.0"
@@ -62,6 +62,11 @@ kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
     }
+}
+
+// Aggregates @AppFunction declarations into the generated index the system reads.
+ksp {
+    arg("appfunctions:aggregateAppFunctions", "true")
 }
 
 composeCompiler {
@@ -123,6 +128,10 @@ dependencies {
     implementation(libs.tencent.mmkv)
 
     implementation(libs.batoulapps.adhan)
+
+    implementation(libs.androidx.appfunctions)
+    implementation(libs.androidx.appfunctions.service)
+    ksp(libs.androidx.appfunctions.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
