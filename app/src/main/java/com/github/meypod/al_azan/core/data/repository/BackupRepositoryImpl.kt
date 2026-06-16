@@ -5,6 +5,7 @@ import android.net.Uri
 import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.core.data.model.ExportedSettingsV2
 import com.github.meypod.al_azan.core.data.model.RestoreData
+import com.github.meypod.al_azan.core.data.model.old.LegacyStorageKeys
 import com.github.meypod.al_azan.core.data.model.old.OldExportedSettings
 import com.github.meypod.al_azan.core.data.model.old.toRestoreData
 import com.github.meypod.al_azan.core.data.model.toRestoreData
@@ -22,9 +23,11 @@ import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
+import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
 /**
@@ -35,6 +38,7 @@ import kotlinx.serialization.json.jsonObject
 class BackupRepositoryImpl(
     private val context: Context,
     private val json: Json,
+    private val mmkv: MMKV,
     private val settingsRepository: SettingsRepository,
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val alarmSettingsRepository: AlarmSettingsRepository,
@@ -65,6 +69,27 @@ class BackupRepositoryImpl(
             favoriteLocations = favoriteLocationsRepository.fetch(),
         )
         val content = json.encodeToString(ExportedSettingsV2.serializer(), exported)
+        writeToUri(uri, content)
+    }
+
+    override fun hasLegacyData(): Boolean = mmkv.containsKey(LegacyStorageKeys.SETTINGS)
+
+    override suspend fun exportLegacyTo(uri: Uri) {
+        // Dump the old app's MMKV stores verbatim, exactly as the old app's own export did: each
+        // legacy `*_STORAGE` value (a `{state, version}` document) keyed by its storage name. These keys
+        // survive the v2 migration untouched, so this is the user's original data, not a re-derivation.
+        val stores = LegacyStorageKeys.ALL.mapNotNull { key ->
+            mmkv.decodeString(key)?.let { raw -> key to json.parseToJsonElement(raw) }
+        }
+        if (stores.isEmpty()) throw IllegalStateException("No legacy app data found to export")
+        val content = json.encodeToString(JsonObject.serializer(), JsonObject(stores.toMap()))
+        writeToUri(uri, content)
+    }
+
+    private suspend fun writeToUri(
+        uri: Uri,
+        content: String,
+    ) {
         withContext(Dispatchers.IO) {
             context.contentResolver.openOutputStream(uri)?.use { output ->
                 output.write(content.toByteArray())

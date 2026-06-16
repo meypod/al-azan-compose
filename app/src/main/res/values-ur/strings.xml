@@ -403,6 +403,8 @@
     <string name="backup_failed">بیک اپ فائل نہیں بن سکی</string>
     <string name="restore_success">ترتیبات کامیابی سے بحال ہو گئیں</string>
     <string name="restore_failed">بحال نہیں ہو سکا۔ فائل غلط یا خراب ہو سکتی ہے۔</string>
+    <string name="export_old_app_data">پچھلے ورژن کا ڈیٹا بحال کریں</string>
+    <string name="export_old_app_data_help">پچھلے ورژن کا آپ کا ڈیٹا اب بھی اس ڈیوائس پر دستیاب ہے۔ آپ اسے بیک اپ کے طور پر ایکسپورٹ کر کے پرانے ورژن میں بحال کر سکتے ہیں اور واپس جا سکتے ہیں۔</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

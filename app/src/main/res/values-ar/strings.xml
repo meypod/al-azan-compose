@@ -403,6 +403,8 @@
     <string name="backup_failed">تعذّر إنشاء ملف النسخة الاحتياطية</string>
     <string name="restore_success">تمت استعادة الإعدادات بنجاح</string>
     <string name="restore_failed">تعذّرت الاستعادة. قد يكون الملف غير صالح أو تالفًا.</string>
+    <string name="export_old_app_data">استرجاع بيانات الإصدار السابق</string>
+    <string name="export_old_app_data_help">بياناتك من الإصدار السابق لا تزال متوفرة على هذا الجهاز. يمكنك تصديرها كنسخة احتياطية واستعادتها في الإصدار القديم للعودة إليه.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

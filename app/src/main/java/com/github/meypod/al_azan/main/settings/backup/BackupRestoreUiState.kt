@@ -7,6 +7,8 @@ import androidx.compose.runtime.Immutable
 data class BackupRestoreUiState(
     /** True while an export or restore is running; drives the blocking progress dialog. */
     val busy: Boolean = false,
+    /** True when the old app's data is still on the device, so the legacy export can be offered. */
+    val canExportLegacy: Boolean = false,
 )
 
 sealed interface BackupRestoreUiEvent {

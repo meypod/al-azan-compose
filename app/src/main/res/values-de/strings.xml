@@ -403,6 +403,8 @@
     <string name="backup_failed">Die Sicherungsdatei konnte nicht erstellt werden</string>
     <string name="restore_success">Einstellungen erfolgreich wiederhergestellt</string>
     <string name="restore_failed">Wiederherstellung fehlgeschlagen. Die Datei ist möglicherweise ungültig oder beschädigt.</string>
+    <string name="export_old_app_data">Daten der vorherigen Version wiederherstellen</string>
+    <string name="export_old_app_data_help">Deine Daten aus der vorherigen Version sind noch auf diesem Gerät verfügbar. Du kannst sie als Sicherung exportieren und in der alten Version wiederherstellen, um zurückzuwechseln.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

@@ -403,6 +403,8 @@
     <string name="backup_failed">Nije moguće kreirati sigurnosnu kopiju</string>
     <string name="restore_success">Postavke uspješno obnovljene</string>
     <string name="restore_failed">Nije moguće obnoviti. Datoteka je možda nevažeća ili oštećena.</string>
+    <string name="export_old_app_data">Vrati podatke prethodne verzije</string>
+    <string name="export_old_app_data_help">Vaši podaci iz prethodne verzije i dalje su dostupni na ovom uređaju. Možete ih izvesti kao sigurnosnu kopiju i obnoviti u staroj verziji da se vratite.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

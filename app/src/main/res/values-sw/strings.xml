@@ -403,6 +403,8 @@
     <string name="backup_failed">Imeshindwa kutengeneza faili ya nakala rudufu</string>
     <string name="restore_success">Mipangilio imerejeshwa kwa mafanikio</string>
     <string name="restore_failed">Imeshindwa kurejesha. Faili huenda si halali au imeharibika.</string>
+    <string name="export_old_app_data">Rejesha data ya toleo lililotangulia</string>
+    <string name="export_old_app_data_help">Data yako ya toleo lililotangulia bado inapatikana kwenye kifaa hiki. Unaweza kuisafirisha kama nakala rudufu na kuirejesha katika toleo la zamani ili kurudi.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

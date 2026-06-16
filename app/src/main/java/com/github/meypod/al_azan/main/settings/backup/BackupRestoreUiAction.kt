@@ -7,6 +7,10 @@ sealed interface BackupRestoreUiAction {
         val uri: Uri,
     ) : BackupRestoreUiAction
 
+    data class OnExportLegacyFileSelected(
+        val uri: Uri,
+    ) : BackupRestoreUiAction
+
     data class OnRestoreFileSelected(
         val uri: Uri,
     ) : BackupRestoreUiAction

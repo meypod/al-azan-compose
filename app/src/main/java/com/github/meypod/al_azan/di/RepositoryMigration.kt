@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.di
 
+import com.github.meypod.al_azan.core.data.model.old.LegacyStorageKeys
 import com.github.meypod.al_azan.core.data.model.old.OldAlarmSettings
 import com.github.meypod.al_azan.core.data.model.old.OldAlarmSettingsState
 import com.github.meypod.al_azan.core.data.model.old.OldCalculationSettings
@@ -46,13 +47,6 @@ constructor(
     private val notificationChannelManager: NotificationChannelManager,
 ) {
     private companion object {
-        const val KEY_SETTINGS = "SETTINGS_STORAGE"
-        const val KEY_CALC_SETTINGS = "CALC_SETTINGS_STORAGE"
-        const val KEY_ALARM_SETTINGS = "ALARM_SETTINGS_STORAGE"
-        const val KEY_COUNTER = "COUNTER_STORAGE"
-        const val KEY_REMINDER = "REMINDER_STORAGE"
-        const val KEY_FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE"
-
         /**
          * Channel ids from the old (React Native / notifee) app. They use a different id scheme than the
          * v2 channels, so deleting them on migration just clears the stale entries from system settings.
@@ -84,12 +78,12 @@ constructor(
     private fun readLegacyStores(): OldExportedSettings =
         OldExportedSettings(
             settingsStorage = decode(
-                KEY_SETTINGS,
+                LegacyStorageKeys.SETTINGS,
                 OldSettings.serializer(),
                 OldSettings(state = OldSettingsState(selectedLocale = "en"), version = 1),
             ),
             calcSettingsStorage = decode(
-                KEY_CALC_SETTINGS,
+                LegacyStorageKeys.CALC_SETTINGS,
                 OldCalculationSettings.serializer(),
                 OldCalculationSettings(
                     state = OldCalculationSettingsState(
@@ -108,22 +102,22 @@ constructor(
                 ),
             ),
             alarmSettingsStorage = decode(
-                KEY_ALARM_SETTINGS,
+                LegacyStorageKeys.ALARM_SETTINGS,
                 OldAlarmSettings.serializer(),
                 OldAlarmSettings(state = OldAlarmSettingsState(), version = 1),
             ),
             counterStoreStorage = decode(
-                KEY_COUNTER,
+                LegacyStorageKeys.COUNTER,
                 OldCounterStore.serializer(),
                 OldCounterStore(state = OldCounterStoreState(), version = 1),
             ),
             reminderSettingsStorage = decode(
-                KEY_REMINDER,
+                LegacyStorageKeys.REMINDER,
                 OldReminderStore.serializer(),
                 OldReminderStore(state = OldReminderStoreState(), version = 1),
             ),
             favoriteLocationsStorage = decode(
-                KEY_FAVORITE_LOCATIONS,
+                LegacyStorageKeys.FAVORITE_LOCATIONS,
                 OldFavoriteLocationsStore.serializer(),
                 OldFavoriteLocationsStore(state = OldFavoriteLocationsStoreState(), version = 1),
             ),

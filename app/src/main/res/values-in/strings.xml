@@ -403,6 +403,8 @@
     <string name="backup_failed">Tidak dapat membuat file cadangan</string>
     <string name="restore_success">Pengaturan berhasil dipulihkan</string>
     <string name="restore_failed">Tidak dapat memulihkan. File mungkin tidak valid atau rusak.</string>
+    <string name="export_old_app_data">Pulihkan data versi sebelumnya</string>
+    <string name="export_old_app_data_help">Data Anda dari versi sebelumnya masih tersedia di perangkat ini. Anda dapat mengekspornya sebagai cadangan dan memulihkannya di versi lama untuk kembali.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

@@ -50,6 +50,10 @@ fun BackupRestoreScreen(
         contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
     ) { uri -> uri?.let { onAction(BackupRestoreUiAction.OnExportFileSelected(it)) } }
 
+    val exportLegacyLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
+    ) { uri -> uri?.let { onAction(BackupRestoreUiAction.OnExportLegacyFileSelected(it)) } }
+
     val restoreLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
     ) { uri -> uri?.let { onAction(BackupRestoreUiAction.OnRestoreFileSelected(it)) } }
@@ -121,6 +125,35 @@ fun BackupRestoreScreen(
                 }
             }
         }
+
+        // Only offered when the old app's data is still on the device (an unknowing upgrade), so it can
+        // be dumped back to a file the old app reads.
+        if (uiState.canExportLegacy) {
+            ACard { cardPadding ->
+                Column(
+                    Modifier.padding(cardPadding),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                ) {
+                    Text(
+                        stringResource(R.string.export_old_app_data),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Text(stringResource(R.string.export_old_app_data_help), style = MaterialTheme.typography.bodyMedium)
+                    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        PrimaryButton(
+                            onClick = { exportLegacyLauncher.launch(DEFAULT_BACKUP_FILE_NAME) },
+                            enabled = !uiState.busy,
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Icon(painterResource(R.drawable.upload), contentDescription = null)
+                                Text(stringResource(R.string.export_old_app_data))
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     if (uiState.busy) {
@@ -132,6 +165,6 @@ fun BackupRestoreScreen(
 @Composable
 private fun BackupRestoreScreenPreview() {
     AlAzanThemePreview {
-        BackupRestoreScreen(uiState = BackupRestoreUiState(), onAction = {})
+        BackupRestoreScreen(uiState = BackupRestoreUiState(canExportLegacy = true), onAction = {})
     }
 }

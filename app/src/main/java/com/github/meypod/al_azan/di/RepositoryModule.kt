@@ -187,6 +187,7 @@ object RepositoryModule {
     fun provideBackupRepository(
         @ApplicationContext context: Context,
         @Named("storage") storageJson: Json,
+        mmkv: MMKV,
         settingsRepository: SettingsRepository,
         calculationSettingsRepository: CalculationSettingsRepository,
         alarmSettingsRepository: AlarmSettingsRepository,
@@ -201,6 +202,7 @@ object RepositoryModule {
         BackupRepositoryImpl(
             context = context,
             json = storageJson,
+            mmkv = mmkv,
             settingsRepository = settingsRepository,
             calculationSettingsRepository = calculationSettingsRepository,
             alarmSettingsRepository = alarmSettingsRepository,

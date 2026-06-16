@@ -403,6 +403,8 @@
     <string name="backup_failed">Couldn\'t create the backup file</string>
     <string name="restore_success">Settings restored successfully</string>
     <string name="restore_failed">Couldn\'t restore. The file may be invalid or corrupted.</string>
+    <string name="export_old_app_data">Recover previous version\'s data</string>
+    <string name="export_old_app_data_help">Your data from the previous version is still available on this device. You can export it as a backup and restore it in the old version to switch back.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

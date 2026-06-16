@@ -403,6 +403,8 @@
     <string name="backup_failed">Không thể tạo tệp sao lưu</string>
     <string name="restore_success">Đã khôi phục cài đặt thành công</string>
     <string name="restore_failed">Không thể khôi phục. Tệp có thể không hợp lệ hoặc bị hỏng.</string>
+    <string name="export_old_app_data">Khôi phục dữ liệu phiên bản trước</string>
+    <string name="export_old_app_data_help">Dữ liệu của bạn từ phiên bản trước vẫn còn khả dụng trên thiết bị này. Bạn có thể xuất ra dưới dạng bản sao lưu và khôi phục ở phiên bản cũ để quay lại.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

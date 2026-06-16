@@ -403,6 +403,8 @@
     <string name="backup_failed">Yedek dosyası oluşturulamadı</string>
     <string name="restore_success">Ayarlar başarıyla geri yüklendi</string>
     <string name="restore_failed">Geri yüklenemedi. Dosya geçersiz veya bozuk olabilir.</string>
+    <string name="export_old_app_data">Önceki sürümün verilerini kurtar</string>
+    <string name="export_old_app_data_help">Önceki sürümdeki verileriniz hâlâ bu cihazda mevcut. Bunları yedek olarak dışa aktarıp eski sürümde geri yükleyerek geri dönebilirsiniz.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

@@ -403,6 +403,8 @@
     <string name="backup_failed">نمی‌توان فایل پشتیبان را ایجاد کرد</string>
     <string name="restore_success">تنظیمات با موفقیت بازیابی شد</string>
     <string name="restore_failed">بازیابی ممکن نشد. ممکن است فایل نامعتبر یا خراب باشد.</string>
+    <string name="export_old_app_data">بازیابی داده‌های نسخهٔ قبلی</string>
+    <string name="export_old_app_data_help">داده‌های شما از نسخهٔ قبلی هنوز روی این دستگاه در دسترس است. می‌توانید آن را به‌صورت نسخهٔ پشتیبان خروجی بگیرید و برای بازگشت در نسخهٔ قدیمی بازیابی کنید.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

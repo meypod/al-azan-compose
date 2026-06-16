@@ -403,6 +403,8 @@
     <string name="backup_failed">Impossible de créer le fichier de sauvegarde</string>
     <string name="restore_success">Paramètres restaurés avec succès</string>
     <string name="restore_failed">Impossible de restaurer. Le fichier est peut-être invalide ou corrompu.</string>
+    <string name="export_old_app_data">Récupérer les données de la version précédente</string>
+    <string name="export_old_app_data_help">Vos données de la version précédente sont toujours disponibles sur cet appareil. Vous pouvez les exporter en sauvegarde et les restaurer dans l\'ancienne version pour revenir.</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

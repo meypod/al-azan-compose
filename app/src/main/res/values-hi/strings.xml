@@ -403,6 +403,8 @@
     <string name="backup_failed">बैकअप फ़ाइल नहीं बनाई जा सकी</string>
     <string name="restore_success">सेटिंग्स सफलतापूर्वक रिस्टोर हो गईं</string>
     <string name="restore_failed">रिस्टोर नहीं किया जा सका। फ़ाइल अमान्य या क्षतिग्रस्त हो सकती है।</string>
+    <string name="export_old_app_data">पिछले संस्करण का डेटा पुनर्प्राप्त करें</string>
+    <string name="export_old_app_data_help">पिछले संस्करण का आपका डेटा अभी भी इस डिवाइस पर उपलब्ध है। आप इसे बैकअप के रूप में एक्सपोर्ट करके पुराने संस्करण में रिस्टोर कर सकते हैं और वापस जा सकते हैं।</string>
 
     <!-- ============================================================
          Reminders  (main/reminder)

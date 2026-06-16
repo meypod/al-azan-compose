@@ -25,7 +25,7 @@ constructor(
         const val TAG = "BackupRestoreViewModel"
     }
 
-    private val _uiState = MutableStateFlow(BackupRestoreUiState())
+    private val _uiState = MutableStateFlow(BackupRestoreUiState(canExportLegacy = backupRepository.hasLegacyData()))
     val uiState = _uiState.asStateFlow()
 
     private val _events = Channel<BackupRestoreUiEvent>()
@@ -34,6 +34,7 @@ constructor(
     fun onAction(action: BackupRestoreUiAction) {
         when (action) {
             is BackupRestoreUiAction.OnExportFileSelected -> onExportFileSelected(action.uri)
+            is BackupRestoreUiAction.OnExportLegacyFileSelected -> onExportLegacyFileSelected(action.uri)
             is BackupRestoreUiAction.OnRestoreFileSelected -> onRestoreFileSelected(action.uri)
         }
     }
@@ -44,6 +45,21 @@ constructor(
         viewModelScope.launch {
             val result = runCatching { backupRepository.exportTo(uri) }
             result.onFailure { Log.e(TAG, "Backup export failed", it) }
+            _uiState.update { it.copy(busy = false) }
+            _events.send(
+                BackupRestoreUiEvent.ShowMessage(
+                    if (result.isSuccess) R.string.backup_created else R.string.backup_failed,
+                ),
+            )
+        }
+    }
+
+    private fun onExportLegacyFileSelected(uri: Uri) {
+        if (_uiState.value.busy) return
+        _uiState.update { it.copy(busy = true) }
+        viewModelScope.launch {
+            val result = runCatching { backupRepository.exportLegacyTo(uri) }
+            result.onFailure { Log.e(TAG, "Legacy backup export failed", it) }
             _uiState.update { it.copy(busy = false) }
             _events.send(
                 BackupRestoreUiEvent.ShowMessage(
