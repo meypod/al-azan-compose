@@ -31,8 +31,8 @@ fun ConfigHintCard(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        modifier = modifier.dropShadow2(MaterialTheme.shapes.medium),
-        shape = MaterialTheme.shapes.medium,
+        modifier = modifier.dropShadow2(MaterialTheme.shapes.extraLarge),
+        shape = MaterialTheme.shapes.extraLarge,
         tonalElevation = 2.dp,
     ) {
         Column(

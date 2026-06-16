@@ -311,15 +311,20 @@ fun HomeScreen(
                             hiddenPrayers = uiState.hiddenPrayers,
                             themeColor = uiState.themeColor,
                         ),
-                        modifier = if (uiState.themeColor.isClassic()) {
-                            Modifier
-                        } else {
-                            // Counter the column's upward offset so the box reaches the
-                            // screen bottom instead of leaving the offset as a dead gap.
-                            Modifier.fillHeightExtendedBy(
-                                dimensionResource(R.dimen.home_card_padding),
-                            )
-                        },
+                        // Flexible child so it gets the height remaining after the hint
+                        // card, wrapping its content; non-classic also grows by the
+                        // column's upward offset so its bottom reaches the screen bottom.
+                        modifier = Modifier
+                            .weight(1f, fill = false)
+                            .then(
+                                if (uiState.themeColor.isClassic()) {
+                                    Modifier
+                                } else {
+                                    Modifier.extendMaxHeightBy(
+                                        dimensionResource(R.dimen.home_card_padding),
+                                    )
+                                },
+                            ),
                     )
                 }
             }
@@ -328,12 +333,11 @@ fun HomeScreen(
 }
 
 /**
- * Offers the content [extra] more room than the parent allows, without forcing it to grow.
- * Content that already fits keeps its natural size; content that would otherwise be capped
- * gets the extra height, so a parent drawing it with an upward offset of [extra] lands its
+ * Raises the child's max height by [extra] while leaving min height untouched, so a child
+ * that wraps its content can grow into a parent's upward offset of [extra] and land its
  * bottom edge at the original bottom instead of leaving a gap.
  */
-private fun Modifier.fillHeightExtendedBy(extra: Dp) =
+private fun Modifier.extendMaxHeightBy(extra: Dp) =
     layout { measurable, constraints ->
         val maxHeight = if (constraints.hasBoundedHeight) {
             constraints.maxHeight + extra.roundToPx()

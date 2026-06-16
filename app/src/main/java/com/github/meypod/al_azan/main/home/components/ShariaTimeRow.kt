@@ -37,7 +37,8 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 @Composable
-fun ShariaTimeRow(state: ShariaTimeRowUiState) {
+fun ShariaTimeRow(state: ShariaTimeRowUiState, compact: Boolean = false) {
+    val paddingRes = if (compact) R.dimen.element_padding_compact else R.dimen.element_padding
     val classic = state.themeColor.isClassic()
     val fadeTarget = if (state.themeColor == ThemeColor.ClassicLight) Color.White else Color.Black
     val textColor = if (classic) {
@@ -66,7 +67,7 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                         HighlightState.BeforeHighlight -> Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
 
                         HighlightState.Highlighted -> {
-                            val shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                            val shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
                             Modifier
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
                                 .dropShadow2Up(shape)
@@ -85,7 +86,7 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                     Modifier
                 } else {
                     Modifier.padding(
-                        dimensionResource(R.dimen.element_padding_compact),
+                        dimensionResource(paddingRes),
                     )
                 },
             ),
@@ -108,7 +109,10 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                                     Modifier
                                 },
                             )
-                            .dashedBorder(if (classic && highlighted) DarkTertiaryContainer else textColor)
+                            .dashedBorder(
+                                borderColor = if (classic && highlighted) DarkTertiaryContainer else textColor,
+                                shape = if (classic) MaterialTheme.shapes.medium else MaterialTheme.shapes.extraLarge,
+                            )
                     } else if (classic) {
                         val highlighted = state.highlightState == HighlightState.Highlighted
                         val classicLightHighlight =
@@ -123,7 +127,10 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState) {
                                     Modifier
                                 },
                             )
-                            .solidBorder(if (highlighted) DarkTertiary else textColor)
+                            .solidBorder(
+                                borderColor = if (highlighted) DarkTertiary else textColor,
+                                shape = MaterialTheme.shapes.medium,
+                            )
                     } else {
                         Modifier
                     },
