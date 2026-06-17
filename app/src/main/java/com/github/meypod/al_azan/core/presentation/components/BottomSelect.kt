@@ -1,5 +1,7 @@
 package com.github.meypod.al_azan.core.presentation.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +25,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,11 +34,14 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
@@ -186,22 +192,42 @@ private fun <T> BottomSelectImpl(
     val busyGate = remember { AtomicBoolean(false) }
     var busy by remember { mutableStateOf(initialBusy) }
 
-    val triggerModifier =
-        modifier
-            .onFocusChanged { state ->
-                scope.launch {
-                    if (state.hasFocus && busyGate.compareAndSet(false, true)) {
+    // Open on explicit activation (tap / a11y click), never on focus arrival: autofill,
+    // TalkBack and D-pad all forge focus and would otherwise auto-open the sheet (notably
+    // autofill on API 26 Oreo).
+    val openSheet =
+        remember {
+            {
+                if (enabled && busyGate.compareAndSet(false, true)) {
+                    scope.launch {
                         busy = true
                         try {
-                            val newExpand = updatedOnTriggerClick() ?: true
-                            expanded = newExpand
+                            expanded = updatedOnTriggerClick() ?: true
                         } finally {
                             busy = false
                             busyGate.set(false)
                         }
                     }
                 }
+                Unit
             }
+        }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    LaunchedEffect(interactionSource) {
+        interactionSource.interactions.collect { interaction ->
+            if (interaction is PressInteraction.Release) openSheet()
+        }
+    }
+
+    val triggerModifier =
+        modifier.semantics {
+            role = Role.DropdownList
+            onClick {
+                openSheet()
+                true
+            }
+        }
 
     val onSelectAndDismiss: (T) -> Unit = remember(onSelect, onDismiss) {
         { selectedItem ->
@@ -218,6 +244,7 @@ private fun <T> BottomSelectImpl(
         modifier = triggerModifier,
         enabled = enabled,
         readOnly = true,
+        interactionSource = interactionSource,
         label = label,
         placeholder = placeholder,
         supportingText = supportingText,
