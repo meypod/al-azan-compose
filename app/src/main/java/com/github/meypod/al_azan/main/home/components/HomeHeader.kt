@@ -204,7 +204,12 @@ fun HomeHeader(
                     shape = if (classic) MaterialTheme.shapes.medium else MaterialTheme.shapes.large,
                     readOnly = true,
                     enabled = false,
-                    textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                        textAlign = TextAlign.Center,
+                        // Tabular figures keep digit advance-widths equal across all numbering systems,
+                        // unlike FontFamily.Monospace which lacks non-Latin (Arabic/Persian) digit glyphs.
+                        fontFeatureSettings = "tnum",
+                    ),
                     modifier = Modifier.width(IntrinsicSize.Max),
                 )
             }
