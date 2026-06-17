@@ -2,27 +2,26 @@ package com.github.meypod.al_azan.core.data.locale
 
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Build
 import android.os.LocaleList
 import androidx.core.app.LocaleManagerCompat
 
 /**
  * Returns a context whose resources resolve in the app's selected language.
  *
- * On API 33+ the framework applies the per-app locale to every context (application, receiver,
- * service), and the OS per-app-language setting — including an explicit "System default" — must win,
- * so the context is returned as-is.
+ * The settings-stored locale is the source of truth, so an explicit [languageTags] always wins —
+ * the context is forced to it regardless of API level. This matters because the framework per-app
+ * locale (API 33+) can diverge from the stored locale: it is applied per-context at process start
+ * and may be stale or unset when a background process (boot/alarm/time/locale receiver, widget
+ * update) starts before any activity reconciles it, or when a settings path updates the stored
+ * locale without propagating to `AppCompatDelegate.setApplicationLocales`. Callers that route the
+ * stored locale through (widgets, notifications, channels) must not be at the mercy of that ambient
+ * state.
  *
- * Pre-API 33, `AppCompatDelegate.setApplicationLocales` only localizes AppCompatActivity contexts;
- * the application, receiver, and service contexts stay on the system locale, so strings loaded from
- * them (widgets, notifications, channels, toasts) silently fall back to the default language. There
- * the settings-stored locale is the source of truth (no OS per-app-language UI exists pre-33), so
- * [languageTags] wins when provided — the AppCompat store is only a mirror, and a stale one during a
- * language change since AppCompat persists it asynchronously. The store is read only as a
- * best-effort fallback for callers without settings access.
+ * When [languageTags] is blank, the AppCompat/OS per-app store is read as a best-effort fallback for
+ * callers without settings access; a blank result means "System default", which then correctly
+ * resolves in the system locale.
  */
 fun Context.withAppLocale(languageTags: String = ""): Context {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) return this
     val tags = languageTags.ifBlank {
         LocaleManagerCompat.getApplicationLocales(this).toLanguageTags()
     }
