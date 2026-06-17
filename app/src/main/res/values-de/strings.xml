@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">Niedrig</string>
     <string name="compass_accuracy_unreliable">Unzuverlässig</string>
     <string name="compass_sensor_unavailable">Der Kompass-Sensor ist nicht verfügbar</string>
+    <string name="qibla_facing_a11y">Zur Qibla ausgerichtet</string>
+    <string name="qibla_turn_right_a11y">Drehen Sie sich %1$d Grad nach rechts zur Qibla</string>
+    <string name="qibla_turn_left_a11y">Drehen Sie sich %1$d Grad nach links zur Qibla</string>
+    <string name="qibla_unreliable_a11y">Kompassrichtung unzuverlässig, kalibrieren Sie Ihr Gerät</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">Faible précision</string>
     <string name="compass_accuracy_unreliable">Précision peu fiable</string>
     <string name="compass_sensor_unavailable">Boussole non disponible</string>
+    <string name="qibla_facing_a11y">Face à la Qibla</string>
+    <string name="qibla_turn_right_a11y">Tournez à droite de %1$d degrés vers la Qibla</string>
+    <string name="qibla_turn_left_a11y">Tournez à gauche de %1$d degrés vers la Qibla</string>
+    <string name="qibla_unreliable_a11y">Direction de la boussole peu fiable, calibrez votre appareil</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

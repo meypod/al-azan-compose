@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">Niska</string>
     <string name="compass_accuracy_unreliable">Nepouzdano</string>
     <string name="compass_sensor_unavailable">Senzor kompasa je nedostupan</string>
+    <string name="qibla_facing_a11y">Okrenuti ste prema Kibli</string>
+    <string name="qibla_turn_right_a11y">Okrenite se desno za %1$d stepeni prema Kibli</string>
+    <string name="qibla_turn_left_a11y">Okrenite se lijevo za %1$d stepeni prema Kibli</string>
+    <string name="qibla_unreliable_a11y">Smjer kompasa je nepouzdan, kalibrirajte uređaj</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

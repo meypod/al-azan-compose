@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +45,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -68,6 +73,7 @@ import com.github.meypod.al_azan.core.util.android.LocationUtils
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
@@ -168,6 +174,7 @@ fun QiblaCompassScreen(
                     Compass(
                         headingProvider = headingProvider,
                         qiblaDegrees = uiState.qiblaDegrees,
+                        accuracy = accuracy,
                         modifier = Modifier.size(side),
                     )
                 }
@@ -211,6 +218,7 @@ fun QiblaCompassScreen(
 private fun Compass(
     headingProvider: () -> Float,
     qiblaDegrees: Float?,
+    accuracy: CompassAccuracy,
     modifier: Modifier = Modifier,
 ) {
     // Pick the dial by the resolved theme, not the system setting: the app's theme can be forced
@@ -218,7 +226,26 @@ private fun Compass(
     // whatever scheme is actually rendered.
     val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val baseImage = if (isDark) R.drawable.compass_base_dark else R.drawable.compass_base_light
-    Box(modifier, contentAlignment = Alignment.Center) {
+
+    // TalkBack guidance toward the Kaaba. derivedStateOf reads the per-frame heading but only
+    // recomposes (and re-announces via the live region) when the coarse guidance bucket changes,
+    // so screen readers aren't flooded with an announcement every sensor frame.
+    val guidance by remember(qiblaDegrees, accuracy) {
+        derivedStateOf { qiblaGuidance(headingProvider(), qiblaDegrees, accuracy) }
+    }
+    val a11yModifier = guidance?.let { g ->
+        val description = if (g.degrees != null) {
+            stringResource(g.textRes, g.degrees)
+        } else {
+            stringResource(g.textRes)
+        }
+        Modifier.semantics {
+            contentDescription = description
+            liveRegion = LiveRegionMode.Polite
+        }
+    } ?: Modifier
+
+    Box(modifier.then(a11yModifier), contentAlignment = Alignment.Center) {
         // Static circular surface providing the (rotation-independent) circular drop shadow.
         Box(
             Modifier
@@ -378,6 +405,47 @@ private fun LabeledValue(
         Text(text = label, fontWeight = FontWeight.Bold)
         Text(text = value)
     }
+}
+
+/**
+ * TalkBack guidance for orienting toward the Kaaba: a string resource plus an optional degree
+ * argument. [degrees] is null when already facing the Qibla.
+ */
+private data class QiblaGuidance(
+    val textRes: Int,
+    val degrees: Int?,
+)
+
+/** Half-width (degrees) of the cone treated as "facing the Qibla". */
+private const val QIBLA_FACING_THRESHOLD = 5
+
+/** Bucket size (degrees) for the announced turn amount, to limit re-announcements while rotating. */
+private const val QIBLA_TURN_BUCKET = 5
+
+/**
+ * Maps the device [heading] and [qiblaDegrees] (both 0-360, true north) to coarse turn guidance.
+ * Returns null when the Qibla direction is unknown. When the compass [accuracy] is below
+ * [CompassAccuracy.MEDIUM] the heading can't be trusted, so the guidance warns about that instead
+ * of giving a (potentially wrong) turn instruction — keeping a screen-reader user aware.
+ */
+private fun qiblaGuidance(
+    heading: Float,
+    qiblaDegrees: Float?,
+    accuracy: CompassAccuracy,
+): QiblaGuidance? {
+    qiblaDegrees ?: return null
+    if (accuracy < CompassAccuracy.MEDIUM) {
+        return QiblaGuidance(R.string.qibla_unreliable_a11y, null)
+    }
+    // Signed shortest angle from heading to qibla in (-180, 180]; positive = qibla is clockwise.
+    val delta = ((qiblaDegrees - heading + 540f) % 360f) - 180f
+    val magnitude = abs(delta).roundToInt()
+    if (magnitude <= QIBLA_FACING_THRESHOLD) {
+        return QiblaGuidance(R.string.qibla_facing_a11y, null)
+    }
+    val bucketed = (magnitude.toFloat() / QIBLA_TURN_BUCKET).roundToInt() * QIBLA_TURN_BUCKET
+    val textRes = if (delta > 0) R.string.qibla_turn_right_a11y else R.string.qibla_turn_left_a11y
+    return QiblaGuidance(textRes, bucketed)
 }
 
 /** Shared size for the compass icon buttons; also drives the info rows' height. */

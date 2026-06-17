@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">Thấp</string>
     <string name="compass_accuracy_unreliable">Không tin cậy</string>
     <string name="compass_sensor_unavailable">Cảm biến la bàn không khả dụng</string>
+    <string name="qibla_facing_a11y">Đang hướng về Qibla</string>
+    <string name="qibla_turn_right_a11y">Xoay phải %1$d độ để hướng về Qibla</string>
+    <string name="qibla_turn_left_a11y">Xoay trái %1$d độ để hướng về Qibla</string>
+    <string name="qibla_unreliable_a11y">Hướng la bàn không đáng tin cậy, hãy hiệu chỉnh thiết bị</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

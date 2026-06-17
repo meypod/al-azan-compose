@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">কম</string>
     <string name="compass_accuracy_unreliable">অবিশ্বস্ত</string>
     <string name="compass_sensor_unavailable">কম্পাস সেন্সর নেই</string>
+    <string name="qibla_facing_a11y">কিবলার দিকে মুখ করা আছে</string>
+    <string name="qibla_turn_right_a11y">কিবলার দিকে মুখ করতে %1$d ডিগ্রি ডানে ঘুরুন</string>
+    <string name="qibla_turn_left_a11y">কিবলার দিকে মুখ করতে %1$d ডিগ্রি বামে ঘুরুন</string>
+    <string name="qibla_unreliable_a11y">কম্পাসের দিক নির্ভরযোগ্য নয়, আপনার ডিভাইস ক্যালিব্রেট করুন</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">कम</string>
     <string name="compass_accuracy_unreliable">अविश्वसनीय</string>
     <string name="compass_sensor_unavailable">कम्पास सेंसर अनुपलब्ध</string>
+    <string name="qibla_facing_a11y">क़िबला की ओर मुख</string>
+    <string name="qibla_turn_right_a11y">क़िबला की ओर मुख करने के लिए %1$d डिग्री दाएँ घूमें</string>
+    <string name="qibla_turn_left_a11y">क़िबला की ओर मुख करने के लिए %1$d डिग्री बाएँ घूमें</string>
+    <string name="qibla_unreliable_a11y">कम्पास दिशा अविश्वसनीय है, अपना डिवाइस कैलिब्रेट करें</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

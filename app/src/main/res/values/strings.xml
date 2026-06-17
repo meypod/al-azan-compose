@@ -501,6 +501,10 @@
     <string name="compass_accuracy_low">Low</string>
     <string name="compass_accuracy_unreliable">Unreliable</string>
     <string name="compass_sensor_unavailable">Compass sensor unavailable</string>
+    <string name="qibla_facing_a11y">Facing Qibla</string>
+    <string name="qibla_turn_right_a11y">Turn right %1$d degrees to face Qibla</string>
+    <string name="qibla_turn_left_a11y">Turn left %1$d degrees to face Qibla</string>
+    <string name="qibla_unreliable_a11y">Compass direction unreliable, calibrate your device</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

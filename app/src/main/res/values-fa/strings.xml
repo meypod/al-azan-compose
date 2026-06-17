@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">کم</string>
     <string name="compass_accuracy_unreliable">غیرقابل‌اعتماد</string>
     <string name="compass_sensor_unavailable">سنسور قطب‌نما در دسترس نیست</string>
+    <string name="qibla_facing_a11y">رو به قبله</string>
+    <string name="qibla_turn_right_a11y">برای رو به قبله شدن %1$d درجه به راست بچرخید</string>
+    <string name="qibla_turn_left_a11y">برای رو به قبله شدن %1$d درجه به چپ بچرخید</string>
+    <string name="qibla_unreliable_a11y">جهت قطب‌نما قابل اعتماد نیست، دستگاه خود را کالیبره کنید</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)

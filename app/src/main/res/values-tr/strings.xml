@@ -499,6 +499,10 @@
     <string name="compass_accuracy_low">Düşük</string>
     <string name="compass_accuracy_unreliable">Güvenilmez</string>
     <string name="compass_sensor_unavailable">Pusula sensörü kullanılamıyor</string>
+    <string name="qibla_facing_a11y">Kıble yönüne dönük</string>
+    <string name="qibla_turn_right_a11y">Kıbleye dönmek için %1$d derece sağa dönün</string>
+    <string name="qibla_turn_left_a11y">Kıbleye dönmek için %1$d derece sola dönün</string>
+    <string name="qibla_unreliable_a11y">Pusula yönü güvenilir değil, cihazınızı kalibre edin</string>
 
     <!-- ============================================================
          Monthly view  (main/monthly)
