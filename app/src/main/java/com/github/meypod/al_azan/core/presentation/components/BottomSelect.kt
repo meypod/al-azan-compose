@@ -1,7 +1,7 @@
 package com.github.meypod.al_azan.core.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +25,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,9 +38,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.onClick
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
@@ -197,8 +193,11 @@ private fun <T> BottomSelectImpl(
     // autofill on API 26 Oreo).
     val openSheet =
         remember {
+            // No enabled check here: clickable(enabled = ...) gates activation with the current
+            // value. Reading enabled inside this remembered lambda would capture its stale
+            // first-composition value (e.g. the city select starts disabled until a country is set).
             {
-                if (enabled && busyGate.compareAndSet(false, true)) {
+                if (busyGate.compareAndSet(false, true)) {
                     scope.launch {
                         busy = true
                         try {
@@ -213,21 +212,18 @@ private fun <T> BottomSelectImpl(
             }
         }
 
+    // The trigger renders display-only (no text field), so a plain clickable drives it: it opens
+    // only on real activation (tap / TalkBack double-tap / D-pad), never on focus arrival, and
+    // carries clean dropdown semantics without any leaked edit-box noise.
     val interactionSource = remember { MutableInteractionSource() }
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect { interaction ->
-            if (interaction is PressInteraction.Release) openSheet()
-        }
-    }
-
     val triggerModifier =
-        modifier.semantics {
-            role = Role.DropdownList
-            onClick {
-                openSheet()
-                true
-            }
-        }
+        modifier.clickable(
+            interactionSource = interactionSource,
+            indication = null,
+            enabled = enabled,
+            role = Role.DropdownList,
+            onClick = openSheet,
+        )
 
     val onSelectAndDismiss: (T) -> Unit = remember(onSelect, onDismiss) {
         { selectedItem ->
@@ -244,6 +240,7 @@ private fun <T> BottomSelectImpl(
         modifier = triggerModifier,
         enabled = enabled,
         readOnly = true,
+        displayOnly = true,
         interactionSource = interactionSource,
         label = label,
         placeholder = placeholder,

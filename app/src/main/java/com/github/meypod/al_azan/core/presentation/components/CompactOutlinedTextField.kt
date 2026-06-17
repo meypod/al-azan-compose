@@ -42,6 +42,12 @@ fun CompactOutlinedTextField(
     placeholder: String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    /**
+     * Renders the field as a static, non-editable display (no [BasicTextField]). Used for
+     * dropdown triggers so the node carries no text-edit semantics (editbox / read-only) that
+     * would otherwise leak to TalkBack, and so it never captures focus from autofill.
+     */
+    displayOnly: Boolean = false,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -55,80 +61,89 @@ fun CompactOutlinedTextField(
 
     val fValue = if (value.isEmpty() && fixedLabel) placeholder else value
 
-    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = modifier,
-            enabled = enabled,
-            readOnly = readOnly,
-            singleLine = true,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            interactionSource = interactionSource,
-            textStyle = textStyle.merge(
-                color = colors.unfocusedTextColor,
+    val staticText: @Composable () -> Unit = {
+        Text(
+            text = fValue,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = textStyle.merge(
+                color = if (value.isEmpty() && fixedLabel) {
+                    colors.unfocusedPlaceholderColor
+                } else {
+                    colors.unfocusedTextColor
+                },
             ),
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-        ) { innerTextField ->
-            OutlinedTextFieldDefaults.DecorationBox(
-                value = fValue,
-                innerTextField = {
-                    if (readOnly || !isFocused) {
-                        Text(
-                            text = fValue,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = textStyle.merge(
-                                color = if (value.isEmpty() &&
-                                    fixedLabel
-                                ) {
-                                    colors.unfocusedPlaceholderColor
-                                } else {
-                                    colors.unfocusedTextColor
-                                },
-                            ),
-                        )
-                    } else {
-                        innerTextField()
+        )
+    }
+
+    // Identical to the decorationBox slot Material wires into OutlinedTextField; rendered either
+    // inside BasicTextField (editable) or standalone (displayOnly) so visuals stay the same.
+    val decoration: @Composable (@Composable () -> Unit) -> Unit = { innerTextField ->
+        OutlinedTextFieldDefaults.DecorationBox(
+            value = fValue,
+            innerTextField = innerTextField,
+            enabled = enabled,
+            singleLine = true,
+            visualTransformation = VisualTransformation.None,
+            interactionSource = interactionSource,
+            colors = colors,
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+            label = label,
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = textStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                )
+            },
+            supportingText = supportingText,
+            container = {
+                OutlinedTextFieldDefaults.Container(
+                    enabled = enabled,
+                    isError = false,
+                    interactionSource = interactionSource,
+                    colors = colors,
+                    shape = shape,
+                    focusedBorderThickness = OutlinedTextFieldDefaults.FocusedBorderThickness,
+                    unfocusedBorderThickness = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
+                )
+            },
+            trailingIcon = trailingIcon?.let {
+                {
+                    Box(Modifier.padding(end = 8.dp)) {
+                        it()
                     }
-                },
+                }
+            },
+        )
+    }
+
+    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
+        if (displayOnly) {
+            // propagateMinConstraints forwards the (full-width) min constraints to DecorationBox,
+            // matching how BasicTextField stretches its decoration; without it the box would
+            // shrink to content width.
+            Box(modifier, propagateMinConstraints = true) { decoration(staticText) }
+        } else {
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                modifier = modifier,
                 enabled = enabled,
+                readOnly = readOnly,
                 singleLine = true,
-                visualTransformation = VisualTransformation.None,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
                 interactionSource = interactionSource,
-                colors = colors,
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-                label = label,
-                placeholder = {
-                    Text(
-                        text = placeholder,
-                        modifier = Modifier.fillMaxWidth(),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = textStyle.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                    )
-                },
-                supportingText = supportingText,
-                container = {
-                    OutlinedTextFieldDefaults.Container(
-                        enabled = enabled,
-                        isError = false,
-                        interactionSource = interactionSource,
-                        colors = colors,
-                        shape = shape,
-                        focusedBorderThickness = OutlinedTextFieldDefaults.FocusedBorderThickness,
-                        unfocusedBorderThickness = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
-                    )
-                },
-                trailingIcon = trailingIcon?.let {
-                    {
-                        Box(Modifier.padding(end = 8.dp)) {
-                            it()
-                        }
-                    }
-                },
-            )
+                textStyle = textStyle.merge(
+                    color = colors.unfocusedTextColor,
+                ),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+            ) { innerTextField ->
+                decoration { if (readOnly || !isFocused) staticText() else innerTextField() }
+            }
         }
     }
 }
