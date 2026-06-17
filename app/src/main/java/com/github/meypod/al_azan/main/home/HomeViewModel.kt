@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -239,7 +240,7 @@ class HomeViewModel
     private fun collectCurrentInstant() {
         viewModelScope.launch {
             combine(
-                uiState.map { it.currentInstant },
+                uiState.map { it.currentInstant }.distinctUntilChanged(),
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
@@ -330,7 +331,7 @@ class HomeViewModel
     private fun collectViewingInstant() {
         viewModelScope.launch {
             combine(
-                uiState.map { it.viewingInstant },
+                uiState.map { it.viewingInstant }.distinctUntilChanged(),
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
