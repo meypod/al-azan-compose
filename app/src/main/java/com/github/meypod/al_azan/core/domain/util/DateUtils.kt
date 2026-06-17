@@ -119,23 +119,13 @@ fun addDaysTimeZoneAware(
     days: Int,
 ): Instant {
     if (days == 0) return instant
+    val step = (days / abs(days)).toDuration(DurationUnit.HOURS)
     var newInstant = instant.plus(days.toDuration(DurationUnit.DAYS))
-    while (
-        formatInstant(
-            instant,
-            "en",
-            "gregorian",
-            DateFormat.YEAR_NUM_MONTH_DAY,
-        ) ==
-        formatInstant(
-            newInstant,
-            "en",
-            "gregorian",
-            DateFormat.YEAR_NUM_MONTH_DAY,
-        )
-    ) {
-        // this is for tricky daylight savings
-        newInstant = instant.plus((days / abs(days)).toDuration(DurationUnit.HOURS))
+    // Tricky daylight savings: if adding whole days lands on the same wall-clock date (e.g. a DST
+    // transition at local midnight), nudge by one hour at a time until the date actually moves. Must
+    // accumulate onto newInstant — reassigning from `instant` here would loop forever.
+    while (isSameGregorianDay(instant, newInstant)) {
+        newInstant = newInstant.plus(step)
     }
     return newInstant
 }
