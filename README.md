@@ -106,7 +106,9 @@ Pull requests for fixing or adding translations are welcome. Copy `app/src/main/
 
 ## Thanks to
 
-All of people who have helped this project grow.
+* [adhan-kotlin](https://github.com/batoulapps/adhan-kotlin), which provides the prayer times calculations used by this app.
+* The many open-source projects that this app is built with.
+* Everyone who has helped this project grow.
 
 ## Donate
 
