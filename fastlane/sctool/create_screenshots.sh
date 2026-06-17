@@ -21,10 +21,34 @@
 # Pin a device with ANDROID_SERIAL so multiple emulators can run in parallel:
 #   ANDROID_SERIAL=emulator-5554 ./create_screenshots.sh &
 #   ANDROID_SERIAL=emulator-5556 ./create_screenshots.sh tablet7 &
+#
+# Regenerate a subset with LOCALES / SCREENS (space-separated):
+#   LOCALES="id fa" ./create_screenshots.sh
+#   SCREENS="main-light main-dark" ./create_screenshots.sh   # main screen only
+#   Screen keys: main-light main-dark interface schedule-muezzin reminders
+#                qada-counter qibla-compass notification-widget homescreen-widget
 
 export MSYS_NO_PATHCONV=1
 
 APP_ID="${APP_ID:-com.github.meypod.al_azan}"
+
+# APK used when the app is missing from the device. Defaults to the debug build,
+# which the screenshot flow needs anyway (setup receiver + deep links). Override
+# with APK_PATH for a different artifact.
+APK_PATH="${APK_PATH:-../../app/build/outputs/apk/debug/app-debug.apk}"
+
+# Install the app if it isn't on the device yet. -g grants runtime permissions.
+function ensure_app_installed {
+    if adb shell pm path "$APP_ID" >/dev/null 2>&1; then
+        return
+    fi
+    echo "App '$APP_ID' not installed; installing $APK_PATH"
+    if [ ! -f "$APK_PATH" ]; then
+        echo "APK not found at '$APK_PATH'. Build it first (./gradlew :app:assembleDebug) or set APK_PATH."
+        exit 1
+    fi
+    adb install -r -g "$APK_PATH" || exit 1
+}
 
 function start_clean_status_bar {
     adb shell settings put global sysui_demo_allowed 1
@@ -179,6 +203,25 @@ else
     locales=('en-US' 'ar' 'bn' 'bs' 'de' 'fa' 'fr' 'hi' 'id' 'sw' 'tr' 'ur' 'vi')
 fi
 
+# Override with e.g. SCREENS="main-light main-dark" to regenerate a subset of
+# screens. Keys: main-light main-dark interface schedule-muezzin reminders
+# qada-counter qibla-compass notification-widget homescreen-widget.
+# Empty = all screens.
+if [ -n "$SCREENS" ]; then
+    read -r -a screens <<< "$SCREENS"
+fi
+
+# want <screen-key> -> true when the screen should be captured this run.
+function want {
+    [ -z "$SCREENS" ] && return 0
+    local s
+    for s in "${screens[@]}"; do
+        [ "$s" == "$1" ] && return 0
+    done
+    return 1
+}
+
+ensure_app_installed
 setup_app
 start_clean_status_bar
 snooze_system_notifications
@@ -201,51 +244,71 @@ do
     change_app_lang "$i"
     sleep 2 # app restarts after locale change
 
-    navigate Home
-    sleep 4 # wait for activity start + widget/notification re-render
-    save_screenshot "$scrDir/1-main-light.png"
+    if want main-light; then
+        navigate Home
+        sleep 4 # wait for activity start + widget/notification re-render
+        save_screenshot "$scrDir/1-main-light.png"
+    fi
 
     # tablets only get the main screen shot
     if [ -n "$1" ]; then
         continue
     fi
 
-    dark_mode_enable
-    sleep 3
-    save_screenshot "$scrDir/2-main-dark.png"
-    dark_mode_disable
-    sleep 3
+    if want main-dark; then
+        navigate Home
+        sleep 2
+        dark_mode_enable
+        sleep 3
+        save_screenshot "$scrDir/2-main-dark.png"
+        dark_mode_disable
+        sleep 3
+    fi
 
-    navigate InterfaceSettings
-    sleep 2
-    save_screenshot "$scrDir/3-interface-light.png"
+    if want interface; then
+        navigate InterfaceSettings
+        sleep 2
+        save_screenshot "$scrDir/3-interface-light.png"
+    fi
 
-    navigate ScheduleAndMuezzin
-    sleep 2
-    save_screenshot "$scrDir/4-schedule-muezzin-light.png"
+    if want schedule-muezzin; then
+        navigate ScheduleAndMuezzin
+        sleep 2
+        save_screenshot "$scrDir/4-schedule-muezzin-light.png"
+    fi
 
-    navigate Reminder
-    sleep 2
-    save_screenshot "$scrDir/5-reminders-light.png"
+    if want reminders; then
+        navigate Reminder
+        sleep 2
+        save_screenshot "$scrDir/5-reminders-light.png"
+    fi
 
-    navigate Counter
-    sleep 2
-    save_screenshot "$scrDir/6-qada-counter-light.png"
+    if want qada-counter; then
+        navigate Counter
+        sleep 2
+        save_screenshot "$scrDir/6-qada-counter-light.png"
+    fi
 
-    navigate QiblaCompass
-    sleep 2.5
-    save_screenshot "$scrDir/7-qibla-compass-light.png"
+    if want qibla-compass; then
+        navigate QiblaCompass
+        sleep 2.5
+        save_screenshot "$scrDir/7-qibla-compass-light.png"
+    fi
 
     # widgets
-    expand_status_bar
-    sleep 1.5
-    save_screenshot "$scrDir/8-notification-widget-light.png"
-    collapse_status_bar
-    sleep 1
+    if want notification-widget; then
+        expand_status_bar
+        sleep 1.5
+        save_screenshot "$scrDir/8-notification-widget-light.png"
+        collapse_status_bar
+        sleep 1
+    fi
 
-    goto_home
-    sleep 2
-    save_screenshot "$scrDir/9-homescreen-widget-light.png"
+    if want homescreen-widget; then
+        goto_home
+        sleep 2
+        save_screenshot "$scrDir/9-homescreen-widget-light.png"
+    fi
 
     navigate Home
     sleep 1
