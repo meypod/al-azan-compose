@@ -107,6 +107,8 @@ data class Settings(
     val adaptiveWidgets: Boolean = false,
     val widgetCityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
     val swapWidgetLayoutDirection: Boolean = false,
+    /** Widget-only counterpart of [highlightCurrentPrayer]: highlight the current prayer in the widgets. */
+    val highlightCurrentPrayerWidget: Boolean = false,
     /** Prayers the 1x1 next-prayer widget's countdown counts toward. */
     val countdownWidgetPrayers: List<Prayer> = listOf(
         Prayer.Fajr,

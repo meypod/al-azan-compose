@@ -93,7 +93,7 @@ class BuildWidgetDataUseCaseTest {
             on { invoke(any(), any(), any(), any(), any()) } doReturn shariaTimes
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any()) } doReturn next
+            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next
         }
         return BuildWidgetDataUseCase(getShariaTimes, getNext, FakeFormatter(nextDay))
     }
@@ -109,7 +109,7 @@ class BuildWidgetDataUseCaseTest {
         selectedArabicCalendar = "islamic",
         selectedSecondaryCalendar = SecondaryCalendar.Gregorian,
         hiddenWidgetPrayers = hidden,
-        highlightCurrentPrayer = highlightCurrent,
+        highlightCurrentPrayerWidget = highlightCurrent,
         showWidgetCountdown = showCountdown,
         showWidget = showWidget,
         widgetCityNamePos = cityNamePos,

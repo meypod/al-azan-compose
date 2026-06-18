@@ -101,6 +101,17 @@ fun WidgetSettingsScreen(
         }
 
         ACard { cardPadding ->
+            Column(Modifier.padding(cardPadding)) {
+                SettingSwitch(
+                    title = stringResource(R.string.highlight_current_prayer_time),
+                    subtitle = stringResource(R.string.highlight_current_prayer_time_help),
+                    checked = uiState.settings.highlightCurrentPrayerWidget,
+                    onCheckedChange = { onAction(WidgetSettingsUiAction.OnHighlightCurrentPrayerToggle(it)) },
+                )
+            }
+        }
+
+        ACard { cardPadding ->
             BottomSelect(
                 modifier = Modifier
                     .fillMaxWidth()

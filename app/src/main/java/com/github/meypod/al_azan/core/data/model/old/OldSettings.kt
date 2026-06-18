@@ -164,6 +164,8 @@ fun OldSettingsState.toSettings() =
             else -> NumberingSystem.Default
         },
         highlightCurrentPrayer = this.highlightCurrentPrayer,
+        // The legacy single flag drove both home and widgets; seed the new widget-only flag from it.
+        highlightCurrentPrayerWidget = this.highlightCurrentPrayer,
         selectedLocale = this.selectedLocale,
         selectedArabicCalendar = if (this.selectedLocale.startsWith("fa")) {
             "islamic-civil"

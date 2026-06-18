@@ -59,7 +59,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             excluding = hidden,
         )
 
-        val activePrayer = if (settings.highlightCurrentPrayer) {
+        val activePrayer = if (settings.highlightCurrentPrayerWidget) {
             // Determine the current prayer considering hidden ones too. If it's visible, highlight it.
             // If it's hidden, only the two combinable pairs fall back to their earlier prayer (when that
             // one is visible); any other hidden current prayer highlights nothing (e.g. after Midnight).
