@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
+import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
@@ -46,6 +47,7 @@ class WidgetSyncInitializer @Inject constructor(
     /** Subset of state that, when changed, requires the widgets to be redrawn. */
     private data class WidgetSyncKey(
         val showWidget: Boolean,
+        val notificationWidgetLayout: NotificationWidgetLayout,
         val showWidgetCountdown: Boolean,
         val adaptiveWidgets: Boolean,
         val widgetCityNamePos: WidgetCityNamePos,
@@ -80,6 +82,7 @@ class WidgetSyncInitializer @Inject constructor(
                 val location = locations.firstOrNull { it.id == calc.locationId }?.locationDetail
                 WidgetSyncKey(
                     showWidget = settings.showWidget,
+                    notificationWidgetLayout = settings.notificationWidgetLayout,
                     showWidgetCountdown = settings.showWidgetCountdown,
                     adaptiveWidgets = settings.adaptiveWidgets,
                     widgetCityNamePos = settings.widgetCityNamePos,

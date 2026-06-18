@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">اگلی نماز ویجٹ کاؤنٹ ڈاؤن</string>
     <string name="next_prayer_widget_countdown_prayers_help">منتخب کریں کہ 1×1 اگلی نماز ویجٹ کن نمازوں کی طرف گنتی کرے۔</string>
     <string name="widget_min_countdown_prayers_warning">کم از کم ایک نماز منتخب کرنا ضروری ہے</string>
+    <string name="widget_section_general">عام</string>
+    <string name="widget_section_notification">اطلاع ویجٹ</string>
+    <string name="widget_section_table_appearance">ٹیبل ظاہری شکل</string>
+    <string name="widget_section_table_appearance_caption">ہوم ٹیبل ویجٹ اور ٹیبل لے آؤٹ میں اطلاع ویجٹ پر لاگو ہوتا ہے۔</string>
+    <string name="widget_section_compact_appearance">مختصر ظاہری شکل</string>
+    <string name="widget_section_compact_appearance_caption">1x1 اگلی نماز ویجٹ اور مختصر لے آؤٹ میں اطلاع ویجٹ پر لاگو ہوتا ہے۔</string>
+    <string name="notification_widget_layout_label">لے آؤٹ</string>
+    <string name="notification_widget_layout_help">ٹیبل نمازوں کے اوقات دکھاتا ہے؛ مختصر اگلی نماز کو گنتی کے ساتھ دکھاتا ہے۔</string>
+    <string name="notification_widget_layout_table">ٹیبل</string>
+    <string name="notification_widget_layout_compact">مختصر</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

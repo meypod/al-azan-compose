@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">Sonraki namaz widget\'ı geri sayımı</string>
     <string name="next_prayer_widget_countdown_prayers_help">1×1 sonraki namaz widget\'ının hangi namazlara doğru geri sayacağını seçin.</string>
     <string name="widget_min_countdown_prayers_warning">En az bir namaz seçilmelidir</string>
+    <string name="widget_section_general">Genel</string>
+    <string name="widget_section_notification">Bildirim widget\'ı</string>
+    <string name="widget_section_table_appearance">Tablo görünümü</string>
+    <string name="widget_section_table_appearance_caption">Ana ekran tablo widget\'ına ve tablo düzenindeki bildirim widget\'ına uygulanır.</string>
+    <string name="widget_section_compact_appearance">Kompakt görünüm</string>
+    <string name="widget_section_compact_appearance_caption">1x1 sonraki namaz widget\'ına ve kompakt düzendeki bildirim widget\'ına uygulanır.</string>
+    <string name="notification_widget_layout_label">Düzen</string>
+    <string name="notification_widget_layout_help">Tablo namaz vakitlerini listeler; kompakt sonraki namazı geri sayımla gösterir.</string>
+    <string name="notification_widget_layout_table">Tablo</string>
+    <string name="notification_widget_layout_compact">Kompakt</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

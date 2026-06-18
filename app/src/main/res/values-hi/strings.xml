@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">अगली नमाज़ विजेट काउंटडाउन</string>
     <string name="next_prayer_widget_countdown_prayers_help">चुनें कि 1×1 अगली नमाज़ विजेट किन नमाज़ों की ओर गिनती करे।</string>
     <string name="widget_min_countdown_prayers_warning">कम से कम एक नमाज़ चुननी होगी</string>
+    <string name="widget_section_general">सामान्य</string>
+    <string name="widget_section_notification">सूचना विजेट</string>
+    <string name="widget_section_table_appearance">तालिका रूप</string>
+    <string name="widget_section_table_appearance_caption">होम तालिका विजेट और तालिका लेआउट में सूचना विजेट पर लागू होता है।</string>
+    <string name="widget_section_compact_appearance">संक्षिप्त रूप</string>
+    <string name="widget_section_compact_appearance_caption">1x1 अगली-नमाज़ विजेट और संक्षिप्त लेआउट में सूचना विजेट पर लागू होता है।</string>
+    <string name="notification_widget_layout_label">लेआउट</string>
+    <string name="notification_widget_layout_help">तालिका नमाज़ के समय दिखाती है; संक्षिप्त अगली नमाज़ को काउंटडाउन के साथ दिखाता है।</string>
+    <string name="notification_widget_layout_table">तालिका</string>
+    <string name="notification_widget_layout_compact">संक्षिप्त</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

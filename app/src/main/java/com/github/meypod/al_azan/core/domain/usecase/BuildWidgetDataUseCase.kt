@@ -143,6 +143,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             adaptiveTheme = settings.adaptiveWidgets,
             showCountdown = settings.showWidgetCountdown,
             showNotification = settings.showWidget,
+            notificationLayout = settings.notificationWidgetLayout,
             swapLayoutDirection = settings.swapWidgetLayoutDirection,
             nextUpdateAtMillis = nextUpdateAtMillis,
             locale = settings.selectedLocale,

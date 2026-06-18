@@ -103,6 +103,8 @@ data class Settings(
     val bypassDnd: Boolean = false,
     val hiddenWidgetPrayers: List<Prayer> = listOf(Prayer.Sunset, Prayer.Midnight, Prayer.Tahajjud),
     val showWidget: Boolean = false,
+    /** Layout the notification widget renders in: the full prayer table or the compact next-prayer view. */
+    val notificationWidgetLayout: NotificationWidgetLayout = NotificationWidgetLayout.Table,
     val showWidgetCountdown: Boolean = false,
     val adaptiveWidgets: Boolean = false,
     val widgetCityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
@@ -221,6 +223,21 @@ fun WidgetCityNamePos.i18n(resources: Resources): String =
         WidgetCityNamePos.None -> resources.getString(R.string.none)
         WidgetCityNamePos.TopStart -> resources.getString(R.string.lunar_calendar)
         WidgetCityNamePos.TopEnd -> resources.getString(R.string.secondary_calendar)
+    }
+
+@Serializable
+enum class NotificationWidgetLayout {
+    @SerialName("table")
+    Table,
+
+    @SerialName("compact")
+    Compact,
+}
+
+fun NotificationWidgetLayout.i18n(resources: Resources): String =
+    when (this) {
+        NotificationWidgetLayout.Table -> resources.getString(R.string.notification_widget_layout_table)
+        NotificationWidgetLayout.Compact -> resources.getString(R.string.notification_widget_layout_compact)
     }
 
 @Serializable

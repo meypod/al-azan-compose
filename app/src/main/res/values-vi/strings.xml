@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">Đếm ngược tiện ích lễ nguyện kế tiếp</string>
     <string name="next_prayer_widget_countdown_prayers_help">Chọn những lễ nguyện mà tiện ích 1×1 lễ nguyện kế tiếp đếm ngược tới.</string>
     <string name="widget_min_countdown_prayers_warning">Phải chọn ít nhất một lễ nguyện</string>
+    <string name="widget_section_general">Chung</string>
+    <string name="widget_section_notification">Tiện ích thông báo</string>
+    <string name="widget_section_table_appearance">Giao diện bảng</string>
+    <string name="widget_section_table_appearance_caption">Áp dụng cho tiện ích bảng trên màn hình chính và tiện ích thông báo ở bố cục bảng.</string>
+    <string name="widget_section_compact_appearance">Giao diện thu gọn</string>
+    <string name="widget_section_compact_appearance_caption">Áp dụng cho tiện ích lễ nguyện tiếp theo 1x1 và tiện ích thông báo ở bố cục thu gọn.</string>
+    <string name="notification_widget_layout_label">Bố cục</string>
+    <string name="notification_widget_layout_help">Bảng liệt kê giờ lễ nguyện; thu gọn hiển thị lễ nguyện tiếp theo kèm đếm ngược.</string>
+    <string name="notification_widget_layout_table">Bảng</string>
+    <string name="notification_widget_layout_compact">Thu gọn</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

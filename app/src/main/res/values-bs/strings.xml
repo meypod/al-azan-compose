@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">Odbrojavanje vidžeta sljedećeg namaza</string>
     <string name="next_prayer_widget_countdown_prayers_help">Odaberite prema kojim namazima vidžet 1×1 sljedećeg namaza odbrojava.</string>
     <string name="widget_min_countdown_prayers_warning">Mora biti odabran najmanje jedan namaz</string>
+    <string name="widget_section_general">Općenito</string>
+    <string name="widget_section_notification">Widget obavještenja</string>
+    <string name="widget_section_table_appearance">Izgled tabele</string>
+    <string name="widget_section_table_appearance_caption">Primjenjuje se na widget tabele na početnom ekranu i widget obavještenja u izgledu tabele.</string>
+    <string name="widget_section_compact_appearance">Kompaktni izgled</string>
+    <string name="widget_section_compact_appearance_caption">Primjenjuje se na 1x1 widget sljedećeg namaza i widget obavještenja u kompaktnom izgledu.</string>
+    <string name="notification_widget_layout_label">Izgled</string>
+    <string name="notification_widget_layout_help">Tabela prikazuje vremena namaza; kompaktni prikazuje sljedeći namaz s odbrojavanjem.</string>
+    <string name="notification_widget_layout_table">Tabela</string>
+    <string name="notification_widget_layout_compact">Kompaktno</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.model.widget
 
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
 
 /** A single prayer row shown on a widget. [timeText] is already locale/numbering formatted. */
 @Immutable
@@ -31,6 +32,8 @@ data class WidgetData(
     val adaptiveTheme: Boolean,
     val showCountdown: Boolean,
     val showNotification: Boolean,
+    /** Layout the notification widget renders in (full table vs compact next-prayer). */
+    val notificationLayout: NotificationWidgetLayout,
     /** When true, the widget rows/header render left-to-right instead of the default right-to-left. */
     val swapLayoutDirection: Boolean,
     /** Wall-clock millis at which the widget should be redrawn next (next prayer / day rollover). */

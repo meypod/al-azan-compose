@@ -3,12 +3,16 @@ package com.github.meypod.al_azan.widget
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import android.widget.RemoteViews
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
+import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
+import com.github.meypod.al_azan.core.domain.model.widget.NextPrayerWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetData
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -60,8 +64,14 @@ class WidgetUpdater @Inject constructor(
             val location = locations.firstOrNull { it.id == calcSettings.locationId }?.locationDetail
 
             val now = Clock.System.now()
+            // Adaptive (Material You) layouts only exist under -v31; on older devices their theme is
+            // missing and the widget fails to render. Force the non-adaptive layout there regardless of
+            // a stored "on" value (the setting is hidden pre-31, but old data may still carry it).
+            val adaptiveSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
             val data = buildWidgetDataUseCase(now, settings, calcSettings, location)
+                ?.let { if (adaptiveSupported) it else it.copy(adaptiveTheme = false) }
             val nextData = buildNextPrayerWidgetDataUseCase(now, settings, calcSettings, location)
+                ?.let { if (adaptiveSupported) it else it.copy(adaptiveTheme = false) }
 
             val screenIds = appWidgetManager.getAppWidgetIds(ComponentName(context, PrayerTimesWidget::class.java))
             val nextIds = appWidgetManager.getAppWidgetIds(ComponentName(context, NextPrayerWidget::class.java))
@@ -75,7 +85,7 @@ class WidgetUpdater @Inject constructor(
                 if (screenIds.isNotEmpty()) {
                     appWidgetManager.updateAppWidget(screenIds, WidgetRenderer.buildScreenWidget(context, data))
                 }
-                updateNotification(data)
+                updateNotification(data, nextData)
             }
 
             // 1x1 next-prayer widget. When not computable (unconfigured / empty selection) leave it on its
@@ -87,24 +97,41 @@ class WidgetUpdater @Inject constructor(
 
             // Only keep recomputing on a schedule while something is actually on screen. Each surface
             // contributes its own next transition; redraw at the earliest of them.
+            val compactNotificationShown = data != null && data.showNotification &&
+                data.notificationLayout == NotificationWidgetLayout.Compact && nextData != null
             val nextUpdateCandidates = buildList {
                 if (data != null && (screenIds.isNotEmpty() || data.showNotification)) {
                     data.nextUpdateAtMillis?.let { add(it) }
                 }
-                if (nextData != null && nextIds.isNotEmpty()) {
+                // The compact notification follows the next-prayer transition even when no 1x1 home
+                // widget is placed, so include its redraw time whenever it (or the 1x1 widget) is on.
+                if (nextData != null && (nextIds.isNotEmpty() || compactNotificationShown)) {
                     nextData.nextUpdateAtMillis?.let { add(it) }
                 }
             }
             scheduleNextRedraw(nextUpdateCandidates.minOrNull())
         }
 
-    private suspend fun updateNotification(data: WidgetData) {
+    private suspend fun updateNotification(
+        data: WidgetData,
+        nextData: NextPrayerWidgetData?,
+    ) {
         if (!data.showNotification) {
             notificationRepository.cancelNotification(WidgetContract.NOTIFICATION_ID)
             return
         }
-        val small = WidgetRenderer.build(context, notifSmallLayout(data.adaptiveTheme), data)
-        val big = WidgetRenderer.build(context, notifBigLayout(data.adaptiveTheme, data.showCountdown), data)
+        // Compact layout reuses the 1x1 next-prayer rendering for both the collapsed and expanded
+        // views. Fall back to the table when next-prayer data is unavailable (e.g. no countdown prayer
+        // selected) so the notification never blanks.
+        val small: RemoteViews
+        val big: RemoteViews
+        if (data.notificationLayout == NotificationWidgetLayout.Compact && nextData != null) {
+            small = WidgetRenderer.buildNextPrayerNotification(context, nextData, expanded = false)
+            big = WidgetRenderer.buildNextPrayerNotification(context, nextData, expanded = true)
+        } else {
+            small = WidgetRenderer.build(context, notifSmallLayout(data.adaptiveTheme), data)
+            big = WidgetRenderer.build(context, notifBigLayout(data.adaptiveTheme, data.showCountdown), data)
+        }
         notificationRepository.notify(
             NotificationConfig(
                 id = WidgetContract.NOTIFICATION_ID,

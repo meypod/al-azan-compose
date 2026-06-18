@@ -155,30 +155,44 @@ object WidgetRenderer {
         context: Context,
         data: NextPrayerWidgetData,
     ): RemoteViews {
-        val localized = context.withAppLocale(data.locale)
-        val layout = if (data.adaptiveTheme) R.layout.next_prayer_widget_adaptive else R.layout.next_prayer_widget
-        val base = SystemClock.elapsedRealtime() + (data.countdownBaseMillis - System.currentTimeMillis())
-        val name = localized.getString(data.prayer.stringRes)
-
-        fun render(size: NextPrayerSize): RemoteViews =
-            RemoteViews(context.packageName, layout).apply {
-                setTextViewText(R.id.next_prayer_name, name)
-                setChronometer(R.id.next_prayer_countdown, base, null, true)
-                setTextViewTextSize(R.id.next_prayer_name, TypedValue.COMPLEX_UNIT_SP, size.nameSp)
-                setTextViewTextSize(R.id.next_prayer_countdown, TypedValue.COMPLEX_UNIT_SP, size.timeSp)
-                setOnClickPendingIntent(R.id.next_prayer_widget_layout, launchPendingIntent(context))
-            }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return render(NextPrayerSize.Small)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return renderNextPrayer(context, data, NextPrayerSize.Small)
 
         // Keyed on width; the shared min height lets the launcher select purely by how wide the widget is.
         return RemoteViews(
             mapOf(
-                SizeF(MIN_WIDTH_DP, MIN_WIDTH_DP) to render(NextPrayerSize.Small),
-                SizeF(MEDIUM_MIN_WIDTH_DP, MIN_WIDTH_DP) to render(NextPrayerSize.Medium),
-                SizeF(LARGE_MIN_WIDTH_DP, MIN_WIDTH_DP) to render(NextPrayerSize.Large),
+                SizeF(MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Small),
+                SizeF(MEDIUM_MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Medium),
+                SizeF(LARGE_MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Large),
             ),
         )
+    }
+
+    /**
+     * Builds the compact next-prayer layout for the notification widget. Unlike the home widget this
+     * isn't resized by the launcher, so the size is fixed per view: the collapsed view is short and only
+     * fits the small font; the expanded view has room for the larger one.
+     */
+    fun buildNextPrayerNotification(
+        context: Context,
+        data: NextPrayerWidgetData,
+        expanded: Boolean,
+    ): RemoteViews = renderNextPrayer(context, data, if (expanded) NextPrayerSize.Medium else NextPrayerSize.Small)
+
+    private fun renderNextPrayer(
+        context: Context,
+        data: NextPrayerWidgetData,
+        size: NextPrayerSize,
+    ): RemoteViews {
+        val localized = context.withAppLocale(data.locale)
+        val layout = if (data.adaptiveTheme) R.layout.next_prayer_widget_adaptive else R.layout.next_prayer_widget
+        val base = SystemClock.elapsedRealtime() + (data.countdownBaseMillis - System.currentTimeMillis())
+        return RemoteViews(context.packageName, layout).apply {
+            setTextViewText(R.id.next_prayer_name, localized.getString(data.prayer.stringRes))
+            setChronometer(R.id.next_prayer_countdown, base, null, true)
+            setTextViewTextSize(R.id.next_prayer_name, TypedValue.COMPLEX_UNIT_SP, size.nameSp)
+            setTextViewTextSize(R.id.next_prayer_countdown, TypedValue.COMPLEX_UNIT_SP, size.timeSp)
+            setOnClickPendingIntent(R.id.next_prayer_widget_layout, launchPendingIntent(context))
+        }
     }
 
     private fun launchPendingIntent(context: Context): PendingIntent {

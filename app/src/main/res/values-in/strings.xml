@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">Hitung mundur widget salat berikutnya</string>
     <string name="next_prayer_widget_countdown_prayers_help">Pilih salat mana yang dihitung mundur oleh widget 1×1 salat berikutnya.</string>
     <string name="widget_min_countdown_prayers_warning">Setidaknya satu salat harus dipilih</string>
+    <string name="widget_section_general">Umum</string>
+    <string name="widget_section_notification">Widget notifikasi</string>
+    <string name="widget_section_table_appearance">Tampilan tabel</string>
+    <string name="widget_section_table_appearance_caption">Berlaku untuk widget tabel layar beranda dan widget notifikasi dalam tata letak tabel.</string>
+    <string name="widget_section_compact_appearance">Tampilan ringkas</string>
+    <string name="widget_section_compact_appearance_caption">Berlaku untuk widget salat berikutnya 1x1 dan widget notifikasi dalam tata letak ringkas.</string>
+    <string name="notification_widget_layout_label">Tata letak</string>
+    <string name="notification_widget_layout_help">Tabel menampilkan waktu salat; ringkas menampilkan salat berikutnya dengan hitung mundur.</string>
+    <string name="notification_widget_layout_table">Tabel</string>
+    <string name="notification_widget_layout_compact">Ringkas</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

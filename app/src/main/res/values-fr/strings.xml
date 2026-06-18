@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">Compte à rebours du widget prière suivante</string>
     <string name="next_prayer_widget_countdown_prayers_help">Choisissez vers quelles prières le widget 1×1 de prière suivante décompte.</string>
     <string name="widget_min_countdown_prayers_warning">Au moins une prière doit être sélectionnée</string>
+    <string name="widget_section_general">Général</string>
+    <string name="widget_section_notification">Widget de notification</string>
+    <string name="widget_section_table_appearance">Apparence du tableau</string>
+    <string name="widget_section_table_appearance_caption">S\'applique au widget tableau de l\'écran d\'accueil et au widget de notification en disposition tableau.</string>
+    <string name="widget_section_compact_appearance">Apparence compacte</string>
+    <string name="widget_section_compact_appearance_caption">S\'applique au widget 1x1 de la prochaine prière et au widget de notification en disposition compacte.</string>
+    <string name="notification_widget_layout_label">Disposition</string>
+    <string name="notification_widget_layout_help">Le tableau liste les heures de prière ; le mode compact affiche la prochaine prière avec un compte à rebours.</string>
+    <string name="notification_widget_layout_table">Tableau</string>
+    <string name="notification_widget_layout_compact">Compact</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

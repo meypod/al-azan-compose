@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">العد التنازلي لأداة الصلاة التالية</string>
     <string name="next_prayer_widget_countdown_prayers_help">اختر الصلوات التي تعدّ إليها أداة الصلاة التالية ١×١ تنازليًا.</string>
     <string name="widget_min_countdown_prayers_warning">يجب اختيار صلاة واحدة على الأقل</string>
+    <string name="widget_section_general">عام</string>
+    <string name="widget_section_notification">أداة الإشعار</string>
+    <string name="widget_section_table_appearance">مظهر الجدول</string>
+    <string name="widget_section_table_appearance_caption">ينطبق على أداة الجدول على الشاشة الرئيسية وأداة الإشعار في تخطيط الجدول.</string>
+    <string name="widget_section_compact_appearance">المظهر المضغوط</string>
+    <string name="widget_section_compact_appearance_caption">ينطبق على أداة الصلاة التالية ١×١ وأداة الإشعار في التخطيط المضغوط.</string>
+    <string name="notification_widget_layout_label">التخطيط</string>
+    <string name="notification_widget_layout_help">يعرض الجدول أوقات الصلاة؛ يعرض المضغوط الصلاة التالية مع العد التنازلي.</string>
+    <string name="notification_widget_layout_table">جدول</string>
+    <string name="notification_widget_layout_compact">مضغوط</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

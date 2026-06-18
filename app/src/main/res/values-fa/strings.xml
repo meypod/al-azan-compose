@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">شمارش معکوس ابزارک نماز بعدی</string>
     <string name="next_prayer_widget_countdown_prayers_help">انتخاب کنید ابزارک ۱×۱ نماز بعدی به سمت کدام نمازها شمارش معکوس کند.</string>
     <string name="widget_min_countdown_prayers_warning">حداقل یک نماز باید انتخاب شود</string>
+    <string name="widget_section_general">عمومی</string>
+    <string name="widget_section_notification">ابزارک اعلان</string>
+    <string name="widget_section_table_appearance">ظاهر جدولی</string>
+    <string name="widget_section_table_appearance_caption">روی ابزارک جدولی صفحهٔ اصلی و ابزارک اعلان در چیدمان جدولی اعمال می‌شود.</string>
+    <string name="widget_section_compact_appearance">ظاهر فشرده</string>
+    <string name="widget_section_compact_appearance_caption">روی ابزارک ۱×۱ نماز بعدی و ابزارک اعلان در چیدمان فشرده اعمال می‌شود.</string>
+    <string name="notification_widget_layout_label">چیدمان</string>
+    <string name="notification_widget_layout_help">جدولی اوقات نماز را فهرست می‌کند؛ فشرده نماز بعدی را با شمارش معکوس نشان می‌دهد.</string>
+    <string name="notification_widget_layout_table">جدولی</string>
+    <string name="notification_widget_layout_compact">فشرده</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

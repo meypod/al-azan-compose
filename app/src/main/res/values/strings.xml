@@ -391,6 +391,16 @@
     <string name="next_prayer_widget_countdown_prayers">Next-prayer widget countdown</string>
     <string name="next_prayer_widget_countdown_prayers_help">Choose which prayers the 1x1 next-prayer widget counts down toward.</string>
     <string name="widget_min_countdown_prayers_warning">At least one prayer must be selected</string>
+    <string name="widget_section_general">General</string>
+    <string name="widget_section_notification">Notification widget</string>
+    <string name="widget_section_table_appearance">Table appearance</string>
+    <string name="widget_section_table_appearance_caption">Applies to the home table widget and the notification widget in table layout.</string>
+    <string name="widget_section_compact_appearance">Compact appearance</string>
+    <string name="widget_section_compact_appearance_caption">Applies to the 1x1 next-prayer widget and the notification widget in compact layout.</string>
+    <string name="notification_widget_layout_label">Layout</string>
+    <string name="notification_widget_layout_help">Table lists prayer times; compact shows the next prayer with a countdown.</string>
+    <string name="notification_widget_layout_table">Table</string>
+    <string name="notification_widget_layout_compact">Compact</string>
 
     <!-- ============================================================
          Backup & restore  (main/settings/backup)

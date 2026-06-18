@@ -40,6 +40,7 @@ class WidgetSettingsViewModel @Inject constructor(
     fun onAction(action: WidgetSettingsUiAction) {
         when (action) {
             is WidgetSettingsUiAction.OnShowNotificationWidgetToggle -> onShowNotificationWidgetToggle(action)
+            is WidgetSettingsUiAction.OnNotificationLayoutChange -> onNotificationLayoutChange(action)
             is WidgetSettingsUiAction.OnShowCountdownToggle -> onShowCountdownToggle(action)
             is WidgetSettingsUiAction.OnAdaptiveThemeToggle -> onAdaptiveThemeToggle(action)
             is WidgetSettingsUiAction.OnCityNamePosChange -> onCityNamePosChange(action)
@@ -52,6 +53,10 @@ class WidgetSettingsViewModel @Inject constructor(
 
     private fun onShowNotificationWidgetToggle(action: WidgetSettingsUiAction.OnShowNotificationWidgetToggle) {
         update { it.copy(showWidget = action.value) }
+    }
+
+    private fun onNotificationLayoutChange(action: WidgetSettingsUiAction.OnNotificationLayoutChange) {
+        update { it.copy(notificationWidgetLayout = action.value) }
     }
 
     private fun onShowCountdownToggle(action: WidgetSettingsUiAction.OnShowCountdownToggle) {

@@ -1,11 +1,16 @@
 package com.github.meypod.al_azan.main.settings.widget
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
 import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
 
 sealed interface WidgetSettingsUiAction {
     data class OnShowNotificationWidgetToggle(
         val value: Boolean,
+    ) : WidgetSettingsUiAction
+
+    data class OnNotificationLayoutChange(
+        val value: NotificationWidgetLayout,
     ) : WidgetSettingsUiAction
 
     data class OnShowCountdownToggle(
