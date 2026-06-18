@@ -155,36 +155,41 @@ object WidgetRenderer {
         context: Context,
         data: NextPrayerWidgetData,
     ): RemoteViews {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return renderNextPrayer(context, data, NextPrayerSize.Small)
+        val layout = if (data.adaptiveTheme) R.layout.next_prayer_widget_adaptive else R.layout.next_prayer_widget
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return renderNextPrayer(context, data, NextPrayerSize.Small, layout)
 
         // Keyed on width; the shared min height lets the launcher select purely by how wide the widget is.
         return RemoteViews(
             mapOf(
-                SizeF(MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Small),
-                SizeF(MEDIUM_MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Medium),
-                SizeF(LARGE_MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Large),
+                SizeF(MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Small, layout),
+                SizeF(MEDIUM_MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Medium, layout),
+                SizeF(LARGE_MIN_WIDTH_DP, MIN_WIDTH_DP) to renderNextPrayer(context, data, NextPrayerSize.Large, layout),
             ),
         )
     }
 
     /**
-     * Builds the compact next-prayer layout for the notification widget. Unlike the home widget this
-     * isn't resized by the launcher, so the size is fixed per view: the collapsed view is short and only
-     * fits the small font; the expanded view has room for the larger one.
+     * Builds the compact next-prayer layout for the notification widget. Uses notification-specific
+     * layouts (transparent background + notification text theme) rather than the home-widget ones, which
+     * carry a launcher background and colors. The size is fixed per view: the collapsed view is short and
+     * only fits the small font; the expanded view has room for the larger one.
      */
     fun buildNextPrayerNotification(
         context: Context,
         data: NextPrayerWidgetData,
         expanded: Boolean,
-    ): RemoteViews = renderNextPrayer(context, data, if (expanded) NextPrayerSize.Medium else NextPrayerSize.Small)
+    ): RemoteViews {
+        val layout = if (data.adaptiveTheme) R.layout.notif_next_prayer_adaptive else R.layout.notif_next_prayer
+        return renderNextPrayer(context, data, if (expanded) NextPrayerSize.Medium else NextPrayerSize.Small, layout)
+    }
 
     private fun renderNextPrayer(
         context: Context,
         data: NextPrayerWidgetData,
         size: NextPrayerSize,
+        layout: Int,
     ): RemoteViews {
         val localized = context.withAppLocale(data.locale)
-        val layout = if (data.adaptiveTheme) R.layout.next_prayer_widget_adaptive else R.layout.next_prayer_widget
         val base = SystemClock.elapsedRealtime() + (data.countdownBaseMillis - System.currentTimeMillis())
         return RemoteViews(context.packageName, layout).apply {
             setTextViewText(R.id.next_prayer_name, localized.getString(data.prayer.stringRes))
