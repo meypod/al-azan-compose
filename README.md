@@ -110,6 +110,10 @@ Pull requests for fixing or adding translations are welcome. Copy `app/src/main/
 * The many open-source projects that this app is built with.
 * Everyone who has helped this project grow.
 
+## License
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+
 ## Donate
 
 Donations are appreciated. But I can only accept in crypto, here are my wallet addresses:
