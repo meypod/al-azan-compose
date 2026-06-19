@@ -136,3 +136,6 @@ THjtLAdihH57mbeaVmBfx3wAAXkpxAnqmJ
 
 Bitcoin cash:
 qqgjknfejs4zf4udsalsej2qkwt5es5ym5fwusgvx3
+
+Monero:
+4AdNVLzrPrUMkY7A4sXNGVDLgbC6HgNM1NCr8uptD9bhMwDhNshzrsaXD11d5kjzPkcGqCUz6rLRx4WSMKfjcbU346kMW8U
