@@ -98,11 +98,11 @@ adb shell cmd package uninstall -k com.github.meypod.al_azan
 
 ## Translations
 
-App strings live in Android resource files (`app/src/main/res/values-<locale>/strings.xml`), with English (`values/`) as the source of truth.
+Help translate this app to your language on Weblate:
 
-### Contributing your language
-
-Pull requests for fixing or adding translations are welcome. Copy `app/src/main/res/values/strings.xml` into a `values-<locale>` folder, translate the strings, and open a PR. Please open an issue first if your language requires a new locale to be registered.
+<a href="https://hosted.weblate.org/engage/al-azan/">
+<img src="https://hosted.weblate.org/widget/al-azan/287x66-grey.png" alt="Translation status" />
+</a>
 
 ## Thanks to
 
