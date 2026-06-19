@@ -107,6 +107,7 @@ Help translate this app to your language on Weblate:
 ## Thanks to
 
 * [adhan-kotlin](https://github.com/batoulapps/adhan-kotlin), which provides the prayer times calculations used by this app.
+* [Hotpot.ai](https://hotpot.ai/templates/google-play-feature-graphic), used to create the feature graphic.
 * The many open-source projects that this app is built with.
 * Everyone who has helped this project grow.
 
