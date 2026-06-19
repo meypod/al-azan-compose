@@ -126,7 +126,7 @@ class AdhanFiringHandler @Inject constructor(
                     R.string.missed_during_call_body,
                     settings.formatTime(timestamp),
                 )
-                postNotifyOnlyNotification(prayer, callBody, settings)
+                postNotifyOnlyNotification(prayer, settings.formatTime(timestamp), callBody, settings)
             } else {
                 playbackLauncher.launch(
                     PlaybackRequest.from(
@@ -147,7 +147,7 @@ class AdhanFiringHandler @Inject constructor(
             // Soft (short, non-looping) muezzin or notify-only: plain notification, the sound played
             // once via a lightweight player when there is one (no foreground service / stop UI), and a
             // single vibration if requested (continuous would have been routed to the service above).
-            postNotifyOnlyNotification(prayer, body, settings)
+            postNotifyOnlyNotification(prayer, settings.formatTime(timestamp), body, settings)
             if (soundUri != null) {
                 if (vibration != VibrationMode.Off) VibrationController.vibrate(context, VibrationMode.Once)
                 softSoundPlayer.play(soundUri)
@@ -173,23 +173,20 @@ class AdhanFiringHandler @Inject constructor(
         )
     }
 
+    /**
+     * The notification body. The prayer time itself lives in the subtitle, so the body only carries
+     * the optional "next prayer" line (or null when that setting is off / unavailable).
+     */
     private suspend fun buildBody(
         timestamp: Long,
         settings: Settings,
         alarmSettings: AlarmSettings,
-    ): String {
-        var body = settings.formatTime(timestamp)
-        if (alarmSettings.showNextPrayerTime) {
-            nextAfter(timestamp, settings, alarmSettings)?.let { next ->
-                body += " - ${localizedResources.current.getString(R.string.next_prayer_label)}: " +
-                    "${
-                        localizedResources.current.getString(
-                            next.prayer.stringRes,
-                        )
-                    }, ${settings.formatTime(next.prayerTime.toEpochMilliseconds())}"
-            }
-        }
-        return body
+    ): String? {
+        if (!alarmSettings.showNextPrayerTime) return null
+        val next = nextAfter(timestamp, settings, alarmSettings) ?: return null
+        return "${localizedResources.current.getString(R.string.next_prayer_label)}: " +
+            "${localizedResources.current.getString(next.prayer.stringRes)}, " +
+            settings.formatTime(next.prayerTime.toEpochMilliseconds())
     }
 
     private suspend fun nextAfter(
@@ -441,18 +438,21 @@ class AdhanFiringHandler @Inject constructor(
 
     private suspend fun postNotifyOnlyNotification(
         prayer: Prayer,
-        body: String,
+        subtitle: String,
+        body: String?,
         settings: Settings,
     ) {
         notificationRepository.notify(
             NotificationConfig(
                 id = AdhanContract.ADHAN_NOTIFICATION_ID,
                 title = TextResource.StringResId(prayer.stringRes),
-                body = TextResource.Literal(body),
+                subtitle = TextResource.Literal(subtitle),
+                body = body?.let { TextResource.Literal(it) },
                 android = AndroidNotificationConfig(
                     channelId = adhanChannel(settings),
                     category = AndroidNotificationCategory.CATEGORY_ALARM,
                     autoCancel = true,
+                    showTimestamp = false,
                 ),
             ),
         )

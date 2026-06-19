@@ -152,14 +152,14 @@ class ReminderFiringHandler @Inject constructor(
                         R.string.missed_during_call_body,
                         timeLabel,
                     )
-                    postNotifyOnlyNotification(reminderId, title, callBody, settings)
+                    postNotifyOnlyNotification(reminderId, title, timeLabel, callBody, settings)
                 } else {
                     playbackLauncher.launch(
                         PlaybackRequest.from(
                             settings = settings,
                             alarmSettings = alarmSettings,
                             title = title,
-                            body = timeLabel,
+                            body = null,
                             timeLabel = timeLabel,
                             soundUri = soundUri,
                             channelId = reminderChannel(settings),
@@ -174,7 +174,7 @@ class ReminderFiringHandler @Inject constructor(
                 // Soft (short, non-looping) sound or no sound: a plain auto-cancel notification, the
                 // sound played once via a lightweight player (no foreground service / stop UI), and a
                 // single vibration if requested (continuous would have been routed to the service above).
-                postNotifyOnlyNotification(reminderId, title, timeLabel, settings)
+                postNotifyOnlyNotification(reminderId, title, timeLabel, null, settings)
                 if (soundUri != null) {
                     if (vibration != VibrationMode.Off) VibrationController.vibrate(context, VibrationMode.Once)
                     softSoundPlayer.play(soundUri)
@@ -272,18 +272,21 @@ class ReminderFiringHandler @Inject constructor(
     private suspend fun postNotifyOnlyNotification(
         reminderId: String,
         title: String,
-        body: String,
+        subtitle: String,
+        body: String?,
         settings: Settings,
     ) {
         notificationRepository.notify(
             NotificationConfig(
                 id = ReminderContract.notificationId(reminderId),
                 title = TextResource.Literal(title),
-                body = TextResource.Literal(body),
+                subtitle = TextResource.Literal(subtitle),
+                body = body?.let { TextResource.Literal(it) },
                 android = AndroidNotificationConfig(
                     channelId = reminderChannel(settings),
                     category = AndroidNotificationCategory.CATEGORY_ALARM,
                     autoCancel = true,
+                    showTimestamp = false,
                 ),
             ),
         )
