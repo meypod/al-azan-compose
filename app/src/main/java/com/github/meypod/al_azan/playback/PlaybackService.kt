@@ -24,6 +24,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.alarm.AlarmActivity
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
@@ -120,8 +121,18 @@ class PlaybackService :
     private var wasPlayingBeforeCall = false
     private var volumePercent = -1
     private var shouldLoop = false
+
+    // Captured from the PLAY intent so a natural end (the adhan/reminder finished, not a user dismiss)
+    // can leave a quiet dismissible notification behind, mirroring the old app: the prayer still happened.
+    // Main-thread confined — every service callback that touches it (onStartCommand, the MediaPlayer /
+    // audio-focus / volume / telephony callbacks, the loop-cap Runnable, onDestroy) runs on the main looper.
+    private var lingerDetails: LingerDetails? = null
+
+    // onCompletion calls cleanupAndStop, whose stopSelf re-enters via onDestroy; guard so the second
+    // pass can't wipe the lingering notification the first one just posted.
+    private var stopped = false
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
-    private val loopCapRunnable = Runnable { cleanupAndStop() }
+    private val loopCapRunnable = Runnable { cleanupAndStop(leaveLingering = true) }
 
     private val audioManager: AudioManager? by lazy { getSystemService() }
     private val telephonyManager: TelephonyManager? by lazy { getSystemService() }
@@ -216,6 +227,8 @@ class PlaybackService :
                 startActivity(alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops))
             }
         }
+        // Now that playback is actually starting, remember what to leave behind if it ends on its own.
+        lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
         startPlayer(uri, useMediaUsage)
         return START_NOT_STICKY
     }
@@ -256,21 +269,21 @@ class PlaybackService :
         runCatching { mp.start() }
     }
 
-    override fun onCompletion(mp: MediaPlayer) = cleanupAndStop()
+    override fun onCompletion(mp: MediaPlayer) = cleanupAndStop(leaveLingering = true)
 
     override fun onError(
         mp: MediaPlayer,
         what: Int,
         extra: Int,
     ): Boolean {
-        cleanupAndStop()
+        cleanupAndStop(leaveLingering = true)
         return true
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
         when {
             focusChange == AudioManager.AUDIOFOCUS_GAIN -> if (wasPlayingBeforeCall) resume()
-            focusChange == AudioManager.AUDIOFOCUS_LOSS -> if (!isCallActive()) cleanupAndStop()
+            focusChange == AudioManager.AUDIOFOCUS_LOSS -> if (!isCallActive()) cleanupAndStop(leaveLingering = true)
             focusChange < 0 -> pauseForInterruption()
         }
     }
@@ -516,7 +529,16 @@ class PlaybackService :
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
 
-    private fun cleanupAndStop() {
+    /**
+     * Stops playback and tears the service down. When [leaveLingering] is true (the adhan/reminder ended
+     * on its own — playback finished, looped past the cap, errored, or lost audio focus — rather than the
+     * user dismissing it) the foreground notification is detached and replaced with a quiet, dismissible
+     * one so the passed prayer/reminder still leaves a trace, matching the old app. A user dismiss
+     * (notification Stop, swipe, volume press, the firing handlers) removes it outright.
+     */
+    private fun cleanupAndStop(leaveLingering: Boolean = false) {
+        if (stopped) return
+        stopped = true
         mainHandler.removeCallbacks(loopCapRunnable)
         player?.let { mp ->
             runCatching { mp.reset() }
@@ -529,9 +551,55 @@ class PlaybackService :
         restoreVolumes()
         VibrationController.stop(this)
         _stopSignal.tryEmit(Unit)
+        val lingering = if (leaveLingering) buildLingeringNotification() else null
+        // Always remove the foreground notification first: the trace lives on a different (silent)
+        // channel, which a same-id re-post could never switch to.
         stopForeground(STOP_FOREGROUND_REMOVE)
+        if (lingering != null) {
+            // A fresh id per trace so successive passed prayers/reminders stack instead of replacing one
+            // another. Posted exactly once per playback (guarded above), and the clock only moves forward,
+            // so this stays unique even across a process restart while an earlier trace is still showing.
+            NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), lingering)
+        }
         stopSelf()
     }
+
+    /**
+     * The notification left in place after a natural end: same prayer/reminder title and time, but quiet
+     * and dismissible (no Stop action, no full-screen, not ongoing) and on the silent "missed" channel.
+     * Tapping it opens the app. Returns null if the PLAY intent never reached the point of capturing its
+     * details (a misfire/early bail).
+     */
+    private fun buildLingeringNotification(): android.app.Notification? {
+        val details = lingerDetails ?: return null
+        val contentIntent = PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, MainActivity::class.java)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
+        return NotificationCompat.Builder(this, EnsureNotificationChannelsUseCase.MISSED_CHANNEL_ID)
+            .setSmallIcon(R.drawable.monochrome_notif)
+            .setContentTitle(details.title)
+            .setSubText(details.timeLabel)
+            .setContentText(details.body)
+            .setShowWhen(false)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOngoing(false)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setContentIntent(contentIntent)
+            .build()
+    }
+
+    /** What [buildLingeringNotification] needs from the PLAY intent to leave a trace after a natural end. */
+    private data class LingerDetails(
+        val title: String,
+        val body: String?,
+        val timeLabel: String,
+    )
 
     private fun abandonAudioFocus() {
         focusRequest?.let { audioManager?.abandonAudioFocusRequest(it) }
