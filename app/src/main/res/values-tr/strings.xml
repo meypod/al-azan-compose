@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">%1$s hatırlatıcısı iptal edildi</string>
     <string name="missed_during_silence_body">Rahatsız Etmeyin sırasında %1$s\'te geçti</string>
     <string name="missed_during_call_body">Telefon görüşmesi sırasında %1$s\'te geçti</string>
+    <string name="missed_while_off_body">Cihaz kapalıyken %1$s\'te geçti</string>
+    <string name="missed_window_title">Bazı alarmlar kaçırılmış olabilir</string>
+    <string name="missed_window_body">Cihazınız bir süre kapalı kalmış görünüyor. Her seferinde yalnızca bir sonraki alarm planlanır; bu nedenle o dönemde zamanı gelen tüm namazlar veya hatırlatıcılar burada listelenemez.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

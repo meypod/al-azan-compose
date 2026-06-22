@@ -19,12 +19,18 @@ class BootReceiver : BroadcastReceiver() {
         context: Context,
         intent: Intent?,
     ) {
-        if (intent?.action != Intent.ACTION_BOOT_COMPLETED) return
-        // The OS clears all alarms on reboot; recompute every schedule and redraw the widgets.
+        // Both events drop the app's AlarmManager alarms (a reboot clears all; an app update invalidates
+        // ours), so recompute every schedule and redraw the widgets. Only a reboot can leave alarms
+        // unfired while the device was off, so the missed catch-up runs for boot alone.
+        val catchUpMissed = when (intent?.action) {
+            Intent.ACTION_BOOT_COMPLETED -> true
+            Intent.ACTION_MY_PACKAGE_REPLACED -> false
+            else -> return
+        }
         val pendingResult = goAsync()
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                schedulerReconciler.reconcileAll()
+                schedulerReconciler.reconcileAll(catchUpMissed = catchUpMissed)
             } finally {
                 pendingResult.finish()
             }

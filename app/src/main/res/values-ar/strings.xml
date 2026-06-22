@@ -622,6 +622,9 @@
     <string name="reminder_cancelled_toast">تم إلغاء تذكير %1$s</string>
     <string name="missed_during_silence_body">مرّ أثناء وضع عدم الإزعاج في %1$s</string>
     <string name="missed_during_call_body">مرّ أثناء مكالمة هاتفية في %1$s</string>
+    <string name="missed_while_off_body">مرّ في %1$s أثناء إيقاف تشغيل الجهاز</string>
+    <string name="missed_window_title">قد تكون بعض التنبيهات قد فاتت</string>
+    <string name="missed_window_body">يبدو أن جهازك كان متوقفًا عن التشغيل لبعض الوقت. لا يُجدوَل سوى التنبيه التالي فقط في كل مرة، لذا قد لا تظهر هنا جميع الصلوات أو التذكيرات المستحقة خلال تلك الفترة.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

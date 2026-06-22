@@ -2,6 +2,7 @@ package com.github.meypod.al_azan
 
 import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.alarm.DndSilenceController
+import com.github.meypod.al_azan.alarm.MissedAlarmCatchUp
 import com.github.meypod.al_azan.ramadan.RamadanNoticeScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
@@ -25,8 +26,14 @@ class SchedulerReconciler @Inject constructor(
     private val ramadanNoticeScheduler: RamadanNoticeScheduler,
     private val widgetUpdater: WidgetUpdater,
     private val dndSilenceController: DndSilenceController,
+    private val missedAlarmCatchUp: MissedAlarmCatchUp,
 ) {
-    suspend fun reconcileAll() {
+    /**
+     * @param catchUpMissed when true (boot only), first post "missed" notices for alarms that elapsed
+     *   while the device was off — before the schedulers below overwrite their past-due armed entries.
+     */
+    suspend fun reconcileAll(catchUpMissed: Boolean = false) {
+        if (catchUpMissed) missedAlarmCatchUp.catchUpMissed()
         adhanScheduler.schedule()
         reminderScheduler.schedule()
         ramadanNoticeScheduler.schedule()

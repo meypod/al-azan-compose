@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">Đã hủy lời nhắc %1$s</string>
     <string name="missed_during_silence_body">Đã qua trong lúc Không làm phiền lúc %1$s</string>
     <string name="missed_during_call_body">Đã qua trong lúc gọi điện thoại lúc %1$s</string>
+    <string name="missed_while_off_body">Đã qua lúc %1$s khi thiết bị đang tắt</string>
+    <string name="missed_window_title">Một số báo thức có thể đã bị bỏ lỡ</string>
+    <string name="missed_window_body">Có vẻ như thiết bị của bạn đã tắt trong một khoảng thời gian. Mỗi lần chỉ báo thức kế tiếp được lên lịch, nên không thể liệt kê ở đây tất cả các buổi cầu nguyện hoặc lời nhắc đến hạn trong khoảng thời gian đó.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

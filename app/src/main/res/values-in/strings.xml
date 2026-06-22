@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">Pengingat %1$s dibatalkan</string>
     <string name="missed_during_silence_body">Terlewat saat Jangan Ganggu pada %1$s</string>
     <string name="missed_during_call_body">Terlewat saat panggilan telepon pada %1$s</string>
+    <string name="missed_while_off_body">Terlewat pada %1$s saat perangkat mati</string>
+    <string name="missed_window_title">Beberapa alarm mungkin terlewat</string>
+    <string name="missed_window_body">Perangkat Anda tampaknya mati selama beberapa waktu. Hanya alarm berikutnya yang dijadwalkan setiap kali, sehingga tidak semua salat atau pengingat yang jatuh selama periode itu dapat ditampilkan di sini.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

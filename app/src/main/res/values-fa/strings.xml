@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">یادآوری %1$s لغو شد</string>
     <string name="missed_during_silence_body">در زمان مزاحم نشوید در %1$s گذشت</string>
     <string name="missed_during_call_body">در زمان تماس تلفنی در %1$s گذشت</string>
+    <string name="missed_while_off_body">در زمان خاموش بودن دستگاه در %1$s گذشت</string>
+    <string name="missed_window_title">ممکن است برخی هشدارها از دست رفته باشند</string>
+    <string name="missed_window_body">به نظر می‌رسد دستگاه شما مدتی خاموش بوده است. هر بار فقط هشدار بعدی زمان‌بندی می‌شود، بنابراین همهٔ نمازها یا یادآوری‌های آن بازه را نمی‌توان اینجا نشان داد.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

@@ -74,6 +74,22 @@ fun Settings.formatRescheduleWhen(
     return resources.getString(R.string.reschedule_when, time, day)
 }
 
+/**
+ * A *past* [timestamp] rendered for a "missed" notice: just the time when it's today, but the full
+ * date and time once it isn't — so the notice stays unambiguous after the device was off for days,
+ * weeks, or longer. [nowMs] is the reference instant. Date stays Gregorian (matches [isSameGregorianDay]).
+ */
+fun Settings.formatMissedWhen(
+    timestamp: Long,
+    nowMs: Long,
+): String {
+    val fire = Instant.fromEpochMilliseconds(timestamp)
+    if (isSameGregorianDay(fire, Instant.fromEpochMilliseconds(nowMs))) return formatTime(timestamp)
+    val skeleton = DateFormat.YEAR_MONTH_DAY +
+        if (is24HourFormat) DateFormat.HOUR24_MINUTE else DateFormat.HOUR_MINUTE
+    return formatInstant(fire, selectedLocale, "gregorian", skeleton, numberingSystem)
+}
+
 fun isInRamadan(
     instant: Instant,
     arabicCalendar: String,

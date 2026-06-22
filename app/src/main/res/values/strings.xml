@@ -608,6 +608,9 @@
     <string name="reminder_cancelled_toast">%1$s reminder cancelled</string>
     <string name="missed_during_silence_body">Passed during Do Not Disturb at %1$s</string>
     <string name="missed_during_call_body">Passed during a phone call at %1$s</string>
+    <string name="missed_while_off_body">Passed at %1$s while the device was off</string>
+    <string name="missed_window_title">Some alarms may have been missed</string>
+    <string name="missed_window_body">Your device appears to have been off for a while. Only the next alarm is scheduled at a time, so prayers or reminders due during that period cannot all be listed here.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

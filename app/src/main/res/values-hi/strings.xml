@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">%1$s अनुस्मारक रद्द कर दिया गया</string>
     <string name="missed_during_silence_body">%1$s पर परेशान न करें के दौरान बीत गया</string>
     <string name="missed_during_call_body">%1$s पर फ़ोन कॉल के दौरान बीत गया</string>
+    <string name="missed_while_off_body">डिवाइस बंद रहने के दौरान %1$s पर बीत गया</string>
+    <string name="missed_window_title">हो सकता है कुछ अलार्म छूट गए हों</string>
+    <string name="missed_window_body">ऐसा लगता है कि आपका डिवाइस कुछ समय के लिए बंद था। एक बार में केवल अगला अलार्म ही शेड्यूल होता है, इसलिए उस अवधि के दौरान निर्धारित सभी नमाज़ या अनुस्मारक यहाँ नहीं दिखाए जा सकते।</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

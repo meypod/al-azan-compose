@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">Rappel de %1$s annulé</string>
     <string name="missed_during_silence_body">Passé pendant le mode Ne pas déranger à %1$s</string>
     <string name="missed_during_call_body">Passé pendant un appel téléphonique à %1$s</string>
+    <string name="missed_while_off_body">Passé à %1$s pendant que l\'appareil était éteint</string>
+    <string name="missed_window_title">Certaines alarmes ont peut-être été manquées</string>
+    <string name="missed_window_body">Votre appareil semble avoir été éteint pendant un certain temps. Seule la prochaine alarme est planifiée à la fois ; les prières ou rappels prévus durant cette période ne peuvent donc pas tous être affichés ici.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

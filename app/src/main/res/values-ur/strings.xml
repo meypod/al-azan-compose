@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">%1$s یاد دہانی منسوخ کر دی گئی</string>
     <string name="missed_during_silence_body">%1$s پر ڈسٹرب نہ کریں کے دوران گزر گئی</string>
     <string name="missed_during_call_body">%1$s پر فون کال کے دوران گزر گئی</string>
+    <string name="missed_while_off_body">آلہ بند رہنے کے دوران %1$s پر گزر گئی</string>
+    <string name="missed_window_title">ہو سکتا ہے کچھ الارم چھوٹ گئے ہوں</string>
+    <string name="missed_window_body">ایسا لگتا ہے کہ آپ کا آلہ کچھ دیر بند رہا۔ ہر بار صرف اگلا الارم ہی شیڈول ہوتا ہے، اس لیے اس دوران مقررہ تمام نمازیں یا یاد دہانیاں یہاں نہیں دکھائی جا سکتیں۔</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">%1$s-Erinnerung abgebrochen</string>
     <string name="missed_during_silence_body">Während „Bitte nicht stören“ um %1$s verstrichen</string>
     <string name="missed_during_call_body">Während eines Anrufs um %1$s verstrichen</string>
+    <string name="missed_while_off_body">Um %1$s verstrichen, während das Gerät aus war</string>
+    <string name="missed_window_title">Einige Weckrufe wurden möglicherweise verpasst</string>
+    <string name="missed_window_body">Ihr Gerät war anscheinend eine Weile ausgeschaltet. Es wird immer nur der nächste Weckruf geplant, daher können nicht alle Gebete oder Erinnerungen aus diesem Zeitraum hier angezeigt werden.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)

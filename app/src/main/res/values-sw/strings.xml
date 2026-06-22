@@ -606,6 +606,9 @@
     <string name="reminder_cancelled_toast">Kikumbusho cha %1$s kimeghairiwa</string>
     <string name="missed_during_silence_body">Ilipita wakati wa Usisumbue saa %1$s</string>
     <string name="missed_during_call_body">Ilipita wakati wa simu saa %1$s</string>
+    <string name="missed_while_off_body">Ilipita saa %1$s wakati kifaa kilipokuwa kimezimwa</string>
+    <string name="missed_window_title">Baadhi ya kengele huenda zilikosekana</string>
+    <string name="missed_window_body">Inaonekana kifaa chako kilikuwa kimezimwa kwa muda. Ni kengele inayofuata pekee inayopangwa kwa wakati mmoja, kwa hivyo si sala zote au vikumbusho vilivyostahili katika kipindi hicho vinavyoweza kuorodheshwa hapa.</string>
 
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
