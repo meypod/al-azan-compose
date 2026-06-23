@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Zaustavi vibraciju</string>
     <string name="dev_update_widgets">Ažuriraj vidžete sada</string>
     <string name="dev_reset_silence">Resetuj prozor režima Ne smetaj</string>
+    <string name="dev_clear_delivered">Obriši vremenske oznake isporučenih alarma</string>
     <string name="dev_disable">Onemogući programerski režim</string>
     <string name="dev_scheduled_toast">Ezan zakazan za %1$d sekundi</string>
     <string name="dev_silence_reset_toast">Prozor režima Ne smetaj očišćen</string>
+    <string name="dev_delivered_cleared_toast">Vremenske oznake isporučenih alarma obrisane</string>
     <string name="dev_unlocked_toast">Programerski režim omogućen</string>
 
     <!-- ============================================================

@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">توقف لرزش</string>
     <string name="dev_update_widgets">به‌روزرسانی ابزارک‌ها همین حالا</string>
     <string name="dev_reset_silence">بازنشانی بازهٔ مزاحم نشوید</string>
+    <string name="dev_clear_delivered">پاک کردن زمان‌های تحویل هشدار</string>
     <string name="dev_disable">غیرفعال کردن حالت توسعه‌دهنده</string>
     <string name="dev_scheduled_toast">اذان در %1$d ثانیه زمان‌بندی شد</string>
     <string name="dev_silence_reset_toast">بازهٔ مزاحم نشوید پاک شد</string>
+    <string name="dev_delivered_cleared_toast">زمان‌های تحویل هشدار پاک شد</string>
     <string name="dev_unlocked_toast">حالت توسعه‌دهنده فعال شد</string>
 
     <!-- ============================================================

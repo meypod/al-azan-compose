@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">ভাইব্রেশন বন্ধ করুন</string>
     <string name="dev_update_widgets">এখনই উইজেট আপডেট করুন</string>
     <string name="dev_reset_silence">ডু নট ডিস্টার্ব উইন্ডো রিসেট করুন</string>
+    <string name="dev_clear_delivered">ডেলিভার হওয়া অ্যালার্মের টাইমস্ট্যাম্প মুছুন</string>
     <string name="dev_disable">ডেভেলপার মোড নিষ্ক্রিয় করুন</string>
     <string name="dev_scheduled_toast">%1$d সেকেন্ডে আযান নির্ধারণ করা হয়েছে</string>
     <string name="dev_silence_reset_toast">ডু নট ডিস্টার্ব উইন্ডো মুছে ফেলা হয়েছে</string>
+    <string name="dev_delivered_cleared_toast">ডেলিভার হওয়া অ্যালার্মের টাইমস্ট্যাম্প মুছে ফেলা হয়েছে</string>
     <string name="dev_unlocked_toast">ডেভেলপার মোড সক্রিয় করা হয়েছে</string>
 
     <!-- ============================================================

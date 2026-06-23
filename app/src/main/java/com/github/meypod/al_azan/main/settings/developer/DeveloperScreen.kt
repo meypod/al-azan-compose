@@ -94,6 +94,9 @@ fun DeveloperScreen(
             DevActionRow(R.string.dev_reset_silence, R.string.dev_run) {
                 onAction(DeveloperUiAction.OnResetSilence)
             }
+            DevActionRow(R.string.dev_clear_delivered, R.string.dev_run) {
+                onAction(DeveloperUiAction.OnClearDeliveredTimestamps)
+            }
             DevActionRow(R.string.dev_disable, R.string.dev_run) {
                 onAction(DeveloperUiAction.OnDisableDeveloperMode)
             }

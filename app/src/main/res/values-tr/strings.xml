@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Titreşimi durdur</string>
     <string name="dev_update_widgets">Widget\'ları şimdi güncelle</string>
     <string name="dev_reset_silence">Rahatsız Etmeyin penceresini sıfırla</string>
+    <string name="dev_clear_delivered">Teslim edilen alarm zaman damgalarını temizle</string>
     <string name="dev_disable">Geliştirici modunu devre dışı bırak</string>
     <string name="dev_scheduled_toast">Ezan %1$d saniye içinde zamanlandı</string>
     <string name="dev_silence_reset_toast">Rahatsız Etmeyin penceresi temizlendi</string>
+    <string name="dev_delivered_cleared_toast">Teslim edilen alarm zaman damgaları temizlendi</string>
     <string name="dev_unlocked_toast">Geliştirici modu etkinleştirildi</string>
 
     <!-- ============================================================

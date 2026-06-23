@@ -587,9 +587,11 @@
     <string name="dev_stop_vibration">Stop vibration</string>
     <string name="dev_update_widgets">Update widgets now</string>
     <string name="dev_reset_silence">Reset Do Not Disturb window</string>
+    <string name="dev_clear_delivered">Clear delivered alarm timestamps</string>
     <string name="dev_disable">Disable developer mode</string>
     <string name="dev_scheduled_toast">Adhan scheduled in %1$d seconds</string>
     <string name="dev_silence_reset_toast">Do Not Disturb window cleared</string>
+    <string name="dev_delivered_cleared_toast">Delivered alarm timestamps cleared</string>
     <string name="dev_unlocked_toast">Developer mode enabled</string>
 
     <!-- ============================================================

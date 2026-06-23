@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Hentikan getaran</string>
     <string name="dev_update_widgets">Perbarui widget sekarang</string>
     <string name="dev_reset_silence">Setel ulang jendela Jangan Ganggu</string>
+    <string name="dev_clear_delivered">Hapus stempel waktu alarm yang terkirim</string>
     <string name="dev_disable">Nonaktifkan mode pengembang</string>
     <string name="dev_scheduled_toast">Adzan dijadwalkan dalam %1$d detik</string>
     <string name="dev_silence_reset_toast">Jendela Jangan Ganggu dihapus</string>
+    <string name="dev_delivered_cleared_toast">Stempel waktu alarm yang terkirim dihapus</string>
     <string name="dev_unlocked_toast">Mode pengembang diaktifkan</string>
 
     <!-- ============================================================

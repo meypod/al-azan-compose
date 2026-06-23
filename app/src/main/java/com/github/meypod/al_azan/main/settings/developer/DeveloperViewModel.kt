@@ -43,6 +43,7 @@ class DeveloperViewModel
             DeveloperUiAction.OnStopVibration -> onStopVibration()
             DeveloperUiAction.OnUpdateWidgets -> onUpdateWidgets()
             DeveloperUiAction.OnResetSilence -> onResetSilence()
+            DeveloperUiAction.OnClearDeliveredTimestamps -> onClearDeliveredTimestamps()
             DeveloperUiAction.OnDisableDeveloperMode -> onDisableDeveloperMode()
         }
     }
@@ -79,6 +80,15 @@ class DeveloperViewModel
         viewModelScope.launch {
             adhanFiringHandler.onUnsilence()
             toast(context.getString(R.string.dev_silence_reset_toast))
+        }
+    }
+
+    /** Clear the delivered-alarm re-fire floors so the next reschedule can re-arm an already-passed
+     *  occurrence (lets a just-scheduled test adhan fire instead of being skipped as "already delivered"). */
+    private fun onClearDeliveredTimestamps() {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(deliveredAlarmTimestamps = emptyMap()) }
+            toast(context.getString(R.string.dev_delivered_cleared_toast))
         }
     }
 

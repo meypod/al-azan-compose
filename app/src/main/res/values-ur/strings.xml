@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">وائبریشن روکیں</string>
     <string name="dev_update_widgets">ابھی ویجٹس اپ ڈیٹ کریں</string>
     <string name="dev_reset_silence">ڈسٹرب نہ کریں ونڈو ری سیٹ کریں</string>
+    <string name="dev_clear_delivered">ڈیلیور شدہ الارم ٹائم اسٹیمپ صاف کریں</string>
     <string name="dev_disable">ڈیولپر موڈ غیر فعال کریں</string>
     <string name="dev_scheduled_toast">اذان %1$d سیکنڈ میں شیڈول کر دی گئی</string>
     <string name="dev_silence_reset_toast">ڈسٹرب نہ کریں ونڈو صاف کر دی گئی</string>
+    <string name="dev_delivered_cleared_toast">ڈیلیور شدہ الارم ٹائم اسٹیمپ صاف کر دیے گئے</string>
     <string name="dev_unlocked_toast">ڈیولپر موڈ فعال ہو گیا</string>
 
     <!-- ============================================================

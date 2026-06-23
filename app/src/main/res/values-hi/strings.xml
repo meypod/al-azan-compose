@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">कंपन रोकें</string>
     <string name="dev_update_widgets">विजेट अभी अपडेट करें</string>
     <string name="dev_reset_silence">परेशान न करें विंडो रीसेट करें</string>
+    <string name="dev_clear_delivered">डिलीवर किए गए अलार्म टाइमस्टैम्प साफ़ करें</string>
     <string name="dev_disable">डेवलपर मोड अक्षम करें</string>
     <string name="dev_scheduled_toast">अज़ान %1$d सेकंड में शेड्यूल किया गया</string>
     <string name="dev_silence_reset_toast">परेशान न करें विंडो साफ़ कर दी गई</string>
+    <string name="dev_delivered_cleared_toast">डिलीवर किए गए अलार्म टाइमस्टैम्प साफ़ कर दिए गए</string>
     <string name="dev_unlocked_toast">डेवलपर मोड सक्षम</string>
 
     <!-- ============================================================

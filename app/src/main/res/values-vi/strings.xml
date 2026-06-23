@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Dừng rung</string>
     <string name="dev_update_widgets">Cập nhật tiện ích ngay</string>
     <string name="dev_reset_silence">Đặt lại khoảng Không làm phiền</string>
+    <string name="dev_clear_delivered">Xóa dấu thời gian báo thức đã gửi</string>
     <string name="dev_disable">Tắt chế độ nhà phát triển</string>
     <string name="dev_scheduled_toast">Đã lên lịch Azan sau %1$d giây</string>
     <string name="dev_silence_reset_toast">Đã xóa khoảng Không làm phiền</string>
+    <string name="dev_delivered_cleared_toast">Đã xóa dấu thời gian báo thức đã gửi</string>
     <string name="dev_unlocked_toast">Đã bật chế độ nhà phát triển</string>
 
     <!-- ============================================================

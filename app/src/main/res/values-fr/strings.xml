@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Arrêter la vibration</string>
     <string name="dev_update_widgets">Mettre à jour les widgets maintenant</string>
     <string name="dev_reset_silence">Réinitialiser la fenêtre Ne pas déranger</string>
+    <string name="dev_clear_delivered">Effacer les horodatages des alarmes diffusées</string>
     <string name="dev_disable">Désactiver le mode développeur</string>
     <string name="dev_scheduled_toast">Adhan programmé dans %1$d secondes</string>
     <string name="dev_silence_reset_toast">Fenêtre Ne pas déranger effacée</string>
+    <string name="dev_delivered_cleared_toast">Horodatages des alarmes diffusées effacés</string>
     <string name="dev_unlocked_toast">Mode développeur activé</string>
 
     <!-- ============================================================

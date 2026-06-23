@@ -601,9 +601,11 @@
     <string name="dev_stop_vibration">إيقاف الاهتزاز</string>
     <string name="dev_update_widgets">تحديث المصغّرات الآن</string>
     <string name="dev_reset_silence">إعادة تعيين فترة عدم الإزعاج</string>
+    <string name="dev_clear_delivered">مسح أوقات تسليم التنبيهات</string>
     <string name="dev_disable">تعطيل وضع المطوّر</string>
     <string name="dev_scheduled_toast">تمت جدولة الأذان خلال %1$d ثانية</string>
     <string name="dev_silence_reset_toast">تم مسح فترة عدم الإزعاج</string>
+    <string name="dev_delivered_cleared_toast">تم مسح أوقات تسليم التنبيهات</string>
     <string name="dev_unlocked_toast">تم تفعيل وضع المطوّر</string>
 
     <!-- ============================================================

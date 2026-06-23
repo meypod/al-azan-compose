@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Simamisha mtetemo</string>
     <string name="dev_update_widgets">Sasisha wijeti sasa</string>
     <string name="dev_reset_silence">Weka upya dirisha la Usisumbue</string>
+    <string name="dev_clear_delivered">Futa lakabu za muda za kengele zilizowasilishwa</string>
     <string name="dev_disable">Zima hali ya msanidi programu</string>
     <string name="dev_scheduled_toast">Adhana imepangwa baada ya sekunde %1$d</string>
     <string name="dev_silence_reset_toast">Dirisha la Usisumbue limefutwa</string>
+    <string name="dev_delivered_cleared_toast">Lakabu za muda za kengele zilizowasilishwa zimefutwa</string>
     <string name="dev_unlocked_toast">Hali ya msanidi programu imewashwa</string>
 
     <!-- ============================================================

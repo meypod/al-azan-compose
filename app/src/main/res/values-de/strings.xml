@@ -585,9 +585,11 @@
     <string name="dev_stop_vibration">Vibration stoppen</string>
     <string name="dev_update_widgets">Widgets jetzt aktualisieren</string>
     <string name="dev_reset_silence">Zeitfenster für „Bitte nicht stören“ zurücksetzen</string>
+    <string name="dev_clear_delivered">Zeitstempel zugestellter Weckrufe löschen</string>
     <string name="dev_disable">Entwicklermodus deaktivieren</string>
     <string name="dev_scheduled_toast">Adhan in %1$d Sekunden geplant</string>
     <string name="dev_silence_reset_toast">Zeitfenster für „Bitte nicht stören“ gelöscht</string>
+    <string name="dev_delivered_cleared_toast">Zeitstempel zugestellter Weckrufe gelöscht</string>
     <string name="dev_unlocked_toast">Entwicklermodus aktiviert</string>
 
     <!-- ============================================================
