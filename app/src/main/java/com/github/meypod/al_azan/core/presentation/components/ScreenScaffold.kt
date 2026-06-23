@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -57,6 +58,7 @@ fun ScreenScaffold(
     modifier: Modifier = Modifier,
     titleIcon: Int? = null,
     navigationIcon: @Composable () -> Unit = { BackButton(onBackClick) },
+    actions: @Composable RowScope.() -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     snackbarHost: @Composable () -> Unit = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
@@ -89,6 +91,7 @@ fun ScreenScaffold(
                         Text(title, modifier = Modifier.semantics { heading() })
                     }
                 },
+                actions = actions,
             )
         },
         floatingActionButton = floatingActionButton,

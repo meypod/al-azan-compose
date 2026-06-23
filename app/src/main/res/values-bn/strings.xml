@@ -663,7 +663,9 @@
          ============================================================ -->
     <string name="upcoming_alarms">আসন্ন অ্যালার্ম</string>
     <string name="upcoming_alarms_empty">কোনো আসন্ন অ্যালার্ম নেই</string>
-    <string name="upcoming_alarms_info">এগুলো আজ ও আগামীকালের আযান ও রিমাইন্ডার অ্যালার্ম যেগুলো শব্দ করে বাজবে। একটি এড়িয়ে গিয়ে নীরব করুন, অথবা এড়িয়ে যাওয়া একটি পুনরায় শিডিউল করে ফিরিয়ে আনুন।</string>
+    <string name="upcoming_alarms_help">এগুলো আজ ও আগামীকালের আযান ও রিমাইন্ডার অ্যালার্ম যেগুলো শব্দ করে বাজবে। একটি এড়িয়ে গিয়ে নীরব করুন, অথবা এড়িয়ে যাওয়া একটি পুনরায় শিডিউল করে ফিরিয়ে আনুন।</string>
+    <string name="upcoming_alarms_help_understood">বুঝেছি</string>
+    <string name="upcoming_alarms_show_help">সহায়তা দেখান</string>
     <string name="upcoming_alarm_skipped">এড়ানো হয়েছে</string>
     <string name="reschedule">পুনরায় শিডিউল</string>
     <string name="today">আজ</string>

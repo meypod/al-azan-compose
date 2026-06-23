@@ -101,6 +101,7 @@ class UpcomingAlarmsViewModel @Inject constructor(
                         is24Hour = input.settings.is24HourFormat,
                         numberingSystem = input.settings.numberingSystem,
                         nowMs = now,
+                        helpDismissed = input.settings.upcomingAlarmsHelpDismissed,
                     )
                 }
             }
@@ -111,6 +112,14 @@ class UpcomingAlarmsViewModel @Inject constructor(
         when (action) {
             is UpcomingAlarmsUiAction.OnSkip -> onSkip(action.occurrence)
             is UpcomingAlarmsUiAction.OnReschedule -> onReschedule(action.occurrence)
+            is UpcomingAlarmsUiAction.OnDismissHelp -> setHelpDismissed(true)
+            is UpcomingAlarmsUiAction.OnShowHelp -> setHelpDismissed(false)
+        }
+    }
+
+    private fun setHelpDismissed(dismissed: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(upcomingAlarmsHelpDismissed = dismissed) }
         }
     }
 

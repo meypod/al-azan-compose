@@ -663,7 +663,9 @@
          ============================================================ -->
     <string name="upcoming_alarms">هشدارهای آینده</string>
     <string name="upcoming_alarms_empty">هشدار آینده‌ای وجود ندارد</string>
-    <string name="upcoming_alarms_info">این‌ها هشدارهای اذان و یادآوری هستند که امروز و فردا با صدای بلند پخش می‌شوند. یکی را رد کنید تا بی‌صدا شود، یا هشدار ردشده را دوباره زمان‌بندی کنید تا بازگردد.</string>
+    <string name="upcoming_alarms_help">این‌ها هشدارهای اذان و یادآوری هستند که امروز و فردا با صدای بلند پخش می‌شوند. یکی را رد کنید تا بی‌صدا شود، یا هشدار ردشده را دوباره زمان‌بندی کنید تا بازگردد.</string>
+    <string name="upcoming_alarms_help_understood">متوجه شدم</string>
+    <string name="upcoming_alarms_show_help">نمایش راهنما</string>
     <string name="upcoming_alarm_skipped">رد شد</string>
     <string name="reschedule">زمان‌بندی مجدد</string>
     <string name="today">امروز</string>

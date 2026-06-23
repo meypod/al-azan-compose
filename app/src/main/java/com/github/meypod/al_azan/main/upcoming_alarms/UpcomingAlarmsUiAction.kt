@@ -12,4 +12,10 @@ sealed interface UpcomingAlarmsUiAction {
     data class OnReschedule(
         val occurrence: SkippedAlarm,
     ) : UpcomingAlarmsUiAction
+
+    /** Hide the top help card; a title-bar action brings it back. */
+    object OnDismissHelp : UpcomingAlarmsUiAction
+
+    /** Restore the dismissed top help card. */
+    object OnShowHelp : UpcomingAlarmsUiAction
 }

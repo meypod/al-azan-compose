@@ -34,4 +34,6 @@ data class UpcomingAlarmsUiState(
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     /** "Now" snapshot used to resolve Today/Tomorrow labels, epoch millis. */
     val nowMs: Long = 0L,
+    /** Whether the user dismissed the top help card; when true a title-bar action restores it. */
+    val helpDismissed: Boolean = false,
 )

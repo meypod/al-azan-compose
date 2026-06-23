@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.upcoming_alarms
 
 import android.icu.text.DateFormat
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -18,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
@@ -54,13 +58,33 @@ fun UpcomingAlarmsScreen(
         title = stringResource(R.string.upcoming_alarms),
         onBackClick = { NavigationController.navigateBack() },
         scrollable = false,
+        actions = {
+            if (uiState.helpDismissed) {
+                IconButton(onClick = { onAction(UpcomingAlarmsUiAction.OnShowHelp) }) {
+                    Icon(
+                        painterResource(R.drawable.outline_question),
+                        contentDescription = stringResource(R.string.upcoming_alarms_show_help),
+                    )
+                }
+            }
+        },
     ) {
-        InformationCard {
-            Text(
-                stringResource(R.string.upcoming_alarms_info),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+        AnimatedVisibility(visible = !uiState.helpDismissed) {
+            InformationCard {
+                Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+                    Text(
+                        stringResource(R.string.upcoming_alarms_help),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    TextButton(
+                        onClick = { onAction(UpcomingAlarmsUiAction.OnDismissHelp) },
+                        modifier = Modifier.align(Alignment.End),
+                    ) {
+                        Text(stringResource(R.string.upcoming_alarms_help_understood))
+                    }
+                }
+            }
         }
         if (!uiState.loading && uiState.alarms.isEmpty()) {
             Text(

@@ -138,6 +138,7 @@ data class Settings(
     val qiblaFinderUnderstood: Boolean = false,
     val qiblaFinderOrientationLocked: Boolean = true,
     val counterHistoryVisible: Boolean = false,
+    val upcomingAlarmsHelpDismissed: Boolean = false,
     val advancedCustomAdhan: Boolean = false,
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val ramadanRemindedYear: String? = null,

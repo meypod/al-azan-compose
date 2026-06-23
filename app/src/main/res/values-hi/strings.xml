@@ -663,7 +663,9 @@
          ============================================================ -->
     <string name="upcoming_alarms">आगामी अलार्म</string>
     <string name="upcoming_alarms_empty">कोई आगामी अलार्म नहीं</string>
-    <string name="upcoming_alarms_info">ये आज और कल के अज़ान और रिमाइंडर अलार्म हैं जो ज़ोर से बजेंगे। किसी एक को छोड़कर उसे चुप करें, या छोड़े गए को वापस लाने के लिए पुनर्निर्धारित करें।</string>
+    <string name="upcoming_alarms_help">ये आज और कल के अज़ान और रिमाइंडर अलार्म हैं जो ज़ोर से बजेंगे। किसी एक को छोड़कर उसे चुप करें, या छोड़े गए को वापस लाने के लिए पुनर्निर्धारित करें।</string>
+    <string name="upcoming_alarms_help_understood">समझ गया</string>
+    <string name="upcoming_alarms_show_help">सहायता दिखाएँ</string>
     <string name="upcoming_alarm_skipped">छोड़ा गया</string>
     <string name="reschedule">पुनर्निर्धारित करें</string>
     <string name="today">आज</string>
