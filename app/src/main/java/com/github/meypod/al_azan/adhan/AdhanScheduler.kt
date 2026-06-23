@@ -91,6 +91,9 @@ class AdhanScheduler @Inject constructor(
 
             // "Skip": pass over any occurrence the user skipped (logical (prayer, date) match), so the
             // next non-skipped prayer is armed instead — no time-based floor, so it survives re-calcs.
+            // When [notifyOnSkippedAdhan] is on, a skipped adhan is NOT passed over: it's still armed but
+            // fires sound-off (a silent notify-only notice) instead of being dropped entirely.
+            val notifyOnSkip = alarmSettings.notifyOnSkippedAdhan
             val next = getNextShariaTimesUseCase(
                 instant = Instant.fromEpochMilliseconds(fromMs),
                 calculationParameters = parameters,
@@ -98,7 +101,9 @@ class AdhanScheduler @Inject constructor(
                 arabicCalendar = settings.selectedArabicCalendar,
                 locationDetail = location,
                 alarmSettings = alarmSettings,
-                isSkipped = { prayer, prayerTime -> livePruned.isAdhanSkipped(prayer, prayerTime.toLocalDate()) },
+                isSkipped = { prayer, prayerTime ->
+                    !notifyOnSkip && livePruned.isAdhanSkipped(prayer, prayerTime.toLocalDate())
+                },
             )
             if (next == null) {
                 cancelAll()
@@ -111,7 +116,12 @@ class AdhanScheduler @Inject constructor(
             val changed = signature != lastSignature
             lastSignature = signature
             val alarmType = AlarmSchedulingDefaults.alarmType(settings.useDifferentAlarmType)
-            Log.i(TAG, "Next adhan ${next.prayer} in ${(prayerTimeMs - nowMs) / 1000}s (sound=${next.sound})")
+
+            // A skipped occurrence reaching here means [notifyOnSkip] is on: force sound off so it fires as
+            // a silent notify-only notice (the only reason it wasn't passed over above).
+            val silentSkip = notifyOnSkip && livePruned.isAdhanSkipped(next.prayer, next.prayerTime.toLocalDate())
+            val playSound = next.sound && !silentSkip
+            Log.i(TAG, "Next adhan ${next.prayer} in ${(prayerTimeMs - nowMs) / 1000}s (sound=$playSound)")
 
             // Intrusive = a sounding prayer whose muezzin loops/runs long OR has continuous vibration; a
             // short notification chime with at most a single buzz is not. Drives the pre-alarm below and
@@ -120,7 +130,7 @@ class AdhanScheduler @Inject constructor(
                 ?: settings.selectedAdhanEntries[AdhanKey.Default]
                 ?: settings.savedAdhanAudioEntries.firstOrNull()
             val vibration = alarmSettings.getVibrationSettings(next.prayer) ?: alarmSettings.vibrationMode
-            val intrusive = next.sound && (
+            val intrusive = playSound && (
                 vibration == VibrationMode.Continuous ||
                     (soundEntry != null && audioDurationProbe.isIntrusive(soundEntry))
                 )
@@ -133,7 +143,7 @@ class AdhanScheduler @Inject constructor(
                     type = alarmType,
                     extras = mapOf(
                         PlaybackService.EXTRA_PRAYER to next.prayer.name,
-                        AdhanContract.EXTRA_PLAY_SOUND to next.sound.toString(),
+                        AdhanContract.EXTRA_PLAY_SOUND to playSound.toString(),
                         AdhanContract.EXTRA_TIMESTAMP to prayerTimeMs.toString(),
                         AdhanContract.EXTRA_INTRUSIVE to intrusive.toString(),
                     ),

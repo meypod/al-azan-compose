@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">আপনি যখন একটি আযান খারিজ করেন, ফোনটি কিছুক্ষণের জন্য ডু নট ডিস্টার্বে চলে যায়। স্নুজ করলে নয়। শুধু আযানের জন্য প্রযোজ্য।</string>
     <string name="auto_silent_duration">ডু নট ডিস্টার্বের সময়কাল</string>
     <string name="auto_silent_duration_help">খারিজ করার পর ডু নট ডিস্টার্ব কতক্ষণ চালু থাকবে।</string>
+    <string name="notify_on_skipped_adhan">এড়িয়ে যাওয়ার বদলে নীরবে জানান</string>
+    <string name="notify_on_skipped_adhan_help">আসন্ন অ্যালার্ম স্ক্রিনে “এড়িয়ে যান” দিয়ে, বা এর “আসন্ন অ্যালার্ম” নোটিফিকেশন থেকে “অ্যালার্ম বাতিল করুন” দিয়ে কোনো আজান এড়ালে, সেটি বাদ দেওয়ার বদলে তার সময়ে একটি নীরব নোটিফিকেশন দেখানো হয়। শুধু আজানের ক্ষেত্রে প্রযোজ্য।</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">মুয়াজ্জিন</string>

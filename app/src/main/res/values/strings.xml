@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">When you dismiss an adhan, the phone goes into Do Not Disturb for a while. Snoozing doesn\'t. Applies to adhans only.</string>
     <string name="auto_silent_duration">Do Not Disturb duration</string>
     <string name="auto_silent_duration_help">How long Do Not Disturb stays on after dismissing.</string>
+    <string name="notify_on_skipped_adhan">Notify silently instead of skipping</string>
+    <string name="notify_on_skipped_adhan_help">When you skip an adhan with “Skip” on the Upcoming alarms screen, or cancel it with “Cancel Alarm” from its “Upcoming Alarm” notification, a silent notification is posted at its time instead of dropping it. Applies to adhans only.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>

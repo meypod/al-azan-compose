@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">Khi bạn bỏ qua một lần Azan, điện thoại chuyển sang chế độ Không làm phiền trong một khoảng thời gian. Báo lại thì không. Chỉ áp dụng cho azan.</string>
     <string name="auto_silent_duration">Thời lượng Không làm phiền</string>
     <string name="auto_silent_duration_help">Không làm phiền duy trì trong bao lâu sau khi bỏ qua.</string>
+    <string name="notify_on_skipped_adhan">Thông báo im lặng thay vì bỏ qua</string>
+    <string name="notify_on_skipped_adhan_help">Khi bạn bỏ qua một adhan bằng “Bỏ qua” trên màn hình Báo thức sắp tới, hoặc hủy bằng “Hủy báo thức” từ thông báo “Báo thức sắp tới” của nó, một thông báo im lặng sẽ hiển thị vào đúng giờ thay vì bị loại bỏ. Chỉ áp dụng cho adhan.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>

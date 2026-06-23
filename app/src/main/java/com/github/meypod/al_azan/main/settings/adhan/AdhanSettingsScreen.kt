@@ -103,6 +103,12 @@ private fun NotificationsCard(
             checked = uiState.alarmSettings.showNextPrayerTime,
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnShowNextInNotificationToggle(it)) },
         )
+        SettingSwitch(
+            title = stringResource(R.string.notify_on_skipped_adhan),
+            subtitle = stringResource(R.string.notify_on_skipped_adhan_help),
+            checked = uiState.alarmSettings.notifyOnSkippedAdhan,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle(it)) },
+        )
     }
 }
 

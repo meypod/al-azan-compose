@@ -1,7 +1,7 @@
 package com.github.meypod.al_azan.core.domain.model.alarm
 
-import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import kotlinx.serialization.Serializable
 import kotlin.time.Instant
 
@@ -15,6 +15,8 @@ data class AlarmSettings(
     /** When true, dismissing a fired adhan automatically silences the phone (DND) for [autoSilentDurationMinutes]. */
     val autoSilentOnDismiss: Boolean = false,
     val autoSilentDurationMinutes: Int = 30,
+    /** When true, skipping an adhan posts a silent notification at its time instead of dropping it entirely. */
+    val notifyOnSkippedAdhan: Boolean = false,
     //
     val fajrSound: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val fajrNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),

@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता। केवल अज़ान पर लागू होता है।</string>
     <string name="auto_silent_duration">परेशान न करें अवधि</string>
     <string name="auto_silent_duration_help">हटाने के बाद परेशान न करें कितनी देर चालू रहता है।</string>
+    <string name="notify_on_skipped_adhan">छोड़ने के बजाय मौन सूचना</string>
+    <string name="notify_on_skipped_adhan_help">आगामी अलार्म स्क्रीन पर “छोड़ें” से कोई अज़ान छोड़ने पर, या उसकी “आगामी अलार्म” सूचना से “अलार्म रद्द करें” से रद्द करने पर, उसे हटाने के बजाय उसके समय पर एक मौन सूचना दिखाई जाती है। यह केवल अज़ान पर लागू होता है।</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">मुअज़्ज़िन</string>

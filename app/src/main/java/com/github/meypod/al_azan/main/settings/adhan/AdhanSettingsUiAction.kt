@@ -114,6 +114,10 @@ sealed interface AdhanSettingsUiAction {
         val minutes: Int,
     ) : AdhanSettingsUiAction
 
+    data class OnNotifyOnSkippedAdhanToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
     object OnNotificationSettingsClick : AdhanSettingsUiAction
     object OnPlaybackSettingsClick : AdhanSettingsUiAction
 

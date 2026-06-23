@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas. Ne s\'applique qu\'à l\'adhan.</string>
     <string name="auto_silent_duration">Durée du mode Ne pas déranger</string>
     <string name="auto_silent_duration_help">Durée pendant laquelle le mode Ne pas déranger reste actif après avoir ignoré.</string>
+    <string name="notify_on_skipped_adhan">Notifier en silence au lieu de passer</string>
+    <string name="notify_on_skipped_adhan_help">Lorsque vous passez un adhan avec « Passer » sur l\'écran Alarmes à venir, ou l\'annulez avec « Annuler l\'alarme » depuis sa notification « Alarme à venir », une notification silencieuse est affichée à son heure au lieu de le supprimer. S\'applique uniquement aux adhans.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>

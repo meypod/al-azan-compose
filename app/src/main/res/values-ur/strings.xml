@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">جب آپ اذان برطرف کرتے ہیں، تو فون کچھ دیر کے لیے ڈسٹرب نہ کریں میں چلا جاتا ہے۔ اسنوز کرنے سے ایسا نہیں ہوتا۔ صرف اذان پر لاگو ہوتا ہے۔</string>
     <string name="auto_silent_duration">ڈسٹرب نہ کریں کی مدت</string>
     <string name="auto_silent_duration_help">برطرف کرنے کے بعد ڈسٹرب نہ کریں کتنی دیر آن رہتا ہے۔</string>
+    <string name="notify_on_skipped_adhan">آگے بڑھانے کے بجائے خاموش اطلاع</string>
+    <string name="notify_on_skipped_adhan_help">جب آپ آنے والے الارمز اسکرین پر «آگے بڑھیں» سے کوئی اذان چھوڑتے ہیں، یا اس کی «آنے والا الارم» اطلاع سے «الارم منسوخ کریں» سے منسوخ کرتے ہیں، تو اسے ہٹانے کے بجائے اُس کے وقت پر ایک خاموش اطلاع دکھائی جاتی ہے۔ یہ صرف اذان پر لاگو ہوتا ہے۔</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">مؤذن</string>

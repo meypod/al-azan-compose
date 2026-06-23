@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">Saat Anda menghentikan adzan, ponsel masuk ke mode Jangan Ganggu untuk sementara waktu. Menunda tidak. Hanya berlaku untuk azan.</string>
     <string name="auto_silent_duration">Durasi Jangan Ganggu</string>
     <string name="auto_silent_duration_help">Berapa lama Jangan Ganggu tetap aktif setelah dihentikan.</string>
+    <string name="notify_on_skipped_adhan">Beri tahu diam-diam alih-alih melewati</string>
+    <string name="notify_on_skipped_adhan_help">Saat Anda melewati azan dengan “Lewati” di layar Alarm mendatang, atau membatalkannya dengan “Batalkan Alarm” dari notifikasi “Alarm yang akan datang”, notifikasi senyap ditampilkan pada waktunya alih-alih dibuang. Hanya berlaku untuk azan.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>

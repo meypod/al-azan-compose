@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">Kada odbacite ezan, telefon prelazi u režim Ne smetaj na neko vrijeme. Odgađanje to ne čini. Odnosi se samo na ezan.</string>
     <string name="auto_silent_duration">Trajanje režima Ne smetaj</string>
     <string name="auto_silent_duration_help">Koliko dugo režim Ne smetaj ostaje uključen nakon odbacivanja.</string>
+    <string name="notify_on_skipped_adhan">Tiha obavijest umjesto preskakanja</string>
+    <string name="notify_on_skipped_adhan_help">Kada ezan preskočite pomoću „Preskoči“ na ekranu Nadolazeći alarmi ili ga otkažete pomoću „Otkaži alarm“ iz njegove obavijesti „Predstojeći alarm“, u njegovo vrijeme prikazuje se tiha obavijest umjesto da bude izostavljen. Odnosi se samo na ezane.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezin</string>

@@ -366,6 +366,8 @@
     <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد. فقط برای اذان اعمال می‌شود.</string>
     <string name="auto_silent_duration">مدت مزاحم نشوید</string>
     <string name="auto_silent_duration_help">مزاحم نشوید پس از رد کردن، چه مدت روشن می‌ماند.</string>
+    <string name="notify_on_skipped_adhan">اعلان بی‌صدا به‌جای رد کردن</string>
+    <string name="notify_on_skipped_adhan_help">وقتی اذانی را با «رد کردن» در صفحهٔ هشدارهای آینده رد می‌کنید، یا با «لغو زنگ هشدار» از اعلان «هشدار آینده» لغو می‌کنید، به‌جای حذف آن، در زمانش یک اعلان بی‌صدا نمایش داده می‌شود. این گزینه فقط برای اذان‌ها کاربرد دارد.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">مؤذن</string>
