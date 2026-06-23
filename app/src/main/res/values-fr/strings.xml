@@ -146,8 +146,8 @@
          Home / main screen  (main/home)
          ============================================================ -->
     <string name="menu">Menu</string>
-    <string name="prev_day">Jour précédent</string>
-    <string name="next_day">Jour suivant</string>
+    <string name="prev_day">Jour\nprécédent</string>
+    <string name="next_day">Jour\nsuivant</string>
     <string name="show_today">Afficher aujourd\'hui</string>
     <string name="set_location_hint">Définir la localisation</string>
     <string name="set_calculation_hint">Définir la méthode de calcul</string>
