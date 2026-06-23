@@ -65,7 +65,7 @@ fun AboutScreen(onAction: (AboutUiAction) -> Unit = {}) {
                 }
                 SettingHeader(
                     stringResource(R.string.home),
-                    annotatedStringResource(R.string.home_url, "https://github.com/meypod/al-azan"),
+                    annotatedStringResource(R.string.home_url, "https://github.com/meypod/al-azan-compose"),
                 )
                 SettingHeader(stringResource(R.string.license), "AGPL-3.0")
                 HorizontalDivider()
