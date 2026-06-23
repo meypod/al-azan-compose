@@ -23,7 +23,16 @@ interface WidgetFormatter {
     ): String
 
     /** Time-zone aware day shift (used for the Hijri date offset). */
-    fun adjustDays(instant: Instant, days: Int): Instant
+    fun adjustDays(
+        instant: Instant,
+        days: Int,
+    ): Instant
+
+    /** True when both instants fall on the same Gregorian (calendar) day in the system time zone. */
+    fun isSameDay(
+        a: Instant,
+        b: Instant,
+    ): Boolean
 
     /** Epoch millis of the start of the day after [instant]. */
     fun nextDayBeginningMillis(instant: Instant): Long

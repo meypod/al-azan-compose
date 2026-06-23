@@ -71,7 +71,11 @@ class BuildWidgetDataUseCase @Inject constructor(
                 else -> HIDDEN_CURRENT_FALLBACK[current]?.takeUnless { it in hidden }
             }
         } else {
-            nextShariaTime?.prayer
+            // Once the day's last prayer passes, the next prayer rolls to the following day (e.g. Fajr
+            // after Isha). The table keeps showing today's times, so highlighting that row would point
+            // at a time belonging to a different day. Only highlight while the next prayer is still on
+            // the displayed day; the midnight redraw rebuilds the table and the highlight returns.
+            nextShariaTime?.takeIf { formatter.isSameDay(it.forInstant, instant) }?.prayer
         }
 
         val rows = SHARIA_TIMES_IN_ORDER

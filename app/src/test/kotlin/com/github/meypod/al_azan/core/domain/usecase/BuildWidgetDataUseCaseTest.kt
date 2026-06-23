@@ -70,7 +70,16 @@ class BuildWidgetDataUseCaseTest {
             days: Int,
         ) = instant
 
+        override fun isSameDay(
+            a: Instant,
+            b: Instant,
+        ) = a.toEpochMilliseconds().floorDiv(DAY_MILLIS) == b.toEpochMilliseconds().floorDiv(DAY_MILLIS)
+
         override fun nextDayBeginningMillis(instant: Instant) = nextDay
+
+        private companion object {
+            const val DAY_MILLIS = 86_400_000L
+        }
     }
 
     private fun details(
@@ -198,6 +207,23 @@ class BuildWidgetDataUseCaseTest {
             .invoke(at(13.0), settings(highlightCurrent = false), calc(), location)!!
         assertTrue(result.rows.single { it.prayer == Prayer.Asr }.isActive)
         assertFalse(result.rows.single { it.prayer == Prayer.Dhuhr }.isActive)
+    }
+
+    @Test
+    fun `does not highlight the next prayer when it rolls to the following day`() {
+        // After the day's last prayer, the next prayer is tomorrow's Fajr (forInstant on the next day).
+        // The table still shows today's times, so no row should be highlighted until the midnight redraw.
+        val tomorrowFajr = ShariaTimeDetails(
+            forInstant = at(29.0),
+            forDate = DateComponents(2026, 1, 2),
+            prayer = Prayer.Fajr,
+            prayerTime = at(29.0),
+            notify = false,
+            sound = false,
+        )
+        val result = useCase(next = tomorrowFajr)
+            .invoke(at(20.5), settings(highlightCurrent = false), calc(), location)!!
+        assertTrue(result.rows.none { it.isActive })
     }
 
     @Test
