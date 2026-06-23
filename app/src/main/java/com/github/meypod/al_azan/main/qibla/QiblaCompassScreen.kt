@@ -9,13 +9,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -130,11 +132,11 @@ fun QiblaCompassScreen(
     val scope = rememberCoroutineScope()
     var isFetchingLocation by remember { mutableStateOf(false) }
     val triggerLocation = rememberLocationAccessHelperDialogs(
-        onPermissionGranted = {
+        onPermissionGranted = { forceFresh ->
             scope.launch {
                 isFetchingLocation = true
                 try {
-                    LocationUtils.requestCurrentLocation(context).getOrNull()?.let { location ->
+                    LocationUtils.requestCurrentLocation(context, forceFresh = forceFresh).getOrNull()?.let { location ->
                         onAction(
                             QiblaCompassUiAction.OnLocationFetched(
                                 CalculationLocationDetail(lat = location.latitude, long = location.longitude),
@@ -344,17 +346,13 @@ private fun InfoSection(
     ) {
         val rowModifier = Modifier
             .fillMaxWidth()
-            .height(CompassButtonSize)
+            .heightIn(min = CompassButtonSize)
 
-        Row(
+        LabeledValue(
+            label = stringResource(R.string.qibla_location_label),
+            value = { Text(uiState.locationLabel.text()) },
             modifier = rowModifier,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
         ) {
-            LabeledValue(
-                label = stringResource(R.string.qibla_location_label),
-                value = uiState.locationLabel.text(),
-            )
             CompassIconButton(
                 icon = R.drawable.outline_location_searching_24,
                 contentDescription = stringResource(R.string.qibla_refresh_location),
@@ -366,33 +364,21 @@ private fun InfoSection(
         uiState.qiblaDegrees?.let { qibla ->
             LabeledValue(
                 label = stringResource(R.string.qibla_label),
-                value = stringResource(R.string.qibla_degrees_from_north, qibla.roundToInt()),
+                value = { Text(stringResource(R.string.qibla_degrees_from_north, qibla.roundToInt())) },
                 modifier = rowModifier,
             )
         }
 
-        AccuracyRow(accuracy = accuracy, modifier = rowModifier)
-    }
-}
-
-@Composable
-private fun AccuracyRow(
-    accuracy: CompassAccuracy,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        Text(
-            text = stringResource(R.string.qibla_accuracy_label),
-            fontWeight = FontWeight.Bold,
-        )
-        Text(
-            text = stringResource(accuracy.labelRes()),
-            color = accuracy.color(),
-            fontWeight = FontWeight.Medium,
+        LabeledValue(
+            label = stringResource(R.string.qibla_accuracy_label),
+            value = {
+                Text(
+                    text = stringResource(accuracy.labelRes()),
+                    color = accuracy.color(),
+                    fontWeight = FontWeight.Medium,
+                )
+            },
+            modifier = rowModifier,
         )
     }
 }
@@ -400,16 +386,19 @@ private fun AccuracyRow(
 @Composable
 private fun LabeledValue(
     label: String,
-    value: String,
+    value: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    extraContent: (@Composable () -> Unit)? = null,
 ) {
-    Row(
-        modifier,
-        verticalAlignment = Alignment.CenterVertically,
+    FlowRow(
+        modifier.wrapContentHeight(),
+        itemVerticalAlignment = Alignment.CenterVertically,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(text = label, fontWeight = FontWeight.Bold)
-        Text(text = value)
+        value()
+        extraContent?.invoke()
     }
 }
 
@@ -539,8 +528,15 @@ private class AccuracyPreviewProvider : PreviewParameterProvider<CompassAccuracy
 @Composable
 private fun AccuracyRowPreview(@PreviewParameter(AccuracyPreviewProvider::class) accuracy: CompassAccuracy) {
     AlAzanThemePreview {
-        AccuracyRow(
-            accuracy = accuracy,
+        LabeledValue(
+            label = stringResource(R.string.qibla_accuracy_label),
+            value = {
+                Text(
+                    text = stringResource(accuracy.labelRes()),
+                    color = accuracy.color(),
+                    fontWeight = FontWeight.Medium,
+                )
+            },
             modifier = Modifier.padding(dimensionResource(R.dimen.page_padding)),
         )
     }

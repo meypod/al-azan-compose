@@ -24,7 +24,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun rememberLocationAccessHelperDialogs(
     onLocation: ((CalculationLocationDetail) -> Unit)? = null,
-    onPermissionGranted: (() -> Unit)? = null,
+    // Boolean mirrors the trigger's showFeedback flag: true for explicit user taps (callers can use
+    // it to force a fresh fix), false for silent auto-requests.
+    onPermissionGranted: ((forceFresh: Boolean) -> Unit)? = null,
 ): (Boolean) -> Unit {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -36,7 +38,7 @@ fun rememberLocationAccessHelperDialogs(
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted || context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             showPermissionDeniedDialog.value = false
-            onPermissionGranted?.invoke()
+            onPermissionGranted?.invoke(showFeedbackForPendingRequest.value)
             if (onLocation != null) {
                 scope.launch {
                     val result = LocationUtils.requestCurrentLocation(context).getOrNull()

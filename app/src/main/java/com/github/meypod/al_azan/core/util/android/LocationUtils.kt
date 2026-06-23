@@ -1,15 +1,12 @@
 package com.github.meypod.al_azan.core.util.android
 
 import android.Manifest.permission
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.CancellationSignal
-import android.provider.Settings
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.core.location.LocationManagerCompat
@@ -46,6 +43,10 @@ object LocationUtils {
     suspend fun requestCurrentLocation(
         context: Context,
         timeoutMillis: Long = 12_000,
+        // When true, skip the cached last-known fix and force a fresh one-shot fix. Used by explicit
+        // "refresh" taps so re-pressing the button actually re-queries GPS instead of no-op'ing on
+        // an identical cached value.
+        forceFresh: Boolean = false,
     ): Result<Location> {
         val canAccessCoarseLocation = ActivityCompat.checkSelfPermission(
             context,
@@ -58,11 +59,13 @@ object LocationUtils {
             val locationManager =
                 getLocationManager(context) ?: return@withContext Result.failure(SecurityException("LocationManager not available"))
 
-            val lastKnown = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            if (!forceFresh) {
+                val lastKnown = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
-            if (lastKnown != null && isLocationValid(lastKnown)) {
-                return@withContext Result.success(lastKnown)
+                if (lastKnown != null && isLocationValid(lastKnown)) {
+                    return@withContext Result.success(lastKnown)
+                }
             }
 
             val gpsFlow = createSingleLocationFlow(locationManager, LocationManager.GPS_PROVIDER, timeoutMillis)
