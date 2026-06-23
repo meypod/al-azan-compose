@@ -48,6 +48,8 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.settings.HomeShortcut
+import com.github.meypod.al_azan.core.domain.model.settings.i18n
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.formatInstant
@@ -96,7 +98,7 @@ fun HomeScreen(
                     icon = {
                         Icon(painterResource(R.drawable.alarm), contentDescription = null)
                     },
-                    label = { Text(stringResource(R.string.reminder)) },
+                    label = { Text(stringResource(R.string.reminders_title)) },
                     selected = false,
                     onClick = {
                         onAction(HomeUiAction.OnReminderLinkClick)
@@ -212,19 +214,17 @@ fun HomeScreen(
                         }
                     },
                     actions = {
-                        if (uiState.showQiblaButton) {
-                            IconButton(onClick = { onAction(HomeUiAction.OnQiblaShortcutClick) }) {
-                                Icon(
-                                    painterResource(R.drawable.compass_outline),
-                                    contentDescription = stringResource(R.string.qibla),
-                                )
+                        uiState.homeShortcuts.forEach { shortcut ->
+                            val (iconRes, action) = when (shortcut) {
+                                HomeShortcut.Qibla -> R.drawable.compass_outline to HomeUiAction.OnQiblaShortcutClick
+                                HomeShortcut.Counter -> R.drawable.counter to HomeUiAction.OnCounterLinkClick
+                                HomeShortcut.Reminders -> R.drawable.alarm to HomeUiAction.OnReminderLinkClick
+                                HomeShortcut.UpcomingAlarms -> R.drawable.outline_calendar_month_24 to HomeUiAction.OnUpcomingAlarmsClick
                             }
-                        }
-                        if (uiState.showCounterButton) {
-                            IconButton(onClick = { onAction(HomeUiAction.OnCounterLinkClick) }) {
+                            IconButton(onClick = { onAction(action) }) {
                                 Icon(
-                                    painterResource(R.drawable.counter),
-                                    contentDescription = stringResource(R.string.counter),
+                                    painterResource(iconRes),
+                                    contentDescription = shortcut.i18n(),
                                 )
                             }
                         }

@@ -229,10 +229,9 @@
     <string name="highlight_current_prayer_time">वर्तमान नमाज़ का समय हाइलाइट करें</string>
     <string name="highlight_current_prayer_time_help">अगले के बजाय वर्तमान नमाज़ के समय को हाइलाइट करें।</string>
     <string name="home_shortcuts">होम स्क्रीन शॉर्टकट</string>
-    <string name="show_home_qibla_button">क़िबला बटन दिखाएँ</string>
-    <string name="show_home_qibla_button_help">होम स्क्रीन टूलबार में क़िबला कम्पास शॉर्टकट दिखाएँ।</string>
-    <string name="show_home_counter_button">क़ज़ा काउंटर बटन दिखाएँ</string>
-    <string name="show_home_counter_button_help">होम स्क्रीन टूलबार में क़ज़ा काउंटर शॉर्टकट दिखाएँ।</string>
+    <string name="home_shortcuts_help">होम स्क्रीन टूलबार में दिखाने के लिए अधिकतम दो शॉर्टकट चुनें।</string>
+    <string name="shortcut_column">शॉर्टकट</string>
+    <string name="home_max_shortcuts_warning">एक साथ केवल दो शॉर्टकट दिखाए जा सकते हैं</string>
     <string name="hijri_day_starts_at_maghrib">मग़रिब के समय हिजरी तारीख़ आगे बढ़ती है</string>
     <string name="use_24_hour_format">24 घंटे के प्रारूप का प्रयोग करें</string>
     <string name="numbering_system">नंबरिंग सिस्टम</string>

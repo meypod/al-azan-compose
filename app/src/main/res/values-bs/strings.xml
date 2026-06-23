@@ -229,10 +229,9 @@
     <string name="highlight_current_prayer_time">Istakni trenutno vrijeme molitve</string>
     <string name="highlight_current_prayer_time_help">Istakni trenutno vrijeme molitve umjesto sljedećeg.</string>
     <string name="home_shortcuts">Prečice početnog ekrana</string>
-    <string name="show_home_qibla_button">Prikaži dugme Kibla</string>
-    <string name="show_home_qibla_button_help">Prikaži prečicu za Kibla kompas u alatnoj traci početnog ekrana.</string>
-    <string name="show_home_counter_button">Prikaži dugme Kada brojača</string>
-    <string name="show_home_counter_button_help">Prikaži prečicu za Kada brojač u alatnoj traci početnog ekrana.</string>
+    <string name="home_shortcuts_help">Odaberite najviše dvije prečice za prikaz u alatnoj traci početnog ekrana.</string>
+    <string name="shortcut_column">Prečica</string>
+    <string name="home_max_shortcuts_warning">Istovremeno se mogu prikazati samo dvije prečice</string>
     <string name="hijri_day_starts_at_maghrib">Hidžretski datum napreduje u vrijeme akšama</string>
     <string name="use_24_hour_format">Koristite 24-satni format</string>
     <string name="numbering_system">Sistem Numerisanja</string>

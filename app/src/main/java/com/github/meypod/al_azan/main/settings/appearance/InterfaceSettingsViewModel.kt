@@ -2,12 +2,16 @@ package com.github.meypod.al_azan.main.settings.appearance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.settings.MAX_HOME_SHORTCUTS
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.ChangeLanguageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +23,9 @@ class InterfaceSettingsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(InterfaceSettingsUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _events = Channel<InterfaceSettingsUiEvent>()
+    val events = _events.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -45,11 +52,7 @@ class InterfaceSettingsViewModel @Inject constructor(
 
             is InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle -> onHighlightCurrentPrayerToggle(action)
 
-            is InterfaceSettingsUiAction.OnShowHomeQiblaButtonToggle ->
-                update { it.copy(showHomeQiblaButton = action.value) }
-
-            is InterfaceSettingsUiAction.OnShowHomeCounterButtonToggle ->
-                update { it.copy(showHomeCounterButton = action.value) }
+            is InterfaceSettingsUiAction.OnHomeShortcutToggle -> onHomeShortcutToggle(action)
 
             is InterfaceSettingsUiAction.OnTimeFormatToggle -> onTimeFormatToggle(action)
 
@@ -86,6 +89,27 @@ class InterfaceSettingsViewModel @Inject constructor(
 
     private fun onHighlightCurrentPrayerToggle(action: InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle) =
         update { it.copy(highlightCurrentPrayer = action.value) }
+
+    private fun onHomeShortcutToggle(action: InterfaceSettingsUiAction.OnHomeShortcutToggle) {
+        val current = _uiState.value.settings.homeShortcuts
+        // The top app bar only has room for a couple of icons; block enabling a third.
+        if (action.enabled && action.shortcut !in current && current.size >= MAX_HOME_SHORTCUTS) {
+            viewModelScope.launch {
+                _events.send(InterfaceSettingsUiEvent.ShowMessage(R.string.home_max_shortcuts_warning))
+            }
+            return
+        }
+        update { settings ->
+            // Preserve the user's enable order — it's their chosen left-to-right order in the toolbar.
+            val selected = settings.homeShortcuts.toMutableList()
+            if (action.enabled) {
+                if (action.shortcut !in selected) selected.add(action.shortcut)
+            } else {
+                selected.remove(action.shortcut)
+            }
+            settings.copy(homeShortcuts = selected)
+        }
+    }
 
     private fun onTimeFormatToggle(action: InterfaceSettingsUiAction.OnTimeFormatToggle) = update { it.copy(is24HourFormat = action.use24) }
 

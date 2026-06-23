@@ -229,10 +229,9 @@
     <string name="highlight_current_prayer_time">Làm nổi bật giờ cầu nguyện hiện tại</string>
     <string name="highlight_current_prayer_time_help">Làm nổi bật giờ cầu nguyện hiện tại thay vì lần tiếp theo.</string>
     <string name="home_shortcuts">Lối tắt màn hình chính</string>
-    <string name="show_home_qibla_button">Hiển thị nút Qibla</string>
-    <string name="show_home_qibla_button_help">Hiển thị lối tắt la bàn Qibla trên thanh công cụ màn hình chính.</string>
-    <string name="show_home_counter_button">Hiển thị nút Bộ đếm Qada</string>
-    <string name="show_home_counter_button_help">Hiển thị lối tắt Bộ đếm Qada trên thanh công cụ màn hình chính.</string>
+    <string name="home_shortcuts_help">Chọn tối đa hai lối tắt để hiển thị trên thanh công cụ màn hình chính.</string>
+    <string name="shortcut_column">Lối tắt</string>
+    <string name="home_max_shortcuts_warning">Chỉ có thể hiển thị hai lối tắt cùng một lúc</string>
     <string name="hijri_day_starts_at_maghrib">Ngày Hijri chuyển sang ngày mới vào giờ Maghrib</string>
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
     <string name="numbering_system">Hệ chữ số</string>

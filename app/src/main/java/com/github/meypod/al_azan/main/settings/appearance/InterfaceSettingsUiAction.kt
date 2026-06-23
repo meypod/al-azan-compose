@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.main.settings.appearance
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.settings.HomeShortcut
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
@@ -35,12 +36,9 @@ sealed interface InterfaceSettingsUiAction {
         val value: Boolean,
     ) : InterfaceSettingsUiAction
 
-    data class OnShowHomeQiblaButtonToggle(
-        val value: Boolean,
-    ) : InterfaceSettingsUiAction
-
-    data class OnShowHomeCounterButtonToggle(
-        val value: Boolean,
+    data class OnHomeShortcutToggle(
+        val shortcut: HomeShortcut,
+        val enabled: Boolean,
     ) : InterfaceSettingsUiAction
 
     data class OnTimeFormatToggle(

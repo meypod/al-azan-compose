@@ -23,6 +23,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -42,22 +43,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.settings.HOME_SHORTCUTS_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.SupportedLocales
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
+import com.github.meypod.al_azan.core.domain.model.settings.i18n
 import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.DarkSurface
 import com.github.meypod.al_azan.core.presentation.LightSecondaryContainer
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
+import com.github.meypod.al_azan.core.presentation.components.CheckboxTable
+import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.PrayerCheckboxTable
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -67,7 +74,18 @@ fun InterfaceSettingsScreen(
     uiState: InterfaceSettingsUiState,
     onAction: (InterfaceSettingsUiAction) -> Unit,
     modifier: Modifier = Modifier,
+    events: Flow<InterfaceSettingsUiEvent> = emptyFlow(),
 ) {
+    val resources = LocalResources.current
+    val snackbarController = LocalSnackbarController.current
+    LaunchedEffect(events) {
+        events.collect { event ->
+            when (event) {
+                is InterfaceSettingsUiEvent.ShowMessage ->
+                    snackbarController.show(resources.getString(event.messageRes))
+            }
+        }
+    }
     ScreenScaffold(
         title = stringResource(R.string.interface_settings),
         onBackClick = { NavigationController.navigateBack() },
@@ -292,25 +310,21 @@ private fun HomeShortcutsCard(
     uiState: InterfaceSettingsUiState,
     onAction: (InterfaceSettingsUiAction) -> Unit,
 ) {
+    val selected = uiState.settings.homeShortcuts
     ACard { cardPadding ->
-        Column(
-            Modifier.padding(cardPadding),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-        ) {
-            SettingLabel(stringResource(R.string.home_shortcuts), fontWeight = FontWeight.Medium)
-            SettingSwitch(
-                title = stringResource(R.string.show_home_qibla_button),
-                subtitle = stringResource(R.string.show_home_qibla_button_help),
-                checked = uiState.settings.showHomeQiblaButton,
-                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnShowHomeQiblaButtonToggle(it)) },
-            )
-            SettingSwitch(
-                title = stringResource(R.string.show_home_counter_button),
-                subtitle = stringResource(R.string.show_home_counter_button_help),
-                checked = uiState.settings.showHomeCounterButton,
-                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnShowHomeCounterButtonToggle(it)) },
-            )
-        }
+        CheckboxTable(
+            title = stringResource(R.string.home_shortcuts),
+            helpText = stringResource(R.string.home_shortcuts_help),
+            leftColumn = stringResource(R.string.shortcut_column),
+            rightColumn = stringResource(R.string.show_column),
+            items = HOME_SHORTCUTS_IN_ORDER,
+            label = { it.i18n() },
+            isChecked = { it in selected },
+            onToggle = { shortcut, enabled ->
+                onAction(InterfaceSettingsUiAction.OnHomeShortcutToggle(shortcut, enabled))
+            },
+            modifier = Modifier.padding(cardPadding),
+        )
     }
 }
 

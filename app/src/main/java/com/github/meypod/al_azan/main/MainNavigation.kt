@@ -237,7 +237,7 @@ fun MainNavigation(
             entry<Route.Main.Settings.InterfaceSettings> {
                 val vm = hiltViewModel<InterfaceSettingsViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
-                InterfaceSettingsScreen(s, vm::onAction)
+                InterfaceSettingsScreen(s, vm::onAction, events = vm.events)
             }
             entry<Route.Main.Settings.SoundAndNotifications> {
                 val vm = hiltViewModel<AdhanSettingsViewModel>()

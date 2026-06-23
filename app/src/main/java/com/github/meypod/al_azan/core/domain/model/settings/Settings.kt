@@ -179,10 +179,11 @@ data class Settings(
     val travelModeLastUpdateMillis: Long? = null,
     val showHomeNextPrayerCountdown: Boolean = true,
     val countdownSkipNonPrayers: Boolean = false,
-    /** Show a Qibla compass shortcut icon button in the home top app bar. */
-    val showHomeQiblaButton: Boolean = false,
-    /** Show a Qada counter shortcut icon button in the home top app bar. */
-    val showHomeCounterButton: Boolean = false,
+    /**
+     * Shortcut icon buttons shown in the home top app bar, in the user's chosen left-to-right order,
+     * capped at [MAX_HOME_SHORTCUTS].
+     */
+    val homeShortcuts: List<HomeShortcut> = emptyList(),
     /**
      * Occurrences the user skipped from the Scheduled-alarms screen, keyed logically (prayer/reminder +
      * date). Schedulers exclude a matching occurrence when picking what to arm, so the *following* one

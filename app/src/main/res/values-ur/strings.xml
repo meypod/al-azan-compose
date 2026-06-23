@@ -229,10 +229,9 @@
     <string name="highlight_current_prayer_time">موجودہ نماز کا وقت نمایاں کریں</string>
     <string name="highlight_current_prayer_time_help">اگلی نماز کے بجائے موجودہ نماز کا وقت نمایاں کریں۔</string>
     <string name="home_shortcuts">ہوم اسکرین شارٹ کٹس</string>
-    <string name="show_home_qibla_button">قبلہ بٹن دکھائیں</string>
-    <string name="show_home_qibla_button_help">ہوم اسکرین ٹول بار میں قبلہ کمپاس شارٹ کٹ دکھائیں۔</string>
-    <string name="show_home_counter_button">قضا کاؤنٹر بٹن دکھائیں</string>
-    <string name="show_home_counter_button_help">ہوم اسکرین ٹول بار میں قضا کاؤنٹر شارٹ کٹ دکھائیں۔</string>
+    <string name="home_shortcuts_help">ہوم اسکرین ٹول بار میں دکھانے کے لیے زیادہ سے زیادہ دو شارٹ کٹ منتخب کریں۔</string>
+    <string name="shortcut_column">شارٹ کٹ</string>
+    <string name="home_max_shortcuts_warning">ایک وقت میں صرف دو شارٹ کٹ دکھائے جا سکتے ہیں</string>
     <string name="hijri_day_starts_at_maghrib">مغرب کے وقت ہجری تاریخ آگے بڑھتی ہے</string>
     <string name="use_24_hour_format">24 گھنٹے کا فارمیٹ استعمال کریں۔</string>
     <string name="numbering_system">نمبر سازی کا نظام</string>

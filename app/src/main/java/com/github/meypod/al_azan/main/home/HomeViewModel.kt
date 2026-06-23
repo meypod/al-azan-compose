@@ -331,8 +331,7 @@ class HomeViewModel
                         is24Hour = settings.is24HourFormat,
                         hiddenPrayers = settings.hiddenPrayers,
                         isDeveloper = settings.devMode,
-                        showQiblaButton = settings.showHomeQiblaButton,
-                        showCounterButton = settings.showHomeCounterButton,
+                        homeShortcuts = settings.homeShortcuts,
                     )
                 }
             }.collect()

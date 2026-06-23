@@ -229,10 +229,9 @@
     <string name="highlight_current_prayer_time">Mevcut namaz vaktini vurgula</string>
     <string name="highlight_current_prayer_time_help">Sonraki yerine mevcut namaz vaktini vurgula.</string>
     <string name="home_shortcuts">Ana ekran kısayolları</string>
-    <string name="show_home_qibla_button">Kıble düğmesini göster</string>
-    <string name="show_home_qibla_button_help">Ana ekran araç çubuğunda bir Kıble pusulası kısayolu göster.</string>
-    <string name="show_home_counter_button">Kaza namazı sayacı düğmesini göster</string>
-    <string name="show_home_counter_button_help">Ana ekran araç çubuğunda bir Kaza namazı sayacı kısayolu göster.</string>
+    <string name="home_shortcuts_help">Ana ekran araç çubuğunda göstermek için en fazla iki kısayol seçin.</string>
+    <string name="shortcut_column">Kısayol</string>
+    <string name="home_max_shortcuts_warning">Aynı anda yalnızca iki kısayol gösterilebilir</string>
     <string name="hijri_day_starts_at_maghrib">Hicri tarih Akşam vaktinde ilerler</string>
     <string name="use_24_hour_format">24 Saat biçimini kullan</string>
     <string name="numbering_system">Sayı sistemi</string>

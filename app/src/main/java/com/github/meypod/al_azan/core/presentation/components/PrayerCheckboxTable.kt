@@ -41,6 +41,36 @@ fun PrayerCheckboxTable(
     modifier: Modifier = Modifier,
     prayers: List<Prayer> = SHARIA_TIMES_IN_ORDER,
 ) {
+    CheckboxTable(
+        title = title,
+        helpText = helpText,
+        leftColumn = leftColumn,
+        rightColumn = rightColumn,
+        items = prayers,
+        label = { it.i18n() },
+        isChecked = isChecked,
+        onToggle = onToggle,
+        modifier = modifier,
+    )
+}
+
+/**
+ * A header + per-row checkbox table. Stateless: the whole row is the toggle target and the [Checkbox] is
+ * decorative (accessibility comes from the row's [Role.Checkbox]). Any selection limit is the caller's
+ * concern — enforce it where [onToggle] is handled.
+ */
+@Composable
+fun <T> CheckboxTable(
+    title: String,
+    helpText: String,
+    leftColumn: String,
+    rightColumn: String,
+    items: List<T>,
+    label: @Composable (T) -> String,
+    isChecked: (T) -> Boolean,
+    onToggle: (T, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(modifier) {
         SettingHeader(title, helpText)
         Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
@@ -55,15 +85,15 @@ fun PrayerCheckboxTable(
             Text(rightColumn, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         HorizontalDivider()
-        prayers.forEachIndexed { idx, prayer ->
-            val checked = isChecked(prayer)
+        items.forEachIndexed { idx, item ->
+            val checked = isChecked(item)
             Row(
                 Modifier
                     .fillMaxWidth()
                     .toggleable(
                         value = checked,
                         role = Role.Checkbox,
-                        onValueChange = { onToggle(prayer, it) },
+                        onValueChange = { onToggle(item, it) },
                     )
                     .padding(
                         vertical = dimensionResource(R.dimen.element_padding),
@@ -72,10 +102,10 @@ fun PrayerCheckboxTable(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text(prayer.i18n())
+                Text(label(item))
                 Checkbox(checked, onCheckedChange = null)
             }
-            if (idx != prayers.lastIndex) HorizontalDivider()
+            if (idx != items.lastIndex) HorizontalDivider()
         }
     }
 }

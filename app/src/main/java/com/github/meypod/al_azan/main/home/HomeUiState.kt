@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.settings.HomeShortcut
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
@@ -31,6 +32,5 @@ data class HomeUiState(
     val hiddenPrayers: List<Prayer> = emptyList(),
     val skippedPrayers: Set<Prayer> = emptySet(),
     val isDeveloper: Boolean = false,
-    val showQiblaButton: Boolean = false,
-    val showCounterButton: Boolean = false,
+    val homeShortcuts: List<HomeShortcut> = emptyList(),
 )

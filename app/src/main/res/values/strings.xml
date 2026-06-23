@@ -230,10 +230,9 @@
     <string name="highlight_current_prayer_time">Highlight current prayer time</string>
     <string name="highlight_current_prayer_time_help">Highlight the current prayer time instead of the next one.</string>
     <string name="home_shortcuts">Home screen shortcuts</string>
-    <string name="show_home_qibla_button">Show Qibla button</string>
-    <string name="show_home_qibla_button_help">Show a Qibla compass shortcut in the home screen toolbar.</string>
-    <string name="show_home_counter_button">Show Qada counter button</string>
-    <string name="show_home_counter_button_help">Show a Qada counter shortcut in the home screen toolbar.</string>
+    <string name="home_shortcuts_help">Pick up to two shortcuts to show in the home screen toolbar.</string>
+    <string name="shortcut_column">Shortcut</string>
+    <string name="home_max_shortcuts_warning">Only two shortcuts can be shown at the same time</string>
     <string name="hijri_day_starts_at_maghrib">Hijri date advances at Maghrib</string>
     <string name="use_24_hour_format">Use 24-Hour Format</string>
     <string name="numbering_system">Numbering System</string>
