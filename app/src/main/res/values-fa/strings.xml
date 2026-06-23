@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">هنگام شمارش معکوس تا وقت بعدی، طلوع، غروب، نیمه‌شب و تهجد نادیده گرفته شوند.</string>
     <string name="highlight_current_prayer_time">برجسته کردن وقت شرعی فعلی</string>
     <string name="highlight_current_prayer_time_help">به‌جای وقت بعدی، وقت شرعی فعلی برجسته شود.</string>
+    <string name="hijri_day_starts_at_maghrib">تاریخ هجری هنگام مغرب جلو می‌رود</string>
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
     <string name="numbering_system">سیستم شماره‌گذاری</string>
     <string name="numbering_system_help">همهٔ اعداد را به سیستم انتخاب‌شده تبدیل می‌کند.</string>

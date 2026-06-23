@@ -146,6 +146,22 @@ fun addDaysTimeZoneAware(
     return newInstant
 }
 
+/**
+ * Extra whole-day shift for the Hijri date when the user opts into the Islamic convention that the
+ * day begins at maghrib (sunset). Returns 1 once [now] reaches today's [maghrib], else 0.
+ *
+ * Used only where the displayed date always tracks the current day (e.g. the widget); the
+ * interactive home screen does not apply this, since its day can be navigated independently.
+ */
+fun maghribHijriDayShift(
+    now: Instant,
+    maghrib: Instant?,
+    enabled: Boolean,
+): Int {
+    if (!enabled || maghrib == null) return 0
+    return if (now >= maghrib) 1 else 0
+}
+
 private fun icuCalendar(calendar: String): Calendar = Calendar.getInstance(TimeZone.getDefault(), ULocale("@calendar=$calendar"))
 
 /**

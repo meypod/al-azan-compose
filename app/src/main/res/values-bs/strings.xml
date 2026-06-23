@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">Preskoči izlazak sunca, zalazak, ponoć i noćni namaz pri odbrojavanju do sljedećeg vremena.</string>
     <string name="highlight_current_prayer_time">Istakni trenutno vrijeme molitve</string>
     <string name="highlight_current_prayer_time_help">Istakni trenutno vrijeme molitve umjesto sljedećeg.</string>
+    <string name="hijri_day_starts_at_maghrib">Hidžretski datum napreduje u vrijeme akšama</string>
     <string name="use_24_hour_format">Koristite 24-satni format</string>
     <string name="numbering_system">Sistem Numerisanja</string>
     <string name="numbering_system_help">Prisiljava sve brojeve da budu u odabranom sistemu.</string>

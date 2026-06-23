@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">Sonraki vakte geri sayarken güneş, gün batımı, gece yarısı ve teheccüdü atla.</string>
     <string name="highlight_current_prayer_time">Mevcut namaz vaktini vurgula</string>
     <string name="highlight_current_prayer_time_help">Sonraki yerine mevcut namaz vaktini vurgula.</string>
+    <string name="hijri_day_starts_at_maghrib">Hicri tarih Akşam vaktinde ilerler</string>
     <string name="use_24_hour_format">24 Saat biçimini kullan</string>
     <string name="numbering_system">Sayı sistemi</string>
     <string name="numbering_system_help">Tüm sayıları seçilen sistemde olmaya zorlar.</string>

@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">Skip sunrise, sunset, midnight and tahajjud when counting down to the next time.</string>
     <string name="highlight_current_prayer_time">Highlight current prayer time</string>
     <string name="highlight_current_prayer_time_help">Highlight the current prayer time instead of the next one.</string>
+    <string name="hijri_day_starts_at_maghrib">Hijri date advances at Maghrib</string>
     <string name="use_24_hour_format">Use 24-Hour Format</string>
     <string name="numbering_system">Numbering System</string>
     <string name="numbering_system_help">Forces all numbers to be in the selected system.</string>

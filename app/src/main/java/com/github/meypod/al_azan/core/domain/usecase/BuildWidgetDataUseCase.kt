@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetCountdown
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetPrayerRow
+import com.github.meypod.al_azan.core.domain.util.maghribHijriDayShift
 import javax.inject.Inject
 import kotlin.time.Instant
 
@@ -88,8 +89,13 @@ class BuildWidgetDataUseCase @Inject constructor(
                 )
             }
 
+        val maghribShift = maghribHijriDayShift(
+            now = instant,
+            maghrib = shariaTimes.maghrib,
+            enabled = settings.widgetHijriDayStartsAtMaghrib,
+        )
         val lunarText = formatter.formatDate(
-            instant = formatter.adjustDays(instant, calcSettings.calculationAdjustments.hijriDate),
+            instant = formatter.adjustDays(instant, calcSettings.calculationAdjustments.hijriDate + maghribShift),
             locale = arabicCalendarLocale,
             calendar = settings.selectedArabicCalendar,
             numberingSystem = settings.numberingSystem,
@@ -132,8 +138,15 @@ class BuildWidgetDataUseCase @Inject constructor(
         val nowMillis = instant.toEpochMilliseconds()
         val nextDayBeginning = formatter.nextDayBeginningMillis(instant)
         val nextPrayerMillis = nextShariaTime?.prayerTime?.toEpochMilliseconds()
+        // With the maghrib-start convention the Hijri date flips at sunset, so wake the widget then
+        // too (maghrib may be hidden and thus absent from nextPrayerMillis).
+        val maghribMillis = if (settings.widgetHijriDayStartsAtMaghrib) {
+            shariaTimes.maghrib.toEpochMilliseconds()
+        } else {
+            null
+        }
         val nextUpdateAtMillis =
-            listOfNotNull(nextPrayerMillis, nextDayBeginning).filter { it > nowMillis }.minOrNull()
+            listOfNotNull(nextPrayerMillis, nextDayBeginning, maghribMillis).filter { it > nowMillis }.minOrNull()
 
         return WidgetData(
             rows = rows,

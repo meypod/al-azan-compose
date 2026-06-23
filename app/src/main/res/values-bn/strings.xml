@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">পরবর্তী সময়ের কাউন্টডাউনের সময় সূর্যোদয়, সূর্যাস্ত, মধ্যরাত ও তাহাজ্জুদ এড়িয়ে যান।</string>
     <string name="highlight_current_prayer_time">বর্তমান সালাতের সময় হাইলাইট করুন</string>
     <string name="highlight_current_prayer_time_help">পরবর্তীটির পরিবর্তে বর্তমান সালাতের সময় হাইলাইট করুন।</string>
+    <string name="hijri_day_starts_at_maghrib">মাগরিবের সময় হিজরি তারিখ এগিয়ে যায়</string>
     <string name="use_24_hour_format">২৪-ঘন্টা বিন্যাস ব্যবহার করুন</string>
     <string name="numbering_system">সংখ্যা পদ্ধতি</string>
     <string name="numbering_system_help">সমস্ত সংখ্যাকে নির্বাচিত সিস্টেমে থাকতে বাধ্য করে।</string>

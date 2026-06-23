@@ -33,6 +33,10 @@ sealed interface WidgetSettingsUiAction {
         val value: Boolean,
     ) : WidgetSettingsUiAction
 
+    data class OnHijriDayStartsAtMaghribToggle(
+        val value: Boolean,
+    ) : WidgetSettingsUiAction
+
     data class OnPrayerVisibilityChange(
         val prayer: Prayer,
         val visible: Boolean,

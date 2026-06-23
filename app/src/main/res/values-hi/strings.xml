@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">अगले समय तक काउंटडाउन करते समय सूर्योदय, सूर्यास्त, मध्यरात्रि और तहज्जुद को छोड़ दें।</string>
     <string name="highlight_current_prayer_time">वर्तमान नमाज़ का समय हाइलाइट करें</string>
     <string name="highlight_current_prayer_time_help">अगले के बजाय वर्तमान नमाज़ के समय को हाइलाइट करें।</string>
+    <string name="hijri_day_starts_at_maghrib">मग़रिब के समय हिजरी तारीख़ आगे बढ़ती है</string>
     <string name="use_24_hour_format">24 घंटे के प्रारूप का प्रयोग करें</string>
     <string name="numbering_system">नंबरिंग सिस्टम</string>
     <string name="numbering_system_help">सभी नंबरों को चयनित सिस्टम में होने के लिए बाध्य करता है।</string>

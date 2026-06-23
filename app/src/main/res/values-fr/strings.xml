@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">Ignorer le lever du soleil, le coucher du soleil, minuit et le tahajjud lors du compte à rebours vers le prochain horaire.</string>
     <string name="highlight_current_prayer_time">Mettre en évidence l\'horaire de prière actuel</string>
     <string name="highlight_current_prayer_time_help">Mettre en évidence l\'horaire de prière actuel au lieu du suivant.</string>
+    <string name="hijri_day_starts_at_maghrib">La date hégirienne avance à l\'heure du Maghrib</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>
     <string name="numbering_system_help">Force tous les chiffres à utiliser le système sélectionné.</string>

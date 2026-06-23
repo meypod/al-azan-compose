@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">Bỏ qua mọc mặt trời, lặn mặt trời, nửa đêm và tahajjud khi đếm ngược đến lần tiếp theo.</string>
     <string name="highlight_current_prayer_time">Làm nổi bật giờ cầu nguyện hiện tại</string>
     <string name="highlight_current_prayer_time_help">Làm nổi bật giờ cầu nguyện hiện tại thay vì lần tiếp theo.</string>
+    <string name="hijri_day_starts_at_maghrib">Ngày Hijri chuyển sang ngày mới vào giờ Maghrib</string>
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
     <string name="numbering_system">Hệ chữ số</string>
     <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn.</string>

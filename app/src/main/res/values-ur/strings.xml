@@ -225,6 +225,7 @@
     <string name="countdown_skip_non_prayers_help">اگلے وقت تک کاؤنٹ ڈاؤن کرتے وقت طلوع آفتاب، غروب آفتاب، آدھی رات اور تہجد کو چھوڑ دیں۔</string>
     <string name="highlight_current_prayer_time">موجودہ نماز کا وقت نمایاں کریں</string>
     <string name="highlight_current_prayer_time_help">اگلی نماز کے بجائے موجودہ نماز کا وقت نمایاں کریں۔</string>
+    <string name="hijri_day_starts_at_maghrib">مغرب کے وقت ہجری تاریخ آگے بڑھتی ہے</string>
     <string name="use_24_hour_format">24 گھنٹے کا فارمیٹ استعمال کریں۔</string>
     <string name="numbering_system">نمبر سازی کا نظام</string>
     <string name="numbering_system_help">تمام نمبروں کو منتخب نظام میں ہونے پر مجبور کرتا ہے۔</string>
