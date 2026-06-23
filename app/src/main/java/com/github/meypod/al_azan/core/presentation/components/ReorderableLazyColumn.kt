@@ -1,14 +1,20 @@
 package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector2D
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -25,15 +31,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.findRootCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onPlaced
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.round
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
@@ -42,6 +53,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import kotlin.math.sign
+import androidx.compose.runtime.key as composeKey
 
 /**
  * A reorderable [LazyColumn] where dragging starts only from a provided drag-handle modifier.
@@ -59,6 +72,18 @@ fun <T> ReorderableLazyColumn(
     listModifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     listState: LazyListState = rememberLazyListState(),
+    /**
+     * When false, items are laid out in a non-scrolling [Column] that grows to fit all items,
+     * so the list can be nested inside an externally scrolling page. The internal [LazyColumn]
+     * scroll, edge fade and scrollbar are disabled in this mode, and [contentPadding] is ignored.
+     * Provide [pageScrollState] to enable edge auto-scroll of the host page during a drag.
+     */
+    scrollable: Boolean = true,
+    /**
+     * Host page scroll state, used only when [scrollable] is false: while dragging an item toward
+     * the top/bottom window edge, this page is scrolled so off-screen items can be reached.
+     */
+    pageScrollState: ScrollState? = null,
     overlayAlpha: Float = 0.85f,
     overlayScaleTarget: Float = 1.03f,
     overlayScaleAnimMillis: Int = 100,
@@ -82,71 +107,73 @@ fun <T> ReorderableLazyColumn(
         listState = listState,
         onMove = onMove,
         coroutineScope = coroutineScope,
+        lazyMode = scrollable,
     )
+    reorderState.updatePageScrollState(if (scrollable) null else pageScrollState)
+    reorderState.updateViewportBounds(if (scrollable) null else LocalPageScrollViewportBounds.current)
 
     Box(
         modifier = modifier.onGloballyPositioned { coords ->
             reorderState.updateContainerCoords(coords)
         },
     ) {
-        LazyColumn(
-            modifier = listModifier
-                .fadeScrollEdges(listState, Orientation.Vertical)
-                .drawVerticalScrollbar(listState),
-            state = listState,
-            contentPadding = contentPadding,
-            reverseLayout = reverseLayout,
-            verticalArrangement = verticalArrangement,
-        ) {
-            itemsIndexed(
-                items = items,
-                key = { _, item -> key(item) },
-            ) { index, item ->
-                val itemKey = key(item)
-
-                SideEffect {
-                    reorderState.updateItemIndex(itemKey, index)
+        if (scrollable) {
+            LazyColumn(
+                modifier = listModifier
+                    .fadeScrollEdges(listState, Orientation.Vertical)
+                    .drawVerticalScrollbar(listState),
+                state = listState,
+                contentPadding = contentPadding,
+                reverseLayout = reverseLayout,
+                verticalArrangement = verticalArrangement,
+            ) {
+                itemsIndexed(
+                    items = items,
+                    key = { _, item -> key(item) },
+                ) { index, item ->
+                    ReorderableItemWrapper(
+                        item = item,
+                        itemKey = key(item),
+                        index = index,
+                        reorderState = reorderState,
+                        // animateItem is only valid inside a LazyItemScope.
+                        placementModifier = Modifier.animateItem(
+                            placementSpec = tween<IntOffset>(durationMillis = itemPlacementAnimMillis),
+                        ),
+                        releaseAnimMillis = releaseAnimMillis,
+                        itemContent = itemContent,
+                    )
                 }
-
-                val isPlaceholder = reorderState.isPlaceholderFor(itemKey)
-
-                val itemModifier = Modifier
-                    .animateItem(placementSpec = tween<IntOffset>(durationMillis = itemPlacementAnimMillis))
-                    .onGloballyPositioned { coords ->
-                        reorderState.updateItemCoords(itemKey, coords)
-                    }
-
-                val dragHandleModifier = Modifier
-                    .onGloballyPositioned { coords ->
-                        reorderState.updateHandleCoords(itemKey, coords)
-                    }
-                    .pointerInput(itemKey) {
-                        detectDragGesturesAfterLongPress(
-                            onDragStart = { localStart ->
-                                reorderState.startDrag(
-                                    itemKey = itemKey,
-                                    index = index,
-                                    localPointerStart = localStart,
-                                )
-                            },
-                            onDragCancel = { reorderState.releaseDrag(releaseAnimMillis) },
-                            onDragEnd = { reorderState.releaseDrag(releaseAnimMillis) },
-                            onDrag = { change, dragAmount ->
-                                change.consume()
-                                reorderState.dragBy(
-                                    itemKey = itemKey,
-                                    deltaX = dragAmount.x,
-                                    deltaY = dragAmount.y,
-                                    localPointerPosition = change.position,
-                                )
-                            },
+                footerContent?.let {
+                    item(key = "__footer__") { it() }
+                }
+            }
+        } else {
+            Column(
+                modifier = listModifier,
+                verticalArrangement = verticalArrangement,
+            ) {
+                items.forEachIndexed { index, item ->
+                    val itemKey = key(item)
+                    // Stable identity per item so reordering moves the composable (and its in-flight
+                    // drag gesture) instead of re-keying the slot and cancelling the drag.
+                    composeKey(itemKey) {
+                        ReorderableItemWrapper(
+                            item = item,
+                            itemKey = itemKey,
+                            index = index,
+                            reorderState = reorderState,
+                            // animateItem is LazyItemScope-only; mimic its placement animation in a
+                            // plain Column by animating each item's offset toward its laid-out position.
+                            placementModifier = Modifier.animatePlacement(
+                                tween(durationMillis = itemPlacementAnimMillis),
+                            ),
+                            releaseAnimMillis = releaseAnimMillis,
+                            itemContent = itemContent,
                         )
                     }
-
-                itemContent(item, isPlaceholder, itemModifier, dragHandleModifier)
-            }
-            footerContent?.let {
-                item(key = "__footer__") { it() }
+                }
+                footerContent?.invoke()
             }
         }
 
@@ -205,16 +232,108 @@ fun <T> ReorderableLazyColumn(
     }
 }
 
+/**
+ * Renders a single reorderable item: index tracking, placeholder state, coordinate reporting and
+ * the long-press drag handle. The placement-animation part of [baseItemModifier] differs per host
+ * (lazy vs non-lazy), so it is supplied by the caller; everything else is shared.
+ */
+@Composable
+private fun <T> ReorderableItemWrapper(
+    item: T,
+    itemKey: Any,
+    index: Int,
+    reorderState: ReorderState,
+    placementModifier: Modifier,
+    releaseAnimMillis: Int,
+    itemContent: @Composable (
+        item: T,
+        isPlaceholder: Boolean,
+        itemModifier: Modifier,
+        dragHandleModifier: Modifier,
+    ) -> Unit,
+) {
+    SideEffect {
+        reorderState.updateItemIndex(itemKey, index)
+    }
+
+    val isPlaceholder = reorderState.isPlaceholderFor(itemKey)
+
+    // onGloballyPositioned must sit OUTSIDE the placement animation so it reports the settled
+    // target position, not the mid-animation offset. Hit-testing against the animated position
+    // would re-trigger onMove as a neighbour slides under the finger and oscillate.
+    val itemModifier = Modifier
+        .onGloballyPositioned { coords ->
+            reorderState.updateItemCoords(itemKey, coords)
+        }
+        .then(placementModifier)
+
+    val dragHandleModifier = Modifier
+        .onGloballyPositioned { coords ->
+            reorderState.updateHandleCoords(itemKey, coords)
+        }
+        .pointerInput(itemKey) {
+            detectDragGesturesAfterLongPress(
+                onDragStart = { localStart ->
+                    reorderState.startDrag(
+                        itemKey = itemKey,
+                        index = index,
+                        localPointerStart = localStart,
+                    )
+                },
+                onDragCancel = { reorderState.releaseDrag(releaseAnimMillis) },
+                onDragEnd = { reorderState.releaseDrag(releaseAnimMillis) },
+                onDrag = { change, dragAmount ->
+                    change.consume()
+                    reorderState.dragBy(
+                        itemKey = itemKey,
+                        deltaX = dragAmount.x,
+                        deltaY = dragAmount.y,
+                        localPointerPosition = change.position,
+                    )
+                },
+            )
+        }
+
+    itemContent(item, isPlaceholder, itemModifier, dragHandleModifier)
+}
+
+/**
+ * Animates a layout node toward its target position whenever the parent re-places it (e.g. on
+ * reorder). A LookaheadScope-free stand-in for `LazyItemScope.animateItem` usable inside a plain
+ * [Column]: [onPlaced] reports the natural target position, and [offset] lags the visual position
+ * behind it until the [Animatable] catches up.
+ */
+private fun Modifier.animatePlacement(animationSpec: FiniteAnimationSpec<IntOffset>): Modifier =
+    composed {
+        val scope = rememberCoroutineScope()
+        var targetOffset by remember { mutableStateOf(IntOffset.Zero) }
+        var animatable by remember { mutableStateOf<Animatable<IntOffset, AnimationVector2D>?>(null) }
+        this
+            .onPlaced { coords ->
+                targetOffset = coords.positionInParent().round()
+            }
+            .offset {
+                val anim = animatable
+                    ?: Animatable(targetOffset, IntOffset.VectorConverter).also { animatable = it }
+                if (anim.targetValue != targetOffset) {
+                    scope.launch { anim.animateTo(targetOffset, animationSpec) }
+                }
+                anim.value - targetOffset
+            }
+    }
+
 @Composable
 private fun rememberReorderState(
     listState: LazyListState,
     onMove: (fromIndex: Int, toIndex: Int) -> Unit,
     coroutineScope: CoroutineScope,
+    lazyMode: Boolean,
 ): ReorderState {
-    val state = remember(listState, coroutineScope) {
+    val state = remember(listState, coroutineScope, lazyMode) {
         ReorderState(
             listState = listState,
             coroutineScope = coroutineScope,
+            lazyMode = lazyMode,
         )
     }
     state.updateOnMove(onMove)
@@ -224,8 +343,13 @@ private fun rememberReorderState(
 private class ReorderState(
     private val listState: LazyListState,
     private val coroutineScope: CoroutineScope,
+    private val lazyMode: Boolean,
 ) {
     private var onMove: (fromIndex: Int, toIndex: Int) -> Unit = { _, _ -> }
+    private var pageScrollState: ScrollState? = null
+    private var viewportBounds: PageScrollViewportBounds? = null
+
+    private var rootHeightPx = 0
 
     private val itemCoordsByKey = linkedMapOf<Any, LayoutCoordinates>()
     private val handleCoordsByKey = linkedMapOf<Any, LayoutCoordinates>()
@@ -258,12 +382,28 @@ private class ReorderState(
     private var hidePlaceholderJob: Job? = null
     private var releaseJob: Job? = null
 
+    // Signed edge-scroll intensity in -1f..1f: sign is direction (negative = toward top), magnitude
+    // is how far the dragged item has penetrated the edge band (0 at the band boundary, 1 at the
+    // window edge). Updated from drag events; the continuous [autoScrollJob] loop reads it so
+    // scrolling persists and tracks proximity while the finger is held still.
+    private var autoScrollIntensity = 0f
+    private var autoScrollJob: Job? = null
+
     fun updateOnMove(onMove: (fromIndex: Int, toIndex: Int) -> Unit) {
         this.onMove = onMove
     }
 
+    fun updatePageScrollState(state: ScrollState?) {
+        pageScrollState = state
+    }
+
+    fun updateViewportBounds(bounds: PageScrollViewportBounds?) {
+        viewportBounds = bounds
+    }
+
     fun updateContainerCoords(coords: LayoutCoordinates) {
         containerWindowOffset = coords.localToWindow(Offset.Zero)
+        rootHeightPx = coords.findRootCoordinates().size.height
     }
 
     fun updateItemIndex(
@@ -368,14 +508,25 @@ private class ReorderState(
         val currentItemEnd = currentItemStart + draggedSize.height
         val currentItemCenter = currentItemStart + draggedSize.height / 2f
 
-        val target = listState.layoutInfo.visibleItemsInfo.firstOrNull { itemInfo ->
-            itemInfo.index != currentIndex &&
-                currentItemCenter >= itemInfo.offset &&
-                currentItemCenter <= (itemInfo.offset + itemInfo.size)
+        val targetIndex = if (lazyMode) {
+            listState.layoutInfo.visibleItemsInfo.firstOrNull { itemInfo ->
+                itemInfo.index != currentIndex &&
+                    currentItemCenter >= itemInfo.offset &&
+                    currentItemCenter <= (itemInfo.offset + itemInfo.size)
+            }?.index
+        } else {
+            // No LazyListState viewport in non-lazy mode; hit-test against tracked item coords,
+            // mapped into the same container-local space as currentItemCenter.
+            indexByKey.entries.firstOrNull { (otherKey, otherIndex) ->
+                if (otherIndex == currentIndex) return@firstOrNull false
+                val coords = itemCoordsByKey[otherKey] ?: return@firstOrNull false
+                val size = itemSizeByKey[otherKey] ?: return@firstOrNull false
+                val top = coords.localToWindow(Offset.Zero).y - containerWindowOffset.y
+                currentItemCenter >= top && currentItemCenter <= top + size.height
+            }?.value
         }
 
-        if (target != null) {
-            val targetIndex = target.index
+        if (targetIndex != null) {
             onMove(currentIndex, targetIndex)
             // update our fallback index immediately; indexByKey is refreshed via SideEffect
             indexByKey[itemKey] = targetIndex
@@ -396,6 +547,9 @@ private class ReorderState(
         hidePlaceholderJob = null
         scrollJob?.cancel()
         scrollJob = null
+        autoScrollIntensity = 0f
+        autoScrollJob?.cancel()
+        autoScrollJob = null
         releaseJob?.cancel()
         releaseJob = null
     }
@@ -403,6 +557,11 @@ private class ReorderState(
     fun releaseDrag(durationMillis: Int) {
         val itemKey = draggingItemKey ?: return
         if (isReleasing) return
+
+        // Halt edge auto-scroll the moment the finger lifts, before the landing animation.
+        autoScrollIntensity = 0f
+        autoScrollJob?.cancel()
+        autoScrollJob = null
 
         val itemCoords = itemCoordsByKey[itemKey]
         val itemWindow = itemCoords?.localToWindow(Offset.Zero)
@@ -458,6 +617,17 @@ private class ReorderState(
         currentItemStart: Float,
         currentItemEnd: Float,
     ) {
+        if (lazyMode) {
+            lazyAutoScroll(currentItemStart, currentItemEnd)
+        } else {
+            pageAutoScroll(currentItemStart, currentItemEnd)
+        }
+    }
+
+    private fun lazyAutoScroll(
+        currentItemStart: Float,
+        currentItemEnd: Float,
+    ) {
         val viewportStart = listState.layoutInfo.viewportStartOffset
         val viewportEnd = listState.layoutInfo.viewportEndOffset
         val edgePx = 80f
@@ -478,4 +648,74 @@ private class ReorderState(
             listState.scrollBy(scrollDelta)
         }
     }
+
+    /**
+     * The non-lazy list grows to full height inside an externally scrolling page, so edge detection
+     * uses the window viewport (0..[rootHeightPx]) rather than a list viewport. This only sets the
+     * desired direction; the continuous [autoScrollJob] loop performs the actual scrolling so it
+     * keeps going (and ramps up) while the finger is held near an edge without new drag events.
+     */
+    private fun pageAutoScroll(
+        currentItemStart: Float,
+        currentItemEnd: Float,
+    ) {
+        // Edge bands are measured against the scroll viewport (below the app bar / above the bottom
+        // bar) when known, falling back to the raw window if the host didn't publish bounds.
+        val topEdgePx = viewportBounds?.topPx ?: 0f
+        val bottomEdgePx = viewportBounds?.bottomPx ?: rootHeightPx.toFloat()
+        if (pageScrollState == null || bottomEdgePx <= topEdgePx) {
+            autoScrollIntensity = 0f
+            return
+        }
+
+        val itemWindowStart = currentItemStart + containerWindowOffset.y
+        val itemWindowEnd = currentItemEnd + containerWindowOffset.y
+        // Penetration into either edge band, 0 at the band boundary up to 1 at the viewport edge.
+        val topPenetration = (topEdgePx + AUTO_SCROLL_EDGE_PX - itemWindowStart) / AUTO_SCROLL_EDGE_PX
+        val bottomPenetration = (itemWindowEnd - (bottomEdgePx - AUTO_SCROLL_EDGE_PX)) / AUTO_SCROLL_EDGE_PX
+        autoScrollIntensity = when {
+            topPenetration > 0f -> -topPenetration.coerceAtMost(1f)
+            bottomPenetration > 0f -> bottomPenetration.coerceAtMost(1f)
+            else -> 0f
+        }
+
+        if (autoScrollIntensity != 0f && autoScrollJob?.isActive != true) {
+            autoScrollJob = coroutineScope.launch { runPageAutoScroll() }
+        }
+    }
+
+    private suspend fun runPageAutoScroll() {
+        var lastFrameNanos = withFrameNanos { it }
+        var rampMillis = 0f
+        var previousSign = sign(autoScrollIntensity)
+
+        while (autoScrollIntensity != 0f) {
+            val frameNanos = withFrameNanos { it }
+            val dtSeconds = ((frameNanos - lastFrameNanos) / 1_000_000_000f).coerceIn(0f, 0.05f)
+            lastFrameNanos = frameNanos
+
+            val currentSign = sign(autoScrollIntensity)
+            if (currentSign != previousSign) {
+                rampMillis = 0f
+                previousSign = currentSign
+            }
+            rampMillis += dtSeconds * 1000f
+
+            // Ease-in over time from a small floor, then scale by edge proximity: deeper finger = faster.
+            val ramp = (rampMillis / AUTO_SCROLL_RAMP_MILLIS).coerceIn(0f, 1f)
+            val rampFraction = AUTO_SCROLL_MIN_FRACTION + (1f - AUTO_SCROLL_MIN_FRACTION) * ramp * ramp
+            val delta = autoScrollIntensity * AUTO_SCROLL_MAX_PX_PER_SEC * rampFraction * dtSeconds
+
+            val consumed = pageScrollState?.scrollBy(delta) ?: break
+            if (consumed != 0f) {
+                draggingPopupOffset += IntOffset(0, consumed.roundToInt())
+            }
+        }
+        autoScrollJob = null
+    }
 }
+
+private const val AUTO_SCROLL_EDGE_PX = 96f
+private const val AUTO_SCROLL_MAX_PX_PER_SEC = 1600f
+private const val AUTO_SCROLL_RAMP_MILLIS = 650f
+private const val AUTO_SCROLL_MIN_FRACTION = 0.12f

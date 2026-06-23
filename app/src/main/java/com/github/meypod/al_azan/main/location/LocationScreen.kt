@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.location
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -25,11 +26,12 @@ fun LocationScreen(
     getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
 ) {
+    val pageScrollState = rememberScrollState()
     ScreenScaffold(
         title = stringResource(R.string.location_title),
         onBackClick = { NavigationController.navigateBack() },
         modifier = modifier,
-        scrollable = false,
+        scrollState = pageScrollState,
         floatingActionButton = {
             if (uiState.locations.isNotEmpty()) {
                 FloatingActionButton(
@@ -47,7 +49,7 @@ fun LocationScreen(
             }
         },
     ) {
-        LocationScreenContent(uiState, onAction, getCountries, getCities)
+        LocationScreenContent(uiState, onAction, getCountries, getCities, pageScrollState = pageScrollState)
     }
 }
 

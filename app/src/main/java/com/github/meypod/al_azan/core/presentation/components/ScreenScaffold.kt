@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.presentation.components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,8 +19,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,6 +39,15 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
+
+/** Window-space top/bottom (px) of the scrolling content viewport, below the app bar / above the bottom bar. */
+data class PageScrollViewportBounds(
+    val topPx: Float,
+    val bottomPx: Float,
+)
+
+/** Bounds of the nearest [ScreenScaffold] scroll viewport, or null when the host page isn't scrollable. */
+val LocalPageScrollViewportBounds = compositionLocalOf<PageScrollViewportBounds?> { null }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +61,7 @@ fun ScreenScaffold(
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     snackbarHost: @Composable () -> Unit = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
     scrollable: Boolean = true,
+    scrollState: ScrollState? = null,
     contentPadding: PaddingValues? = null,
     verticalArrangement: Arrangement.Vertical? = null,
     bottomBar: @Composable () -> Unit = {},
@@ -51,7 +70,8 @@ fun ScreenScaffold(
     val resolvedPadding = contentPadding ?: PaddingValues(dimensionResource(R.dimen.page_padding))
     val resolvedArrangement =
         verticalArrangement ?: Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))
-    val scrollState = if (scrollable) rememberScrollState() else null
+    val fallbackScrollState = rememberScrollState()
+    val resolvedScrollState = if (scrollable) (scrollState ?: fallbackScrollState) else null
     Scaffold(
         modifier = modifier,
         snackbarHost = snackbarHost,
@@ -75,25 +95,37 @@ fun ScreenScaffold(
         floatingActionButtonPosition = floatingActionButtonPosition,
         bottomBar = bottomBar,
     ) { paddingValues ->
+        var viewportBounds by remember { mutableStateOf<PageScrollViewportBounds?>(null) }
         val inner = Modifier
             .fillMaxSize()
             .padding(paddingValues)
             .then(
-                if (scrollState != null) {
+                if (resolvedScrollState != null) {
                     Modifier
-                        .fadeScrollEdges(scrollState, Orientation.Vertical)
-                        .drawVerticalScrollbar(scrollState)
-                        .verticalScroll(scrollState)
+                        // Capture the scroll viewport (post app-bar inset, pre content padding) so
+                        // descendants detect the real content edges, not the raw window edges. Only
+                        // scrollable screens need this; the node is fixed so it doesn't fire on scroll.
+                        .onGloballyPositioned { coords ->
+                            val top = coords.localToWindow(Offset.Zero).y
+                            viewportBounds = PageScrollViewportBounds(top, top + coords.size.height)
+                        }
+                        .fadeScrollEdges(resolvedScrollState, Orientation.Vertical)
+                        .drawVerticalScrollbar(resolvedScrollState)
+                        .verticalScroll(resolvedScrollState)
                 } else {
                     Modifier
                 },
             )
             .padding(resolvedPadding)
-        Column(
-            modifier = inner,
-            verticalArrangement = resolvedArrangement,
-            content = content,
-        )
+        CompositionLocalProvider(
+            LocalPageScrollViewportBounds provides if (resolvedScrollState != null) viewportBounds else null,
+        ) {
+            Column(
+                modifier = inner,
+                verticalArrangement = resolvedArrangement,
+                content = content,
+            )
+        }
     }
 }
 

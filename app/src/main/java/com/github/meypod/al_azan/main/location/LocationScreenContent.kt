@@ -4,13 +4,13 @@ import android.content.ClipData
 import android.icu.text.DateFormat
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -78,6 +78,7 @@ fun LocationScreenContent(
     getCountries: suspend () -> List<CountryGeoInfo>,
     getCities: suspend (countryCode: String) -> List<CityGeoInfo>,
     modifier: Modifier = Modifier,
+    pageScrollState: ScrollState? = null,
 ) {
     val triggerLocation = rememberLocationAccessHelperDialogs {
         onAction(LocationUiAction.OnTravelModeChange(true))
@@ -198,6 +199,7 @@ fun LocationScreenContent(
                         selectedId = uiState.selectedLocationId,
                         travelModeWorking = uiState.travelModeWorking,
                         triggerLocation = triggerLocation,
+                        pageScrollState = pageScrollState,
                     )
                 }
             }
@@ -384,6 +386,7 @@ private fun LocationList(
     selectedId: String? = null,
     travelModeWorking: Boolean = false,
     triggerLocation: () -> Unit = {},
+    pageScrollState: ScrollState? = null,
 ) {
     val listState = rememberLazyListState()
 
@@ -394,8 +397,9 @@ private fun LocationList(
             onAction(LocationUiAction.OnMoveLocation(fromIndex = fromIndex, toIndex = toIndex))
         },
         listState = listState,
+        scrollable = false,
+        pageScrollState = pageScrollState,
         listModifier = Modifier
-            .heightIn(max = 300.dp)
             .dropShadow(RectangleShape) {
                 this.radius = 2.dp.toPx()
                 this.offset = Offset(0f, 0f)
