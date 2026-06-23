@@ -268,6 +268,8 @@
     <string name="calculation_method">Hesaplama yöntemi</string>
     <string name="calculation_method_select_placeholder">Bir yöntem seçmek için basın</string>
     <string name="calculation_method_modified">%1$s (Değiştirilmiş)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">Bu yöntemde ramazan boyunca yatsı vaktine 30 dakika eklenir</string>
+    <string name="calc_method_turkey_approximation_note">Al-Azan\'da verilen Diyanet yöntemi resmi saatlerin yaklaşık bir değeridir. Zamanların tam olarak nasıl hesaplandığına dair yeterli belge bulunmadığından, özellikle Türkiye dışında zamanlar resmi web sitesiyle uyumlu olmayabilir.</string>
     <string name="fajr_angle">Fecr Açısı</string>
     <string name="isha_angle">Yatsı Açısı</string>
     <string name="isha_interval">Yatsı Aralığı</string>

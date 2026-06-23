@@ -268,6 +268,8 @@
     <string name="calculation_method">نحوه محاسبه</string>
     <string name="calculation_method_select_placeholder">برای انتخاب لمس کنید</string>
     <string name="calculation_method_modified">%1$s (اصلاح‌شده)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">در این روش 30 دقیقه به زمان عشا در ماه رمضان اضافه می شود</string>
+    <string name="calc_method_turkey_approximation_note">روش دیانت ارائه شده در الاذان تقریبی از اوقات رسمی است. از آنجایی که اسناد کافی در مورد نحوه محاسبه دقیق زمان وجود ندارد، ممکن است زمان ها با وب سایت رسمی دیانت، به ویژه خارج از ترکیه، مطابقت نداشته باشند.</string>
     <string name="fajr_angle">زاویه فجر</string>
     <string name="isha_angle">زاویه عشاء</string>
     <string name="isha_interval">فاصله عشاء</string>

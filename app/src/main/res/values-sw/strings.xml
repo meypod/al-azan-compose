@@ -268,6 +268,8 @@
     <string name="calculation_method">Njia ya Kuhesabu</string>
     <string name="calculation_method_select_placeholder">Bonyeza ili kuchagua mbinu</string>
     <string name="calculation_method_modified">%1$s (Iliyorekebishwa)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">Dakika 30 huongezwa kwa wakati wa Isha wakati wa Ramadhani kwa njia hii</string>
+    <string name="calc_method_turkey_approximation_note">Diyaneti ilio kwenye Al-Azan ni kadirio wa mda halali. Kwa sababu uandikaji wa hati ya jinsi gani mida inavyo piga hesabu ni chache, mida haitatukia kabisa na tovuti halisi, sana nje ya Uturuki.</string>
     <string name="fajr_angle">Pembe ya Fajr</string>
     <string name="isha_angle">Pembe ya Isha</string>
     <string name="isha_interval">Muda wa Isha</string>

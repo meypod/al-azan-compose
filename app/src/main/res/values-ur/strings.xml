@@ -268,6 +268,8 @@
     <string name="calculation_method">حساب کتاب کا طریقہ</string>
     <string name="calculation_method_select_placeholder">طریقہ منتخب کرنے کے لیے دبائیں۔</string>
     <string name="calculation_method_modified">%1$s (ترمیم شدہ)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">اس طریقہ سے رمضان میں عشاء کے وقت میں 30 منٹ کا اضافہ کیا جاتا ہے۔</string>
+    <string name="calc_method_turkey_approximation_note">الازان میں فراہم کردہ دیانیت کا طریقہ سرکاری اوقات کا تخمینہ ہے۔ چونکہ اوقات کا صحیح حساب کیسے لگایا جاتا ہے اس کے بارے میں کافی دستاویزات دستیاب نہیں ہیں، ہو سکتا ہے اوقات سرکاری ویب سائٹ کے مطابق نہ ہوں، خاص طور پر ترکی سے باہر۔</string>
     <string name="fajr_angle">فجر زاویہ</string>
     <string name="isha_angle">عشاء زاویہ</string>
     <string name="isha_interval">عشاء کا وقفہ</string>

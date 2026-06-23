@@ -268,6 +268,8 @@
     <string name="calculation_method">طريقة الحساب</string>
     <string name="calculation_method_select_placeholder">اضغط لتحديد طريقة</string>
     <string name="calculation_method_modified">%1$s (مُعدّل)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">يتم إضافة 30 دقيقة إلى وقت صلاة العشاء خلال شهر رمضان</string>
+    <string name="calc_method_turkey_approximation_note">طريقة \"الديانة\" المتوفرة في الأذان، تقريبية للأوقات الرسمية. نظرًا لعدم توفر وثائق كافية حول كيفية حساب الأوقات بدقة، فقد لا تتوافق الأوقات مع الموقع الرسمي، خاصة خارج تركيا.</string>
     <string name="fajr_angle">زاوية الفجر</string>
     <string name="isha_angle">زاوية العشاء</string>
     <string name="isha_interval">فاصل العشاء</string>

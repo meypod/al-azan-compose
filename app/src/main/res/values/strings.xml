@@ -268,6 +268,8 @@
     <string name="calculation_method">Calculation Method</string>
     <string name="calculation_method_select_placeholder">Press to select a method</string>
     <string name="calculation_method_modified">%1$s (Modified)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">30 minutes is added to Isha time during Ramadan in this method.</string>
+    <string name="calc_method_turkey_approximation_note">Diyanet method provided in Al-Azan is an approximation of the official times. Since there\'s not enough documentation available on how the times are exactly calculated, times may not align with the official website, especially out of Turkey.</string>
     <string name="fajr_angle">Fajr Angle</string>
     <string name="isha_angle">Isha Angle</string>
     <string name="isha_interval">Isha Interval</string>

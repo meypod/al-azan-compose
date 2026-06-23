@@ -268,6 +268,8 @@
     <string name="calculation_method">Phương pháp Tính</string>
     <string name="calculation_method_select_placeholder">Nhấn để chọn một phương pháp</string>
     <string name="calculation_method_modified">%1$s (Đã sửa đổi)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">30 phút được thêm vào thời gian Isha trong tháng Ramadan theo phương pháp này</string>
+    <string name="calc_method_turkey_approximation_note">Phương pháp Diyanet được cung cấp ở Al-Azan là phương pháp gần đúng với thời gian chính thức. Vì không có đủ tài liệu về cách tính toán chính xác thời gian nên thời gian có thể không khớp với trang web chính thức, đặc biệt là ngoài Thổ Nhĩ Kỳ.</string>
     <string name="fajr_angle">Góc Fajr</string>
     <string name="isha_angle">Góc Isha</string>
     <string name="isha_interval">Khung Isha</string>

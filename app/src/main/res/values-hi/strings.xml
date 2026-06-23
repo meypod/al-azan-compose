@@ -268,6 +268,8 @@
     <string name="calculation_method">गणना विधि</string>
     <string name="calculation_method_select_placeholder">कोई विधि चुनने के लिए दबाएँ</string>
     <string name="calculation_method_modified">%1$s (संशोधित)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">इस तरीके से रमजान के दौरान ईशा के समय में 30 मिनट जोड़ा जाता है</string>
+    <string name="calc_method_turkey_approximation_note">अल-अज़ान में प्रदान की गई डायनेट पद्धति आधिकारिक समय का एक अनुमान है। चूंकि समय की सटीक गणना कैसे की जाती है, इस पर पर्याप्त दस्तावेज उपलब्ध नहीं हैं, इसलिए समय आधिकारिक वेबसाइट के साथ संरेखित नहीं हो सकता है, खासकर तुर्की से बाहर।</string>
     <string name="fajr_angle">फज्र कोण</string>
     <string name="isha_angle">ईशा कोण</string>
     <string name="isha_interval">ईशा अंतराल</string>

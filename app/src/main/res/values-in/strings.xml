@@ -268,6 +268,8 @@
     <string name="calculation_method">Metode Perhitungan</string>
     <string name="calculation_method_select_placeholder">Tekan untuk memilih metode</string>
     <string name="calculation_method_modified">%1$s (Dimodifikasi)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">30 menit ditambahkan pada waktu Isya selama bulan Ramadan dalam metode ini</string>
+    <string name="calc_method_turkey_approximation_note">Metode Diyanet yang disediakan di Al-Azan adalah perkiraan waktu resmi. Karena tidak ada dokumentasi yang cukup tersedia tentang bagaimana waktu-waktu tersebut dihitung secara tepat, waktu-waktu tersebut mungkin tidak sama dengan situs web resmi, terutama di luar Turki.</string>
     <string name="fajr_angle">Sudut Subuh</string>
     <string name="isha_angle">Sudut Isya\'</string>
     <string name="isha_interval">Interval Isya\'</string>

@@ -88,6 +88,17 @@ fun CalculationSettingsScreen(
                         Text(stringResource(R.string.calculation_method))
                     },
                     placeholder = stringResource(R.string.calculation_method_select_placeholder),
+                    supportingText = when (uiState.calculationParameters?.method) {
+                        CalculationMethod.UMM_AL_QURA -> {
+                            { Text(stringResource(R.string.calc_method_umm_al_qura_ramadan_note)) }
+                        }
+
+                        CalculationMethod.TURKEY -> {
+                            { Text(stringResource(R.string.calc_method_turkey_approximation_note)) }
+                        }
+
+                        else -> null
+                    },
                 )
 
                 var editingParams by remember { mutableStateOf(false) }

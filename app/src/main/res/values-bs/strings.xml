@@ -268,6 +268,8 @@
     <string name="calculation_method">Metoda Kalkulacije</string>
     <string name="calculation_method_select_placeholder">Pritisnite za odabir metode</string>
     <string name="calculation_method_modified">%1$s (modificirano)</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">30 minuta se dodaje na Jaciju tokom Ramazana u ovoj metodi</string>
+    <string name="calc_method_turkey_approximation_note">Diyanet metoda navedena u Al-Azanu je približnost službenog vremena. Budući da nema dovoljno dokumentacije o tome kako se tačno računaju vremena, vremena moguće neće biti usklađena sa službenim web stranicama, posebno izvan Turske.</string>
     <string name="fajr_angle">Kut Sabaha</string>
     <string name="isha_angle">Kut Jacije</string>
     <string name="isha_interval">Interval Jacije</string>
