@@ -64,7 +64,6 @@ import com.github.meypod.al_azan.core.presentation.navigation.NavigationControll
 import com.github.meypod.al_azan.core.presentation.util.drawHorizontalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
-import com.github.meypod.al_azan.core.presentation.util.swipeNavigate
 
 // Breathing room added to the widest measured cell text so glyphs never touch the
 // column edge. Columns are floored at this content width; the table fills the card
@@ -166,12 +165,7 @@ fun MonthlyViewScreen(
 
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
-                Modifier
-                    .fillMaxSize()
-                    .swipeNavigate(
-                        onNext = { onAction(MonthlyViewUiAction.OnNextMonthClick) },
-                        onPrev = { onAction(MonthlyViewUiAction.OnPrevMonthClick) },
-                    ),
+                Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             ) {
                 MonthlyTable(
