@@ -165,12 +165,17 @@ fun ReminderEditSheet(
             Column {
                 SettingLabel(stringResource(R.string.reminder_sound))
                 val defaultSoundLabel = stringResource(R.string.reminder_default_sound)
+                val silentSoundLabel = stringResource(R.string.silent_sound)
                 val repeatSuffix = stringResource(R.string.repeat)
+                val silentEntry = remember(silentSoundLabel) { ReminderAudioEntry.silent(silentSoundLabel) }
                 val muezzinEntries = adhanEntries.mapNotNull { it.toReminderOption(resources) }
                 val sections = listOf(
                     AudioPickerSection(
                         title = null,
-                        options = listOf<ReminderAudioEntry>(ReminderAudioEntry.DefaultReminderAudioEntry),
+                        options = listOf<ReminderAudioEntry>(
+                            silentEntry,
+                            ReminderAudioEntry.DefaultReminderAudioEntry,
+                        ),
                     ),
                     AudioPickerSection(title = stringResource(R.string.muezzin), options = muezzinEntries),
                     AudioPickerSection(title = stringResource(R.string.your_sounds), options = userSounds),
@@ -183,6 +188,12 @@ fun ReminderEditSheet(
                     playingId = playingSoundId,
                     optionKey = { it.soundKey() },
                     optionLabel = { it.soundLabel(defaultSoundLabel, repeatSuffix) },
+                    // The silent track has nothing to hear — drop its preview/play affordance and show a
+                    // static volume-off icon in its place instead.
+                    optionPreviewable = { it.soundKey() != ReminderAudioEntry.SILENT_ID },
+                    optionLeadingIcon = {
+                        R.drawable.outline_volume_off.takeIf { _ -> it.soundKey() == ReminderAudioEntry.SILENT_ID }
+                    },
                     onSelect = {
                         onAction(
                             ReminderUiAction.OnDraftSoundChange(

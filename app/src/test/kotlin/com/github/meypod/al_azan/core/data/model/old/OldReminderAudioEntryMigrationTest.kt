@@ -24,7 +24,6 @@ class OldReminderAudioEntryMigrationTest {
         assertEquals("masjid_an_nabawi", resource.id)
         assertEquals(R.raw.masjid_an_nabawi, resource.resourceId)
         assertEquals(true, resource.loop)
-        assertEquals(true, resource.notif)
     }
 
     /** A sound id this build no longer bundles must not point at a wrong/missing resource. */

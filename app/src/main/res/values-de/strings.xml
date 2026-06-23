@@ -113,6 +113,7 @@
     <string name="device_sounds">Gerätetöne</string>
     <string name="add_from_local_files">Aus lokalen Dateien hinzufügen</string>
     <string name="reminder_default_sound">Standard (Benachrichtigung)</string>
+    <string name="silent_sound">Lautlos</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

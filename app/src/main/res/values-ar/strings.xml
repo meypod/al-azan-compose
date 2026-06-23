@@ -113,6 +113,7 @@
     <string name="device_sounds">أصوات الجهاز</string>
     <string name="add_from_local_files">إضافة من الملفات المحلية</string>
     <string name="reminder_default_sound">افتراضي (إشعار)</string>
+    <string name="silent_sound">صامت</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

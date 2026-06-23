@@ -113,6 +113,7 @@
     <string name="device_sounds">Suara perangkat</string>
     <string name="add_from_local_files">Tambah Dari File Lokal</string>
     <string name="reminder_default_sound">Bawaan (Notifikasi)</string>
+    <string name="silent_sound">Senyap</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

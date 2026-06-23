@@ -24,6 +24,9 @@ import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.NOTIFICATION_AUDIO_ID
+import com.github.meypod.al_azan.core.domain.model.settings.SILENT_AUDIO_ID
+import com.github.meypod.al_azan.core.domain.model.settings.mapAdhanIdToEntry
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
@@ -84,6 +87,9 @@ private fun MuezzinPicker(
                 optionKey = { it.id },
                 optionLabel = audioEntryLabel(),
                 optionCanDelete = { it.id in userIds },
+                // The silent track has nothing to hear — show a static volume-off icon instead of a play button.
+                optionPreviewable = { it.id != SILENT_AUDIO_ID },
+                optionLeadingIcon = { R.drawable.outline_volume_off.takeIf { _ -> it.id == SILENT_AUDIO_ID } },
                 onSelect = { onAction(AdhanSettingsUiAction.OnGlobalMuezzinSelect(it)) },
                 onPreview = { onAction(AdhanSettingsUiAction.OnPreviewAudio(it)) },
                 onStopPreview = { onAction(AdhanSettingsUiAction.OnStopPreview) },
@@ -166,6 +172,10 @@ private fun AdhanAndNotificationCard(
 @Composable
 internal fun muezzinSections(uiState: AdhanSettingsUiState): List<AudioPickerSection<AudioEntry>> =
     listOf(
+        AudioPickerSection(
+            null,
+            listOf(mapAdhanIdToEntry(NOTIFICATION_AUDIO_ID), mapAdhanIdToEntry(SILENT_AUDIO_ID)),
+        ),
         AudioPickerSection(stringResource(R.string.muezzin), uiState.settings.savedAdhanAudioEntries),
         AudioPickerSection(stringResource(R.string.your_sounds), uiState.settings.savedUserAudioEntries),
         AudioPickerSection(stringResource(R.string.device_sounds), uiState.deviceSounds),

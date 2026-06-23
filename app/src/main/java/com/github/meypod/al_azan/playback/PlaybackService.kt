@@ -122,6 +122,10 @@ class PlaybackService :
     private var volumePercent = -1
     private var shouldLoop = false
 
+    // Continuous vibration must outlast a one-shot sound (a single chime, or the silent track): when the
+    // audio ends we keep the service — and thus the vibration — alive until the user dismisses or the cap.
+    private var continuousVibration = false
+
     // Captured from the PLAY intent so a natural end (the adhan/reminder finished, not a user dismiss)
     // can leave a quiet dismissible notification behind, mirroring the old app: the prayer still happened.
     // Main-thread confined — every service callback that touches it (onStartCommand, the MediaPlayer /
@@ -196,6 +200,7 @@ class PlaybackService :
         shouldLoop = intent.getBooleanExtra(EXTRA_LOOP, false)
         val vibration = intent.getStringExtra(EXTRA_VIBRATION)?.let { runCatching { VibrationMode.valueOf(it) }.getOrNull() }
             ?: VibrationMode.Off
+        continuousVibration = vibration == VibrationMode.Continuous
 
         if (isCallActive()) {
             cleanupAndStop()
@@ -269,7 +274,20 @@ class PlaybackService :
         runCatching { mp.start() }
     }
 
-    override fun onCompletion(mp: MediaPlayer) = cleanupAndStop(leaveLingering = true)
+    override fun onCompletion(mp: MediaPlayer) {
+        // A non-looping sound paired with continuous vibration: the audio is done, but the vibration must
+        // keep going until dismissed. Release the finished player yet keep the foreground service (and the
+        // full-screen alarm) alive, bounded by the same loop cap so it can't buzz forever unattended.
+        if (continuousVibration) {
+            runCatching { mp.reset() }
+            runCatching { mp.release() }
+            player = null
+            mainHandler.removeCallbacks(loopCapRunnable)
+            mainHandler.postDelayed(loopCapRunnable, LOOP_CAP_MS)
+        } else {
+            cleanupAndStop(leaveLingering = true)
+        }
+    }
 
     override fun onError(
         mp: MediaPlayer,

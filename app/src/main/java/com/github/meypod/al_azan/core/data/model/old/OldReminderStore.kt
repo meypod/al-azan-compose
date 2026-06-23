@@ -167,7 +167,6 @@ fun OldAudioEntry.toReminderAudioEntry() =
                     label = this.label,
                     canDelete = this.canDelete,
                     loop = this.loop,
-                    notif = this.notif,
                 )
             } ?: ReminderAudioEntry.DefaultReminderAudioEntry
         }
@@ -179,7 +178,6 @@ fun OldAudioEntry.toReminderAudioEntry() =
                 label = this.label,
                 canDelete = this.canDelete,
                 loop = this.loop,
-                notif = this.notif,
             )
         }
 

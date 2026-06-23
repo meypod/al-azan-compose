@@ -23,7 +23,6 @@ class ReminderAudioEntrySerializerTest {
             resourceId = 1234,
             label = "Beep",
             loop = true,
-            notif = true,
         )
         assertEquals(entry, roundTrip(entry))
     }

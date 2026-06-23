@@ -113,6 +113,7 @@
     <string name="device_sounds">Zvukovi uređaja</string>
     <string name="add_from_local_files">Dodaj iz lokalnih datoteka</string>
     <string name="reminder_default_sound">Zadano (obavijest)</string>
+    <string name="silent_sound">Bez zvuka</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

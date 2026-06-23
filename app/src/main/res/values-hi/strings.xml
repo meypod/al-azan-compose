@@ -113,6 +113,7 @@
     <string name="device_sounds">डिवाइस ध्वनियाँ</string>
     <string name="add_from_local_files">लोकल फ़ाइलों से जोड़ें</string>
     <string name="reminder_default_sound">डिफ़ॉल्ट (सूचना)</string>
+    <string name="silent_sound">मौन</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

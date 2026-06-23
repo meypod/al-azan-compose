@@ -68,6 +68,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -222,9 +223,19 @@ fun AlarmFullscreenScreen(
                     color = contentColor,
                     letterSpacing = 2.sp,
                     style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center,
                 )
-                Text(uiState.title, color = contentColor, style = MaterialTheme.typography.displayMedium)
-                Text(uiState.timeLabel, color = contentColor, style = MaterialTheme.typography.headlineLarge)
+                Text(
+                    uiState.title,
+                    color = contentColor,
+                    style = MaterialTheme.typography.displayMedium,
+                )
+                Text(
+                    uiState.timeLabel,
+                    textAlign = TextAlign.Center,
+                    color = contentColor,
+                    style = MaterialTheme.typography.headlineLarge,
+                )
             }
 
             if (menuVisible) {

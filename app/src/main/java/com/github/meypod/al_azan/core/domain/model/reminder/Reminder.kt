@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.domain.model.reminder
 
+import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
@@ -31,6 +32,26 @@ data class Reminder(
 
 @Serializable(with = ReminderAudioEntrySerializer::class)
 sealed interface ReminderAudioEntry {
+
+    companion object {
+        /** Stable id of the bundled silent track ([R.raw.silence]); resolved build-stably in `toAudioUri`. */
+        const val SILENT_ID = "silent"
+
+        /**
+         * "Silent" reminder sound: a [ResourceReminderAudioEntry] backed by the bundled silent track, so it
+         * flows through the normal playback paths (no audio is heard, but vibration/visual behaviour is
+         * driven by the separate vibration setting). [label] is the localized display string.
+         */
+        fun silent(label: String): ResourceReminderAudioEntry =
+            ResourceReminderAudioEntry(
+                id = SILENT_ID,
+                resourceId = R.raw.silence,
+                label = label,
+                canDelete = false,
+                loop = false,
+            )
+    }
+
     val loop: Boolean
 
     @Serializable
@@ -40,7 +61,6 @@ sealed interface ReminderAudioEntry {
         val label: String,
         val canDelete: Boolean = false,
         override val loop: Boolean = false,
-        val notif: Boolean = false,
     ) : ReminderAudioEntry
 
     @Serializable
@@ -50,14 +70,12 @@ sealed interface ReminderAudioEntry {
         val label: String,
         val canDelete: Boolean = true,
         override val loop: Boolean = false,
-        val notif: Boolean = false,
     ) : ReminderAudioEntry
 
     @Serializable
     object DefaultReminderAudioEntry : ReminderAudioEntry {
         val id = "default"
         val canDelete = false
-        val notif = true
         override val loop = false
     }
 }

@@ -113,6 +113,7 @@
     <string name="device_sounds">ڈیوائس کی آوازیں۔</string>
     <string name="add_from_local_files">مقامی فائلوں سے شامل کریں</string>
     <string name="reminder_default_sound">طے شدہ (اطلاع)</string>
+    <string name="silent_sound">خاموش</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

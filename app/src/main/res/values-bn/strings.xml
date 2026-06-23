@@ -113,6 +113,7 @@
     <string name="device_sounds">ডিভাইসের শব্দ</string>
     <string name="add_from_local_files">লোকাল ফাইল থেকে যোগ করুন</string>
     <string name="reminder_default_sound">ডিফল্ট (নোটিফিকেশন)</string>
+    <string name="silent_sound">নীরব</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

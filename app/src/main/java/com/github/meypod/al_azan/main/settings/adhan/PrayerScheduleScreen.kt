@@ -22,7 +22,10 @@ import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.NOTIFICATION_AUDIO_ID
+import com.github.meypod.al_azan.core.domain.model.settings.SILENT_AUDIO_ID
 import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
+import com.github.meypod.al_azan.core.domain.model.settings.mapAdhanIdToEntry
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerSection
@@ -65,7 +68,10 @@ fun PrayerScheduleScreen(
     val labelFn = audioEntryLabel()
     val userIds = uiState.settings.savedUserAudioEntries.map { it.id }.toSet()
     val muezzinSections = listOf<AudioPickerSection<AudioEntry?>>(
-        AudioPickerSection(null, listOf<AudioEntry?>(null)),
+        AudioPickerSection(
+            null,
+            listOf<AudioEntry?>(null, mapAdhanIdToEntry(NOTIFICATION_AUDIO_ID), mapAdhanIdToEntry(SILENT_AUDIO_ID)),
+        ),
         AudioPickerSection(stringResource(R.string.muezzin), uiState.settings.savedAdhanAudioEntries),
         AudioPickerSection(stringResource(R.string.your_sounds), uiState.settings.savedUserAudioEntries),
         AudioPickerSection(stringResource(R.string.device_sounds), uiState.deviceSounds),
@@ -148,6 +154,9 @@ fun PrayerScheduleScreen(
                 // The "use default" item previews the resolved global muezzin, so its play/stop state
                 // tracks that sound's id rather than the synthetic default key.
                 optionPreviewKey = { it?.id ?: globalDefaultMuezzin?.id ?: DEFAULT_MUEZZIN_KEY },
+                // The silent track has nothing to hear — show a static volume-off icon instead of a play button.
+                optionPreviewable = { it?.id != SILENT_AUDIO_ID },
+                optionLeadingIcon = { if (it?.id == SILENT_AUDIO_ID) R.drawable.outline_volume_off else null },
                 optionCanDelete = { it != null && it.id in userIds },
                 onSelect = { onAction(AdhanSettingsUiAction.OnScheduleMuezzinChange(prayer, it)) },
                 onPreview = { (it ?: globalDefaultMuezzin)?.let { e -> onAction(AdhanSettingsUiAction.OnPreviewAudio(e)) } },

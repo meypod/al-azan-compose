@@ -113,6 +113,7 @@
     <string name="device_sounds">Sauti za chombo</string>
     <string name="add_from_local_files">Ongeza Kutoka kwa Faili za Ndani</string>
     <string name="reminder_default_sound">Chaguomsingi (Ujulisho)</string>
+    <string name="silent_sound">Kimya</string>
 
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)

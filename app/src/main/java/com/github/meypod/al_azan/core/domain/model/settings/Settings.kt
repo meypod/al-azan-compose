@@ -31,6 +31,21 @@ private enum class DefaultAdhanEntryId(
     MoazenZade("moazen_zade"),
 }
 
+/**
+ * Stable id of the bundled silent track ([R.raw.silence]). A "muezzin" that plays no audio: selecting it
+ * keeps the sound path active (a real, inaudible uri) so vibration/full-screen still work — unlike turning
+ * the Sound toggle off, which is notify-only with no vibration. Shared with the reminder silent option.
+ */
+const val SILENT_AUDIO_ID = "silent"
+
+/**
+ * Stable id of the "default notification" muezzin: it has no bundled resource, its uri is resolved
+ * dynamically to the system notification sound at fire time (see `AudioEntry.toAudioUri`). The
+ * [AudioEntry.ResourceAudioEntry.resId] below is a non-null placeholder only so this round-trips as a
+ * bundled (Resource) entry through [AudioEntrySerializer] and reads as resolvable — it is never played.
+ */
+const val NOTIFICATION_AUDIO_ID = "notification_default"
+
 fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
     mapAdhanIdToEntryOrNull(key) ?: mapAdhanIdToEntry(DefaultAdhanEntryId.MasjidAnNabawi.key)
 
@@ -41,6 +56,18 @@ fun mapAdhanIdToEntry(key: String): AudioEntry.ResourceAudioEntry =
  */
 fun mapAdhanIdToEntryOrNull(key: String): AudioEntry.ResourceAudioEntry? =
     when (key) {
+        SILENT_AUDIO_ID -> AudioEntry.ResourceAudioEntry(
+            SILENT_AUDIO_ID,
+            R.raw.silence,
+            R.string.silent_sound,
+        )
+
+        NOTIFICATION_AUDIO_ID -> AudioEntry.ResourceAudioEntry(
+            NOTIFICATION_AUDIO_ID,
+            R.raw.silence,
+            R.string.reminder_default_sound,
+        )
+
         DefaultAdhanEntryId.MasjidAnNabawi.key -> AudioEntry.ResourceAudioEntry(
             DefaultAdhanEntryId.MasjidAnNabawi.key,
             R.raw.masjid_an_nabawi,

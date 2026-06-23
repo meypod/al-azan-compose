@@ -1,9 +1,11 @@
 package com.github.meypod.al_azan.core.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -22,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 
 @Immutable
@@ -52,6 +55,9 @@ fun <T> AudioPickerField(
     modifier: Modifier = Modifier,
     optionCanDelete: (T) -> Boolean = { false },
     optionPreviewable: (T) -> Boolean = { true },
+    // Static leading icon (drawable res) for a non-previewable option, shown where the play button would
+    // be so the row aligns with its siblings instead of reading as a bare header. Ignored when previewable.
+    optionLeadingIcon: (T) -> Int? = { null },
     optionSubtitle: (T) -> String? = { null },
     // The id whose playback this option drives — usually its own key, but an option that delegates to
     // another sound (e.g. "use default") returns that sound's id so the play/stop state stays in sync.
@@ -109,6 +115,7 @@ fun <T> AudioPickerField(
                         selected = isSelected,
                         playing = playingId == previewKey,
                         previewable = optionPreviewable(option),
+                        leadingIcon = optionLeadingIcon(option),
                         canDelete = onDelete != null && optionCanDelete(option),
                         onPlayToggle = { if (playingId == previewKey) onStopPreview() else onPreview(option) },
                         onClick = { onSelectAndDismiss(option) },
@@ -172,6 +179,7 @@ private fun AudioOptionRow(
     selected: Boolean,
     playing: Boolean,
     previewable: Boolean,
+    leadingIcon: Int?,
     canDelete: Boolean,
     onPlayToggle: () -> Unit,
     onClick: () -> Unit,
@@ -191,10 +199,29 @@ private fun AudioOptionRow(
             }
         },
         onClick = onClick,
-        leadingIcon = if (previewable) {
-            { PreviewIconButton(playing = playing, onToggle = onPlayToggle) }
-        } else {
-            null
+        leadingIcon = when {
+            previewable -> {
+                { PreviewIconButton(playing = playing, onToggle = onPlayToggle) }
+            }
+
+            leadingIcon != null -> {
+                {
+                    // Match the play button's footprint (an IconButton's min touch target) so this row's
+                    // label aligns with the previewable rows above it.
+                    Box(
+                        modifier = Modifier.size(48.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            painterResource(leadingIcon),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+
+            else -> null
         },
         trailingIcon = if (selected || canDelete) {
             {
