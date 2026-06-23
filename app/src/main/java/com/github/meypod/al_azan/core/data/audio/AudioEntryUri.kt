@@ -11,12 +11,13 @@ import com.github.meypod.al_azan.core.domain.model.settings.NOTIFICATION_AUDIO_I
 fun AudioEntry.toAudioUri(context: Context): Uri? =
     when (this) {
         is AudioEntry.ResourceAudioEntry ->
-            if (id == NOTIFICATION_AUDIO_ID) {
-                // Resolved live (not from resId) so it follows the user's current system notification sound.
-                RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
-                    ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            } else {
-                resId?.let { "android.resource://${context.packageName}/$it".toUri() }
+            when (id) {
+                NOTIFICATION_AUDIO_ID ->
+                    // Resolved live (not from resId) so it follows the user's current system notification sound.
+                    RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
+                        ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+                else -> resId?.let { "android.resource://${context.packageName}/$it".toUri() }
             }
 
         is AudioEntry.ExternalAudioEntry -> filepath?.toUri()

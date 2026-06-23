@@ -2,10 +2,8 @@ package com.github.meypod.al_azan.core.data.audio
 
 import android.content.Context
 import android.media.AudioManager
-import android.net.Uri
 import android.widget.Toast
 import androidx.core.content.getSystemService
-import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
@@ -35,7 +33,7 @@ class AudioPreviewPlayerImpl(
 
     override fun play(entry: AudioEntry) {
         scope.launch {
-            val uri = entry.toUri() ?: return@launch
+            val uri = entry.toAudioUri(context) ?: return@launch
             AdhanPreviewPlaybackService.play(context, uri, entry.id, entry.label(), entry.loop)
             warnIfMediaMuted()
         }
@@ -67,14 +65,6 @@ class AudioPreviewPlayerImpl(
         scope.cancel()
         stop()
     }
-
-    private fun AudioEntry.toUri(): Uri? =
-        when (this) {
-            is AudioEntry.ResourceAudioEntry ->
-                resId?.let { "android.resource://${context.packageName}/$it".toUri() }
-
-            is AudioEntry.ExternalAudioEntry -> filepath?.toUri()
-        }
 
     private fun AudioEntry.label(): String =
         when (this) {
