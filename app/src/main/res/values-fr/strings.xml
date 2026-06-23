@@ -225,6 +225,11 @@
     <string name="countdown_skip_non_prayers_help">Ignorer le lever du soleil, le coucher du soleil, minuit et le tahajjud lors du compte à rebours vers le prochain horaire.</string>
     <string name="highlight_current_prayer_time">Mettre en évidence l\'horaire de prière actuel</string>
     <string name="highlight_current_prayer_time_help">Mettre en évidence l\'horaire de prière actuel au lieu du suivant.</string>
+    <string name="home_shortcuts">Raccourcis de l\'écran d\'accueil</string>
+    <string name="show_home_qibla_button">Afficher le bouton Qibla</string>
+    <string name="show_home_qibla_button_help">Afficher un raccourci vers la boussole Qibla dans la barre d\'outils de l\'écran d\'accueil.</string>
+    <string name="show_home_counter_button">Afficher le bouton Compteur de Qada</string>
+    <string name="show_home_counter_button_help">Afficher un raccourci vers le Compteur de Qada dans la barre d\'outils de l\'écran d\'accueil.</string>
     <string name="hijri_day_starts_at_maghrib">La date hégirienne avance à l\'heure du Maghrib</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>

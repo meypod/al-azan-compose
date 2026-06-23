@@ -225,6 +225,11 @@
     <string name="countdown_skip_non_prayers_help">Ruka macheo, machweo, katikati ya usiku na tahajjud unapohesabu hadi wakati unaofuata.</string>
     <string name="highlight_current_prayer_time">Angazia wakati wa swala wa sasa</string>
     <string name="highlight_current_prayer_time_help">Angazia wakati wa swala wa sasa badala ya unaofuata.</string>
+    <string name="home_shortcuts">Njia za mkato za skrini ya nyumbani</string>
+    <string name="show_home_qibla_button">Onyesha kitufe cha Kibla</string>
+    <string name="show_home_qibla_button_help">Onyesha njia ya mkato ya dira ya Kibla kwenye upau wa vidhibiti wa skrini ya nyumbani.</string>
+    <string name="show_home_counter_button">Onyesha kitufe cha Kaunta ya Qada</string>
+    <string name="show_home_counter_button_help">Onyesha njia ya mkato ya Kaunta ya Qada kwenye upau wa vidhibiti wa skrini ya nyumbani.</string>
     <string name="hijri_day_starts_at_maghrib">Tarehe ya Hijria husonga mbele wakati wa Magharibi</string>
     <string name="use_24_hour_format">Tumia umbizo la Saa 24</string>
     <string name="numbering_system">Mfumo wa Unambarishaji</string>

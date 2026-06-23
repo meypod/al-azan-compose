@@ -211,6 +211,24 @@ fun HomeScreen(
                             )
                         }
                     },
+                    actions = {
+                        if (uiState.showQiblaButton) {
+                            IconButton(onClick = { onAction(HomeUiAction.OnQiblaShortcutClick) }) {
+                                Icon(
+                                    painterResource(R.drawable.compass_outline),
+                                    contentDescription = stringResource(R.string.qibla),
+                                )
+                            }
+                        }
+                        if (uiState.showCounterButton) {
+                            IconButton(onClick = { onAction(HomeUiAction.OnCounterLinkClick) }) {
+                                Icon(
+                                    painterResource(R.drawable.counter),
+                                    contentDescription = stringResource(R.string.counter),
+                                )
+                            }
+                        }
+                    },
                 )
             },
             floatingActionButton = {

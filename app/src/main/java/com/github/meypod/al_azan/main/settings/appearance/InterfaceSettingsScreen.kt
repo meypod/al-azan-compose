@@ -70,6 +70,7 @@ fun InterfaceSettingsScreen(
         TimeFormatCard(uiState, onAction)
         NumberingSystemCard(uiState, onAction)
         CalendarsCard(uiState, onAction)
+        HomeShortcutsCard(uiState, onAction)
     }
 }
 
@@ -175,6 +176,33 @@ private fun HighlightCurrentPrayerCard(
                 subtitle = stringResource(R.string.highlight_current_prayer_time_help),
                 checked = uiState.settings.highlightCurrentPrayer,
                 onCheckedChange = { onAction(InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle(it)) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun HomeShortcutsCard(
+    uiState: InterfaceSettingsUiState,
+    onAction: (InterfaceSettingsUiAction) -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(
+            Modifier.padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            SettingLabel(stringResource(R.string.home_shortcuts), fontWeight = FontWeight.Medium)
+            SettingSwitch(
+                title = stringResource(R.string.show_home_qibla_button),
+                subtitle = stringResource(R.string.show_home_qibla_button_help),
+                checked = uiState.settings.showHomeQiblaButton,
+                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnShowHomeQiblaButtonToggle(it)) },
+            )
+            SettingSwitch(
+                title = stringResource(R.string.show_home_counter_button),
+                subtitle = stringResource(R.string.show_home_counter_button_help),
+                checked = uiState.settings.showHomeCounterButton,
+                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnShowHomeCounterButtonToggle(it)) },
             )
         }
     }
@@ -422,6 +450,14 @@ private fun CountdownCardPreview() {
 private fun HighlightCurrentPrayerCardPreview() {
     AlAzanThemePreview {
         HighlightCurrentPrayerCard(uiState = InterfaceSettingsUiState(), onAction = {})
+    }
+}
+
+@Preview
+@Composable
+private fun HomeShortcutsCardPreview() {
+    AlAzanThemePreview {
+        HomeShortcutsCard(uiState = InterfaceSettingsUiState(), onAction = {})
     }
 }
 

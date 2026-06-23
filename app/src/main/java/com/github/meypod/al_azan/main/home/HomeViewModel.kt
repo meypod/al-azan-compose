@@ -150,6 +150,7 @@ class HomeViewModel
             HomeUiAction.OnShowTodayClick -> onShowTodayClick()
             HomeUiAction.OnReminderLinkClick -> onReminderLinkClick()
             HomeUiAction.OnQiblaLinkClick -> onQiblaLinkClick()
+            HomeUiAction.OnQiblaShortcutClick -> onQiblaShortcutClick()
             HomeUiAction.OnCounterLinkClick -> onCounterLinkClick()
             HomeUiAction.OnSettingsLinkClick -> onSettingsLinkClick()
             HomeUiAction.OnUpcomingAlarmsClick -> onUpcomingAlarmsClick()
@@ -197,6 +198,12 @@ class HomeViewModel
 
     private fun onQiblaLinkClick() {
         NavigationController.navigateTo(Route.Main.Qibla)
+    }
+
+    /** Home toolbar shortcut: skip the intro/map once the disclaimer is acknowledged. */
+    private fun onQiblaShortcutClick() {
+        val understood = latestSettings?.qiblaFinderUnderstood ?: false
+        NavigationController.navigateTo(if (understood) Route.Main.QiblaCompass else Route.Main.Qibla)
     }
 
     private fun onCounterLinkClick() {
@@ -324,6 +331,8 @@ class HomeViewModel
                         is24Hour = settings.is24HourFormat,
                         hiddenPrayers = settings.hiddenPrayers,
                         isDeveloper = settings.devMode,
+                        showQiblaButton = settings.showHomeQiblaButton,
+                        showCounterButton = settings.showHomeCounterButton,
                     )
                 }
             }.collect()

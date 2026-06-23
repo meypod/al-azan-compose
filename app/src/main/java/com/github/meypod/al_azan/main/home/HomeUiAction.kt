@@ -9,6 +9,7 @@ sealed interface HomeUiAction {
     object OnCalendarDateClick : HomeUiAction
     object OnReminderLinkClick : HomeUiAction
     object OnQiblaLinkClick : HomeUiAction
+    object OnQiblaShortcutClick : HomeUiAction
     object OnCounterLinkClick : HomeUiAction
     object OnSettingsLinkClick : HomeUiAction
     object OnUpcomingAlarmsClick : HomeUiAction

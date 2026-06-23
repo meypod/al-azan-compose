@@ -31,4 +31,6 @@ data class HomeUiState(
     val hiddenPrayers: List<Prayer> = emptyList(),
     val skippedPrayers: Set<Prayer> = emptySet(),
     val isDeveloper: Boolean = false,
+    val showQiblaButton: Boolean = false,
+    val showCounterButton: Boolean = false,
 )

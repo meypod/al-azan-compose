@@ -225,6 +225,11 @@
     <string name="countdown_skip_non_prayers_help">Sonnenaufgang, Sonnenuntergang, Mitternacht und Tahajjud beim Herunterzählen zur nächsten Zeit überspringen.</string>
     <string name="highlight_current_prayer_time">Aktuelle Gebetszeit hervorheben</string>
     <string name="highlight_current_prayer_time_help">Hebt die aktuelle Gebetszeit anstelle der nächsten hervor.</string>
+    <string name="home_shortcuts">Startbildschirm-Verknüpfungen</string>
+    <string name="show_home_qibla_button">Qibla-Schaltfläche anzeigen</string>
+    <string name="show_home_qibla_button_help">Eine Qibla-Kompass-Verknüpfung in der Symbolleiste des Startbildschirms anzeigen.</string>
+    <string name="show_home_counter_button">Qada-Zähler-Schaltfläche anzeigen</string>
+    <string name="show_home_counter_button_help">Eine Qada-Zähler-Verknüpfung in der Symbolleiste des Startbildschirms anzeigen.</string>
     <string name="hijri_day_starts_at_maghrib">Hidschri-Datum wechselt zur Maghrib-Zeit</string>
     <string name="use_24_hour_format">Das 24-Stunden-Format verwenden</string>
     <string name="numbering_system">Nummerierungssystem</string>

@@ -225,6 +225,11 @@
     <string name="countdown_skip_non_prayers_help">Lewati terbit, terbenam, tengah malam, dan tahajjud saat menghitung mundur ke waktu berikutnya.</string>
     <string name="highlight_current_prayer_time">Sorot waktu sholat saat ini</string>
     <string name="highlight_current_prayer_time_help">Sorot waktu sholat saat ini alih-alih yang berikutnya.</string>
+    <string name="home_shortcuts">Pintasan layar beranda</string>
+    <string name="show_home_qibla_button">Tampilkan tombol Kiblat</string>
+    <string name="show_home_qibla_button_help">Tampilkan pintasan kompas Kiblat di bilah alat layar beranda.</string>
+    <string name="show_home_counter_button">Tampilkan tombol Penghitung Qada</string>
+    <string name="show_home_counter_button_help">Tampilkan pintasan Penghitung Qada di bilah alat layar beranda.</string>
     <string name="hijri_day_starts_at_maghrib">Tanggal Hijriah berganti saat waktu Maghrib</string>
     <string name="use_24_hour_format">Gunakan format 24 Jam</string>
     <string name="numbering_system">Sistem penomoran</string>

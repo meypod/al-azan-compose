@@ -225,6 +225,11 @@
     <string name="countdown_skip_non_prayers_help">هنگام شمارش معکوس تا وقت بعدی، طلوع، غروب، نیمه‌شب و تهجد نادیده گرفته شوند.</string>
     <string name="highlight_current_prayer_time">برجسته کردن وقت شرعی فعلی</string>
     <string name="highlight_current_prayer_time_help">به‌جای وقت بعدی، وقت شرعی فعلی برجسته شود.</string>
+    <string name="home_shortcuts">میان‌برهای صفحه اصلی</string>
+    <string name="show_home_qibla_button">نمایش دکمه قبله</string>
+    <string name="show_home_qibla_button_help">نمایش میان‌بر قبله‌نما در نوار ابزار صفحه اصلی.</string>
+    <string name="show_home_counter_button">نمایش دکمه شمارنده قضا</string>
+    <string name="show_home_counter_button_help">نمایش میان‌بر شمارنده قضا در نوار ابزار صفحه اصلی.</string>
     <string name="hijri_day_starts_at_maghrib">تاریخ هجری هنگام مغرب جلو می‌رود</string>
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
     <string name="numbering_system">سیستم شماره‌گذاری</string>
@@ -497,7 +502,7 @@
     <string name="qibla_i_understand">متوجه شدم</string>
     <string name="qibla_use_map">استفاده از نقشه</string>
     <string name="qibla_use_compass">استفاده از قطب‌نما</string>
-    <string name="qibla_compass">قطب‌نمای قبله</string>
+    <string name="qibla_compass">قبله‌نما</string>
     <string name="qibla_location_label">موقعیت:</string>
     <string name="qibla_location_from_settings">از تنظیمات</string>
     <string name="qibla_label">قبله:</string>

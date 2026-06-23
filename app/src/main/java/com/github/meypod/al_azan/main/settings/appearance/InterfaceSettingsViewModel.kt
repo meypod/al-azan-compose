@@ -42,6 +42,12 @@ class InterfaceSettingsViewModel @Inject constructor(
 
             is InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle -> onHighlightCurrentPrayerToggle(action)
 
+            is InterfaceSettingsUiAction.OnShowHomeQiblaButtonToggle ->
+                update { it.copy(showHomeQiblaButton = action.value) }
+
+            is InterfaceSettingsUiAction.OnShowHomeCounterButtonToggle ->
+                update { it.copy(showHomeCounterButton = action.value) }
+
             is InterfaceSettingsUiAction.OnTimeFormatToggle -> onTimeFormatToggle(action)
 
             is InterfaceSettingsUiAction.OnNumberingSystemChange -> onNumberingSystemChange(action)
@@ -56,8 +62,7 @@ class InterfaceSettingsViewModel @Inject constructor(
         viewModelScope.launch { changeLanguageUseCase(action.value) }
     }
 
-    private fun onThemeChange(action: InterfaceSettingsUiAction.OnThemeChange) =
-        update { it.copy(themeColor = action.value) }
+    private fun onThemeChange(action: InterfaceSettingsUiAction.OnThemeChange) = update { it.copy(themeColor = action.value) }
 
     private fun onPrayerVisibilityChange(action: InterfaceSettingsUiAction.OnPrayerVisibilityChange) =
         update { settings ->
@@ -79,8 +84,7 @@ class InterfaceSettingsViewModel @Inject constructor(
     private fun onHighlightCurrentPrayerToggle(action: InterfaceSettingsUiAction.OnHighlightCurrentPrayerToggle) =
         update { it.copy(highlightCurrentPrayer = action.value) }
 
-    private fun onTimeFormatToggle(action: InterfaceSettingsUiAction.OnTimeFormatToggle) =
-        update { it.copy(is24HourFormat = action.use24) }
+    private fun onTimeFormatToggle(action: InterfaceSettingsUiAction.OnTimeFormatToggle) = update { it.copy(is24HourFormat = action.use24) }
 
     private fun onNumberingSystemChange(action: InterfaceSettingsUiAction.OnNumberingSystemChange) =
         update { it.copy(numberingSystem = action.value) }
