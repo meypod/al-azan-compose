@@ -119,6 +119,7 @@ fun ShariaTimeRow(
                             .dashedBorder(
                                 borderColor = if (classic && highlighted) DarkTertiaryContainer else textColor,
                                 shape = if (classic) MaterialTheme.shapes.medium else MaterialTheme.shapes.extraLarge,
+                                strokeWidth = if (classic && highlighted) 7f else 3f,
                             )
                     } else if (classic) {
                         val highlighted = state.highlightState == HighlightState.Highlighted
@@ -137,6 +138,7 @@ fun ShariaTimeRow(
                             .solidBorder(
                                 borderColor = if (highlighted) DarkTertiary else textColor,
                                 shape = MaterialTheme.shapes.medium,
+                                strokeWidth = if (highlighted) 7f else 3f,
                             )
                     } else {
                         Modifier
