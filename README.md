@@ -2,6 +2,8 @@
 
 an open-source Adhan (أذان) - prayer times application, built natively for Android with Jetpack Compose.
 
+> This is a rewrite of the original [al-azan](https://github.com/meypod/al-azan/) (React Native) app.
+
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.github.meypod.al_azan/)
