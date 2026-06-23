@@ -148,6 +148,12 @@ fun QiblaCompassScreen(
         },
     )
 
+    // Mirror the legacy app: grab a fresh GPS fix automatically the first time the compass opens,
+    // instead of waiting for a manual refresh tap.
+    LaunchedEffect(Unit) {
+        triggerLocation(false)
+    }
+
     ScreenScaffold(
         title = stringResource(R.string.qibla_compass),
         onBackClick = { NavigationController.navigateBack() },
@@ -207,7 +213,7 @@ fun QiblaCompassScreen(
                     uiState = uiState,
                     accuracy = accuracy,
                     isFetchingLocation = isFetchingLocation,
-                    onRefreshLocation = triggerLocation,
+                    onRefreshLocation = { triggerLocation(true) },
                 )
             }
         }

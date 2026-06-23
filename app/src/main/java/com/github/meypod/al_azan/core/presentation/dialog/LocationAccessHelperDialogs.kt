@@ -25,11 +25,14 @@ import kotlinx.coroutines.launch
 fun rememberLocationAccessHelperDialogs(
     onLocation: ((CalculationLocationDetail) -> Unit)? = null,
     onPermissionGranted: (() -> Unit)? = null,
-): () -> Unit {
+): (Boolean) -> Unit {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val showLocationDisabledDialog = remember { mutableStateOf(false) }
     val showPermissionDeniedDialog = remember { mutableStateOf(false) }
+    // Whether the in-flight request should surface the disabled/denied dialogs. Auto-triggers (e.g.
+    // the qibla compass grabbing GPS on open) request silently so a denial doesn't nag the user.
+    val showFeedbackForPendingRequest = remember { mutableStateOf(true) }
     val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted || context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             showPermissionDeniedDialog.value = false
@@ -47,7 +50,7 @@ fun rememberLocationAccessHelperDialogs(
                     }
                 }
             }
-        } else {
+        } else if (showFeedbackForPendingRequest.value) {
             showPermissionDeniedDialog.value = true
         }
     }
@@ -60,9 +63,10 @@ fun rememberLocationAccessHelperDialogs(
     }
 
     val triggerLocation = remember {
-        {
+        { showFeedback: Boolean ->
+            showFeedbackForPendingRequest.value = showFeedback
             if (!LocationUtils.isLocationEnabled(context)) {
-                showLocationDisabledDialog.value = true
+                if (showFeedback) showLocationDisabledDialog.value = true
             } else {
                 permLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }

@@ -278,7 +278,7 @@ private fun NewLocationDialogContent(
                     onClick = {
                         if (uiState.fetchingLocation) return@PrimaryButton
                         uiState = uiState.copy(fetchingLocation = true)
-                        triggerLocation()
+                        triggerLocation(true)
                     },
                 ) {
                     Row(
