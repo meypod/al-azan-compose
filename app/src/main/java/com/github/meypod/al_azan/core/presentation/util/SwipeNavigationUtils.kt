@@ -24,8 +24,8 @@ import kotlin.math.abs
 fun Modifier.swipeNavigate(
     onNext: () -> Unit,
     onPrev: () -> Unit,
-    minVelocity: Dp = 320.dp,
-    minDistance: Dp = 32.dp,
+    minVelocity: Dp = 600.dp,
+    minDistance: Dp = 72.dp,
 ): Modifier =
     composed {
         val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
