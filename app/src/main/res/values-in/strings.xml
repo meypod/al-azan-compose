@@ -213,6 +213,8 @@
          Interface / appearance settings  (main/settings/appearance)
          ============================================================ -->
     <string name="language">Bahasa</string>
+    <string name="display_size">Ukuran Tampilan</string>
+    <string name="display_size_help">Skalakan ukuran teks dan elemen antarmuka di seluruh aplikasi.</string>
     <string name="themes">Tema</string>
     <string name="theme_light">Terang</string>
     <string name="theme_dark">Gelap</string>

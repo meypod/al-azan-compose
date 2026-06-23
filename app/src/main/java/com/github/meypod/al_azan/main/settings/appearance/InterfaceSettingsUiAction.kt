@@ -14,6 +14,10 @@ sealed interface InterfaceSettingsUiAction {
         val value: ThemeColor,
     ) : InterfaceSettingsUiAction
 
+    data class OnDisplayScaleChange(
+        val value: Float,
+    ) : InterfaceSettingsUiAction
+
     data class OnPrayerVisibilityChange(
         val prayer: Prayer,
         val visible: Boolean,

@@ -108,6 +108,8 @@ data class Settings(
     val deliveredAlarmTimestamps: Map<String, Long?> = emptyMap(),
     val themeColor: ThemeColor = ThemeColor.Default,
     val is24HourFormat: Boolean = true,
+    /** App-wide UI scale multiplier (text + interface) applied on top of the system density. 1f = no change. */
+    val displayScale: Float = 1f,
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val highlightCurrentPrayer: Boolean = false,
     val selectedLocale: String,

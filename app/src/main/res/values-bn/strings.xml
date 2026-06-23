@@ -213,6 +213,8 @@
          Interface / appearance settings  (main/settings/appearance)
          ============================================================ -->
     <string name="language">ভাষা</string>
+    <string name="display_size">ডিসপ্লের আকার</string>
+    <string name="display_size_help">অ্যাপ জুড়ে টেক্সট ও ইন্টারফেস উপাদানের আকার পরিবর্তন করুন।</string>
     <string name="themes">থিম</string>
     <string name="theme_light">লাইট</string>
     <string name="theme_dark">ডার্ক</string>

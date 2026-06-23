@@ -9,8 +9,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.core.view.WindowCompat
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 
@@ -168,6 +172,7 @@ private val DarkHighContrastColorScheme = darkColorScheme(
 @Composable
 fun AlAzanTheme(
     themeColor: ThemeColor = ThemeColor.Default,
+    displayScale: Float = 1f,
     content: @Composable () -> Unit,
 ) {
     val systemDarkTheme = isSystemInDarkTheme()
@@ -212,9 +217,18 @@ fun AlAzanTheme(
         }
     }
 
+    val density = LocalDensity.current
+    // Scale the dp density (not fontScale) so the whole UI — text, icons, spacing — zooms uniformly
+    // by the slider. sp grows through density too, so text isn't scaled twice; the system font scale
+    // stays in fontScale and still stacks on top.
+    val scaledDensity = remember(density, displayScale) {
+        Density(density.density * displayScale, density.fontScale)
+    }
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content,
-    )
+    ) {
+        CompositionLocalProvider(LocalDensity provides scaledDensity, content = content)
+    }
 }

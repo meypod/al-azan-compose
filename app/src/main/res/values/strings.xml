@@ -213,6 +213,9 @@
          Interface / appearance settings  (main/settings/appearance)
          ============================================================ -->
     <string name="language">Language</string>
+    <string name="display_size">Display Size</string>
+    <string name="display_size_help">Scale the size of text and interface elements throughout the app.</string>
+    <string name="reset">Reset</string>
     <string name="themes">Themes</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>

@@ -15,10 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +58,8 @@ import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +74,7 @@ fun InterfaceSettingsScreen(
         modifier = modifier,
     ) {
         LanguageCard(uiState, onAction)
+        DisplaySizeCard(uiState, onAction)
         ThemesCard(uiState, onAction)
         PrayerVisibilityCard(uiState, onAction)
         CountdownCard(uiState, onAction)
@@ -71,6 +83,100 @@ fun InterfaceSettingsScreen(
         NumberingSystemCard(uiState, onAction)
         CalendarsCard(uiState, onAction)
         HomeShortcutsCard(uiState, onAction)
+    }
+}
+
+private const val DisplayScaleMin = 0.6f
+private const val DisplayScaleMax = 1.5f
+
+// Discrete ticks between the ends, giving 0.1 increments across [0.6, 1.5].
+// 100% lands on the fifth tick — two notches right of where it sat with min 0.8.
+private const val DisplayScaleSteps = 8
+private const val DisplayScaleStep = 0.1f
+
+// Snap to the nearest 0.1 tick and clamp, so the +/- steppers stay aligned with the slider notches.
+private fun snapDisplayScale(value: Float): Float = ((value * 10).roundToInt() / 10f).coerceIn(DisplayScaleMin, DisplayScaleMax)
+
+@Composable
+private fun DisplaySizeCard(
+    uiState: InterfaceSettingsUiState,
+    onAction: (InterfaceSettingsUiAction) -> Unit,
+) {
+    val savedDisplayScale = uiState.settings.displayScale
+    // Track the knob locally while dragging; only commit (apply + persist) on release, like the
+    // system Display-size slider. Re-keyed on the saved value so external changes (reset, sync) resync.
+    var sliderValue by remember(savedDisplayScale) { mutableFloatStateOf(savedDisplayScale) }
+    ACard { cardPadding ->
+        Column(
+            Modifier.padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(Modifier.weight(1f)) {
+                    SettingHeader(
+                        stringResource(R.string.display_size),
+                        stringResource(R.string.display_size_help),
+                    )
+                }
+                Text(
+                    "${(sliderValue * 100).roundToInt()}%",
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
+            // Tapping +/- commits immediately (apply + persist), like the system Display-size steppers.
+            val commit = { value: Float ->
+                val snapped = snapDisplayScale(value)
+                sliderValue = snapped
+                onAction(InterfaceSettingsUiAction.OnDisplayScaleChange(snapped))
+            }
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(
+                    onClick = { commit(sliderValue - DisplayScaleStep) },
+                    enabled = sliderValue > DisplayScaleMin + 0.001f,
+                ) {
+                    Icon(
+                        painterResource(R.drawable.minus),
+                        contentDescription = stringResource(R.string.decrease),
+                    )
+                }
+                Slider(
+                    value = sliderValue,
+                    onValueChange = { sliderValue = it },
+                    onValueChangeFinished = { onAction(InterfaceSettingsUiAction.OnDisplayScaleChange(sliderValue)) },
+                    valueRange = DisplayScaleMin..DisplayScaleMax,
+                    steps = DisplayScaleSteps,
+                    modifier = Modifier.weight(1f),
+                )
+                IconButton(
+                    onClick = { commit(sliderValue + DisplayScaleStep) },
+                    enabled = sliderValue < DisplayScaleMax - 0.001f,
+                ) {
+                    Icon(
+                        painterResource(R.drawable.add),
+                        contentDescription = stringResource(R.string.increase),
+                    )
+                }
+            }
+            // Always present (avoids layout jumping as it appears/disappears); disabled at 100%.
+            // Floating-point ticks never land exactly on 1f, so compare with a tolerance.
+            TextButton(
+                onClick = {
+                    sliderValue = 1f
+                    onAction(InterfaceSettingsUiAction.OnDisplayScaleChange(1f))
+                },
+                enabled = abs(sliderValue - 1f) > 0.001f,
+                modifier = Modifier.align(Alignment.End),
+            ) {
+                Text(stringResource(R.string.reset))
+            }
+        }
     }
 }
 
@@ -410,6 +516,14 @@ private fun ThemeGrid(
 private fun InterfaceSettingsPreview() {
     AlAzanThemePreview {
         InterfaceSettingsScreen(uiState = InterfaceSettingsUiState(), onAction = {})
+    }
+}
+
+@Preview
+@Composable
+private fun DisplaySizeCardPreview() {
+    AlAzanThemePreview {
+        DisplaySizeCard(uiState = InterfaceSettingsUiState(), onAction = {})
     }
 }
 

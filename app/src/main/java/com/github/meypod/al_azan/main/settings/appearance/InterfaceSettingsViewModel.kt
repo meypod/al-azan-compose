@@ -34,6 +34,9 @@ class InterfaceSettingsViewModel @Inject constructor(
 
             is InterfaceSettingsUiAction.OnThemeChange -> onThemeChange(action)
 
+            is InterfaceSettingsUiAction.OnDisplayScaleChange ->
+                update { it.copy(displayScale = action.value) }
+
             is InterfaceSettingsUiAction.OnPrayerVisibilityChange -> onPrayerVisibilityChange(action)
 
             is InterfaceSettingsUiAction.OnCountdownTimerToggle -> onCountdownTimerToggle(action)
