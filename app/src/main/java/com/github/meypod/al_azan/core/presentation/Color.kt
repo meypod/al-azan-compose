@@ -143,10 +143,10 @@ val DarkHighContrastSurfaceContainerHigh = Color(0xFF262B2B)
 val DarkHighContrastSurfaceContainerHighest = Color(0xFF313636)
 
 // For sharia times
-
+val ClassicBorderHighlight = Color(0xFFFFE17B)
+val ClassicHighlightBackground = Color(0xFFFFF4D2)
 val TertiaryFixed = Color(0xFFFFE175)
 val Tertiary95 = Color(0xFFFFF0C5)
-val ClassicHighlightBackground = Color(0xFFFFF9E6)
 
 // Custom status roles (no built-in M3 slot). Follow the M3 tonal pattern: darker tone (~40) on
 // light surfaces, lighter tone (~80) on dark surfaces, for accessible contrast either way.

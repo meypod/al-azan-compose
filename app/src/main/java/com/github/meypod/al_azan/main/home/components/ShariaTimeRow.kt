@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +31,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.ClassicHighlightBackground
-import com.github.meypod.al_azan.core.presentation.DarkTertiary
-import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
+import com.github.meypod.al_azan.core.presentation.ClassicBorderHighlight
 import com.github.meypod.al_azan.core.presentation.TertiaryFixed
 import com.github.meypod.al_azan.core.presentation.util.dashedBorder
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2Up
@@ -117,7 +117,7 @@ fun ShariaTimeRow(
                                 },
                             )
                             .dashedBorder(
-                                borderColor = if (classic && highlighted) DarkTertiaryContainer else textColor,
+                                borderColor = if (classic && highlighted) ClassicBorderHighlight else textColor,
                                 shape = if (classic) MaterialTheme.shapes.medium else MaterialTheme.shapes.extraLarge,
                                 strokeWidth = if (classic && highlighted) 7f else 3f,
                             )
@@ -136,7 +136,7 @@ fun ShariaTimeRow(
                                 },
                             )
                             .solidBorder(
-                                borderColor = if (highlighted) DarkTertiary else textColor,
+                                borderColor = if (highlighted) ClassicBorderHighlight else textColor,
                                 shape = MaterialTheme.shapes.medium,
                                 strokeWidth = if (highlighted) 7f else 3f,
                             )
@@ -250,5 +250,39 @@ private fun ShariaTimeRowClassicLightPreview() {
 private fun ShariaTimeRowClassicDarkPreview() {
     AlAzanTheme(ThemeColor.ClassicDark) {
         RowStatesPreview(ThemeColor.ClassicDark)
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun ShariaTimeRowClassicLightPrayerPreview() {
+    AlAzanTheme(ThemeColor.ClassicLight) {
+        Box(Modifier.padding(16.dp)) {
+            ShariaTimeRow(
+                ShariaTimeRowUiState(
+                    Prayer.Dhuhr,
+                    Clock.System.now(),
+                    highlightState = HighlightState.Highlighted,
+                    themeColor = ThemeColor.ClassicLight,
+                ),
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun ShariaTimeRowClassicLightNonPrayerPreview() {
+    AlAzanTheme(ThemeColor.ClassicLight) {
+        Box(Modifier.padding(16.dp)) {
+            ShariaTimeRow(
+                ShariaTimeRowUiState(
+                    Prayer.Sunrise,
+                    Clock.System.now(),
+                    highlightState = HighlightState.Highlighted,
+                    themeColor = ThemeColor.ClassicLight,
+                ),
+            )
+        }
     }
 }
