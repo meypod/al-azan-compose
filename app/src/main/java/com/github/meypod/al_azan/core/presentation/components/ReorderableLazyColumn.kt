@@ -52,6 +52,7 @@ import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.sign
 import androidx.compose.runtime.key as composeKey
@@ -378,7 +379,6 @@ private class ReorderState(
     var releaseToken by mutableStateOf(0)
         private set
 
-    private var scrollJob: Job? = null
     private var hidePlaceholderJob: Job? = null
     private var releaseJob: Job? = null
 
@@ -388,6 +388,10 @@ private class ReorderState(
     // scrolling persists and tracks proximity while the finger is held still.
     private var autoScrollIntensity = 0f
     private var autoScrollJob: Job? = null
+
+    // Last finger position in window space, so the auto-scroll loop can re-run the reorder hit-test
+    // while the finger is held still and items scroll under it.
+    private var lastPointerWindowY: Float? = null
 
     fun updateOnMove(onMove: (fromIndex: Int, toIndex: Int) -> Unit) {
         this.onMove = onMove
@@ -504,9 +508,28 @@ private class ReorderState(
         }
 
         val pointerLocalY = if (pointerWindow != null) pointerWindow.y - containerWindowOffset.y else return
-        val currentItemStart = pointerLocalY - draggingGrabOffsetInItem.y
-        val currentItemEnd = currentItemStart + draggedSize.height
-        val currentItemCenter = currentItemStart + draggedSize.height / 2f
+        lastPointerWindowY = pointerWindow.y
+
+        // Edge auto-scroll keys off the finger, not the item's extents: a tall item in a short
+        // viewport would otherwise trip the bottom edge from the start (e.g. counter screen).
+        maybeAutoScroll(pointerLocalY)
+        tryReorder(itemKey, pointerWindow.y)
+    }
+
+    /**
+     * Runs the hit-test for [itemKey] against the last finger window position and applies a move.
+     * Called from drag events and, while edge auto-scrolling, once per frame so items still reorder
+     * as they scroll under a finger that is being held still.
+     */
+    private fun tryReorder(
+        itemKey: Any,
+        pointerWindowY: Float,
+    ) {
+        val currentIndex = indexByKey[itemKey] ?: return
+        val draggedSize = itemSizeByKey[itemKey] ?: return
+
+        val pointerLocalY = pointerWindowY - containerWindowOffset.y
+        val currentItemCenter = pointerLocalY - draggingGrabOffsetInItem.y + draggedSize.height / 2f
 
         val targetIndex = if (lazyMode) {
             listState.layoutInfo.visibleItemsInfo.firstOrNull { itemInfo ->
@@ -526,13 +549,20 @@ private class ReorderState(
             }?.value
         }
 
-        if (targetIndex != null) {
-            onMove(currentIndex, targetIndex)
-            // update our fallback index immediately; indexByKey is refreshed via SideEffect
-            indexByKey[itemKey] = targetIndex
-        }
+        if (targetIndex == null) return
 
-        maybeAutoScroll(currentItemStart, currentItemEnd)
+        // Pin the viewport to its current top slot across the reorder, otherwise dragging the first
+        // visible item moves its key and LazyColumn re-anchors to follow it, jumping. Skip while edge
+        // auto-scrolling, where the list is meant to be moving and a pin would freeze the scroll.
+        val pinViewport = lazyMode && autoScrollIntensity == 0f
+        val anchorIndex = if (pinViewport) listState.firstVisibleItemIndex else 0
+        val anchorOffset = if (pinViewport) listState.firstVisibleItemScrollOffset else 0
+        onMove(currentIndex, targetIndex)
+        // update our fallback index immediately; indexByKey is refreshed via SideEffect
+        indexByKey[itemKey] = targetIndex
+        if (pinViewport) {
+            listState.requestScrollToItem(anchorIndex, anchorOffset)
+        }
     }
 
     fun endDrag() {
@@ -545,11 +575,10 @@ private class ReorderState(
         isReleasing = false
         hidePlaceholderJob?.cancel()
         hidePlaceholderJob = null
-        scrollJob?.cancel()
-        scrollJob = null
         autoScrollIntensity = 0f
         autoScrollJob?.cancel()
         autoScrollJob = null
+        lastPointerWindowY = null
         releaseJob?.cancel()
         releaseJob = null
     }
@@ -613,81 +642,63 @@ private class ReorderState(
         }
     }
 
-    private fun maybeAutoScroll(
-        currentItemStart: Float,
-        currentItemEnd: Float,
-    ) {
-        if (lazyMode) {
-            lazyAutoScroll(currentItemStart, currentItemEnd)
+    /**
+     * Sets the desired edge-scroll intensity from the finger position and ensures the continuous
+     * [autoScrollJob] loop is running. Both lazy and non-lazy modes share the same loop (ramped,
+     * proximity-scaled); they differ only in which viewport bounds and scroll target they use.
+     */
+    private fun maybeAutoScroll(pointerViewportY: Float) {
+        autoScrollIntensity = if (lazyMode) {
+            lazyEdgeIntensity(pointerViewportY)
         } else {
-            pageAutoScroll(currentItemStart, currentItemEnd)
+            pageEdgeIntensity(pointerViewportY)
+        }
+        if (autoScrollIntensity != 0f && autoScrollJob?.isActive != true) {
+            autoScrollJob = coroutineScope.launch { runAutoScroll() }
         }
     }
 
-    private fun lazyAutoScroll(
-        currentItemStart: Float,
-        currentItemEnd: Float,
-    ) {
-        val viewportStart = listState.layoutInfo.viewportStartOffset
-        val viewportEnd = listState.layoutInfo.viewportEndOffset
-        val edgePx = 80f
-        val scrollDelta = when {
-            currentItemStart < viewportStart + edgePx -> -18f
-            currentItemEnd > viewportEnd - edgePx -> 18f
-            else -> 0f
-        }
-
-        if (scrollDelta == 0f) {
-            scrollJob?.cancel()
-            scrollJob = null
-            return
-        }
-
-        if (scrollJob?.isActive == true) return
-        scrollJob = coroutineScope.launch {
-            listState.scrollBy(scrollDelta)
-        }
+    private fun lazyEdgeIntensity(pointerViewportY: Float): Float {
+        val viewportStart = listState.layoutInfo.viewportStartOffset.toFloat()
+        val viewportEnd = listState.layoutInfo.viewportEndOffset.toFloat()
+        if (viewportEnd <= viewportStart) return 0f
+        val topPenetration = (viewportStart + AUTO_SCROLL_EDGE_PX - pointerViewportY) / AUTO_SCROLL_EDGE_PX
+        val bottomPenetration = (pointerViewportY - (viewportEnd - AUTO_SCROLL_EDGE_PX)) / AUTO_SCROLL_EDGE_PX
+        return edgeIntensity(topPenetration, bottomPenetration)
     }
 
     /**
-     * The non-lazy list grows to full height inside an externally scrolling page, so edge detection
-     * uses the window viewport (0..[rootHeightPx]) rather than a list viewport. This only sets the
-     * desired direction; the continuous [autoScrollJob] loop performs the actual scrolling so it
-     * keeps going (and ramps up) while the finger is held near an edge without new drag events.
+     * Edge bands measured against the scroll viewport (below the app bar / above the bottom bar)
+     * when known, falling back to the raw window if the host didn't publish bounds.
      */
-    private fun pageAutoScroll(
-        currentItemStart: Float,
-        currentItemEnd: Float,
-    ) {
-        // Edge bands are measured against the scroll viewport (below the app bar / above the bottom
-        // bar) when known, falling back to the raw window if the host didn't publish bounds.
+    private fun pageEdgeIntensity(pointerViewportY: Float): Float {
         val topEdgePx = viewportBounds?.topPx ?: 0f
         val bottomEdgePx = viewportBounds?.bottomPx ?: rootHeightPx.toFloat()
-        if (pageScrollState == null || bottomEdgePx <= topEdgePx) {
-            autoScrollIntensity = 0f
-            return
-        }
+        if (pageScrollState == null || bottomEdgePx <= topEdgePx) return 0f
+        val pointerWindowY = pointerViewportY + containerWindowOffset.y
+        val topPenetration = (topEdgePx + AUTO_SCROLL_EDGE_PX - pointerWindowY) / AUTO_SCROLL_EDGE_PX
+        val bottomPenetration = (pointerWindowY - (bottomEdgePx - AUTO_SCROLL_EDGE_PX)) / AUTO_SCROLL_EDGE_PX
+        return edgeIntensity(topPenetration, bottomPenetration)
+    }
 
-        val itemWindowStart = currentItemStart + containerWindowOffset.y
-        val itemWindowEnd = currentItemEnd + containerWindowOffset.y
-        // Penetration into either edge band, 0 at the band boundary up to 1 at the viewport edge.
-        val topPenetration = (topEdgePx + AUTO_SCROLL_EDGE_PX - itemWindowStart) / AUTO_SCROLL_EDGE_PX
-        val bottomPenetration = (itemWindowEnd - (bottomEdgePx - AUTO_SCROLL_EDGE_PX)) / AUTO_SCROLL_EDGE_PX
-        autoScrollIntensity = when {
+    /** Penetration into an edge band, 0 at the boundary up to 1 at the edge; sign is direction. */
+    private fun edgeIntensity(
+        topPenetration: Float,
+        bottomPenetration: Float,
+    ): Float =
+        when {
             topPenetration > 0f -> -topPenetration.coerceAtMost(1f)
             bottomPenetration > 0f -> bottomPenetration.coerceAtMost(1f)
             else -> 0f
         }
 
-        if (autoScrollIntensity != 0f && autoScrollJob?.isActive != true) {
-            autoScrollJob = coroutineScope.launch { runPageAutoScroll() }
-        }
-    }
-
-    private suspend fun runPageAutoScroll() {
+    private suspend fun runAutoScroll() {
         var lastFrameNanos = withFrameNanos { it }
         var rampMillis = 0f
         var previousSign = sign(autoScrollIntensity)
+        // Re-check after scrolling roughly one (smallest) item height, so no item can slip past the
+        // held finger between checks regardless of how short items are. Recomputed below as sizes change.
+        var sinceReorderPx = Float.MAX_VALUE // re-check on the first frame
 
         while (autoScrollIntensity != 0f) {
             val frameNanos = withFrameNanos { it }
@@ -706,9 +717,33 @@ private class ReorderState(
             val rampFraction = AUTO_SCROLL_MIN_FRACTION + (1f - AUTO_SCROLL_MIN_FRACTION) * ramp * ramp
             val delta = autoScrollIntensity * AUTO_SCROLL_MAX_PX_PER_SEC * rampFraction * dtSeconds
 
-            val consumed = pageScrollState?.scrollBy(delta) ?: break
-            if (consumed != 0f) {
-                draggingPopupOffset += IntOffset(0, consumed.roundToInt())
+            val consumed = if (lazyMode) {
+                // The list scrolls under a fixed container, so the popup stays under the finger.
+                listState.scrollBy(delta)
+            } else {
+                val moved = pageScrollState?.scrollBy(delta) ?: break
+                if (moved != 0f) {
+                    draggingPopupOffset += IntOffset(0, moved.roundToInt())
+                }
+                moved
+            }
+
+            // Reorder as items scroll under the held-still finger, mirroring drag-move behaviour.
+            // Throttled by scrolled distance (not frames) so it never skips an item yet avoids a
+            // per-frame hit-test; stalls naturally at the list end where consumed is 0.
+            sinceReorderPx += abs(consumed)
+            // Half the smallest item height: a normal drag swaps after ~h/2 + spacing of travel, and
+            // detection bands have spacing gaps between them, so half-height clears those dead zones.
+            val minItemPx = itemSizeByKey.values.minOfOrNull { it.height }?.toFloat()
+                ?: AUTO_SCROLL_REORDER_FALLBACK_PX
+            val reorderStepPx = (minItemPx * 0.5f).coerceAtLeast(1f)
+            if (sinceReorderPx >= reorderStepPx) {
+                sinceReorderPx = 0f
+                val pointerWindowY = lastPointerWindowY
+                val draggingKey = draggingItemKey
+                if (pointerWindowY != null && draggingKey != null) {
+                    tryReorder(draggingKey, pointerWindowY)
+                }
             }
         }
         autoScrollJob = null
@@ -719,3 +754,7 @@ private const val AUTO_SCROLL_EDGE_PX = 96f
 private const val AUTO_SCROLL_MAX_PX_PER_SEC = 1600f
 private const val AUTO_SCROLL_RAMP_MILLIS = 650f
 private const val AUTO_SCROLL_MIN_FRACTION = 0.12f
+
+// Fallback reorder-recheck distance (px) used only before any item size is known; normally the step
+// is the smallest measured item height so no item can slip past the finger between checks.
+private const val AUTO_SCROLL_REORDER_FALLBACK_PX = 36f
