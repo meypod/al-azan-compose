@@ -310,6 +310,8 @@ fun HomeScreen(
                             highlightedShariaTime = uiState.highlightedShariaTime,
                             hiddenPrayers = uiState.hiddenPrayers,
                             themeColor = uiState.themeColor,
+                            skippedPrayers = uiState.skippedPrayers,
+                            now = uiState.currentInstant,
                         ),
                         // Flexible child so it gets the height remaining after the hint
                         // card, wrapping its content; non-classic also grows by the

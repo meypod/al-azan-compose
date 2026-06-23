@@ -79,10 +79,11 @@ fun ShariaTimesBox(
                     for (prayer in SHARIA_TIMES_IN_ORDER) {
                         if (prayer in state.hiddenPrayers) continue
                         key(prayer.name) {
+                            val instant = state.shariahTimes?.forPrayer(prayer)
                             ShariaTimeRow(
                                 ShariaTimeRowUiState(
                                     prayer,
-                                    state.shariahTimes?.forPrayer(prayer),
+                                    instant,
                                     state.locale,
                                     state.numberingSystem,
                                     state.is24Hours,
@@ -92,6 +93,8 @@ fun ShariaTimesBox(
                                         state.highlightedShariaTime,
                                     ),
                                     state.themeColor,
+                                    skipped = prayer in state.skippedPrayers &&
+                                        instant != null && instant > state.now,
                                 ),
                                 compact = compact,
                             )

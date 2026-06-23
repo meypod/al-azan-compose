@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.adhan.NON_PRAYERS_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -21,6 +22,7 @@ import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import com.github.meypod.al_azan.core.domain.util.hijriYear
 import com.github.meypod.al_azan.core.domain.util.isRamadanNoticeDue
 import com.github.meypod.al_azan.core.domain.util.tickFlow
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
@@ -354,8 +356,15 @@ class HomeViewModel
                     } else {
                         null
                     }
+                    val viewingDate = viewingInstant.toLocalDate()
+                    val skippedPrayers = settings.skippedOccurrences
+                        .filterIsInstance<SkippedAlarm.Adhan>()
+                        .filter { skip -> skip.date == viewingDate }
+                        .map { skip -> skip.prayer }
+                        .toSet()
                     it.copy(
                         shariaTimes = shariaTimes,
+                        skippedPrayers = skippedPrayers,
                     )
                 }
             }.collect()

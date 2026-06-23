@@ -15,6 +15,7 @@ data class ShariaTimeRowUiState(
     val is24Hours: Boolean = true,
     val highlightState: HighlightState = HighlightState.BeforeHighlight,
     val themeColor: ThemeColor = ThemeColor.Default,
+    val skipped: Boolean = false,
 )
 
 enum class HighlightState {

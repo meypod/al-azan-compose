@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +41,10 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 @Composable
-fun ShariaTimeRow(state: ShariaTimeRowUiState, compact: Boolean = false) {
+fun ShariaTimeRow(
+    state: ShariaTimeRowUiState,
+    compact: Boolean = false,
+) {
     val paddingRes = if (compact) R.dimen.element_padding_compact else R.dimen.element_padding
     val classic = state.themeColor.isClassic()
     val fadeTarget = if (state.themeColor == ThemeColor.ClassicLight) Color.White else Color.Black
@@ -139,17 +146,30 @@ fun ShariaTimeRow(state: ShariaTimeRowUiState, compact: Boolean = false) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                state.prayer.i18n(),
-                fontWeight = if (state.highlightState ==
-                    HighlightState.Highlighted
-                ) {
-                    FontWeight.SemiBold
-                } else {
-                    FontWeight.Normal
-                },
-                color = textColor,
-            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    state.prayer.i18n(),
+                    fontWeight = if (state.highlightState ==
+                        HighlightState.Highlighted
+                    ) {
+                        FontWeight.SemiBold
+                    } else {
+                        FontWeight.Normal
+                    },
+                    color = textColor,
+                )
+                if (state.skipped) {
+                    Icon(
+                        painterResource(R.drawable.outline_volume_off),
+                        contentDescription = stringResource(R.string.upcoming_alarm_skipped),
+                        tint = textColor,
+                        modifier = Modifier.size(18.dp),
+                    )
+                }
+            }
             if (state.instant == null) {
                 Text("--:--")
             } else {
@@ -201,6 +221,7 @@ private fun RowStatesPreview(themeColor: ThemeColor = ThemeColor.Default) {
                 null,
                 highlightState = HighlightState.AfterHighlight,
                 themeColor = themeColor,
+                skipped = true,
             ),
         )
     }
