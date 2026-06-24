@@ -57,6 +57,7 @@ jobs:
         BUILD_TOOLS_VERSION: "36.0.0"
 
     - name: Sign App Bundle
+      id: sign_aab
       if: ${{ github.event_name == 'release' }}
       uses: r0adkll/sign-android-release@v1
       with:
@@ -96,12 +97,29 @@ jobs:
         updateOnlyUnreleased: true
         artifacts: app/build/outputs/apk/release/*-signed.apk,app/build/outputs/bundle/release/*.aab
 
+    - name: Setup Ruby
+      if: ${{ github.event_name == 'release' && !contains(github.ref, '-rc') }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+
+    - name: Install fastlane
+      if: ${{ github.event_name == 'release' && !contains(github.ref, '-rc') }}
+      run: gem install fastlane --no-document
+
+    # Uploads the signed AAB together with the full Play listing
+    # (titles, descriptions, changelogs, images and screenshots) from
+    # fastlane/metadata/android in a single edit. Doing it in one edit
+    # keeps changelogs tied to the version code being released.
     - name: Push to Play Store
       if: ${{ github.event_name == 'release' && !contains(github.ref, '-rc') }}
-      uses: r0adkll/upload-google-play@v1
-      with:
-        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-        packageName: com.github.meypod.al_azan
-        releaseFiles: app/build/outputs/bundle/release/*.aab
-        track: internal
-        status: draft
+      env:
+        SUPPLY_JSON_KEY_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        AAB_PATH: ${{ steps.sign_aab.outputs.signedReleaseFile }}
+      run: |
+        fastlane supply \
+          --package_name com.github.meypod.al_azan \
+          --aab "$AAB_PATH" \
+          --metadata_path fastlane/metadata/android \
+          --track internal \
+          --release_status draft
