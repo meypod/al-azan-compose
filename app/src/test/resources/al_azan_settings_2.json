@@ -55,6 +55,12 @@
           "notif": true,
           "id": "default",
           "index": 0
+        },
+        "maghrib": {
+          "id": "masjid_an_nabawi",
+          "filepath": 1,
+          "label": "",
+          "internal": true
         }
       },
       "HIDDEN_PRAYERS": [

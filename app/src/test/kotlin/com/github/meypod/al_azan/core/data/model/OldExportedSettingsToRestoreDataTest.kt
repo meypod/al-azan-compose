@@ -95,4 +95,20 @@ class OldExportedSettingsToRestoreDataTest {
             entries.containsKey(AdhanKey.Isha),
         )
     }
+
+    @Test
+    fun dropsPerPrayerEntriesEqualToGlobalDefault() {
+        // Fixture's maghrib selection equals the global default muezzin ("masjid_an_nabawi"). Migrating
+        // it as a concrete override would pin maghrib to the old default, so a later muezzin change
+        // would silently skip maghrib. Drop it so the prayer keeps following the default.
+        val data = parse("al_azan_settings_2.json").toRestoreData()
+        val entries = data.settings.selectedAdhanEntries
+
+        assertTrue("global default muezzin must be kept", entries.containsKey(AdhanKey.Default))
+        assertEquals(
+            "maghrib entry duplicating the global default must be dropped",
+            false,
+            entries.containsKey(AdhanKey.Maghrib),
+        )
+    }
 }

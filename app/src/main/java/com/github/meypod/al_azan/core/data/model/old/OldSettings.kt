@@ -115,9 +115,11 @@ enum class OldThemeColors {
 
 @Serializable(with = OldAdhanAudioEntrySerializer::class)
 sealed interface OldAdhanAudioEntry {
+    val id: String
+
     @Serializable
     data class OldResourceAdhanAudioEntry(
-        val id: String,
+        override val id: String,
         val filepath: Int? = null,
         val label: String = "",
         @Serializable(with = EmptyStringAsNullSerializer::class) val remoteUri: String? = null,
@@ -127,7 +129,7 @@ sealed interface OldAdhanAudioEntry {
 
     @Serializable
     data class OldExternalAdhanAudioEntry(
-        val id: String,
+        override val id: String,
         @Serializable(with = EmptyStringAsNullSerializer::class) val filepath: String? = null,
         val label: String = "",
         @Serializable(with = EmptyStringAsNullSerializer::class) val remoteUri: String? = null,
@@ -190,11 +192,18 @@ fun OldSettingsState.toSettings() =
         }.filterIsInstance<AudioEntry.ExternalAudioEntry>(),
         selectedAdhanEntries =
             this.selectedAdhanEntries
-                // A per-prayer entry with the legacy "default" id is a placeholder meaning "follow the
-                // global muezzin", not a real selection. Migrating it would let mapAdhanIdToEntry coerce
-                // it into a concrete muezzin override the user never set (e.g. an unwanted fajr adhan or
-                // per-prayer muezzin). Drop these; the global AdhanKey.Default entry is always kept.
-                .filter { (key, value) -> key == AdhanKey.Default || !value.isUnsetPlaceholder() }
+                // Drop per-prayer entries that aren't real overrides; always keep the global
+                // AdhanKey.Default entry. An entry is not a real override when:
+                //  - it carries the legacy "default" id placeholder meaning "follow the global muezzin"
+                //    (migrating it would let mapAdhanIdToEntry coerce it into a concrete override the
+                //    user never set), or
+                //  - it duplicates the global selection. Dropping it lets a later change to the default
+                //    muezzin apply to this prayer too, avoiding the UX surprise of a per-prayer adhan
+                //    silently pinned to the old default after the user switches muezzin.
+                .filter { (key, value) ->
+                    key == AdhanKey.Default ||
+                        (!value.isUnsetPlaceholder() && value.id != this.selectedAdhanEntries[AdhanKey.Default]?.id)
+                }
                 .mapValues { (_, value) ->
                     value.toAdhanAudioEntry()
                 },
