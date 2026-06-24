@@ -60,9 +60,9 @@ an open-source Adhan (أذان) - prayer times application, built natively for A
 
 <table style="width:100%">
   <tr>
-    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1-main-light.png"/></td>
-    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2-main-dark.png"/></td>
-    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/9-homescreen-widget-light.png"/></td>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2-main-light.png"/></td>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3-main-dark.png"/></td>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5-schedule-muezzin-light.png"/></td>
     <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8-notification-widget-light.png"/></td>
   </tr>
 </table>
