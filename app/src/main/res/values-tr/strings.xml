@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">Mevcut namaz vaktini vurgula</string>
     <string name="highlight_current_prayer_time_help">Sonraki yerine mevcut namaz vaktini vurgula.</string>
     <string name="home_shortcuts">Ana ekran kısayolları</string>
-    <string name="home_shortcuts_help">Ana ekran araç çubuğunda göstermek için en fazla iki kısayol seçin.</string>
+    <string name="home_shortcuts_help">Ana ekran araç çubuğunda gösterilecek kısayolları seçin.</string>
     <string name="shortcut_column">Kısayol</string>
-    <string name="home_max_shortcuts_warning">Aynı anda yalnızca iki kısayol gösterilebilir</string>
+    <string name="home_max_shortcuts_warning">En fazla kısayol sayısına ulaşıldı</string>
     <string name="hijri_day_starts_at_maghrib">Hicri tarih Akşam vaktinde ilerler</string>
     <string name="use_24_hour_format">24 Saat biçimini kullan</string>
     <string name="numbering_system">Sayı sistemi</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">Ay Takvimi Dili</string>
     <string name="lunar_calendar_language_help">Ay takvimi için kullanılan dili değiştirin.</string>
     <string name="secondary_calendar">İkincil takvim</string>
-    <string name="secondary_calendar_help">Haftanın gününün altında gösterilen takvim.</string>
+    <string name="secondary_calendar_help">Ana ekran araç çubuğunda ve widget\'ta kullanılan takvim.</string>
+    <string name="hide_toolbar_calendar">Araç çubuğu takvimini gizle</string>
+    <string name="hide_toolbar_calendar_help">Üstte menü düğmesinin yanındaki tarihi gizle.</string>
+    <string name="swap_home_calendars">Ay ve ikincil takvimlerin yerini değiştir</string>
+    <string name="swap_home_calendars_help">İkincil takvimi ana ekran başlığında, ay tarihini araç çubuğunda göster.</string>
     <string name="calendar_gregorian">Gregoryen</string>
     <string name="calendar_persian">Farsça</string>
     <string name="calendar_ethiopic">Etiyopya</string>

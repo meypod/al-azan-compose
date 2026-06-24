@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">Mettre en évidence l\'horaire de prière actuel</string>
     <string name="highlight_current_prayer_time_help">Mettre en évidence l\'horaire de prière actuel au lieu du suivant.</string>
     <string name="home_shortcuts">Raccourcis de l\'écran d\'accueil</string>
-    <string name="home_shortcuts_help">Choisissez jusqu\'à deux raccourcis à afficher dans la barre d\'outils de l\'écran d\'accueil.</string>
+    <string name="home_shortcuts_help">Choisissez les raccourcis à afficher dans la barre d\'outils de l\'écran d\'accueil.</string>
     <string name="shortcut_column">Raccourci</string>
-    <string name="home_max_shortcuts_warning">Seuls deux raccourcis peuvent être affichés en même temps</string>
+    <string name="home_max_shortcuts_warning">Nombre maximal de raccourcis atteint</string>
     <string name="hijri_day_starts_at_maghrib">La date hégirienne avance à l\'heure du Maghrib</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">Langue du calendrier lunaire</string>
     <string name="lunar_calendar_language_help">Modifier la langue utilisée pour le calendrier lunaire.</string>
     <string name="secondary_calendar">Calendrier secondaire</string>
-    <string name="secondary_calendar_help">Le calendrier qui s\'affiche sous le jour de la semaine.</string>
+    <string name="secondary_calendar_help">Le calendrier utilisé dans la barre d\'outils de l\'écran d\'accueil et le widget.</string>
+    <string name="hide_toolbar_calendar">Masquer le calendrier de la barre d\'outils</string>
+    <string name="hide_toolbar_calendar_help">Masquer la date à côté du bouton de menu en haut.</string>
+    <string name="swap_home_calendars">Permuter les calendriers lunaire et secondaire</string>
+    <string name="swap_home_calendars_help">Afficher le calendrier secondaire dans l\'en-tête d\'accueil et la date lunaire dans la barre d\'outils.</string>
     <string name="calendar_gregorian">Grégorien</string>
     <string name="calendar_persian">Perse</string>
     <string name="calendar_ethiopic">Éthiopique</string>

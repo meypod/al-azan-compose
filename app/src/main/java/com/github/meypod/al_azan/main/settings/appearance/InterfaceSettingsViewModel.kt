@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.settings.MAX_HOME_SHORTCUTS
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.settings.maxHomeShortcuts
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.ChangeLanguageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,6 +62,18 @@ class InterfaceSettingsViewModel @Inject constructor(
             is InterfaceSettingsUiAction.OnLunarLanguageChange -> onLunarLanguageChange(action)
 
             is InterfaceSettingsUiAction.OnSecondaryCalendarChange -> onSecondaryCalendarChange(action)
+
+            is InterfaceSettingsUiAction.OnHideToolbarCalendarToggle ->
+                update {
+                    it.copy(
+                        hideToolbarCalendar = action.value,
+                        // Showing the calendar again shrinks the toolbar; drop the extra shortcuts.
+                        homeShortcuts = if (action.value) it.homeShortcuts else it.homeShortcuts.take(MAX_HOME_SHORTCUTS),
+                    )
+                }
+
+            is InterfaceSettingsUiAction.OnSwapHomeCalendarsToggle ->
+                update { it.copy(swapHomeCalendars = action.value) }
         }
     }
 
@@ -91,9 +104,11 @@ class InterfaceSettingsViewModel @Inject constructor(
         update { it.copy(highlightCurrentPrayer = action.value) }
 
     private fun onHomeShortcutToggle(action: InterfaceSettingsUiAction.OnHomeShortcutToggle) {
-        val current = _uiState.value.settings.homeShortcuts
-        // The top app bar only has room for a couple of icons; block enabling a third.
-        if (action.enabled && action.shortcut !in current && current.size >= MAX_HOME_SHORTCUTS) {
+        val settings = _uiState.value.settings
+        val current = settings.homeShortcuts
+        val max = maxHomeShortcuts(settings.hideToolbarCalendar)
+        // The top app bar only has room for a few icons; block enabling one past the cap.
+        if (action.enabled && action.shortcut !in current && current.size >= max) {
             viewModelScope.launch {
                 _events.send(InterfaceSettingsUiEvent.ShowMessage(R.string.home_max_shortcuts_warning))
             }

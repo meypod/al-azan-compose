@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">إبراز وقت الصلاة الحالي</string>
     <string name="highlight_current_prayer_time_help">إبراز وقت الصلاة الحالي بدلًا من التالي.</string>
     <string name="home_shortcuts">اختصارات الشاشة الرئيسية</string>
-    <string name="home_shortcuts_help">اختر حتى اختصارين لعرضهما في شريط أدوات الشاشة الرئيسية.</string>
+    <string name="home_shortcuts_help">اختر الاختصارات التي تريد عرضها في شريط أدوات الشاشة الرئيسية.</string>
     <string name="shortcut_column">اختصار</string>
-    <string name="home_max_shortcuts_warning">يمكن عرض اختصارين فقط في الوقت نفسه</string>
+    <string name="home_max_shortcuts_warning">تم الوصول إلى الحد الأقصى لعدد الاختصارات</string>
     <string name="hijri_day_starts_at_maghrib">يتقدّم التاريخ الهجري وقت المغرب</string>
     <string name="use_24_hour_format">استخدام تنسيق 24 ساعة</string>
     <string name="numbering_system">نظام الترقيم</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">لغة التقويم القمري</string>
     <string name="lunar_calendar_language_help">تغيير اللغة المستخدمة للتقويم القمري.</string>
     <string name="secondary_calendar">التقويم الثانوي</string>
-    <string name="secondary_calendar_help">التقويم الذي يظهر أسفل يوم الأسبوع.</string>
+    <string name="secondary_calendar_help">التقويم المستخدم في شريط أدوات الشاشة الرئيسية والأداة.</string>
+    <string name="hide_toolbar_calendar">إخفاء تقويم شريط الأدوات</string>
+    <string name="hide_toolbar_calendar_help">إخفاء التاريخ بجوار زر القائمة في الأعلى.</string>
+    <string name="swap_home_calendars">تبديل التقويم القمري والثانوي</string>
+    <string name="swap_home_calendars_help">عرض التقويم الثانوي في رأس الصفحة الرئيسية والتاريخ القمري في شريط الأدوات.</string>
     <string name="calendar_gregorian">ميلادي</string>
     <string name="calendar_persian">الفارسية</string>
     <string name="calendar_ethiopic">إثيوبي</string>

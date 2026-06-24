@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">Angazia wakati wa swala wa sasa</string>
     <string name="highlight_current_prayer_time_help">Angazia wakati wa swala wa sasa badala ya unaofuata.</string>
     <string name="home_shortcuts">Njia za mkato za skrini ya nyumbani</string>
-    <string name="home_shortcuts_help">Chagua hadi njia mbili za mkato za kuonyesha kwenye upau wa vidhibiti wa skrini ya nyumbani.</string>
+    <string name="home_shortcuts_help">Chagua njia za mkato za kuonyesha kwenye upau wa vidhibiti wa skrini ya nyumbani.</string>
     <string name="shortcut_column">Njia ya mkato</string>
-    <string name="home_max_shortcuts_warning">Ni njia mbili tu za mkato zinazoweza kuonyeshwa kwa wakati mmoja</string>
+    <string name="home_max_shortcuts_warning">Idadi ya juu ya njia za mkato imefikiwa</string>
     <string name="hijri_day_starts_at_maghrib">Tarehe ya Hijria husonga mbele wakati wa Magharibi</string>
     <string name="use_24_hour_format">Tumia umbizo la Saa 24</string>
     <string name="numbering_system">Mfumo wa Unambarishaji</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">Lugha ya Kalenda ya Mwezi</string>
     <string name="lunar_calendar_language_help">Badilisha lugha inayotumika kwa kalenda ya mwezi.</string>
     <string name="secondary_calendar">Kalenda ya Sekondari</string>
-    <string name="secondary_calendar_help">Kalenda inayoonyeshwa chini ya siku ya wiki.</string>
+    <string name="secondary_calendar_help">Kalenda inayotumika kwenye upau wa vidhibiti wa skrini ya nyumbani na wijeti.</string>
+    <string name="hide_toolbar_calendar">Ficha kalenda ya upau wa vidhibiti</string>
+    <string name="hide_toolbar_calendar_help">Ficha tarehe iliyo karibu na kitufe cha menyu juu.</string>
+    <string name="swap_home_calendars">Badilishana kalenda ya mwezi na ya pili</string>
+    <string name="swap_home_calendars_help">Onyesha kalenda ya pili kwenye kichwa cha nyumbani na tarehe ya mwezi kwenye upau wa vidhibiti.</string>
     <string name="calendar_gregorian">Kigregori</string>
     <string name="calendar_persian">Kiajemi</string>
     <string name="calendar_ethiopic">Kiethiopia</string>

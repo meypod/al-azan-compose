@@ -133,7 +133,6 @@ fun HomeHeader(
         }
         Row(horizontalArrangement = Arrangement.Center) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
@@ -142,11 +141,20 @@ fun HomeHeader(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    formatInstant(
-                        addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
-                        uiState.arabicCalendarLocale,
-                        uiState.arabicCalendar,
-                    ),
+                    if (uiState.swapHomeCalendars) {
+                        formatInstant(
+                            uiState.viewingInstant,
+                            uiState.locale,
+                            uiState.calendar,
+                            numberingSystem = uiState.numberingSystem,
+                        )
+                    } else {
+                        formatInstant(
+                            addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
+                            uiState.arabicCalendarLocale,
+                            uiState.arabicCalendar,
+                        )
+                    },
                     color = headerContentColor,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.fillMaxWidth(),
@@ -154,6 +162,7 @@ fun HomeHeader(
                 )
             }
         }
+        Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),

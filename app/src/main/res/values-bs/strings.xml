@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">Istakni trenutno vrijeme molitve</string>
     <string name="highlight_current_prayer_time_help">Istakni trenutno vrijeme molitve umjesto sljedećeg.</string>
     <string name="home_shortcuts">Prečice početnog ekrana</string>
-    <string name="home_shortcuts_help">Odaberite najviše dvije prečice za prikaz u alatnoj traci početnog ekrana.</string>
+    <string name="home_shortcuts_help">Odaberite prečice za prikaz u alatnoj traci početnog ekrana.</string>
     <string name="shortcut_column">Prečica</string>
-    <string name="home_max_shortcuts_warning">Istovremeno se mogu prikazati samo dvije prečice</string>
+    <string name="home_max_shortcuts_warning">Dostignut je maksimalan broj prečica</string>
     <string name="hijri_day_starts_at_maghrib">Hidžretski datum napreduje u vrijeme akšama</string>
     <string name="use_24_hour_format">Koristite 24-satni format</string>
     <string name="numbering_system">Sistem Numerisanja</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">Jezik lunarnog kalendara</string>
     <string name="lunar_calendar_language_help">Promijeni jezik koji se koristi za lunarni kalendar.</string>
     <string name="secondary_calendar">Sekundarni Kalendar</string>
-    <string name="secondary_calendar_help">Kalendar koji se prikazuje ispod dana u sedmici.</string>
+    <string name="secondary_calendar_help">Kalendar koji se koristi u alatnoj traci početnog ekrana i widgetu.</string>
+    <string name="hide_toolbar_calendar">Sakrij kalendar alatne trake</string>
+    <string name="hide_toolbar_calendar_help">Sakrij datum pored dugmeta menija na vrhu.</string>
+    <string name="swap_home_calendars">Zamijeni lunarni i sekundarni kalendar</string>
+    <string name="swap_home_calendars_help">Prikaži sekundarni kalendar u zaglavlju početne stranice, a lunarni datum u alatnoj traci.</string>
     <string name="calendar_gregorian">Gregorijanski</string>
     <string name="calendar_persian">Perzijski</string>
     <string name="calendar_ethiopic">Etiopski</string>

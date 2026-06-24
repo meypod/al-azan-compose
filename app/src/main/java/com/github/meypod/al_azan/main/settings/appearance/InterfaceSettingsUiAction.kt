@@ -56,4 +56,12 @@ sealed interface InterfaceSettingsUiAction {
     data class OnSecondaryCalendarChange(
         val value: SecondaryCalendar,
     ) : InterfaceSettingsUiAction
+
+    data class OnHideToolbarCalendarToggle(
+        val value: Boolean,
+    ) : InterfaceSettingsUiAction
+
+    data class OnSwapHomeCalendarsToggle(
+        val value: Boolean,
+    ) : InterfaceSettingsUiAction
 }

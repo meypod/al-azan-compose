@@ -332,6 +332,8 @@ class HomeViewModel
                         hiddenPrayers = settings.hiddenPrayers,
                         isDeveloper = settings.devMode,
                         homeShortcuts = settings.homeShortcuts,
+                        hideToolbarCalendar = settings.hideToolbarCalendar,
+                        swapHomeCalendars = settings.swapHomeCalendars,
                     )
                 }
             }.collect()

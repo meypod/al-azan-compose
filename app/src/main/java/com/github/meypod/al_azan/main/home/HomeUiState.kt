@@ -33,4 +33,6 @@ data class HomeUiState(
     val skippedPrayers: Set<Prayer> = emptySet(),
     val isDeveloper: Boolean = false,
     val homeShortcuts: List<HomeShortcut> = emptyList(),
+    val hideToolbarCalendar: Boolean = false,
+    val swapHomeCalendars: Boolean = false,
 )

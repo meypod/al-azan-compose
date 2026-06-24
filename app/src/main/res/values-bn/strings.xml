@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">বর্তমান সালাতের সময় হাইলাইট করুন</string>
     <string name="highlight_current_prayer_time_help">পরবর্তীটির পরিবর্তে বর্তমান সালাতের সময় হাইলাইট করুন।</string>
     <string name="home_shortcuts">হোম স্ক্রিন শর্টকাট</string>
-    <string name="home_shortcuts_help">হোম স্ক্রিনের টুলবারে দেখানোর জন্য সর্বোচ্চ দুটি শর্টকাট নির্বাচন করুন।</string>
+    <string name="home_shortcuts_help">হোম স্ক্রিনের টুলবারে দেখানোর জন্য শর্টকাট নির্বাচন করুন।</string>
     <string name="shortcut_column">শর্টকাট</string>
-    <string name="home_max_shortcuts_warning">একসাথে কেবল দুটি শর্টকাট দেখানো যাবে</string>
+    <string name="home_max_shortcuts_warning">শর্টকাটের সর্বোচ্চ সংখ্যায় পৌঁছেছে</string>
     <string name="hijri_day_starts_at_maghrib">মাগরিবের সময় হিজরি তারিখ এগিয়ে যায়</string>
     <string name="use_24_hour_format">২৪-ঘন্টা বিন্যাস ব্যবহার করুন</string>
     <string name="numbering_system">সংখ্যা পদ্ধতি</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">চন্দ্র ক্যালেন্ডারের ভাষা</string>
     <string name="lunar_calendar_language_help">চন্দ্র ক্যালেন্ডারের জন্য ব্যবহৃত ভাষা পরিবর্তন করুন।</string>
     <string name="secondary_calendar">দ্বিতীয় ক্যালেন্ডার</string>
-    <string name="secondary_calendar_help">যে ক্যালেন্ডারটি সপ্তাহের দিনের নিচে দেখায়।</string>
+    <string name="secondary_calendar_help">হোম স্ক্রিনের টুলবার এবং উইজেটে ব্যবহৃত ক্যালেন্ডার।</string>
+    <string name="hide_toolbar_calendar">টুলবার ক্যালেন্ডার লুকান</string>
+    <string name="hide_toolbar_calendar_help">উপরে মেনু বোতামের পাশের তারিখ লুকান।</string>
+    <string name="swap_home_calendars">চান্দ্র ও দ্বিতীয় ক্যালেন্ডার অদলবদল করুন</string>
+    <string name="swap_home_calendars_help">হোম হেডারে দ্বিতীয় ক্যালেন্ডার এবং টুলবারে চান্দ্র তারিখ দেখান।</string>
     <string name="calendar_gregorian">গ্রেগরিয়ান</string>
     <string name="calendar_persian">ফার্সি</string>
     <string name="calendar_ethiopic">ইথিওপিক</string>

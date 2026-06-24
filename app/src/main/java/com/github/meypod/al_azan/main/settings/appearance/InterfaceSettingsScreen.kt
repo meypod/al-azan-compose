@@ -100,6 +100,7 @@ fun InterfaceSettingsScreen(
         TimeFormatCard(uiState, onAction)
         NumberingSystemCard(uiState, onAction)
         CalendarsCard(uiState, onAction)
+        CalendarDisplayCard(uiState, onAction)
         HomeShortcutsCard(uiState, onAction)
     }
 }
@@ -441,6 +442,32 @@ private fun CalendarsCard(
 }
 
 @Composable
+private fun CalendarDisplayCard(
+    uiState: InterfaceSettingsUiState,
+    onAction: (InterfaceSettingsUiAction) -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(
+            Modifier.padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            SettingSwitch(
+                title = stringResource(R.string.hide_toolbar_calendar),
+                subtitle = stringResource(R.string.hide_toolbar_calendar_help),
+                checked = uiState.settings.hideToolbarCalendar,
+                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnHideToolbarCalendarToggle(it)) },
+            )
+            SettingSwitch(
+                title = stringResource(R.string.swap_home_calendars),
+                subtitle = stringResource(R.string.swap_home_calendars_help),
+                checked = uiState.settings.swapHomeCalendars,
+                onCheckedChange = { onAction(InterfaceSettingsUiAction.OnSwapHomeCalendarsToggle(it)) },
+            )
+        }
+    }
+}
+
+@Composable
 private fun ThemeGrid(
     selected: ThemeColor,
     onSelect: (ThemeColor) -> Unit,
@@ -610,5 +637,13 @@ private fun NumberingSystemCardPreview() {
 private fun CalendarsCardPreview() {
     AlAzanThemePreview {
         CalendarsCard(uiState = InterfaceSettingsUiState(), onAction = {})
+    }
+}
+
+@Preview
+@Composable
+private fun CalendarDisplayCardPreview() {
+    AlAzanThemePreview {
+        CalendarDisplayCard(uiState = InterfaceSettingsUiState(), onAction = {})
     }
 }

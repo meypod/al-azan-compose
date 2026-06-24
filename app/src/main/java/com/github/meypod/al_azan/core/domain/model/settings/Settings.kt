@@ -117,6 +117,10 @@ data class Settings(
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val selectedLocaleForArabicCalendar: String? = null,
     val selectedSecondaryCalendar: SecondaryCalendar = SecondaryCalendar.Gregorian,
+    /** Hide the date shown in the home top app bar (next to the menu button). */
+    val hideToolbarCalendar: Boolean = false,
+    /** Swap home calendar positions: secondary calendar in the header, lunar (Hijri) date in the toolbar. */
+    val swapHomeCalendars: Boolean = false,
     val appInitialConfigDone: Boolean = false,
     val appIntroDone: Boolean = false,
     val savedAdhanAudioEntries: List<AudioEntry> = getDefaultAdhanEntries(),

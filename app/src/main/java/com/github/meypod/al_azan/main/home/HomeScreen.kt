@@ -52,6 +52,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.HomeShortcut
 import com.github.meypod.al_azan.core.domain.model.settings.i18n
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkOnTertiaryContainer
@@ -194,23 +195,33 @@ fun HomeScreen(
                         }
                     },
                     title = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            modifier = Modifier
-                                .clip(MaterialTheme.shapes.small)
-                                .clickable(role = Role.Button) { onAction(HomeUiAction.OnMonthlyViewClick) }
-                                .padding(6.dp),
-                        ) {
-                            Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
-                            Text(
-                                formatInstant(
-                                    uiState.viewingInstant,
-                                    uiState.locale,
-                                    uiState.calendar,
-                                    numberingSystem = uiState.numberingSystem,
-                                ),
-                            )
+                        if (!uiState.hideToolbarCalendar) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                modifier = Modifier
+                                    .clip(MaterialTheme.shapes.small)
+                                    .clickable(role = Role.Button) { onAction(HomeUiAction.OnMonthlyViewClick) }
+                                    .padding(6.dp),
+                            ) {
+                                Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
+                                Text(
+                                    if (uiState.swapHomeCalendars) {
+                                        formatInstant(
+                                            addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
+                                            uiState.arabicCalendarLocale,
+                                            uiState.arabicCalendar,
+                                        )
+                                    } else {
+                                        formatInstant(
+                                            uiState.viewingInstant,
+                                            uiState.locale,
+                                            uiState.calendar,
+                                            numberingSystem = uiState.numberingSystem,
+                                        )
+                                    },
+                                )
+                            }
                         }
                     },
                     actions = {
@@ -219,6 +230,7 @@ fun HomeScreen(
                                 HomeShortcut.Qibla -> R.drawable.compass_outline to HomeUiAction.OnQiblaShortcutClick
                                 HomeShortcut.Counter -> R.drawable.counter to HomeUiAction.OnCounterLinkClick
                                 HomeShortcut.Reminders -> R.drawable.alarm to HomeUiAction.OnReminderLinkClick
+                                HomeShortcut.MonthlyView -> R.drawable.calendar_month_outline to HomeUiAction.OnMonthlyViewClick
                                 HomeShortcut.UpcomingAlarms -> R.drawable.outline_calendar_month_24 to HomeUiAction.OnUpcomingAlarmsClick
                             }
                             IconButton(onClick = { onAction(action) }) {

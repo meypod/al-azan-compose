@@ -21,6 +21,9 @@ enum class HomeShortcut(
     @SerialName("reminders")
     Reminders(R.string.reminders_title),
 
+    @SerialName("monthly_view")
+    MonthlyView(R.string.monthly_view_title),
+
     @SerialName("upcoming_alarms")
     UpcomingAlarms(R.string.upcoming_alarms),
 }
@@ -32,3 +35,10 @@ val HOME_SHORTCUTS_IN_ORDER: List<HomeShortcut> = HomeShortcut.entries.toList()
 
 /** The home top app bar stays uncluttered: at most this many shortcut buttons at once. */
 const val MAX_HOME_SHORTCUTS = 2
+
+/** Hiding the title bar calendar frees space for more shortcut buttons. */
+const val MAX_HOME_SHORTCUTS_TOOLBAR_HIDDEN = 4
+
+/** Max shortcuts allowed in the home top app bar, given whether the title bar calendar is hidden. */
+fun maxHomeShortcuts(toolbarCalendarHidden: Boolean): Int =
+    if (toolbarCalendarHidden) MAX_HOME_SHORTCUTS_TOOLBAR_HIDDEN else MAX_HOME_SHORTCUTS

@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">برجسته کردن وقت شرعی فعلی</string>
     <string name="highlight_current_prayer_time_help">به‌جای وقت بعدی، وقت شرعی فعلی برجسته شود.</string>
     <string name="home_shortcuts">میان‌برهای صفحه اصلی</string>
-    <string name="home_shortcuts_help">تا دو میان‌بر برای نمایش در نوار ابزار صفحه اصلی انتخاب کنید.</string>
+    <string name="home_shortcuts_help">میان‌برهایی را برای نمایش در نوار ابزار صفحه اصلی انتخاب کنید.</string>
     <string name="shortcut_column">میان‌بر</string>
-    <string name="home_max_shortcuts_warning">تنها دو میان‌بر را می‌توان همزمان نمایش داد</string>
+    <string name="home_max_shortcuts_warning">به حداکثر تعداد میان‌بر رسیدید</string>
     <string name="hijri_day_starts_at_maghrib">تاریخ هجری هنگام مغرب جلو می‌رود</string>
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
     <string name="numbering_system">سیستم شماره‌گذاری</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">زبان تقویم قمری</string>
     <string name="lunar_calendar_language_help">تغییر زبان مورد استفاده برای تقویم قمری.</string>
     <string name="secondary_calendar">تقویم ثانویه</string>
-    <string name="secondary_calendar_help">تقویمی که زیر روز هفته نمایش داده می‌شود.</string>
+    <string name="secondary_calendar_help">تقویم استفاده‌شده در نوار ابزار صفحه اصلی و ویجت.</string>
+    <string name="hide_toolbar_calendar">پنهان کردن تقویم نوار ابزار</string>
+    <string name="hide_toolbar_calendar_help">تاریخ کنار دکمه منو در بالا را پنهان کنید.</string>
+    <string name="swap_home_calendars">جابجایی تقویم قمری و ثانویه</string>
+    <string name="swap_home_calendars_help">نمایش تقویم ثانویه در سربرگ صفحه اصلی و تاریخ قمری در نوار ابزار.</string>
     <string name="calendar_gregorian">میلادی</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">اتیوپیایی</string>

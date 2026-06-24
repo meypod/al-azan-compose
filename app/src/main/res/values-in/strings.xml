@@ -229,9 +229,9 @@
     <string name="highlight_current_prayer_time">Sorot waktu sholat saat ini</string>
     <string name="highlight_current_prayer_time_help">Sorot waktu sholat saat ini alih-alih yang berikutnya.</string>
     <string name="home_shortcuts">Pintasan layar beranda</string>
-    <string name="home_shortcuts_help">Pilih hingga dua pintasan untuk ditampilkan di bilah alat layar beranda.</string>
+    <string name="home_shortcuts_help">Pilih pintasan untuk ditampilkan di bilah alat layar beranda.</string>
     <string name="shortcut_column">Pintasan</string>
-    <string name="home_max_shortcuts_warning">Hanya dua pintasan yang dapat ditampilkan sekaligus</string>
+    <string name="home_max_shortcuts_warning">Jumlah maksimum pintasan tercapai</string>
     <string name="hijri_day_starts_at_maghrib">Tanggal Hijriah berganti saat waktu Maghrib</string>
     <string name="use_24_hour_format">Gunakan format 24 Jam</string>
     <string name="numbering_system">Sistem penomoran</string>
@@ -242,7 +242,11 @@
     <string name="lunar_calendar_language">Bahasa Kalender Lunar</string>
     <string name="lunar_calendar_language_help">Ubah bahasa yang digunakan untuk kalender lunar.</string>
     <string name="secondary_calendar">Kalender Sekunder</string>
-    <string name="secondary_calendar_help">Kalender yang ditampilkan di bawah hari dalam seminggu.</string>
+    <string name="secondary_calendar_help">Kalender yang digunakan di bilah alat layar beranda dan widget.</string>
+    <string name="hide_toolbar_calendar">Sembunyikan kalender bilah alat</string>
+    <string name="hide_toolbar_calendar_help">Sembunyikan tanggal di samping tombol menu di atas.</string>
+    <string name="swap_home_calendars">Tukar kalender lunar dan sekunder</string>
+    <string name="swap_home_calendars_help">Tampilkan kalender sekunder di header beranda dan tanggal lunar di bilah alat.</string>
     <string name="calendar_gregorian">Gregorian</string>
     <string name="calendar_persian">Persia</string>
     <string name="calendar_ethiopic">Etiopia</string>

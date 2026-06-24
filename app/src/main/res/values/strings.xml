@@ -230,9 +230,9 @@
     <string name="highlight_current_prayer_time">Highlight current prayer time</string>
     <string name="highlight_current_prayer_time_help">Highlight the current prayer time instead of the next one.</string>
     <string name="home_shortcuts">Home screen shortcuts</string>
-    <string name="home_shortcuts_help">Pick up to two shortcuts to show in the home screen toolbar.</string>
+    <string name="home_shortcuts_help">Pick which shortcuts to show in the home screen toolbar.</string>
     <string name="shortcut_column">Shortcut</string>
-    <string name="home_max_shortcuts_warning">Only two shortcuts can be shown at the same time</string>
+    <string name="home_max_shortcuts_warning">Maximum number of shortcuts reached</string>
     <string name="hijri_day_starts_at_maghrib">Hijri date advances at Maghrib</string>
     <string name="use_24_hour_format">Use 24-Hour Format</string>
     <string name="numbering_system">Numbering System</string>
@@ -243,7 +243,11 @@
     <string name="lunar_calendar_language">Lunar Calendar Language</string>
     <string name="lunar_calendar_language_help">Change the language used for lunar calendar.</string>
     <string name="secondary_calendar">Secondary Calendar</string>
-    <string name="secondary_calendar_help">The calendar that shows below the day of the week.</string>
+    <string name="secondary_calendar_help">The calendar used in the home screen toolbar and the widget.</string>
+    <string name="hide_toolbar_calendar">Hide toolbar calendar</string>
+    <string name="hide_toolbar_calendar_help">Hide the date next to the menu button at the top.</string>
+    <string name="swap_home_calendars">Swap lunar and secondary calendars</string>
+    <string name="swap_home_calendars_help">Show the secondary calendar in the home header and the lunar date in the toolbar.</string>
     <string name="calendar_gregorian">Gregorian</string>
     <string name="calendar_persian">Persian</string>
     <string name="calendar_ethiopic">Ethiopic</string>
