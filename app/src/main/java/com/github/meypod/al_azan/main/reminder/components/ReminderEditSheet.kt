@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,6 +57,7 @@ import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
+import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.main.reminder.ReminderEditDraft
 import com.github.meypod.al_azan.main.reminder.ReminderTimeModifier
 import com.github.meypod.al_azan.main.reminder.ReminderUiAction
@@ -79,12 +82,15 @@ fun ReminderEditSheet(
     val defaultVibrationLabel = stringResource(R.string.use_default_vibration)
     val vibrationOptions = listOf<VibrationMode?>(null) + VibrationMode.entries
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scrollState = rememberScrollState()
     ModalBottomSheet(
         onDismissRequest = { onAction(ReminderUiAction.OnDraftDismiss) },
         sheetState = sheetState,
     ) {
         Column(
             modifier = Modifier
+                .drawVerticalScrollbar(scrollState)
+                .verticalScroll(scrollState)
                 .navigationBarsPadding()
                 .padding(horizontal = dimensionResource(R.dimen.page_padding))
                 .padding(bottom = dimensionResource(R.dimen.page_padding)),
