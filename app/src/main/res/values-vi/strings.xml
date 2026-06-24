@@ -457,7 +457,7 @@
     <string name="turn_off">Tắt</string>
     <string name="reminder_duplicate">Nhân bản</string>
     <string name="delete_reminder_title">Đang xóa Lời nhắc</string>
-    <string name="delete_reminder_body">Bạn có chắc muốn xóa Lời nhắc này không?</string>
+    <string name="delete_reminder_body">Bạn có chắc muốn xóa lời nhắc này không?</string>
     <plurals name="delete_reminders_body">
         <item quantity="one">Bạn có chắc muốn xóa %1$d lời nhắc không?</item>
         <item quantity="other">Bạn có chắc muốn xóa %1$d lời nhắc không?</item>

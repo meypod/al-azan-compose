@@ -457,7 +457,7 @@
     <string name="turn_off">Zima</string>
     <string name="reminder_duplicate">Nakili</string>
     <string name="delete_reminder_title">Inafuta Kikumbusho</string>
-    <string name="delete_reminder_body">Una uhakika unataka kufuta Kikumbusho?</string>
+    <string name="delete_reminder_body">Una uhakika unataka kufuta kikumbusho?</string>
     <plurals name="delete_reminders_body">
         <item quantity="one">Una uhakika unataka kufuta kikumbusho %1$d?</item>
         <item quantity="other">Una uhakika unataka kufuta vikumbusho %1$d?</item>

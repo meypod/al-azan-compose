@@ -331,7 +331,7 @@
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Şafak</string>
-    <string name="shafaq_help">Şafak, MoonsightingCommittee yöntemi tarafından Yatsı vaktini belirlemek için hangi tür alacakaranlığın kullanılacağını saptamak amacıyla kullanılır.</string>
+    <string name="shafaq_help">Şafak, Ay Gözlem Komitesi yöntemi tarafından Yatsı vaktini belirlemek için hangi tür alacakaranlığın kullanılacağını saptamak amacıyla kullanılır.</string>
     <string name="shafaq_general_default">Genel (Varsayılan)</string>
     <string name="shafaq_ahmer">Ahmer (Kızıllık)</string>
     <string name="shafaq_abyad">Abyad (Beyazlık)</string>

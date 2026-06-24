@@ -332,7 +332,7 @@
     <string name="polar_aqrab_balad">Aqrab Balad</string>
     <string name="polar_aqrab_yaum">Aqrab Yaum</string>
     <string name="shafaq">Shafaq</string>
-    <string name="shafaq_help">Shafaq is used by the MoonsightingCommittee method to determine what type of twilight to use in order to determine the time for Isha.</string>
+    <string name="shafaq_help">Shafaq is used by the Moonsighting Committee method to determine what type of twilight to use in order to determine the time for Isha.</string>
     <string name="shafaq_general_default">General (Default)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
@@ -358,7 +358,7 @@
     <string name="custom_muezzin">Custom Muezzin</string>
     <string name="use_default_vibration">Use default</string>
     <string name="vibration_mode">Vibration Mode</string>
-    <string name="vibration_mode_help">Should phone vibrate when adhan or reminders start playing ?</string>
+    <string name="vibration_mode_help">Should phone vibrate when adhan or reminders start playing?</string>
     <string name="show_upcoming_alarm">Show \"Upcoming Alarm\" Notification</string>
     <string name="show_upcoming_alarm_help">If enabled, a notification will be shown around one hour before each adhan.</string>
     <string name="custom_upcoming_time">Notify before adhan</string>
@@ -458,10 +458,10 @@
     <string name="turn_off">Turn Off</string>
     <string name="reminder_duplicate">Duplicate</string>
     <string name="delete_reminder_title">Deleting Reminder</string>
-    <string name="delete_reminder_body">Are you sure you want to delete the Reminder ?</string>
+    <string name="delete_reminder_body">Are you sure you want to delete the reminder?</string>
     <plurals name="delete_reminders_body">
-        <item quantity="one">Are you sure you want to delete %1$d reminder ?</item>
-        <item quantity="other">Are you sure you want to delete %1$d reminders ?</item>
+        <item quantity="one">Are you sure you want to delete %1$d reminder?</item>
+        <item quantity="other">Are you sure you want to delete %1$d reminders?</item>
     </plurals>
     <string name="only_once_label">Only Once</string>
     <string name="everyday_label">Everyday</string>

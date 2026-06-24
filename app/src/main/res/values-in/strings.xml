@@ -457,10 +457,10 @@
     <string name="turn_off">Nonaktifkan</string>
     <string name="reminder_duplicate">Duplikat</string>
     <string name="delete_reminder_title">Menghapus Pengingat</string>
-    <string name="delete_reminder_body">Apakah Anda yakin ingin menghapus Pengingat ini ?</string>
+    <string name="delete_reminder_body">Apakah Anda yakin ingin menghapus pengingat ini?</string>
     <plurals name="delete_reminders_body">
-        <item quantity="one">Apakah Anda yakin ingin menghapus %1$d pengingat ?</item>
-        <item quantity="other">Apakah Anda yakin ingin menghapus %1$d pengingat ?</item>
+        <item quantity="one">Apakah Anda yakin ingin menghapus %1$d pengingat?</item>
+        <item quantity="other">Apakah Anda yakin ingin menghapus %1$d pengingat?</item>
     </plurals>
     <string name="only_once_label">Hanya sekali</string>
     <string name="everyday_label">Setiap hari</string>
