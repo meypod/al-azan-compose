@@ -215,6 +215,7 @@
     <string name="language">Dil</string>
     <string name="display_size">Görüntü Boyutu</string>
     <string name="display_size_help">Uygulama genelinde metin ve arayüz öğelerinin boyutunu ölçeklendirin.</string>
+    <string name="reset">Sıfırla</string>
     <string name="themes">Temalar</string>
     <string name="theme_light">Açık</string>
     <string name="theme_dark">Koyu</string>

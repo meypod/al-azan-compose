@@ -215,6 +215,7 @@
     <string name="language">Lugha</string>
     <string name="display_size">Ukubwa wa Onyesho</string>
     <string name="display_size_help">Pima ukubwa wa maandishi na vipengele vya kiolesura katika programu nzima.</string>
+    <string name="reset">Weka upya</string>
     <string name="themes">Mandhari</string>
     <string name="theme_light">Nyepesi</string>
     <string name="theme_dark">Nyeusi</string>

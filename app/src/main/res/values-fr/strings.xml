@@ -215,6 +215,7 @@
     <string name="language">Langue</string>
     <string name="display_size">Taille d\'affichage</string>
     <string name="display_size_help">Ajuste la taille du texte et des éléments d\'interface dans toute l\'application.</string>
+    <string name="reset">Réinitialiser</string>
     <string name="themes">Thèmes</string>
     <string name="theme_light">Clair</string>
     <string name="theme_dark">Sombre</string>

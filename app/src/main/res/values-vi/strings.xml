@@ -215,6 +215,7 @@
     <string name="language">Ngôn ngữ</string>
     <string name="display_size">Kích thước hiển thị</string>
     <string name="display_size_help">Điều chỉnh kích thước văn bản và các thành phần giao diện trên toàn ứng dụng.</string>
+    <string name="reset">Đặt lại</string>
     <string name="themes">Chủ đề</string>
     <string name="theme_light">Sáng</string>
     <string name="theme_dark">Tối</string>

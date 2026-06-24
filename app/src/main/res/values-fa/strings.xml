@@ -215,6 +215,7 @@
     <string name="language">زبان</string>
     <string name="display_size">اندازه نمایش</string>
     <string name="display_size_help">اندازهٔ متن و عناصر رابط را در سراسر برنامه تغییر می‌دهد.</string>
+    <string name="reset">بازنشانی</string>
     <string name="themes">پوسته‌ها</string>
     <string name="theme_light">روشن</string>
     <string name="theme_dark">تاریک</string>

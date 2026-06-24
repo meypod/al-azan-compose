@@ -215,6 +215,7 @@
     <string name="language">لغة</string>
     <string name="display_size">حجم العرض</string>
     <string name="display_size_help">تغيير حجم النص وعناصر الواجهة في كامل التطبيق.</string>
+    <string name="reset">إعادة تعيين</string>
     <string name="themes">السمات</string>
     <string name="theme_light">فاتح</string>
     <string name="theme_dark">داكن</string>

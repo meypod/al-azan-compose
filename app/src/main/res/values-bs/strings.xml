@@ -215,6 +215,7 @@
     <string name="language">Jezik</string>
     <string name="display_size">Veličina prikaza</string>
     <string name="display_size_help">Skalirajte veličinu teksta i elemenata sučelja u cijeloj aplikaciji.</string>
+    <string name="reset">Resetuj</string>
     <string name="themes">Teme</string>
     <string name="theme_light">Svijetla</string>
     <string name="theme_dark">Tamna</string>

@@ -215,6 +215,7 @@
     <string name="language">भाषा</string>
     <string name="display_size">डिस्प्ले आकार</string>
     <string name="display_size_help">पूरे ऐप में टेक्स्ट और इंटरफ़ेस तत्वों का आकार बदलें।</string>
+    <string name="reset">रीसेट करें</string>
     <string name="themes">थीम</string>
     <string name="theme_light">लाइट</string>
     <string name="theme_dark">डार्क</string>
