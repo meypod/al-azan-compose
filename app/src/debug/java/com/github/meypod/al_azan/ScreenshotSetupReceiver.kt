@@ -21,7 +21,7 @@ import javax.inject.Inject
  * Debug-only setup for store-screenshot runs (see fastlane/sctool/create_screenshots.sh):
  *
  * - SETUP_SCREENSHOTS skips the intro and applies the preset the screenshots are based on — Mecca
- *   location, Muslim World League method, the five daily prayers with notification + sound, and the
+ *   location, Umm Al-Qura method, the five daily prayers with notification + sound, and the
  *   notification widget.
  * - RESET_INTRO clears the onboarding flags so the app cold-starts back into the intro, used to
  *   capture the language-selection (first intro) screenshot.
@@ -89,7 +89,7 @@ class ScreenshotSetupReceiver : BroadcastReceiver() {
         calculationSettingsRepository.update {
             it.copy(
                 locationId = LOCATION_ID,
-                parameters = CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters,
+                parameters = CalculationMethod.UMM_AL_QURA.parameters,
             )
         }
 

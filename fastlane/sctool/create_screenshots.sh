@@ -3,7 +3,7 @@
 # Creates fastlane screenshots for all supported locales.
 # Requires "pngquant" and "oxipng" to be installed.
 #
-# App setup (intro skip, Mecca location, Muslim World League method, prayer
+# App setup (intro skip, Mecca location, Umm Al-Qura method, prayer
 # schedule, notification widget) plus permissions and date/time are applied
 # automatically — requires a DEBUG build (the setup broadcast receiver and the
 # screen deep links only exist there) and an emulator (adb root for setting the
