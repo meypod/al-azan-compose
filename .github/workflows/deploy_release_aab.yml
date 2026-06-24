@@ -1,0 +1,79 @@
+name: deploy release aab to play
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag whose .aab asset to deploy (e.g. v2.0.0)'
+        required: true
+      track:
+        description: 'Play track'
+        required: true
+        default: internal
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      status:
+        description: 'Release status'
+        required: true
+        default: draft
+        type: choice
+        options:
+          - draft
+          - completed
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download AAB from release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -euo pipefail
+        gh release download "${{ inputs.tag }}" \
+          --repo "${{ github.repository }}" \
+          --pattern '*.aab' \
+          --dir dist
+        count=$(ls dist/*.aab 2>/dev/null | wc -l)
+        if [ "$count" -ne 1 ]; then
+          echo "Expected exactly one .aab in release '${{ inputs.tag }}', found $count" >&2
+          ls -l dist || true
+          exit 1
+        fi
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+
+    - name: Install fastlane
+      run: gem install fastlane --no-document
+
+    # Uploads only the AAB pulled from the release tag. No listing/metadata
+    # changes (use the update-store-listing workflow for that).
+    - name: Push AAB to Play Store
+      env:
+        SUPPLY_JSON_KEY_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+      run: |
+        set -euo pipefail
+        aab=$(ls dist/*.aab | head -n1)
+        fastlane supply \
+          --package_name com.github.meypod.al_azan \
+          --aab "$aab" \
+          --skip_upload_metadata true \
+          --skip_upload_images true \
+          --skip_upload_screenshots true \
+          --skip_upload_changelogs true \
+          --track "${{ inputs.track }}" \
+          --release_status "${{ inputs.status }}"

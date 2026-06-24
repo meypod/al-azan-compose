@@ -1,0 +1,34 @@
+name: update store listing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  listing:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+
+    - name: Install fastlane
+      run: gem install fastlane --no-document
+
+    # Uploads only the Play listing (titles, descriptions, images and
+    # screenshots) from fastlane/metadata/android. No AAB, no changelogs
+    # (changelogs are release-coupled and handled by the release workflow).
+    - name: Update store listing
+      env:
+        SUPPLY_JSON_KEY_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+      run: |
+        fastlane supply \
+          --package_name com.github.meypod.al_azan \
+          --metadata_path fastlane/metadata/android \
+          --skip_upload_apk true \
+          --skip_upload_aab true \
+          --skip_upload_changelogs true
