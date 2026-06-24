@@ -355,7 +355,7 @@
     <string name="prayer_setting_accessibility">%1$s settings</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud is last third part of the night</string>
     <string name="use_default_muezzin">Use default</string>
-    <string name="custom_muezzin">Custom Muazzin</string>
+    <string name="custom_muezzin">Custom Muezzin</string>
     <string name="use_default_vibration">Use default</string>
     <string name="vibration_mode">Vibration Mode</string>
     <string name="vibration_mode_help">Should phone vibrate when adhan or reminders start playing ?</string>
