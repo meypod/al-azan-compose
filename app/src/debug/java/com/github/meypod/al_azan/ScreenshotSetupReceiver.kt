@@ -3,15 +3,12 @@ package com.github.meypod.al_azan
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
-import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
-import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.meypod.adhan_kotlin.CalculationMethod
@@ -21,10 +18,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Debug-only one-shot setup for store-screenshot runs (see fastlane/sctool/create_screenshots.sh):
- * skips the intro and applies the preset the screenshots are based on — Mecca location, Muslim World
- * League method, the five daily prayers with notification + sound, one example reminder, and the
- * notification widget. Trigger:
+ * Debug-only setup for store-screenshot runs (see fastlane/sctool/create_screenshots.sh):
+ *
+ * - SETUP_SCREENSHOTS skips the intro and applies the preset the screenshots are based on — Mecca
+ *   location, Muslim World League method, the five daily prayers with notification + sound, and the
+ *   notification widget.
+ * - RESET_INTRO clears the onboarding flags so the app cold-starts back into the intro, used to
+ *   capture the language-selection (first intro) screenshot.
  *
  * adb shell am broadcast -a com.github.meypod.al_azan.action.SETUP_SCREENSHOTS \
  *     -n com.github.meypod.al_azan.debug/com.github.meypod.al_azan.ScreenshotSetupReceiver
@@ -45,24 +45,32 @@ class ScreenshotSetupReceiver : BroadcastReceiver() {
     lateinit var favoriteLocationsRepository: FavoriteLocationsRepository
 
     @Inject
-    lateinit var reminderRepository: ReminderRepository
-
-    @Inject
     lateinit var schedulerReconciler: SchedulerReconciler
 
     override fun onReceive(
         context: Context,
         intent: Intent?,
     ) {
-        if (intent?.action != ACTION_SETUP_SCREENSHOTS) return
         val pendingResult = goAsync()
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                applyPreset()
-                schedulerReconciler.reconcileAll()
+                when (intent?.action) {
+                    ACTION_SETUP_SCREENSHOTS -> {
+                        applyPreset()
+                        schedulerReconciler.reconcileAll()
+                    }
+
+                    ACTION_RESET_INTRO -> resetIntro()
+                }
             } finally {
                 pendingResult.finish()
             }
+        }
+    }
+
+    private suspend fun resetIntro() {
+        settingsRepository.update {
+            it.copy(appInitialConfigDone = false, appIntroDone = false)
         }
     }
 
@@ -101,24 +109,6 @@ class ScreenshotSetupReceiver : BroadcastReceiver() {
             )
         }
 
-        // example reminder for the reminders screenshot; keep whatever is already there on re-runs
-        reminderRepository.update { reminders ->
-            if (reminders.isNotEmpty()) {
-                reminders
-            } else {
-                listOf(
-                    Reminder(
-                        id = REMINDER_ID,
-                        enabled = true,
-                        prayer = Prayer.Fajr,
-                        duration = 5,
-                        durationModifier = -1,
-                        once = true,
-                    ),
-                )
-            }
-        }
-
         settingsRepository.update {
             it.copy(
                 appInitialConfigDone = true,
@@ -137,7 +127,7 @@ class ScreenshotSetupReceiver : BroadcastReceiver() {
 
     private companion object {
         const val ACTION_SETUP_SCREENSHOTS = "com.github.meypod.al_azan.action.SETUP_SCREENSHOTS"
+        const val ACTION_RESET_INTRO = "com.github.meypod.al_azan.action.RESET_INTRO"
         const val LOCATION_ID = "screenshot-mecca"
-        const val REMINDER_ID = "screenshot-reminder"
     }
 }

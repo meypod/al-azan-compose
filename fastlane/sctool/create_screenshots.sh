@@ -4,13 +4,10 @@
 # Requires "pngquant" and "oxipng" to be installed.
 #
 # App setup (intro skip, Mecca location, Muslim World League method, prayer
-# schedule, example reminder, notification widget) plus permissions and
-# date/time are applied automatically — requires a DEBUG build (the setup
-# broadcast receiver and the screen deep links only exist there) and an
-# emulator (adb root for setting the date).
-#
-# Remaining one-time manual prep:
-#   - Place the Al-Azan widget on the launcher home screen (phone runs only).
+# schedule, notification widget) plus permissions and date/time are applied
+# automatically — requires a DEBUG build (the setup broadcast receiver and the
+# screen deep links only exist there) and an emulator (adb root for setting the
+# date). No manual prep is required.
 #
 # Usage (output goes to the fastlane metadata images dir for each locale):
 #   ./create_screenshots.sh           # phone, all screens   -> images/phoneScreenshots
@@ -25,8 +22,8 @@
 # Regenerate a subset with LOCALES / SCREENS (space-separated):
 #   LOCALES="id fa" ./create_screenshots.sh
 #   SCREENS="main-light main-dark" ./create_screenshots.sh   # main screen only
-#   Screen keys: main-light main-dark interface schedule-muezzin reminders
-#                qada-counter qibla-compass notification-widget homescreen-widget
+#   Screen keys: intro main-light main-dark interface schedule-muezzin
+#                qada-counter qibla-compass notification-widget
 
 export MSYS_NO_PATHCONV=1
 
@@ -64,6 +61,14 @@ function start_clean_status_bar {
     adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100 >/dev/null
     # Hide the "alarm set" status icon
     adb shell am broadcast -a com.android.systemui.demo -e command status -e alarm hide >/dev/null
+}
+
+# Clear the onboarding flags so a cold start lands back on the intro
+# (language-selection) screen for the first screenshot.
+function reset_intro {
+    adb shell am broadcast -a com.github.meypod.al_azan.action.RESET_INTRO \
+        -n "$APP_ID/com.github.meypod.al_azan.ScreenshotSetupReceiver" >/dev/null
+    sleep 2
 }
 
 # One-shot app configuration through the debug-only ScreenshotSetupReceiver,
@@ -106,6 +111,12 @@ function navigate {
         --activity-single-top --activity-clear-top >/dev/null 2>&1
 }
 
+# Cold-start the app so it picks up the reset onboarding flags and shows the intro.
+function goto_intro {
+    adb shell am force-stop "$APP_ID"
+    adb shell am start -n "$APP_ID/com.github.meypod.al_azan.MainActivity" >/dev/null 2>&1
+}
+
 function change_app_lang {
     adb shell cmd locale set-app-locales "$APP_ID" --user current --locales "$1"
 }
@@ -120,15 +131,6 @@ function expand_status_bar {
 
 function collapse_status_bar {
     adb shell service call statusbar 2 >/dev/null
-}
-
-# A HOME keyevent switches the launcher into key-navigation mode, which draws a focus
-# ring around the widget; launch the home intent instead and tap an empty wallpaper
-# spot to make sure the launcher is in touch mode with nothing focused.
-function goto_home {
-    adb shell am start -a android.intent.action.MAIN -c android.intent.category.HOME >/dev/null 2>&1
-    sleep 1
-    adb shell input tap "$DEFOCUS_X" "$DEFOCUS_Y"
 }
 
 function dark_mode_enable {
@@ -188,12 +190,6 @@ select_adb_device
 # The resizable emulator exposes two physical displays; screencap needs an explicit id.
 DISPLAY_ID="$(adb shell dumpsys SurfaceFlinger --display-id | awk 'NR==1{print $2}')"
 
-# Empty wallpaper spot used to defocus the launcher (see goto_home): mid-width,
-# ~65% height lands between the widget at the top and the dock at the bottom.
-read -r SCREEN_W SCREEN_H < <(adb shell wm size | awk -F'[ x]' '/Physical/{print $(NF-1), $NF}')
-DEFOCUS_X=$((SCREEN_W / 2))
-DEFOCUS_Y=$((SCREEN_H * 65 / 100))
-
 rm -f "./screen-tmp-${ANDROID_SERIAL}.png"
 
 # Override with e.g. LOCALES="id fa" to regenerate a subset.
@@ -204,8 +200,8 @@ else
 fi
 
 # Override with e.g. SCREENS="main-light main-dark" to regenerate a subset of
-# screens. Keys: main-light main-dark interface schedule-muezzin reminders
-# qada-counter qibla-compass notification-widget homescreen-widget.
+# screens. Keys: intro main-light main-dark interface schedule-muezzin
+# qada-counter qibla-compass notification-widget.
 # Empty = all screens.
 if [ -n "$SCREENS" ]; then
     read -r -a screens <<< "$SCREENS"
@@ -221,24 +217,48 @@ function want {
     return 1
 }
 
+# Metadata images dir for a locale, by run target (phone / tablet7 / tablet10).
+function scr_dir_for {
+    if [ "$1" == 'tablet7' ]; then
+        echo "../metadata/android/$2/images/sevenInchScreenshots"
+    elif [ "$1" == 'tablet10' ]; then
+        echo "../metadata/android/$2/images/tenInchScreenshots"
+    else
+        echo "../metadata/android/$2/images/phoneScreenshots"
+    fi
+}
+
 ensure_app_installed
 setup_app
 start_clean_status_bar
-snooze_system_notifications
 dark_mode_disable
+
+# Intro (language-selection) pass — phone only, captured before the app is
+# onboarded so it shows the very first screen the user sees. Reset once: the
+# flag stays cleared across locale changes until setup_app re-applies the preset.
+if [ -z "$1" ] && want intro; then
+    reset_intro
+    for i in "${locales[@]}"
+    do
+        echo "=== $i (intro) ==="
+        scrDir="$(scr_dir_for "$1" "$i")"
+        mkdir -p "$scrDir"
+
+        change_app_lang "$i"
+        sleep 2 # app restarts after locale change
+        goto_intro
+        sleep 4 # wait for cold start
+        save_screenshot "$scrDir/1-intro.png"
+    done
+    setup_app # restore the onboarded preset for the remaining screens
+fi
+
+snooze_system_notifications
 
 for i in "${locales[@]}"
 do
     echo "=== $i ==="
-
-    if [ "$1" == 'tablet7' ]; then
-        scrDir="../metadata/android/$i/images/sevenInchScreenshots"
-    elif [ "$1" == 'tablet10' ]; then
-        scrDir="../metadata/android/$i/images/tenInchScreenshots"
-    else
-        scrDir="../metadata/android/$i/images/phoneScreenshots"
-    fi
-
+    scrDir="$(scr_dir_for "$1" "$i")"
     mkdir -p "$scrDir"
 
     change_app_lang "$i"
@@ -247,7 +267,12 @@ do
     if want main-light; then
         navigate Home
         sleep 4 # wait for activity start + widget/notification re-render
-        save_screenshot "$scrDir/1-main-light.png"
+        # tablets get a single main-light shot; phone numbers it after the intro.
+        if [ -n "$1" ]; then
+            save_screenshot "$scrDir/1-main-light.png"
+        else
+            save_screenshot "$scrDir/2-main-light.png"
+        fi
     fi
 
     # tablets only get the main screen shot
@@ -260,7 +285,7 @@ do
         sleep 2
         dark_mode_enable
         sleep 3
-        save_screenshot "$scrDir/2-main-dark.png"
+        save_screenshot "$scrDir/3-main-dark.png"
         dark_mode_disable
         sleep 3
     fi
@@ -268,19 +293,13 @@ do
     if want interface; then
         navigate InterfaceSettings
         sleep 2
-        save_screenshot "$scrDir/3-interface-light.png"
+        save_screenshot "$scrDir/4-interface-light.png"
     fi
 
     if want schedule-muezzin; then
         navigate ScheduleAndMuezzin
         sleep 2
-        save_screenshot "$scrDir/4-schedule-muezzin-light.png"
-    fi
-
-    if want reminders; then
-        navigate Reminder
-        sleep 2
-        save_screenshot "$scrDir/5-reminders-light.png"
+        save_screenshot "$scrDir/5-schedule-muezzin-light.png"
     fi
 
     if want qada-counter; then
@@ -295,19 +314,16 @@ do
         save_screenshot "$scrDir/7-qibla-compass-light.png"
     fi
 
-    # widgets
     if want notification-widget; then
+        # Re-snooze right before capture: system notices (e.g. "Configure
+        # physical keyboards") re-post after the up-front pass and would
+        # otherwise land in the shade.
+        snooze_system_notifications
         expand_status_bar
         sleep 1.5
         save_screenshot "$scrDir/8-notification-widget-light.png"
         collapse_status_bar
         sleep 1
-    fi
-
-    if want homescreen-widget; then
-        goto_home
-        sleep 2
-        save_screenshot "$scrDir/9-homescreen-widget-light.png"
     fi
 
     navigate Home

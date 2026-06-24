@@ -9,6 +9,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.github.meypod.al_azan.action.SETUP_SCREENSHOTS" />
+                <action android:name="com.github.meypod.al_azan.action.RESET_INTRO" />
             </intent-filter>
         </receiver>
     </application>
