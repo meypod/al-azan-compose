@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -56,7 +54,7 @@ fun ScreenScaffold(
     title: String,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    titleIcon: Int? = null,
+    titleContent: (@Composable () -> Unit)? = null,
     navigationIcon: @Composable () -> Unit = { BackButton(onBackClick) },
     actions: @Composable RowScope.() -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
@@ -81,13 +79,9 @@ fun ScreenScaffold(
             CenterAlignedTopAppBar(
                 navigationIcon = navigationIcon,
                 title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                    ) {
-                        titleIcon?.let {
-                            Icon(painterResource(it), contentDescription = null)
-                        }
+                    if (titleContent != null) {
+                        titleContent()
+                    } else {
                         Text(title, modifier = Modifier.semantics { heading() })
                     }
                 },
@@ -149,7 +143,6 @@ private fun ScreenScaffoldPreview() {
         ScreenScaffold(
             title = "Settings",
             onBackClick = {},
-            titleIcon = R.drawable.settings_filled,
         ) {
             Text("Body content")
             Text("Another row")

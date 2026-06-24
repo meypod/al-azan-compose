@@ -8,12 +8,12 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -25,7 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -59,8 +58,7 @@ import com.github.meypod.al_azan.core.presentation.DarkOnTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightOnTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
-import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
-import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
+import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.core.presentation.util.swipeNavigate
 import com.github.meypod.al_azan.main.home.components.ConfigHintCard
@@ -180,68 +178,66 @@ fun HomeScreen(
             }
         },
     ) {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.open()
-                                }
+        ScreenScaffold(
+            title = "",
+            onBackClick = {},
+            navigationIcon = {
+                IconButton(
+                    onClick = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                ) {
+                    Icon(painterResource(R.drawable.menu), contentDescription = stringResource(R.string.menu))
+                }
+            },
+            titleContent = {
+                if (!uiState.hideToolbarCalendar) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier
+                            .clip(MaterialTheme.shapes.small)
+                            .clickable(role = Role.Button) { onAction(HomeUiAction.OnMonthlyViewClick) }
+                            .padding(6.dp),
+                    ) {
+                        Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
+                        Text(
+                            if (uiState.swapHomeCalendars) {
+                                formatInstant(
+                                    addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
+                                    uiState.arabicCalendarLocale,
+                                    uiState.arabicCalendar,
+                                )
+                            } else {
+                                formatInstant(
+                                    uiState.viewingInstant,
+                                    uiState.locale,
+                                    uiState.calendar,
+                                    numberingSystem = uiState.numberingSystem,
+                                )
                             },
-                        ) {
-                            Icon(painterResource(R.drawable.menu), contentDescription = stringResource(R.string.menu))
-                        }
-                    },
-                    title = {
-                        if (!uiState.hideToolbarCalendar) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                modifier = Modifier
-                                    .clip(MaterialTheme.shapes.small)
-                                    .clickable(role = Role.Button) { onAction(HomeUiAction.OnMonthlyViewClick) }
-                                    .padding(6.dp),
-                            ) {
-                                Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
-                                Text(
-                                    if (uiState.swapHomeCalendars) {
-                                        formatInstant(
-                                            addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
-                                            uiState.arabicCalendarLocale,
-                                            uiState.arabicCalendar,
-                                        )
-                                    } else {
-                                        formatInstant(
-                                            uiState.viewingInstant,
-                                            uiState.locale,
-                                            uiState.calendar,
-                                            numberingSystem = uiState.numberingSystem,
-                                        )
-                                    },
-                                )
-                            }
-                        }
-                    },
-                    actions = {
-                        uiState.homeShortcuts.forEach { shortcut ->
-                            val (iconRes, action) = when (shortcut) {
-                                HomeShortcut.Qibla -> R.drawable.compass_outline to HomeUiAction.OnQiblaShortcutClick
-                                HomeShortcut.Counter -> R.drawable.counter to HomeUiAction.OnCounterLinkClick
-                                HomeShortcut.Reminders -> R.drawable.alarm to HomeUiAction.OnReminderLinkClick
-                                HomeShortcut.MonthlyView -> R.drawable.calendar_month_outline to HomeUiAction.OnMonthlyViewClick
-                                HomeShortcut.UpcomingAlarms -> R.drawable.outline_calendar_month_24 to HomeUiAction.OnUpcomingAlarmsClick
-                            }
-                            IconButton(onClick = { onAction(action) }) {
-                                Icon(
-                                    painterResource(iconRes),
-                                    contentDescription = shortcut.i18n(),
-                                )
-                            }
-                        }
-                    },
-                )
+                        )
+                    }
+                }
+            },
+            actions = {
+                uiState.homeShortcuts.forEach { shortcut ->
+                    val (iconRes, action) = when (shortcut) {
+                        HomeShortcut.Qibla -> R.drawable.compass_outline to HomeUiAction.OnQiblaShortcutClick
+                        HomeShortcut.Counter -> R.drawable.counter to HomeUiAction.OnCounterLinkClick
+                        HomeShortcut.Reminders -> R.drawable.alarm to HomeUiAction.OnReminderLinkClick
+                        HomeShortcut.MonthlyView -> R.drawable.calendar_month_outline to HomeUiAction.OnMonthlyViewClick
+                        HomeShortcut.UpcomingAlarms -> R.drawable.outline_calendar_month_24 to HomeUiAction.OnUpcomingAlarmsClick
+                    }
+                    IconButton(onClick = { onAction(action) }) {
+                        Icon(
+                            painterResource(iconRes),
+                            contentDescription = shortcut.i18n(),
+                        )
+                    }
+                }
             },
             floatingActionButton = {
                 AnimatedVisibility(
@@ -288,13 +284,12 @@ fun HomeScreen(
                 }
             },
             floatingActionButtonPosition = FabPosition.Center,
-            snackbarHost = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
-        ) { paddingValues ->
-
+            scrollable = false,
+            contentPadding = PaddingValues(0.dp),
+        ) {
             Column(
                 Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
                     .swipeNavigate(
                         onNext = { onAction(HomeUiAction.OnNextDayClick) },
                         onPrev = { onAction(HomeUiAction.OnPrevDayClick) },
@@ -307,16 +302,14 @@ fun HomeScreen(
                 Column(
                     Modifier
                         .weight(1f)
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.page_padding),
+                        )
                         .then(
                             if (uiState.themeColor.isClassic()) {
-                                Modifier.padding(
-                                    dimensionResource(R.dimen.page_padding),
-                                )
+                                Modifier.padding(top = dimensionResource(R.dimen.tiny_padding))
                             } else {
                                 Modifier
-                                    .padding(
-                                        horizontal = dimensionResource(R.dimen.element_padding),
-                                    )
                                     .offset(y = -dimensionResource(R.dimen.home_card_padding))
                             },
                         ),

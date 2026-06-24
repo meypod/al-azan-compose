@@ -79,7 +79,7 @@ fun HomeHeader(
                     )
                 },
             )
-            .padding(dimensionResource(R.dimen.element_padding)),
+            .padding(dimensionResource(R.dimen.page_padding)),
     ) {
         val iconButtonColors = IconButtonColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
