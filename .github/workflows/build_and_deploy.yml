@@ -148,10 +148,8 @@ jobs:
     - name: Install fastlane
       run: gem install fastlane --no-document
 
-    # Uploads the signed AAB together with the full Play listing
-    # (titles, descriptions, changelogs, images and screenshots) from
-    # fastlane/metadata/android in a single edit. Doing it in one edit
-    # keeps changelogs tied to the version code being released.
+    # Uploads only the signed AAB. No listing/metadata/changelogs/images
+    # (those are pushed manually via the update-store-listing workflow).
     - name: Push to Play Store
       env:
         SUPPLY_JSON_KEY_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
@@ -160,6 +158,8 @@ jobs:
         fastlane supply \
           --package_name com.github.meypod.al_azan \
           --aab "$AAB_PATH" \
-          --metadata_path fastlane/metadata/android \
+          --skip_upload_metadata true \
+          --skip_upload_images true \
+          --skip_upload_screenshots true \
           --track internal \
           --release_status draft
