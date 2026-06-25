@@ -167,7 +167,7 @@
     <string name="counter">Penghitung Qada</string>
     <string name="reminder">Pengingat</string>
     <string name="alarm_settings_title">Pengaturan Alarm</string>
-    <string name="schedule_and_muezzin_title"><![CDATA[Jadwal & Muezzin]]></string>
+    <string name="schedule_and_muezzin_title"><![CDATA[Jadwal & Muadzin]]></string>
     <string name="calculation_title">Perhitungan</string>
     <string name="interface_settings">Pengaturan Antarmuka</string>
     <string name="widget_settings_title">Pengaturan Widget</string>
@@ -360,7 +360,7 @@
     <string name="prayer_setting_accessibility">Pengaturan %1$s</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud adalah sepertiga bagian terakhir malam</string>
     <string name="use_default_muezzin">Gunakan default</string>
-    <string name="custom_muezzin">Muazin Kustom</string>
+    <string name="custom_muezzin">Muadzin Kustom</string>
     <string name="use_default_vibration">Gunakan default</string>
     <string name="vibration_mode">Mode Getaran</string>
     <string name="vibration_mode_help">Haruskah ponsel bergetar saat adzan atau pengingat mulai diputar?</string>
@@ -389,7 +389,7 @@
     <string name="notify_on_skipped_adhan_help">Saat Anda melewati azan dengan “Lewati” di layar Alarm mendatang, atau membatalkannya dengan “Batalkan Alarm” dari notifikasi “Alarm yang akan datang”, notifikasi senyap ditampilkan pada waktunya alih-alih dibuang. Hanya berlaku untuk azan.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->
-    <string name="muezzin">Muezzin</string>
+    <string name="muezzin">Muadzin</string>
     <string name="unknown">Tidak diketahui</string>
     <string name="masjid_an_nabawi">Masjid An Nabawi</string>
     <string name="abdul_basit_abdus_samad">Abdul-Basit Abdus-Samad</string>
@@ -429,7 +429,7 @@
          ============================================================ -->
     <string name="create_a_backup">Buat Cadangan</string>
     <string name="backup_help">Anda dapat membuat file cadangan dari pengaturan yang sudah Anda terapkan dan memulihkannya kapan saja.</string>
-    <string name="backup_note">Perhatikan bahwa suara dan muezzin kustom tidak akan diekspor.</string>
+    <string name="backup_note">Perhatikan bahwa suara dan muadzin kustom tidak akan diekspor.</string>
     <string name="restore_label">Pulihkan</string>
     <string name="restore_help">Pulihkan pengaturan Anda dari file cadangan.</string>
     <string name="restore_settings">Pulihkan Pengaturan</string>
