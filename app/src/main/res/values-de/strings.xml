@@ -62,7 +62,7 @@
     <string name="open_permissions_guidance">Öffnen Sie die Berechtigungen und erlauben Sie den Standortzugriff.</string>
     <string name="location_permission_denied_text">Für diese Funktion ist der Standortzugriff erforderlich.</string>
     <string name="location_disclosure_title">Standortzugriff</string>
-    <string name="location_disclosure_text">Al-Azan verwendet den Standort deines Geräts, um deine aktuelle Position zu ermitteln, damit genaue Gebetszeiten und die Qibla-Richtung berechnet und auf Reisen aktuell gehalten werden können. Dein Standort wird nur auf deinem Gerät verwendet und niemals erfasst, übertragen oder weitergegeben. Fortfahren, um den Standortzugriff zu erlauben?</string>
+    <string name="location_disclosure_text">Diese App erfasst Standortdaten, um genaue Gebetszeiten und die Qibla-Richtung zu berechnen und deine Gebetszeiten auf Reisen aktuell zu halten, selbst wenn die App geschlossen ist oder nicht verwendet wird. Dein Standort bleibt auf deinem Gerät und wird niemals übertragen oder weitergegeben. Fortfahren, um den Standortzugriff zu erlauben?</string>
     <string name="continue_label">Weiter</string>
     <string name="location_service_required_title">Standort erforderlich</string>
     <string name="location_service_required_text">Bitte aktivieren Sie die Standortdienste, um diese Funktion zu nutzen.</string>

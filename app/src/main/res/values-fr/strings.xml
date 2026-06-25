@@ -62,7 +62,7 @@
     <string name="open_permissions_guidance">Ouvrez les autorisations et accordez l\'accès à la localisation.</string>
     <string name="location_permission_denied_text">L\'accès à la localisation est requis pour cette fonctionnalité.</string>
     <string name="location_disclosure_title">Accès à la localisation</string>
-    <string name="location_disclosure_text">Al-Azan utilise la localisation de votre appareil pour déterminer votre position actuelle afin de calculer des horaires de prière et une direction de la qibla précis, et de les mettre à jour lorsque vous voyagez. Votre localisation est utilisée uniquement sur votre appareil et n\'est jamais collectée, transmise ni partagée. Continuer pour autoriser l\'accès à la localisation ?</string>
+    <string name="location_disclosure_text">Cette application collecte des données de localisation pour calculer des horaires de prière et une direction de la qibla précis, et pour tenir vos horaires de prière à jour lorsque vous voyagez, même lorsque l\'application est fermée ou non utilisée. Votre localisation reste sur votre appareil et n\'est jamais transmise ni partagée. Continuer pour autoriser l\'accès à la localisation ?</string>
     <string name="continue_label">Continuer</string>
     <string name="location_service_required_title">Localisation requise</string>
     <string name="location_service_required_text">Veuillez activer les services de localisation pour utiliser cette fonctionnalité.</string>

@@ -62,7 +62,7 @@
     <string name="open_permissions_guidance">Otvorite Dozvole i dozvolite pristup lokaciji.</string>
     <string name="location_permission_denied_text">Pristup lokaciji je potreban za ovu funkciju.</string>
     <string name="location_disclosure_title">Pristup lokaciji</string>
-    <string name="location_disclosure_text">Al-Azan koristi lokaciju vašeg uređaja kako bi utvrdio vaš trenutni položaj radi izračunavanja tačnih namaskih vremena i smjera kible te njihovog ažuriranja dok putujete. Vaša lokacija se koristi samo na vašem uređaju i nikada se ne prikuplja, ne prenosi niti dijeli. Želite li nastaviti i dozvoliti pristup lokaciji?</string>
+    <string name="location_disclosure_text">Ova aplikacija prikuplja podatke o lokaciji radi izračunavanja tačnih namaskih vremena i smjera kible te ažuriranja vaših namaskih vremena dok putujete, čak i kada je aplikacija zatvorena ili se ne koristi. Vaša lokacija ostaje na vašem uređaju i nikada se ne prenosi niti dijeli. Želite li nastaviti i dozvoliti pristup lokaciji?</string>
     <string name="continue_label">Nastavi</string>
     <string name="location_service_required_title">Potrebna lokacija</string>
     <string name="location_service_required_text">Molimo uključite lokacijske usluge da biste koristili ovu funkciju.</string>

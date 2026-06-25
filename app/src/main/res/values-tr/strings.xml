@@ -62,7 +62,7 @@
     <string name="open_permissions_guidance">İzinler\'i açın ve konum erişimine izin verin.</string>
     <string name="location_permission_denied_text">Bu özellik için konum erişimi gereklidir.</string>
     <string name="location_disclosure_title">Konum erişimi</string>
-    <string name="location_disclosure_text">Al-Azan, doğru namaz vakitlerini ve kıble yönünü hesaplamak ve seyahat ederken bunları güncel tutmak için mevcut konumunuzu belirlemek amacıyla cihazınızın konumunu kullanır. Konumunuz yalnızca cihazınızda kullanılır; asla toplanmaz, iletilmez veya paylaşılmaz. Konum erişimine izin vermek için devam edilsin mi?</string>
+    <string name="location_disclosure_text">Bu uygulama, namaz vakitlerini ve kıble yönünü doğru hesaplamak ve seyahat ederken namaz vakitlerinizi güncel tutmak için, uygulama kapalıyken veya kullanılmıyorken bile konum verilerinizi toplar. Konumunuz yalnızca cihazınızda kalır ve asla iletilmez veya paylaşılmaz. Konum erişimine izin vermek için devam edilsin mi?</string>
     <string name="continue_label">Devam</string>
     <string name="location_service_required_title">Konum gerekli</string>
     <string name="location_service_required_text">Bu özelliği kullanmak için lütfen konum servislerini açın.</string>

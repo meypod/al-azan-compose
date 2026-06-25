@@ -62,7 +62,7 @@
     <string name="open_permissions_guidance">اجازتیں کھولیں اور مقام تک رسائی کی اجازت دیں۔</string>
     <string name="location_permission_denied_text">اس خصوصیت کے لیے مقام تک رسائی ضروری ہے۔</string>
     <string name="location_disclosure_title">مقام تک رسائی</string>
-    <string name="location_disclosure_text">الاذان آپ کے آلے کا مقام استعمال کرتا ہے تاکہ آپ کی موجودہ پوزیشن کا تعین کر کے درست نماز کے اوقات اور قبلہ کی سمت کا حساب لگا سکے اور سفر کے دوران انہیں اپ ڈیٹ رکھ سکے۔ آپ کا مقام صرف آپ کے آلے پر استعمال ہوتا ہے اور کبھی جمع، منتقل یا شیئر نہیں کیا جاتا۔ مقام تک رسائی کی اجازت دینے کے لیے جاری رکھیں؟</string>
+    <string name="location_disclosure_text">یہ ایپ درست نماز کے اوقات اور قبلہ کی سمت کا حساب لگانے اور سفر کے دوران آپ کے نماز کے اوقات کو اپ ڈیٹ رکھنے کے لیے مقام کا ڈیٹا جمع کرتی ہے، چاہے ایپ بند ہو یا استعمال میں نہ ہو۔ آپ کا مقام صرف آپ کے آلے پر رہتا ہے اور کبھی منتقل یا شیئر نہیں کیا جاتا۔ مقام تک رسائی کی اجازت دینے کے لیے جاری رکھیں؟</string>
     <string name="continue_label">جاری رکھیں</string>
     <string name="location_service_required_title">مقام درکار ہے</string>
     <string name="location_service_required_text">اس خصوصیت کو استعمال کرنے کے لیے براہ کرم لوکیشن سروسز آن کریں۔</string>
