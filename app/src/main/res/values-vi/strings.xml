@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Tính năng này yêu cầu quyền truy cập vị trí.</string>
     <string name="location_disclosure_title">Quyền truy cập vị trí</string>
     <string name="location_disclosure_text">Ứng dụng này thu thập dữ liệu vị trí để tính toán chính xác giờ cầu nguyện và hướng qibla, cũng như cập nhật giờ cầu nguyện của bạn khi bạn di chuyển, ngay cả khi ứng dụng đã đóng hoặc không được sử dụng. Vị trí của bạn chỉ ở trên thiết bị của bạn và không bao giờ được truyền đi hay chia sẻ. Tiếp tục để cho phép truy cập vị trí?</string>
+    <string name="background_location_required_title">Cần vị trí ở chế độ nền</string>
+    <string name="background_location_required_text">Chế độ du lịch cần quyền truy cập vị trí được đặt thành \"Luôn cho phép\" để cập nhật giờ cầu nguyện của bạn ngay cả khi ứng dụng đã đóng hoặc không được sử dụng. Mở cài đặt để cho phép?</string>
     <string name="continue_label">Tiếp tục</string>
     <string name="location_service_required_title">Cần vị trí</string>
     <string name="location_service_required_text">Vui lòng bật dịch vụ vị trí để sử dụng tính năng này.</string>

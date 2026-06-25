@@ -80,9 +80,12 @@ fun LocationScreenContent(
     modifier: Modifier = Modifier,
     pageScrollState: ScrollState? = null,
 ) {
-    val requestLocation = rememberLocationAccessHelperDialogs {
-        onAction(LocationUiAction.OnTravelModeChange(true))
-    }
+    val requestLocation = rememberLocationAccessHelperDialogs(
+        requireBackground = true,
+        onPermissionGranted = {
+            onAction(LocationUiAction.OnTravelModeChange(true))
+        },
+    )
     // Manual user actions surface the disabled/denied feedback dialogs.
     val triggerLocation = { requestLocation(true) }
     if (uiState.isNewLocationDialogOpen) {

@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">इस सुविधा के लिए स्थान एक्सेस आवश्यक है।</string>
     <string name="location_disclosure_title">स्थान तक पहुँच</string>
     <string name="location_disclosure_text">यह ऐप सटीक नमाज़ के समय और क़िबला की दिशा की गणना करने तथा यात्रा के दौरान आपके नमाज़ के समय को अद्यतन रखने के लिए स्थान डेटा एकत्र करता है, भले ही ऐप बंद हो या उपयोग में न हो। आपका स्थान केवल आपके डिवाइस पर रहता है और इसे कभी प्रेषित या साझा नहीं किया जाता। स्थान तक पहुँच की अनुमति देने के लिए जारी रखें?</string>
+    <string name="background_location_required_title">पृष्ठभूमि स्थान आवश्यक</string>
+    <string name="background_location_required_text">यात्रा मोड को स्थान पहुँच \"हर समय अनुमति दें\" पर सेट करना आवश्यक है ताकि ऐप बंद होने या उपयोग में न होने पर भी आपके नमाज़ के समय अपडेट हो सकें। अनुमति देने के लिए सेटिंग्स खोलें?</string>
     <string name="continue_label">जारी रखें</string>
     <string name="location_service_required_title">स्थान आवश्यक</string>
     <string name="location_service_required_text">इस सुविधा का उपयोग करने के लिए कृपया स्थान सेवाएँ चालू करें।</string>

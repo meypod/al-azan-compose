@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Bu özellik için konum erişimi gereklidir.</string>
     <string name="location_disclosure_title">Konum erişimi</string>
     <string name="location_disclosure_text">Bu uygulama, namaz vakitlerini ve kıble yönünü doğru hesaplamak ve seyahat ederken namaz vakitlerinizi güncel tutmak için, uygulama kapalıyken veya kullanılmıyorken bile konum verilerinizi toplar. Konumunuz yalnızca cihazınızda kalır ve asla iletilmez veya paylaşılmaz. Konum erişimine izin vermek için devam edilsin mi?</string>
+    <string name="background_location_required_title">Arka plan konumu gerekli</string>
+    <string name="background_location_required_text">Seyahat modu, namaz vakitlerinizi uygulama kapalıyken veya kullanılmıyorken bile güncelleyebilmek için konum erişiminin \"Her zaman izin ver\" olarak ayarlanmasını gerektirir. İzin vermek için ayarları açmak ister misiniz?</string>
     <string name="continue_label">Devam</string>
     <string name="location_service_required_title">Konum gerekli</string>
     <string name="location_service_required_text">Bu özelliği kullanmak için lütfen konum servislerini açın.</string>

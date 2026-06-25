@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">الوصول إلى الموقع مطلوب لهذه الميزة.</string>
     <string name="location_disclosure_title">الوصول إلى الموقع</string>
     <string name="location_disclosure_text">يجمع هذا التطبيق بيانات الموقع لحساب أوقات الصلاة واتجاه القبلة بدقة وللحفاظ على تحديث أوقات صلاتك أثناء السفر حتى عندما يكون التطبيق مغلقًا أو غير مُستخدَم. يبقى موقعك على جهازك ولا يتم إرساله أو مشاركته أبدًا. هل تريد المتابعة للسماح بالوصول إلى الموقع؟</string>
+    <string name="background_location_required_title">الموقع في الخلفية مطلوب</string>
+    <string name="background_location_required_text">يتطلب وضع السفر ضبط الوصول إلى الموقع على \"السماح طوال الوقت\" حتى يتمكن من تحديث أوقات صلاتك حتى عندما يكون التطبيق مغلقًا أو غير مُستخدَم. هل تريد فتح الإعدادات للسماح بذلك؟</string>
     <string name="continue_label">متابعة</string>
     <string name="location_service_required_title">الموقع مطلوب</string>
     <string name="location_service_required_text">يرجى تشغيل خدمات الموقع لاستخدام هذه الميزة.</string>

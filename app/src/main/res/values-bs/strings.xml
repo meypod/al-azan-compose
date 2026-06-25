@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Pristup lokaciji je potreban za ovu funkciju.</string>
     <string name="location_disclosure_title">Pristup lokaciji</string>
     <string name="location_disclosure_text">Ova aplikacija prikuplja podatke o lokaciji radi izračunavanja tačnih namaskih vremena i smjera kible te ažuriranja vaših namaskih vremena dok putujete, čak i kada je aplikacija zatvorena ili se ne koristi. Vaša lokacija ostaje na vašem uređaju i nikada se ne prenosi niti dijeli. Želite li nastaviti i dozvoliti pristup lokaciji?</string>
+    <string name="background_location_required_title">Potrebna lokacija u pozadini</string>
+    <string name="background_location_required_text">Način putovanja zahtijeva da pristup lokaciji bude postavljen na \"Dozvoli uvijek\" kako bi ažurirao vaša namaska vremena čak i kada je aplikacija zatvorena ili se ne koristi. Otvoriti postavke da to dozvolite?</string>
     <string name="continue_label">Nastavi</string>
     <string name="location_service_required_title">Potrebna lokacija</string>
     <string name="location_service_required_text">Molimo uključite lokacijske usluge da biste koristili ovu funkciju.</string>

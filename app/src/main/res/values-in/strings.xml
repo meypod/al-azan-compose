@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Akses lokasi diperlukan untuk fitur ini.</string>
     <string name="location_disclosure_title">Akses lokasi</string>
     <string name="location_disclosure_text">Aplikasi ini mengumpulkan data lokasi untuk menghitung waktu salat dan arah kiblat secara akurat, serta menjaga waktu salat tetap diperbarui saat Anda bepergian bahkan ketika aplikasi tertutup atau tidak digunakan. Lokasi Anda hanya tersimpan di perangkat Anda dan tidak pernah dikirim atau dibagikan. Lanjutkan untuk mengizinkan akses lokasi?</string>
+    <string name="background_location_required_title">Lokasi latar belakang diperlukan</string>
+    <string name="background_location_required_text">Mode perjalanan memerlukan akses lokasi yang disetel ke \"Izinkan sepanjang waktu\" agar dapat memperbarui waktu salat Anda bahkan ketika aplikasi tertutup atau tidak digunakan. Buka pengaturan untuk mengizinkannya?</string>
     <string name="continue_label">Lanjutkan</string>
     <string name="location_service_required_title">Lokasi diperlukan</string>
     <string name="location_service_required_text">Silakan aktifkan layanan lokasi untuk menggunakan fitur ini.</string>

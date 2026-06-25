@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">برای این قابلیت، دسترسی به موقعیت مکانی لازم است.</string>
     <string name="location_disclosure_title">دسترسی به موقعیت مکانی</string>
     <string name="location_disclosure_text">این برنامه داده‌های موقعیت مکانی را جمع‌آوری می‌کند تا اوقات شرعی و جهت قبله را به‌درستی محاسبه کند و هنگام سفر اوقات شرعی شما را به‌روز نگه دارد، حتی زمانی که برنامه بسته است یا استفاده نمی‌شود. موقعیت شما فقط روی دستگاه خودتان می‌ماند و هرگز ارسال یا به اشتراک گذاشته نمی‌شود. برای اجازهٔ دسترسی به موقعیت مکانی ادامه می‌دهید؟</string>
+    <string name="background_location_required_title">موقعیت مکانی در پس‌زمینه لازم است</string>
+    <string name="background_location_required_text">حالت سفر نیاز دارد دسترسی به موقعیت مکانی روی «همیشه مجاز» تنظیم شود تا بتواند اوقات شرعی شما را حتی زمانی که برنامه بسته است یا استفاده نمی‌شود به‌روز کند. تنظیمات را برای اجازه دادن باز می‌کنید؟</string>
     <string name="continue_label">ادامه</string>
     <string name="location_service_required_title">موقعیت مکانی لازم است</string>
     <string name="location_service_required_text">لطفاً برای استفاده از این قابلیت، خدمات موقعیت مکانی را روشن کنید.</string>

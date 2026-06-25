@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.worker
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -15,7 +16,6 @@ import com.github.meypod.al_azan.core.domain.model.notification.NotificationConf
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase.Companion.PERMISSION_REVOKED_CHANNEL_ID
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase.Companion.TRAVEL_MODE_CHANNEL_ID
 import com.github.meypod.al_azan.core.util.android.LocationUtils
 import com.github.meypod.al_azan.core.util.lang.ListUtils
@@ -49,7 +49,15 @@ constructor(
                 ),
             )
         } else if (
-            applicationContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            applicationContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+            // The worker grabs the location while the app is closed, so it needs background access
+            // ("Allow all the time") on API 29+. Without it, the location request silently yields
+            // nothing, so surface the same prompt as a revoked permission instead of failing quietly.
+            (
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                    applicationContext.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED
+                )
         ) {
             notificationRepository.notify(
                 NotificationConfig(

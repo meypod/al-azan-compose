@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Für diese Funktion ist der Standortzugriff erforderlich.</string>
     <string name="location_disclosure_title">Standortzugriff</string>
     <string name="location_disclosure_text">Diese App erfasst Standortdaten, um genaue Gebetszeiten und die Qibla-Richtung zu berechnen und deine Gebetszeiten auf Reisen aktuell zu halten, selbst wenn die App geschlossen ist oder nicht verwendet wird. Dein Standort bleibt auf deinem Gerät und wird niemals übertragen oder weitergegeben. Fortfahren, um den Standortzugriff zu erlauben?</string>
+    <string name="background_location_required_title">Standortzugriff im Hintergrund erforderlich</string>
+    <string name="background_location_required_text">Der Reisemodus benötigt den auf \"Immer zulassen\" gesetzten Standortzugriff, um deine Gebetszeiten selbst dann zu aktualisieren, wenn die App geschlossen ist oder nicht verwendet wird. Einstellungen öffnen, um dies zu erlauben?</string>
     <string name="continue_label">Weiter</string>
     <string name="location_service_required_title">Standort erforderlich</string>
     <string name="location_service_required_text">Bitte aktivieren Sie die Standortdienste, um diese Funktion zu nutzen.</string>

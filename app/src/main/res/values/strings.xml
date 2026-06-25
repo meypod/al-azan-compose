@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Location access is required for this feature.</string>
     <string name="location_disclosure_title">Location access</string>
     <string name="location_disclosure_text">This app collects location data to calculate accurate prayer times and qibla direction, and to keep your prayer times updated while you travel even when the app is closed or not in use. Your location stays on your device and is never transmitted or shared. Continue to allow location access?</string>
+    <string name="background_location_required_title">Background location required</string>
+    <string name="background_location_required_text">Travel mode needs location access set to \"Allow all the time\" so it can update your prayer times even when the app is closed or not in use. Open settings to allow it?</string>
     <string name="continue_label">Continue</string>
     <string name="location_service_required_title">Location required</string>
     <string name="location_service_required_text">Please turn on location services to use this feature.</string>

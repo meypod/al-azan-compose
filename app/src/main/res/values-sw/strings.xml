@@ -63,6 +63,8 @@
     <string name="location_permission_denied_text">Ufikiaji wa eneo unahitajika kwa kipengele hiki.</string>
     <string name="location_disclosure_title">Ufikiaji wa eneo</string>
     <string name="location_disclosure_text">Programu hii hukusanya data ya eneo ili kukokotoa nyakati sahihi za sala na mwelekeo wa kibla, na kuendelea kusasisha nyakati zako za sala unaposafiri hata wakati programu imefungwa au haitumiki. Eneo lako hubaki kwenye kifaa chako na halitumwi wala kushirikiwa kamwe. Endelea ili kuruhusu ufikiaji wa eneo?</string>
+    <string name="background_location_required_title">Eneo la chinichini linahitajika</string>
+    <string name="background_location_required_text">Hali ya kusafiri inahitaji ufikiaji wa eneo uwekwe kuwa \"Ruhusu wakati wote\" ili iweze kusasisha nyakati zako za sala hata wakati programu imefungwa au haitumiki. Fungua mipangilio ili kuruhusu?</string>
     <string name="continue_label">Endelea</string>
     <string name="location_service_required_title">Eneo linahitajika</string>
     <string name="location_service_required_text">Tafadhali washa huduma za eneo ili kutumia kipengele hiki.</string>
