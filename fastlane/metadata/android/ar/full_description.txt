@@ -43,7 +43,7 @@
 * مترجم إلى الإنجليزية، العربية، الفارسية، التركية، الإندونيسية، الفرنسية، الأردية، الهندية، الألمانية، البوسنية، الفيتنامية، البنغالية، السواحلية
 
 مستودع مفتوح المصدر:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 نظرًا لأننا لا نستخدم أي نوع من أدوات التعقب أو تحليلات الأعطال، يرجى الإبلاغ عن أي مشكلة أو اقتراح لديك على مستودع GitHub الخاص بنا:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

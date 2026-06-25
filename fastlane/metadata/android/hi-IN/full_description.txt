@@ -43,7 +43,7 @@
 * अंग्रेज़ी, अरबी, फ़ारसी, तुर्की, इंडोनेशियाई, फ़्रेंच, उर्दू, हिंदी, जर्मन, बोस्नियाई, वियतनामी, बांग्ला, किस्वाहिली में स्थानीयकृत है
 
 ओपन-सोर्स रिपॉजिटरी:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 चूँकि हम किसी भी प्रकार के ट्रैकर या क्रैश एनालिटिक्स का उपयोग नहीं करते हैं, कृपया अपनी किसी भी समस्या या सुझाव की रिपोर्ट हमारे GitHub रेपो पर करें:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

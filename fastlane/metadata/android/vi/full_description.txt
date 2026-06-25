@@ -43,7 +43,7 @@ Tính năng ứng dụng:
 * Được bản địa hóa bằng tiếng Anh, tiếng Ả Rập, tiếng Ba Tư, tiếng Thổ Nhĩ Kỳ, tiếng Indonesia, tiếng Pháp, tiếng Urdu, tiếng Hindi, tiếng Đức, tiếng Bosnia, tiếng Việt, tiếng Bangla, tiếng Kiswahili
 
 Kho mã nguồn mở:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Vì chúng tôi không sử dụng bất kỳ loại trình theo dõi hoặc phân tích sự cố nào, vui lòng báo cáo bất kỳ sự cố hoặc đề xuất nào bạn có trên repo GitHub của chúng tôi:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

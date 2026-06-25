@@ -43,7 +43,7 @@ Funkcije aplikacije:
 * Lokalizirana je na engleski, arapski, perzijski, turski, indonezijski, francuski, urdu, hindi, njemački, bosanski, vijetnamski, bangla i svahili
 
 Repozitorij otvorenog koda:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Budući da ne koristimo nikakvu vrstu tragača ili analitike rušenja, molimo prijavite svaki problem ili prijedlog koji imate na našem GitHub repozitoriju:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

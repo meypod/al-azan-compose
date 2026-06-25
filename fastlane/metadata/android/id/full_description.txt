@@ -43,7 +43,7 @@ Fitur aplikasi:
 * Dilokalkan dalam bahasa Inggris, Arab, Persia, Turki, Indonesia, Prancis, Urdu, Hindi, Jerman, Bosnia, Vietnam, Bangla, Kiswahili
 
 Repositori sumber terbuka:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Karena kami tidak menggunakan pelacak atau analisis kerusakan apa pun, silakan laporkan masalah atau saran apa pun yang Anda miliki di repo GitHub kami:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

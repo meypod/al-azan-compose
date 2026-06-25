@@ -43,7 +43,7 @@
 * انگریزی، عربی، فارسی، ترکی، انڈونیشی، فرانسیسی، اردو، ہندی، جرمن، بوسنیائی، ویتنامی، بنگلہ، کسواحلی میں مقامی ہے
 
 اوپن سورس ریپوزٹری:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 چونکہ ہم کسی بھی قسم کا ٹریکر یا کریش اینالیٹکس استعمال نہیں کرتے، اس لیے براہ کرم اپنے کسی بھی مسئلے یا تجویز کی اطلاع ہمارے گیتھب ریپو پر دیں:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

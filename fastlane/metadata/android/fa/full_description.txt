@@ -43,7 +43,7 @@
 * به زبان‌های انگلیسی، عربی، فارسی، ترکی، اندونزیایی، فرانسوی، اردو، هندی، آلمانی، بوسنیایی، ویتنامی، بنگلا و سواحیلی ترجمه شده است
 
 مخزن اوپن سورس:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 به دلیل اینکه ما از هیچ‌گونه ردیاب یا ابزار تجزیه و تحلیل خرابی استفاده نمی‌کنیم، لطفا مشکلات خودتون، یا پیشنهاداتتون رو در مخزن گیت‌هاب ما گزارش کنید:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

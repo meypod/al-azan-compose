@@ -43,7 +43,7 @@ Vipengele vya programu:
 * Imejanibishwa katika Kiingereza, Kiarabu, Kiajemi, Kituruki, Kiindonesia, Kifaransa, Kiurdu, Kihindi, Kijerumani, Kibosnia, Kivietinamu, Kibangla, Kiswahili
 
 Hifadhi ya msimbo huria:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Kwa kuwa hatutumii aina yoyote ya kifuatiliaji au uchanganuzi wa hitilafu, tafadhali ripoti tatizo au pendekezo lolote ulilo nalo kwenye hifadhi yetu ya GitHub:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

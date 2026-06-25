@@ -43,7 +43,7 @@ Features der App:
 * Ist lokalisiert in Englisch, Arabisch, Persisch, Türkisch, Indonesisch, Französisch, Urdu, Hindi, Deutsch, Bosnisch, Vietnamesisch, Bengalisch, Kiswahili
 
 Open-Source Repository:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Da in der App keine Tracker und Analysewerkzeuge eingebaut sind, melden Sie Fehler oder Vorschläge bitte an das folgende GitHub-Repository:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

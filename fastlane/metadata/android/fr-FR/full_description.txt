@@ -43,7 +43,7 @@ Caractéristiques de l'application :
 * Est localisée en anglais, arabe, persan, turc, indonésien, français, urdu, hindi, allemand, bosniaque, vietnamien, bengali, kiswahili
 
 Dépôt open source :
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Puisque nous n'utilisons aucune sorte de traqueur ou de crash analytics, merci de nous faire part de tout problème ou suggestion sur notre dépôt GitHub :
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues

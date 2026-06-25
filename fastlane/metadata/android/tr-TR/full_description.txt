@@ -43,7 +43,7 @@ Uygulama özellikleri:
 * İngilizce, Arapça, Farsça, Türkçe, Endonezce, Fransızca, Urduca, Hintçe, Almanca, Boşnakça, Vietnamca, Bangla, Kiswahili dillerinde yerelleştirilmiştir
 
 Açık kaynak deposu:
-https://github.com/meypod/al-azan/
+https://github.com/meypod/al-azan-compose/
 
 Herhangi bir izleyici veya çökme analizi kullanmadığımız için, lütfen yaşadığınız sorunları veya önerilerinizi GitHub depomuza bildirin:
-https://github.com/meypod/al-azan/issues
+https://github.com/meypod/al-azan-compose/issues
