@@ -209,6 +209,7 @@ fun HomeScreen(
                                     addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
                                     uiState.arabicCalendarLocale,
                                     uiState.arabicCalendar,
+                                    numberingSystem = uiState.numberingSystem,
                                 )
                             } else {
                                 formatInstant(

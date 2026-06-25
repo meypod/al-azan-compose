@@ -26,8 +26,9 @@ fun formatInstant(
     skeleton: String = DateFormat.YEAR_MONTH_DAY,
     numberingSystem: NumberingSystem = NumberingSystem.Default,
 ): String {
-    val formatter = DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar"))
-    return formatWithUnicodeDigits(formatter.format(Date.from(instant.toJavaInstant())), numberingSystem)
+    val numbers = if (numberingSystem == NumberingSystem.Default) "" else ";numbers=${numberingSystem.value}"
+    val formatter = DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar$numbers"))
+    return formatter.format(Date.from(instant.toJavaInstant()))
 }
 
 fun formatTimeOfDay(

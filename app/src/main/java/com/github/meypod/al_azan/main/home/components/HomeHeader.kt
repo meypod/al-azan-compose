@@ -153,6 +153,7 @@ fun HomeHeader(
                             addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
                             uiState.arabicCalendarLocale,
                             uiState.arabicCalendar,
+                            numberingSystem = uiState.numberingSystem,
                         )
                     },
                     color = headerContentColor,

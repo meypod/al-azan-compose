@@ -13,6 +13,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.Locale
 import kotlin.time.toJavaInstant
 import kotlin.time.toKotlinInstant
 
@@ -99,7 +100,7 @@ class PrayerTimesAppFunctions @Inject constructor(
             locationDetail = location.locationDetail,
         )
 
-        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ROOT)
         val entries = SHARIA_TIMES_IN_ORDER.map { prayer ->
             val time = shariaTimes.forPrayer(prayer)
             PrayerTimeEntry(
