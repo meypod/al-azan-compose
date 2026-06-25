@@ -1,10 +1,10 @@
-name: Update store listing
+name: Update store text metadata
 
 on:
   workflow_dispatch:
 
 jobs:
-  listing:
+  text:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +19,10 @@ jobs:
     - name: Install fastlane
       run: gem install fastlane --no-document
 
-    # Uploads only the Play listing (titles, descriptions, images and
-    # screenshots) from fastlane/metadata/android. No AAB, no changelogs
-    # (changelogs are release-coupled and handled by the release workflow).
-    - name: Update store listing
+    # Uploads ONLY the textual Play listing (titles, short/full descriptions,
+    # video). No images, no screenshots, no AAB, no changelogs (changelogs are
+    # release-coupled and handled by the release workflow).
+    - name: Update store text metadata
       env:
         SUPPLY_JSON_KEY_DATA: ${{ secrets.SERVICE_ACCOUNT_JSON }}
       run: |
@@ -31,4 +31,6 @@ jobs:
           --metadata_path fastlane/metadata/android \
           --skip_upload_apk true \
           --skip_upload_aab true \
-          --skip_upload_changelogs true
+          --skip_upload_changelogs true \
+          --skip_upload_images true \
+          --skip_upload_screenshots true

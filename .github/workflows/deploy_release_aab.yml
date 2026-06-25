@@ -1,4 +1,4 @@
-name: deploy release aab to play
+name: Deploy release aab to play
 
 on:
   workflow_dispatch:
