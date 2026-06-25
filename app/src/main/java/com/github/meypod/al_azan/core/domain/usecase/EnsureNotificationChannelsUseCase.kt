@@ -13,11 +13,7 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
     companion object {
         const val PERMISSION_REVOKED_CHANNEL_ID = "permission_revoked_channel_id"
         const val TRAVEL_MODE_CHANNEL_ID = "travel_mode_channel_id"
-
-        // Bumped from "widget_channel_id": Android ignores importance raises on an existing channel, so
-        // lifting LOW -> HIGH only takes effect on a fresh channel id. The old id is deleted in [invoke].
-        const val WIDGET_CHANNEL_ID = "widget_channel_id_v2"
-        private const val LEGACY_WIDGET_CHANNEL_ID = "widget_channel_id"
+        const val WIDGET_CHANNEL_ID = "widget_channel_id"
         const val ADHAN_CHANNEL_ID = "adhan_channel_id"
         const val ADHAN_DND_CHANNEL_ID = "adhan_dnd_channel_id"
         const val PRE_ADHAN_CHANNEL_ID = "pre_adhan_channel_id"
@@ -31,8 +27,6 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
     }
 
     operator fun invoke() {
-        // Idempotent: clears the orphaned pre-bump widget channel from system settings on every run.
-        channelManager.deleteChannel(LEGACY_WIDGET_CHANNEL_ID)
         channelManager.ensureChannelsExist(
             configs = listOf(
                 NotificationChannelConfig(
@@ -51,12 +45,9 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     id = WIDGET_CHANNEL_ID,
                     name = TextResource.StringResId(R.string.widget_channel_name),
                     description = TextResource.StringResId(R.string.widget_channel_description),
-                    // HIGH so the persistent prayer-times notification ranks high in the shade; sound and
-                    // vibration are off so it never alerts audibly despite the raised importance.
-                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_LOW,
                     showBadge = false,
                     vibrationEnabled = false,
-                    soundEnabled = false,
                 ),
                 NotificationChannelConfig(
                     id = ADHAN_CHANNEL_ID,

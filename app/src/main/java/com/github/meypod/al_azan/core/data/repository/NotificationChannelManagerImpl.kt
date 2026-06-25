@@ -72,10 +72,6 @@ class NotificationChannelManagerImpl @Inject constructor(
             enableVibration(config.vibrationEnabled)
             config.vibrationPattern?.let { vibrationPattern = it.toLongArray() }
             when {
-                // No sound at all, independent of importance — lets a HIGH channel rank high in the
-                // shade without alerting audibly.
-                !config.soundEnabled -> setSound(null, null)
-
                 // Keep importance (heads-up / full-screen) but stay audibly silent; the playback
                 // service produces the actual audio.
                 config.soundHandledExternally -> setSound(silenceUri, alarmAudioAttributes)
