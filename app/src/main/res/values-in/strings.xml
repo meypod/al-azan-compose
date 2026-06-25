@@ -61,6 +61,9 @@
     <string name="open_settings_failed">Tidak dapat membuka pengaturan.</string>
     <string name="open_permissions_guidance">Buka Izin dan izinkan akses lokasi.</string>
     <string name="location_permission_denied_text">Akses lokasi diperlukan untuk fitur ini.</string>
+    <string name="location_disclosure_title">Akses lokasi</string>
+    <string name="location_disclosure_text">Al-Azan menggunakan lokasi perangkat Anda untuk mendeteksi posisi Anda saat ini agar dapat menghitung waktu salat dan arah kiblat secara akurat, serta memperbaruinya saat Anda bepergian. Lokasi Anda hanya digunakan di perangkat Anda dan tidak pernah dikumpulkan, dikirim, atau dibagikan. Lanjutkan untuk mengizinkan akses lokasi?</string>
+    <string name="continue_label">Lanjutkan</string>
     <string name="location_service_required_title">Lokasi diperlukan</string>
     <string name="location_service_required_text">Silakan aktifkan layanan lokasi untuk menggunakan fitur ini.</string>
     <string name="notification_permission_title">Izinkan notifikasi</string>

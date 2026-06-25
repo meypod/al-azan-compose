@@ -61,6 +61,9 @@
     <string name="open_settings_failed">Couldn\'t open settings.</string>
     <string name="open_permissions_guidance">Open Permissions and allow location access.</string>
     <string name="location_permission_denied_text">Location access is required for this feature.</string>
+    <string name="location_disclosure_title">Location access</string>
+    <string name="location_disclosure_text">Al-Azan uses your device location to detect your current position so it can calculate accurate prayer times and qibla direction, and to keep them updated when you travel. Your location is used only on your device and is never collected, transmitted, or shared. Continue to allow location access?</string>
+    <string name="continue_label">Continue</string>
     <string name="location_service_required_title">Location required</string>
     <string name="location_service_required_text">Please turn on location services to use this feature.</string>
     <string name="notification_permission_title">Allow notifications</string>

@@ -61,6 +61,9 @@
     <string name="open_settings_failed">تعذّر فتح الإعدادات.</string>
     <string name="open_permissions_guidance">افتح الأذونات واسمح بالوصول إلى الموقع.</string>
     <string name="location_permission_denied_text">الوصول إلى الموقع مطلوب لهذه الميزة.</string>
+    <string name="location_disclosure_title">الوصول إلى الموقع</string>
+    <string name="location_disclosure_text">يستخدم الأذان موقع جهازك لتحديد موضعك الحالي حتى يتمكن من حساب أوقات الصلاة واتجاه القبلة بدقة، وتحديثها أثناء السفر. يُستخدم موقعك على جهازك فقط ولا يتم جمعه أو إرساله أو مشاركته أبدًا. هل تريد المتابعة للسماح بالوصول إلى الموقع؟</string>
+    <string name="continue_label">متابعة</string>
     <string name="location_service_required_title">الموقع مطلوب</string>
     <string name="location_service_required_text">يرجى تشغيل خدمات الموقع لاستخدام هذه الميزة.</string>
     <string name="notification_permission_title">السماح بالإشعارات</string>

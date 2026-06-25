@@ -61,6 +61,9 @@
     <string name="open_settings_failed">Không thể mở cài đặt.</string>
     <string name="open_permissions_guidance">Mở Quyền và cho phép truy cập vị trí.</string>
     <string name="location_permission_denied_text">Tính năng này yêu cầu quyền truy cập vị trí.</string>
+    <string name="location_disclosure_title">Quyền truy cập vị trí</string>
+    <string name="location_disclosure_text">Al-Azan sử dụng vị trí thiết bị của bạn để xác định vị trí hiện tại nhằm tính toán chính xác giờ cầu nguyện và hướng qibla, cũng như cập nhật chúng khi bạn di chuyển. Vị trí của bạn chỉ được sử dụng trên thiết bị của bạn và không bao giờ được thu thập, truyền đi hay chia sẻ. Tiếp tục để cho phép truy cập vị trí?</string>
+    <string name="continue_label">Tiếp tục</string>
     <string name="location_service_required_title">Cần vị trí</string>
     <string name="location_service_required_text">Vui lòng bật dịch vụ vị trí để sử dụng tính năng này.</string>
     <string name="notification_permission_title">Cho phép thông báo</string>

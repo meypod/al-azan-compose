@@ -32,6 +32,10 @@ fun rememberLocationAccessHelperDialogs(
     val scope = rememberCoroutineScope()
     val showLocationDisabledDialog = remember { mutableStateOf(false) }
     val showPermissionDeniedDialog = remember { mutableStateOf(false) }
+    // Prominent disclosure shown before the system location prompt the first time access is needed.
+    // Required by Google Play's Prominent Disclosure & Consent policy: the user must be told what
+    // location data is accessed and why, with an explicit affirmative action, before we request it.
+    val showDisclosureDialog = remember { mutableStateOf(false) }
     // Whether the in-flight request should surface the disabled/denied dialogs. Auto-triggers (e.g.
     // the qibla compass grabbing GPS on open) request silently so a denial doesn't nag the user.
     val showFeedbackForPendingRequest = remember { mutableStateOf(true) }
@@ -64,15 +68,46 @@ fun rememberLocationAccessHelperDialogs(
         }
     }
 
-    val triggerLocation = remember {
-        { showFeedback: Boolean ->
-            showFeedbackForPendingRequest.value = showFeedback
+    // Runs the actual location-services check and permission request. Reached only after permission
+    // is already granted, or after the user accepts the prominent disclosure below.
+    val proceedToRequest = remember {
+        {
             if (!LocationUtils.isLocationEnabled(context)) {
-                if (showFeedback) showLocationDisabledDialog.value = true
+                if (showFeedbackForPendingRequest.value) showLocationDisabledDialog.value = true
             } else {
                 permLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
+    }
+
+    val triggerLocation = remember {
+        { showFeedback: Boolean ->
+            showFeedbackForPendingRequest.value = showFeedback
+            val alreadyGranted =
+                context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                    context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            if (alreadyGranted) {
+                proceedToRequest()
+            } else {
+                showDisclosureDialog.value = true
+            }
+        }
+    }
+
+    if (showDisclosureDialog.value) {
+        CtaDialog(
+            title = stringResource(R.string.location_disclosure_title),
+            text = stringResource(R.string.location_disclosure_text),
+            confirmLabel = stringResource(R.string.continue_label),
+            dismissLabel = stringResource(R.string.cancel),
+            onConfirm = {
+                showDisclosureDialog.value = false
+                proceedToRequest()
+            },
+            onDismissRequest = {
+                showDisclosureDialog.value = false
+            },
+        )
     }
 
     if (showLocationDisabledDialog.value) {

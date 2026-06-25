@@ -61,6 +61,9 @@
     <string name="open_settings_failed">Einstellungen konnten nicht geöffnet werden.</string>
     <string name="open_permissions_guidance">Öffnen Sie die Berechtigungen und erlauben Sie den Standortzugriff.</string>
     <string name="location_permission_denied_text">Für diese Funktion ist der Standortzugriff erforderlich.</string>
+    <string name="location_disclosure_title">Standortzugriff</string>
+    <string name="location_disclosure_text">Al-Azan verwendet den Standort deines Geräts, um deine aktuelle Position zu ermitteln, damit genaue Gebetszeiten und die Qibla-Richtung berechnet und auf Reisen aktuell gehalten werden können. Dein Standort wird nur auf deinem Gerät verwendet und niemals erfasst, übertragen oder weitergegeben. Fortfahren, um den Standortzugriff zu erlauben?</string>
+    <string name="continue_label">Weiter</string>
     <string name="location_service_required_title">Standort erforderlich</string>
     <string name="location_service_required_text">Bitte aktivieren Sie die Standortdienste, um diese Funktion zu nutzen.</string>
     <string name="notification_permission_title">Benachrichtigungen erlauben</string>
