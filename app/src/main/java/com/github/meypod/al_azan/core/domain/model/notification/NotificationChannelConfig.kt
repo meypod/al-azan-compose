@@ -20,6 +20,11 @@ data class NotificationChannelConfig(
     val vibrationEnabled: Boolean = true,
     val vibrationPattern: List<Long>? = null,
     /**
+     * When false the channel plays no sound at all (`setSound(null, null)`), regardless of importance.
+     * Use for high-importance channels that should rank high in the shade without alerting audibly.
+     */
+    val soundEnabled: Boolean = true,
+    /**
      * set `null` for default ringtone
      */
     val soundUri: String? = null,
