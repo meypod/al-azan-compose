@@ -32,6 +32,7 @@ import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.ClassicHighlightBackground
 import com.github.meypod.al_azan.core.presentation.ClassicBorderHighlight
+import com.github.meypod.al_azan.core.presentation.LightColorScheme
 import com.github.meypod.al_azan.core.presentation.TertiaryFixed
 import com.github.meypod.al_azan.core.presentation.util.dashedBorder
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2Up
@@ -60,7 +61,12 @@ fun ShariaTimeRow(
     } else {
         when (state.highlightState) {
             HighlightState.BeforeHighlight -> MaterialTheme.colorScheme.outline
-            HighlightState.Highlighted -> MaterialTheme.colorScheme.onTertiaryFixed
+            HighlightState.Highlighted ->
+                if (state.themeColor == ThemeColor.Dynamic) {
+                    LightColorScheme.onTertiaryFixed
+                } else {
+                    MaterialTheme.colorScheme.onTertiaryFixed
+                }
             HighlightState.AfterHighlight -> MaterialTheme.colorScheme.onSecondaryContainer
         }
     }
