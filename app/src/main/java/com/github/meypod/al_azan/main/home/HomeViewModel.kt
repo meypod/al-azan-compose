@@ -233,7 +233,14 @@ class HomeViewModel
     private fun collectTimeTick() {
         viewModelScope.launch {
             tickFlow().collect { now ->
-                if (uiState.value.showNextPrayerCountdown) {
+                val nextShariaTime = uiState.value.nextShariaTime
+                if (nextShariaTime != null && now > nextShariaTime.prayerTime) {
+                    // Countdown elapsed. The scheduled recompute (updateScreenJob) relies on a
+                    // coroutine delay that the OS freezes while the app is backgrounded, so it can
+                    // miss the boundary (notably for prayers with no alarm to wake the process).
+                    // Force a recompute here so the box self-heals within a tick once resumed.
+                    _uiState.update { it.copy(currentInstant = now) }
+                } else if (uiState.value.showNextPrayerCountdown) {
                     _uiState.update {
                         if (it.nextShariaTime != null && now <= it.nextShariaTime.prayerTime) {
                             it.copy(
