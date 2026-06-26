@@ -8,22 +8,25 @@ import kotlin.time.Instant
 fun formatDurationToHHmmss(
     duration: Duration,
     numberingSystem: NumberingSystem = NumberingSystem.Default,
+    locale: String? = null,
 ): String {
     val hours = duration.inWholeHours
     val remainingSeconds = duration.inWholeSeconds - hours * 3600
     val minutes = remainingSeconds / 60
     val seconds = remainingSeconds % 60
-    return formatWithUnicodeDigits(String.format(Locale.ROOT, "%02d:%02d:%02d", hours, minutes, seconds), numberingSystem)
+    return formatWithUnicodeDigits(
+        String.format(Locale.ROOT, "%02d:%02d:%02d", hours, minutes, seconds),
+        numberingSystem,
+        locale,
+    )
 }
 
 fun formatCountdownToHHmmss(
     currentInstant: Instant,
     targetInstant: Instant,
     numberingSystem: NumberingSystem = NumberingSystem.Default,
+    locale: String? = null,
 ): String {
-    val duration = targetInstant - currentInstant
-    if (duration <= Duration.ZERO) {
-        return formatWithUnicodeDigits("00:00:00", numberingSystem)
-    }
-    return formatDurationToHHmmss(duration, numberingSystem)
+    val duration = (targetInstant - currentInstant).coerceAtLeast(Duration.ZERO)
+    return formatDurationToHHmmss(duration, numberingSystem, locale)
 }

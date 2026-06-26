@@ -9,6 +9,7 @@ data class CounterUiState(
     val counters: List<Counter> = emptyList(),
     val showLastChangeTime: Boolean = false,
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
+    val locale: String = "",
     val addDialog: AddCounterDraft? = null,
     val editDialog: EditCounterDraft? = null,
 )

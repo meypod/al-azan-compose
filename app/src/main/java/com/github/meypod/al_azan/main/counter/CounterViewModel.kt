@@ -29,9 +29,16 @@ class CounterViewModel @Inject constructor(
             counterRepository.update { ensureDefaultCounters(it) }
         }
         viewModelScope.launch {
-            combine(counterRepository.data, settingsRepository.data) { c, s -> Triple(c, s.counterHistoryVisible, s.numberingSystem) }
-                .collect { (counters, show, ns) ->
-                    _uiState.update { it.copy(counters = counters, showLastChangeTime = show, numberingSystem = ns) }
+            combine(counterRepository.data, settingsRepository.data) { c, s -> c to s }
+                .collect { (counters, s) ->
+                    _uiState.update {
+                        it.copy(
+                            counters = counters,
+                            showLastChangeTime = s.counterHistoryVisible,
+                            numberingSystem = s.numberingSystem,
+                            locale = s.selectedLocale,
+                        )
+                    }
                 }
         }
     }
@@ -59,10 +66,11 @@ class CounterViewModel @Inject constructor(
 
     private fun onAddClick() = _uiState.update { it.copy(addDialog = AddCounterDraft()) }
 
-    private fun onAddLabelChange(action: CounterUiAction.OnAddLabelChange) = _uiState.update {
-        val d = it.addDialog ?: return@update it
-        it.copy(addDialog = d.copy(label = action.value, labelError = false))
-    }
+    private fun onAddLabelChange(action: CounterUiAction.OnAddLabelChange) =
+        _uiState.update {
+            val d = it.addDialog ?: return@update it
+            it.copy(addDialog = d.copy(label = action.value, labelError = false))
+        }
 
     private fun onAddDialogDismiss() = _uiState.update { it.copy(addDialog = null) }
 
@@ -79,14 +87,16 @@ class CounterViewModel @Inject constructor(
         _uiState.update { it.copy(addDialog = null) }
     }
 
-    private fun onIncrement(action: CounterUiAction.OnIncrement) = updateCounter(action.id) {
-        it.copy(count = it.count + 1, lastCount = it.count, lastModified = System.currentTimeMillis())
-    }
+    private fun onIncrement(action: CounterUiAction.OnIncrement) =
+        updateCounter(action.id) {
+            it.copy(count = it.count + 1, lastCount = it.count, lastModified = System.currentTimeMillis())
+        }
 
-    private fun onDecrement(action: CounterUiAction.OnDecrement) = updateCounter(action.id) {
-        val next = (it.count - 1).coerceAtLeast(0)
-        it.copy(count = next, lastCount = it.count, lastModified = System.currentTimeMillis())
-    }
+    private fun onDecrement(action: CounterUiAction.OnDecrement) =
+        updateCounter(action.id) {
+            val next = (it.count - 1).coerceAtLeast(0)
+            it.copy(count = next, lastCount = it.count, lastModified = System.currentTimeMillis())
+        }
 
     private fun onMove(action: CounterUiAction.OnMove) {
         viewModelScope.launch {
@@ -117,15 +127,17 @@ class CounterViewModel @Inject constructor(
         }
     }
 
-    private fun onEditLabelChange(action: CounterUiAction.OnEditLabelChange) = _uiState.update {
-        val d = it.editDialog ?: return@update it
-        it.copy(editDialog = d.copy(label = action.value, labelError = false))
-    }
+    private fun onEditLabelChange(action: CounterUiAction.OnEditLabelChange) =
+        _uiState.update {
+            val d = it.editDialog ?: return@update it
+            it.copy(editDialog = d.copy(label = action.value, labelError = false))
+        }
 
-    private fun onEditCountChange(action: CounterUiAction.OnEditCountChange) = _uiState.update {
-        val d = it.editDialog ?: return@update it
-        it.copy(editDialog = d.copy(count = action.value.coerceAtLeast(0)))
-    }
+    private fun onEditCountChange(action: CounterUiAction.OnEditCountChange) =
+        _uiState.update {
+            val d = it.editDialog ?: return@update it
+            it.copy(editDialog = d.copy(count = action.value.coerceAtLeast(0)))
+        }
 
     private fun onEditDialogDismiss() = _uiState.update { it.copy(editDialog = null) }
 
@@ -139,7 +151,9 @@ class CounterViewModel @Inject constructor(
         viewModelScope.launch {
             counterRepository.update { list ->
                 list.map { c ->
-                    if (c.id != draft.id) c else {
+                    if (c.id != draft.id) {
+                        c
+                    } else {
                         val countChanged = c.count != draft.count
                         c.copy(
                             label = newLabel,
@@ -154,15 +168,17 @@ class CounterViewModel @Inject constructor(
         _uiState.update { it.copy(editDialog = null) }
     }
 
-    private fun onEditDeleteRequest() = _uiState.update {
-        val d = it.editDialog ?: return@update it
-        if (d.isDefault) it else it.copy(editDialog = d.copy(deleteConfirm = true))
-    }
+    private fun onEditDeleteRequest() =
+        _uiState.update {
+            val d = it.editDialog ?: return@update it
+            if (d.isDefault) it else it.copy(editDialog = d.copy(deleteConfirm = true))
+        }
 
-    private fun onEditDeleteCancel() = _uiState.update {
-        val d = it.editDialog ?: return@update it
-        it.copy(editDialog = d.copy(deleteConfirm = false))
-    }
+    private fun onEditDeleteCancel() =
+        _uiState.update {
+            val d = it.editDialog ?: return@update it
+            it.copy(editDialog = d.copy(deleteConfirm = false))
+        }
 
     private fun onEditDialogDelete() {
         val draft = _uiState.value.editDialog ?: return
@@ -173,7 +189,10 @@ class CounterViewModel @Inject constructor(
         _uiState.update { it.copy(editDialog = null) }
     }
 
-    private fun updateCounter(id: String, transform: (Counter) -> Counter) {
+    private fun updateCounter(
+        id: String,
+        transform: (Counter) -> Counter,
+    ) {
         viewModelScope.launch {
             counterRepository.update { list -> list.map { if (it.id == id) transform(it) else it } }
         }

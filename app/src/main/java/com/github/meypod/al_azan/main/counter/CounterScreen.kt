@@ -112,6 +112,7 @@ fun CounterScreen(
                     onAction = onAction,
                     showLastChange = uiState.showLastChangeTime,
                     numberingSystem = uiState.numberingSystem,
+                    locale = uiState.locale,
                     now = now,
                     modifier = itemModifier.graphicsLayer { alpha = if (isPlaceholder) 0f else 1f },
                     dragHandleModifier = dragHandleModifier,
@@ -129,6 +130,7 @@ private fun CounterRow(
     onAction: (CounterUiAction) -> Unit,
     showLastChange: Boolean,
     numberingSystem: NumberingSystem,
+    locale: String,
     now: Long,
     modifier: Modifier = Modifier,
     dragHandleModifier: Modifier = Modifier,
@@ -172,12 +174,12 @@ private fun CounterRow(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        text = formatWithUnicodeDigits(counter.count.toString(), numberingSystem),
+                        text = formatWithUnicodeDigits(counter.count.toString(), numberingSystem, locale),
                         style = MaterialTheme.typography.titleLarge,
                     )
                     if (showLastChange && counter.lastModified != null && counter.lastCount != null) {
                         Text(
-                            text = formatLastChange(counter, numberingSystem, now),
+                            text = formatLastChange(counter, numberingSystem, locale, now),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -203,6 +205,7 @@ private fun CounterRow(
 private fun formatLastChange(
     counter: Counter,
     numberingSystem: NumberingSystem,
+    locale: String,
     now: Long,
 ): String {
     val diff = getDateDiff(now, counter.lastModified ?: 0L)
@@ -212,7 +215,7 @@ private fun formatLastChange(
         counter.lastCount ?: 0,
         counter.count,
     )
-    return formatWithUnicodeDigits(formatted, numberingSystem)
+    return formatWithUnicodeDigits(formatted, numberingSystem, locale)
 }
 
 @Composable

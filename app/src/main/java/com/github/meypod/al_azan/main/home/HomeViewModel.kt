@@ -236,7 +236,14 @@ class HomeViewModel
                 if (uiState.value.showNextPrayerCountdown) {
                     _uiState.update {
                         if (it.nextShariaTime != null && now <= it.nextShariaTime.prayerTime) {
-                            it.copy(countdownText = formatCountdownToHHmmss(now, it.nextShariaTime.prayerTime, it.numberingSystem))
+                            it.copy(
+                                countdownText = formatCountdownToHHmmss(
+                                    now,
+                                    it.nextShariaTime.prayerTime,
+                                    it.numberingSystem,
+                                    it.locale,
+                                ),
+                            )
                         } else {
                             it
                         }
@@ -295,7 +302,12 @@ class HomeViewModel
                     val countdownText = if (settings.showHomeNextPrayerCountdown && nextShariaTime != null &&
                         currentInstant <= nextShariaTime.prayerTime
                     ) {
-                        formatCountdownToHHmmss(currentInstant, nextShariaTime.prayerTime, settings.numberingSystem)
+                        formatCountdownToHHmmss(
+                            currentInstant,
+                            nextShariaTime.prayerTime,
+                            settings.numberingSystem,
+                            settings.selectedLocale,
+                        )
                     } else {
                         it.countdownText
                     }
