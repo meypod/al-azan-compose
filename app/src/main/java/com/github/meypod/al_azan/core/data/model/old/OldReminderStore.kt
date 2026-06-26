@@ -147,41 +147,70 @@ fun OldReminder.toReminder() =
         label = this.label ?: "",
         enabled = this.enabled,
         prayer = this.prayer,
-        duration = this.duration.toInt(),
+        // The old app stored the offset as a positive magnitude in milliseconds (sign lives in
+        // durationModifier); the new model is in minutes. Convert instead of copying the raw value.
+        duration = (this.duration / 60_000L).toInt(),
         durationModifier = this.durationModifier,
         sound = this.sound?.toReminderAudioEntry(),
         once = this.once,
         days = this.days?.toPrayerAlarmSettings(),
     )
 
-fun OldAudioEntry.toReminderAudioEntry() =
+fun OldAudioEntry.toReminderAudioEntry(): ReminderAudioEntry {
+    // The stable string id is authoritative. Any sound this build still bundles — the silent track or an
+    // adhan voice — is re-resolved to its current resource int via mapAdhanIdToEntryOrNull, regardless of
+    // how the old app stored it: as a bundled resource int, OR as an external entry whose filepath is a
+    // now-stale download/asset path (e.g. an adhan voice downloaded by the old app). Only genuinely
+    // external user files (custom picks, device ringtones) keep their stored path. An id this build no
+    // longer bundles with no usable path falls back to the default notification sound.
+    val id: String
+    val label: String
+    val canDelete: Boolean
+    val loop: Boolean
+    val externalPath: String?
     when (this) {
         is OldAudioEntry.OldResourceOldAudioEntry -> {
-            // The old app's stored resource int is meaningless here — Android resource ids are not
-            // stable across builds/apps. Re-resolve the current resource int from the stable string id;
-            // an id this build no longer bundles falls back to the default notification sound.
-            mapAdhanIdToEntryOrNull(this.id)?.resId?.let { resourceId ->
-                ReminderAudioEntry.ResourceReminderAudioEntry(
-                    id = this.id,
-                    resourceId = resourceId,
-                    label = this.label,
-                    canDelete = this.canDelete,
-                    loop = this.loop,
-                )
-            } ?: ReminderAudioEntry.DefaultReminderAudioEntry
+            id = this.id
+            label = this.label
+            canDelete = this.canDelete
+            loop = this.loop
+            externalPath = null
         }
 
         is OldAudioEntry.OldExternalAudioEntry -> {
-            ReminderAudioEntry.ExternalReminderAudioEntry(
-                id = this.id,
-                filepath = this.filepath,
-                label = this.label,
-                canDelete = this.canDelete,
-                loop = this.loop,
-            )
+            id = this.id
+            label = this.label
+            canDelete = this.canDelete
+            loop = this.loop
+            externalPath = this.filepath
         }
 
         is OldAudioEntry.OldDefaultAudioEntry -> {
-            ReminderAudioEntry.DefaultReminderAudioEntry
+            id = this.id
+            label = this.label
+            canDelete = this.canDelete
+            loop = this.loop
+            externalPath = null
         }
     }
+
+    mapAdhanIdToEntryOrNull(id)?.resId?.let { resourceId ->
+        return ReminderAudioEntry.ResourceReminderAudioEntry(
+            id = id,
+            resourceId = resourceId,
+            label = label,
+            canDelete = canDelete,
+            loop = loop,
+        )
+    }
+
+    return externalPath?.let { path ->
+        ReminderAudioEntry.ExternalReminderAudioEntry(
+            id = id,
+            filepath = path,
+            label = label,
+            canDelete = canDelete,
+            loop = loop,
+        )
+    } ?: ReminderAudioEntry.DefaultReminderAudioEntry
+}

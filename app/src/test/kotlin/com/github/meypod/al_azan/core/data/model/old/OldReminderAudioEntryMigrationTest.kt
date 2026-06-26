@@ -57,4 +57,35 @@ class OldReminderAudioEntryMigrationTest {
         assertEquals("/data/custom.mp3", migrated.filepath)
         assertEquals(true, migrated.loop)
     }
+
+    /**
+     * A bundled adhan voice the old app had DOWNLOADED is stored as an external entry with a now-stale
+     * file path. It must re-resolve to this build's bundled resource by its stable id, not keep the path.
+     */
+    @Test
+    fun externalBundledIdReResolvesToResource() {
+        val old = OldAudioEntry.OldExternalAudioEntry(
+            id = "masjid_an_nabawi",
+            filepath = "/old/app/files/masjid_an_nabawi.mp3", // stale path from the old app
+            label = "Masjid an-Nabawi",
+        )
+
+        val resource = old.toReminderAudioEntry() as ReminderAudioEntry.ResourceReminderAudioEntry
+        assertEquals("masjid_an_nabawi", resource.id)
+        assertEquals(R.raw.masjid_an_nabawi, resource.resourceId)
+    }
+
+    /** The old "silent" entry (stored with a non-uri "silent" filepath) maps to the silent resource. */
+    @Test
+    fun silentMapsToSilenceResource() {
+        val old = OldAudioEntry.OldExternalAudioEntry(
+            id = ReminderAudioEntry.SILENT_ID,
+            filepath = "silent",
+            label = "Silent",
+        )
+
+        val resource = old.toReminderAudioEntry() as ReminderAudioEntry.ResourceReminderAudioEntry
+        assertEquals(ReminderAudioEntry.SILENT_ID, resource.id)
+        assertEquals(R.raw.silence, resource.resourceId)
+    }
 }
