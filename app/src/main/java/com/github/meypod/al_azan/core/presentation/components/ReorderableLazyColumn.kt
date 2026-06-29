@@ -543,6 +543,7 @@ private class ReorderState(
             indexByKey.entries.firstOrNull { (otherKey, otherIndex) ->
                 if (otherIndex == currentIndex) return@firstOrNull false
                 val coords = itemCoordsByKey[otherKey] ?: return@firstOrNull false
+                if (!coords.isAttached) return@firstOrNull false
                 val size = itemSizeByKey[otherKey] ?: return@firstOrNull false
                 val top = coords.localToWindow(Offset.Zero).y - containerWindowOffset.y
                 currentItemCenter >= top && currentItemCenter <= top + size.height

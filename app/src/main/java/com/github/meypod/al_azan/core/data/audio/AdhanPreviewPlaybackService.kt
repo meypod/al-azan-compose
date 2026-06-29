@@ -220,12 +220,15 @@ class AdhanPreviewPlaybackService :
     private fun registerCallStateListener() {
         if (!hasPhoneStatePermission()) return
         val tm = telephonyManager ?: return
+        // A re-issued ACTION_PLAY hits startPlayback again; drop any prior registration first so
+        // callbacks don't accumulate and trip the platform's per-pid listener cap.
+        unregisterCallStateListener()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val callback = object : TelephonyCallback(), TelephonyCallback.CallStateListener {
                 override fun onCallStateChanged(state: Int) = onCallState(state)
             }
             telephonyCallback = callback
-            tm.registerTelephonyCallback(mainExecutor, callback)
+            runCatching { tm.registerTelephonyCallback(mainExecutor, callback) }
         } else {
             @Suppress("DEPRECATION")
             val listener = object : PhoneStateListener() {
@@ -237,7 +240,7 @@ class AdhanPreviewPlaybackService :
             }
             phoneStateListener = listener
             @Suppress("DEPRECATION")
-            tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
+            runCatching { tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE) }
         }
     }
 
