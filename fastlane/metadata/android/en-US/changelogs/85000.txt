@@ -1,0 +1,2 @@
+- fix app crash on 32 bit (old) android phones
+- fix crash on playing preview of sounds many times
