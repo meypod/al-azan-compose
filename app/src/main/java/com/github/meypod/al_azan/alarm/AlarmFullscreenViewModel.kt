@@ -37,7 +37,7 @@ class AlarmFullscreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val prayer: Prayer? =
-        savedStateHandle.get<String>(PlaybackService.EXTRA_PRAYER)
+        savedStateHandle.get<String>(AdhanContract.EXTRA_PRAYER)
             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
 
     // Reminders reuse this screen but have no snooze and no *auto*-silence (manual "Dismiss & silent"

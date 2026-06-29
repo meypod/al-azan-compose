@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.playback
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
@@ -92,7 +93,7 @@ class PlaybackLauncher @Inject constructor(
         val useMediaUsage = request.preferExternalAudioDevice &&
             AudioDeviceInspector.isExternalDeviceConnected(context)
         val extras = Bundle().apply {
-            putString(PlaybackService.EXTRA_PRAYER, request.prayerName)
+            putString(AdhanContract.EXTRA_PRAYER, request.prayerName)
             putString(PlaybackService.EXTRA_TITLE, request.title)
             putString(PlaybackService.EXTRA_HEADER, request.header)
             putBoolean(PlaybackService.EXTRA_IS_REMINDER, request.isReminder)

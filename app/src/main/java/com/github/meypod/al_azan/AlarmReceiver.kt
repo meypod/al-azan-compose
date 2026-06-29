@@ -7,7 +7,6 @@ import android.util.Log
 import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.adhan.AdhanFiringHandler
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
-import com.github.meypod.al_azan.playback.PlaybackService
 import com.github.meypod.al_azan.ramadan.RamadanNoticeContract
 import com.github.meypod.al_azan.ramadan.RamadanNoticeHandler
 import com.github.meypod.al_azan.reminder.ReminderContract
@@ -105,7 +104,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun Intent.prayer(): Prayer? =
-        getStringExtra(PlaybackService.EXTRA_PRAYER)?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
+        getStringExtra(AdhanContract.EXTRA_PRAYER)?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
 
     /** Runs [block] off the main thread while keeping the broadcast alive via goAsync(). */
     private fun async(block: suspend () -> Unit) {

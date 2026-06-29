@@ -26,6 +26,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.alarm.AlarmActivity
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
@@ -54,7 +55,6 @@ class PlaybackService :
         const val ACTION_PLAY = "com.github.meypod.al_azan.action.ADHAN_PLAY"
         const val ACTION_STOP = "com.github.meypod.al_azan.action.ADHAN_STOP"
 
-        const val EXTRA_PRAYER = "prayer"
         const val EXTRA_TITLE = "title"
         const val EXTRA_BODY = "body"
         const val EXTRA_SOUND_URI = "sound_uri"
@@ -156,7 +156,7 @@ class PlaybackService :
         val channelId = intent.getStringExtra(EXTRA_CHANNEL_ID)
         val title = intent.getStringExtra(EXTRA_TITLE).orEmpty()
         val body = intent.getStringExtra(EXTRA_BODY)
-        val prayerName = intent.getStringExtra(EXTRA_PRAYER).orEmpty()
+        val prayerName = intent.getStringExtra(AdhanContract.EXTRA_PRAYER).orEmpty()
         val timeLabel = intent.getStringExtra(EXTRA_TIME_LABEL).orEmpty()
         val header = intent.getStringExtra(EXTRA_HEADER).orEmpty()
         val isReminder = intent.getBooleanExtra(EXTRA_IS_REMINDER, false)
@@ -538,7 +538,7 @@ class PlaybackService :
         volumeButtonStops: Boolean,
     ): Intent =
         Intent(this, AlarmActivity::class.java).apply {
-            putExtra(EXTRA_PRAYER, prayerName)
+            putExtra(AdhanContract.EXTRA_PRAYER, prayerName)
             putExtra(EXTRA_TIME_LABEL, timeLabel)
             putExtra(EXTRA_TITLE, title)
             putExtra(EXTRA_HEADER, header)

@@ -11,7 +11,6 @@ import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.util.formatMissedWhen
 import com.github.meypod.al_azan.core.presentation.mapper.displayName
-import com.github.meypod.al_azan.playback.PlaybackService
 import com.github.meypod.al_azan.playback.missedNotificationConfig
 import com.github.meypod.al_azan.reminder.ReminderContract
 import kotlinx.coroutines.flow.first
@@ -61,7 +60,7 @@ class MissedAlarmCatchUp @Inject constructor(
                         // delivered floor < trigger means this exact occurrence never fired (would equal
                         // trigger if it had, since the firing handler marks it with the prayer time).
                         if ((delivered[AdhanContract.ADHAN_NOTIFICATION_ID] ?: 0L) >= alarm.triggerAtMillis) return@forEach
-                        val prayer = alarm.extras[PlaybackService.EXTRA_PRAYER]
+                        val prayer = alarm.extras[AdhanContract.EXTRA_PRAYER]
                             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() } ?: return@forEach
                         notificationRepository.notify(
                             missedNotificationConfig(

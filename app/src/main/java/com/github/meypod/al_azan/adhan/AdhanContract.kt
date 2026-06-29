@@ -39,6 +39,14 @@ object AdhanContract {
     const val EXTRA_PLAY_SOUND = "adhan_play_sound"
     const val EXTRA_TIMESTAMP = "adhan_timestamp"
 
+    /**
+     * Prayer name carried on adhan alarm/playback intents. Lives here (not on PlaybackService) so the
+     * boot-reachable schedulers/catch-up don't statically reference the mediaPlayback foreground service
+     * — Android 15 forbids starting restricted FGS types from BOOT_COMPLETED, and Play's scanner flags
+     * even a class-level reference from the boot graph. Value is a persisted intent/SavedStateHandle key.
+     */
+    const val EXTRA_PRAYER = "prayer"
+
     /** "true"/"false": whether this alarm sounds/vibrates intrusively (drives the Scheduled-alarms list). */
     const val EXTRA_INTRUSIVE = "adhan_intrusive"
     const val EXTRA_REMIND_MINUTES = "adhan_remind_minutes"

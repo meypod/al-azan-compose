@@ -21,7 +21,6 @@ import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
-import com.github.meypod.al_azan.playback.PlaybackService
 import com.github.meypod.al_azan.reminder.ReminderContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -144,7 +143,7 @@ class UpcomingAlarmsViewModel @Inject constructor(
         when (occurrence) {
             is SkippedAlarm.Adhan -> {
                 val alarm = armed.firstOrNull { it.id == AdhanContract.ADHAN_ALARM_ID } ?: return
-                val prayer = alarm.extras[PlaybackService.EXTRA_PRAYER]?.let(::prayerOrNull)
+                val prayer = alarm.extras[AdhanContract.EXTRA_PRAYER]?.let(::prayerOrNull)
                 if (prayer == occurrence.prayer && alarm.dateMatches(occurrence)) {
                     notificationRepository.cancelNotification(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
                 }

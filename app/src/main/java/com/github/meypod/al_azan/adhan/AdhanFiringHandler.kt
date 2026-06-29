@@ -272,7 +272,7 @@ class AdhanFiringHandler @Inject constructor(
     suspend fun onCancelAdhan() {
         val scheduled = alarmRepository.getScheduled()
             .firstOrNull { it.id == AdhanContract.ADHAN_ALARM_ID }
-        val prayer = scheduled?.extras?.get(PlaybackService.EXTRA_PRAYER)
+        val prayer = scheduled?.extras?.get(AdhanContract.EXTRA_PRAYER)
             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
         if (scheduled != null && prayer != null) {
             val entry = SkippedAlarm.Adhan(
@@ -316,7 +316,7 @@ class AdhanFiringHandler @Inject constructor(
                 action = AdhanContract.ACTION_ADHAN_REMIND,
                 type = AlarmType.AlarmClock,
                 extras = mapOf(
-                    PlaybackService.EXTRA_PRAYER to prayer.name,
+                    AdhanContract.EXTRA_PRAYER to prayer.name,
                     AdhanContract.EXTRA_REMIND_MINUTES to minutes.toString(),
                 ),
             ),
@@ -418,7 +418,7 @@ class AdhanFiringHandler @Inject constructor(
                 action = AdhanContract.ACTION_ADHAN,
                 type = AlarmType.AlarmClock,
                 extras = mapOf(
-                    PlaybackService.EXTRA_PRAYER to prayer.name,
+                    AdhanContract.EXTRA_PRAYER to prayer.name,
                     AdhanContract.EXTRA_PLAY_SOUND to playSound.toString(),
                     AdhanContract.EXTRA_TIMESTAMP to fireAt.toString(),
                 ),

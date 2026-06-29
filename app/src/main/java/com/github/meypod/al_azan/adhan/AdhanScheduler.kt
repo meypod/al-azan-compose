@@ -21,7 +21,6 @@ import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
-import com.github.meypod.al_azan.playback.PlaybackService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -142,7 +141,7 @@ class AdhanScheduler @Inject constructor(
                     action = AdhanContract.ACTION_ADHAN,
                     type = alarmType,
                     extras = mapOf(
-                        PlaybackService.EXTRA_PRAYER to next.prayer.name,
+                        AdhanContract.EXTRA_PRAYER to next.prayer.name,
                         AdhanContract.EXTRA_PLAY_SOUND to playSound.toString(),
                         AdhanContract.EXTRA_TIMESTAMP to prayerTimeMs.toString(),
                         AdhanContract.EXTRA_INTRUSIVE to intrusive.toString(),
@@ -161,7 +160,7 @@ class AdhanScheduler @Inject constructor(
                         action = AdhanContract.ACTION_PRE_ADHAN,
                         type = alarmType,
                         extras = mapOf(
-                            PlaybackService.EXTRA_PRAYER to next.prayer.name,
+                            AdhanContract.EXTRA_PRAYER to next.prayer.name,
                             AdhanContract.EXTRA_TIMESTAMP to prayerTimeMs.toString(),
                         ),
                     ),
