@@ -396,6 +396,7 @@
     <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
     <string name="moazen_zade">Moazen Zade</string>
     <string name="prayer_times_rescheduled">Next adhan: %1$s at %2$s</string>
+    <string name="prayer_time_adjusted" translatable="false">%1$s: %2$s</string>
 
     <!-- ============================================================
          Widget settings  (main/settings/widget)

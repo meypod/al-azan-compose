@@ -27,6 +27,27 @@ sealed interface ScheduleFeedbackInfo {
         override val key = "adhan"
     }
 
+    /**
+     * Live feedback while the user tunes the adjustments screen: the value they just changed, formatted
+     * per the user's settings exactly as the home screen shows it. The consumer treats these as
+     * high-priority so rapid edits replace instantly, and drops the reschedule echoes the same edit
+     * triggers while one is on screen - see [ObserveScheduleFeedback].
+     */
+    sealed interface Adjustment : ScheduleFeedbackInfo {
+        override val key: String get() = ADJUSTMENT_KEY
+    }
+
+    /** The prayer the user just adjusted (which may not be the next adhan) at its resulting time. */
+    data class PrayerAdjusted(
+        val prayer: Prayer,
+        val formattedTime: String,
+    ) : Adjustment
+
+    /** The resulting Hijri date after the user changed the lunar-day offset. */
+    data class HijriDateAdjusted(
+        val formattedDate: String,
+    ) : Adjustment
+
     data class Reminder(
         val label: String,
         val prayer: Prayer,
@@ -48,6 +69,10 @@ sealed interface ScheduleFeedbackInfo {
     private companion object {
         // Shared by all reminder signals so any reminder replaces any other (only adhan stays separate).
         const val REMINDER_KEY = "reminder"
+
+        // Shared by every adjustment signal so switching between the prayer steppers and the lunar-day
+        // stepper still collapses to the latest edit.
+        const val ADJUSTMENT_KEY = "adjustment"
     }
 }
 
