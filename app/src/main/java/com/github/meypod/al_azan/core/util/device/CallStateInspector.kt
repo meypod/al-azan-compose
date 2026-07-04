@@ -3,8 +3,7 @@ package com.github.meypod.al_azan.core.util.device
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
-import android.telephony.TelephonyManager
+import android.telecom.TelecomManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 
@@ -22,14 +21,12 @@ object CallStateInspector {
         ) {
             return false
         }
-        val tm = context.getSystemService<TelephonyManager>() ?: return false
+        val telecom = context.getSystemService<TelecomManager>() ?: return false
 
-        @Suppress("DEPRECATION")
-        val state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            tm.callStateForSubscription
-        } else {
-            tm.callState
-        }
-        return state != TelephonyManager.CALL_STATE_IDLE
+        // isInCall() reports an aggregate "in call" state across ALL phone accounts — every SIM plus
+        // non-telephony (VoIP) ConnectionServices. The per-subscription TelephonyManager path only
+        // reflects the default SIM, so a call on the second SIM of a dual-SIM device slipped through
+        // and the adhan sounded over the call (issue #23). Requires READ_PHONE_STATE, verified above.
+        return telecom.isInCall
     }
 }
