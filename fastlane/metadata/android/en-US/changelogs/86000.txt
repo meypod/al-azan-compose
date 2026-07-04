@@ -1,0 +1,2 @@
+- fix issue of adhan playing when in call on dual sim phones
+- show feedback when adjusting prayer times and hijri date
