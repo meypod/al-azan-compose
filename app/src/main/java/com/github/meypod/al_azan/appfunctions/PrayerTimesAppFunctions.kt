@@ -1,8 +1,8 @@
 package com.github.meypod.al_azan.appfunctions
 
+import androidx.appfunctions.AppFunction
 import androidx.appfunctions.AppFunctionContext
 import androidx.appfunctions.AppFunctionSerializable
-import androidx.appfunctions.service.AppFunction
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository

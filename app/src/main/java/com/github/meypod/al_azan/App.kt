@@ -2,7 +2,7 @@ package com.github.meypod.al_azan
 
 import android.app.Application
 import android.util.Log
-import androidx.appfunctions.service.AppFunctionConfiguration
+import androidx.appfunctions.AppFunctionConfiguration
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.github.meypod.al_azan.appfunctions.PrayerTimesAppFunctions

@@ -58,7 +58,6 @@ androidx-material3-adaptive-navigation3 = { module = "androidx.compose.material3
 tencent-mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
 batoulapps-adhan = { module = "io.github.meypod:adhan_kotlin    ", version.ref = "adhan" }
 androidx-appfunctions = { module = "androidx.appfunctions:appfunctions", version.ref = "appfunctions" }
-androidx-appfunctions-service = { module = "androidx.appfunctions:appfunctions-service", version.ref = "appfunctions" }
 androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-compiler", version.ref = "appfunctions" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }

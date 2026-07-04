@@ -130,7 +130,6 @@ dependencies {
     implementation(libs.batoulapps.adhan)
 
     implementation(libs.androidx.appfunctions)
-    implementation(libs.androidx.appfunctions.service)
     ksp(libs.androidx.appfunctions.compiler)
 
     testImplementation(libs.junit)
