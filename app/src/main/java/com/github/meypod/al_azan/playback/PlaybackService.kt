@@ -448,21 +448,35 @@ class PlaybackService :
 
     /**
      * The hardware volume keys may drive any of several streams depending on device/state, and a press
-     * while that stream is at its max is a no-op the VOLUME_CHANGED broadcast never sees. We can't know
-     * which stream the keys control, so move every plausible one down off its max edge; whichever the
-     * keys hit then changes and fires the broadcast. Originals are restored in [restoreVolumes].
+     * while that stream sits at an edge is a no-op the VOLUME_CHANGED broadcast never sees: at the max
+     * edge an up-press does nothing, at the min edge a down-press does nothing. We can't know which stream
+     * the keys control, so move every edge-pinned one a step toward the interior; from there any press in
+     * either direction changes it and fires the broadcast. Originals are restored in [restoreVolumes].
+     *
+     * The min edge is not always 0 — STREAM_ALARM (and STREAM_RING/VOICE_CALL) floor at 1, so nudging to
+     * a hardcoded 1 would be a no-op on those. Use each stream's real min and nudge to min + 1.
      */
     private fun nudgeVolumesOffEdge() {
         val am = audioManager ?: return
         for (stream in VOLUME_KEY_STREAMS) {
             val max = runCatching { am.getStreamMaxVolume(stream) }.getOrDefault(0)
+            val min = runCatching { streamMinVolume(am, stream) }.getOrDefault(0)
             val cur = runCatching { am.getStreamVolume(stream) }.getOrDefault(-1)
-            if ((max <= 1) || (cur < max)) continue // only the max edge is a problem
+            if (max - min <= 1 || cur < 0) continue // no interior value to move to
+            val target = when {
+                cur >= max -> max - 1 // at the max edge: an up-press is a no-op
+                cur <= min -> min + 1 // at the min edge: a down-press is a no-op (alarm min is 1, not 0)
+                else -> continue // already interior: any press fires a broadcast
+            }
             nudgedVolumes[stream] = cur
-            pendingNudgeEcho[stream] = max - 1
-            runCatching { am.setStreamVolume(stream, max - 1, 0) }
+            pendingNudgeEcho[stream] = target
+            runCatching { am.setStreamVolume(stream, target, 0) }
         }
     }
+
+    /** Real per-stream minimum (STREAM_ALARM floors at 1). [AudioManager.getStreamMinVolume] is API 28+. */
+    private fun streamMinVolume(am: AudioManager, stream: Int): Int =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) am.getStreamMinVolume(stream) else 0
 
     private fun restoreVolumes() {
         if (nudgedVolumes.isEmpty()) return
