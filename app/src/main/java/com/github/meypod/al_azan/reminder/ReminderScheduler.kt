@@ -155,27 +155,27 @@ class ReminderScheduler @Inject constructor(
                     ),
                 )
 
-                // Pre-reminder ("upcoming") notification, only for intrusive reminders, unless the user
-                // disabled upcoming reminders.
-                if (intrusive && !alarmSettings.dontNotifyUpcoming) {
+                // Pre-reminder ("upcoming") notification: fire once per reminder occurrence for intrusive
+                // reminders, unless the user disabled upcoming reminders. Same design as the adhan pre-alarm
+                // (see issue #27): arm it for its natural time (trigger − offset) when that is still ahead,
+                // else arm it for now so it still fires once. [onPreReminderFired] marks it delivered for this
+                // occurrence via [deliveredAlarmTimestamps], so once fired later reschedules don't re-post it.
+                val preDeliveredForMs = settings.deliveredAlarmTimestamps[ReminderContract.preNotificationId(reminder.id)]
+                if (intrusive && !alarmSettings.dontNotifyUpcoming && preDeliveredForMs != triggerMs) {
                     val preMs = (triggerMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
-                        .coerceAtLeast(fromMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS)
-                    if (preMs < triggerMs) {
-                        alarmRepository.schedule(
-                            ScheduledAlarm(
-                                id = ReminderContract.preAlarmId(reminder.id),
-                                triggerAtMillis = preMs,
-                                action = ReminderContract.ACTION_PRE_REMINDER,
-                                type = alarmType,
-                                extras = mapOf(
-                                    ReminderContract.EXTRA_REMINDER_ID to reminder.id,
-                                    ReminderContract.EXTRA_TIMESTAMP to triggerMs.toString(),
-                                ),
+                        .coerceAtLeast(nowMs)
+                    alarmRepository.schedule(
+                        ScheduledAlarm(
+                            id = ReminderContract.preAlarmId(reminder.id),
+                            triggerAtMillis = preMs,
+                            action = ReminderContract.ACTION_PRE_REMINDER,
+                            type = alarmType,
+                            extras = mapOf(
+                                ReminderContract.EXTRA_REMINDER_ID to reminder.id,
+                                ReminderContract.EXTRA_TIMESTAMP to triggerMs.toString(),
                             ),
-                        )
-                    } else {
-                        alarmRepository.cancel(ReminderContract.preAlarmId(reminder.id))
-                    }
+                        ),
+                    )
                 } else {
                     alarmRepository.cancel(ReminderContract.preAlarmId(reminder.id))
                 }

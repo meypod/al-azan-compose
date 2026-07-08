@@ -237,6 +237,8 @@ class AdhanFiringHandler @Inject constructor(
         prayer: Prayer,
         timestamp: Long,
     ) {
+        // Mark this occurrence's upcoming notice delivered so reschedules don't re-post it
+        settingsRepository.markDelivered(AdhanContract.PRE_ADHAN_NOTIFICATION_ID, timestamp)
         val settings = settingsRepository.data.first()
         val prayerName = localizedResources.current.getString(prayer.stringRes)
         notificationRepository.notify(

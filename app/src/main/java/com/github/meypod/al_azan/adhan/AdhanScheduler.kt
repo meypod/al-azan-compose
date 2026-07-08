@@ -149,10 +149,21 @@ class AdhanScheduler @Inject constructor(
                 ),
             )
 
-            // Pre-alarm: only for intrusive prayers, unless the user disabled upcoming reminders.
-            if (intrusive && !alarmSettings.dontNotifyUpcoming) {
+            // Pre-alarm ("upcoming" notification): fire once per prayer occurrence for intrusive prayers,
+            // unless the user disabled upcoming reminders. Arm it for its natural time (prayerTime − offset)
+            // when that is still ahead; if we're already inside the pre-window (the previous prayer is closer
+            // than the offset, or we booted mid-window) arm it for now so it still fires once.
+            //
+            // [onPreAdhanFired] marks it delivered for this occurrence — keyed by the pre-notification id,
+            // valued by prayerTimeMs, via the same [deliveredAlarmTimestamps] map the main alarm uses. Once
+            // it has fired we stop re-arming, so later reschedules (settings change, reconcile, boot, time
+            // change) don't re-post the notice; before it fires we still re-arm freely, so an offset change
+            // takes effect. The previous code re-clamped the time to now+10s on every reschedule, which is
+            // what spammed the notification. See issue #27.
+            val preDeliveredForMs = settings.deliveredAlarmTimestamps[AdhanContract.PRE_ADHAN_NOTIFICATION_ID]
+            if (intrusive && !alarmSettings.dontNotifyUpcoming && preDeliveredForMs != prayerTimeMs) {
                 val preMs = (prayerTimeMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
-                    .coerceAtLeast(nowMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS)
+                    .coerceAtLeast(nowMs)
                 alarmRepository.schedule(
                     ScheduledAlarm(
                         id = AdhanContract.PRE_ADHAN_ALARM_ID,

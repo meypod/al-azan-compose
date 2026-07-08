@@ -198,6 +198,8 @@ class ReminderFiringHandler @Inject constructor(
     ) {
         val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId } ?: return
         if (!reminder.enabled) return
+        // Mark this occurrence's upcoming notice delivered so reschedules don't re-post it
+        settingsRepository.markDelivered(ReminderContract.preNotificationId(reminderId), timestamp)
         val settings = settingsRepository.data.first()
         val title = reminder.displayName(localizedResources.current)
         val timeLabel = settings.formatTime(timestamp)
