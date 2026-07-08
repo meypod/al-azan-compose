@@ -19,4 +19,10 @@ interface SettingsRepository {
     ) = update {
         it.copy(deliveredAlarmTimestamps = it.deliveredAlarmTimestamps + (notificationId to timestamp))
     }
+
+    /** Clears the delivered mark for [notificationId] so its alarm can be (re)armed and fire again. */
+    suspend fun clearDelivered(notificationId: String) =
+        update {
+            it.copy(deliveredAlarmTimestamps = it.deliveredAlarmTimestamps - notificationId)
+        }
 }

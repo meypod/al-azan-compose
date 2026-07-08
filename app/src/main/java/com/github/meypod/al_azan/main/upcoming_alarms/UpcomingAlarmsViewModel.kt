@@ -134,7 +134,29 @@ class UpcomingAlarmsViewModel @Inject constructor(
 
     private fun onReschedule(occurrence: SkippedAlarm) {
         viewModelScope.launch {
-            settingsRepository.update { it.copy(skippedOccurrences = it.skippedOccurrences.without(occurrence)) }
+            // Bringing an occurrence back also clears its pre-alarm "delivered" mark, so its upcoming
+            // heads-up can fire again — otherwise the scheduler treats it as already shown and never re-arms
+            // it (see #27). Done in the same update as the un-skip so the re-arm reads both changes at once.
+            // Clear only when the stored mark is for this occurrence's date, so rescheduling one occurrence
+            // never re-arms a different day's pre-alarm that happens to share the (single, adhan) key.
+            val preNotificationId = when (occurrence) {
+                is SkippedAlarm.Adhan -> AdhanContract.PRE_ADHAN_NOTIFICATION_ID
+                is SkippedAlarm.Reminder -> ReminderContract.preNotificationId(occurrence.reminderId)
+            }
+            settingsRepository.update {
+                val deliveredForDate = it.deliveredAlarmTimestamps[preNotificationId]
+                    ?.let { ms -> Instant.fromEpochMilliseconds(ms).toLocalDate() == occurrence.date }
+                    ?: false
+                it.copy(
+                    skippedOccurrences = it.skippedOccurrences.without(occurrence),
+                    deliveredAlarmTimestamps =
+                        if (deliveredForDate) {
+                            it.deliveredAlarmTimestamps - preNotificationId
+                        } else {
+                            it.deliveredAlarmTimestamps
+                        },
+                )
+            }
         }
     }
 

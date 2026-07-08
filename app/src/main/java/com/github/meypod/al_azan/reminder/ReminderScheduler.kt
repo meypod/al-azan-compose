@@ -18,6 +18,7 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
@@ -45,6 +46,7 @@ class ReminderScheduler @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val alarmRepository: AlarmRepository,
+    private val notificationRepository: NotificationRepository,
     private val audioDurationProbe: AudioDurationProbe,
 ) {
     private val mutex = Mutex()
@@ -161,7 +163,15 @@ class ReminderScheduler @Inject constructor(
                 // else arm it for now so it still fires once. [onPreReminderFired] marks it delivered for this
                 // occurrence via [deliveredAlarmTimestamps], so once fired later reschedules don't re-post it.
                 val preDeliveredForMs = settings.deliveredAlarmTimestamps[ReminderContract.preNotificationId(reminder.id)]
-                if (intrusive && !alarmSettings.dontNotifyUpcoming && preDeliveredForMs != triggerMs) {
+                if (!intrusive || alarmSettings.dontNotifyUpcoming) {
+                    // No longer intrusive (e.g. the reminder's sound turned off), or upcoming reminders
+                    // disabled: drop the pending pre-alarm AND any notice on screen, and clear its delivered
+                    // mark so re-enabling shows the heads-up again — a torn-down pre must behave like a
+                    // rescheduled one. See issue #27.
+                    alarmRepository.cancel(ReminderContract.preAlarmId(reminder.id))
+                    notificationRepository.cancelNotification(ReminderContract.preNotificationId(reminder.id))
+                    if (preDeliveredForMs != null) settingsRepository.clearDelivered(ReminderContract.preNotificationId(reminder.id))
+                } else if (preDeliveredForMs != triggerMs) {
                     val preMs = (triggerMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
                         .coerceAtLeast(nowMs)
                     alarmRepository.schedule(
@@ -176,9 +186,9 @@ class ReminderScheduler @Inject constructor(
                             ),
                         ),
                     )
-                } else {
-                    alarmRepository.cancel(ReminderContract.preAlarmId(reminder.id))
                 }
+                // else: already delivered for this occurrence — leave the visible notice up (it clears when
+                // the reminder fires) and leave the spent pre-alarm entry to be replaced next occurrence.
             }
 
             // Replace the signature set so disabled/removed reminders no longer count as "unchanged"

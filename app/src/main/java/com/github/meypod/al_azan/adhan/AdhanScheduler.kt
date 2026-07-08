@@ -17,6 +17,7 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
@@ -42,6 +43,7 @@ class AdhanScheduler @Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getNextShariaTimesUseCase: GetNextShariaTimesUseCase,
     private val alarmRepository: AlarmRepository,
+    private val notificationRepository: NotificationRepository,
     private val audioDurationProbe: AudioDurationProbe,
 ) {
     private val mutex = Mutex()
@@ -161,7 +163,15 @@ class AdhanScheduler @Inject constructor(
             // takes effect. The previous code re-clamped the time to now+10s on every reschedule, which is
             // what spammed the notification. See issue #27.
             val preDeliveredForMs = settings.deliveredAlarmTimestamps[AdhanContract.PRE_ADHAN_NOTIFICATION_ID]
-            if (intrusive && !alarmSettings.dontNotifyUpcoming && preDeliveredForMs != prayerTimeMs) {
+            if (!intrusive || alarmSettings.dontNotifyUpcoming) {
+                // No longer intrusive (e.g. the user turned the adhan's sound off), or upcoming reminders
+                // disabled: drop the pending pre-alarm AND any notice already on screen, and clear its
+                // delivered mark so re-enabling sound/upcoming shows the heads-up again — a torn-down pre
+                // must behave like a rescheduled one. See issue #27.
+                alarmRepository.cancel(AdhanContract.PRE_ADHAN_ALARM_ID)
+                notificationRepository.cancelNotification(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
+                if (preDeliveredForMs != null) settingsRepository.clearDelivered(AdhanContract.PRE_ADHAN_NOTIFICATION_ID)
+            } else if (preDeliveredForMs != prayerTimeMs) {
                 val preMs = (prayerTimeMs - alarmSettings.preAlarmMinutesBefore * 60_000L)
                     .coerceAtLeast(nowMs)
                 alarmRepository.schedule(
@@ -176,9 +186,9 @@ class AdhanScheduler @Inject constructor(
                         ),
                     ),
                 )
-            } else {
-                alarmRepository.cancel(AdhanContract.PRE_ADHAN_ALARM_ID)
             }
+            // else: already delivered for this occurrence — leave the visible notice up (it clears when the
+            // adhan fires) and leave the spent pre-alarm entry to be replaced when the occurrence advances.
 
             Outcome(next, changed)
         }
