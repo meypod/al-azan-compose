@@ -48,9 +48,12 @@ class AlarmActivity : AppCompatActivity() {
             }
         }
 
-        // Close the full-screen alarm when playback stops elsewhere (e.g. the notification "Dismiss").
+        // Close the full-screen alarm when playback stops elsewhere (notification "Dismiss", a volume-button
+        // press, natural end). Scoped to CREATED, not STARTED: with the screen off the activity sits STOPPED
+        // behind the lock screen, and a STARTED-only collector would miss the stop (SharedFlow, no replay),
+        // leaving a stale alarm screen when the screen wakes. CREATED stays subscribed the whole lifetime.
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 PlaybackService.stopSignal.collect { finish() }
             }
         }
