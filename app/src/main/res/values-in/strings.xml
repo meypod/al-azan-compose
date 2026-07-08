@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">Pilih salat mana yang dihitung mundur oleh widget 1×1 salat berikutnya.</string>
     <string name="widget_min_countdown_prayers_warning">Setidaknya satu salat harus dipilih</string>
     <string name="widget_section_general">Umum</string>
+    <string name="widget_section_appearance">Tampilan</string>
     <string name="widget_section_notification">Widget notifikasi</string>
     <string name="widget_section_table_appearance">Tampilan tabel</string>
     <string name="widget_section_table_appearance_caption">Berlaku untuk widget tabel layar beranda dan widget notifikasi dalam tata letak tabel.</string>

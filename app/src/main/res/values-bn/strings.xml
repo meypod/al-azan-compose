@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">১×১ পরবর্তী নামাজ উইজেট কোন নামাজগুলোর দিকে গণনা করবে তা বেছে নিন।</string>
     <string name="widget_min_countdown_prayers_warning">কমপক্ষে একটি নামাজ নির্বাচন করতে হবে</string>
     <string name="widget_section_general">সাধারণ</string>
+    <string name="widget_section_appearance">চেহারা</string>
     <string name="widget_section_notification">নোটিফিকেশন উইজেট</string>
     <string name="widget_section_table_appearance">টেবিল চেহারা</string>
     <string name="widget_section_table_appearance_caption">হোম টেবিল উইজেট এবং টেবিল লেআউটে নোটিফিকেশন উইজেটে প্রযোজ্য।</string>

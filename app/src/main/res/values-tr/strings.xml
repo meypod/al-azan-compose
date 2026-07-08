@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">1×1 sonraki namaz widget\'ının hangi namazlara doğru geri sayacağını seçin.</string>
     <string name="widget_min_countdown_prayers_warning">En az bir namaz seçilmelidir</string>
     <string name="widget_section_general">Genel</string>
+    <string name="widget_section_appearance">Görünüm</string>
     <string name="widget_section_notification">Bildirim widget\'ı</string>
     <string name="widget_section_table_appearance">Tablo görünümü</string>
     <string name="widget_section_table_appearance_caption">Ana ekran tablo widget\'ına ve tablo düzenindeki bildirim widget\'ına uygulanır.</string>

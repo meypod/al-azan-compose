@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">Chọn những lễ nguyện mà tiện ích 1×1 lễ nguyện kế tiếp đếm ngược tới.</string>
     <string name="widget_min_countdown_prayers_warning">Phải chọn ít nhất một lễ nguyện</string>
     <string name="widget_section_general">Chung</string>
+    <string name="widget_section_appearance">Giao diện</string>
     <string name="widget_section_notification">Tiện ích thông báo</string>
     <string name="widget_section_table_appearance">Giao diện bảng</string>
     <string name="widget_section_table_appearance_caption">Áp dụng cho tiện ích bảng trên màn hình chính và tiện ích thông báo ở bố cục bảng.</string>

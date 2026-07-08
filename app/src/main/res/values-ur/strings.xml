@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">منتخب کریں کہ 1×1 اگلی نماز ویجٹ کن نمازوں کی طرف گنتی کرے۔</string>
     <string name="widget_min_countdown_prayers_warning">کم از کم ایک نماز منتخب کرنا ضروری ہے</string>
     <string name="widget_section_general">عام</string>
+    <string name="widget_section_appearance">ظاہری شکل</string>
     <string name="widget_section_notification">اطلاع ویجٹ</string>
     <string name="widget_section_table_appearance">ٹیبل ظاہری شکل</string>
     <string name="widget_section_table_appearance_caption">ہوم ٹیبل ویجٹ اور ٹیبل لے آؤٹ میں اطلاع ویجٹ پر لاگو ہوتا ہے۔</string>

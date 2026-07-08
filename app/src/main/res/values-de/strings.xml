@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">Wähle, zu welchen Gebeten das 1×1-Widget für das nächste Gebet herunterzählt.</string>
     <string name="widget_min_countdown_prayers_warning">Mindestens ein Gebet muss ausgewählt sein</string>
     <string name="widget_section_general">Allgemein</string>
+    <string name="widget_section_appearance">Darstellung</string>
     <string name="widget_section_notification">Benachrichtigungs-Widget</string>
     <string name="widget_section_table_appearance">Tabellendarstellung</string>
     <string name="widget_section_table_appearance_caption">Gilt für das Tabellen-Widget auf dem Startbildschirm und das Benachrichtigungs-Widget im Tabellenlayout.</string>

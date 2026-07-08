@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">चुनें कि 1×1 अगली नमाज़ विजेट किन नमाज़ों की ओर गिनती करे।</string>
     <string name="widget_min_countdown_prayers_warning">कम से कम एक नमाज़ चुननी होगी</string>
     <string name="widget_section_general">सामान्य</string>
+    <string name="widget_section_appearance">रूप</string>
     <string name="widget_section_notification">सूचना विजेट</string>
     <string name="widget_section_table_appearance">तालिका रूप</string>
     <string name="widget_section_table_appearance_caption">होम तालिका विजेट और तालिका लेआउट में सूचना विजेट पर लागू होता है।</string>

@@ -112,7 +112,13 @@ sealed interface Route : NavKey {
             }
 
             @Serializable
-            data object WidgetSettings : Route
+            data object WidgetSettings : Route {
+                @Serializable
+                data object TableAppearance : Route
+
+                @Serializable
+                data object CompactAppearance : Route
+            }
 
             @Serializable
             data object BackupAndRestore : Route

@@ -66,6 +66,8 @@ import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootScreen
 import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootViewModel
 import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootScreen
 import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootViewModel
+import com.github.meypod.al_azan.main.settings.widget.CompactAppearanceScreen
+import com.github.meypod.al_azan.main.settings.widget.TableAppearanceScreen
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsScreen
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsViewModel
 import com.github.meypod.al_azan.main.silence.SilenceStatusScreen
@@ -106,6 +108,14 @@ fun MainNavigation(
                             subclass(Route.Main.Settings.Calculations::class, Route.Main.Settings.Calculations.serializer())
                             subclass(Route.Main.Settings.Troubleshoot::class, Route.Main.Settings.Troubleshoot.serializer())
                             subclass(Route.Main.Settings.WidgetSettings::class, Route.Main.Settings.WidgetSettings.serializer())
+                            subclass(
+                                Route.Main.Settings.WidgetSettings.TableAppearance::class,
+                                Route.Main.Settings.WidgetSettings.TableAppearance.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.WidgetSettings.CompactAppearance::class,
+                                Route.Main.Settings.WidgetSettings.CompactAppearance.serializer(),
+                            )
                             subclass(Route.Main.Settings.BackupAndRestore::class, Route.Main.Settings.BackupAndRestore.serializer())
                             subclass(Route.Main.Settings.Developer::class, Route.Main.Settings.Developer.serializer())
                             subclass(
@@ -267,7 +277,17 @@ fun MainNavigation(
             entry<Route.Main.Settings.WidgetSettings> {
                 val vm = hiltViewModel<WidgetSettingsViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
-                WidgetSettingsScreen(s, vm::onAction, events = vm.events)
+                WidgetSettingsScreen(s, vm::onAction)
+            }
+            entry<Route.Main.Settings.WidgetSettings.TableAppearance> {
+                val vm = hiltViewModel<WidgetSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                TableAppearanceScreen(s, vm::onAction, events = vm.events)
+            }
+            entry<Route.Main.Settings.WidgetSettings.CompactAppearance> {
+                val vm = hiltViewModel<WidgetSettingsViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                CompactAppearanceScreen(s, vm::onAction, events = vm.events)
             }
             entry<Route.Main.Settings.BackupAndRestore> {
                 val vm = hiltViewModel<BackupRestoreViewModel>()

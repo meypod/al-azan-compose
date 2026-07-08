@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">انتخاب کنید ابزارک ۱×۱ نماز بعدی به سمت کدام نمازها شمارش معکوس کند.</string>
     <string name="widget_min_countdown_prayers_warning">حداقل یک نماز باید انتخاب شود</string>
     <string name="widget_section_general">عمومی</string>
+    <string name="widget_section_appearance">ظاهر</string>
     <string name="widget_section_notification">ابزارک اعلان</string>
     <string name="widget_section_table_appearance">ظاهر جدولی</string>
     <string name="widget_section_table_appearance_caption">روی ابزارک جدولی صفحهٔ اصلی و ابزارک اعلان در چیدمان جدولی اعمال می‌شود.</string>

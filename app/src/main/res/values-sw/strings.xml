@@ -414,6 +414,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">Chagua sala zipi ambazo kishirikishi cha 1×1 cha sala inayofuata kinahesabu kuelekea.</string>
     <string name="widget_min_countdown_prayers_warning">Angalau sala moja lazima ichaguliwe</string>
     <string name="widget_section_general">Jumla</string>
+    <string name="widget_section_appearance">Muonekano</string>
     <string name="widget_section_notification">Wijeti ya arifa</string>
     <string name="widget_section_table_appearance">Muonekano wa jedwali</string>
     <string name="widget_section_table_appearance_caption">Inatumika kwa wijeti ya jedwali ya skrini ya nyumbani na wijeti ya arifa katika mpangilio wa jedwali.</string>

@@ -415,6 +415,7 @@
     <string name="next_prayer_widget_countdown_prayers_help">Choose which prayers the 1x1 next-prayer widget counts down toward.</string>
     <string name="widget_min_countdown_prayers_warning">At least one prayer must be selected</string>
     <string name="widget_section_general">General</string>
+    <string name="widget_section_appearance">Appearance</string>
     <string name="widget_section_notification">Notification widget</string>
     <string name="widget_section_table_appearance">Table appearance</string>
     <string name="widget_section_table_appearance_caption">Applies to the home table widget and the notification widget in table layout.</string>
