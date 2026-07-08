@@ -10,7 +10,11 @@ import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.media.MediaMetadata
 import android.media.MediaPlayer
+import android.media.VolumeProvider
+import android.media.session.MediaSession
+import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -33,8 +37,6 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
-import com.github.meypod.al_azan.playback.PlaybackService.Companion.NUDGE_ECHO_WINDOW_MS
-import com.github.meypod.al_azan.playback.PlaybackService.Companion.NUDGE_STREAMS
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -85,20 +87,10 @@ class PlaybackService :
             AudioManager.STREAM_SYSTEM,
         )
 
-        // Streams to nudge off their edge so a key press is never a silent no-op. The adhan plays with
-        // USAGE_ALARM (→ STREAM_ALARM) or USAGE_MEDIA (→ STREAM_MUSIC), so the keys drive one of these two
-        // while it sounds. Both are independent — unlike RING/NOTIFICATION/SYSTEM, which many devices link
-        // and collapse into a single broadcast, leaving stale echoes that could swallow a real press — so
-        // each nudge here yields exactly one echo.
-        private val NUDGE_STREAMS = intArrayOf(
-            AudioManager.STREAM_ALARM,
-            AudioManager.STREAM_MUSIC,
-        )
-
-        // Our nudge's echo broadcasts land within a few hundred ms; a real press comes seconds later (the
-        // user reaches for the phone). Suppress echoes only inside this window, then always treat a
-        // broadcast as a real press — so a nudge whose echo never fires can't silently eat the user's press.
-        private const val NUDGE_ECHO_WINDOW_MS = 1500L
+        // Arbitrary range for the stop-on-volume MediaSession's remote VolumeProvider. The value never
+        // matters (any key press just stops the alarm); it sits mid-range so a press in either direction
+        // yields an onAdjust callback.
+        private const val VOLUME_PROVIDER_MAX = 100
 
         // Emitted whenever playback stops (notification "Dismiss", loop cap, call, etc.) so a visible
         // full-screen AlarmActivity can close itself even when the stop didn't originate from its UI.
@@ -130,10 +122,7 @@ class PlaybackService :
     private var telephonyCallback: TelephonyCallback? = null
     private var phoneStateListener: PhoneStateListener? = null
     private var volumeReceiver: BroadcastReceiver? = null
-    private val nudgedVolumes = mutableMapOf<Int, Int>()
-
-    // stream -> the value our own nudge set it to; the matching broadcast echo is ignored exactly once.
-    private val pendingNudgeEcho = mutableMapOf<Int, Int>()
+    private var mediaSession: MediaSession? = null
     private var stopOnVolume = false
     private var playbackStream = AudioManager.STREAM_ALARM
     private var wasPlayingBeforeCall = false
@@ -155,7 +144,6 @@ class PlaybackService :
     private var stopped = false
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val loopCapRunnable = Runnable { cleanupAndStop(leaveLingering = true) }
-    private val clearNudgeEchoRunnable = Runnable { pendingNudgeEcho.clear() }
 
     private val audioManager: AudioManager? by lazy { getSystemService() }
     private val telephonyManager: TelephonyManager? by lazy { getSystemService() }
@@ -171,6 +159,13 @@ class PlaybackService :
             cleanupAndStop()
             return START_NOT_STICKY
         }
+        // This instance can be reused: a stop (or natural end) calls stopSelf, but a quick re-fire — a
+        // dismiss then a new prayer, or an overlapping reminder — can deliver the next PLAY before onDestroy
+        // runs. Release any leftovers and clear the stopped latch so this cycle owns clean resources and can
+        // itself be dismissed; without the reset, stopped stays true and the new adhan is unstoppable. No-op
+        // on a brand-new instance.
+        teardownPlayback()
+        stopped = false
 
         val channelId = intent.getStringExtra(EXTRA_CHANNEL_ID)
         val title = intent.getStringExtra(EXTRA_TITLE).orEmpty()
@@ -231,9 +226,16 @@ class PlaybackService :
         requestAudioFocus(useMediaUsage)
         registerCallStateListener()
         stopOnVolume = volumeButtonStops
-        if (volumeButtonStops) nudgeVolumesOffEdge() // nudge before listening (its echo is filtered)
-        // Always listen, with or without a full-screen: stop-on-volume dismisses on a press; normal mode
-        // mirrors a non-playback stream's change onto the adhan (the playback stream already self-scales).
+        // Primary stop-on-volume path: an active MediaSession with a remote VolumeProvider receives the
+        // hardware volume keys at the audio layer, so a press stops the alarm even with the screen off /
+        // locked — the case the VOLUME_CHANGED broadcast never reaches. The broadcast is only a fallback for
+        // when the session can't be created, and otherwise drives normal (mirror) mode.
+        if (volumeButtonStops) {
+            // Mirror the notification's labels onto the session so the prayer/reminder shows up on the lock
+            // screen, Android Auto, and Bluetooth head units while it sounds.
+            val sessionSubtitle = body?.takeIf { it.isNotEmpty() } ?: timeLabel
+            setupVolumeKeyMediaSession(title, sessionSubtitle)
+        }
         registerVolumeReceiver()
         VibrationController.vibrate(this, vibration)
         // Directly open the full-screen alarm when either:
@@ -392,9 +394,9 @@ class PlaybackService :
     }
 
     /**
-     * Stops the alarm when the alarm-stream volume changes. Covers the no-activity case (screen off /
-     * heads-up instead of full-screen). The full-screen activity's key handling covers the rest,
-     * including the min/max edges this broadcast misses.
+     * Drives normal (mirror) mode, and is a fallback stop path only when the MediaSession (the reliable
+     * stop-on-volume mechanism) couldn't be created — see the null-session check in onReceive. Fires when a
+     * stream volume actually changes.
      */
     private fun registerVolumeReceiver() {
         val receiver = object : BroadcastReceiver() {
@@ -404,7 +406,10 @@ class PlaybackService :
             ) {
                 if (i == null) return
                 if (stopOnVolume) {
-                    if (!isOwnNudgeEcho(i)) cleanupAndStop() // a real press dismisses the alarm
+                    // The MediaSession is the reliable stop path and absorbs real key presses (so this
+                    // broadcast rarely reflects one). Only fall back to it when the session couldn't be set
+                    // up — otherwise an unrelated stream change could falsely cut the adhan short.
+                    if (mediaSession == null) cleanupAndStop()
                 } else {
                     mirrorVolumeToPlayer(i) // normal mode: follow the user's volume change live
                 }
@@ -445,81 +450,62 @@ class PlaybackService :
     }
 
     /**
-     * True only for the VOLUME_CHANGED echo of our own nudge: the stream matches a pending nudge and the
-     * reported value equals what we set it to. Consumed once, so a later real press on that stream still
-     * stops the alarm. The value match distinguishes our echo from a press (a press lands on a different
-     * value); [NUDGE_ECHO_WINDOW_MS] bounds how long we suppress, so a nudge whose echo never arrives can't
-     * leave a stale entry that swallows a much-later real press.
+     * The reliable stop-on-volume path: an active [MediaSession] with a remote [VolumeProvider]. While a
+     * session is active and playing, the framework routes the hardware volume keys to its VolumeProvider at
+     * the audio layer — before they reach any window or change a stream — so a press dismisses the alarm
+     * even with the screen off or locked, the case the VOLUME_CHANGED broadcast never reaches. Because the
+     * provider owns the volume, an edge press still fires an onAdjust callback, so no volume nudging is
+     * needed. The audio itself is played by the MediaPlayer, not this session; the session exists to capture
+     * the keys and to surface the prayer/reminder as now-playing metadata on the lock screen / Auto / BT.
      */
-    private fun isOwnNudgeEcho(intent: Intent): Boolean {
-        if (pendingNudgeEcho.isEmpty()) return false
-        val stream = intent.getIntExtra("android.media.EXTRA_VOLUME_STREAM_TYPE", -1)
-        val value = intent.getIntExtra("android.media.EXTRA_VOLUME_STREAM_VALUE", Int.MIN_VALUE)
-        // Exact match: definitely our echo.
-        if (pendingNudgeEcho[stream] == value) {
-            pendingNudgeEcho.remove(stream)
-            return true
-        }
-        // Extras missing (rare device): can't tell echo from press. While echoes are still outstanding,
-        // assume echo and swallow one — missing an alarm is far worse than needing a second press.
-        if (stream == -1 || value == Int.MIN_VALUE) {
-            pendingNudgeEcho.remove(pendingNudgeEcho.keys.first())
-            return true
-        }
-        return false
-    }
-
-    /**
-     * A key press while the driven stream sits at an edge is a no-op the VOLUME_CHANGED broadcast never
-     * sees: at the max edge an up-press does nothing, at the min edge a down-press does nothing. So move
-     * each [NUDGE_STREAMS] stream (the ones the adhan's usage routes the keys to) that's edge-pinned a step
-     * toward the interior; from there any press in either direction fires the broadcast. Originals are
-     * restored in [restoreVolumes].
-     *
-     * The min edge is not always 0 — STREAM_ALARM (and STREAM_RING/VOICE_CALL) floor at 1, so nudging to
-     * a hardcoded 1 would be a no-op on those. Use each stream's real min and nudge to min + 1.
-     */
-    private fun nudgeVolumesOffEdge() {
-        val am = audioManager ?: return
-        for (stream in NUDGE_STREAMS) {
-            val max = runCatching { am.getStreamMaxVolume(stream) }.getOrDefault(0)
-            val min = runCatching { streamMinVolume(am, stream) }.getOrDefault(0)
-            val cur = runCatching { am.getStreamVolume(stream) }.getOrDefault(-1)
-            if (max - min <= 1 || cur < 0) continue // no interior value to move to
-            val target = when {
-                cur >= max -> max - 1
-
-                // at the max edge: an up-press is a no-op
-                cur <= min -> min + 1
-
-                // at the min edge: a down-press is a no-op (alarm min is 1, not 0)
-                else -> continue // already interior: any press fires a broadcast
+    private fun setupVolumeKeyMediaSession(
+        title: String,
+        subtitle: String,
+    ) {
+        val session = runCatching { MediaSession(this, "adhan-volume") }.getOrNull() ?: return
+        val provider = object : VolumeProvider(VOLUME_CONTROL_RELATIVE, VOLUME_PROVIDER_MAX, VOLUME_PROVIDER_MAX / 2) {
+            override fun onAdjustVolume(direction: Int) {
+                if (direction != 0) cleanupAndStop() // any up/down press dismisses the alarm
             }
-            nudgedVolumes[stream] = cur
-            pendingNudgeEcho[stream] = target
-            runCatching { am.setStreamVolume(stream, target, 0) }
+
+            override fun onSetVolumeTo(volume: Int) = cleanupAndStop()
         }
-        // Bound echo suppression in time so a nudge whose echo never fires can't leave a stale entry.
-        if (pendingNudgeEcho.isNotEmpty()) {
-            mainHandler.postDelayed(clearNudgeEchoRunnable, NUDGE_ECHO_WINDOW_MS)
+        runCatching {
+            // A callback (with an explicit main-thread handler) must exist for the platform MediaSession to
+            // have a message handler to dispatch incoming volume adjustments onto — without it the framework
+            // routes the key to our session but the VolumeProvider callback is silently dropped.
+            session.setCallback(
+                object : MediaSession.Callback() {
+                    override fun onStop() = cleanupAndStop()
+                },
+                mainHandler,
+            )
+            session.setMetadata(
+                MediaMetadata.Builder()
+                    .putString(MediaMetadata.METADATA_KEY_TITLE, title)
+                    .putString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE, title)
+                    .putString(MediaMetadata.METADATA_KEY_ARTIST, subtitle)
+                    .putString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE, subtitle)
+                    .build(),
+            )
+            session.setPlaybackToRemote(provider)
+            // A PLAYING state makes this the active session the framework routes volume keys to.
+            session.setPlaybackState(
+                PlaybackState.Builder()
+                    .setState(PlaybackState.STATE_PLAYING, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 1f)
+                    .build(),
+            )
+            session.isActive = true
         }
+        mediaSession = session
     }
 
-    /** Real per-stream minimum (STREAM_ALARM floors at 1). [AudioManager.getStreamMinVolume] is API 28+. */
-    private fun streamMinVolume(
-        am: AudioManager,
-        stream: Int,
-    ): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) am.getStreamMinVolume(stream) else 0
-
-    private fun restoreVolumes() {
-        mainHandler.removeCallbacks(clearNudgeEchoRunnable)
-        pendingNudgeEcho.clear()
-        if (nudgedVolumes.isEmpty()) return
-        val am = audioManager
-        nudgedVolumes.forEach { (stream, original) ->
-            runCatching { am?.setStreamVolume(stream, original, 0) }
+    private fun releaseVolumeKeyMediaSession() {
+        mediaSession?.let {
+            runCatching { it.isActive = false }
+            runCatching { it.release() }
         }
-        nudgedVolumes.clear()
+        mediaSession = null
     }
 
     @SuppressLint("FullScreenIntentPolicy")
@@ -596,6 +582,27 @@ class PlaybackService :
         }
 
     /**
+     * Releases every playback resource (player, audio focus, listeners, volume MediaSession, vibration) and
+     * cancels the loop cap. Idempotent and null-safe, so it is reused both to stop a cycle ([cleanupAndStop])
+     * and to wipe a prior cycle's leftovers when this instance is reused for a new PLAY. Does NOT touch the
+     * foreground notification, the stopped latch, or stopSelf — those belong to [cleanupAndStop].
+     */
+    private fun teardownPlayback() {
+        mainHandler.removeCallbacks(loopCapRunnable)
+        player?.let { mp ->
+            runCatching { mp.reset() }
+            mp.release()
+        }
+        player = null
+        wasPlayingBeforeCall = false
+        abandonAudioFocus()
+        unregisterCallStateListener()
+        unregisterVolumeReceiver()
+        releaseVolumeKeyMediaSession()
+        VibrationController.stop(this)
+    }
+
+    /**
      * Stops playback and tears the service down. When [leaveLingering] is true (the adhan/reminder ended
      * on its own — playback finished, looped past the cap, errored, or lost audio focus — rather than the
      * user dismissing it) the foreground notification is detached and replaced with a quiet, dismissible
@@ -605,17 +612,7 @@ class PlaybackService :
     private fun cleanupAndStop(leaveLingering: Boolean = false) {
         if (stopped) return
         stopped = true
-        mainHandler.removeCallbacks(loopCapRunnable)
-        player?.let { mp ->
-            runCatching { mp.reset() }
-            mp.release()
-        }
-        player = null
-        abandonAudioFocus()
-        unregisterCallStateListener()
-        unregisterVolumeReceiver()
-        restoreVolumes()
-        VibrationController.stop(this)
+        teardownPlayback()
         _stopSignal.tryEmit(Unit)
         val lingering = if (leaveLingering) buildLingeringNotification() else null
         // Always remove the foreground notification first: the trace lives on a different (silent)
