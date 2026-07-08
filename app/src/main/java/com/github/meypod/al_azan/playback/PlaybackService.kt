@@ -415,7 +415,10 @@ class PlaybackService :
             this,
             receiver,
             IntentFilter("android.media.VOLUME_CHANGED_ACTION"),
-            ContextCompat.RECEIVER_NOT_EXPORTED,
+            // EXPORTED: some OEMs won't deliver the system VOLUME_CHANGED broadcast to a NOT_EXPORTED
+            // runtime receiver while the screen is off. VOLUME_CHANGED_ACTION is a protected broadcast
+            // (only the system can send it), so exporting doesn't let other apps spoof a stop.
+            ContextCompat.RECEIVER_EXPORTED,
         )
     }
 
