@@ -33,6 +33,8 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
+import com.github.meypod.al_azan.playback.PlaybackService.Companion.NUDGE_ECHO_WINDOW_MS
+import com.github.meypod.al_azan.playback.PlaybackService.Companion.NUDGE_STREAMS
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -73,7 +75,8 @@ class PlaybackService :
 
         private const val NOTIFICATION_ID = 0xADA2
 
-        // Streams the hardware volume keys might drive while the alarm plays (device-dependent).
+        // Streams the hardware volume keys might drive while the alarm plays (device-dependent). Used by
+        // normal (mirror) mode, which can't assume which stream the keys hit.
         private val VOLUME_KEY_STREAMS = intArrayOf(
             AudioManager.STREAM_ALARM,
             AudioManager.STREAM_MUSIC,
@@ -81,6 +84,21 @@ class PlaybackService :
             AudioManager.STREAM_NOTIFICATION,
             AudioManager.STREAM_SYSTEM,
         )
+
+        // Streams to nudge off their edge so a key press is never a silent no-op. The adhan plays with
+        // USAGE_ALARM (→ STREAM_ALARM) or USAGE_MEDIA (→ STREAM_MUSIC), so the keys drive one of these two
+        // while it sounds. Both are independent — unlike RING/NOTIFICATION/SYSTEM, which many devices link
+        // and collapse into a single broadcast, leaving stale echoes that could swallow a real press — so
+        // each nudge here yields exactly one echo.
+        private val NUDGE_STREAMS = intArrayOf(
+            AudioManager.STREAM_ALARM,
+            AudioManager.STREAM_MUSIC,
+        )
+
+        // Our nudge's echo broadcasts land within a few hundred ms; a real press comes seconds later (the
+        // user reaches for the phone). Suppress echoes only inside this window, then always treat a
+        // broadcast as a real press — so a nudge whose echo never fires can't silently eat the user's press.
+        private const val NUDGE_ECHO_WINDOW_MS = 1500L
 
         // Emitted whenever playback stops (notification "Dismiss", loop cap, call, etc.) so a visible
         // full-screen AlarmActivity can close itself even when the stop didn't originate from its UI.
@@ -137,6 +155,7 @@ class PlaybackService :
     private var stopped = false
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val loopCapRunnable = Runnable { cleanupAndStop(leaveLingering = true) }
+    private val clearNudgeEchoRunnable = Runnable { pendingNudgeEcho.clear() }
 
     private val audioManager: AudioManager? by lazy { getSystemService() }
     private val telephonyManager: TelephonyManager? by lazy { getSystemService() }
@@ -425,8 +444,9 @@ class PlaybackService :
     /**
      * True only for the VOLUME_CHANGED echo of our own nudge: the stream matches a pending nudge and the
      * reported value equals what we set it to. Consumed once, so a later real press on that stream still
-     * stops the alarm. Identified by value (not a timer), so a slow echo on a loaded device can never be
-     * mistaken for a press — we must never falsely stop an alarm.
+     * stops the alarm. The value match distinguishes our echo from a press (a press lands on a different
+     * value); [NUDGE_ECHO_WINDOW_MS] bounds how long we suppress, so a nudge whose echo never arrives can't
+     * leave a stale entry that swallows a much-later real press.
      */
     private fun isOwnNudgeEcho(intent: Intent): Boolean {
         if (pendingNudgeEcho.isEmpty()) return false
@@ -447,45 +467,56 @@ class PlaybackService :
     }
 
     /**
-     * The hardware volume keys may drive any of several streams depending on device/state, and a press
-     * while that stream sits at an edge is a no-op the VOLUME_CHANGED broadcast never sees: at the max
-     * edge an up-press does nothing, at the min edge a down-press does nothing. We can't know which stream
-     * the keys control, so move every edge-pinned one a step toward the interior; from there any press in
-     * either direction changes it and fires the broadcast. Originals are restored in [restoreVolumes].
+     * A key press while the driven stream sits at an edge is a no-op the VOLUME_CHANGED broadcast never
+     * sees: at the max edge an up-press does nothing, at the min edge a down-press does nothing. So move
+     * each [NUDGE_STREAMS] stream (the ones the adhan's usage routes the keys to) that's edge-pinned a step
+     * toward the interior; from there any press in either direction fires the broadcast. Originals are
+     * restored in [restoreVolumes].
      *
      * The min edge is not always 0 — STREAM_ALARM (and STREAM_RING/VOICE_CALL) floor at 1, so nudging to
      * a hardcoded 1 would be a no-op on those. Use each stream's real min and nudge to min + 1.
      */
     private fun nudgeVolumesOffEdge() {
         val am = audioManager ?: return
-        for (stream in VOLUME_KEY_STREAMS) {
+        for (stream in NUDGE_STREAMS) {
             val max = runCatching { am.getStreamMaxVolume(stream) }.getOrDefault(0)
             val min = runCatching { streamMinVolume(am, stream) }.getOrDefault(0)
             val cur = runCatching { am.getStreamVolume(stream) }.getOrDefault(-1)
             if (max - min <= 1 || cur < 0) continue // no interior value to move to
             val target = when {
-                cur >= max -> max - 1 // at the max edge: an up-press is a no-op
-                cur <= min -> min + 1 // at the min edge: a down-press is a no-op (alarm min is 1, not 0)
+                cur >= max -> max - 1
+
+                // at the max edge: an up-press is a no-op
+                cur <= min -> min + 1
+
+                // at the min edge: a down-press is a no-op (alarm min is 1, not 0)
                 else -> continue // already interior: any press fires a broadcast
             }
             nudgedVolumes[stream] = cur
             pendingNudgeEcho[stream] = target
             runCatching { am.setStreamVolume(stream, target, 0) }
         }
+        // Bound echo suppression in time so a nudge whose echo never fires can't leave a stale entry.
+        if (pendingNudgeEcho.isNotEmpty()) {
+            mainHandler.postDelayed(clearNudgeEchoRunnable, NUDGE_ECHO_WINDOW_MS)
+        }
     }
 
     /** Real per-stream minimum (STREAM_ALARM floors at 1). [AudioManager.getStreamMinVolume] is API 28+. */
-    private fun streamMinVolume(am: AudioManager, stream: Int): Int =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) am.getStreamMinVolume(stream) else 0
+    private fun streamMinVolume(
+        am: AudioManager,
+        stream: Int,
+    ): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) am.getStreamMinVolume(stream) else 0
 
     private fun restoreVolumes() {
+        mainHandler.removeCallbacks(clearNudgeEchoRunnable)
+        pendingNudgeEcho.clear()
         if (nudgedVolumes.isEmpty()) return
         val am = audioManager
         nudgedVolumes.forEach { (stream, original) ->
             runCatching { am?.setStreamVolume(stream, original, 0) }
         }
         nudgedVolumes.clear()
-        pendingNudgeEcho.clear()
     }
 
     @SuppressLint("FullScreenIntentPolicy")
