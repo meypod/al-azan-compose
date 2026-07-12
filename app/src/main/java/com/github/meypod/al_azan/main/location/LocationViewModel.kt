@@ -129,6 +129,14 @@ class LocationViewModel
     private fun onSetAsDefault(locationId: String) {
         viewModelScope.launch {
             calculationSettingsRepository.update { it.copy(locationId = locationId) }
+            // Selecting any non-traveling location leaves travel mode (the toggle is derived from
+            // the selected location), so tear down the periodic locator — otherwise it keeps polling
+            // GPS in the background even though the toggle now reads off. Idempotent when travel mode
+            // was already off. Guarded so a future path that selects the traveling entry here can't
+            // wrongly kill an active session.
+            if (locationId != TravelingFavoriteLocation.LOCATION_ID) {
+                WorkManager.getInstance(context).cancelUniqueWork(TRAVEL_MODE_WORK_NAME)
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.TextResource
@@ -13,6 +14,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocati
 import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
+import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -33,10 +35,19 @@ constructor(
     @Assisted workerParams: WorkerParameters,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val settingsRepository: SettingsRepository,
+    private val calculationSettingsRepository: CalculationSettingsRepository,
     private val notificationRepository: NotificationRepository,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
+        // Travel mode is derived state (selected location == the traveling entry). If the user left
+        // it by any path that didn't cancel this periodic job, re-verify here and tear ourselves
+        // down instead of polling GPS for a mode they already exited — this also cleans up orphans
+        // that survived across reboots.
+        if (calculationSettingsRepository.fetch().locationId != TravelingFavoriteLocation.LOCATION_ID) {
+            WorkManager.getInstance(applicationContext).cancelUniqueWork(TRAVEL_MODE_WORK_NAME)
+            return Result.success()
+        }
         if (!LocationUtils.isLocationEnabled(applicationContext)) {
             notificationRepository.notify(
                 NotificationConfig(
