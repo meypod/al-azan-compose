@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Tablo</string>
     <string name="notification_widget_layout_compact">Kompakt</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Özel widget</string>
+    <string name="widget_section_custom_appearance_caption">Kendi özelleştirilebilir widget\'ınızı oluşturun ve neyin nasıl gösterileceğine karar verin.</string>
+    <string name="custom_widget_pin_preview">Önizlemeyi sabitle</string>
+    <string name="custom_widget_background_color">Arka plan rengi</string>
+    <string name="custom_widget_text_color">Metin rengi</string>
+    <string name="custom_widget_highlight_color">Vurgulanan metin rengi</string>
+    <string name="custom_widget_countdown_color">Geri sayım rengi</string>
+    <string name="custom_widget_font_size">Yazı tipi boyutu</string>
+    <string name="custom_widget_prayers">Namaz vakitleri</string>
+    <string name="custom_widget_prayers_help">Eklemek için dokunun ya da bir satıra sürükleyin, kaldırmak için tekrar dokunun.</string>
+    <string name="custom_widget_drop_prayers">Öğeleri buraya bırakın</string>
+    <string name="custom_widget_all_prayers_used">Tüm öğeler kullanıldı</string>
+    <string name="custom_widget_empty_hint">Bu widget\'ı Ayarlar → Widget → Özel widget bölümünde kurun</string>
+    <string name="custom_widget_add">Widget\'a ekle</string>
+    <string name="custom_widget_remove">Kaldır</string>
+    <string name="custom_widget_swap_header">Başlık yuvalarının yerini değiştir</string>
+    <string name="custom_widget_header_slots_title">Başlık</string>
+    <string name="custom_widget_rows_label">Satırlar</string>
+    <string name="custom_widget_rows_help">Bir veya iki satır kullanın, ardından öğeleri istediğiniz satıra sürükleyin.</string>
+    <string name="custom_widget_row_n">Satır %1$d</string>
+    <string name="custom_widget_locations">Konumlar</string>
+    <string name="custom_widget_multiple_locations">Birden fazla konum</string>
+    <string name="custom_widget_locations_help">Hangi konumların gösterileceğini seçin. Widget\'ta aralarında geçiş yapmak için birden fazla seçin.</string>
+    <string name="custom_widget_no_locations">Vakitleri önizlemek için önce bir konum ekleyin.</string>
+    <string name="custom_widget_header_start">Başlık başlangıç yuvası</string>
+    <string name="custom_widget_header_end">Başlık bitiş yuvası</string>
+    <string name="custom_widget_header_help">Widget\'ın en üst satırı. Öğelere dokunarak ya da onları yuvalara sürükleyerek ne gösterileceğini seçin.</string>
+    <string name="custom_widget_header_hijri">Hicri tarih</string>
+    <string name="custom_widget_header_hijri_day">Hicri tarih + hafta günü</string>
+    <string name="custom_widget_header_gregorian">Gregoryen tarih</string>
+    <string name="custom_widget_header_gregorian_day">Gregoryen tarih + hafta günü</string>
+    <string name="custom_widget_header_location">Konum adı</string>
+    <string name="color_picker_hex">Onaltılık (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Opaklık</string>
+    <string name="color_picker_use_default">Temayla eşleştir</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

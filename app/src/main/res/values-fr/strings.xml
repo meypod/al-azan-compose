@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Tableau</string>
     <string name="notification_widget_layout_compact">Compact</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Widget personnalisé</string>
+    <string name="widget_section_custom_appearance_caption">Créez votre propre widget personnalisable et décidez de ce qui s\'affiche et comment.</string>
+    <string name="custom_widget_pin_preview">Épingler l\'aperçu</string>
+    <string name="custom_widget_background_color">Couleur d\'arrière-plan</string>
+    <string name="custom_widget_text_color">Couleur du texte</string>
+    <string name="custom_widget_highlight_color">Couleur du texte mis en évidence</string>
+    <string name="custom_widget_countdown_color">Couleur du compte à rebours</string>
+    <string name="custom_widget_font_size">Taille de la police</string>
+    <string name="custom_widget_prayers">Horaires de prières</string>
+    <string name="custom_widget_prayers_help">Appuyez ou faites glisser dans une rangée pour ajouter, puis appuyez à nouveau pour supprimer.</string>
+    <string name="custom_widget_drop_prayers">Déposez les entrées ici</string>
+    <string name="custom_widget_all_prayers_used">Toutes les entrées sont utilisées</string>
+    <string name="custom_widget_empty_hint">Configurez ce widget dans Paramètres → Widget → Widget personnalisé</string>
+    <string name="custom_widget_add">Ajouter au widget</string>
+    <string name="custom_widget_remove">Supprimer</string>
+    <string name="custom_widget_swap_header">Permuter les emplacements d\'en-tête</string>
+    <string name="custom_widget_header_slots_title">En-tête</string>
+    <string name="custom_widget_rows_label">Rangées</string>
+    <string name="custom_widget_rows_help">Utilisez une ou deux rangées, puis faites glisser les entrées dans la rangée souhaitée.</string>
+    <string name="custom_widget_row_n">Rangée %1$d</string>
+    <string name="custom_widget_locations">Lieux</string>
+    <string name="custom_widget_multiple_locations">Plusieurs lieux</string>
+    <string name="custom_widget_locations_help">Choisissez les lieux à afficher. Sélectionnez-en plusieurs pour passer de l\'un à l\'autre sur le widget.</string>
+    <string name="custom_widget_no_locations">Ajoutez d\'abord un lieu pour prévisualiser les horaires.</string>
+    <string name="custom_widget_header_start">Emplacement de début d\'en-tête</string>
+    <string name="custom_widget_header_end">Emplacement de fin d\'en-tête</string>
+    <string name="custom_widget_header_help">La rangée supérieure du widget. Choisissez ce qui s\'affiche en appuyant sur les entrées ou en les faisant glisser dans les emplacements.</string>
+    <string name="custom_widget_header_hijri">Date hégirienne</string>
+    <string name="custom_widget_header_hijri_day">Date hégirienne + jour de la semaine</string>
+    <string name="custom_widget_header_gregorian">Date grégorienne</string>
+    <string name="custom_widget_header_gregorian_day">Date grégorienne + jour de la semaine</string>
+    <string name="custom_widget_header_location">Nom du lieu</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alpha</string>
+    <string name="color_picker_use_default">Adapter au thème</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

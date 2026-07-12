@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A single page-indicator dot; color set at runtime (lit = highlight, unlit = dimmed text). -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cw_dot"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="●"
+    android:textColor="@color/custom_widget_text"
+    android:textSize="9sp"
+    tools:ignore="HardcodedText" />

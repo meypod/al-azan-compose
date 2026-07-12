@@ -63,6 +63,7 @@ class BuildWidgetDataUseCaseTest {
             locale: String,
             calendar: String,
             numberingSystem: NumberingSystem,
+            withDayName: Boolean,
         ) = "date:$calendar"
 
         override fun adjustDays(

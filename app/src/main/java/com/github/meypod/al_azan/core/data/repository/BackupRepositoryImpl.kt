@@ -18,6 +18,7 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.BackupRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
+import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -45,6 +46,7 @@ class BackupRepositoryImpl(
     private val counterRepository: CounterRepository,
     private val reminderRepository: ReminderRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val customWidgetConfigRepository: CustomWidgetConfigRepository,
     private val restoreApplier: RestoreApplier,
     private val adhanScheduler: AdhanScheduler,
     private val reminderScheduler: ReminderScheduler,
@@ -67,6 +69,7 @@ class BackupRepositoryImpl(
             counters = counterRepository.fetch(),
             reminders = stripCustomSounds(reminderRepository.fetch()),
             favoriteLocations = favoriteLocationsRepository.fetch(),
+            customWidget = customWidgetConfigRepository.fetch(),
         )
         val content = json.encodeToString(ExportedSettingsV2.serializer(), exported)
         writeToUri(uri, content)

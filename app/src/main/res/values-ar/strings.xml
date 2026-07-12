@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">جدول</string>
     <string name="notification_widget_layout_compact">مضغوط</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">مصغّر مخصّص</string>
+    <string name="widget_section_custom_appearance_caption">أنشئ أداتك الخاصة القابلة للتخصيص وقرّر ما يُعرض وكيف.</string>
+    <string name="custom_widget_pin_preview">تثبيت المعاينة</string>
+    <string name="custom_widget_background_color">لون الخلفية</string>
+    <string name="custom_widget_text_color">لون النص</string>
+    <string name="custom_widget_highlight_color">لون النص المُبرَز</string>
+    <string name="custom_widget_countdown_color">لون العد التنازلي</string>
+    <string name="custom_widget_font_size">حجم الخط</string>
+    <string name="custom_widget_prayers">أوقات الصلاة</string>
+    <string name="custom_widget_prayers_help">اضغط أو اسحب إلى صف للإضافة، واضغط مرة أخرى للإزالة.</string>
+    <string name="custom_widget_drop_prayers">أفلِت العناصر هنا</string>
+    <string name="custom_widget_all_prayers_used">تم استخدام جميع العناصر</string>
+    <string name="custom_widget_empty_hint">أعدّ هذا المصغّر في الإعدادات ← المصغّر ← مصغّر مخصّص</string>
+    <string name="custom_widget_add">إضافة إلى المصغّر</string>
+    <string name="custom_widget_remove">إزالة</string>
+    <string name="custom_widget_swap_header">تبديل خانتَي الترويسة</string>
+    <string name="custom_widget_header_slots_title">الترويسة</string>
+    <string name="custom_widget_rows_label">الصفوف</string>
+    <string name="custom_widget_rows_help">استخدم صفًا واحدًا أو صفين، ثم اسحب العناصر إلى الصف الذي تريده.</string>
+    <string name="custom_widget_row_n">الصف %1$d</string>
+    <string name="custom_widget_locations">المواقع</string>
+    <string name="custom_widget_multiple_locations">مواقع متعددة</string>
+    <string name="custom_widget_locations_help">اختر المواقع التي تريد عرضها. حدّد أكثر من موقع للتبديل بينها على المصغّر.</string>
+    <string name="custom_widget_no_locations">أضف موقعًا أولًا لمعاينة الأوقات.</string>
+    <string name="custom_widget_header_start">خانة بداية الترويسة</string>
+    <string name="custom_widget_header_end">خانة نهاية الترويسة</string>
+    <string name="custom_widget_header_help">الصف العلوي من المصغّر. اختر ما يُعرض بالضغط على العناصر أو سحبها إلى الخانات.</string>
+    <string name="custom_widget_header_hijri">التاريخ الهجري</string>
+    <string name="custom_widget_header_hijri_day">التاريخ الهجري + يوم الأسبوع</string>
+    <string name="custom_widget_header_gregorian">التاريخ الميلادي</string>
+    <string name="custom_widget_header_gregorian_day">التاريخ الميلادي + يوم الأسبوع</string>
+    <string name="custom_widget_header_location">اسم الموقع</string>
+    <string name="color_picker_hex">ست عشري (#AARRGGBB)</string>
+    <string name="color_picker_alpha">الشفافية</string>
+    <string name="color_picker_use_default">مطابقة السمة</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

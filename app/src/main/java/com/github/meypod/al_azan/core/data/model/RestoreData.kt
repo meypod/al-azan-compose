@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 
 /**
  * The full set of app state to write in one shot, already mapped to v2 domain models.
@@ -22,6 +23,8 @@ data class RestoreData(
     val counters: List<Counter>,
     val reminders: List<Reminder>,
     val favoriteLocations: List<FavoriteLocation>,
+    // Defaulted so the legacy-migration path (no custom widget) and older callers still compile.
+    val customWidget: CustomWidgetConfig = CustomWidgetConfig(),
 )
 
 fun ExportedSettingsV2.toRestoreData(): RestoreData =
@@ -32,4 +35,5 @@ fun ExportedSettingsV2.toRestoreData(): RestoreData =
         counters = counters,
         reminders = reminders,
         favoriteLocations = favoriteLocations,
+        customWidget = customWidget,
     )

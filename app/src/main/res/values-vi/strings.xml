@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Bảng</string>
     <string name="notification_widget_layout_compact">Thu gọn</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Tiện ích tùy chỉnh</string>
+    <string name="widget_section_custom_appearance_caption">Tạo tiện ích tùy chỉnh của riêng bạn và quyết định hiển thị gì và như thế nào.</string>
+    <string name="custom_widget_pin_preview">Ghim bản xem trước</string>
+    <string name="custom_widget_background_color">Màu nền</string>
+    <string name="custom_widget_text_color">Màu chữ</string>
+    <string name="custom_widget_highlight_color">Màu chữ nổi bật</string>
+    <string name="custom_widget_countdown_color">Màu đếm ngược</string>
+    <string name="custom_widget_font_size">Cỡ chữ</string>
+    <string name="custom_widget_prayers">Giờ cầu nguyện</string>
+    <string name="custom_widget_prayers_help">Nhấn hoặc kéo vào một hàng để thêm, và nhấn lại để gỡ bỏ.</string>
+    <string name="custom_widget_drop_prayers">Thả các mục vào đây</string>
+    <string name="custom_widget_all_prayers_used">Tất cả các mục đã được sử dụng</string>
+    <string name="custom_widget_empty_hint">Thiết lập tiện ích này trong Cài đặt → Tiện ích → Tiện ích tùy chỉnh</string>
+    <string name="custom_widget_add">Thêm vào tiện ích</string>
+    <string name="custom_widget_remove">Gỡ bỏ</string>
+    <string name="custom_widget_swap_header">Hoán đổi các ô tiêu đề</string>
+    <string name="custom_widget_header_slots_title">Tiêu đề</string>
+    <string name="custom_widget_rows_label">Hàng</string>
+    <string name="custom_widget_rows_help">Dùng một hoặc hai hàng, rồi kéo các mục vào hàng bạn muốn.</string>
+    <string name="custom_widget_row_n">Hàng %1$d</string>
+    <string name="custom_widget_locations">Vị trí</string>
+    <string name="custom_widget_multiple_locations">Nhiều vị trí</string>
+    <string name="custom_widget_locations_help">Chọn những vị trí bạn muốn hiển thị. Chọn nhiều hơn một để chuyển đổi qua lại giữa chúng trên tiện ích.</string>
+    <string name="custom_widget_no_locations">Trước tiên hãy thêm một vị trí để xem trước giờ.</string>
+    <string name="custom_widget_header_start">Ô đầu tiêu đề</string>
+    <string name="custom_widget_header_end">Ô cuối tiêu đề</string>
+    <string name="custom_widget_header_help">Hàng trên cùng của tiện ích. Chọn nội dung hiển thị bằng cách nhấn hoặc kéo các mục vào các ô.</string>
+    <string name="custom_widget_header_hijri">Ngày Hijri</string>
+    <string name="custom_widget_header_hijri_day">Ngày Hijri + thứ trong tuần</string>
+    <string name="custom_widget_header_gregorian">Ngày dương lịch</string>
+    <string name="custom_widget_header_gregorian_day">Ngày dương lịch + thứ trong tuần</string>
+    <string name="custom_widget_header_location">Tên vị trí</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alpha</string>
+    <string name="color_picker_use_default">Theo giao diện</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

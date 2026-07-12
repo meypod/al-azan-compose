@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Tabel</string>
     <string name="notification_widget_layout_compact">Ringkas</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Widget kustom</string>
+    <string name="widget_section_custom_appearance_caption">Buat widget Anda sendiri yang dapat disesuaikan dan tentukan apa yang ditampilkan dan bagaimana caranya.</string>
+    <string name="custom_widget_pin_preview">Sematkan pratinjau</string>
+    <string name="custom_widget_background_color">Warna latar belakang</string>
+    <string name="custom_widget_text_color">Warna teks</string>
+    <string name="custom_widget_highlight_color">Warna teks yang disorot</string>
+    <string name="custom_widget_countdown_color">Warna hitung mundur</string>
+    <string name="custom_widget_font_size">Ukuran font</string>
+    <string name="custom_widget_prayers">Waktu sholat</string>
+    <string name="custom_widget_prayers_help">Ketuk atau seret ke dalam baris untuk menambahkan, dan ketuk lagi untuk menghapus.</string>
+    <string name="custom_widget_drop_prayers">Letakkan entri di sini</string>
+    <string name="custom_widget_all_prayers_used">Semua entri telah digunakan</string>
+    <string name="custom_widget_empty_hint">Atur widget ini di Pengaturan → Widget → Widget kustom</string>
+    <string name="custom_widget_add">Tambahkan ke widget</string>
+    <string name="custom_widget_remove">Hapus</string>
+    <string name="custom_widget_swap_header">Tukar slot header</string>
+    <string name="custom_widget_header_slots_title">Header</string>
+    <string name="custom_widget_rows_label">Baris</string>
+    <string name="custom_widget_rows_help">Gunakan satu atau dua baris, lalu seret entri ke baris yang Anda inginkan.</string>
+    <string name="custom_widget_row_n">Baris %1$d</string>
+    <string name="custom_widget_locations">Lokasi</string>
+    <string name="custom_widget_multiple_locations">Beberapa lokasi</string>
+    <string name="custom_widget_locations_help">Pilih lokasi mana yang akan ditampilkan. Pilih lebih dari satu untuk beralih di antaranya pada widget.</string>
+    <string name="custom_widget_no_locations">Tambahkan lokasi terlebih dahulu untuk melihat pratinjau waktu.</string>
+    <string name="custom_widget_header_start">Slot awal header</string>
+    <string name="custom_widget_header_end">Slot akhir header</string>
+    <string name="custom_widget_header_help">Baris teratas widget. Pilih apa yang ditampilkan dengan mengetuk atau menyeret entri ke dalam slot.</string>
+    <string name="custom_widget_header_hijri">Tanggal Hijriah</string>
+    <string name="custom_widget_header_hijri_day">Tanggal Hijriah + hari</string>
+    <string name="custom_widget_header_gregorian">Tanggal Gregorian</string>
+    <string name="custom_widget_header_gregorian_day">Tanggal Gregorian + hari</string>
+    <string name="custom_widget_header_location">Nama lokasi</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alfa</string>
+    <string name="color_picker_use_default">Ikuti tema</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

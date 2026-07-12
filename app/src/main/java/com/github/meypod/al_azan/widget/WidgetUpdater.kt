@@ -12,13 +12,16 @@ import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
 import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
+import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.NextPrayerWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetData
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.usecase.BuildCustomWidgetDataUseCase
 import com.github.meypod.al_azan.core.domain.usecase.BuildNextPrayerWidgetDataUseCase
 import com.github.meypod.al_azan.core.domain.usecase.BuildWidgetDataUseCase
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
@@ -44,8 +47,10 @@ class WidgetUpdater @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val customWidgetConfigRepository: CustomWidgetConfigRepository,
     private val buildWidgetDataUseCase: BuildWidgetDataUseCase,
     private val buildNextPrayerWidgetDataUseCase: BuildNextPrayerWidgetDataUseCase,
+    private val buildCustomWidgetDataUseCase: BuildCustomWidgetDataUseCase,
     private val alarmRepository: AlarmRepository,
     private val notificationRepository: NotificationRepository,
 ) {
@@ -62,37 +67,90 @@ class WidgetUpdater @Inject constructor(
             val calcSettings = calculationSettingsRepository.data.first()
             val locations = favoriteLocationsRepository.data.first()
             val location = locations.firstOrNull { it.id == calcSettings.locationId }?.locationDetail
-
             val now = Clock.System.now()
             // Adaptive (Material You) layouts only exist under -v31; on older devices their theme is
             // missing and the widget fails to render. Force the non-adaptive layout there regardless of
             // a stored "on" value (the setting is hidden pre-31, but old data may still carry it).
             val adaptiveSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-            val data = buildWidgetDataUseCase(now, settings, calcSettings, location)
-                ?.let { if (adaptiveSupported) it else it.copy(adaptiveTheme = false) }
-            val nextData = buildNextPrayerWidgetDataUseCase(now, settings, calcSettings, location)
-                ?.let { if (adaptiveSupported) it else it.copy(adaptiveTheme = false) }
 
             val screenIds = appWidgetManager.getAppWidgetIds(ComponentName(context, PrayerTimesWidget::class.java))
             val nextIds = appWidgetManager.getAppWidgetIds(ComponentName(context, NextPrayerWidget::class.java))
+            val customIds = appWidgetManager.getAppWidgetIds(ComponentName(context, CustomWidget::class.java))
+
+            // Compute only the data a live surface actually needs — every build below runs the prayer-time
+            // calculation, so skipping unused ones matters. The ongoing notification always renders from the
+            // table `data` (its Compact/Custom layouts fall back to it), so `data` is needed whenever the
+            // notification is on or a table widget is placed; the next-prayer and custom data are needed only
+            // for their own home widget or their own notification layout.
+            val showNotif = settings.showWidget
+            val notifLayout = settings.notificationWidgetLayout
+
+            val data = if (screenIds.isNotEmpty() || showNotif) {
+                buildWidgetDataUseCase(now, settings, calcSettings, location)
+                    ?.let { if (adaptiveSupported) it else it.copy(adaptiveTheme = false) }
+            } else {
+                null
+            }
+            val nextData = if (nextIds.isNotEmpty() || (showNotif && notifLayout == NotificationWidgetLayout.Compact)) {
+                buildNextPrayerWidgetDataUseCase(now, settings, calcSettings, location)
+                    ?.let { if (adaptiveSupported) it else it.copy(adaptiveTheme = false) }
+            } else {
+                null
+            }
+            val customData = if (customIds.isNotEmpty() || (showNotif && notifLayout == NotificationWidgetLayout.Custom)) {
+                val customConfig = customWidgetConfigRepository.data.first()
+                buildCustomWidgetDataUseCase(now, settings, calcSettings, location, customConfig, locations)
+            } else {
+                null
+            }
+
+            // When times can't be computed, every placed widget shows the same actionable hint (tap →
+            // open app) instead of a stale 0:00 placeholder: point at whichever piece is missing.
+            val configHintRes = if (calcSettings.parameters == null) {
+                R.string.set_calculation_hint
+            } else {
+                R.string.set_location_hint
+            }
 
             // Prayer-times widget + notification.
             WidgetRenderCache.lastData = data
             if (data == null) {
-                // Not configured yet: nothing meaningful to show.
                 notificationRepository.cancelNotification(WidgetContract.NOTIFICATION_ID)
+                if (screenIds.isNotEmpty()) {
+                    appWidgetManager.updateAppWidget(screenIds, WidgetRenderer.buildHint(context, configHintRes))
+                }
             } else {
                 if (screenIds.isNotEmpty()) {
                     appWidgetManager.updateAppWidget(screenIds, WidgetRenderer.buildScreenWidget(context, data))
                 }
-                updateNotification(data, nextData)
+                updateNotification(data, nextData, customData)
             }
 
-            // 1x1 next-prayer widget. When not computable (unconfigured / empty selection) leave it on its
-            // placeholder rather than blanking it.
+            // 1x1 next-prayer widget.
             NextPrayerRenderCache.lastData = nextData
-            if (nextData != null && nextIds.isNotEmpty()) {
-                appWidgetManager.updateAppWidget(nextIds, WidgetRenderer.buildNextPrayerWidget(context, nextData))
+            if (nextData != null) {
+                if (nextIds.isNotEmpty()) {
+                    appWidgetManager.updateAppWidget(nextIds, WidgetRenderer.buildNextPrayerWidget(context, nextData))
+                }
+            } else if (nextIds.isNotEmpty()) {
+                appWidgetManager.updateAppWidget(nextIds, WidgetRenderer.buildHint(context, configHintRes))
+            }
+
+            // User-authored custom widget. Each instance renders at its own current page (for the
+            // multi-location ‹/› pager), so push per id rather than one shared RemoteViews.
+            CustomWidgetRenderCache.lastData = customData
+            if (customData != null) {
+                customIds.forEach { id ->
+                    appWidgetManager.updateAppWidget(
+                        id,
+                        CustomWidgetRenderer.build(context, customData, CustomWidgetPageState.get(id), id),
+                    )
+                }
+            } else if (customIds.isNotEmpty()) {
+                // Placed but the app can't compute times: same config hint as the other widgets (its own
+                // styled variant), not the misleading "set up the widget in the builder" hint.
+                val hint = CustomWidgetRenderer.buildConfigHint(context, configHintRes)
+                customIds.forEach { id -> appWidgetManager.updateAppWidget(id, hint) }
             }
 
             // Only keep recomputing on a schedule while something is actually on screen. Each surface
@@ -108,6 +166,10 @@ class WidgetUpdater @Inject constructor(
                 if (nextData != null && (nextIds.isNotEmpty() || compactNotificationShown)) {
                     nextData.nextUpdateAtMillis?.let { add(it) }
                 }
+                // customData is non-null only when there's a consumer (placed widget / custom notification).
+                if (customData != null) {
+                    customData.nextUpdateAtMillis?.let { add(it) }
+                }
             }
             scheduleNextRedraw(nextUpdateCandidates.minOrNull())
         }
@@ -115,6 +177,7 @@ class WidgetUpdater @Inject constructor(
     private suspend fun updateNotification(
         data: WidgetData,
         nextData: NextPrayerWidgetData?,
+        customData: CustomWidgetData?,
     ) {
         if (!data.showNotification) {
             notificationRepository.cancelNotification(WidgetContract.NOTIFICATION_ID)
@@ -125,7 +188,13 @@ class WidgetUpdater @Inject constructor(
         // selected) so the notification never blanks.
         val small: RemoteViews
         val big: RemoteViews
-        if (data.notificationLayout == NotificationWidgetLayout.Compact && nextData != null) {
+        if (data.notificationLayout == NotificationWidgetLayout.Custom && customData != null) {
+            // The user-authored custom layout, rendered inline (the pager arrows can't work inside a
+            // notification); same view for the collapsed and expanded states.
+            val custom = CustomWidgetRenderer.build(context, customData.copy(pages = emptyList()))
+            small = custom
+            big = custom
+        } else if (data.notificationLayout == NotificationWidgetLayout.Compact && nextData != null) {
             small = WidgetRenderer.buildNextPrayerNotification(context, nextData, expanded = false)
             big = WidgetRenderer.buildNextPrayerNotification(context, nextData, expanded = true)
         } else {

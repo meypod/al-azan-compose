@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Multi-location widget: shows ONE full-width location page (readable, like the single-location
+     layout) plus a nav bar of ‹ prev | dots | next › arrows. Horizontal swipe is impossible in a
+     widget (the launcher owns it), so locations are switched by tapping the arrows, which re-render
+     the widget at the next page. Header/name/rows are filled at runtime. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cw_paged_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/custom_widget_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
+
+    <!-- Two wrap_content + weight bands (see custom_widget.xml): header + prayer rows are each at least
+         their own height (no cropping) and split the leftover space above the nav bar evenly. -->
+    <LinearLayout
+        android:id="@+id/cw_paged_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/cw_paged_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" />
+
+    <!-- Countdown band (same ids as custom_widget.xml so the renderer's applyCountdown fills it): a
+         multi-location widget can show the countdown too. Follows the primary location's next prayer. -->
+    <LinearLayout
+        android:id="@+id/custom_widget_countdown_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/cw_countdown_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/custom_widget_text"
+            android:textDirection="ltr"
+            android:textSize="13sp" />
+
+        <Chronometer
+            android:id="@+id/cw_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:countDown="true"
+            android:enabled="false"
+            android:fontFamily="monospace"
+            android:maxLines="1"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cw_paged_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="44dp"
+            android:minHeight="44dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="‹"
+            android:textColor="@color/custom_widget_text"
+            android:textSize="24sp"
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:id="@+id/cw_paged_dots"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+        <TextView
+            android:id="@+id/cw_paged_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="44dp"
+            android:minHeight="44dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="›"
+            android:textColor="@color/custom_widget_text"
+            android:textSize="24sp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+</LinearLayout>

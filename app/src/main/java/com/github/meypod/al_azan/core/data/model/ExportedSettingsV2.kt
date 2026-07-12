@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -30,4 +31,7 @@ data class ExportedSettingsV2(
     val reminders: List<Reminder>,
     @SerialName("FAVORITE_LOCATIONS_STORAGE_V2")
     val favoriteLocations: List<FavoriteLocation>,
+    // Defaulted so backup files written before the custom widget existed still decode.
+    @SerialName("CUSTOM_WIDGET_STORAGE_V2")
+    val customWidget: CustomWidgetConfig = CustomWidgetConfig(),
 )

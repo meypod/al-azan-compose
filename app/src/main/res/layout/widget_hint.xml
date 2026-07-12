@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared "the app needs configuring" hint for the table / next-prayer widgets when times can't be
+     computed (no calculation method or no location). Centered message; tapping opens the app. Text set
+     at runtime; the @color defaults are light/dark aware. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_hint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_compat"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/widget_hint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="13sp" />
+
+</LinearLayout>

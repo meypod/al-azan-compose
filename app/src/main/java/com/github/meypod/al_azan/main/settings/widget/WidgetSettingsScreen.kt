@@ -115,6 +115,12 @@ fun WidgetSettingsScreen(
         ) {
             NavigationController.navigateTo(Route.Main.Settings.WidgetSettings.CompactAppearance)
         }
+        SettingLinkButton(
+            title = stringResource(R.string.widget_section_custom_appearance),
+            subtitle = stringResource(R.string.widget_section_custom_appearance_caption),
+        ) {
+            NavigationController.navigateTo(Route.Main.Settings.WidgetSettings.CustomBuilder)
+        }
     }
 }
 

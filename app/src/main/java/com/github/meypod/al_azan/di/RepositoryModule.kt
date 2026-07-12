@@ -13,6 +13,7 @@ import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
 import com.github.meypod.al_azan.core.data.repository.BackupRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CalculationSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.CounterRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.CustomWidgetConfigRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationChannelManagerImpl
@@ -31,6 +32,7 @@ import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
@@ -38,6 +40,7 @@ import com.github.meypod.al_azan.core.domain.repository.BackupRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CompassRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
+import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationChannelManager
@@ -69,6 +72,7 @@ private object StorageKeysV2 {
     const val REMINDER = "REMINDER_STORAGE_V2"
     const val FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE_V2"
     const val SCHEDULED_ALARMS = "SCHEDULED_ALARMS_V2"
+    const val CUSTOM_WIDGET = "CUSTOM_WIDGET_STORAGE_V2"
 }
 
 @Module
@@ -184,6 +188,23 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideCustomWidgetConfigRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): CustomWidgetConfigRepository =
+        CustomWidgetConfigRepositoryImpl(
+            customWidgetConfigDatastore =
+                MMKVDataStore(
+                    mmkv = mmkv,
+                    key = StorageKeysV2.CUSTOM_WIDGET,
+                    serializer = CustomWidgetConfig.serializer(),
+                    defaultValue = CustomWidgetConfig(),
+                    json = storageJson,
+                ),
+        )
+
+    @Provides
+    @Singleton
     fun provideBackupRepository(
         @ApplicationContext context: Context,
         @Named("storage") storageJson: Json,
@@ -194,6 +215,7 @@ object RepositoryModule {
         counterRepository: CounterRepository,
         reminderRepository: ReminderRepository,
         favoriteLocationsRepository: FavoriteLocationsRepository,
+        customWidgetConfigRepository: CustomWidgetConfigRepository,
         restoreApplier: RestoreApplier,
         adhanScheduler: AdhanScheduler,
         reminderScheduler: ReminderScheduler,
@@ -209,6 +231,7 @@ object RepositoryModule {
             counterRepository = counterRepository,
             reminderRepository = reminderRepository,
             favoriteLocationsRepository = favoriteLocationsRepository,
+            customWidgetConfigRepository = customWidgetConfigRepository,
             restoreApplier = restoreApplier,
             adhanScheduler = adhanScheduler,
             reminderScheduler = reminderScheduler,

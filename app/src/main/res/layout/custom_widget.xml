@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Root of the user-authored custom widget. The header and content containers are intentionally
+     empty: the renderer fills them at runtime via RemoteViews.addView, and every color is applied
+     programmatically (the @color defaults here are only for the launcher preview). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/custom_widget_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
+
+    <!-- Header / prayer rows / countdown are three equal bands, exactly like the table widget's countdown
+         layout: each is wrap_content + weight=1, so a band is never smaller than its own content (no
+         cropping at small sizes) and the LEFTOVER height is split evenly between them — giving each
+         section its own balanced band that scales with the widget. The renderer hides (GONE) empty bands
+         so the visible ones share the space. -->
+    <LinearLayout
+        android:id="@+id/custom_widget_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/custom_widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/custom_widget_countdown_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/cw_countdown_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/custom_widget_text"
+            android:textDirection="ltr"
+            android:textSize="13sp" />
+
+        <Chronometer
+            android:id="@+id/cw_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:countDown="true"
+            android:enabled="false"
+            android:fontFamily="monospace"
+            android:maxLines="1"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <!-- Shown when the widget has no content yet, to point the user at the builder screen. -->
+    <TextView
+        android:id="@+id/cw_empty_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/custom_widget_text"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+</LinearLayout>

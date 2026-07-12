@@ -55,6 +55,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithC
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
+import com.github.meypod.al_azan.core.presentation.navigation.rootRedirectFallback
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
@@ -199,7 +200,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
                 rememberViewModelStoreNavEntryDecorator(),
             ),
         entryProvider =
-            entryProvider {
+            entryProvider(fallback = rootRedirectFallback(introBackstack, Route.Intro.LanguageSelection)) {
                 entry<Route.Intro.LanguageSelection> {
                     val viewModel = hiltViewModel<LanguageSelectionViewModel>()
                     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

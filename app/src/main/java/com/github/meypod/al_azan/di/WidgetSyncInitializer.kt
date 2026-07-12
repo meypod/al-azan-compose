@@ -9,7 +9,9 @@ import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLa
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
+import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.widget.WidgetUpdater
@@ -37,6 +39,7 @@ class WidgetSyncInitializer @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val customWidgetConfigRepository: CustomWidgetConfigRepository,
     private val widgetUpdater: WidgetUpdater,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -67,6 +70,9 @@ class WidgetSyncInitializer @Inject constructor(
         val locationLat: Double?,
         val locationLong: Double?,
         val locationLabel: String?,
+        // The whole custom-widget config: any edit (colors, header, rows, font size, locations) must
+        // redraw the custom widget immediately instead of waiting for the next tick / foreground.
+        val customWidget: CustomWidgetConfig,
     )
 
     @OptIn(ExperimentalAtomicApi::class)
@@ -78,7 +84,8 @@ class WidgetSyncInitializer @Inject constructor(
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
-            ) { settings, calc, locations ->
+                customWidgetConfigRepository.data,
+            ) { settings, calc, locations, customWidget ->
                 val location = locations.firstOrNull { it.id == calc.locationId }?.locationDetail
                 WidgetSyncKey(
                     showWidget = settings.showWidget,
@@ -102,6 +109,7 @@ class WidgetSyncInitializer @Inject constructor(
                     locationLat = location?.lat,
                     locationLong = location?.long,
                     locationLabel = location?.label,
+                    customWidget = customWidget,
                 )
             }
                 .distinctUntilChanged()

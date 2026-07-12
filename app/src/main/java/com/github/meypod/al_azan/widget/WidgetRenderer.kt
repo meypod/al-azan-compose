@@ -9,6 +9,7 @@ import android.util.SizeF
 import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
+import androidx.annotation.StringRes
 import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
@@ -198,6 +199,21 @@ object WidgetRenderer {
             setTextViewTextSize(R.id.next_prayer_countdown, TypedValue.COMPLEX_UNIT_SP, size.timeSp)
             setOnClickPendingIntent(R.id.next_prayer_widget_layout, launchPendingIntent(context))
         }
+    }
+
+    /**
+     * "The app needs configuring" hint for the table / next-prayer widgets when times can't be computed
+     * (no calculation method or no location). Reuses the home screen's `set_calculation_hint` /
+     * `set_location_hint` prompts; tapping opens the app to fix it.
+     */
+    fun buildHint(
+        context: Context,
+        @StringRes messageRes: Int,
+    ): RemoteViews {
+        val views = RemoteViews(context.packageName, R.layout.widget_hint)
+        views.setTextViewText(R.id.widget_hint_text, context.getString(messageRes))
+        views.setOnClickPendingIntent(R.id.widget_hint_layout, launchPendingIntent(context))
+        return views
     }
 
     private fun launchPendingIntent(context: Context): PendingIntent {

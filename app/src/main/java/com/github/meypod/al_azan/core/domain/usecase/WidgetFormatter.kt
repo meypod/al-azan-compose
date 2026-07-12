@@ -20,6 +20,8 @@ interface WidgetFormatter {
         locale: String,
         calendar: String,
         numberingSystem: NumberingSystem,
+        /** When true, prefix the weekday name (e.g. "Friday, 12 Rajab 1447"). */
+        withDayName: Boolean = false,
     ): String
 
     /** Time-zone aware day shift (used for the Hijri date offset). */

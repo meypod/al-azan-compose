@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.AppLocaleManager
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
+import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -32,6 +33,7 @@ constructor(
     private val counterRepository: CounterRepository,
     private val reminderRepository: ReminderRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val customWidgetConfigRepository: CustomWidgetConfigRepository,
     private val appLocaleManager: AppLocaleManager,
 ) {
     suspend fun apply(data: RestoreData) {
@@ -42,6 +44,7 @@ constructor(
         counterRepository.update { data.counters }
         reminderRepository.update { healReminders(data.reminders) }
         favoriteLocationsRepository.update { data.favoriteLocations }
+        customWidgetConfigRepository.update { data.customWidget }
 
         appLocaleManager.apply(settings.selectedLocale)
     }

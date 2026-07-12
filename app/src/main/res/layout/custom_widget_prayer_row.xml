@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One row of prayer columns. Added to custom_widget_content via addView; prayer columns are then
+     added into cw_prayer_row. RTL by default so prayers read right-to-left like the table widget. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cw_prayer_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="horizontal" />

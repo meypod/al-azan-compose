@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">جدولی</string>
     <string name="notification_widget_layout_compact">فشرده</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">ابزارک سفارشی</string>
+    <string name="widget_section_custom_appearance_caption">ابزارک سفارشی خودتان را بسازید و تصمیم بگیرید چه چیزی و چگونه نمایش داده شود.</string>
+    <string name="custom_widget_pin_preview">سنجاق کردن پیش‌نمایش</string>
+    <string name="custom_widget_background_color">رنگ پس‌زمینه</string>
+    <string name="custom_widget_text_color">رنگ متن</string>
+    <string name="custom_widget_highlight_color">رنگ متن برجسته</string>
+    <string name="custom_widget_countdown_color">رنگ شمارش معکوس</string>
+    <string name="custom_widget_font_size">اندازه فونت</string>
+    <string name="custom_widget_prayers">اوقات شرعی</string>
+    <string name="custom_widget_prayers_help">برای افزودن ضربه بزنید یا به یک ردیف بکشید، و برای حذف دوباره ضربه بزنید.</string>
+    <string name="custom_widget_drop_prayers">موارد را اینجا رها کنید</string>
+    <string name="custom_widget_all_prayers_used">همه موارد استفاده شده‌اند</string>
+    <string name="custom_widget_empty_hint">این ابزارک را در تنظیمات ← ابزارک ← ابزارک سفارشی راه‌اندازی کنید</string>
+    <string name="custom_widget_add">افزودن به ابزارک</string>
+    <string name="custom_widget_remove">حذف</string>
+    <string name="custom_widget_swap_header">جابجایی جایگاه‌های سربرگ</string>
+    <string name="custom_widget_header_slots_title">سربرگ</string>
+    <string name="custom_widget_rows_label">ردیف‌ها</string>
+    <string name="custom_widget_rows_help">از یک یا دو ردیف استفاده کنید، سپس موارد را به ردیف دلخواه بکشید.</string>
+    <string name="custom_widget_row_n">ردیف %1$d</string>
+    <string name="custom_widget_locations">موقعیت‌ها</string>
+    <string name="custom_widget_multiple_locations">چند موقعیت</string>
+    <string name="custom_widget_locations_help">انتخاب کنید کدام موقعیت‌ها نمایش داده شوند. برای جابجایی بین آن‌ها روی ابزارک، بیش از یکی را انتخاب کنید.</string>
+    <string name="custom_widget_no_locations">ابتدا یک موقعیت اضافه کنید تا اوقات را پیش‌نمایش کنید.</string>
+    <string name="custom_widget_header_start">جایگاه ابتدای سربرگ</string>
+    <string name="custom_widget_header_end">جایگاه انتهای سربرگ</string>
+    <string name="custom_widget_header_help">ردیف بالای ابزارک. با ضربه زدن روی موارد یا کشیدن آن‌ها به جایگاه‌ها انتخاب کنید چه چیزی نمایش داده شود.</string>
+    <string name="custom_widget_header_hijri">تاریخ هجری</string>
+    <string name="custom_widget_header_hijri_day">تاریخ هجری + روز هفته</string>
+    <string name="custom_widget_header_gregorian">تاریخ میلادی</string>
+    <string name="custom_widget_header_gregorian_day">تاریخ میلادی + روز هفته</string>
+    <string name="custom_widget_header_location">نام موقعیت</string>
+    <string name="color_picker_hex">هگز (#AARRGGBB)</string>
+    <string name="color_picker_alpha">شفافیت</string>
+    <string name="color_picker_use_default">مطابق با پوسته</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

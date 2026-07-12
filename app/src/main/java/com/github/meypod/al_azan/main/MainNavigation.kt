@@ -26,6 +26,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.NavigationControll
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
+import com.github.meypod.al_azan.core.presentation.navigation.rootRedirectFallback
 import com.github.meypod.al_azan.main.about.AboutScreen
 import com.github.meypod.al_azan.main.about.AboutViewModel
 import com.github.meypod.al_azan.main.counter.CounterScreen
@@ -70,6 +71,8 @@ import com.github.meypod.al_azan.main.settings.widget.CompactAppearanceScreen
 import com.github.meypod.al_azan.main.settings.widget.TableAppearanceScreen
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsScreen
 import com.github.meypod.al_azan.main.settings.widget.WidgetSettingsViewModel
+import com.github.meypod.al_azan.main.settings.widget.custom.CustomWidgetBuilderScreen
+import com.github.meypod.al_azan.main.settings.widget.custom.CustomWidgetBuilderViewModel
 import com.github.meypod.al_azan.main.silence.SilenceStatusScreen
 import com.github.meypod.al_azan.main.silence.SilenceStatusViewModel
 import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsScreen
@@ -115,6 +118,10 @@ fun MainNavigation(
                             subclass(
                                 Route.Main.Settings.WidgetSettings.CompactAppearance::class,
                                 Route.Main.Settings.WidgetSettings.CompactAppearance.serializer(),
+                            )
+                            subclass(
+                                Route.Main.Settings.WidgetSettings.CustomBuilder::class,
+                                Route.Main.Settings.WidgetSettings.CustomBuilder.serializer(),
                             )
                             subclass(Route.Main.Settings.BackupAndRestore::class, Route.Main.Settings.BackupAndRestore.serializer())
                             subclass(Route.Main.Settings.Developer::class, Route.Main.Settings.Developer.serializer())
@@ -177,7 +184,7 @@ fun MainNavigation(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
-        entryProvider = entryProvider {
+        entryProvider = entryProvider(fallback = rootRedirectFallback(mainBackstack, Route.Main.Home)) {
             entry<Route.Main.Home> {
                 val vm = hiltViewModel<HomeViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
@@ -288,6 +295,11 @@ fun MainNavigation(
                 val vm = hiltViewModel<WidgetSettingsViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 CompactAppearanceScreen(s, vm::onAction, events = vm.events)
+            }
+            entry<Route.Main.Settings.WidgetSettings.CustomBuilder> {
+                val vm = hiltViewModel<CustomWidgetBuilderViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                CustomWidgetBuilderScreen(s, vm::onAction)
             }
             entry<Route.Main.Settings.BackupAndRestore> {
                 val vm = hiltViewModel<BackupRestoreViewModel>()

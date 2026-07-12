@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Tabela</string>
     <string name="notification_widget_layout_compact">Kompaktno</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Prilagođeni vidžet</string>
+    <string name="widget_section_custom_appearance_caption">Napravite vlastiti prilagodljiv vidžet i odlučite šta se prikazuje i kako.</string>
+    <string name="custom_widget_pin_preview">Prikači pregled</string>
+    <string name="custom_widget_background_color">Boja pozadine</string>
+    <string name="custom_widget_text_color">Boja teksta</string>
+    <string name="custom_widget_highlight_color">Boja istaknutog teksta</string>
+    <string name="custom_widget_countdown_color">Boja odbrojavanja</string>
+    <string name="custom_widget_font_size">Veličina fonta</string>
+    <string name="custom_widget_prayers">Vremena molitve</string>
+    <string name="custom_widget_prayers_help">Dodirnite ili prevucite u red da dodate, i ponovo dodirnite da uklonite.</string>
+    <string name="custom_widget_drop_prayers">Ovdje ispustite stavke</string>
+    <string name="custom_widget_all_prayers_used">Sve stavke su iskorištene</string>
+    <string name="custom_widget_empty_hint">Postavite ovaj vidžet u Postavke → Vidžet → Prilagođeni vidžet</string>
+    <string name="custom_widget_add">Dodaj u vidžet</string>
+    <string name="custom_widget_remove">Ukloni</string>
+    <string name="custom_widget_swap_header">Zamijeni pozicije zaglavlja</string>
+    <string name="custom_widget_header_slots_title">Zaglavlje</string>
+    <string name="custom_widget_rows_label">Redovi</string>
+    <string name="custom_widget_rows_help">Koristite jedan ili dva reda, zatim prevucite stavke u željeni red.</string>
+    <string name="custom_widget_row_n">Red %1$d</string>
+    <string name="custom_widget_locations">Lokacije</string>
+    <string name="custom_widget_multiple_locations">Više lokacija</string>
+    <string name="custom_widget_locations_help">Odaberite koje lokacije želite prikazati. Izaberite više od jedne za prebacivanje između njih na vidžetu.</string>
+    <string name="custom_widget_no_locations">Prvo dodajte lokaciju za pregled vremena.</string>
+    <string name="custom_widget_header_start">Početna pozicija zaglavlja</string>
+    <string name="custom_widget_header_end">Krajnja pozicija zaglavlja</string>
+    <string name="custom_widget_header_help">Gornji red vidžeta. Odaberite šta se prikazuje dodirivanjem stavki ili njihovim prevlačenjem u pozicije.</string>
+    <string name="custom_widget_header_hijri">Hidžretski datum</string>
+    <string name="custom_widget_header_hijri_day">Hidžretski datum + dan u sedmici</string>
+    <string name="custom_widget_header_gregorian">Gregorijanski datum</string>
+    <string name="custom_widget_header_gregorian_day">Gregorijanski datum + dan u sedmici</string>
+    <string name="custom_widget_header_location">Naziv lokacije</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alfa</string>
+    <string name="color_picker_use_default">Uskladi s temom</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

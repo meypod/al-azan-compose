@@ -118,6 +118,9 @@ sealed interface Route : NavKey {
 
                 @Serializable
                 data object CompactAppearance : Route
+
+                @Serializable
+                data object CustomBuilder : Route, DeepLinkableRoute
             }
 
             @Serializable
@@ -143,6 +146,13 @@ internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
         add(DeepLinkPattern(Route.Main.SilenceStatus.serializer(), Route.Main.SilenceStatus.toUriString().toUri()))
         // "al-azan://UpcomingAlarms" — opened by tapping a pre-alarm ("upcoming") notification.
         add(DeepLinkPattern(Route.Main.UpcomingAlarms.serializer(), Route.Main.UpcomingAlarms.toUriString().toUri()))
+        // "al-azan://CustomBuilder" — opened by tapping the not-yet-configured custom widget's hint.
+        add(
+            DeepLinkPattern(
+                Route.Main.Settings.WidgetSettings.CustomBuilder.serializer(),
+                Route.Main.Settings.WidgetSettings.CustomBuilder.toUriString().toUri(),
+            ),
+        )
         // Debug-only: extra screens for tooling (fastlane screenshot scripts) to open directly via adb.
         if (BuildConfig.DEBUG) {
             add(DeepLinkPattern(Route.Main.MonthlyView.serializer(), Route.Main.MonthlyView.toUriString().toUri()))

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Active-prayer column variant of custom_widget_prayer_col: identical, but the text defaults to the
+     @color/custom_widget_highlight resource (theme-adaptive) so the highlight follows light/dark without
+     an app re-render. Used only when the user left the highlight color on "match theme"; a custom
+     highlight is applied programmatically over the normal column instead. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/cw_col_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/custom_widget_highlight"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/cw_col_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/custom_widget_highlight"
+        android:textSize="13sp" />
+
+</LinearLayout>

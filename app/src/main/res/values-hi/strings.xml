@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">तालिका</string>
     <string name="notification_widget_layout_compact">संक्षिप्त</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">कस्टम विजेट</string>
+    <string name="widget_section_custom_appearance_caption">अपना खुद का अनुकूलन योग्य विजेट बनाएँ और तय करें कि क्या और कैसे दिखाया जाए।</string>
+    <string name="custom_widget_pin_preview">पिन पूर्वावलोकन</string>
+    <string name="custom_widget_background_color">पृष्ठभूमि का रंग</string>
+    <string name="custom_widget_text_color">टेक्स्ट का रंग</string>
+    <string name="custom_widget_highlight_color">हाइलाइट किए गए टेक्स्ट का रंग</string>
+    <string name="custom_widget_countdown_color">काउंटडाउन का रंग</string>
+    <string name="custom_widget_font_size">फ़ॉन्ट का आकार</string>
+    <string name="custom_widget_prayers">नमाज़ के समय</string>
+    <string name="custom_widget_prayers_help">जोड़ने के लिए टैप करें या किसी पंक्ति में खींचें, और हटाने के लिए फिर से टैप करें।</string>
+    <string name="custom_widget_drop_prayers">आइटम को यहाँ छोड़ें</string>
+    <string name="custom_widget_all_prayers_used">सभी आइटम उपयोग में हैं</string>
+    <string name="custom_widget_empty_hint">इस विजेट को सेटिंग्स → विजेट → कस्टम विजेट में सेट करें</string>
+    <string name="custom_widget_add">विजेट में जोड़ें</string>
+    <string name="custom_widget_remove">हटाएँ</string>
+    <string name="custom_widget_swap_header">हेडर स्लॉट आपस में बदलें</string>
+    <string name="custom_widget_header_slots_title">हेडर</string>
+    <string name="custom_widget_rows_label">पंक्तियाँ</string>
+    <string name="custom_widget_rows_help">एक या दो पंक्तियाँ इस्तेमाल करें, फिर आइटम को अपनी इच्छित पंक्ति में खींचें।</string>
+    <string name="custom_widget_row_n">पंक्ति %1$d</string>
+    <string name="custom_widget_locations">स्थान</string>
+    <string name="custom_widget_multiple_locations">एकाधिक स्थान</string>
+    <string name="custom_widget_locations_help">चुनें कि कौन-से स्थान दिखाने हैं। विजेट पर उनके बीच बदलने के लिए एक से अधिक चुनें।</string>
+    <string name="custom_widget_no_locations">समय का पूर्वावलोकन करने के लिए पहले एक स्थान जोड़ें।</string>
+    <string name="custom_widget_header_start">हेडर का आरंभिक स्लॉट</string>
+    <string name="custom_widget_header_end">हेडर का अंतिम स्लॉट</string>
+    <string name="custom_widget_header_help">विजेट की सबसे ऊपर की पंक्ति। आइटम पर टैप करके या उन्हें स्लॉट में खींचकर चुनें कि क्या दिखाया जाए।</string>
+    <string name="custom_widget_header_hijri">हिजरी तारीख़</string>
+    <string name="custom_widget_header_hijri_day">हिजरी तारीख़ + वार</string>
+    <string name="custom_widget_header_gregorian">ग्रेगोरियन तारीख़</string>
+    <string name="custom_widget_header_gregorian_day">ग्रेगोरियन तारीख़ + वार</string>
+    <string name="custom_widget_header_location">स्थान का नाम</string>
+    <string name="color_picker_hex">हेक्स (#AARRGGBB)</string>
+    <string name="color_picker_alpha">अल्फ़ा</string>
+    <string name="color_picker_use_default">थीम से मिलाएँ</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

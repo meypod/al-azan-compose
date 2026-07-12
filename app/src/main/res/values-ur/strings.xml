@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">ٹیبل</string>
     <string name="notification_widget_layout_compact">مختصر</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">اپنی مرضی کا ویجٹ</string>
+    <string name="widget_section_custom_appearance_caption">اپنا حسبِ ضرورت ویجٹ بنائیں اور طے کریں کہ کیا اور کیسے دکھایا جائے۔</string>
+    <string name="custom_widget_pin_preview">پیش منظر پن کریں</string>
+    <string name="custom_widget_background_color">پس منظر کا رنگ</string>
+    <string name="custom_widget_text_color">متن کا رنگ</string>
+    <string name="custom_widget_highlight_color">نمایاں متن کا رنگ</string>
+    <string name="custom_widget_countdown_color">کاؤنٹ ڈاؤن کا رنگ</string>
+    <string name="custom_widget_font_size">فونٹ سائز</string>
+    <string name="custom_widget_prayers">نماز کے اوقات</string>
+    <string name="custom_widget_prayers_help">شامل کرنے کے لیے ٹیپ کریں یا کسی قطار میں کھینچیں، اور ہٹانے کے لیے دوبارہ ٹیپ کریں۔</string>
+    <string name="custom_widget_drop_prayers">آئٹمز یہاں چھوڑیں</string>
+    <string name="custom_widget_all_prayers_used">تمام آئٹمز استعمال ہو چکے ہیں</string>
+    <string name="custom_widget_empty_hint">اس ویجٹ کو ترتیبات ← ویجٹ ← اپنی مرضی کا ویجٹ میں سیٹ اپ کریں</string>
+    <string name="custom_widget_add">ویجٹ میں شامل کریں</string>
+    <string name="custom_widget_remove">ہٹائیں</string>
+    <string name="custom_widget_swap_header">ہیڈر کے خانے آپس میں بدلیں</string>
+    <string name="custom_widget_header_slots_title">ہیڈر</string>
+    <string name="custom_widget_rows_label">قطاریں</string>
+    <string name="custom_widget_rows_help">ایک یا دو قطاریں استعمال کریں، پھر آئٹمز کو مطلوبہ قطار میں کھینچیں۔</string>
+    <string name="custom_widget_row_n">قطار %1$d</string>
+    <string name="custom_widget_locations">مقامات</string>
+    <string name="custom_widget_multiple_locations">متعدد مقامات</string>
+    <string name="custom_widget_locations_help">منتخب کریں کہ کن مقامات کو دکھایا جائے۔ ویجٹ پر ان کے درمیان تبدیل کرنے کے لیے ایک سے زیادہ منتخب کریں۔</string>
+    <string name="custom_widget_no_locations">اوقات کا پیش منظر دیکھنے کے لیے پہلے ایک مقام شامل کریں۔</string>
+    <string name="custom_widget_header_start">ہیڈر کا ابتدائی خانہ</string>
+    <string name="custom_widget_header_end">ہیڈر کا آخری خانہ</string>
+    <string name="custom_widget_header_help">ویجٹ کی سب سے اوپر کی قطار۔ آئٹمز پر ٹیپ کر کے یا انہیں خانوں میں کھینچ کر منتخب کریں کہ کیا دکھایا جائے۔</string>
+    <string name="custom_widget_header_hijri">ہجری تاریخ</string>
+    <string name="custom_widget_header_hijri_day">ہجری تاریخ + ہفتے کا دن</string>
+    <string name="custom_widget_header_gregorian">گریگورین تاریخ</string>
+    <string name="custom_widget_header_gregorian_day">گریگورین تاریخ + ہفتے کا دن</string>
+    <string name="custom_widget_header_location">مقام کا نام</string>
+    <string name="color_picker_hex">ہیکس (#AARRGGBB)</string>
+    <string name="color_picker_alpha">الفا</string>
+    <string name="color_picker_use_default">تھیم سے ملائیں</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->
@@ -492,7 +529,7 @@
     <string name="qada_counter_title">قضا کاؤنٹر</string>
     <string name="show_last_change_time">آخری تبدیلی کا وقت دکھائیں</string>
     <string name="add_counter">کاؤنٹر شامل کریں</string>
-    <string name="counter_last_change">%1$s، %2$d → %3$d</string>
+    <string name="counter_last_change">%1$s، %2$d ← %3$d</string>
     <string name="counter_fast">روزہ</string>
     <string name="counter_new_title">نیا کاؤنٹر</string>
     <string name="counter_edit_title">کاؤنٹر میں ترمیم کریں۔</string>

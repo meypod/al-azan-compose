@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Jedwali</string>
     <string name="notification_widget_layout_compact">Mfupi</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Wijeti maalum</string>
+    <string name="widget_section_custom_appearance_caption">Tengeneza wijeti yako mwenyewe inayoweza kubinafsishwa na uamue kinachoonyeshwa na jinsi gani.</string>
+    <string name="custom_widget_pin_preview">Bandika onyesho</string>
+    <string name="custom_widget_background_color">Rangi ya mandharinyuma</string>
+    <string name="custom_widget_text_color">Rangi ya maandishi</string>
+    <string name="custom_widget_highlight_color">Rangi ya maandishi yaliyoangaziwa</string>
+    <string name="custom_widget_countdown_color">Rangi ya hesabu ya kurudi nyuma</string>
+    <string name="custom_widget_font_size">Ukubwa wa fonti</string>
+    <string name="custom_widget_prayers">Nyakati za swala</string>
+    <string name="custom_widget_prayers_help">Gusa au buruta hadi kwenye safu ili kuongeza, na gusa tena ili kuondoa.</string>
+    <string name="custom_widget_drop_prayers">Achia vipengele hapa</string>
+    <string name="custom_widget_all_prayers_used">Vipengele vyote vimetumika</string>
+    <string name="custom_widget_empty_hint">Sanidi wijeti hii katika Mipangilio → Wijeti → Wijeti maalum</string>
+    <string name="custom_widget_add">Ongeza kwenye wijeti</string>
+    <string name="custom_widget_remove">Ondoa</string>
+    <string name="custom_widget_swap_header">Badilishana nafasi za kichwa</string>
+    <string name="custom_widget_header_slots_title">Kichwa</string>
+    <string name="custom_widget_rows_label">Safu</string>
+    <string name="custom_widget_rows_help">Tumia safu moja au mbili, kisha uburute vipengele hadi kwenye safu unayotaka.</string>
+    <string name="custom_widget_row_n">Safu %1$d</string>
+    <string name="custom_widget_locations">Maeneo</string>
+    <string name="custom_widget_multiple_locations">Maeneo mengi</string>
+    <string name="custom_widget_locations_help">Chagua maeneo ya kuonyesha. Chagua zaidi ya moja ili kubadilisha kati yao kwenye wijeti.</string>
+    <string name="custom_widget_no_locations">Ongeza eneo kwanza ili kuona onyesho la nyakati.</string>
+    <string name="custom_widget_header_start">Nafasi ya mwanzo ya kichwa</string>
+    <string name="custom_widget_header_end">Nafasi ya mwisho ya kichwa</string>
+    <string name="custom_widget_header_help">Safu ya juu ya wijeti. Chagua kinachoonyeshwa kwa kugusa vipengele au kuviburuta hadi kwenye nafasi.</string>
+    <string name="custom_widget_header_hijri">Tarehe ya Hijria</string>
+    <string name="custom_widget_header_hijri_day">Tarehe ya Hijria + siku ya juma</string>
+    <string name="custom_widget_header_gregorian">Tarehe ya Kigregori</string>
+    <string name="custom_widget_header_gregorian_day">Tarehe ya Kigregori + siku ya juma</string>
+    <string name="custom_widget_header_location">Jina la eneo</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alfa</string>
+    <string name="color_picker_use_default">Fuata mandhari</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

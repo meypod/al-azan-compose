@@ -40,12 +40,12 @@ class BuildNextPrayerWidgetDataUseCaseTest {
     )
 
     private val getNext = mock<GetNextShariaTimesUseCase> {
-        on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any()) } doReturn details(Prayer.Asr, at(15.0))
+        on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn details(Prayer.Asr, at(15.0))
     }
 
     private fun useCase(next: ShariaTimeDetails? = details(Prayer.Asr, at(15.0))): BuildNextPrayerWidgetDataUseCase {
         val mock = mock<GetNextShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any()) } doReturn next
+            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next
         }
         return BuildNextPrayerWidgetDataUseCase(mock)
     }
@@ -100,7 +100,7 @@ class BuildNextPrayerWidgetDataUseCaseTest {
         BuildNextPrayerWidgetDataUseCase(getNext).invoke(at(9.0), settings(countdownPrayers = selected), calc(), location)
 
         val captor = argumentCaptor<Set<Prayer>>()
-        verify(getNext).invoke(any(), any(), any(), any(), any(), anyOrNull(), captor.capture())
+        verify(getNext).invoke(any(), any(), any(), any(), any(), anyOrNull(), captor.capture(), any())
         assertEquals(expectedExcluded, captor.firstValue)
     }
 

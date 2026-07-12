@@ -426,6 +426,43 @@
     <string name="notification_widget_layout_table">Table</string>
     <string name="notification_widget_layout_compact">Compact</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Custom widget</string>
+    <string name="widget_section_custom_appearance_caption">Create your own customizable widget and decide what\'s shown and how.</string>
+    <string name="custom_widget_pin_preview">Pin preview</string>
+    <string name="custom_widget_background_color">Background color</string>
+    <string name="custom_widget_text_color">Text color</string>
+    <string name="custom_widget_highlight_color">Highlighted text color</string>
+    <string name="custom_widget_countdown_color">Countdown color</string>
+    <string name="custom_widget_font_size">Font size</string>
+    <string name="custom_widget_prayers">Prayer times</string>
+    <string name="custom_widget_prayers_help">Tap or drag into a row to add, and tap again to remove.</string>
+    <string name="custom_widget_drop_prayers">Drop entries here</string>
+    <string name="custom_widget_all_prayers_used">All entries are used</string>
+    <string name="custom_widget_empty_hint">Set up this widget in Settings → Widget → Custom widget</string>
+    <string name="custom_widget_add">Add to widget</string>
+    <string name="custom_widget_remove">Remove</string>
+    <string name="custom_widget_swap_header">Swap header slots</string>
+    <string name="custom_widget_header_slots_title">Header</string>
+    <string name="custom_widget_rows_label">Rows</string>
+    <string name="custom_widget_rows_help">Use one or two rows, then drag entries into the row you want.</string>
+    <string name="custom_widget_row_n">Row %1$d</string>
+    <string name="custom_widget_locations">Locations</string>
+    <string name="custom_widget_multiple_locations">Multiple locations</string>
+    <string name="custom_widget_locations_help">Choose which locations to show. Select more than one to switch between them on the widget.</string>
+    <string name="custom_widget_no_locations">Add a location first to preview times.</string>
+    <string name="custom_widget_header_start">Header start slot</string>
+    <string name="custom_widget_header_end">Header end slot</string>
+    <string name="custom_widget_header_help">The widget\'s top row. Choose what to show by tapping or dragging entries into the slots.</string>
+    <string name="custom_widget_header_hijri">Hijri date</string>
+    <string name="custom_widget_header_hijri_day">Hijri date + weekday</string>
+    <string name="custom_widget_header_gregorian">Gregorian date</string>
+    <string name="custom_widget_header_gregorian_day">Gregorian date + weekday</string>
+    <string name="custom_widget_header_location">Location name</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alpha</string>
+    <string name="color_picker_use_default">Match theme</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

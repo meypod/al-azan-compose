@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">টেবিল</string>
     <string name="notification_widget_layout_compact">কম্প্যাক্ট</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">কাস্টম উইজেট</string>
+    <string name="widget_section_custom_appearance_caption">আপনার নিজের কাস্টমাইজযোগ্য উইজেট তৈরি করুন এবং ঠিক করুন কী ও কীভাবে দেখানো হবে।</string>
+    <string name="custom_widget_pin_preview">প্রিভিউ পিন করুন</string>
+    <string name="custom_widget_background_color">পটভূমির রং</string>
+    <string name="custom_widget_text_color">টেক্সটের রং</string>
+    <string name="custom_widget_highlight_color">হাইলাইট করা টেক্সটের রং</string>
+    <string name="custom_widget_countdown_color">কাউন্টডাউনের রং</string>
+    <string name="custom_widget_font_size">ফন্টের আকার</string>
+    <string name="custom_widget_prayers">সালাতের সময়</string>
+    <string name="custom_widget_prayers_help">যোগ করতে চাপুন বা একটি সারিতে টেনে আনুন, এবং সরাতে আবার চাপুন।</string>
+    <string name="custom_widget_drop_prayers">এখানে আইটেম ছাড়ুন</string>
+    <string name="custom_widget_all_prayers_used">সব আইটেম ব্যবহার করা হয়েছে</string>
+    <string name="custom_widget_empty_hint">এই উইজেটটি সেটআপ করুন: সেটিংস → উইজেট → কাস্টম উইজেট</string>
+    <string name="custom_widget_add">উইজেটে যোগ করুন</string>
+    <string name="custom_widget_remove">সরান</string>
+    <string name="custom_widget_swap_header">হেডার স্লট অদলবদল করুন</string>
+    <string name="custom_widget_header_slots_title">হেডার</string>
+    <string name="custom_widget_rows_label">সারি</string>
+    <string name="custom_widget_rows_help">এক বা দুটি সারি ব্যবহার করুন, তারপর আপনার পছন্দের সারিতে আইটেম টেনে আনুন।</string>
+    <string name="custom_widget_row_n">সারি %1$d</string>
+    <string name="custom_widget_locations">অবস্থানসমূহ</string>
+    <string name="custom_widget_multiple_locations">একাধিক অবস্থান</string>
+    <string name="custom_widget_locations_help">কোন অবস্থানগুলো দেখাবে তা বেছে নিন। উইজেটে সেগুলোর মধ্যে পরিবর্তন করতে একাধিক নির্বাচন করুন।</string>
+    <string name="custom_widget_no_locations">সময় প্রিভিউ করতে প্রথমে একটি অবস্থান যোগ করুন।</string>
+    <string name="custom_widget_header_start">হেডার শুরুর স্লট</string>
+    <string name="custom_widget_header_end">হেডার শেষের স্লট</string>
+    <string name="custom_widget_header_help">উইজেটের উপরের সারি। কী দেখানো হবে তা আইটেমে চাপ দিয়ে বা স্লটে টেনে এনে বেছে নিন।</string>
+    <string name="custom_widget_header_hijri">হিজরি তারিখ</string>
+    <string name="custom_widget_header_hijri_day">হিজরি তারিখ + বার</string>
+    <string name="custom_widget_header_gregorian">গ্রেগরিয়ান তারিখ</string>
+    <string name="custom_widget_header_gregorian_day">গ্রেগরিয়ান তারিখ + বার</string>
+    <string name="custom_widget_header_location">অবস্থানের নাম</string>
+    <string name="color_picker_hex">হেক্স (#AARRGGBB)</string>
+    <string name="color_picker_alpha">অ্যালফা</string>
+    <string name="color_picker_use_default">থিমের সাথে মিলান</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->

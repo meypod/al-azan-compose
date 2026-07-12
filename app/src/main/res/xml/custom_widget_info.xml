@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- User-authored custom widget: 1x1 minimum, freely resizable so the user grows it to fit whatever
+     blocks they place. minWidth/minHeight are static metadata (Android does not let us change them at
+     runtime), so we declare the smallest cell and let content hide gracefully when it doesn't fit. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/custom_widget"
+    android:minHeight="40dp"
+    android:minWidth="40dp"
+    android:minResizeHeight="40dp"
+    android:minResizeWidth="40dp"
+    android:previewLayout="@layout/custom_widget"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellHeight="1"
+    android:targetCellWidth="1"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

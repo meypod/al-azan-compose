@@ -273,12 +273,16 @@ enum class NotificationWidgetLayout {
 
     @SerialName("compact")
     Compact,
+
+    @SerialName("custom")
+    Custom,
 }
 
 fun NotificationWidgetLayout.i18n(resources: Resources): String =
     when (this) {
         NotificationWidgetLayout.Table -> resources.getString(R.string.notification_widget_layout_table)
         NotificationWidgetLayout.Compact -> resources.getString(R.string.notification_widget_layout_compact)
+        NotificationWidgetLayout.Custom -> resources.getString(R.string.widget_section_custom_appearance)
     }
 
 @Serializable

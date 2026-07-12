@@ -9,4 +9,11 @@
     <color name="secondary_text_color">#ffffffff</color>
     <color name="notif_active_prayer">#fde047</color>
     <color name="notif_secondary_text_color">#ffffffff</color>
+
+    <!-- Custom widget theme-adaptive defaults, dark variant. -->
+    <color name="custom_widget_bg">#FF1C2020</color>
+    <color name="custom_widget_text">#FFDFE3E3</color>
+    <color name="custom_widget_highlight">#FFFDE047</color>
+
+    <color name="checkmark_green">#FF66BB6A</color>
 </resources>

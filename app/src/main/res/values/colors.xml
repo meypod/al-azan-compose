@@ -18,4 +18,13 @@
     <color name="secondary_text_color">#de000000</color>
     <color name="notif_active_prayer">#008205</color>
     <color name="notif_secondary_text_color">#de000000</color>
+
+    <!-- Custom widget theme-adaptive defaults (mirror surfaceContainer / onSurface / active_prayer).
+         Used when the user leaves a color unset; dark variants in values-night. -->
+    <color name="custom_widget_bg">#FFEBEFEE</color>
+    <color name="custom_widget_text">#FF181C1C</color>
+    <color name="custom_widget_highlight">#FF008205</color>
+
+    <!-- Green tick for a selected item in a multi-select list; brighter dark variant in values-night. -->
+    <color name="checkmark_green">#FF008205</color>
 </resources>

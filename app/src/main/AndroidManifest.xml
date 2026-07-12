@@ -7,13 +7,16 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
     <!-- Launch the full-screen adhan alarm over the lock screen (required on Android 14+) -->
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission
+        android:name="android.permission.USE_FULL_SCREEN_INTENT"
+        tools:ignore="FullScreenIntentPolicy" />
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- need background access on Android 10+ for traveling mode -->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
         tools:ignore="BackgroundLocationPolicy" />
     <!-- For Xiaomi devices to enable heads-up notifications as default (https://github.com/invertase/notifee/issues/296) -->
     <uses-permission
@@ -57,12 +60,12 @@
         <!-- Full-screen adhan alarm; shows over the lock screen and turns the screen on. -->
         <activity
             android:name=".alarm.AlarmActivity"
-            android:exported="false"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:launchMode="singleTask"
             android:showWhenLocked="true"
-            android:turnScreenOn="true"
-            android:theme="@style/Theme.AlAzan" />
+            android:theme="@style/Theme.AlAzan"
+            android:turnScreenOn="true" />
 
         <receiver
             android:name=".BootReceiver"
@@ -74,7 +77,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".TimeChangeReceiver"
+        <receiver
+            android:name=".TimeChangeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
@@ -83,7 +87,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".LocaleChangeReceiver"
+        <receiver
+            android:name=".LocaleChangeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
@@ -142,6 +147,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/next_prayer_widget_info" />
+        </receiver>
+
+        <!-- User-authored custom widget: layout/colors composed in the in-app builder. -->
+        <receiver
+            android:name=".widget.CustomWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/custom_widget_info" />
         </receiver>
 
         <service

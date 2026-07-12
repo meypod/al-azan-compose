@@ -425,6 +425,43 @@
     <string name="notification_widget_layout_table">Tabelle</string>
     <string name="notification_widget_layout_compact">Kompakt</string>
 
+    <!-- Custom widget builder (main/settings/widget/custom) -->
+    <string name="widget_section_custom_appearance">Benutzerdefiniertes Widget</string>
+    <string name="widget_section_custom_appearance_caption">Erstelle dein eigenes anpassbares Widget und entscheide, was angezeigt wird und wie.</string>
+    <string name="custom_widget_pin_preview">Vorschau anheften</string>
+    <string name="custom_widget_background_color">Hintergrundfarbe</string>
+    <string name="custom_widget_text_color">Textfarbe</string>
+    <string name="custom_widget_highlight_color">Farbe des hervorgehobenen Texts</string>
+    <string name="custom_widget_countdown_color">Countdown-Farbe</string>
+    <string name="custom_widget_font_size">Schriftgröße</string>
+    <string name="custom_widget_prayers">Gebetszeiten</string>
+    <string name="custom_widget_prayers_help">Zum Hinzufügen tippen oder in eine Zeile ziehen, zum Entfernen erneut tippen.</string>
+    <string name="custom_widget_drop_prayers">Einträge hier ablegen</string>
+    <string name="custom_widget_all_prayers_used">Alle Einträge werden verwendet</string>
+    <string name="custom_widget_empty_hint">Richte dieses Widget unter Einstellungen → Widget → Benutzerdefiniertes Widget ein</string>
+    <string name="custom_widget_add">Zum Widget hinzufügen</string>
+    <string name="custom_widget_remove">Entfernen</string>
+    <string name="custom_widget_swap_header">Kopfzeilen-Slots tauschen</string>
+    <string name="custom_widget_header_slots_title">Kopfzeile</string>
+    <string name="custom_widget_rows_label">Zeilen</string>
+    <string name="custom_widget_rows_help">Verwende eine oder zwei Zeilen und ziehe dann Einträge in die gewünschte Zeile.</string>
+    <string name="custom_widget_row_n">Zeile %1$d</string>
+    <string name="custom_widget_locations">Standorte</string>
+    <string name="custom_widget_multiple_locations">Mehrere Standorte</string>
+    <string name="custom_widget_locations_help">Wähle aus, welche Standorte angezeigt werden sollen. Wähle mehr als einen aus, um im Widget zwischen ihnen zu wechseln.</string>
+    <string name="custom_widget_no_locations">Füge zuerst einen Standort hinzu, um die Zeiten in der Vorschau zu sehen.</string>
+    <string name="custom_widget_header_start">Kopfzeilen-Startslot</string>
+    <string name="custom_widget_header_end">Kopfzeilen-Endslot</string>
+    <string name="custom_widget_header_help">Die oberste Zeile des Widgets. Wähle, was angezeigt wird, indem du Einträge antippst oder in die Slots ziehst.</string>
+    <string name="custom_widget_header_hijri">Hidschri-Datum</string>
+    <string name="custom_widget_header_hijri_day">Hidschri-Datum + Wochentag</string>
+    <string name="custom_widget_header_gregorian">Gregorianisches Datum</string>
+    <string name="custom_widget_header_gregorian_day">Gregorianisches Datum + Wochentag</string>
+    <string name="custom_widget_header_location">Standortname</string>
+    <string name="color_picker_hex">Hex (#AARRGGBB)</string>
+    <string name="color_picker_alpha">Alpha</string>
+    <string name="color_picker_use_default">An Design anpassen</string>
+
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->
