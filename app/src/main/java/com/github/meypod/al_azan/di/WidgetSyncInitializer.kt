@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
@@ -73,6 +74,10 @@ class WidgetSyncInitializer @Inject constructor(
         // The whole custom-widget config: any edit (colors, header, rows, font size, locations) must
         // redraw the custom widget immediately instead of waiting for the next tick / foreground.
         val customWidget: CustomWidgetConfig,
+        // Resolved details of the favorites the custom widget currently displays (its pager pages).
+        // Editing or deleting a displayed favorite — even one that isn't the selected calc location —
+        // changes this list and forces an immediate redraw instead of leaving a stale page.
+        val customWidgetLocationDetails: List<CalculationLocationDetail>,
     )
 
     @OptIn(ExperimentalAtomicApi::class)
@@ -87,6 +92,9 @@ class WidgetSyncInitializer @Inject constructor(
                 customWidgetConfigRepository.data,
             ) { settings, calc, locations, customWidget ->
                 val location = locations.firstOrNull { it.id == calc.locationId }?.locationDetail
+                val customWidgetLocationDetails = customWidget.locationIds.mapNotNull { id ->
+                    locations.firstOrNull { it.id == id }?.locationDetail
+                }
                 WidgetSyncKey(
                     showWidget = settings.showWidget,
                     notificationWidgetLayout = settings.notificationWidgetLayout,
@@ -110,6 +118,7 @@ class WidgetSyncInitializer @Inject constructor(
                     locationLong = location?.long,
                     locationLabel = location?.label,
                     customWidget = customWidget,
+                    customWidgetLocationDetails = customWidgetLocationDetails,
                 )
             }
                 .distinctUntilChanged()

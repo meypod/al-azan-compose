@@ -14,6 +14,7 @@ import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFa
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -40,6 +41,7 @@ class LocationViewModel
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val settingsRepository: SettingsRepository,
     private val geoInfoRepository: GeoInfoRepository,
+    private val customWidgetConfigRepository: CustomWidgetConfigRepository,
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LocationUiState())
@@ -193,6 +195,15 @@ class LocationViewModel
             }
             favoriteLocationsRepository.update { current ->
                 current.filterNot { it.id == locationId }
+            }
+            // Drop the deleted location from the custom widget so it doesn't linger as an orphan id
+            // that the renderer has to filter out on every draw.
+            customWidgetConfigRepository.update { config ->
+                if (locationId in config.locationIds) {
+                    config.copy(locationIds = config.locationIds.filterNot { it == locationId })
+                } else {
+                    config
+                }
             }
         }
     }
