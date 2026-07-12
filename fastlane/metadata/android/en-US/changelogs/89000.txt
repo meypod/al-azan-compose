@@ -1,0 +1,2 @@
+- Fix upcoming notification triggered twice under some special circumstances, causing additional vibration on some phones
+- Build your own widget! App now allows you to create a fully customized widget.
