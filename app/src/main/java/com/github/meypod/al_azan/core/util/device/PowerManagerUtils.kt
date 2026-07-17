@@ -9,8 +9,6 @@ import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.compose.runtime.Immutable
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.core.util.android.IntentUtils
@@ -20,6 +18,10 @@ import kotlin.concurrent.Volatile
 
 object PowerManagerUtils {
     private const val TAG = "PowerManagerUtils"
+
+    // Android TV's "Energy saver" screen (EnergyModesActivity), which replaces the phone's per-app
+    // battery-optimization settings.
+    private const val TV_ENERGY_MODES_ACTION = "com.google.android.tv.settings.energymodes"
 
     @Volatile
     private var sPowerManagerIntentCache: Intent? = null
@@ -140,6 +142,22 @@ object PowerManagerUtils {
             Log.w(TAG, "Unable to find an activity to open the device's power manager")
         }
     }
+
+    /**
+     * Best-effort intent to this app's per-app energy optimization setting on Android TV. TV has no
+     * dedicated per-app energy activity or package-scoped energy action; the per-app toggle lives in
+     * the app's own details page, so open that (package-scoped) directly. Falls back to the global
+     * Energy modes screen, then top-level settings, so there is always a target.
+     */
+    fun tvEnergySettingsIntent(context: Context): Intent =
+        listOf(
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                ("package:" + context.packageName).toUri(),
+            ),
+            Intent(TV_ENERGY_MODES_ACTION),
+        ).firstOrNull { IntentUtils.isAvailableOnDevice(context, it) }
+            ?: Intent(Settings.ACTION_SETTINGS)
 
     private fun findPowerManagerIntent(context: Context?): Intent? {
         val manufacturerName = Build.BRAND.lowercase()

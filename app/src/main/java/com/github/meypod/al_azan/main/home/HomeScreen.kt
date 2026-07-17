@@ -31,13 +31,19 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.dimensionResource
@@ -67,6 +73,7 @@ import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
 import com.github.meypod.al_azan.core.presentation.util.swipeNavigate
+import com.github.meypod.al_azan.core.util.device.DeviceUtils
 import com.github.meypod.al_azan.main.home.components.ConfigHintCard
 import com.github.meypod.al_azan.main.home.components.HomeHeader
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBox
@@ -100,6 +107,24 @@ fun HomeScreen(
     val wideLayout = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE &&
         windowWidth >= WIDE_LAYOUT_MIN_WIDTH
 
+    val context = LocalContext.current
+    val isTelevision = remember { DeviceUtils.isTelevision(context) }
+    // On TV the drawer has no default focus, so the D-pad can't reach it. Move focus to the first
+    // item when it opens, and back to the menu button when it closes (touch devices don't need this).
+    val firstDrawerItemFocus = remember { FocusRequester() }
+    val menuButtonFocus = remember { FocusRequester() }
+    val drawerWasOpened = remember { mutableStateOf(false) }
+    LaunchedEffect(drawerState.isOpen) {
+        if (!isTelevision) return@LaunchedEffect
+        if (drawerState.isOpen) {
+            drawerWasOpened.value = true
+            runCatching { firstDrawerItemFocus.requestFocus() }
+        } else if (drawerWasOpened.value) {
+            drawerWasOpened.value = false
+            runCatching { menuButtonFocus.requestFocus() }
+        }
+    }
+
     BackHandler(enabled = drawerState.isOpen) {
         scope.launch { drawerState.close() }
     }
@@ -119,6 +144,7 @@ fun HomeScreen(
                         .verticalScroll(rememberScrollState()),
                 ) {
                     NavigationDrawerItem(
+                        modifier = Modifier.focusRequester(firstDrawerItemFocus),
                         icon = {
                             Icon(painterResource(R.drawable.alarm), contentDescription = null)
                         },
@@ -214,6 +240,7 @@ fun HomeScreen(
                             drawerState.open()
                         }
                     },
+                    modifier = Modifier.focusRequester(menuButtonFocus),
                 ) {
                     Icon(painterResource(R.drawable.menu), contentDescription = stringResource(R.string.menu))
                 }

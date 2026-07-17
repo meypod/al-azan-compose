@@ -83,31 +83,34 @@ fun TroubleshootScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
-        // Battery optimization / DND / OEM keep-alive settings don't exist on Android TV; hide the
-        // phone-only cards there (and their launches, which would otherwise crash — see safeLaunch).
-        if (!uiState.isTelevision) {
-            ACard { cardPadding ->
-                Column(
-                    Modifier
-                        .padding(cardPadding)
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-                ) {
-                    SettingLabel(stringResource(R.string.battery_problem_title))
-                    Text(stringResource(R.string.battery_problem_body), style = MaterialTheme.typography.bodyMedium)
+        // Keep-alive: phones open per-app battery optimization; Android TV has no such screen, so
+        // the same card opens the TV's Energy saver settings instead.
+        ACard { cardPadding ->
+            Column(
+                Modifier
+                    .padding(cardPadding)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            ) {
+                SettingLabel(stringResource(R.string.battery_problem_title))
+                Text(stringResource(R.string.battery_problem_body), style = MaterialTheme.typography.bodyMedium)
 
-                    BatterSaverCTA(isAllowed = uiState.appIsAllowedToKeepRunning) {
-                        if (uiState.appIsAllowedToKeepRunning) {
+                BatterSaverCTA(isAllowed = uiState.appIsAllowedToKeepRunning) {
+                    when {
+                        uiState.isTelevision -> safeLaunch(context) {
+                            ignoreBatteryLauncher.launch(PowerManagerUtils.tvEnergySettingsIntent(context))
+                        }
+
+                        uiState.appIsAllowedToKeepRunning ->
                             onAction(TroubleshootUiAction.OnAppIsAllowedToKeepRunningClick(activity))
-                        } else {
-                            safeLaunch(context) {
-                                ignoreBatteryLauncher.launch(
-                                    Intent(
-                                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                                        ("package:" + context.packageName).toUri(),
-                                    ),
-                                )
-                            }
+
+                        else -> safeLaunch(context) {
+                            ignoreBatteryLauncher.launch(
+                                Intent(
+                                    Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                                    ("package:" + context.packageName).toUri(),
+                                ),
+                            )
                         }
                     }
                 }
