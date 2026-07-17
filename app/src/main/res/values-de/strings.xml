@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- ============================================================
          Shared / common UI  (core/presentation/components)
          ============================================================ -->
-    <string name="app_name">Al-Azan</string>
+    <string name="app_name">Der-Gebetsruf</string>
     <string name="cancel">Abbrechen</string>
     <string name="confirm">Bestätigen</string>
     <string name="close">Schließen</string>
     <string name="delete">Löschen</string>
-    <string name="okay">OK</string>
+    <string name="okay">In Ordnung</string>
     <string name="dismiss">Ablehnen</string>
     <string name="none">Keine</string>
     <string name="default_value">Standard</string>
@@ -22,37 +21,33 @@
     <string name="information">Information</string>
     <string name="selected">Ausgewählt</string>
     <string name="no_items_found">Keine Einträge gefunden</string>
-    <string name="search_placeholder">Suchen</string>
+    <string name="search_placeholder">Suchen…</string>
     <string name="drag_handle_description">Ziehgriff</string>
     <string name="dont_ask_again">Nicht erneut nachfragen</string>
     <string name="custom_minutes">Benutzerdefiniert</string>
     <string name="custom_minutes_tap_to_edit">Zum Bearbeiten tippen</string>
     <string name="custom_minutes_dialog_title">Benutzerdefinierte Minuten</string>
-
     <!-- Shared prayer-times selector (used by interface & widget settings) -->
     <string name="show_prayer_times_title">Gebetszeiten anzeigen</string>
     <string name="show_prayer_times_help">Wählen Sie aus, welche Gebetszeiten auf dem Hauptbildschirm angezeigt werden sollen.</string>
     <string name="show_column">Anzeigen</string>
     <string name="time_column">Zeit</string>
-
     <!-- Stepper / wizard navigation -->
     <string name="back_button">Zurück</string>
     <string name="next_button">Weiter</string>
     <string name="finish_button">Fertig</string>
-
     <!-- ============================================================
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
-    <string name="fajr">Fajr</string>
+    <string name="fajr">Fadschr</string>
     <string name="sunrise">Sonnenaufgang</string>
-    <string name="dhuhr">Dhuhr</string>
-    <string name="asr">Asr</string>
+    <string name="dhuhr">Zuhr</string>
+    <string name="asr">Nachmittagsgebet</string>
     <string name="sunset">Sonnenuntergang</string>
-    <string name="maghrib">Maghrib</string>
-    <string name="isha">Isha</string>
+    <string name="maghrib">Abendgebet</string>
+    <string name="isha">Ischa</string>
     <string name="midnight">Mitternacht</string>
-    <string name="tahajjud">Tahajjud</string>
-
+    <string name="tahajjud">Tahaddschud</string>
     <!-- ============================================================
          Permission dialogs  (core/presentation/dialog)
          ============================================================ -->
@@ -100,13 +95,11 @@
     <string name="battery_optimization_permission_title">Alarme zuverlässig halten</string>
     <string name="battery_optimization_permission_rationale">Damit Ihre Alarme zuverlässig zugestellt werden, erlauben Sie dieser App, im Hintergrund weiterzulaufen. Andernfalls kann das System sie zum Energiesparen beenden, wodurch Alarme verzögert werden oder ausbleiben.</string>
     <string name="battery_optimization_permission_denied_text">Die Akkuoptimierung ist noch aktiv, daher können Alarme verzögert werden oder ausbleiben. Sie können dies später in den Einstellungen erlauben.</string>
-
     <!-- ============================================================
          Audio preview  (core/data/audio)
          ============================================================ -->
     <string name="adhan_preview_playing">Adhan-Vorschau wird abgespielt</string>
     <string name="adhan_preview_channel_name">Adhan-Vorschau</string>
-
     <!-- ============================================================
          Custom audio / sound picker  (core/presentation/components)
          ============================================================ -->
@@ -119,7 +112,6 @@
     <string name="add_from_local_files">Aus lokalen Dateien hinzufügen</string>
     <string name="reminder_default_sound">Standard (Benachrichtigung)</string>
     <string name="silent_sound">Lautlos</string>
-
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)
          ============================================================ -->
@@ -133,7 +125,6 @@
     <string name="weekday_thursday">Donnerstag</string>
     <string name="weekday_friday">Freitag</string>
     <string name="weekday_saturday">Samstag</string>
-
     <!-- ============================================================
          Intro / onboarding  (intro)
          ============================================================ -->
@@ -147,7 +138,6 @@
     <string name="skip">Überspringen</string>
     <string name="skip_dialog_body">Die erforderlichen Einstellungen sind unvollständig. Damit die App die Gebetszeiten anzeigen kann, müssen Sie diese später in den Einstellungen konfigurieren.</string>
     <string name="restoring_backup">Sicherung wird wiederhergestellt…</string>
-
     <!-- ============================================================
          Home / main screen  (main/home)
          ============================================================ -->
@@ -158,7 +148,6 @@
     <string name="set_location_hint">Standort festlegen</string>
     <string name="set_calculation_hint">Berechnungsmethode festlegen</string>
     <string name="prayer_times_unavailable_hint">Gebetszeiten können noch nicht angezeigt werden. Schließen Sie die Einrichtung ab:</string>
-
     <!-- ============================================================
          Settings menu  (main/settings/menu)
          ============================================================ -->
@@ -172,7 +161,6 @@
     <string name="interface_settings">Oberflächeneinstellungen</string>
     <string name="widget_settings_title">Widget-Einstellungen</string>
     <string name="backup_and_restore_title"><![CDATA[Sicherung & Wiederherstellung]]></string>
-
     <!-- ============================================================
          Location  (main/location)
          ============================================================ -->
@@ -205,7 +193,6 @@
     <string name="location_traveling_mode">Reisemodus</string>
     <string name="location_traveling_hint">Aktualisiert Ihren Standort regelmäßig. Kann den Akkuverbrauch erhöhen.</string>
     <string name="last_updated_at">Zuletzt aktualisiert am: %1$s</string>
-
     <!-- ============================================================
          Travel mode  (worker)
          ============================================================ -->
@@ -213,7 +200,6 @@
     <string name="location_is_disabled_notif_body">Der Reisemodus ist aktiv, aber Ihre Standortdienste sind deaktiviert. Bitte aktivieren Sie den Standort, damit die App Ihre Position zuverlässig aktualisieren kann.</string>
     <string name="worker_location_permission_revoked_title">Standortberechtigung widerrufen</string>
     <string name="worker_location_permission_revoked_body">Der Reisemodus ist aktiv, aber die App hat keine Standortberechtigung mehr. Deaktivieren Sie den Reisemodus oder erteilen Sie den Standortzugriff, um fortzufahren.</string>
-
     <!-- ============================================================
          Interface / appearance settings  (main/settings/appearance)
          ============================================================ -->
@@ -257,7 +243,6 @@
     <string name="calendar_persian">Persisch</string>
     <string name="calendar_ethiopic">Äthiopisch</string>
     <string name="calendar_buddhist">Buddhistisch</string>
-
     <!-- ============================================================
          Lunar calendar  (core/domain/model/lunar, settings/calculation)
          ============================================================ -->
@@ -271,7 +256,6 @@
     <string name="lunar_islamic_saudi_sighting">Islamisch (Sichtung in Saudi-Arabien)</string>
     <string name="attention_title"><b>Achtung!</b></string>
     <string name="lunar_calendar_warning">Der Mondkalender der App ist vorberechnet und möglicherweise nicht genau, da er nicht auf Mondsichtungen basiert. Dies ist vor allem für den Beginn und das Ende des Ramadan wichtig zu beachten.</string>
-
     <!-- ============================================================
          Calculation  (main/settings/calculation)
          ============================================================ -->
@@ -315,7 +299,6 @@
     <string name="calc_method_algeria">Ministerium für religiöse Angelegenheiten und Wakfs, Algerien</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
     <string name="calc_method_tunisia">Ministerium für religiöse Angelegenheiten von Tunesien</string>
-
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Erweiterte Berechnungseinstellungen</string>
     <string name="rounding_method">Rundungsmethode</string>
@@ -341,14 +324,12 @@
     <string name="shafaq_general_default">Allgemein (Standard)</string>
     <string name="shafaq_ahmer">Ahmer</string>
     <string name="shafaq_abyad">Abyad</string>
-
     <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
     <string name="adjustments_title">Anpassungen</string>
     <string name="adjustments_help">Anzahl der Minuten, die zu den berechneten Zeiten hinzugefügt werden.</string>
     <string name="lunar_days_adjustment_help">Anzahl der Tage, die zum Mondkalender hinzugefügt werden.</string>
     <string name="increment">Erhöhen</string>
     <string name="decrement">Reduzieren</string>
-
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
@@ -387,7 +368,6 @@
     <string name="auto_silent_duration_help">Wie lange „Bitte nicht stören“ nach dem Ablehnen aktiv bleibt.</string>
     <string name="notify_on_skipped_adhan">Stumm benachrichtigen statt überspringen</string>
     <string name="notify_on_skipped_adhan_help">Wenn Sie einen Adhan mit „Überspringen“ im Bildschirm „Anstehende Alarme“ überspringen oder ihn mit „Alarm abbrechen“ aus seiner Benachrichtigung „Bevorstehender Alarm“ abbrechen, wird zu seiner Zeit eine stumme Benachrichtigung angezeigt, statt ihn zu verwerfen. Gilt nur für Adhane.</string>
-
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Muezzin</string>
     <string name="unknown">Unbekannt</string>
@@ -396,7 +376,6 @@
     <string name="ragheb_mustafa_ghalwash">Ragheb Mustafa Ghalwash</string>
     <string name="moazen_zade">Moazen Zade</string>
     <string name="prayer_times_rescheduled">Nächster Adhan: %1$s um %2$s</string>
-
     <!-- ============================================================
          Widget settings  (main/settings/widget)
          ============================================================ -->
@@ -424,7 +403,6 @@
     <string name="notification_widget_layout_help">Die Tabelle listet die Gebetszeiten auf; kompakt zeigt das nächste Gebet mit Countdown.</string>
     <string name="notification_widget_layout_table">Tabelle</string>
     <string name="notification_widget_layout_compact">Kompakt</string>
-
     <!-- Custom widget builder (main/settings/widget/custom) -->
     <string name="widget_section_custom_appearance">Benutzerdefiniertes Widget</string>
     <string name="widget_section_custom_appearance_caption">Erstelle dein eigenes anpassbares Widget und entscheide, was angezeigt wird und wie.</string>
@@ -461,7 +439,6 @@
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>
     <string name="color_picker_use_default">An Design anpassen</string>
-
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->
@@ -478,7 +455,6 @@
     <string name="restore_failed">Wiederherstellung fehlgeschlagen. Die Datei ist möglicherweise ungültig oder beschädigt.</string>
     <string name="export_old_app_data">Daten der vorherigen Version wiederherstellen</string>
     <string name="export_old_app_data_help">Deine Daten aus der vorherigen Version sind noch auf diesem Gerät verfügbar. Du kannst sie als Sicherung exportieren und in der alten Version wiederherstellen, um zurückzuwechseln.</string>
-
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
@@ -522,7 +498,6 @@
         <item quantity="one">%1$d Minute nach %2$s</item>
         <item quantity="other">%1$d Minuten nach %2$s</item>
     </plurals>
-
     <!-- ============================================================
          Qada counter  (main/counter)
          ============================================================ -->
@@ -545,7 +520,6 @@
     <string name="time_unit_day_short">T</string>
     <string name="time_unit_hour_short">Std</string>
     <string name="time_unit_minute_short">Min</string>
-
     <!-- ============================================================
          Qibla  (main/qibla)
          ============================================================ -->
@@ -573,7 +547,6 @@
     <string name="qibla_turn_right_a11y">Drehen Sie sich %1$d Grad nach rechts zur Qibla</string>
     <string name="qibla_turn_left_a11y">Drehen Sie sich %1$d Grad nach links zur Qibla</string>
     <string name="qibla_unreliable_a11y">Kompassrichtung unzuverlässig, kalibrieren Sie Ihr Gerät</string>
-
     <!-- ============================================================
          Monthly view  (main/monthly)
          ============================================================ -->
@@ -582,7 +555,6 @@
     <string name="next_month">Nächster Monat</string>
     <string name="show_this_month">Diesen Monat anzeigen</string>
     <string name="date_column">Datum</string>
-
     <!-- ============================================================
          Troubleshoot  (main/settings/troubleshoot)
          ============================================================ -->
@@ -626,7 +598,6 @@
     <string name="adaptive_charging_caution">Achtung: Auf einigen Geräten ist dieser Alarmtyp stärker von der Akkuoptimierung betroffen, sodass Adhan und Erinnerungen verzögert oder verpasst werden können. Verwenden Sie ihn mit Vorsicht.</string>
     <string name="different_alarm_enable">Einen anderen Alarmtyp verwenden</string>
     <string name="different_alarm_notification_rationale">Dieser Alarmtyp kann den Vollbild-Alarm nicht selbst anzeigen, daher sind Benachrichtigungen erforderlich, damit Sie den Adhan stoppen können. Erlauben Sie Benachrichtigungen, um ihn zu verwenden.</string>
-
     <!-- ============================================================
          Developer  (main/settings/developer)
          ============================================================ -->
@@ -648,7 +619,6 @@
     <string name="dev_silence_reset_toast">Zeitfenster für „Bitte nicht stören“ gelöscht</string>
     <string name="dev_delivered_cleared_toast">Zeitstempel zugestellter Weckrufe gelöscht</string>
     <string name="dev_unlocked_toast">Entwicklermodus aktiviert</string>
-
     <!-- ============================================================
          Fullscreen alarm & alarm actions  (alarm, adhan, reminder)
          ============================================================ -->
@@ -671,14 +641,12 @@
     <string name="missed_while_off_body">Um %1$s verstrichen, während das Gerät aus war</string>
     <string name="missed_window_title">Einige Weckrufe wurden möglicherweise verpasst</string>
     <string name="missed_window_body">Ihr Gerät war anscheinend eine Weile ausgeschaltet. Es wird immer nur der nächste Weckruf geplant, daher können nicht alle Gebete oder Erinnerungen aus diesem Zeitraum hier angezeigt werden.</string>
-
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
     <string name="ramadan_notice_title">Achtung!</string>
     <string name="ramadan_remind_next_year">Erinnern Sie mich nächstes Jahr daran</string>
     <string name="ramadan_dont_show_again">Nicht erneut anzeigen</string>
-
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
@@ -708,7 +676,6 @@
     <string name="permission_revoked_channel_description">Benachrichtigt Sie, wenn eine erforderliche Berechtigung verweigert oder widerrufen wurde, was die Funktionsfähigkeit der App beeinträchtigen kann.</string>
     <string name="travel_mode_channel_name">Reisemodus</string>
     <string name="travel_mode_channel_description">Benachrichtigungen im Zusammenhang mit dem Reisemodus</string>
-
     <!-- ============================================================
          About  (main/about)
          ============================================================ -->
@@ -718,7 +685,6 @@
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">Lizenz</string>
     <string name="about_credits">Alle Urheberrechte für Adhan-Stimmen gehören ihren jeweiligen Eigentümern.</string>
-
     <!-- ============================================================
          Upcoming alarms  (main/upcoming_alarms)
          ============================================================ -->
@@ -733,5 +699,4 @@
     <string name="tomorrow">Morgen</string>
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
-
 </resources>
