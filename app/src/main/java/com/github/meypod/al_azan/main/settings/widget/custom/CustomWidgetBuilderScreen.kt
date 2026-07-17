@@ -3,6 +3,8 @@ package com.github.meypod.al_azan.main.settings.widget.custom
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -25,6 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -58,6 +61,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -68,6 +72,7 @@ import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -373,7 +378,7 @@ private fun ColumnScope.OptionCards(
             ) {
                 items(availableHeaderBlocks, key = { headerBlockKey(it) }) { block ->
                     val label = headerLabel(block)
-                    Box(Modifier.animateItem()) {
+                    Box(rtlSafeAnimateItem()) {
                         DraggableChip(
                             dnd = dnd,
                             payload = CwDrag.HeaderItem(block),
@@ -621,6 +626,17 @@ private fun LocationCheckItem(
 }
 
 /**
+ * [Modifier.animateItem] with the fade-out dropped under RTL. Compose mispositions a *disappearing*
+ * LazyRow item in RTL — it fades at the row's logical end (the far visual side) instead of in place —
+ * so there a removed chip just vanishes; LTR keeps the fade. Appearance/placement are unaffected.
+ */
+@Composable
+private fun LazyItemScope.rtlSafeAnimateItem(): Modifier {
+    val ltr = LocalLayoutDirection.current == LayoutDirection.Ltr
+    return Modifier.animateItem(fadeOutSpec = if (ltr) spring(stiffness = Spring.StiffnessMediumLow) else null)
+}
+
+/**
  * One widget row: the drag-reorder target. While a prayer chip is dragged over this row, the chips
  * reorder live to preview the result; dropping commits that order. Uses ReorderableLazyColumn's
  * stable hit-test — settled [LazyListState.layoutInfo] offsets + centre-in-slot containment — so the
@@ -640,10 +656,12 @@ private fun PlacedRow(
     val draggedPrayer = (dnd.payload as? CwDrag.PrayerItem)?.prayer
     val listState = rememberLazyListState()
     var rowBounds by remember { mutableStateOf(Rect.Zero) }
-    var lazyLeft by remember { mutableStateOf(0f) }
+    var lazyBounds by remember { mutableStateOf(Rect.Zero) }
     // Live-preview order for THIS row during a drag; null = show the committed order.
     var preview by remember { mutableStateOf<List<Prayer>?>(null) }
     val density = LocalDensity.current
+    // RTL mirrors the horizontal axis: the list's start edge is the right, and item offsets grow leftward.
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     // Per-frame while dragging: edge auto-scroll + the stable reorder hit-test. The dragged chip stays
     // in the list as a real slot; each frame we find the settled slot whose extent contains the finger
@@ -669,11 +687,15 @@ private fun PlacedRow(
                 continue
             }
             // Edge auto-scroll toward whichever side the finger is nearest (reach off-screen slots).
+            // scrollBy(+) advances toward the list end (higher indices); map each window edge to the
+            // start/end edge it represents, which flips in RTL (start = right, end = left).
             val leftPen = ((rowBounds.left + edge - f.x) / edge).coerceIn(0f, 1f)
             val rightPen = ((f.x - (rowBounds.right - edge)) / edge).coerceIn(0f, 1f)
+            val startPen = if (isRtl) rightPen else leftPen
+            val endPen = if (isRtl) leftPen else rightPen
             val dir = when {
-                leftPen > 0f -> -leftPen
-                rightPen > 0f -> rightPen
+                startPen > 0f -> -startPen
+                endPen > 0f -> endPen
                 else -> 0f
             }
             if (dir != 0f) listState.scrollBy(dir * maxStep)
@@ -683,7 +705,8 @@ private fun PlacedRow(
                 ?: if (draggedPrayer in committed) committed else committed + draggedPrayer
             val draggedIndex = current.indexOf(draggedPrayer)
             // Ghost is centred on the finger, so the dragged chip's centre ≈ finger x (viewport-local).
-            val centerX = f.x - lazyLeft
+            // Measure from the list's START edge to match LazyListItemInfo.offset — mirrored in RTL.
+            val centerX = if (isRtl) lazyBounds.right - f.x else f.x - lazyBounds.left
             val target = listState.layoutInfo.visibleItemsInfo.firstOrNull {
                 it.index != draggedIndex && centerX >= it.offset && centerX <= it.offset + it.size
             }?.index
@@ -731,15 +754,14 @@ private fun PlacedRow(
             } else {
                 LazyRow(
                     state = listState,
-                    modifier = Modifier.onGloballyPositioned { lazyLeft = it.boundsInWindow().left },
+                    modifier = Modifier.onGloballyPositioned { lazyBounds = it.boundsInWindow() },
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
                 ) {
                     items(display, key = { it }) { prayer ->
                         val name = prayer.i18n()
                         val time = times[prayer] ?: PLACEHOLDER_TIME
                         Box(
-                            Modifier
-                                .animateItem()
+                            rtlSafeAnimateItem()
                                 // Fade the dragged chip in place; the floating ghost tracks the finger.
                                 .graphicsLayer { alpha = if (prayer == draggedPrayer) 0.3f else 1f }
                                 .dropTarget(dnd, prayer) { payload ->
@@ -802,7 +824,7 @@ private fun PrayerPaletteRow(
             items(prayers, key = { it }) { prayer ->
                 val name = prayer.i18n()
                 val time = times[prayer] ?: PLACEHOLDER_TIME
-                Box(Modifier.animateItem()) {
+                Box(rtlSafeAnimateItem()) {
                     DraggableChip(
                         dnd = dnd,
                         payload = CwDrag.PrayerItem(prayer),

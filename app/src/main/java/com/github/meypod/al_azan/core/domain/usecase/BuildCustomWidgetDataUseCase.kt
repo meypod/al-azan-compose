@@ -47,9 +47,15 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         val arabicCalendar = settings.selectedArabicCalendar
         val arabicCalendarLocale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale
 
+        // The countdown and next-prayer highlight must only track prayers the user actually placed on
+        // the widget, mirroring the table widget's hidden-prayer exclusion. Otherwise the "next" prayer
+        // could be one that isn't shown (e.g. Sunset), so the countdown would target an unseen time.
+        val notPlaced = Prayer.entries.toSet() - config.rows.flatten().toSet()
+
         fun shariaTimesFor(loc: CalculationLocationDetail) = getShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc)
 
-        fun nextFor(loc: CalculationLocationDetail) = getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc)
+        fun nextFor(loc: CalculationLocationDetail) =
+            getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, excluding = notPlaced)
 
         // Countdown and the redraw time follow the primary (first) location; dates are location-
         // independent (Hijri day-shift uses the primary's maghrib).

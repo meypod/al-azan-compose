@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.presentation.components
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -20,8 +21,10 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import kotlin.math.roundToInt
@@ -137,21 +140,32 @@ fun DragAndDropContainer(
             // pushes it past the window's measured bounds, which clips it despite clippingEnabled=false.)
             var size by remember { mutableStateOf(IntSize.Zero) }
             val finger = state.pointerInContainer()
-            Popup(
-                alignment = Alignment.TopStart,
-                offset = IntOffset(finger.x - size.width / 2, finger.y - size.height / 2),
-                properties = PopupProperties(
-                    focusable = false,
-                    dismissOnBackPress = false,
-                    dismissOnClickOutside = false,
-                    clippingEnabled = false,
-                ),
-            ) {
-                Box(
-                    Modifier
-                        .onSizeChanged { size = it }
-                        .graphicsLayer { alpha = 0.9f },
-                ) { ghost?.invoke() }
+            val layoutDirection = LocalLayoutDirection.current
+            // finger.x is an absolute (left-based) offset from the container's left edge. Popup's `offset`
+            // is mirrored under RTL (subtracted from a right-anchored start), which would drop the ghost on
+            // the wrong side. Pin the Popup's positioning to Ltr so the offset stays left-based, then
+            // restore the real direction for the ghost's own content.
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                Popup(
+                    alignment = Alignment.TopStart,
+                    offset = IntOffset(finger.x - size.width / 2, finger.y - size.height / 2),
+                    properties = PopupProperties(
+                        focusable = false,
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false,
+                        clippingEnabled = false,
+                    ),
+                ) {
+                    Box(
+                        Modifier
+                            .onSizeChanged { size = it }
+                            .graphicsLayer { alpha = 0.9f },
+                    ) {
+                        CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
+                            ghost?.invoke()
+                        }
+                    }
+                }
             }
         }
     }

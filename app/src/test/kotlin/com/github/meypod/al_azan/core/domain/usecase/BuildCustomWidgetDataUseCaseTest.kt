@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.domain.usecase
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
@@ -18,8 +19,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.atLeastOnce
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import kotlin.time.Instant
 
 class BuildCustomWidgetDataUseCaseTest {
@@ -208,6 +212,26 @@ class BuildCustomWidgetDataUseCaseTest {
 
         val off = useCase().invoke(at(9.0), settings(), calc(), location, CustomWidgetConfig(showCountdown = false))!!
         assertNull(off.countdown)
+    }
+
+    @Test
+    fun `next-prayer search excludes prayers not placed on the widget`() {
+        val getShariaTimes = mock<GetShariaTimesUseCase> {
+            on { invoke(any(), any(), any(), any(), any()) } doReturn shariaTimes
+        }
+        val getNext = mock<GetNextShariaTimesUseCase> {
+            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn details(Prayer.Dhuhr, at(12.0))
+        }
+        val config = CustomWidgetConfig(rows = listOf(listOf(Prayer.Fajr, Prayer.Dhuhr)), showCountdown = true)
+
+        BuildCustomWidgetDataUseCase(getShariaTimes, getNext, FakeFormatter(nextDayMillis))
+            .invoke(at(9.0), settings(), calc(), location, config)
+
+        // Only placed prayers stay searchable; every other prayer (Sunset, Maghrib, Isha, …) is excluded,
+        // so the countdown can never target a time the widget doesn't show.
+        val excluded = argumentCaptor<Set<Prayer>>()
+        verify(getNext, atLeastOnce()).invoke(any(), any(), any(), any(), any(), anyOrNull(), excluded.capture(), any())
+        assertEquals(SHARIA_TIMES_IN_ORDER.toSet() - setOf(Prayer.Fajr, Prayer.Dhuhr), excluded.firstValue)
     }
 
     @Test
