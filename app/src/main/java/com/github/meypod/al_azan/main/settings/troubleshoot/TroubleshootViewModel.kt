@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.util.device.AutostartUtils
+import com.github.meypod.al_azan.core.util.device.DeviceUtils
 import com.github.meypod.al_azan.core.util.device.PowerManagerUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,7 +22,8 @@ class TroubleshootViewModel
 @Inject constructor(
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(TroubleshootUiState())
+    private val isTelevision = DeviceUtils.isTelevision(context)
+    private val _uiState = MutableStateFlow(TroubleshootUiState(isTelevision = isTelevision))
     val uiState = _uiState.asStateFlow()
 
     fun onAction(action: TroubleshootUiAction) {
@@ -54,6 +56,7 @@ class TroubleshootViewModel
                 autostartAvailable = AutostartUtils.hasAutostartSettings(context),
                 dndAccessGranted =
                     context.getSystemService<NotificationManager>()?.isNotificationPolicyAccessGranted == true,
+                isTelevision = isTelevision,
             )
         }
     }

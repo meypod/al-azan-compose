@@ -1,9 +1,12 @@
 package com.github.meypod.al_azan.main.settings.troubleshoot
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -80,26 +83,32 @@ fun TroubleshootScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
-        ACard { cardPadding ->
-            Column(
-                Modifier
-                    .padding(cardPadding)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-            ) {
-                SettingLabel(stringResource(R.string.battery_problem_title))
-                Text(stringResource(R.string.battery_problem_body), style = MaterialTheme.typography.bodyMedium)
+        // Battery optimization / DND / OEM keep-alive settings don't exist on Android TV; hide the
+        // phone-only cards there (and their launches, which would otherwise crash — see safeLaunch).
+        if (!uiState.isTelevision) {
+            ACard { cardPadding ->
+                Column(
+                    Modifier
+                        .padding(cardPadding)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                ) {
+                    SettingLabel(stringResource(R.string.battery_problem_title))
+                    Text(stringResource(R.string.battery_problem_body), style = MaterialTheme.typography.bodyMedium)
 
-                BatterSaverCTA(isAllowed = uiState.appIsAllowedToKeepRunning) {
-                    if (uiState.appIsAllowedToKeepRunning) {
-                        onAction(TroubleshootUiAction.OnAppIsAllowedToKeepRunningClick(activity))
-                    } else {
-                        ignoreBatteryLauncher.launch(
-                            Intent(
-                                Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                                ("package:" + context.packageName).toUri(),
-                            ),
-                        )
+                    BatterSaverCTA(isAllowed = uiState.appIsAllowedToKeepRunning) {
+                        if (uiState.appIsAllowedToKeepRunning) {
+                            onAction(TroubleshootUiAction.OnAppIsAllowedToKeepRunningClick(activity))
+                        } else {
+                            safeLaunch(context) {
+                                ignoreBatteryLauncher.launch(
+                                    Intent(
+                                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                                        ("package:" + context.packageName).toUri(),
+                                    ),
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -116,8 +125,12 @@ fun TroubleshootScreen(
             }
         }
 
-        DndAccessCard(granted = uiState.dndAccessGranted) {
-            dndAccessLauncher.launch(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+        if (!uiState.isTelevision) {
+            DndAccessCard(granted = uiState.dndAccessGranted) {
+                safeLaunch(context) {
+                    dndAccessLauncher.launch(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                }
+            }
         }
 
         if (uiState.autostartAvailable) {
@@ -130,9 +143,25 @@ fun TroubleshootScreen(
             onAction(TroubleshootUiAction.OnAdvancedSettingsClick(advancedRoute))
         }
 
-        InformationCard(Modifier.fillMaxWidth()) {
-            Text(annotatedStringResource(R.string.battery_problem_final_hint, "https://dontkillmyapp.com", "dontkillmyapp.com"))
+        // dontkillmyapp is about OEM phone task-killers — irrelevant on TV.
+        if (!uiState.isTelevision) {
+            InformationCard(Modifier.fillMaxWidth()) {
+                Text(annotatedStringResource(R.string.battery_problem_final_hint, "https://dontkillmyapp.com", "dontkillmyapp.com"))
+            }
         }
+    }
+}
+
+/** Runs [launch], swallowing [ActivityNotFoundException] (e.g. the target settings screen is absent
+ *  on this device/TV) with a toast instead of crashing. */
+private fun safeLaunch(
+    context: Context,
+    launch: () -> Unit,
+) {
+    try {
+        launch()
+    } catch (_: ActivityNotFoundException) {
+        Toast.makeText(context, R.string.open_settings_failed, Toast.LENGTH_SHORT).show()
     }
 }
 

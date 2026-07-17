@@ -9,4 +9,6 @@ data class TroubleshootUiState(
     val powerManagerInfo: PowerManagerUtils.PowerManagerInfo? = null,
     val autostartAvailable: Boolean = false,
     val dndAccessGranted: Boolean = false,
+    /** TV/leanback device: phone-only keep-alive cards are hidden. */
+    val isTelevision: Boolean = false,
 )
