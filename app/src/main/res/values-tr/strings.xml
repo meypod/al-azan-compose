@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- ============================================================
          Shared / common UI  (core/presentation/components)
          ============================================================ -->
-    <string name="app_name">Al-Azan</string>
+    <string name="app_name">Ezan-Uygulama</string>
     <string name="cancel">İptal</string>
     <string name="confirm">Onayla</string>
     <string name="close">Kapat</string>
@@ -28,18 +27,15 @@
     <string name="custom_minutes">Özel</string>
     <string name="custom_minutes_tap_to_edit">Düzenlemek için dokunun</string>
     <string name="custom_minutes_dialog_title">Özel dakika</string>
-
     <!-- Shared prayer-times selector (used by interface & widget settings) -->
     <string name="show_prayer_times_title">Namaz vakitlerini göster</string>
     <string name="show_prayer_times_help">Ana ekranda hangi namaz vakitlerinin gösterileceğini seçin.</string>
     <string name="show_column">Göster</string>
     <string name="time_column">Vakit</string>
-
     <!-- Stepper / wizard navigation -->
     <string name="back_button">Geri</string>
     <string name="next_button">Sonraki</string>
     <string name="finish_button">Bitir</string>
-
     <!-- ============================================================
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
@@ -52,7 +48,6 @@
     <string name="isha">Yatsı</string>
     <string name="midnight">Gece yarısı</string>
     <string name="tahajjud">Teheccüd</string>
-
     <!-- ============================================================
          Permission dialogs  (core/presentation/dialog)
          ============================================================ -->
@@ -100,13 +95,11 @@
     <string name="battery_optimization_permission_title">Alarmları güvenilir tutun</string>
     <string name="battery_optimization_permission_rationale">Alarmlarınızın güvenilir şekilde iletilmesi için bu uygulamanın arka planda çalışmaya devam etmesine izin verin. Aksi takdirde sistem, pil tasarrufu için uygulamayı durdurabilir ve alarmlar gecikebilir veya kaçırılabilir.</string>
     <string name="battery_optimization_permission_denied_text">Pil optimizasyonu hâlâ açık, bu yüzden alarmlar gecikebilir veya kaçırılabilir. Buna daha sonra ayarlardan izin verebilirsiniz.</string>
-
     <!-- ============================================================
          Audio preview  (core/data/audio)
          ============================================================ -->
     <string name="adhan_preview_playing">Ezan önizlemesi çalınıyor</string>
     <string name="adhan_preview_channel_name">Ezan önizlemesi</string>
-
     <!-- ============================================================
          Custom audio / sound picker  (core/presentation/components)
          ============================================================ -->
@@ -119,7 +112,6 @@
     <string name="add_from_local_files">Yerel Dosyalardan Ekle</string>
     <string name="reminder_default_sound">Varsayılan (Bildirim)</string>
     <string name="silent_sound">Sessiz</string>
-
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)
          ============================================================ -->
@@ -133,7 +125,6 @@
     <string name="weekday_thursday">Perşembe</string>
     <string name="weekday_friday">Cuma</string>
     <string name="weekday_saturday">Cumartesi</string>
-
     <!-- ============================================================
          Intro / onboarding  (intro)
          ============================================================ -->
@@ -147,7 +138,6 @@
     <string name="skip">Atla</string>
     <string name="skip_dialog_body">Gerekli ayarlar tamamlanmadı. Uygulamanın namaz vakitlerini göstermesi için daha sonra ayarlardan yapılandırmanız gerekmektedir.</string>
     <string name="restoring_backup">Yedek geri yükleniyor…</string>
-
     <!-- ============================================================
          Home / main screen  (main/home)
          ============================================================ -->
@@ -158,7 +148,6 @@
     <string name="set_location_hint">Konumu ayarla</string>
     <string name="set_calculation_hint">Hesaplama yöntemini ayarla</string>
     <string name="prayer_times_unavailable_hint">Namaz vakitleri henüz gösterilemiyor. Kurulumu tamamlayın:</string>
-
     <!-- ============================================================
          Settings menu  (main/settings/menu)
          ============================================================ -->
@@ -172,7 +161,6 @@
     <string name="interface_settings">Arayüz Ayarları</string>
     <string name="widget_settings_title">Widget Ayarları</string>
     <string name="backup_and_restore_title"><![CDATA[Yedekle & Geri Yükle]]></string>
-
     <!-- ============================================================
          Location  (main/location)
          ============================================================ -->
@@ -205,7 +193,6 @@
     <string name="location_traveling_mode">Seyahat modu</string>
     <string name="location_traveling_hint">Konumunuzu periyodik olarak günceller. Pil tüketimini artırabilir.</string>
     <string name="last_updated_at">Son güncelleme: %1$s</string>
-
     <!-- ============================================================
          Travel mode  (worker)
          ============================================================ -->
@@ -213,7 +200,6 @@
     <string name="location_is_disabled_notif_body">Seyahat modu etkin, ancak konum servisleriniz kapalı. Uygulamanın konumunuzu güvenilir şekilde güncelleyebilmesi için lütfen konumu etkinleştirin.</string>
     <string name="worker_location_permission_revoked_title">Konum izni iptal edildi</string>
     <string name="worker_location_permission_revoked_body">Seyahat modu etkin, ancak uygulamanın artık konum izni yok. Devam etmek için seyahat modunu kapatın veya konum erişimi verin.</string>
-
     <!-- ============================================================
          Interface / appearance settings  (main/settings/appearance)
          ============================================================ -->
@@ -257,7 +243,6 @@
     <string name="calendar_persian">Farsça</string>
     <string name="calendar_ethiopic">Etiyopya</string>
     <string name="calendar_buddhist">Budist</string>
-
     <!-- ============================================================
          Lunar calendar  (core/domain/model/lunar, settings/calculation)
          ============================================================ -->
@@ -271,7 +256,6 @@
     <string name="lunar_islamic_saudi_sighting">İslami (Suudi Arabistan gözlemi)</string>
     <string name="attention_title"><b>Dikkat!</b></string>
     <string name="lunar_calendar_warning">Uygulamanın ay takvimi önceden hesaplanmıştır ve ay gözlemlerine dayanmadığı için doğru olmayabilir. Bu özellikle Ramazan\'ın başlangıcı ve bitişi için önemlidir.</string>
-
     <!-- ============================================================
          Calculation  (main/settings/calculation)
          ============================================================ -->
@@ -315,7 +299,6 @@
     <string name="calc_method_algeria">Diyanet İşleri ve Vakıflar Bakanlığı, Cezayir</string>
     <string name="calc_method_brunei">Din İşleri Bakanlığı (Brunei Darüsselam)</string>
     <string name="calc_method_tunisia">Tunus Din İşleri Bakanlığı</string>
-
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Gelişmiş hesaplama ayarları</string>
     <string name="rounding_method">Yuvarlama Yöntemi</string>
@@ -341,14 +324,12 @@
     <string name="shafaq_general_default">Genel (Varsayılan)</string>
     <string name="shafaq_ahmer">Ahmer (Kızıllık)</string>
     <string name="shafaq_abyad">Abyad (Beyazlık)</string>
-
     <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
     <string name="adjustments_title">Ayarlamalar</string>
     <string name="adjustments_help">Hesaplanan vakitlere eklenecek dakika sayısı.</string>
     <string name="lunar_days_adjustment_help">Ay takvimine eklenecek gün sayısı.</string>
     <string name="increment">Artış</string>
     <string name="decrement">Azalma</string>
-
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
@@ -387,7 +368,6 @@
     <string name="auto_silent_duration_help">Reddettikten sonra Rahatsız Etmeyin\'in ne kadar süre açık kalacağı.</string>
     <string name="notify_on_skipped_adhan">Atlamak yerine sessizce bildir</string>
     <string name="notify_on_skipped_adhan_help">Bir ezanı Yaklaşan alarmlar ekranında “Atla” ile atladığınızda veya “Yaklaşan alarm” bildiriminden “Alarmı İptal Et” ile iptal ettiğinizde, ezan kaldırılmak yerine kendi saatinde sessiz bir bildirim gösterilir. Yalnızca ezanlar için geçerlidir.</string>
-
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Müezzin</string>
     <string name="unknown">Bilinmeyen</string>
@@ -396,7 +376,6 @@
     <string name="ragheb_mustafa_ghalwash">Ragıb Mustafa Galveş</string>
     <string name="moazen_zade">Müezzinzade</string>
     <string name="prayer_times_rescheduled">Sonraki ezan: %1$s, %2$s</string>
-
     <!-- ============================================================
          Widget settings  (main/settings/widget)
          ============================================================ -->
@@ -424,7 +403,6 @@
     <string name="notification_widget_layout_help">Tablo namaz vakitlerini listeler; kompakt sonraki namazı geri sayımla gösterir.</string>
     <string name="notification_widget_layout_table">Tablo</string>
     <string name="notification_widget_layout_compact">Kompakt</string>
-
     <!-- Custom widget builder (main/settings/widget/custom) -->
     <string name="widget_section_custom_appearance">Özel widget</string>
     <string name="widget_section_custom_appearance_caption">Kendi özelleştirilebilir widget\'ınızı oluşturun ve neyin nasıl gösterileceğine karar verin.</string>
@@ -461,7 +439,6 @@
     <string name="color_picker_hex">Onaltılık (#AARRGGBB)</string>
     <string name="color_picker_alpha">Opaklık</string>
     <string name="color_picker_use_default">Temayla eşleştir</string>
-
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->
@@ -478,7 +455,6 @@
     <string name="restore_failed">Geri yüklenemedi. Dosya geçersiz veya bozuk olabilir.</string>
     <string name="export_old_app_data">Önceki sürümün verilerini kurtar</string>
     <string name="export_old_app_data_help">Önceki sürümdeki verileriniz hâlâ bu cihazda mevcut. Bunları yedek olarak dışa aktarıp eski sürümde geri yükleyerek geri dönebilirsiniz.</string>
-
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
@@ -522,7 +498,6 @@
         <item quantity="one">%2$s\'den %1$d dakika sonra</item>
         <item quantity="other">%2$s\'den %1$d dakika sonra</item>
     </plurals>
-
     <!-- ============================================================
          Qada counter  (main/counter)
          ============================================================ -->
@@ -545,7 +520,6 @@
     <string name="time_unit_day_short">g</string>
     <string name="time_unit_hour_short">s</string>
     <string name="time_unit_minute_short">dk</string>
-
     <!-- ============================================================
          Qibla  (main/qibla)
          ============================================================ -->
@@ -573,7 +547,6 @@
     <string name="qibla_turn_right_a11y">Kıbleye dönmek için %1$d derece sağa dönün</string>
     <string name="qibla_turn_left_a11y">Kıbleye dönmek için %1$d derece sola dönün</string>
     <string name="qibla_unreliable_a11y">Pusula yönü güvenilir değil, cihazınızı kalibre edin</string>
-
     <!-- ============================================================
          Monthly view  (main/monthly)
          ============================================================ -->
@@ -582,7 +555,6 @@
     <string name="next_month">Gelecek Ay</string>
     <string name="show_this_month">Bu Ayı Göster</string>
     <string name="date_column">Tarih</string>
-
     <!-- ============================================================
          Troubleshoot  (main/settings/troubleshoot)
          ============================================================ -->
@@ -626,7 +598,6 @@
     <string name="adaptive_charging_caution">Dikkat: Bazı cihazlarda bu alarm türü pil optimizasyonundan daha fazla etkilenir, bu nedenle ezan ve hatırlatıcılar gecikebilir veya kaçırılabilir. Dikkatli kullanın.</string>
     <string name="different_alarm_enable">Farklı bir alarm türü kullan</string>
     <string name="different_alarm_notification_rationale">Bu alarm türü tam ekran alarmı kendi başına gösteremez, bu yüzden ezanı durdurabilmeniz için bildirimler gereklidir. Kullanmak için bildirimlere izin verin.</string>
-
     <!-- ============================================================
          Developer  (main/settings/developer)
          ============================================================ -->
@@ -648,7 +619,6 @@
     <string name="dev_silence_reset_toast">Rahatsız Etmeyin penceresi temizlendi</string>
     <string name="dev_delivered_cleared_toast">Teslim edilen alarm zaman damgaları temizlendi</string>
     <string name="dev_unlocked_toast">Geliştirici modu etkinleştirildi</string>
-
     <!-- ============================================================
          Fullscreen alarm & alarm actions  (alarm, adhan, reminder)
          ============================================================ -->
@@ -671,14 +641,12 @@
     <string name="missed_while_off_body">Cihaz kapalıyken %1$s\'te geçti</string>
     <string name="missed_window_title">Bazı alarmlar kaçırılmış olabilir</string>
     <string name="missed_window_body">Cihazınız bir süre kapalı kalmış görünüyor. Her seferinde yalnızca bir sonraki alarm planlanır; bu nedenle o dönemde zamanı gelen tüm namazlar veya hatırlatıcılar burada listelenemez.</string>
-
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
     <string name="ramadan_notice_title">Dikkat!</string>
     <string name="ramadan_remind_next_year">Gelecek yıl hatırlat bana</string>
     <string name="ramadan_dont_show_again">Bir daha gösterme</string>
-
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
@@ -708,7 +676,6 @@
     <string name="permission_revoked_channel_description">Uygulamanın işlevselliğini etkileyebilecek, gerekli bir iznin reddedildiği veya iptal edildiği durumlarda sizi uyarır.</string>
     <string name="travel_mode_channel_name">Seyahat modu</string>
     <string name="travel_mode_channel_description">Seyahat moduyla ilgili bildirimler</string>
-
     <!-- ============================================================
          About  (main/about)
          ============================================================ -->
@@ -718,7 +685,6 @@
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">Lisans</string>
     <string name="about_credits">Ezan seslerinin tüm telif hakları sahiplerine aittir.</string>
-
     <!-- ============================================================
          Upcoming alarms  (main/upcoming_alarms)
          ============================================================ -->
@@ -733,5 +699,4 @@
     <string name="tomorrow">Yarın</string>
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
-
 </resources>
