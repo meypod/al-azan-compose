@@ -4,14 +4,16 @@ Both fonts are licensed under the SIL Open Font License 1.1 (full text alongside
 shipped in `app/src/main/res/font/`. They are applied per UI locale in `core/presentation/Theme.kt`.
 
 ## Vazirmatn — Persian (`fa`)
+
 - File: `app/src/main/res/font/vazirmatn.ttf` (variable, `wght` axis)
-- Source: https://github.com/google/fonts/tree/main/ofl/vazirmatn
+- Source: <https://github.com/google/fonts/tree/main/ofl/vazirmatn>
 - License: [Vazirmatn-OFL.txt](Vazirmatn-OFL.txt)
 - **Unmodified.**
 
 ## Noto Sans Arabic — Arabic (`ar`)
+
 - File: `app/src/main/res/font/noto_sans_arabic.ttf` (variable, `wght` axis)
-- Source: https://github.com/google/fonts/tree/main/ofl/notosansarabic
+- Source: <https://github.com/google/fonts/tree/main/ofl/notosansarabic>
 - License: [NotoSansArabic-OFL.txt](NotoSansArabic-OFL.txt)
 - **Modified.** Its line-spacing metrics were reduced from ~2.112em to ~1.562em per line so Arabic
   UI text matches the line height of Vazirmatn (Persian) and the Latin default; upstream reserves
