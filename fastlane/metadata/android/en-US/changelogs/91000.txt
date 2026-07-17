@@ -1,0 +1,5 @@
+- Added missing calendar types to the header slot options in custom widget 
+- Fixed next prayer countdown for custom widget (Should only countdown to visible ones)
+- Fixed dragging order and preview in custom widget for RTL languageTags
+- Improved screen layout in landscape orientation on phone
+- Updated fonts for Arabic and Persian languages

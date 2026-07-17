@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
@@ -225,9 +226,17 @@ fun AlAzanTheme(
         Density(density.density * displayScale, density.fontScale)
     }
 
+    // Persian/Arabic UI ship a bundled font whose metrics sit better with Latin than the system
+    // Arabic fallback; other locales keep the default. Gated on the applied UI locale, not device.
+    val typography = when (LocalConfiguration.current.locales[0].language) {
+        "fa" -> VazirmatnTypography
+        "ar" -> NotoSansArabicTypography
+        else -> Typography
+    }
+
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
     ) {
         CompositionLocalProvider(LocalDensity provides scaledDensity, content = content)
     }
