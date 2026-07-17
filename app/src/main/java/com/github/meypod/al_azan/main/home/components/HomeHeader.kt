@@ -57,6 +57,7 @@ import kotlin.time.Instant
 @Composable
 fun HomeHeader(
     uiState: HomeUiState,
+    wideLayout: Boolean = false,
     onAction: (HomeUiAction) -> Unit,
 ) {
     val classic = uiState.themeColor.isClassic()
@@ -79,7 +80,7 @@ fun HomeHeader(
                     )
                 },
             )
-            .padding(dimensionResource(R.dimen.page_padding)),
+            .padding(dimensionResource(R.dimen.element_padding_compact)),
     ) {
         val iconButtonColors = IconButtonColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -87,7 +88,15 @@ fun HomeHeader(
             disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
             disabledContentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f),
         )
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = if (wideLayout) {
+                Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))
+            } else {
+                Arrangement.SpaceBetween
+            },
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
@@ -107,6 +116,15 @@ fun HomeHeader(
                     color = headerContentColor,
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
+                )
+            }
+            // Landscape with room: pull the weekday/lunar date up between the two nav buttons
+            // so it no longer costs a separate row of vertical space.
+            if (wideLayout) {
+                HomeDateColumn(
+                    uiState = uiState,
+                    contentColor = headerContentColor,
+                    modifier = Modifier.weight(1f),
                 )
             }
             Row(
@@ -131,39 +149,18 @@ fun HomeHeader(
                 }
             }
         }
-        Row(horizontalArrangement = Arrangement.Center) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+        if (wideLayout) {
+            Spacer(Modifier.height(dimensionResource(R.dimen.element_padding_compact)))
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    formatInstant(uiState.viewingInstant, uiState.locale, uiState.calendar, DateFormat.WEEKDAY),
-                    color = headerContentColor,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    if (uiState.swapHomeCalendars) {
-                        formatInstant(
-                            uiState.viewingInstant,
-                            uiState.locale,
-                            uiState.calendar,
-                            numberingSystem = uiState.numberingSystem,
-                        )
-                    } else {
-                        formatInstant(
-                            addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
-                            uiState.arabicCalendarLocale,
-                            uiState.arabicCalendar,
-                            numberingSystem = uiState.numberingSystem,
-                        )
-                    },
-                    color = headerContentColor,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                )
+                HomeDateColumn(uiState = uiState, contentColor = headerContentColor)
             }
+            Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
         }
-        Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
+
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
@@ -230,6 +227,44 @@ fun HomeHeader(
     }
 }
 
+@Composable
+private fun HomeDateColumn(
+    uiState: HomeUiState,
+    contentColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            formatInstant(uiState.viewingInstant, uiState.locale, uiState.calendar, DateFormat.WEEKDAY),
+            color = contentColor,
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            if (uiState.swapHomeCalendars) {
+                formatInstant(
+                    uiState.viewingInstant,
+                    uiState.locale,
+                    uiState.calendar,
+                    numberingSystem = uiState.numberingSystem,
+                )
+            } else {
+                formatInstant(
+                    addDaysTimeZoneAware(uiState.viewingInstant, uiState.hijriDateAdjustment),
+                    uiState.arabicCalendarLocale,
+                    uiState.arabicCalendar,
+                    numberingSystem = uiState.numberingSystem,
+                )
+            },
+            color = contentColor,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun HomeHeaderPreview() {
@@ -258,6 +293,40 @@ private fun HomeHeaderPreview() {
                 showNextPrayerCountdown = true,
                 nextShariaTime = nextShariaTime,
             ),
+            onAction = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun HomeHeaderWideLayoutPreview() {
+    AlAzanTheme {
+        val location = StaticFavoriteLocation("foo", CalculationLocationDetail(0.0, 0.0, label = "Null Island"))
+        val instant = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        val getShariaTimesUseCase = GetShariaTimesUseCase()
+        val shariahTimes = getShariaTimesUseCase(
+            instant = instant,
+            calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = CalculationLocationDetail(0.0, 0.0),
+        )
+        val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
+            instant = instant,
+            calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
+            calculationAdjustments = CalculationAdjustments(),
+            arabicCalendar = "islamic",
+            locationDetail = CalculationLocationDetail(0.0, 0.0),
+        )
+        HomeHeader(
+            HomeUiState(
+                location = location,
+                shariaTimes = shariahTimes,
+                showNextPrayerCountdown = true,
+                nextShariaTime = nextShariaTime,
+            ),
+            wideLayout = true,
             onAction = {},
         )
     }

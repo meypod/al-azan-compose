@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.home
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -34,6 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -72,6 +78,13 @@ import kotlin.time.DurationUnit
 import kotlin.time.Instant
 import kotlin.time.toDuration
 
+/**
+ * Min window width at which the landscape layout has room to lift the date between the nav buttons.
+ * Kept below a phone's landscape width but above its portrait width, so split-screen/narrow windows
+ * keep the stacked portrait layout.
+ */
+private val WIDE_LAYOUT_MIN_WIDTH = 480.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -81,6 +94,11 @@ fun HomeScreen(
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    val configuration = LocalConfiguration.current
+    val windowWidth = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }
+    val wideLayout = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE &&
+        windowWidth >= WIDE_LAYOUT_MIN_WIDTH
 
     BackHandler(enabled = drawerState.isOpen) {
         scope.launch { drawerState.close() }
@@ -93,87 +111,95 @@ fun HomeScreen(
             ModalDrawerSheet(drawerState) {
                 Text(stringResource(R.string.app_name), modifier = Modifier.padding(dimensionResource(R.dimen.page_padding)))
                 HorizontalDivider()
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.alarm), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.reminders_title)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnReminderLinkClick)
-                    },
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.compass_outline), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.qibla)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnQiblaLinkClick)
-                    },
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.counter), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.counter)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnCounterLinkClick)
-                    },
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.monthly_view_title)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnMonthlyViewClick)
-                    },
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.settings), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.settings)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnSettingsLinkClick)
-                    },
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.outline_calendar_month_24), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.upcoming_alarms)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnUpcomingAlarmsClick)
-                    },
-                )
-                NavigationDrawerItem(
-                    icon = {
-                        Icon(painterResource(R.drawable.info_variant_outline), contentDescription = null)
-                    },
-                    label = { Text(stringResource(R.string.about)) },
-                    selected = false,
-                    onClick = {
-                        onAction(HomeUiAction.OnAboutLinkClick)
-                    },
-                )
-                if (uiState.isDeveloper) {
+                // Scrollable so every item stays reachable when the drawer is taller than the
+                // window (e.g. landscape); the header above stays pinned.
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .verticalScroll(rememberScrollState()),
+                ) {
                     NavigationDrawerItem(
                         icon = {
-                            Icon(painterResource(R.drawable.outline_developer_mode_24), contentDescription = null)
+                            Icon(painterResource(R.drawable.alarm), contentDescription = null)
                         },
-                        label = { Text(stringResource(R.string.developer_title)) },
+                        label = { Text(stringResource(R.string.reminders_title)) },
                         selected = false,
                         onClick = {
-                            onAction(HomeUiAction.OnDeveloperLinkClick)
+                            onAction(HomeUiAction.OnReminderLinkClick)
                         },
                     )
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.compass_outline), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.qibla)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnQiblaLinkClick)
+                        },
+                    )
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.counter), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.counter)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnCounterLinkClick)
+                        },
+                    )
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.monthly_view_title)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnMonthlyViewClick)
+                        },
+                    )
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.settings), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.settings)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnSettingsLinkClick)
+                        },
+                    )
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.outline_calendar_month_24), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.upcoming_alarms)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnUpcomingAlarmsClick)
+                        },
+                    )
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(painterResource(R.drawable.info_variant_outline), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.about)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnAboutLinkClick)
+                        },
+                    )
+                    if (uiState.isDeveloper) {
+                        NavigationDrawerItem(
+                            icon = {
+                                Icon(painterResource(R.drawable.outline_developer_mode_24), contentDescription = null)
+                            },
+                            label = { Text(stringResource(R.string.developer_title)) },
+                            selected = false,
+                            onClick = {
+                                onAction(HomeUiAction.OnDeveloperLinkClick)
+                            },
+                        )
+                    }
                 }
             }
         },
@@ -284,6 +310,8 @@ fun HomeScreen(
                     }
                 }
             },
+            // Landscape reclaims vertical space by shrinking the title bar; portrait keeps default.
+            topBarExpandedHeight = if (wideLayout) 30.dp else null,
             floatingActionButtonPosition = FabPosition.Center,
             scrollable = false,
             contentPadding = PaddingValues(0.dp),
@@ -298,6 +326,7 @@ fun HomeScreen(
             ) {
                 HomeHeader(
                     uiState,
+                    wideLayout,
                     onAction,
                 )
                 Column(
@@ -337,6 +366,7 @@ fun HomeScreen(
                             skippedPrayers = uiState.skippedPrayers,
                             now = uiState.currentInstant,
                         ),
+                        wideLayout = wideLayout,
                         // Flexible child so it gets the height remaining after the hint
                         // card, wrapping its content; non-classic also grows by the
                         // column's upward offset so its bottom reaches the screen bottom.

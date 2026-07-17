@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -13,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.SubcomposeLayout
@@ -34,9 +36,46 @@ import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlin.time.Clock
 
+/** Landscape splits the list into cards of at most this many rows, laid side by side. */
+private const val MAX_ROWS_PER_BOX = 3
+
 @Composable
 fun ShariaTimesBox(
     state: ShariaTimesBoxUiState,
+    modifier: Modifier = Modifier,
+    wideLayout: Boolean = false,
+) {
+    // In landscape the single tall card wastes horizontal space and forces scrolling, so split the
+    // visible prayers into side-by-side cards of up to MAX_ROWS_PER_BOX rows each (9 -> 3x3, 6 -> 2x3).
+    val chunks = remember(state.hiddenPrayers, wideLayout) {
+        val visible = SHARIA_TIMES_IN_ORDER.filter { it !in state.hiddenPrayers }
+        if (wideLayout && visible.size > MAX_ROWS_PER_BOX) {
+            visible.chunked(MAX_ROWS_PER_BOX)
+        } else {
+            listOf(visible)
+        }
+    }
+
+    if (chunks.size > 1) {
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+        ) {
+            chunks.forEach { chunk ->
+                key(chunk.first().name) {
+                    ShariaTimesCard(state, chunk, Modifier.weight(1f))
+                }
+            }
+        }
+    } else {
+        ShariaTimesCard(state, chunks.first(), modifier)
+    }
+}
+
+@Composable
+private fun ShariaTimesCard(
+    state: ShariaTimesBoxUiState,
+    prayers: List<Prayer>,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -59,7 +98,7 @@ fun ShariaTimesBox(
             }.first().measure(Constraints(maxWidth = constraints.maxWidth))
                 .height
 
-            val rowCount = SHARIA_TIMES_IN_ORDER.count { it !in state.hiddenPrayers }
+            val rowCount = prayers.size
             val needed = rowCount * sampleHeight + (rowCount - 1).coerceAtLeast(0) * spacingPx
             val compact = needed > constraints.maxHeight
 
@@ -76,8 +115,7 @@ fun ShariaTimesBox(
                         Arrangement.Top
                     },
                 ) {
-                    for (prayer in SHARIA_TIMES_IN_ORDER) {
-                        if (prayer in state.hiddenPrayers) continue
+                    for (prayer in prayers) {
                         key(prayer.name) {
                             val instant = state.shariahTimes?.forPrayer(prayer)
                             ShariaTimeRow(

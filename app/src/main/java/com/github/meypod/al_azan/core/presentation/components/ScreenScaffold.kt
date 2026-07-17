@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
@@ -57,6 +59,8 @@ fun ScreenScaffold(
     titleContent: (@Composable () -> Unit)? = null,
     navigationIcon: @Composable () -> Unit = { BackButton(onBackClick) },
     actions: @Composable RowScope.() -> Unit = {},
+    /** Override the top app bar's content height; null keeps the Material default (~64dp). */
+    topBarExpandedHeight: Dp? = null,
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     snackbarHost: @Composable () -> Unit = { AppSnackbarHost(LocalSnackbarController.current.hostState) },
@@ -86,6 +90,7 @@ fun ScreenScaffold(
                     }
                 },
                 actions = actions,
+                expandedHeight = topBarExpandedHeight ?: TopAppBarDefaults.TopAppBarExpandedHeight,
             )
         },
         floatingActionButton = floatingActionButton,
