@@ -10,9 +10,9 @@ import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetLocationPage
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetPrayerCell
-import com.github.meypod.al_azan.core.domain.model.widget.DateCalendar
 import com.github.meypod.al_azan.core.domain.model.widget.HeaderBlock
 import com.github.meypod.al_azan.core.domain.model.widget.WidgetCountdown
+import com.github.meypod.al_azan.core.domain.model.widget.icuCalendar
 import com.github.meypod.al_azan.core.domain.util.maghribHijriDayShift
 import javax.inject.Inject
 import kotlin.time.Instant
@@ -73,22 +73,26 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
 
                 is HeaderBlock.LocationName -> loc.toDisplayString()
 
-                is HeaderBlock.Date -> when (block.calendar) {
-                    DateCalendar.Hijri -> formatter.formatDate(
-                        instant = formatter.adjustDays(instant, adjustments.hijriDate + maghribShift),
-                        locale = arabicCalendarLocale,
-                        calendar = arabicCalendar,
-                        numberingSystem = settings.numberingSystem,
-                        withDayName = block.withDayName,
-                    )
-
-                    DateCalendar.Gregorian -> formatter.formatDate(
-                        instant = instant,
-                        locale = settings.selectedLocale,
-                        calendar = "gregorian",
-                        numberingSystem = settings.numberingSystem,
-                        withDayName = block.withDayName,
-                    )
+                is HeaderBlock.Date -> {
+                    val icu = block.calendar.icuCalendar
+                    if (icu == null) {
+                        // Hijri: the user's lunar variant, its own locale, and the maghrib/adjustment day-shift.
+                        formatter.formatDate(
+                            instant = formatter.adjustDays(instant, adjustments.hijriDate + maghribShift),
+                            locale = arabicCalendarLocale,
+                            calendar = arabicCalendar,
+                            numberingSystem = settings.numberingSystem,
+                            withDayName = block.withDayName,
+                        )
+                    } else {
+                        formatter.formatDate(
+                            instant = instant,
+                            locale = settings.selectedLocale,
+                            calendar = icu,
+                            numberingSystem = settings.numberingSystem,
+                            withDayName = block.withDayName,
+                        )
+                    }
                 }
             }
 

@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Pilih pintasan untuk ditampilkan di bilah alat layar beranda.</string>
     <string name="shortcut_column">Pintasan</string>
     <string name="home_max_shortcuts_warning">Jumlah maksimum pintasan tercapai</string>
-    <string name="hijri_day_starts_at_maghrib">Tanggal Hijriah berganti saat waktu Maghrib</string>
+    <string name="lunar_day_starts_at_maghrib">Tanggal Lunar berganti saat waktu Maghrib</string>
     <string name="use_24_hour_format">Gunakan format 24 Jam</string>
     <string name="numbering_system">Sistem penomoran</string>
     <string name="numbering_system_help">Memaksa semua angka menggunakan sistem yang dipilih.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Sembunyikan tanggal di samping tombol menu di atas.</string>
     <string name="swap_home_calendars">Tukar kalender lunar dan sekunder</string>
     <string name="swap_home_calendars_help">Tampilkan kalender sekunder di header beranda dan tanggal lunar di bilah alat.</string>
+    <string name="calendar_lunar">Lunar</string>
     <string name="calendar_gregorian">Gregorian</string>
     <string name="calendar_persian">Persia</string>
     <string name="calendar_ethiopic">Etiopia</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Slot awal header</string>
     <string name="custom_widget_header_end">Slot akhir header</string>
     <string name="custom_widget_header_help">Baris teratas widget. Pilih apa yang ditampilkan dengan mengetuk atau menyeret entri ke dalam slot.</string>
-    <string name="custom_widget_header_hijri">Tanggal Hijriah</string>
-    <string name="custom_widget_header_hijri_day">Tanggal Hijriah + hari</string>
-    <string name="custom_widget_header_gregorian">Tanggal Gregorian</string>
-    <string name="custom_widget_header_gregorian_day">Tanggal Gregorian + hari</string>
+    <string name="custom_widget_header_date">Tanggal %1$s</string>
+    <string name="custom_widget_header_date_day">Tanggal %1$s + hari dalam seminggu</string>
     <string name="custom_widget_header_location">Nama lokasi</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alfa</string>

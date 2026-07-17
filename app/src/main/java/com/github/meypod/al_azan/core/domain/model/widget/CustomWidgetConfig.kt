@@ -66,7 +66,30 @@ enum class DateCalendar {
 
     @SerialName("gregorian")
     Gregorian,
+
+    @SerialName("persian")
+    Persian,
+
+    @SerialName("ethiopic")
+    Ethiopic,
+
+    @SerialName("buddhist")
+    Buddhist,
 }
+
+/**
+ * ICU calendar id for this block, or null for [DateCalendar.Hijri]. The solar calendars persist their
+ * ICU keyword as their [SerialName] (`gregorian`/`persian`/…), so that single token is reused here
+ * rather than duplicated. Hijri is the exception: its `hijri` serial name is a sentinel — the real ICU
+ * calendar is the user's chosen lunar variant (`Settings.selectedArabicCalendar`), resolved at render
+ * time together with the Hijri-only day offset and locale — so it returns null.
+ */
+val DateCalendar.icuCalendar: String?
+    get() = if (this == DateCalendar.Hijri) {
+        null
+    } else {
+        DateCalendar.serializer().descriptor.getElementName(ordinal)
+    }
 
 /**
  * Set the grid to [count] (1 or 2) rows without reshuffling existing rows: growing adds empty rows

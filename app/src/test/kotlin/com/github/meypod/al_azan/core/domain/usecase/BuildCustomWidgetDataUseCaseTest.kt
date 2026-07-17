@@ -184,6 +184,15 @@ class BuildCustomWidgetDataUseCaseTest {
         assertEquals("date:islamic", result.topStartText)
         assertEquals("day:gregorian", result.topEndText)
 
+        // Solar calendars beyond Gregorian format their fixed ICU id off the plain instant.
+        val solarConfig = CustomWidgetConfig(
+            topStart = HeaderBlock.Date(calendar = DateCalendar.Persian, withDayName = false),
+            topEnd = HeaderBlock.Date(calendar = DateCalendar.Buddhist, withDayName = true),
+        )
+        val solarResult = useCase().invoke(at(9.0), settings(), calc(), location, solarConfig)!!
+        assertEquals("date:persian", solarResult.topStartText)
+        assertEquals("day:buddhist", solarResult.topEndText)
+
         val locConfig = CustomWidgetConfig(topStart = HeaderBlock.LocationName, topEnd = null)
         val locResult = useCase().invoke(at(9.0), settings(), calc(), location, locConfig)!!
         assertEquals("Testville", locResult.topStartText)

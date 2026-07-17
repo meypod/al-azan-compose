@@ -371,8 +371,8 @@ private fun ColumnScope.OptionCards(
                     },
                 horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
             ) {
-                items(availableHeaderBlocks, key = { headerLabelRes(it) }) { block ->
-                    val label = stringResource(headerLabelRes(block))
+                items(availableHeaderBlocks, key = { headerBlockKey(it) }) { block ->
+                    val label = headerLabel(block)
                     Box(Modifier.animateItem()) {
                         DraggableChip(
                             dnd = dnd,
@@ -855,7 +855,7 @@ private fun HeaderSlotBox(
     modifier: Modifier = Modifier,
 ) {
     val clearLabel = stringResource(R.string.custom_widget_remove)
-    val label = block?.let { stringResource(headerLabelRes(it)) }
+    val label = block?.let { headerLabel(it) }
     Box(
         modifier
             .heightIn(min = 56.dp)
@@ -1000,24 +1000,46 @@ private sealed interface CwDrag {
 
 private const val PLACEHOLDER_TIME = "--:--"
 
-private val HEADER_BLOCK_OPTIONS: List<HeaderBlock> = listOf(
-    HeaderBlock.LocationName,
-    HeaderBlock.Date(DateCalendar.Hijri, withDayName = false),
-    HeaderBlock.Date(DateCalendar.Hijri, withDayName = true),
-    HeaderBlock.Date(DateCalendar.Gregorian, withDayName = false),
-    HeaderBlock.Date(DateCalendar.Gregorian, withDayName = true),
-)
+private val HEADER_BLOCK_OPTIONS: List<HeaderBlock> = buildList {
+    add(HeaderBlock.LocationName)
+    // Every calendar the app supports, each offered plain and with the weekday prefixed.
+    for (calendar in DateCalendar.entries) {
+        add(HeaderBlock.Date(calendar, withDayName = false))
+        add(HeaderBlock.Date(calendar, withDayName = true))
+    }
+}
 
-@StringRes
-private fun headerLabelRes(block: HeaderBlock): Int =
+/** Stable, non-composable identity for a palette block (used as the LazyRow item key). */
+private fun headerBlockKey(block: HeaderBlock): String =
     when (block) {
-        is HeaderBlock.LocationName -> R.string.custom_widget_header_location
+        is HeaderBlock.LocationName -> "location"
+        is HeaderBlock.Date -> "date:${block.calendar.name}:${block.withDayName}"
+    }
 
-        is HeaderBlock.Date -> when {
-            block.calendar == DateCalendar.Hijri && !block.withDayName -> R.string.custom_widget_header_hijri
-            block.calendar == DateCalendar.Hijri -> R.string.custom_widget_header_hijri_day
-            !block.withDayName -> R.string.custom_widget_header_gregorian
-            else -> R.string.custom_widget_header_gregorian_day
+/** App-wide display name for each calendar the header can show; reuses the shared calendar name keys. */
+@StringRes
+private fun calendarNameRes(calendar: DateCalendar): Int =
+    when (calendar) {
+        DateCalendar.Hijri -> R.string.calendar_lunar
+        DateCalendar.Gregorian -> R.string.calendar_gregorian
+        DateCalendar.Persian -> R.string.calendar_persian
+        DateCalendar.Ethiopic -> R.string.calendar_ethiopic
+        DateCalendar.Buddhist -> R.string.calendar_buddhist
+    }
+
+@Composable
+private fun headerLabel(block: HeaderBlock): String =
+    when (block) {
+        is HeaderBlock.LocationName -> stringResource(R.string.custom_widget_header_location)
+
+        // "<calendar> date [+ weekday]" — reuses each calendar's already-translated name.
+        is HeaderBlock.Date -> {
+            val name = stringResource(calendarNameRes(block.calendar))
+            if (block.withDayName) {
+                stringResource(R.string.custom_widget_header_date_day, name)
+            } else {
+                stringResource(R.string.custom_widget_header_date, name)
+            }
         }
     }
 

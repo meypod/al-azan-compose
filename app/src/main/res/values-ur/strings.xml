@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">ہوم اسکرین ٹول بار میں دکھانے کے لیے شارٹ کٹ منتخب کریں۔</string>
     <string name="shortcut_column">شارٹ کٹ</string>
     <string name="home_max_shortcuts_warning">شارٹ کٹس کی زیادہ سے زیادہ تعداد پوری ہو گئی</string>
-    <string name="hijri_day_starts_at_maghrib">مغرب کے وقت ہجری تاریخ آگے بڑھتی ہے</string>
+    <string name="lunar_day_starts_at_maghrib">مغرب کے وقت قمری تاریخ آگے بڑھتی ہے</string>
     <string name="use_24_hour_format">24 گھنٹے کا فارمیٹ استعمال کریں۔</string>
     <string name="numbering_system">نمبر سازی کا نظام</string>
     <string name="numbering_system_help">تمام نمبروں کو منتخب نظام میں ہونے پر مجبور کرتا ہے۔</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">اوپر مینو بٹن کے پاس والی تاریخ چھپائیں۔</string>
     <string name="swap_home_calendars">قمری اور ثانوی کیلنڈر کی جگہ بدلیں</string>
     <string name="swap_home_calendars_help">ہوم ہیڈر میں ثانوی کیلنڈر اور ٹول بار میں قمری تاریخ دکھائیں۔</string>
+    <string name="calendar_lunar">قمری</string>
     <string name="calendar_gregorian">گریگورین</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">ایتھوپیک</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">ہیڈر کا ابتدائی خانہ</string>
     <string name="custom_widget_header_end">ہیڈر کا آخری خانہ</string>
     <string name="custom_widget_header_help">ویجٹ کی سب سے اوپر کی قطار۔ آئٹمز پر ٹیپ کر کے یا انہیں خانوں میں کھینچ کر منتخب کریں کہ کیا دکھایا جائے۔</string>
-    <string name="custom_widget_header_hijri">ہجری تاریخ</string>
-    <string name="custom_widget_header_hijri_day">ہجری تاریخ + ہفتے کا دن</string>
-    <string name="custom_widget_header_gregorian">گریگورین تاریخ</string>
-    <string name="custom_widget_header_gregorian_day">گریگورین تاریخ + ہفتے کا دن</string>
+    <string name="custom_widget_header_date">%1$s تاریخ</string>
+    <string name="custom_widget_header_date_day">%1$s تاریخ + ہفتے کا دن</string>
     <string name="custom_widget_header_location">مقام کا نام</string>
     <string name="color_picker_hex">ہیکس (#AARRGGBB)</string>
     <string name="color_picker_alpha">الفا</string>

@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">میان‌برهایی را برای نمایش در نوار ابزار صفحه اصلی انتخاب کنید.</string>
     <string name="shortcut_column">میان‌بر</string>
     <string name="home_max_shortcuts_warning">به حداکثر تعداد میان‌بر رسیدید</string>
-    <string name="hijri_day_starts_at_maghrib">تاریخ هجری هنگام مغرب جلو می‌رود</string>
+    <string name="lunar_day_starts_at_maghrib">تاریخ قمری هنگام مغرب جلو می‌رود</string>
     <string name="use_24_hour_format">استفاده از قالب 24 ساعته</string>
     <string name="numbering_system">سیستم شماره‌گذاری</string>
     <string name="numbering_system_help">همهٔ اعداد را به سیستم انتخاب‌شده تبدیل می‌کند.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">تاریخ کنار دکمه منو در بالا را پنهان کنید.</string>
     <string name="swap_home_calendars">جابجایی تقویم قمری و ثانویه</string>
     <string name="swap_home_calendars_help">نمایش تقویم ثانویه در سربرگ صفحه اصلی و تاریخ قمری در نوار ابزار.</string>
+    <string name="calendar_lunar">قمری</string>
     <string name="calendar_gregorian">میلادی</string>
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">اتیوپیایی</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">جایگاه ابتدای سربرگ</string>
     <string name="custom_widget_header_end">جایگاه انتهای سربرگ</string>
     <string name="custom_widget_header_help">ردیف بالای ابزارک. با ضربه زدن روی موارد یا کشیدن آن‌ها به جایگاه‌ها انتخاب کنید چه چیزی نمایش داده شود.</string>
-    <string name="custom_widget_header_hijri">تاریخ هجری</string>
-    <string name="custom_widget_header_hijri_day">تاریخ هجری + روز هفته</string>
-    <string name="custom_widget_header_gregorian">تاریخ میلادی</string>
-    <string name="custom_widget_header_gregorian_day">تاریخ میلادی + روز هفته</string>
+    <string name="custom_widget_header_date">تاریخ %1$s</string>
+    <string name="custom_widget_header_date_day">تاریخ %1$s + روز هفته</string>
     <string name="custom_widget_header_location">نام موقعیت</string>
     <string name="color_picker_hex">هگز (#AARRGGBB)</string>
     <string name="color_picker_alpha">شفافیت</string>

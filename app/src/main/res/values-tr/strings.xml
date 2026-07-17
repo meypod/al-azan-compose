@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Ana ekran araç çubuğunda gösterilecek kısayolları seçin.</string>
     <string name="shortcut_column">Kısayol</string>
     <string name="home_max_shortcuts_warning">En fazla kısayol sayısına ulaşıldı</string>
-    <string name="hijri_day_starts_at_maghrib">Hicri tarih Akşam vaktinde ilerler</string>
+    <string name="lunar_day_starts_at_maghrib">Ay tarihi Akşam vaktinde ilerler</string>
     <string name="use_24_hour_format">24 Saat biçimini kullan</string>
     <string name="numbering_system">Sayı sistemi</string>
     <string name="numbering_system_help">Tüm sayıları seçilen sistemde olmaya zorlar.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Üstte menü düğmesinin yanındaki tarihi gizle.</string>
     <string name="swap_home_calendars">Ay ve ikincil takvimlerin yerini değiştir</string>
     <string name="swap_home_calendars_help">İkincil takvimi ana ekran başlığında, ay tarihini araç çubuğunda göster.</string>
+    <string name="calendar_lunar">Ay</string>
     <string name="calendar_gregorian">Gregoryen</string>
     <string name="calendar_persian">Farsça</string>
     <string name="calendar_ethiopic">Etiyopya</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Başlık başlangıç yuvası</string>
     <string name="custom_widget_header_end">Başlık bitiş yuvası</string>
     <string name="custom_widget_header_help">Widget\'ın en üst satırı. Öğelere dokunarak ya da onları yuvalara sürükleyerek ne gösterileceğini seçin.</string>
-    <string name="custom_widget_header_hijri">Hicri tarih</string>
-    <string name="custom_widget_header_hijri_day">Hicri tarih + hafta günü</string>
-    <string name="custom_widget_header_gregorian">Gregoryen tarih</string>
-    <string name="custom_widget_header_gregorian_day">Gregoryen tarih + hafta günü</string>
+    <string name="custom_widget_header_date">%1$s tarihi</string>
+    <string name="custom_widget_header_date_day">%1$s tarihi + hafta günü</string>
     <string name="custom_widget_header_location">Konum adı</string>
     <string name="color_picker_hex">Onaltılık (#AARRGGBB)</string>
     <string name="color_picker_alpha">Opaklık</string>

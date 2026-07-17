@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Odaberite prečice za prikaz u alatnoj traci početnog ekrana.</string>
     <string name="shortcut_column">Prečica</string>
     <string name="home_max_shortcuts_warning">Dostignut je maksimalan broj prečica</string>
-    <string name="hijri_day_starts_at_maghrib">Hidžretski datum napreduje u vrijeme akšama</string>
+    <string name="lunar_day_starts_at_maghrib">Lunarni datum napreduje u vrijeme akšama</string>
     <string name="use_24_hour_format">Koristite 24-satni format</string>
     <string name="numbering_system">Sistem Numerisanja</string>
     <string name="numbering_system_help">Prisiljava sve brojeve da budu u odabranom sistemu.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Sakrij datum pored dugmeta menija na vrhu.</string>
     <string name="swap_home_calendars">Zamijeni lunarni i sekundarni kalendar</string>
     <string name="swap_home_calendars_help">Prikaži sekundarni kalendar u zaglavlju početne stranice, a lunarni datum u alatnoj traci.</string>
+    <string name="calendar_lunar">Lunarni</string>
     <string name="calendar_gregorian">Gregorijanski</string>
     <string name="calendar_persian">Perzijski</string>
     <string name="calendar_ethiopic">Etiopski</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Početna pozicija zaglavlja</string>
     <string name="custom_widget_header_end">Krajnja pozicija zaglavlja</string>
     <string name="custom_widget_header_help">Gornji red vidžeta. Odaberite šta se prikazuje dodirivanjem stavki ili njihovim prevlačenjem u pozicije.</string>
-    <string name="custom_widget_header_hijri">Hidžretski datum</string>
-    <string name="custom_widget_header_hijri_day">Hidžretski datum + dan u sedmici</string>
-    <string name="custom_widget_header_gregorian">Gregorijanski datum</string>
-    <string name="custom_widget_header_gregorian_day">Gregorijanski datum + dan u sedmici</string>
+    <string name="custom_widget_header_date">%1$s datum</string>
+    <string name="custom_widget_header_date_day">%1$s datum + dan u sedmici</string>
     <string name="custom_widget_header_location">Naziv lokacije</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alfa</string>

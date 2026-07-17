@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">হোম স্ক্রিনের টুলবারে দেখানোর জন্য শর্টকাট নির্বাচন করুন।</string>
     <string name="shortcut_column">শর্টকাট</string>
     <string name="home_max_shortcuts_warning">শর্টকাটের সর্বোচ্চ সংখ্যায় পৌঁছেছে</string>
-    <string name="hijri_day_starts_at_maghrib">মাগরিবের সময় হিজরি তারিখ এগিয়ে যায়</string>
+    <string name="lunar_day_starts_at_maghrib">মাগরিবের সময় চন্দ্র তারিখ এগিয়ে যায়</string>
     <string name="use_24_hour_format">২৪-ঘন্টা বিন্যাস ব্যবহার করুন</string>
     <string name="numbering_system">সংখ্যা পদ্ধতি</string>
     <string name="numbering_system_help">সমস্ত সংখ্যাকে নির্বাচিত সিস্টেমে থাকতে বাধ্য করে।</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">উপরে মেনু বোতামের পাশের তারিখ লুকান।</string>
     <string name="swap_home_calendars">চান্দ্র ও দ্বিতীয় ক্যালেন্ডার অদলবদল করুন</string>
     <string name="swap_home_calendars_help">হোম হেডারে দ্বিতীয় ক্যালেন্ডার এবং টুলবারে চান্দ্র তারিখ দেখান।</string>
+    <string name="calendar_lunar">চন্দ্র</string>
     <string name="calendar_gregorian">গ্রেগরিয়ান</string>
     <string name="calendar_persian">ফার্সি</string>
     <string name="calendar_ethiopic">ইথিওপিক</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">হেডার শুরুর স্লট</string>
     <string name="custom_widget_header_end">হেডার শেষের স্লট</string>
     <string name="custom_widget_header_help">উইজেটের উপরের সারি। কী দেখানো হবে তা আইটেমে চাপ দিয়ে বা স্লটে টেনে এনে বেছে নিন।</string>
-    <string name="custom_widget_header_hijri">হিজরি তারিখ</string>
-    <string name="custom_widget_header_hijri_day">হিজরি তারিখ + বার</string>
-    <string name="custom_widget_header_gregorian">গ্রেগরিয়ান তারিখ</string>
-    <string name="custom_widget_header_gregorian_day">গ্রেগরিয়ান তারিখ + বার</string>
+    <string name="custom_widget_header_date">%1$s তারিখ</string>
+    <string name="custom_widget_header_date_day">%1$s তারিখ + সপ্তাহের দিন</string>
     <string name="custom_widget_header_location">অবস্থানের নাম</string>
     <string name="color_picker_hex">হেক্স (#AARRGGBB)</string>
     <string name="color_picker_alpha">অ্যালফা</string>

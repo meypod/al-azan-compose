@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Chọn các lối tắt để hiển thị trên thanh công cụ màn hình chính.</string>
     <string name="shortcut_column">Lối tắt</string>
     <string name="home_max_shortcuts_warning">Đã đạt số lối tắt tối đa</string>
-    <string name="hijri_day_starts_at_maghrib">Ngày Hijri chuyển sang ngày mới vào giờ Maghrib</string>
+    <string name="lunar_day_starts_at_maghrib">Ngày Âm lịch chuyển sang ngày mới vào giờ Maghrib</string>
     <string name="use_24_hour_format">Dùng định dạng 24 giờ</string>
     <string name="numbering_system">Hệ chữ số</string>
     <string name="numbering_system_help">Buộc tất cả các số phải nằm trong hệ thống đã chọn.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Ẩn ngày bên cạnh nút menu ở trên cùng.</string>
     <string name="swap_home_calendars">Hoán đổi lịch âm và lịch phụ</string>
     <string name="swap_home_calendars_help">Hiển thị lịch phụ ở đầu trang chủ và ngày âm lịch trên thanh công cụ.</string>
+    <string name="calendar_lunar">Âm lịch</string>
     <string name="calendar_gregorian">Dương lịch</string>
     <string name="calendar_persian">Ba Tư</string>
     <string name="calendar_ethiopic">Lịch Ê-ti-ô-pi-a</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Ô đầu tiêu đề</string>
     <string name="custom_widget_header_end">Ô cuối tiêu đề</string>
     <string name="custom_widget_header_help">Hàng trên cùng của tiện ích. Chọn nội dung hiển thị bằng cách nhấn hoặc kéo các mục vào các ô.</string>
-    <string name="custom_widget_header_hijri">Ngày Hijri</string>
-    <string name="custom_widget_header_hijri_day">Ngày Hijri + thứ trong tuần</string>
-    <string name="custom_widget_header_gregorian">Ngày dương lịch</string>
-    <string name="custom_widget_header_gregorian_day">Ngày dương lịch + thứ trong tuần</string>
+    <string name="custom_widget_header_date">Ngày %1$s</string>
+    <string name="custom_widget_header_date_day">Ngày %1$s + thứ trong tuần</string>
     <string name="custom_widget_header_location">Tên vị trí</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>

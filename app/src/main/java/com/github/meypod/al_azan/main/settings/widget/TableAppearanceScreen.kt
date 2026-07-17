@@ -72,7 +72,7 @@ fun TableAppearanceScreen(
                     onCheckedChange = { onAction(WidgetSettingsUiAction.OnHighlightCurrentPrayerToggle(it)) },
                 )
                 SettingSwitch(
-                    title = stringResource(R.string.hijri_day_starts_at_maghrib),
+                    title = stringResource(R.string.lunar_day_starts_at_maghrib),
                     subtitle = null,
                     checked = uiState.settings.widgetHijriDayStartsAtMaghrib,
                     onCheckedChange = { onAction(WidgetSettingsUiAction.OnHijriDayStartsAtMaghribToggle(it)) },

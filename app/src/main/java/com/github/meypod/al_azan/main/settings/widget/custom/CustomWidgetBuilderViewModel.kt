@@ -12,8 +12,8 @@ import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetPrayerCell
-import com.github.meypod.al_azan.core.domain.model.widget.DateCalendar
 import com.github.meypod.al_azan.core.domain.model.widget.HeaderBlock
+import com.github.meypod.al_azan.core.domain.model.widget.icuCalendar
 import com.github.meypod.al_azan.core.domain.model.widget.withRowCount
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
@@ -222,22 +222,25 @@ class CustomWidgetBuilderViewModel @Inject constructor(
 
             is HeaderBlock.LocationName -> location?.toDisplayString() ?: PLACEHOLDER_LOCATION
 
-            is HeaderBlock.Date -> when (block.calendar) {
-                DateCalendar.Hijri -> formatter.formatDate(
-                    instant = now,
-                    locale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale,
-                    calendar = settings.selectedArabicCalendar,
-                    numberingSystem = settings.numberingSystem,
-                    withDayName = block.withDayName,
-                )
-
-                DateCalendar.Gregorian -> formatter.formatDate(
-                    instant = now,
-                    locale = settings.selectedLocale,
-                    calendar = "gregorian",
-                    numberingSystem = settings.numberingSystem,
-                    withDayName = block.withDayName,
-                )
+            is HeaderBlock.Date -> {
+                val icu = block.calendar.icuCalendar
+                if (icu == null) {
+                    formatter.formatDate(
+                        instant = now,
+                        locale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale,
+                        calendar = settings.selectedArabicCalendar,
+                        numberingSystem = settings.numberingSystem,
+                        withDayName = block.withDayName,
+                    )
+                } else {
+                    formatter.formatDate(
+                        instant = now,
+                        locale = settings.selectedLocale,
+                        calendar = icu,
+                        numberingSystem = settings.numberingSystem,
+                        withDayName = block.withDayName,
+                    )
+                }
             }
         }
 

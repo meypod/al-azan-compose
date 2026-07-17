@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Choisissez les raccourcis à afficher dans la barre d\'outils de l\'écran d\'accueil.</string>
     <string name="shortcut_column">Raccourci</string>
     <string name="home_max_shortcuts_warning">Nombre maximal de raccourcis atteint</string>
-    <string name="hijri_day_starts_at_maghrib">La date hégirienne avance à l\'heure du Maghrib</string>
+    <string name="lunar_day_starts_at_maghrib">La date lunaire avance à l\'heure du Maghrib</string>
     <string name="use_24_hour_format">Utiliser le format 24 heures</string>
     <string name="numbering_system">Système de numérotation</string>
     <string name="numbering_system_help">Force tous les chiffres à utiliser le système sélectionné.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Masquer la date à côté du bouton de menu en haut.</string>
     <string name="swap_home_calendars">Permuter les calendriers lunaire et secondaire</string>
     <string name="swap_home_calendars_help">Afficher le calendrier secondaire dans l\'en-tête d\'accueil et la date lunaire dans la barre d\'outils.</string>
+    <string name="calendar_lunar">Lunaire</string>
     <string name="calendar_gregorian">Grégorien</string>
     <string name="calendar_persian">Perse</string>
     <string name="calendar_ethiopic">Éthiopique</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Emplacement de début d\'en-tête</string>
     <string name="custom_widget_header_end">Emplacement de fin d\'en-tête</string>
     <string name="custom_widget_header_help">La rangée supérieure du widget. Choisissez ce qui s\'affiche en appuyant sur les entrées ou en les faisant glisser dans les emplacements.</string>
-    <string name="custom_widget_header_hijri">Date hégirienne</string>
-    <string name="custom_widget_header_hijri_day">Date hégirienne + jour de la semaine</string>
-    <string name="custom_widget_header_gregorian">Date grégorienne</string>
-    <string name="custom_widget_header_gregorian_day">Date grégorienne + jour de la semaine</string>
+    <string name="custom_widget_header_date">Date (%1$s)</string>
+    <string name="custom_widget_header_date_day">Date (%1$s) + jour de la semaine</string>
     <string name="custom_widget_header_location">Nom du lieu</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>

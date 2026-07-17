@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Wähle die Verknüpfungen für die Symbolleiste des Startbildschirms aus.</string>
     <string name="shortcut_column">Verknüpfung</string>
     <string name="home_max_shortcuts_warning">Maximale Anzahl an Verknüpfungen erreicht</string>
-    <string name="hijri_day_starts_at_maghrib">Hidschri-Datum wechselt zur Maghrib-Zeit</string>
+    <string name="lunar_day_starts_at_maghrib">Mond-Datum wechselt zur Maghrib-Zeit</string>
     <string name="use_24_hour_format">Das 24-Stunden-Format verwenden</string>
     <string name="numbering_system">Nummerierungssystem</string>
     <string name="numbering_system_help">Erzwingt, dass alle Zahlen im ausgewählten System dargestellt werden.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Das Datum neben der Menüschaltfläche oben ausblenden.</string>
     <string name="swap_home_calendars">Mond- und Sekundärkalender tauschen</string>
     <string name="swap_home_calendars_help">Den sekundären Kalender im Startseiten-Kopf und das Monddatum in der Symbolleiste anzeigen.</string>
+    <string name="calendar_lunar">Mond</string>
     <string name="calendar_gregorian">Gregorianisch</string>
     <string name="calendar_persian">Persisch</string>
     <string name="calendar_ethiopic">Äthiopisch</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Kopfzeilen-Startslot</string>
     <string name="custom_widget_header_end">Kopfzeilen-Endslot</string>
     <string name="custom_widget_header_help">Die oberste Zeile des Widgets. Wähle, was angezeigt wird, indem du Einträge antippst oder in die Slots ziehst.</string>
-    <string name="custom_widget_header_hijri">Hidschri-Datum</string>
-    <string name="custom_widget_header_hijri_day">Hidschri-Datum + Wochentag</string>
-    <string name="custom_widget_header_gregorian">Gregorianisches Datum</string>
-    <string name="custom_widget_header_gregorian_day">Gregorianisches Datum + Wochentag</string>
+    <string name="custom_widget_header_date">Datum (%1$s)</string>
+    <string name="custom_widget_header_date_day">Datum (%1$s) + Wochentag</string>
     <string name="custom_widget_header_location">Standortname</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>

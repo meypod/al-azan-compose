@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">Chagua njia za mkato za kuonyesha kwenye upau wa vidhibiti wa skrini ya nyumbani.</string>
     <string name="shortcut_column">Njia ya mkato</string>
     <string name="home_max_shortcuts_warning">Idadi ya juu ya njia za mkato imefikiwa</string>
-    <string name="hijri_day_starts_at_maghrib">Tarehe ya Hijria husonga mbele wakati wa Magharibi</string>
+    <string name="lunar_day_starts_at_maghrib">Tarehe ya Mwezi husonga mbele wakati wa Magharibi</string>
     <string name="use_24_hour_format">Tumia umbizo la Saa 24</string>
     <string name="numbering_system">Mfumo wa Unambarishaji</string>
     <string name="numbering_system_help">Hulazimisha nambari zote kuwa katika mfumo uliochaguliwa.</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">Ficha tarehe iliyo karibu na kitufe cha menyu juu.</string>
     <string name="swap_home_calendars">Badilishana kalenda ya mwezi na ya pili</string>
     <string name="swap_home_calendars_help">Onyesha kalenda ya pili kwenye kichwa cha nyumbani na tarehe ya mwezi kwenye upau wa vidhibiti.</string>
+    <string name="calendar_lunar">Mwezi</string>
     <string name="calendar_gregorian">Kigregori</string>
     <string name="calendar_persian">Kiajemi</string>
     <string name="calendar_ethiopic">Kiethiopia</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">Nafasi ya mwanzo ya kichwa</string>
     <string name="custom_widget_header_end">Nafasi ya mwisho ya kichwa</string>
     <string name="custom_widget_header_help">Safu ya juu ya wijeti. Chagua kinachoonyeshwa kwa kugusa vipengele au kuviburuta hadi kwenye nafasi.</string>
-    <string name="custom_widget_header_hijri">Tarehe ya Hijria</string>
-    <string name="custom_widget_header_hijri_day">Tarehe ya Hijria + siku ya juma</string>
-    <string name="custom_widget_header_gregorian">Tarehe ya Kigregori</string>
-    <string name="custom_widget_header_gregorian_day">Tarehe ya Kigregori + siku ya juma</string>
+    <string name="custom_widget_header_date">Tarehe ya %1$s</string>
+    <string name="custom_widget_header_date_day">Tarehe ya %1$s + siku ya juma</string>
     <string name="custom_widget_header_location">Jina la eneo</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alfa</string>

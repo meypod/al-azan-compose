@@ -238,7 +238,7 @@
     <string name="home_shortcuts_help">होम स्क्रीन टूलबार में दिखाने के लिए शॉर्टकट चुनें।</string>
     <string name="shortcut_column">शॉर्टकट</string>
     <string name="home_max_shortcuts_warning">शॉर्टकट की अधिकतम संख्या पूरी हो गई</string>
-    <string name="hijri_day_starts_at_maghrib">मग़रिब के समय हिजरी तारीख़ आगे बढ़ती है</string>
+    <string name="lunar_day_starts_at_maghrib">मग़रिब के समय चंद्र तारीख़ आगे बढ़ती है</string>
     <string name="use_24_hour_format">24 घंटे के प्रारूप का प्रयोग करें</string>
     <string name="numbering_system">नंबरिंग सिस्टम</string>
     <string name="numbering_system_help">सभी नंबरों को चयनित सिस्टम में होने के लिए बाध्य करता है।</string>
@@ -253,6 +253,7 @@
     <string name="hide_toolbar_calendar_help">ऊपर मेन्यू बटन के पास दिखने वाली तारीख छिपाएं।</string>
     <string name="swap_home_calendars">चंद्र और द्वितीयक कैलेंडर की अदला-बदली करें</string>
     <string name="swap_home_calendars_help">होम हेडर में द्वितीयक कैलेंडर और टूलबार में चंद्र तिथि दिखाएं।</string>
+    <string name="calendar_lunar">चंद्र</string>
     <string name="calendar_gregorian">ग्रेगोरियन</string>
     <string name="calendar_persian">फ़ारसी</string>
     <string name="calendar_ethiopic">इथियोपिक</string>
@@ -453,10 +454,8 @@
     <string name="custom_widget_header_start">हेडर का आरंभिक स्लॉट</string>
     <string name="custom_widget_header_end">हेडर का अंतिम स्लॉट</string>
     <string name="custom_widget_header_help">विजेट की सबसे ऊपर की पंक्ति। आइटम पर टैप करके या उन्हें स्लॉट में खींचकर चुनें कि क्या दिखाया जाए।</string>
-    <string name="custom_widget_header_hijri">हिजरी तारीख़</string>
-    <string name="custom_widget_header_hijri_day">हिजरी तारीख़ + वार</string>
-    <string name="custom_widget_header_gregorian">ग्रेगोरियन तारीख़</string>
-    <string name="custom_widget_header_gregorian_day">ग्रेगोरियन तारीख़ + वार</string>
+    <string name="custom_widget_header_date">%1$s तारीख़</string>
+    <string name="custom_widget_header_date_day">%1$s तारीख़ + सप्ताह का दिन</string>
     <string name="custom_widget_header_location">स्थान का नाम</string>
     <string name="color_picker_hex">हेक्स (#AARRGGBB)</string>
     <string name="color_picker_alpha">अल्फ़ा</string>
