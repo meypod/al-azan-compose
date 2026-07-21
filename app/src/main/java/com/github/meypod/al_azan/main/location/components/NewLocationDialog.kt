@@ -54,6 +54,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.geo.CityGeoInfo
 import com.github.meypod.al_azan.core.domain.model.geo.CountryGeoInfo
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
@@ -322,7 +323,8 @@ private fun NewLocationDialogContent(
                         value = uiState.latitude,
                         onValueChange = {
                             uiState = uiState.copy(
-                                latitude = it.filterToDigitsAndDot(allowLeadingMinus = true),
+                                latitude = it.filterToDigitsAndDot(allowLeadingMinus = true)
+                                    .coerceToCoordinateRange(CalculationLocationDetail.LATITUDE_RANGE),
                                 selectedCity = null,
                                 selectedCountry = null,
                             )
@@ -349,7 +351,8 @@ private fun NewLocationDialogContent(
                         onValueChange = {
                             uiState =
                                 uiState.copy(
-                                    longitude = it.filterToDigitsAndDot(allowLeadingMinus = true),
+                                    longitude = it.filterToDigitsAndDot(allowLeadingMinus = true)
+                                        .coerceToCoordinateRange(CalculationLocationDetail.LONGITUDE_RANGE),
                                     selectedCity = null,
                                     selectedCountry = null,
                                 )
@@ -397,8 +400,10 @@ private fun NewLocationDialogContent(
                                 if (coords != null) {
                                     uiState =
                                         uiState.copy(
-                                            latitude = coords.first.toString(),
-                                            longitude = coords.second.toString(),
+                                            latitude = coords.first.toString()
+                                                .coerceToCoordinateRange(CalculationLocationDetail.LATITUDE_RANGE),
+                                            longitude = coords.second.toString()
+                                                .coerceToCoordinateRange(CalculationLocationDetail.LONGITUDE_RANGE),
                                             selectedCity = null,
                                         )
                                 } else {
@@ -542,6 +547,19 @@ private fun FieldLabel(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = textAlign,
     )
+}
+
+/**
+ * Clamp a coordinate text field to [range] as the user types or pastes, so an out-of-range value
+ * (e.g. a swapped lat/long, or a huge pasted number) can never be entered — mirroring the same
+ * clamp the domain applies before building adhan Coordinates. Partial input that isn't yet a
+ * finite number ("", "-", "12.") is left untouched so typing isn't disrupted; a complete
+ * out-of-range value snaps to the nearest bound.
+ */
+private fun String.coerceToCoordinateRange(range: ClosedFloatingPointRange<Double>): String {
+    val value = trim().toEnglishDigits().toDoubleOrNull()?.takeIf { it.isFinite() } ?: return this
+    val clamped = value.coerceIn(range)
+    return if (clamped == value) this else clamped.toString().removeSuffix(".0")
 }
 
 private fun CityGeoInfo.isSameCity(other: CityGeoInfo): Boolean =

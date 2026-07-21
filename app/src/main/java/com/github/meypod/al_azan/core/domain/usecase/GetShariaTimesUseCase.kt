@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.calculation.toCoordinates
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import com.github.meypod.al_azan.core.domain.util.isInRamadan
@@ -16,8 +17,6 @@ import jakarta.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.Instant
 import kotlin.time.toDuration
-
-private fun CalculationLocationDetail.toCoordinates() = Coordinates(latitude = this.lat, longitude = this.long)
 
 class GetShariaTimesUseCase @Inject constructor() {
     operator fun invoke(

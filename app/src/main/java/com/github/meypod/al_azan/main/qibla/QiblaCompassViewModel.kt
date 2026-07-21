@@ -3,12 +3,12 @@ package com.github.meypod.al_azan.main.qibla
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.calculation.toCoordinates
 import com.github.meypod.al_azan.core.domain.model.compass.CompassReading
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CompassRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.meypod.adhan_kotlin.Coordinates
 import io.github.meypod.adhan_kotlin.Qibla
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,7 +52,7 @@ class QiblaCompassViewModel @Inject constructor(
         combine(activeLocation, orientationLocked) { (location, isFetched), locked ->
             QiblaCompassUiState(
                 qiblaDegrees = location?.let {
-                    Qibla(Coordinates(it.lat, it.long)).direction.toFloat()
+                    Qibla(it.toCoordinates()).direction.toFloat()
                 },
                 locationLabel = when {
                     location == null -> QiblaLocationLabel.None
