@@ -49,8 +49,14 @@ fun Modifier.fadeScrollEdges(
 ): Modifier {
     val clampedMinAlpha = minEdgeAlpha.coerceIn(0f, 1f)
     val clampedEdgeExponent = edgeGradientExponent.coerceAtLeast(0.01f)
+    val brushCache = EdgeMaskBrushCache()
     return graphicsLayer {
-        compositingStrategy = CompositingStrategy.Offscreen
+        // Offscreen compositing is only needed while content can scroll (i.e. an edge
+        // fade may be drawn). Forcing it unconditionally makes every non-scrolling screen
+        // pay for a full-size offscreen buffer on each invalidated frame, which pegs the
+        // draw pass on budget GPUs. Fall back to Auto when there is nothing to fade.
+        compositingStrategy =
+            if (state.maxValue > 0) CompositingStrategy.Offscreen else CompositingStrategy.Auto
     }.drawWithContent {
         drawContent()
 
@@ -64,7 +70,7 @@ fun Modifier.fadeScrollEdges(
         val startAlphaAtEdge = edgeAlphaAtEdge(progress = startProgress, minEdgeAlpha = clampedMinAlpha)
         val endAlphaAtEdge = edgeAlphaAtEdge(progress = endProgress, minEdgeAlpha = clampedMinAlpha)
 
-        val brush = buildEdgeMaskBrush(
+        val brush = brushCache.brush(
             orientation = orientation,
             mainAxisSize = mainAxisSize,
             edgePx = edgePx,
@@ -86,8 +92,16 @@ fun Modifier.fadeScrollEdges(
 ): Modifier {
     val clampedMinAlpha = minEdgeAlpha.coerceIn(0f, 1f)
     val clampedEdgeExponent = edgeGradientExponent.coerceAtLeast(0.01f)
+    val brushCache = EdgeMaskBrushCache()
     return graphicsLayer {
-        compositingStrategy = CompositingStrategy.Offscreen
+        // Only pay for the offscreen buffer while the list can actually scroll. See the
+        // ScrollState overload for the rationale.
+        compositingStrategy =
+            if (state.canScrollForward || state.canScrollBackward) {
+                CompositingStrategy.Offscreen
+            } else {
+                CompositingStrategy.Auto
+            }
     }.drawWithContent {
         drawContent()
 
@@ -115,7 +129,7 @@ fun Modifier.fadeScrollEdges(
         val startProgress = (startDistancePx / edgePx).coerceIn(0f, 1f)
         val endProgress = (endDistancePx / edgePx).coerceIn(0f, 1f)
 
-        val brush = buildEdgeMaskBrush(
+        val brush = brushCache.brush(
             orientation = orientation,
             mainAxisSize = mainAxisSize,
             edgePx = edgePx,
@@ -136,8 +150,16 @@ fun Modifier.fadeVerticalScrollEdges(
 ): Modifier {
     val clampedMinAlpha = minEdgeAlpha.coerceIn(0f, 1f)
     val clampedEdgeExponent = edgeGradientExponent.coerceAtLeast(0.01f)
+    val brushCache = EdgeMaskBrushCache()
     return graphicsLayer {
-        compositingStrategy = CompositingStrategy.Offscreen
+        // Only pay for the offscreen buffer while the grid can actually scroll. See the
+        // ScrollState overload for the rationale.
+        compositingStrategy =
+            if (state.canScrollForward || state.canScrollBackward) {
+                CompositingStrategy.Offscreen
+            } else {
+                CompositingStrategy.Auto
+            }
     }.drawWithContent {
         drawContent()
 
@@ -163,7 +185,7 @@ fun Modifier.fadeVerticalScrollEdges(
         val endProgress =
             if (last.index < layoutInfo.totalItemsCount - 1) 1f else (remainingForwardPx / edgePx).coerceIn(0f, 1f)
 
-        val brush = buildEdgeMaskBrush(
+        val brush = brushCache.brush(
             orientation = Orientation.Vertical,
             mainAxisSize = mainAxisSize,
             edgePx = edgePx,
@@ -182,6 +204,59 @@ private fun edgeAlphaAtEdge(
 ): Float {
     val t = progress.coerceIn(0f, 1f)
     return 1f - (1f - minEdgeAlpha) * t
+}
+
+/**
+ * Single-slot memo for the edge-mask brush, held per fade modifier instance and reused across
+ * draw frames. While scrolling through the middle of a list every input is constant, so the brush
+ * (plus its stop list and per-stop [Color] copies) is built once and cached until an input actually
+ * changes near an edge. Draws run only on the main thread, so no synchronization is needed.
+ */
+private class EdgeMaskBrushCache {
+    private var orientation: Orientation? = null
+    private var mainAxisSize = Float.NaN
+    private var edgePx = Float.NaN
+    private var edgeGradientExponent = Float.NaN
+    private var startAlphaAtEdge = Float.NaN
+    private var endAlphaAtEdge = Float.NaN
+    private var computed = false
+    private var cached: Brush? = null
+
+    fun brush(
+        orientation: Orientation,
+        mainAxisSize: Float,
+        edgePx: Float,
+        edgeGradientExponent: Float,
+        startAlphaAtEdge: Float,
+        endAlphaAtEdge: Float,
+    ): Brush? {
+        if (computed &&
+            this.orientation == orientation &&
+            this.mainAxisSize == mainAxisSize &&
+            this.edgePx == edgePx &&
+            this.edgeGradientExponent == edgeGradientExponent &&
+            this.startAlphaAtEdge == startAlphaAtEdge &&
+            this.endAlphaAtEdge == endAlphaAtEdge
+        ) {
+            return cached
+        }
+        this.orientation = orientation
+        this.mainAxisSize = mainAxisSize
+        this.edgePx = edgePx
+        this.edgeGradientExponent = edgeGradientExponent
+        this.startAlphaAtEdge = startAlphaAtEdge
+        this.endAlphaAtEdge = endAlphaAtEdge
+        computed = true
+        cached = buildEdgeMaskBrush(
+            orientation = orientation,
+            mainAxisSize = mainAxisSize,
+            edgePx = edgePx,
+            edgeGradientExponent = edgeGradientExponent,
+            startAlphaAtEdge = startAlphaAtEdge,
+            endAlphaAtEdge = endAlphaAtEdge,
+        )
+        return cached
+    }
 }
 
 private fun buildEdgeMaskBrush(
