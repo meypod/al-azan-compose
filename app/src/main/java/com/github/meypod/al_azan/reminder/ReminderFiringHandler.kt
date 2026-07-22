@@ -18,6 +18,7 @@ import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificat
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
+import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
@@ -118,6 +119,11 @@ class ReminderFiringHandler @Inject constructor(
         reminderId: String,
         timestamp: Long,
     ) {
+        // AlarmManager can re-deliver the same fire seconds apart (observed on time changes); the
+        // persisted delivered mark de-dups it so one occurrence never sounds twice. See issue #27.
+        val deliveredForMs = settingsRepository.data.first()
+            .deliveredAlarmTimestamps[ReminderContract.notificationId(reminderId)]
+        if (deliveredForMs == timestamp) return
         // Mark delivered so the reschedule targets the *next* occurrence, not this one again.
         settingsRepository.markDelivered(ReminderContract.notificationId(reminderId), timestamp)
         notificationRepository.cancelNotification(ReminderContract.preNotificationId(reminderId))
@@ -196,10 +202,25 @@ class ReminderFiringHandler @Inject constructor(
         reminderId: String,
         timestamp: Long,
     ) {
+        // Same de-dup as [onReminderFired]: a re-delivered fire must not re-post. A fire for a
+        // *new* occurrence re-posts over the same notification id, and onlyAlertOnce keeps that
+        // replace from re-alerting — so a stale replay corrects itself without a double
+        // heads-up. See issue #27.
+        val deliveredForMs = settingsRepository.data.first()
+            .deliveredAlarmTimestamps[ReminderContract.preNotificationId(reminderId)]
+        if (deliveredForMs == timestamp) return
         val reminder = reminderRepository.data.first().firstOrNull { it.id == reminderId } ?: return
         if (!reminder.enabled) return
         // Mark this occurrence's upcoming notice delivered so reschedules don't re-post it
         settingsRepository.markDelivered(ReminderContract.preNotificationId(reminderId), timestamp)
+        postUpcomingNotification(reminderId, reminder, timestamp)
+    }
+
+    private suspend fun postUpcomingNotification(
+        reminderId: String,
+        reminder: Reminder,
+        timestamp: Long,
+    ) {
         val settings = settingsRepository.data.first()
         val title = reminder.displayName(localizedResources.current)
         val timeLabel = settings.formatTime(timestamp)
@@ -212,6 +233,8 @@ class ReminderFiringHandler @Inject constructor(
                     channelId = EnsureNotificationChannelsUseCase.PRE_REMINDER_CHANNEL_ID,
                     category = AndroidNotificationCategory.CATEGORY_REMINDER,
                     autoCancel = true,
+                    // Same-id re-posts (e.g. a reschedule refreshing the notice) must not re-alert.
+                    onlyAlertOnce = true,
                     // Tapping the body opens the Upcoming-alarms screen, where the user can skip it.
                     pressAction = NotificationPressAction.Route(Route.Main.UpcomingAlarms),
                     actions = listOf(

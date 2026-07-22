@@ -93,6 +93,11 @@ class AdhanFiringHandler @Inject constructor(
         playSound: Boolean,
         timestamp: Long,
     ) {
+        // AlarmManager can re-deliver the same fire seconds apart (observed on time changes); the
+        // persisted delivered mark de-dups it so one occurrence never sounds twice. See issue #27.
+        val deliveredForMs = settingsRepository.data.first()
+            .deliveredAlarmTimestamps[AdhanContract.ADHAN_NOTIFICATION_ID]
+        if (deliveredForMs == timestamp) return
         // Mark delivered so the reschedule below targets the *next* prayer, not this one again.
         settingsRepository.markDelivered(AdhanContract.ADHAN_NOTIFICATION_ID, timestamp)
         // The adhan has arrived: dismiss its "upcoming" pre-notification so it doesn't linger.
@@ -237,8 +242,22 @@ class AdhanFiringHandler @Inject constructor(
         prayer: Prayer,
         timestamp: Long,
     ) {
+        // Same de-dup as [onAdhanFired]: a re-delivered fire must not re-post. A fire for a *new*
+        // occurrence re-posts over the same notification id, and onlyAlertOnce keeps that replace
+        // from re-alerting — so a stale replay corrects itself without a double heads-up. See #27.
+        val deliveredForMs = settingsRepository.data.first()
+            .deliveredAlarmTimestamps[AdhanContract.PRE_ADHAN_NOTIFICATION_ID]
+        if (deliveredForMs == timestamp) return
         // Mark this occurrence's upcoming notice delivered so reschedules don't re-post it
         settingsRepository.markDelivered(AdhanContract.PRE_ADHAN_NOTIFICATION_ID, timestamp)
+        postUpcomingNotification(prayer, timestamp)
+    }
+
+    /** Posts the "upcoming adhan" notification. Callers are responsible for occurrence de-dup. */
+    private suspend fun postUpcomingNotification(
+        prayer: Prayer,
+        timestamp: Long,
+    ) {
         val settings = settingsRepository.data.first()
         val prayerName = localizedResources.current.getString(prayer.stringRes)
         notificationRepository.notify(
@@ -250,6 +269,8 @@ class AdhanFiringHandler @Inject constructor(
                     channelId = EnsureNotificationChannelsUseCase.PRE_ADHAN_CHANNEL_ID,
                     category = AndroidNotificationCategory.CATEGORY_ALARM,
                     autoCancel = true,
+                    // Same-id re-posts (e.g. a reschedule refreshing the notice) must not re-alert.
+                    onlyAlertOnce = true,
                     // Tapping the body opens the Upcoming-alarms screen, where the user can skip it.
                     pressAction = NotificationPressAction.Route(Route.Main.UpcomingAlarms),
                     actions = listOf(
@@ -435,7 +456,9 @@ class AdhanFiringHandler @Inject constructor(
 
     /** Post the "upcoming adhan" notification for [DEV_TEST_PRAYER], for testing. */
     suspend fun devPostUpcoming() {
-        onPreAdhanFired(DEV_TEST_PRAYER, Clock.System.now().toEpochMilliseconds())
+        // Post directly: a dev fire must not mark the real occurrence delivered (a mismatched mark
+        // makes the scheduler re-arm the pre-alarm "for now" and re-post — see issue #27).
+        postUpcomingNotification(DEV_TEST_PRAYER, Clock.System.now().toEpochMilliseconds())
     }
 
     private suspend fun postNotifyOnlyNotification(
