@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Wenn Kopfhörer angeschlossen sind, wird das gesamte Audio nur über sie abgespielt.</string>
     <string name="volume_button_stops_adhan">Lautstärketaste stoppt Adhan</string>
     <string name="volume_button_stops_adhan_help">Das Drücken einer Lautstärketaste stoppt den laufenden Adhan.</string>
+    <string name="custom_alarm_volume">Eigene Alarm-Lautstärke</string>
+    <string name="custom_alarm_volume_help">Adhans und Erinnerungen werden immer mit dieser Lautstärke abgespielt, unabhängig von der Gerätelautstärke. Die Gerätelautstärke wird danach wiederhergestellt.</string>
+    <string name="gradual_alarm_volume">Alarmlautstärke schrittweise erhöhen</string>
+    <string name="gradual_alarm_volume_help">Der Ton beginnt stumm und erreicht die Alarmlautstärke innerhalb von 5 Sekunden. Kurze Töne werden sofort in voller Lautstärke abgespielt.</string>
     <string name="dont_show_alarm_screen">Bildschirm ausgeschaltet lassen</string>
     <string name="dont_show_alarm_screen_help">Bildschirm nicht einschalten und keinen Vollbild-Alarm anzeigen, wenn ein Adhan oder eine Erinnerung abgespielt wird.</string>
     <string name="force_launch_alarm_screen">Alarmbildschirm immer öffnen</string>

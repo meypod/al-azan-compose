@@ -209,7 +209,7 @@ fun OldSettingsState.toSettings() =
                 },
         lastAppFocusTimestamp = this.lastAppFocusTimestamp,
         hiddenPrayers = this.hiddenPrayers,
-        adhanVolume = this.adhanVolume,
+        alarmVolume = null,
         volumeButtonStopsAdhan = this.volumeButtonStopsAdhan,
         preferExternalAudioDevice = this.preferExternalAudioDevice,
         bypassDnd = this.bypassDnd,

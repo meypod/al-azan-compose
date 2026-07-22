@@ -130,7 +130,9 @@ data class Settings(
     ),
     val lastAppFocusTimestamp: Int? = null,
     val hiddenPrayers: List<Prayer> = emptyList(),
-    val adhanVolume: Int? = null,
+    val alarmVolume: Int? = null,
+    /** Fade the adhan in from silent to its target volume over the first seconds of playback. */
+    val gradualAlarmVolume: Boolean = false,
     val volumeButtonStopsAdhan: Boolean = false,
     val preferExternalAudioDevice: Boolean = false,
     val bypassDnd: Boolean = false,

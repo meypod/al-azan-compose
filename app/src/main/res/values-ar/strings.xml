@@ -377,6 +377,10 @@
     <string name="use_headphones_help">عند توصيل السماعات، يُشغَّل كل الصوت من خلالها فقط.</string>
     <string name="volume_button_stops_adhan">زر الصوت يوقف الأذان</string>
     <string name="volume_button_stops_adhan_help">الضغط على زر الصوت يوقف الأذان الجاري تشغيله.</string>
+    <string name="custom_alarm_volume">مستوى صوت مخصص للمنبه</string>
+    <string name="custom_alarm_volume_help">تشغيل الأذان والتذكيرات دائمًا بهذا المستوى من الصوت، بغض النظر عن مستوى صوت الجهاز. يُستعاد مستوى صوت الجهاز بعد ذلك.</string>
+    <string name="gradual_alarm_volume">رفع صوت المنبه تدريجيًا</string>
+    <string name="gradual_alarm_volume_help">يبدأ الصوت صامتًا ويصل إلى مستوى صوت المنبه خلال 5 ثوانٍ. الأصوات القصيرة تُشغَّل بمستوى الصوت الكامل مباشرة.</string>
     <string name="dont_show_alarm_screen">إبقاء الشاشة مطفأة</string>
     <string name="dont_show_alarm_screen_help">عدم تشغيل الشاشة أو عرض المنبه بملء الشاشة عند تشغيل أذان أو تذكير.</string>
     <string name="force_launch_alarm_screen">افتح شاشة المنبه دائمًا</string>

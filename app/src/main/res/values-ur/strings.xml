@@ -377,6 +377,10 @@
     <string name="use_headphones_help">جب ہیڈ فون جڑے ہوں، تو تمام آڈیو صرف ان کے ذریعے چلائیں۔</string>
     <string name="volume_button_stops_adhan">والیوم بٹن اذان کو روکتا ہے۔</string>
     <string name="volume_button_stops_adhan_help">والیوم بٹن دبانے سے چلتی ہوئی اذان رک جاتی ہے۔</string>
+    <string name="custom_alarm_volume">الارم کا مخصوص والیوم</string>
+    <string name="custom_alarm_volume_help">اذانیں اور یاد دہانیاں ہمیشہ اسی والیوم پر چلیں گی، چاہے ڈیوائس کا والیوم کچھ بھی ہو۔ اس کے بعد ڈیوائس کا والیوم بحال کر دیا جاتا ہے۔</string>
+    <string name="gradual_alarm_volume">الارم کی آواز بتدریج بڑھائیں</string>
+    <string name="gradual_alarm_volume_help">آواز خاموشی سے شروع ہوتی ہے اور 5 سیکنڈ میں الارم والیوم تک پہنچ جاتی ہے۔ مختصر آوازیں فوراً پورے والیوم پر چلتی ہیں۔</string>
     <string name="dont_show_alarm_screen">اسکرین بند رکھیں</string>
     <string name="dont_show_alarm_screen_help">جب کوئی اذان یا یاد دہانی چلے تو اسکرین آن نہ کریں اور نہ ہی فُل اسکرین الارم دکھائیں۔</string>
     <string name="force_launch_alarm_screen">ہمیشہ الارم اسکرین کھولیں</string>

@@ -377,6 +377,10 @@
     <string name="use_headphones_help">जब हेडफ़ोन जुड़े हों, तो सभी ऑडियो केवल उन्हीं के माध्यम से बजाएँ।</string>
     <string name="volume_button_stops_adhan">वॉल्यूम बटन अज़ान को रोकता है</string>
     <string name="volume_button_stops_adhan_help">वॉल्यूम बटन दबाने से चल रहा अज़ान रुक जाता है।</string>
+    <string name="custom_alarm_volume">कस्टम अलार्म वॉल्यूम</string>
+    <string name="custom_alarm_volume_help">डिवाइस का वॉल्यूम चाहे जो भी हो, अज़ान और अनुस्मारक हमेशा इसी वॉल्यूम पर बजेंगे। इसके बाद डिवाइस का वॉल्यूम पहले जैसा कर दिया जाता है।</string>
+    <string name="gradual_alarm_volume">अलार्म का वॉल्यूम धीरे-धीरे बढ़ाएँ</string>
+    <string name="gradual_alarm_volume_help">ध्वनि मौन से शुरू होकर 5 सेकंड में अलार्म वॉल्यूम तक पहुँचती है। छोटी ध्वनियाँ तुरंत पूरे वॉल्यूम पर बजती हैं।</string>
     <string name="dont_show_alarm_screen">स्क्रीन बंद रखें</string>
     <string name="dont_show_alarm_screen_help">जब अज़ान या अनुस्मारक बजे तो स्क्रीन चालू न करें या फ़ुल-स्क्रीन अलार्म न दिखाएँ।</string>
     <string name="force_launch_alarm_screen">हमेशा अलार्म स्क्रीन खोलें</string>

@@ -15,6 +15,8 @@ sealed interface AdhanSettingsUiAction {
 
     data class OnPreviewAudio(
         val entry: AudioEntry,
+        /** Only the custom-volume setting's preview applies [Settings.alarmVolume]; pickers play at full volume. */
+        val atAlarmVolume: Boolean = false,
     ) : AdhanSettingsUiAction
 
     object OnStopPreview : AdhanSettingsUiAction
@@ -95,6 +97,24 @@ sealed interface AdhanSettingsUiAction {
     ) : AdhanSettingsUiAction
 
     data class OnVolumeButtonStopsAdhanToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnCustomVolumeToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    /** Commits the custom adhan volume (slider released). */
+    data class OnAlarmVolumeChange(
+        val percent: Int,
+    ) : AdhanSettingsUiAction
+
+    /** Live volume while the slider is dragged: adjusts a playing preview, nothing is persisted. */
+    data class OnAlarmVolumeDrag(
+        val percent: Int,
+    ) : AdhanSettingsUiAction
+
+    data class OnGradualVolumeToggle(
         val enabled: Boolean,
     ) : AdhanSettingsUiAction
 

@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Khi tai nghe được kết nối, chỉ phát toàn bộ âm thanh qua tai nghe.</string>
     <string name="volume_button_stops_adhan">Nút âm lượng dừng Azan</string>
     <string name="volume_button_stops_adhan_help">Nhấn nút âm lượng sẽ dừng Azan đang phát.</string>
+    <string name="custom_alarm_volume">Âm lượng báo thức tùy chỉnh</string>
+    <string name="custom_alarm_volume_help">Azan và lời nhắc luôn phát ở âm lượng này, bất kể âm lượng thiết bị đang ở mức nào. Âm lượng thiết bị sẽ được khôi phục sau đó.</string>
+    <string name="gradual_alarm_volume">Tăng dần âm lượng báo thức</string>
+    <string name="gradual_alarm_volume_help">Âm thanh bắt đầu im lặng và đạt âm lượng báo thức trong 5 giây. Các âm thanh ngắn phát ngay ở âm lượng tối đa.</string>
     <string name="dont_show_alarm_screen">Giữ màn hình tắt</string>
     <string name="dont_show_alarm_screen_help">Không bật màn hình hoặc hiển thị báo thức toàn màn hình khi Azan hoặc lời nhắc phát.</string>
     <string name="force_launch_alarm_screen">Luôn mở màn hình báo thức</string>

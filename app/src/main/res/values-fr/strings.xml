@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Lorsque des écouteurs sont connectés, diffuser tout l\'audio uniquement à travers eux.</string>
     <string name="volume_button_stops_adhan">Le bouton de volume arrête l\'Adhan</string>
     <string name="volume_button_stops_adhan_help">Appuyer sur un bouton de volume arrête l\'Adhan en cours de lecture.</string>
+    <string name="custom_alarm_volume">Volume personnalisé de l\'alarme</string>
+    <string name="custom_alarm_volume_help">L\'Adhan et les rappels sont toujours joués à ce volume, quel que soit le volume de l\'appareil. Le volume de l\'appareil est ensuite restauré.</string>
+    <string name="gradual_alarm_volume">Augmenter progressivement le volume de l\'alarme</string>
+    <string name="gradual_alarm_volume_help">Le son commence en silence et atteint le volume de l\'alarme en 5 secondes. Les sons courts sont joués immédiatement à plein volume.</string>
     <string name="dont_show_alarm_screen">Garder l\'écran éteint</string>
     <string name="dont_show_alarm_screen_help">Ne pas allumer l\'écran ni afficher l\'alarme en plein écran lorsqu\'un Adhan ou un rappel retentit.</string>
     <string name="force_launch_alarm_screen">Toujours ouvrir l\'écran d\'alarme</string>

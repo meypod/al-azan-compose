@@ -46,10 +46,12 @@ class AdhanPreviewPlaybackService :
     companion object {
         private const val ACTION_PLAY = "com.github.meypod.al_azan.action.PREVIEW_PLAY"
         private const val ACTION_STOP = "com.github.meypod.al_azan.action.PREVIEW_STOP"
+        private const val ACTION_SET_VOLUME = "com.github.meypod.al_azan.action.PREVIEW_SET_VOLUME"
         private const val EXTRA_URI = "uri"
         private const val EXTRA_ID = "id"
         private const val EXTRA_LABEL = "label"
         private const val EXTRA_LOOP = "loop"
+        private const val EXTRA_VOLUME_PERCENT = "volume_percent"
 
         private const val CHANNEL_ID = "adhan_preview_playback"
         private const val NOTIFICATION_ID = 0xADA1
@@ -65,6 +67,7 @@ class AdhanPreviewPlaybackService :
             id: String,
             label: String,
             loop: Boolean = false,
+            volumePercent: Int = -1,
         ) {
             val intent = Intent(context, AdhanPreviewPlaybackService::class.java).apply {
                 action = ACTION_PLAY
@@ -72,8 +75,21 @@ class AdhanPreviewPlaybackService :
                 putExtra(EXTRA_ID, id)
                 putExtra(EXTRA_LABEL, label)
                 putExtra(EXTRA_LOOP, loop)
+                putExtra(EXTRA_VOLUME_PERCENT, volumePercent)
             }
             ContextCompat.startForegroundService(context, intent)
+        }
+
+        /** Live-adjusts the playing preview's volume. Callers should only send this while playing. */
+        fun setVolume(
+            context: Context,
+            volumePercent: Int,
+        ) {
+            val intent = Intent(context, AdhanPreviewPlaybackService::class.java).apply {
+                action = ACTION_SET_VOLUME
+                putExtra(EXTRA_VOLUME_PERCENT, volumePercent)
+            }
+            context.startService(intent)
         }
 
         fun stop(context: Context) {
@@ -87,6 +103,14 @@ class AdhanPreviewPlaybackService :
 
     private var player: MediaPlayer? = null
     private var focusRequest: AudioFocusRequest? = null
+
+    // 0..100 sets the media stream volume absolutely (matching how the alarm playback applies the
+    // custom volume); -1 leaves the device volume untouched. Applied on prepare and on
+    // ACTION_SET_VOLUME so slider drags adjust a running preview live.
+    private var volumePercent = -1
+
+    // Media-stream level before the preview overrode it, restored on stop; -1 = nothing to restore.
+    private var savedStreamVolume = -1
 
     private var telephonyCallback: TelephonyCallback? = null
     private var phoneStateListener: PhoneStateListener? = null
@@ -107,6 +131,7 @@ class AdhanPreviewPlaybackService :
                 val id = intent.getStringExtra(EXTRA_ID)
                 val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
                 val loop = intent.getBooleanExtra(EXTRA_LOOP, false)
+                volumePercent = intent.getIntExtra(EXTRA_VOLUME_PERCENT, -1)
                 if (uri != null && id != null) {
                     startPlayback(uri, id, label, loop)
                 } else {
@@ -114,9 +139,37 @@ class AdhanPreviewPlaybackService :
                 }
             }
 
+            ACTION_SET_VOLUME -> {
+                volumePercent = intent.getIntExtra(EXTRA_VOLUME_PERCENT, -1)
+                // A set-volume racing a finished preview starts the service with no player; stop again
+                // instead of lingering as a started-but-idle service.
+                if (player != null) applyStreamVolume() else cleanupAndStop()
+            }
+
             else -> cleanupAndStop()
         }
         return START_NOT_STICKY
+    }
+
+    /**
+     * Custom volume is absolute: sets the media stream to [volumePercent] of its max, independent of
+     * the device volume. The pre-existing level is saved once and restored on stop.
+     */
+    private fun applyStreamVolume() {
+        if (volumePercent !in 0..100) return
+        val am = audioManager ?: return
+        if (savedStreamVolume == -1) {
+            savedStreamVolume = runCatching { am.getStreamVolume(AudioManager.STREAM_MUSIC) }.getOrDefault(-1)
+        }
+        val max = runCatching { am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) }.getOrDefault(0)
+        if (max <= 0) return
+        runCatching { am.setStreamVolume(AudioManager.STREAM_MUSIC, (volumePercent * max + 50) / 100, 0) }
+    }
+
+    private fun restoreStreamVolume() {
+        if (savedStreamVolume < 0) return
+        runCatching { audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, savedStreamVolume, 0) }
+        savedStreamVolume = -1
     }
 
     private fun startPlayback(
@@ -164,6 +217,7 @@ class AdhanPreviewPlaybackService :
     }
 
     override fun onPrepared(mp: MediaPlayer) {
+        applyStreamVolume()
         runCatching { mp.start() }
     }
 
@@ -301,6 +355,8 @@ class AdhanPreviewPlaybackService :
             mp.release()
         }
         player = null
+        // Before abandoning focus so whatever resumes after us hears the restored level.
+        restoreStreamVolume()
         abandonAudioFocus()
         unregisterCallStateListener()
         _playingId.value = null

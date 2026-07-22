@@ -1,5 +1,8 @@
 package com.github.meypod.al_azan.main.settings.adhan
 
+import android.content.Context
+import android.media.AudioManager
+import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
@@ -18,6 +21,7 @@ import com.github.meypod.al_azan.core.presentation.components.deleteAudioFile
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -27,9 +31,13 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
+/** Used when the device's current alarm volume can't be read on enable. */
+private const val FALLBACK_CUSTOM_ADHAN_VOLUME = 50
+
 @HiltViewModel
 class AdhanSettingsViewModel
 @Inject constructor(
+    @param:ApplicationContext private val context: Context,
     private val alarmSettingsRepository: AlarmSettingsRepository,
     private val settingsRepository: SettingsRepository,
     private val ringtoneRepository: RingtoneRepository,
@@ -77,6 +85,10 @@ class AdhanSettingsViewModel
             is AdhanSettingsUiAction.OnBypassDndToggle -> onBypassDndToggle(action)
             is AdhanSettingsUiAction.OnPreferHeadphonesToggle -> onPreferHeadphonesToggle(action)
             is AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle -> onVolumeButtonStopsAdhanToggle(action)
+            is AdhanSettingsUiAction.OnCustomVolumeToggle -> onCustomVolumeToggle(action)
+            is AdhanSettingsUiAction.OnAlarmVolumeChange -> onAlarmVolumeChange(action)
+            is AdhanSettingsUiAction.OnAlarmVolumeDrag -> onAlarmVolumeDrag(action)
+            is AdhanSettingsUiAction.OnGradualVolumeToggle -> onGradualVolumeToggle(action)
             is AdhanSettingsUiAction.OnDontShowAlarmScreenToggle -> onDontShowAlarmScreenToggle(action)
             is AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle -> onForceLaunchAlarmActivityToggle(action)
             is AdhanSettingsUiAction.OnAutoSilentOnDismissToggle -> onAutoSilentOnDismissToggle(action)
@@ -90,7 +102,11 @@ class AdhanSettingsViewModel
 
     private fun onGlobalMuezzinSelect(action: AdhanSettingsUiAction.OnGlobalMuezzinSelect) = setGlobalMuezzin(action.entry)
 
-    private fun onPreviewAudio(action: AdhanSettingsUiAction.OnPreviewAudio) = audioPreviewPlayer.play(action.entry)
+    private fun onPreviewAudio(action: AdhanSettingsUiAction.OnPreviewAudio) =
+        audioPreviewPlayer.play(
+            action.entry,
+            if (action.atAlarmVolume) uiState.value.settings.alarmVolume ?: -1 else -1,
+        )
 
     private fun onStopPreview() = audioPreviewPlayer.stop()
 
@@ -166,6 +182,41 @@ class AdhanSettingsViewModel
     private fun onVolumeButtonStopsAdhanToggle(action: AdhanSettingsUiAction.OnVolumeButtonStopsAdhanToggle) {
         viewModelScope.launch {
             settingsRepository.update { it.copy(volumeButtonStopsAdhan = action.enabled) }
+        }
+    }
+
+    // null = feature off (alarms play at whatever the device volume is). The custom volume is absolute,
+    // so enabling starts at the device's current alarm volume — the next adhan sounds no different until
+    // the user moves the slider.
+    private fun onCustomVolumeToggle(action: AdhanSettingsUiAction.OnCustomVolumeToggle) {
+        if (!action.enabled) audioPreviewPlayer.stop()
+        val initial = if (action.enabled) currentAlarmVolumePercent() else null
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(alarmVolume = initial) }
+        }
+    }
+
+    private fun currentAlarmVolumePercent(): Int {
+        val am = context.getSystemService<AudioManager>() ?: return FALLBACK_CUSTOM_ADHAN_VOLUME
+        return runCatching {
+            val max = am.getStreamMaxVolume(AudioManager.STREAM_ALARM)
+            if (max <= 0) return FALLBACK_CUSTOM_ADHAN_VOLUME
+            am.getStreamVolume(AudioManager.STREAM_ALARM) * 100 / max
+        }.getOrDefault(FALLBACK_CUSTOM_ADHAN_VOLUME)
+    }
+
+    private fun onAlarmVolumeChange(action: AdhanSettingsUiAction.OnAlarmVolumeChange) {
+        audioPreviewPlayer.setVolume(action.percent)
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(alarmVolume = action.percent) }
+        }
+    }
+
+    private fun onAlarmVolumeDrag(action: AdhanSettingsUiAction.OnAlarmVolumeDrag) = audioPreviewPlayer.setVolume(action.percent)
+
+    private fun onGradualVolumeToggle(action: AdhanSettingsUiAction.OnGradualVolumeToggle) {
+        viewModelScope.launch {
+            settingsRepository.update { it.copy(gradualAlarmVolume = action.enabled) }
         }
     }
 

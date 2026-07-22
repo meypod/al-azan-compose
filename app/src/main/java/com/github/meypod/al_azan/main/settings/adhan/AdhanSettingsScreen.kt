@@ -1,13 +1,25 @@
 package com.github.meypod.al_azan.main.settings.adhan
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
@@ -15,11 +27,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntries
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
+import com.github.meypod.al_azan.core.presentation.components.PreviewIconButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
@@ -27,6 +43,7 @@ import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSt
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,8 +69,100 @@ private fun ColumnScope.AdhanSettingsContent(
     NotificationsCard(uiState, onAction)
     VibrationCard(uiState, onAction)
     PlaybackCard(uiState, onAction)
+    VolumeCard(uiState, onAction)
+    GradualVolumeCard(uiState, onAction)
     AutoSilentCard(uiState, onAction)
     DisplayCard(uiState, onAction)
+}
+
+@Composable
+private fun VolumeCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    val alarmVolume = uiState.settings.alarmVolume
+    // ACard directly (not SettingsCard): its spacedBy would keep a gap for the collapsed
+    // AnimatedVisibility; the row carries its own top padding instead.
+    ACard { cardPadding ->
+        Column(Modifier.padding(cardPadding)) {
+            SettingSwitch(
+                title = stringResource(R.string.custom_alarm_volume),
+                subtitle = stringResource(R.string.custom_alarm_volume_help),
+                checked = alarmVolume != null,
+                onCheckedChange = { onAction(AdhanSettingsUiAction.OnCustomVolumeToggle(it)) },
+            )
+            AnimatedVisibility(visible = alarmVolume != null) {
+                // The exit animation still composes this after the value went null; hold the last
+                // real value so the row doesn't jump while shrinking away.
+                var lastVolume by remember { mutableIntStateOf(alarmVolume ?: 0) }
+                if (alarmVolume != null) lastVolume = alarmVolume
+                VolumeSliderRow(lastVolume, uiState, onAction)
+            }
+        }
+    }
+}
+
+@Composable
+private fun GradualVolumeCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    SettingsCard {
+        SettingSwitch(
+            title = stringResource(R.string.gradual_alarm_volume),
+            subtitle = stringResource(R.string.gradual_alarm_volume_help),
+            checked = uiState.settings.gradualAlarmVolume,
+            onCheckedChange = { onAction(AdhanSettingsUiAction.OnGradualVolumeToggle(it)) },
+        )
+    }
+}
+
+@Composable
+private fun VolumeSliderRow(
+    alarmVolume: Int,
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    // The preview plays the muezzin an alarm would actually use: the selected global one.
+    val defaultAdhan = uiState.settings.selectedAdhanEntries[AdhanKey.Default] ?: getDefaultAdhanEntries()[0]
+    // Track the knob locally while dragging; commit (persist) on release. Re-keyed on the saved
+    // value so external changes (toggle, sync) resync. Drags still adjust a playing preview live.
+    var sliderValue by remember(alarmVolume) { mutableFloatStateOf(alarmVolume.toFloat()) }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = dimensionResource(R.dimen.element_padding)),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Slider(
+            value = sliderValue,
+            onValueChange = { value ->
+                // Whole-percent steps: only forward the live volume when the rounded value moves.
+                if (value.roundToInt() != sliderValue.roundToInt()) {
+                    onAction(AdhanSettingsUiAction.OnAlarmVolumeDrag(value.roundToInt()))
+                }
+                sliderValue = value
+            },
+            onValueChangeFinished = { onAction(AdhanSettingsUiAction.OnAlarmVolumeChange(sliderValue.roundToInt())) },
+            valueRange = 0f..100f,
+            modifier = Modifier.weight(1f),
+        )
+        Spacer(Modifier.width(dimensionResource(R.dimen.element_padding)))
+        Text(
+            "${sliderValue.roundToInt()}%",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        PreviewIconButton(
+            playing = uiState.playingId == defaultAdhan.id,
+            onToggle = {
+                if (uiState.playingId == defaultAdhan.id) {
+                    onAction(AdhanSettingsUiAction.OnStopPreview)
+                } else {
+                    onAction(AdhanSettingsUiAction.OnPreviewAudio(defaultAdhan, atAlarmVolume = true))
+                }
+            },
+        )
+    }
 }
 
 @Composable
@@ -166,25 +275,31 @@ private fun AutoSilentCard(
             if (!results.requiredAllGranted()) onAction(AdhanSettingsUiAction.OnAutoSilentOnDismissToggle(false))
         },
     )
-    SettingsCard {
-        SettingSwitch(
-            title = stringResource(R.string.auto_silent_on_dismiss),
-            subtitle = stringResource(R.string.auto_silent_on_dismiss_help),
-            checked = uiState.alarmSettings.autoSilentOnDismiss,
-            onCheckedChange = { enabled ->
-                onAction(AdhanSettingsUiAction.OnAutoSilentOnDismissToggle(enabled))
-                if (enabled) requestDndAccess(SchedulingPermissionSteps.dndBypass)
-            },
-        )
-        if (uiState.alarmSettings.autoSilentOnDismiss) {
-            MinutesSelect(
-                modifier = Modifier.fillMaxWidth(),
-                options = AUTO_SILENT_DURATION_OPTIONS,
-                selected = uiState.alarmSettings.autoSilentDurationMinutes,
-                onSelect = { onAction(AdhanSettingsUiAction.OnAutoSilentDurationChange(it)) },
-                label = { Text(stringResource(R.string.auto_silent_duration)) },
-                supportingText = { Text(stringResource(R.string.auto_silent_duration_help)) },
+    // ACard directly (not SettingsCard): its spacedBy would keep a gap for the collapsed
+    // AnimatedVisibility; the select carries its own top padding instead.
+    ACard { cardPadding ->
+        Column(Modifier.padding(cardPadding)) {
+            SettingSwitch(
+                title = stringResource(R.string.auto_silent_on_dismiss),
+                subtitle = stringResource(R.string.auto_silent_on_dismiss_help),
+                checked = uiState.alarmSettings.autoSilentOnDismiss,
+                onCheckedChange = { enabled ->
+                    onAction(AdhanSettingsUiAction.OnAutoSilentOnDismissToggle(enabled))
+                    if (enabled) requestDndAccess(SchedulingPermissionSteps.dndBypass)
+                },
             )
+            AnimatedVisibility(visible = uiState.alarmSettings.autoSilentOnDismiss) {
+                MinutesSelect(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = dimensionResource(R.dimen.element_padding)),
+                    options = AUTO_SILENT_DURATION_OPTIONS,
+                    selected = uiState.alarmSettings.autoSilentDurationMinutes,
+                    onSelect = { onAction(AdhanSettingsUiAction.OnAutoSilentDurationChange(it)) },
+                    label = { Text(stringResource(R.string.auto_silent_duration)) },
+                    supportingText = { Text(stringResource(R.string.auto_silent_duration_help)) },
+                )
+            }
         }
     }
 }
@@ -253,6 +368,32 @@ private fun VibrationCardPreview() {
 private fun PlaybackCardPreview() {
     AlAzanTheme {
         PreviewPart { PlaybackCard(AdhanSettingsUiState(), onAction = {}) }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF00585A)
+@Composable
+private fun VolumeCardPreview() {
+    AlAzanTheme {
+        PreviewPart {
+            VolumeCard(
+                AdhanSettingsUiState(settings = Settings(selectedLocale = "en", alarmVolume = 70)),
+                onAction = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF00585A)
+@Composable
+private fun GradualVolumeCardPreview() {
+    AlAzanTheme {
+        PreviewPart {
+            GradualVolumeCard(
+                AdhanSettingsUiState(settings = Settings(selectedLocale = "en", gradualAlarmVolume = true)),
+                onAction = {},
+            )
+        }
     }
 }
 

@@ -377,6 +377,10 @@
     <string name="use_headphones_help">When headphones are connected, play all audio through them only.</string>
     <string name="volume_button_stops_adhan">Volume button stops adhan</string>
     <string name="volume_button_stops_adhan_help">Pressing a volume button stops the playing adhan.</string>
+    <string name="custom_alarm_volume">Custom alarm volume</string>
+    <string name="custom_alarm_volume_help">Always play adhans and reminders at this volume, no matter where the device volume is set. The device volume is restored afterwards.</string>
+    <string name="gradual_alarm_volume">Gradually increase alarm volume</string>
+    <string name="gradual_alarm_volume_help">The sound starts silent and reaches the alarm volume over 5 seconds. Short sounds play at full volume right away.</string>
     <string name="dont_show_alarm_screen">Keep screen off</string>
     <string name="dont_show_alarm_screen_help">Don\'t turn on the screen or show the full-screen alarm when an adhan or reminder plays.</string>
     <string name="force_launch_alarm_screen">Always open the alarm screen</string>

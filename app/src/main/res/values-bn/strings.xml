@@ -377,6 +377,10 @@
     <string name="use_headphones_help">হেডফোন সংযুক্ত থাকলে, সমস্ত অডিও শুধুমাত্র সেগুলোর মাধ্যমে বাজান।</string>
     <string name="volume_button_stops_adhan">ভলিউম বাটন আযান বন্ধ করে দেয়</string>
     <string name="volume_button_stops_adhan_help">একটি ভলিউম বাটন চাপলে চলমান আযান বন্ধ হয়।</string>
+    <string name="custom_alarm_volume">কাস্টম অ্যালার্ম ভলিউম</string>
+    <string name="custom_alarm_volume_help">ডিভাইসের ভলিউম যেখানেই থাকুক না কেন, আযান ও রিমাইন্ডার সবসময় এই ভলিউমে বাজবে। এরপর ডিভাইসের ভলিউম পুনরুদ্ধার করা হয়।</string>
+    <string name="gradual_alarm_volume">ধীরে ধীরে অ্যালার্মের ভলিউম বাড়ান</string>
+    <string name="gradual_alarm_volume_help">শব্দ নিঃশব্দে শুরু হয়ে ৫ সেকেন্ডে অ্যালার্ম ভলিউমে পৌঁছায়। ছোট সাউন্ড সাথে সাথেই পূর্ণ ভলিউমে বাজে।</string>
     <string name="dont_show_alarm_screen">স্ক্রিন বন্ধ রাখুন</string>
     <string name="dont_show_alarm_screen_help">আযান বা রিমাইন্ডার বাজার সময় স্ক্রিন চালু করবেন না বা ফুল-স্ক্রিন অ্যালার্ম দেখাবেন না।</string>
     <string name="force_launch_alarm_screen">সবসময় অ্যালার্ম স্ক্রিন খুলুন</string>

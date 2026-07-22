@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Saat headphone terhubung, putar semua audio hanya melaluinya.</string>
     <string name="volume_button_stops_adhan">Tombol volume menghentikan adzan</string>
     <string name="volume_button_stops_adhan_help">Menekan tombol volume menghentikan adzan yang sedang diputar.</string>
+    <string name="custom_alarm_volume">Volume alarm kustom</string>
+    <string name="custom_alarm_volume_help">Adzan dan pengingat selalu diputar pada volume ini, berapa pun volume perangkat. Volume perangkat dikembalikan setelahnya.</string>
+    <string name="gradual_alarm_volume">Naikkan volume alarm secara bertahap</string>
+    <string name="gradual_alarm_volume_help">Suara dimulai senyap dan mencapai volume alarm dalam 5 detik. Suara pendek langsung diputar pada volume penuh.</string>
     <string name="dont_show_alarm_screen">Biarkan layar mati</string>
     <string name="dont_show_alarm_screen_help">Jangan nyalakan layar atau tampilkan alarm layar penuh saat adzan atau pengingat diputar.</string>
     <string name="force_launch_alarm_screen">Selalu buka layar alarm</string>

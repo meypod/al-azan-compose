@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Kulaklık bağlı olduğunda, tüm sesi yalnızca kulaklıktan çal.</string>
     <string name="volume_button_stops_adhan">Ses düğmesi ezanı durdursun</string>
     <string name="volume_button_stops_adhan_help">Bir ses tuşuna basmak çalan ezanı durdurur.</string>
+    <string name="custom_alarm_volume">Özel alarm ses düzeyi</string>
+    <string name="custom_alarm_volume_help">Ezanlar ve hatırlatıcılar, cihazın ses düzeyi ne olursa olsun her zaman bu ses düzeyinde çalar. Ardından cihazın ses düzeyi geri yüklenir.</string>
+    <string name="gradual_alarm_volume">Alarm sesini kademeli olarak artır</string>
+    <string name="gradual_alarm_volume_help">Ses sessiz başlar ve 5 saniye içinde alarm ses düzeyine ulaşır. Kısa sesler hemen tam ses düzeyinde çalar.</string>
     <string name="dont_show_alarm_screen">Ekranı kapalı tut</string>
     <string name="dont_show_alarm_screen_help">Bir ezan veya hatırlatıcı çalarken ekranı açma veya tam ekran alarmı gösterme.</string>
     <string name="force_launch_alarm_screen">Alarm ekranını her zaman aç</string>

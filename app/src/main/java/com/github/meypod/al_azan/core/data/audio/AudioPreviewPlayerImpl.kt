@@ -31,11 +31,15 @@ class AudioPreviewPlayerImpl(
 
     override val playingId: StateFlow<String?> = AdhanPreviewPlaybackService.playingId
 
-    override fun play(entry: AudioEntry) {
+    override fun play(
+        entry: AudioEntry,
+        volumePercent: Int,
+    ) {
         scope.launch {
             val uri = entry.toAudioUri(context) ?: return@launch
-            AdhanPreviewPlaybackService.play(context, uri, entry.id, entry.label(), entry.loop)
-            warnIfMediaMuted()
+            AdhanPreviewPlaybackService.play(context, uri, entry.id, entry.label(), entry.loop, volumePercent)
+            // A custom volume overrides the media stream level itself, so a muted stream is irrelevant.
+            if (volumePercent !in 0..100) warnIfMediaMuted()
         }
     }
 
@@ -45,6 +49,11 @@ class AudioPreviewPlayerImpl(
             AdhanPreviewPlaybackService.play(context, uri, entry.previewId(), entry.previewLabel(), entry.loop)
             warnIfMediaMuted()
         }
+    }
+
+    override fun setVolume(volumePercent: Int) {
+        if (playingId.value == null) return
+        AdhanPreviewPlaybackService.setVolume(context, volumePercent)
     }
 
     override fun stop() = AdhanPreviewPlaybackService.stop(context)

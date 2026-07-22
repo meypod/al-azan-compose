@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Kada su slušalice povezane, reproduciraj sav zvuk samo kroz njih.</string>
     <string name="volume_button_stops_adhan">Dugme za jačinu zvuka zaustavlja ezan</string>
     <string name="volume_button_stops_adhan_help">Pritisak na dugme za jačinu zvuka zaustavlja ezan koji se reproducira.</string>
+    <string name="custom_alarm_volume">Prilagođena jačina zvuka alarma</string>
+    <string name="custom_alarm_volume_help">Ezani i podsjetnici se uvijek reproduciraju ovom jačinom zvuka, bez obzira na jačinu zvuka uređaja. Jačina zvuka uređaja se nakon toga vraća.</string>
+    <string name="gradual_alarm_volume">Postepeno pojačavaj zvuk alarma</string>
+    <string name="gradual_alarm_volume_help">Zvuk počinje tiho i dostiže jačinu zvuka alarma za 5 sekundi. Kratki zvukovi se odmah reproduciraju punom jačinom.</string>
     <string name="dont_show_alarm_screen">Drži ekran isključen</string>
     <string name="dont_show_alarm_screen_help">Nemoj uključivati ekran niti prikazivati alarm preko cijelog ekrana kada se reproducira ezan ili podsjetnik.</string>
     <string name="force_launch_alarm_screen">Uvijek otvori ekran alarma</string>

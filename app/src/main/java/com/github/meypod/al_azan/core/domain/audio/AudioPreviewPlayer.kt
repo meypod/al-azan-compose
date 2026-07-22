@@ -11,9 +11,16 @@ import kotlinx.coroutines.flow.StateFlow
 interface AudioPreviewPlayer {
     val playingId: StateFlow<String?>
 
-    fun play(entry: AudioEntry)
+    /** [volumePercent] scales the player output (0..100); -1 plays at full player volume. */
+    fun play(
+        entry: AudioEntry,
+        volumePercent: Int = -1,
+    )
 
     fun play(entry: ReminderAudioEntry)
+
+    /** Adjusts the volume of the currently playing preview live; no-op when idle. */
+    fun setVolume(volumePercent: Int)
 
     fun stop()
 

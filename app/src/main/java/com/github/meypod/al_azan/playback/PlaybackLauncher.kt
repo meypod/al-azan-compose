@@ -24,6 +24,8 @@ data class PlaybackRequest(
     val channelId: String,
     val loop: Boolean,
     val volumePercent: Int,
+    /** Fade the sound in from silent to its target volume over the first seconds of playback. */
+    val fadeInVolume: Boolean,
     val fullScreen: Boolean,
     /** Always launch the alarm activity directly, not only via the notification's full-screen-intent. */
     val forceLaunchActivity: Boolean,
@@ -68,7 +70,8 @@ data class PlaybackRequest(
             soundUri = soundUri,
             channelId = channelId,
             loop = loop,
-            volumePercent = settings.adhanVolume ?: -1,
+            volumePercent = settings.alarmVolume ?: -1,
+            fadeInVolume = settings.gradualAlarmVolume,
             fullScreen = !alarmSettings.dontTurnOnScreen,
             forceLaunchActivity = settings.forceLaunchAlarmActivity,
             vibration = vibration,
@@ -103,6 +106,7 @@ class PlaybackLauncher @Inject constructor(
             putBoolean(PlaybackService.EXTRA_LOOP, request.loop)
             putString(PlaybackService.EXTRA_CHANNEL_ID, request.channelId)
             putInt(PlaybackService.EXTRA_VOLUME_PERCENT, request.volumePercent)
+            putBoolean(PlaybackService.EXTRA_FADE_IN_VOLUME, request.fadeInVolume)
             putBoolean(PlaybackService.EXTRA_USE_MEDIA_USAGE, useMediaUsage)
             putBoolean(PlaybackService.EXTRA_FULL_SCREEN, request.fullScreen)
             putBoolean(PlaybackService.EXTRA_FORCE_LAUNCH_ACTIVITY, request.forceLaunchActivity)

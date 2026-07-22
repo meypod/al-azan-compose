@@ -377,6 +377,10 @@
     <string name="use_headphones_help">هنگامی که هدفون متصل است، تمام صداها فقط از طریق آن پخش شوند.</string>
     <string name="volume_button_stops_adhan">دکمهٔ صدا اذان را متوقف می‌کند</string>
     <string name="volume_button_stops_adhan_help">فشردن دکمهٔ صدا، اذان در حال پخش را متوقف می‌کند.</string>
+    <string name="custom_alarm_volume">میزان صدای دلخواه هشدار</string>
+    <string name="custom_alarm_volume_help">اذان‌ها و یادآوری‌ها همیشه با این میزان صدا پخش می‌شوند، فارغ از اینکه صدای دستگاه روی چه میزانی باشد. صدای دستگاه پس از آن به حالت قبل بازمی‌گردد.</string>
+    <string name="gradual_alarm_volume">افزایش تدریجی صدای هشدار</string>
+    <string name="gradual_alarm_volume_help">پخش بی‌صدا شروع می‌شود و طی ۵ ثانیه به میزان صدای هشدار می‌رسد. صداهای کوتاه از همان ابتدا با صدای کامل پخش می‌شوند.</string>
     <string name="dont_show_alarm_screen">صفحه خاموش بماند</string>
     <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و هشدار تمام‌صفحه نمایش داده نشود.</string>
     <string name="force_launch_alarm_screen">همیشه صفحهٔ هشدار را باز کن</string>

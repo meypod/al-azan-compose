@@ -377,6 +377,10 @@
     <string name="use_headphones_help">Vipokea sauti vinapounganishwa, cheza sauti zote kupitia vyenyewe tu.</string>
     <string name="volume_button_stops_adhan">Kitufe cha sauti kinasimamisha adhana</string>
     <string name="volume_button_stops_adhan_help">Kubonyeza kitufe cha sauti husimamisha adhana inayocheza.</string>
+    <string name="custom_alarm_volume">Kiwango maalum cha sauti ya kengele</string>
+    <string name="custom_alarm_volume_help">Adhana na vikumbusho hucheza kila mara kwa kiwango hiki cha sauti, bila kujali kiwango cha sauti cha kifaa. Kiwango cha sauti cha kifaa hurejeshwa baadaye.</string>
+    <string name="gradual_alarm_volume">Ongeza sauti ya kengele taratibu</string>
+    <string name="gradual_alarm_volume_help">Sauti huanza kimya na kufikia kiwango cha sauti cha kengele ndani ya sekunde 5. Sauti fupi hucheza mara moja kwa sauti kamili.</string>
     <string name="dont_show_alarm_screen">Weka skrini imezimwa</string>
     <string name="dont_show_alarm_screen_help">Usiwashe skrini au kuonyesha kengele ya skrini nzima wakati adhana au kikumbusho kinacheza.</string>
     <string name="force_launch_alarm_screen">Fungua skrini ya kengele kila wakati</string>

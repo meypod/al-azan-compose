@@ -213,7 +213,6 @@ class OldExportedSettingsSerializationTest {
                 selIsha is OldAdhanAudioEntry.OldResourceAdhanAudioEntry,
         )
         assertEquals(listOf(Prayer.Midnight, Prayer.Tahajjud), s.hiddenPrayers)
-        assertEquals(70, s.adhanVolume)
         assertEquals(
             listOf(Prayer.Tahajjud, Prayer.Isha, Prayer.Asr, Prayer.Sunset),
             s.hiddenWidgetPrayers,

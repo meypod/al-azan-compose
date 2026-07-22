@@ -20,6 +20,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
+import android.os.SystemClock
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
@@ -37,6 +38,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
+import com.github.meypod.al_azan.playback.PlaybackService.Companion.FADE_IN_MIN_DURATION_MS
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -64,6 +66,7 @@ class PlaybackService :
         const val EXTRA_SOUND_URI = "sound_uri"
         const val EXTRA_CHANNEL_ID = "channel_id"
         const val EXTRA_VOLUME_PERCENT = "volume_percent"
+        const val EXTRA_FADE_IN_VOLUME = "fade_in_volume"
         const val EXTRA_USE_MEDIA_USAGE = "use_media_usage"
         const val EXTRA_FULL_SCREEN = "full_screen"
         const val EXTRA_FORCE_LAUNCH_ACTIVITY = "force_launch_activity"
@@ -101,6 +104,17 @@ class PlaybackService :
         // adhan plays once. This cap stops a looped sound from playing forever if nothing dismisses it.
         private const val LOOP_CAP_MS = 5 * 60 * 1000L
 
+        // Gradual volume: the player gain ramps 0 → 1 over this window. The gain scales below the
+        // stream level, so the ramp tops out at the target volume (custom or device) either way.
+        private const val FADE_IN_MS = 5_000L
+        private const val FADE_IN_STEP_MS = 200L
+
+        // Note: the ramp only applies to long sounds. A short tone (a chime, a brief ringtone picked
+        // as muezzin) would spend most of its playtime inside the ramp and be barely audible; 4× the
+        // ramp keeps at least ~75% of the sound at the target volume. Looping sounds effectively play
+        // for minutes, so they always ramp regardless of their single-cycle duration.
+        private const val FADE_IN_MIN_DURATION_MS = FADE_IN_MS * 4
+
         fun start(
             context: Context,
             extras: Bundle,
@@ -128,6 +142,26 @@ class PlaybackService :
     private var wasPlayingBeforeCall = false
     private var volumePercent = -1
     private var shouldLoop = false
+    private var fadeInVolume = false
+
+    // Custom volume is absolute: the playback stream's volume is set to volumePercent of its max for the
+    // duration and restored on teardown. This is the level saved for that restore; -1 = nothing to restore.
+    private var savedStreamVolume = -1
+
+    // Millis timestamp the fade-in ramp started at; also the "ramp active" flag (0 = not ramping).
+    private var fadeInStartedAt = 0L
+    private val fadeInRunnable = object : Runnable {
+        override fun run() {
+            val mp = player ?: return
+            val fraction = ((SystemClock.elapsedRealtime() - fadeInStartedAt).toFloat() / FADE_IN_MS).coerceIn(0f, 1f)
+            runCatching { mp.setVolume(fraction, fraction) }
+            if (fraction < 1f) {
+                mainHandler.postDelayed(this, FADE_IN_STEP_MS)
+            } else {
+                fadeInStartedAt = 0L
+            }
+        }
+    }
 
     // Continuous vibration must outlast a one-shot sound (a single chime, or the silent track): when the
     // audio ends we keep the service — and thus the vibration — alive until the user dismisses or the cap.
@@ -211,6 +245,7 @@ class PlaybackService :
             return START_NOT_STICKY
         }
         volumePercent = intent.getIntExtra(EXTRA_VOLUME_PERCENT, -1)
+        fadeInVolume = intent.getBooleanExtra(EXTRA_FADE_IN_VOLUME, false)
         shouldLoop = intent.getBooleanExtra(EXTRA_LOOP, false)
         val vibration = intent.getStringExtra(EXTRA_VIBRATION)?.let { runCatching { VibrationMode.valueOf(it) }.getOrNull() }
             ?: VibrationMode.Off
@@ -255,8 +290,31 @@ class PlaybackService :
         }
         // Now that playback is actually starting, remember what to leave behind if it ends on its own.
         lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
+        applyAbsoluteStreamVolume()
         startPlayer(uri, useMediaUsage)
         return START_NOT_STICKY
+    }
+
+    /**
+     * Custom volume: sets the playback stream to [volumePercent] of its max, independent of where the
+     * user left the device volume. The pre-existing level is saved once and restored on teardown so the
+     * alarm doesn't permanently change the device volume.
+     */
+    private fun applyAbsoluteStreamVolume() {
+        if (volumePercent !in 0..100) return
+        val am = audioManager ?: return
+        if (savedStreamVolume == -1) {
+            savedStreamVolume = runCatching { am.getStreamVolume(playbackStream) }.getOrDefault(-1)
+        }
+        val max = runCatching { am.getStreamMaxVolume(playbackStream) }.getOrDefault(0)
+        if (max <= 0) return
+        runCatching { am.setStreamVolume(playbackStream, (volumePercent * max + 50) / 100, 0) }
+    }
+
+    private fun restoreStreamVolume() {
+        if (savedStreamVolume < 0) return
+        runCatching { audioManager?.setStreamVolume(playbackStream, savedStreamVolume, 0) }
+        savedStreamVolume = -1
     }
 
     private fun startPlayer(
@@ -284,15 +342,23 @@ class PlaybackService :
     }
 
     override fun onPrepared(mp: MediaPlayer) {
-        if (volumePercent in 0..100) {
-            val v = volumePercent / 100f
-            mp.setVolume(v, v)
-        }
         if (shouldLoop) {
             mp.isLooping = true
             mainHandler.postDelayed(loopCapRunnable, LOOP_CAP_MS)
         }
+        if (fadeInVolume && shouldFadeIn(mp)) {
+            runCatching { mp.setVolume(0f, 0f) }
+            fadeInStartedAt = SystemClock.elapsedRealtime()
+            mainHandler.postDelayed(fadeInRunnable, FADE_IN_STEP_MS)
+        }
         runCatching { mp.start() }
+    }
+
+    /** See [FADE_IN_MIN_DURATION_MS]: long (or looping) sounds only. Unknown duration = assume a full adhan. */
+    private fun shouldFadeIn(mp: MediaPlayer): Boolean {
+        if (shouldLoop) return true
+        val durationMs = runCatching { mp.duration }.getOrDefault(-1)
+        return durationMs < 0 || durationMs >= FADE_IN_MIN_DURATION_MS
     }
 
     override fun onCompletion(mp: MediaPlayer) {
@@ -439,6 +505,9 @@ class PlaybackService :
      * would double-attenuate.
      */
     private fun mirrorVolumeToPlayer(intent: Intent) {
+        // While the fade-in ramp owns the player gain, a mirrored key press would fight it; the ramp
+        // wins and normal mirroring resumes once it completes.
+        if (fadeInStartedAt != 0L) return
         val stream = intent.getIntExtra("android.media.EXTRA_VOLUME_STREAM_TYPE", -1)
         if (stream == playbackStream || stream !in VOLUME_KEY_STREAMS) return
         val value = intent.getIntExtra("android.media.EXTRA_VOLUME_STREAM_VALUE", Int.MIN_VALUE)
@@ -589,12 +658,16 @@ class PlaybackService :
      */
     private fun teardownPlayback() {
         mainHandler.removeCallbacks(loopCapRunnable)
+        mainHandler.removeCallbacks(fadeInRunnable)
+        fadeInStartedAt = 0L
         player?.let { mp ->
             runCatching { mp.reset() }
             mp.release()
         }
         player = null
         wasPlayingBeforeCall = false
+        // Before abandoning focus so the restored level isn't heard by whatever resumes after us.
+        restoreStreamVolume()
         abandonAudioFocus()
         unregisterCallStateListener()
         unregisterVolumeReceiver()
