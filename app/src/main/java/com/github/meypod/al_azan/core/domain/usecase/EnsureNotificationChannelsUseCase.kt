@@ -45,8 +45,6 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     id = WIDGET_CHANNEL_ID,
                     name = TextResource.StringResId(R.string.widget_channel_name),
                     description = TextResource.StringResId(R.string.widget_channel_description),
-                    // HIGH so the persistent prayer-times notification ranks high in the shade; sound and
-                    // vibration are off so it never alerts audibly despite the raised importance.
                     importanceLevel = AndroidNotificationImportance.IMPORTANCE_DEFAULT,
                     showBadge = false,
                     vibrationEnabled = false,

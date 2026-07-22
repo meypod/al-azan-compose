@@ -9,6 +9,7 @@ import android.widget.RemoteViews
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmType
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
+import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
 import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
 import com.github.meypod.al_azan.core.domain.model.settings.NotificationWidgetLayout
@@ -207,6 +208,7 @@ class WidgetUpdater @Inject constructor(
                 android = AndroidNotificationConfig(
                     channelId = EnsureNotificationChannelsUseCase.WIDGET_CHANNEL_ID,
                     ongoing = true,
+                    category = AndroidNotificationCategory.CATEGORY_STATUS,
                     onlyAlertOnce = true,
                     autoCancel = false,
                     showTimestamp = false,
