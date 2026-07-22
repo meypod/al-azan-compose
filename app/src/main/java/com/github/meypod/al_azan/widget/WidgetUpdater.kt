@@ -211,6 +211,7 @@ class WidgetUpdater @Inject constructor(
                     autoCancel = false,
                     showTimestamp = false,
                     sortKey = "-1",
+                    group = WidgetContract.NOTIFICATION_GROUP,
                     customContentView = small,
                     customBigContentView = big,
                 ),

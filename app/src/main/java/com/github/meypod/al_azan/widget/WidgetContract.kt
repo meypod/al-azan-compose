@@ -10,4 +10,7 @@ object WidgetContract {
 
     /** Notification id for the persistent notification widget. */
     const val NOTIFICATION_ID = "prayer_times_widget_notification"
+
+    /** Own notification group so the widget never stacks with the app's other notifications. */
+    const val NOTIFICATION_GROUP = "prayer_times_widget"
 }
