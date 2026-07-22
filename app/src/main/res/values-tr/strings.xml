@@ -43,7 +43,7 @@
     <!-- ============================================================
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
-    <string name="fajr">Sabah</string>
+    <string name="fajr">İmsak</string>
     <string name="sunrise">Güneş</string>
     <string name="dhuhr">Öğle</string>
     <string name="asr">İkindi</string>
