@@ -76,7 +76,9 @@ composeCompiler {
 // Bans mutable collection TYPES (MutableList/Map/Set<…>) from being exposed, which would break the
 // read-only assumption behind compose_stability.conf. Local mutable builders are fine; leaking a
 // mutable-typed property or parameter is not. Add `//noban` on a line to allow an exception.
-val banMutableCollectionTypes by tasks.registering {
+val banMutableCollectionTypes = tasks.register("banMutableCollectionTypes") {
+    group = "verification"
+    description = "Fails the build if mutable collection types are exposed (breaks Compose stability assumptions)."
     val sources = fileTree("src/main/java") { include("**/*.kt") }
     inputs.files(sources)
     val banned = Regex("""\bMutable(List|Map|Set)\s*<""")
@@ -138,7 +140,6 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
