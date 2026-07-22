@@ -35,6 +35,38 @@ data class OldCalculationSettings(
     val version: Int,
 )
 
+/**
+ * The legacy app persisted PascalCase method keys while [CalculationMethod] entries are
+ * SCREAMING_SNAKE_CASE, so deriving the entry via `valueOf(key.uppercase())` silently broke every
+ * multi-word method (e.g. `MuslimWorldLeague` -> `MUSLIMWORLDLEAGUE`). Map each legacy key
+ * explicitly instead. `Custom` maps to [CalculationMethod.OTHER] by design.
+ */
+private val legacyCalculationMethodKeys = mapOf(
+    "Custom" to CalculationMethod.OTHER,
+    "MoonsightingCommittee" to CalculationMethod.MOON_SIGHTING_COMMITTEE,
+    "MuslimWorldLeague" to CalculationMethod.MUSLIM_WORLD_LEAGUE,
+    "Egyptian" to CalculationMethod.EGYPTIAN,
+    "Karachi" to CalculationMethod.KARACHI,
+    "UmmAlQura" to CalculationMethod.UMM_AL_QURA,
+    "NorthAmerica" to CalculationMethod.NORTH_AMERICA,
+    "Gulf" to CalculationMethod.GULF,
+    "Dubai" to CalculationMethod.DUBAI,
+    "Kuwait" to CalculationMethod.KUWAIT,
+    "Qatar" to CalculationMethod.QATAR,
+    "Singapore" to CalculationMethod.SINGAPORE,
+    "France" to CalculationMethod.FRANCE,
+    "France15" to CalculationMethod.FRANCE15,
+    "France18" to CalculationMethod.FRANCE18,
+    "Turkey" to CalculationMethod.TURKEY,
+    "Russia" to CalculationMethod.RUSSIA,
+    "Jafari" to CalculationMethod.JAFARI,
+    "Tehran" to CalculationMethod.TEHRAN,
+    "Kemenag" to CalculationMethod.KEMENAG,
+    "Algeria" to CalculationMethod.ALGERIA,
+    "Brunei" to CalculationMethod.BRUNEI,
+    "Tunisia" to CalculationMethod.TUNISIA,
+)
+
 @Serializable
 data class OldCalculationSettingsState(
     @Deprecated("is replaced by LOCATION")
@@ -77,11 +109,7 @@ data class OldCalculationSettingsState(
     fun getCalculationParameters(): CalculationParameters {
         val method =
             this.calculationMethodKey?.let { key ->
-                try {
-                    CalculationMethod.valueOf(key.uppercase())
-                } catch (_: Exception) {
-                    CalculationMethod.OTHER
-                }
+                legacyCalculationMethodKeys[key] ?: CalculationMethod.OTHER
             } ?: CalculationMethod.OTHER
 
         // Start from the method's canonical parameters so the angles/interval and the method's built-in
