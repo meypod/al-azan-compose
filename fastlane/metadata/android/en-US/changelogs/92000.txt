@@ -1,0 +1,5 @@
+- Add option to set custom alarm volume and gradually increase the sound
+- Fix calculation method migration (users updating from old app no longer get wrong times)
+- Small fix for double upcoming alarm issue
+- Make widget notification not group with the rest of notifications
+- Other small fixes
