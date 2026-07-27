@@ -13,7 +13,7 @@ android {
     compileSdk { version = release(37) }
 
     defaultConfig {
-        applicationId = "com.github.meypod.al_azan"
+        applicationId = "se.al_azan.app"
         minSdk = 26
         compileSdk = 37
         targetSdk = 36
@@ -128,6 +128,11 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.tencent.mmkv)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 
     implementation(libs.batoulapps.adhan)
 

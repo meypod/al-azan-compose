@@ -24,4 +24,8 @@ sealed interface CalculationSettingsUiAction {
     data class OnLunarCalendarChange(
         val value: String,
     ) : CalculationSettingsUiAction
+
+    data class OnSwedishCityChange(
+        val cityId: String?,
+    ) : CalculationSettingsUiAction
 }

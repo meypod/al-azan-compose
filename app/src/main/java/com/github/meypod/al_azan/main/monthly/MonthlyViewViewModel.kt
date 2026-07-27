@@ -14,6 +14,9 @@ import com.github.meypod.al_azan.core.domain.util.addCalendarMonths
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.calendarMonthDays
 import com.github.meypod.al_azan.core.domain.util.formatInstant
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
+import com.github.meypod.al_azan.core.data.network.SwedishDownloader
+import kotlinx.coroutines.flow.onStart
 import com.github.meypod.al_azan.core.domain.util.isSameCalendarMonth
 import com.github.meypod.al_azan.core.domain.util.isSameGregorianDay
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,6 +37,7 @@ class MonthlyViewViewModel @Inject constructor(
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
+    private val swedishDownloader: SwedishDownloader,
 ) : ViewModel() {
     private val anchor = MutableStateFlow(Clock.System.now())
     private val calendarMode = MutableStateFlow(MonthlyCalendarMode.SECONDARY)
@@ -88,17 +92,28 @@ class MonthlyViewViewModel @Inject constructor(
 
     private fun collectState() {
         viewModelScope.launch {
+            val anchorAndMode = combine(anchor, calendarMode) { a, m -> a to m }
             combine(
-                anchor,
-                calendarMode,
+                anchorAndMode,
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
-            ) { anchorInstant, mode, settings, calcSettings, locations ->
+                swedishDownloader.downloadSignal.onStart { emit(Unit) }
+            ) { (anchorInstant, mode), settings, calcSettings, locations, _ ->
                 val (calendar, locale) = activeCalendar(settings, mode)
                 val location = locations.firstOrNull { it.id == calcSettings.locationId }
-                val parameters = calcSettings.parameters
+
                 val now = Clock.System.now()
+
+                // Trigger dynamic prefetch for the viewed year!
+                val swedishCityId = calcSettings.swedishCityId
+                if (swedishCityId != null) {
+                    val viewingYear = anchorInstant.toLocalDate().year
+                    viewModelScope.launch {
+                        swedishDownloader.prefetchYear(swedishCityId, viewingYear)
+                    }
+                }
+
                 val timePattern = if (settings.is24HourFormat) "HH:mm" else "hh:mm"
                 // In lunar mode the displayed month/day follow the user's hijri-date adjustment,
                 // while prayer times are still computed for the real gregorian day.
@@ -107,13 +122,14 @@ class MonthlyViewViewModel @Inject constructor(
 
                 val rows = calendarMonthDays(anchorInCalendar, calendar).map { calendarDay ->
                     val realInstant = addDaysTimeZoneAware(calendarDay, -adjustment)
-                    val times = if (parameters != null && location != null) {
+                    val times = if (calcSettings.isConfigured && location != null) {
                         getShariaTimesUseCase(
                             instant = realInstant,
-                            calculationParameters = parameters,
+                            calculationParameters = calcSettings.effectiveParameters,
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
+                            swedishCityId = calcSettings.swedishCityId,
                         )
                     } else {
                         null

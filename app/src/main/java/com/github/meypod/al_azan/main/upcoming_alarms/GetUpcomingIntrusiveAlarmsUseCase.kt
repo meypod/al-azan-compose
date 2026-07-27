@@ -88,6 +88,7 @@ class GetUpcomingIntrusiveAlarmsUseCase @Inject constructor(
                 calculationAdjustments = calc.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
                 locationDetail = location,
+                swedishCityId = calc.swedishCityId,
             )
 
             for (prayer in SHARIA_TIMES_IN_ORDER) {

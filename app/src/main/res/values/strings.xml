@@ -4,7 +4,7 @@
     <!-- ============================================================
          Shared / common UI  (core/presentation/components)
          ============================================================ -->
-    <string name="app_name">Al-Azan</string>
+    <string name="app_name">Al-Azan Sverige</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="close">Close</string>
@@ -743,4 +743,9 @@
          (both already localized); this string is only the separator, so it isn't translated. -->
     <string name="reschedule_when" translatable="false">%1$s, %2$s</string>
 
+    <!-- Swedish API Integration -->
+    <string name="swedish_city_select">Swedish City</string>
+    <string name="swedish_city_none">None (Use Calculation)</string>
+    <string name="swedish_city_disclaimer_title">Official IFIS Times</string>
+    <string name="swedish_city_disclaimer">The prayer times for the selected city are directly synchronized with Islamiska Förbundet i Sverige (IFIS). All astronomical calculation methods are bypassed.</string>
 </resources>

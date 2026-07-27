@@ -53,13 +53,6 @@ fun CalculationSettingsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
     ) {
-        InformationCard(Modifier.fillMaxWidth()) {
-            Column {
-                Text(annotatedStringResource(R.string.calculation_info_card_title))
-                Text(stringResource(R.string.calculation_info_card))
-            }
-        }
-
         ACard { cardPadding ->
             Column(
                 modifier = Modifier
@@ -68,123 +61,161 @@ fun CalculationSettingsScreen(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                // Prepend a "None" option to the swedish cities list
+                val noneOption = com.github.meypod.al_azan.core.data.model.swedish.SwedishCity("none", stringResource(R.string.swedish_city_none))
+                val cityOptions = listOf(noneOption) + uiState.swedishCities
                 BottomSelect(
                     modifier = Modifier.fillMaxWidth(),
-                    options = CalculationMethod.entries,
-                    optionKey = { it.name },
-                    optionLabel = { it.i18n(resources) },
-                    selectedKey = uiState.calculationParameters?.method?.name,
-                    selectedLabelOverride = uiState.calculationParameters?.let { params ->
-                        val name = params.method.i18n(resources)
-                        if (params.isMethodModified()) {
-                            stringResource(R.string.calculation_method_modified, name)
-                        } else {
-                            name
-                        }
+                    options = cityOptions,
+                    optionKey = { it.id },
+                    optionLabel = { it.name },
+                    selectedKey = uiState.swedishCityId ?: "none",
+                    onSelect = {
+                        onAction(CalculationSettingsUiAction.OnSwedishCityChange(if (it.id == "none") null else it.id))
                     },
-                    onSelect = { onAction(CalculationSettingsUiAction.OnCalculationMethodChange(it)) },
                     searchable = true,
                     label = {
-                        Text(stringResource(R.string.calculation_method))
+                        Text(stringResource(R.string.swedish_city_select))
                     },
-                    placeholder = stringResource(R.string.calculation_method_select_placeholder),
-                    supportingText = when (uiState.calculationParameters?.method) {
-                        CalculationMethod.UMM_AL_QURA -> {
-                            { Text(stringResource(R.string.calc_method_umm_al_qura_ramadan_note)) }
-                        }
-
-                        CalculationMethod.TURKEY -> {
-                            { Text(stringResource(R.string.calc_method_turkey_approximation_note)) }
-                        }
-
-                        else -> null
-                    },
+                    placeholder = stringResource(R.string.swedish_city_select),
+                    supportingText = {
+                        Text(stringResource(R.string.swedish_city_disclaimer))
+                    }
                 )
-
-                var editingParams by remember { mutableStateOf(false) }
-                FlowRow(
-                    itemVerticalAlignment = Alignment.CenterVertically,
-                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding), Alignment.CenterHorizontally),
+            }
+        }
+        if (uiState.swedishCityId != null) {
+            InformationCard(Modifier.fillMaxWidth()) {
+                Column {
+                    Text(stringResource(R.string.swedish_city_disclaimer_title))
+                    Text(stringResource(R.string.swedish_city_disclaimer))
+                }
+            }
+        } else {
+            InformationCard(Modifier.fillMaxWidth()) {
+                Column {
+                    Text(annotatedStringResource(R.string.calculation_info_card_title))
+                    Text(stringResource(R.string.calculation_info_card))
+                }
+            }
+            ACard { cardPadding ->
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .unifiedBorder()
-                        .clickable(enabled = uiState.calculationParameters != null, role = Role.Button) { editingParams = true }
-                        .padding(dimensionResource(R.dimen.element_padding)),
+                        .padding(cardPadding),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding)),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    ParamAdjustBox(
-                        stringResource(R.string.fajr_angle),
-                        uiState.calculationParameters?.fajrAngle?.toString() ?: "0",
+                    BottomSelect(
+                        modifier = Modifier.fillMaxWidth(),
+                        options = CalculationMethod.entries,
+                        optionKey = { it.name },
+                        optionLabel = { it.i18n(resources) },
+                        selectedKey = uiState.calculationParameters?.method?.name,
+                        selectedLabelOverride = uiState.calculationParameters?.let { params ->
+                            val name = params.method.i18n(resources)
+                            if (params.isMethodModified()) {
+                                stringResource(R.string.calculation_method_modified, name)
+                            } else {
+                                name
+                            }
+                        },
+                        onSelect = { onAction(CalculationSettingsUiAction.OnCalculationMethodChange(it)) },
+                        searchable = true,
+                        label = {
+                            Text(stringResource(R.string.calculation_method))
+                        },
+                        placeholder = stringResource(R.string.calculation_method_select_placeholder),
+                        supportingText = when (uiState.calculationParameters?.method) {
+                            CalculationMethod.UMM_AL_QURA -> {
+                                { Text(stringResource(R.string.calc_method_umm_al_qura_ramadan_note)) }
+                            }
+                            CalculationMethod.TURKEY -> {
+                                { Text(stringResource(R.string.calc_method_turkey_approximation_note)) }
+                            }
+                            else -> null
+                        },
                     )
-                    ParamAdjustBox(
-                        stringResource(R.string.isha_angle),
-                        uiState.calculationParameters?.ishaAngle?.toString() ?: "0",
-                    )
-                    ParamAdjustBox(
-                        stringResource(R.string.isha_interval),
-                        uiState.calculationParameters?.ishaInterval?.toString() ?: "0",
-                    )
-                    ParamAdjustBox(
-                        stringResource(R.string.maghrib_angle),
-                        uiState.calculationParameters?.maghribAngle?.toString() ?: "0",
-                    )
-                }
-
-                if (editingParams) {
-                    uiState.calculationParameters?.let { params ->
-                        CalcParamsEditDialog(
-                            parameters = params,
-                            onConfirm = {
-                                onAction(CalculationSettingsUiAction.OnCalculationMethodParamsEdited(it))
-                                editingParams = false
-                            },
-                            onDismiss = { editingParams = false },
+                    var editingParams by remember { mutableStateOf(false) }
+                    FlowRow(
+                        itemVerticalAlignment = Alignment.CenterVertically,
+                        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding), Alignment.CenterHorizontally),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .unifiedBorder()
+                            .clickable(enabled = uiState.calculationParameters != null, role = Role.Button) { editingParams = true }
+                            .padding(dimensionResource(R.dimen.element_padding)),
+                    ) {
+                        ParamAdjustBox(
+                            stringResource(R.string.fajr_angle),
+                            uiState.calculationParameters?.fajrAngle?.toString() ?: "0",
+                        )
+                        ParamAdjustBox(
+                            stringResource(R.string.isha_angle),
+                            uiState.calculationParameters?.ishaAngle?.toString() ?: "0",
+                        )
+                        ParamAdjustBox(
+                            stringResource(R.string.isha_interval),
+                            uiState.calculationParameters?.ishaInterval?.toString() ?: "0",
+                        )
+                        ParamAdjustBox(
+                            stringResource(R.string.maghrib_angle),
+                            uiState.calculationParameters?.maghribAngle?.toString() ?: "0",
                         )
                     }
-                }
-            }
-        }
-
-        ACard { cardPadding ->
-            Column(Modifier.padding(cardPadding), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
-                BottomSelect(
-                    modifier = Modifier.fillMaxWidth(),
-                    options = SupportedLunarCalendars.entries,
-                    optionKey = { it.icuValue },
-                    optionLabel = { it.i18n(resources) },
-                    selectedKey = uiState.selectedCalendar,
-                    onSelect = { onAction(CalculationSettingsUiAction.OnLunarCalendarChange(it.icuValue)) },
-                    searchable = true,
-                    label = {
-                        Text(stringResource(R.string.calendar))
-                    },
-                    supportingText = {
-                        Text(stringResource(R.string.lunar_calendar_supporting_text))
-                    },
-                )
-
-                ACard(tonalElevation = 2.dp) { innerCardPadding ->
-                    InformationRow(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(innerCardPadding),
-                        iconDescription = null,
-                    ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
-                            Text(annotatedStringResource(R.string.attention_title))
-                            Text(stringResource(R.string.lunar_calendar_warning))
+                    if (editingParams) {
+                        uiState.calculationParameters?.let { params ->
+                            CalcParamsEditDialog(
+                                parameters = params,
+                                onConfirm = {
+                                    onAction(CalculationSettingsUiAction.OnCalculationMethodParamsEdited(it))
+                                    editingParams = false
+                                },
+                                onDismiss = { editingParams = false },
+                            )
                         }
                     }
                 }
             }
-        }
-
-        SettingLinkButton(stringResource(R.string.adjustments)) {
-            onAction(CalculationSettingsUiAction.OnAdjustmentsClick(adjustmentsRoute))
-        }
-
-        SettingLinkButton(stringResource(R.string.advanced_calculation_settings)) {
-            onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick(advancedRoute))
+            ACard { cardPadding ->
+                Column(Modifier.padding(cardPadding), verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+                    BottomSelect(
+                        modifier = Modifier.fillMaxWidth(),
+                        options = SupportedLunarCalendars.entries,
+                        optionKey = { it.icuValue },
+                        optionLabel = { it.i18n(resources) },
+                        selectedKey = uiState.selectedCalendar,
+                        onSelect = { onAction(CalculationSettingsUiAction.OnLunarCalendarChange(it.icuValue)) },
+                        searchable = true,
+                        label = {
+                            Text(stringResource(R.string.calendar))
+                        },
+                        supportingText = {
+                            Text(stringResource(R.string.lunar_calendar_supporting_text))
+                        },
+                    )
+                    ACard(tonalElevation = 2.dp) { innerCardPadding ->
+                        InformationRow(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(innerCardPadding),
+                            iconDescription = null,
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+                                Text(annotatedStringResource(R.string.attention_title))
+                                Text(stringResource(R.string.lunar_calendar_warning))
+                            }
+                        }
+                    }
+                }
+            }
+            SettingLinkButton(stringResource(R.string.adjustments)) {
+                onAction(CalculationSettingsUiAction.OnAdjustmentsClick(adjustmentsRoute))
+            }
+            SettingLinkButton(stringResource(R.string.advanced_calculation_settings)) {
+                onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick(advancedRoute))
+            }
         }
     }
 }

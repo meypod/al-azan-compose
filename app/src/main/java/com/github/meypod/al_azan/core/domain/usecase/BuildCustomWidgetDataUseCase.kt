@@ -39,7 +39,8 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         config: CustomWidgetConfig,
         favoriteLocations: List<FavoriteLocation> = emptyList(),
     ): CustomWidgetData? {
-        val parameters = calcSettings.parameters ?: return null
+        if (!calcSettings.isConfigured) return null
+        val parameters = calcSettings.effectiveParameters
         val locations = resolveLocations(config, location, favoriteLocations)
         if (locations.isEmpty()) return null
 
@@ -52,10 +53,10 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         // could be one that isn't shown (e.g. Sunset), so the countdown would target an unseen time.
         val notPlaced = Prayer.entries.toSet() - config.rows.flatten().toSet()
 
-        fun shariaTimesFor(loc: CalculationLocationDetail) = getShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc)
+        fun shariaTimesFor(loc: CalculationLocationDetail) = getShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, calcSettings.swedishCityId)
 
         fun nextFor(loc: CalculationLocationDetail) =
-            getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, excluding = notPlaced)
+            getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, excluding = notPlaced, swedishCityId = calcSettings.swedishCityId)
 
         // Countdown and the redraw time follow the primary (first) location; dates are location-
         // independent (Hijri day-shift uses the primary's maghrib).

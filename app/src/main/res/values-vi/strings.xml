@@ -4,7 +4,7 @@
     <!-- ============================================================
          Shared / common UI  (core/presentation/components)
          ============================================================ -->
-    <string name="app_name">Al-Azan</string>
+    <string name="app_name">Al-Azan Sverige</string>
     <string name="cancel">Hủy</string>
     <string name="confirm">Xác nhận</string>
     <string name="close">Đóng</string>

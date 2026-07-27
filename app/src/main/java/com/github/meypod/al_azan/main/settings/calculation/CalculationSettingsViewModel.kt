@@ -16,23 +16,29 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+import com.github.meypod.al_azan.core.data.network.SwedishDownloader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 @HiltViewModel
 class CalculationSettingsViewModel
 @Inject constructor(
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val settingsRepository: SettingsRepository,
+    private val swedishDownloader: SwedishDownloader,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CalculationSettingsUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
+            val cities = withContext(Dispatchers.IO) { swedishDownloader.getCities() }
             combine(calculationSettingsRepository.data, settingsRepository.data) { calcSettings, settings ->
                 _uiState.update { state ->
                     state.copy(
                         calculationParameters = calcSettings.parameters,
                         selectedCalendar = settings.selectedArabicCalendar,
+                        swedishCityId = calcSettings.swedishCityId,
+                        swedishCities = cities,
                     )
                 }
             }.collect()
@@ -46,6 +52,7 @@ class CalculationSettingsViewModel
             is CalculationSettingsUiAction.OnCalculationMethodChange -> onCalculationMethodChange(action.value)
             is CalculationSettingsUiAction.OnCalculationMethodParamsEdited -> onCalculationMethodParamsEdited(action.value)
             is CalculationSettingsUiAction.OnLunarCalendarChange -> onCalendarChange(action.value)
+            is CalculationSettingsUiAction.OnSwedishCityChange -> onSwedishCityChange(action.cityId)
         }
     }
 
@@ -76,6 +83,20 @@ class CalculationSettingsViewModel
     private fun onCalendarChange(value: String) {
         viewModelScope.launch {
             settingsRepository.update { it.copy(selectedArabicCalendar = value) }
+        }
+    }
+    private fun onSwedishCityChange(cityId: String?) {
+        viewModelScope.launch {
+            if (cityId != null) {
+                // Ensure the times are downloaded for the current month so they are available offline immediately
+                val calendar = java.util.Calendar.getInstance()
+                val year = calendar.get(java.util.Calendar.YEAR)
+                val month = calendar.get(java.util.Calendar.MONTH) + 1
+                swedishDownloader.prefetchYear(cityId, year)
+            }
+            calculationSettingsRepository.update {
+                it.copy(swedishCityId = cityId)
+            }
         }
     }
 }

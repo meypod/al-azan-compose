@@ -7,4 +7,6 @@ import io.github.meypod.adhan_kotlin.CalculationParameters
 data class CalculationSettingsUiState(
     val calculationParameters: CalculationParameters? = null,
     val selectedCalendar: String? = null,
+    val swedishCityId: String? = null,
+    val swedishCities: List<com.github.meypod.al_azan.core.data.model.swedish.SwedishCity> = emptyList(),
 )

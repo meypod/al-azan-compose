@@ -23,7 +23,8 @@ class BuildNextPrayerWidgetDataUseCase @Inject constructor(
         calcSettings: CalculationSettings,
         location: CalculationLocationDetail?,
     ): NextPrayerWidgetData? {
-        val parameters = calcSettings.parameters ?: return null
+        if (!calcSettings.isConfigured) return null
+        val parameters = calcSettings.effectiveParameters
         if (location == null) return null
 
         val selected = settings.countdownWidgetPrayers.toSet()

@@ -107,7 +107,7 @@ class WidgetUpdater @Inject constructor(
 
             // When times can't be computed, every placed widget shows the same actionable hint (tap →
             // open app) instead of a stale 0:00 placeholder: point at whichever piece is missing.
-            val configHintRes = if (calcSettings.parameters == null) {
+            val configHintRes = if (!calcSettings.isConfigured) {
                 R.string.set_calculation_hint
             } else {
                 R.string.set_location_hint

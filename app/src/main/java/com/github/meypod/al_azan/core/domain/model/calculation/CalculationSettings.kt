@@ -7,7 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CalculationSettings(
     val locationId: String? = null,
+    val swedishCityId: String? = null,
     val parameters: CalculationParameters? = null,
     val calculationAdjustments: CalculationAdjustments = CalculationAdjustments(),
     val midnightMethod: MidnightMethod = MidnightMethod.SunsetToFajr,
-)
+) {
+    val isConfigured: Boolean get() = parameters != null || swedishCityId != null
+    val effectiveParameters: CalculationParameters get() = parameters ?: io.github.meypod.adhan_kotlin.CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters
+}

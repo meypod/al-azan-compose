@@ -67,6 +67,7 @@ class App :
 
     override fun onCreate() {
         super.onCreate()
+        com.github.meypod.al_azan.core.data.network.SwedishDownloader.appContext = this
         MMKV.initialize(this)
         val mmkv = MMKV.defaultMMKV()
         if (mmkv.contains(SETTINGS_STORAGE) && !mmkv.contains(MIGRATED_TO_V2)) {

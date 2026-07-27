@@ -25,6 +25,7 @@ class GetShariaTimesUseCase @Inject constructor() {
         calculationAdjustments: CalculationAdjustments,
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
+        swedishCityId: String? = null,
     ): ShariaTimes {
         val dayBeginning = getDayBeginning(instant)
         val finalCoordinates = locationDetail.toCoordinates().let {
@@ -64,7 +65,13 @@ class GetShariaTimesUseCase @Inject constructor() {
         }
         val prayerTimes = PrayerTimes(finalCoordinates, DateComponents.from(dayBeginning), finalCalculationParameters)
         val sunnahTimes = SunnahTimes(prayerTimes)
-        val shariaTimes = ShariaTimes.from(dayBeginning, prayerTimes, sunnahTimes)
+        var shariaTimes = ShariaTimes.from(dayBeginning, prayerTimes, sunnahTimes)
+
+        // Swedish API Interception
+        if (swedishCityId != null) {
+            shariaTimes = IfisTimesOverride.applyOverride(shariaTimes, swedishCityId, instant)
+        }
+
         return shariaTimes.copy(
             midnight = shariaTimes.midnight.plus(calculationAdjustments.midnight.toDuration(DurationUnit.MINUTES)),
             tahajjud = shariaTimes.tahajjud.plus(calculationAdjustments.tahajjud.toDuration(DurationUnit.MINUTES)),

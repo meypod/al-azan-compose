@@ -24,13 +24,15 @@ class GetCurrentShariaTimesUseCase @Inject constructor(
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
         excluding: Set<Prayer> = emptySet(),
+        swedishCityId: String? = null,
     ): ShariaTimeDetails? {
         val shariaTimes = getShariaTimesUseCase(
-            instant,
-            calculationParameters,
-            calculationAdjustments,
-            arabicCalendar,
-            locationDetail,
+            instant = instant,
+            calculationParameters = calculationParameters,
+            calculationAdjustments = calculationAdjustments,
+            arabicCalendar = arabicCalendar,
+            locationDetail = locationDetail,
+            swedishCityId = swedishCityId,
         )
         val currentPrayer = shariaTimes.currentPrayer(instant, excluding) ?: return null
         return ShariaTimeDetails(

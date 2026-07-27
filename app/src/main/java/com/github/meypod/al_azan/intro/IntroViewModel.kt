@@ -93,7 +93,7 @@ constructor(
     private fun onFinishClick() {
         viewModelScope.launch {
             val calcSettings = calculationSettingsRepository.fetch()
-            if (calcSettings.locationId != null && calcSettings.parameters != null) {
+            if (calcSettings.locationId != null && calcSettings.isConfigured) {
                 settingsRepository.update { it.copy(appIntroDone = true) }
             } else {
                 onAction(IntroUiAction.OnSkipClick)

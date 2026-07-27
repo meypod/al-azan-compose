@@ -45,6 +45,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         locationDetail: CalculationLocationDetail,
         alarmSettings: AlarmSettings? = null,
         excluding: Set<Prayer> = emptySet(),
+        swedishCityId: String? = null,
         isSkipped: (Prayer, Instant) -> Boolean = { _, _ -> false },
     ): ShariaTimeDetails? {
         val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
@@ -58,6 +59,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
                 calculationAdjustments,
                 arabicCalendar,
                 locationDetail,
+                swedishCityId,
             )
             val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding, isSkipped)
             if (nextPrayer != null) {
@@ -80,7 +82,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         // *following* calendar day but is found while iterating its prayer-day) — the horizon leaves slack.
         for (dayOffset in 0..AlarmSchedulingDefaults.SEARCH_DAYS) {
             shariahTimes =
-                getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
+                getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail, swedishCityId)
             // On the current day, match against "now" (the next upcoming prayer). On any later day,
             // match against the start of that day so we get its first prayer AND so the weekday used by
             // alarmSettings' per-weekday checks is that day's, not today's.

@@ -45,6 +45,8 @@ import kotlin.time.Clock
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+import kotlinx.coroutines.flow.onStart
+
 @HiltViewModel
 class HomeViewModel
 @Inject constructor(
@@ -57,6 +59,7 @@ class HomeViewModel
     private val systemChangeRepository: SystemChangeRepository,
     private val alarmRepository: AlarmRepository,
     private val alarmSettingsRepository: AlarmSettingsRepository,
+    private val swedishDownloader: com.github.meypod.al_azan.core.data.network.SwedishDownloader,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -267,11 +270,13 @@ class HomeViewModel
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
+                swedishDownloader.downloadSignal.onStart { emit(Unit) }
             ) {
                     currentInstant,
                     settings,
                     calcSettings,
                     locations,
+                    _,
                 ->
                 _uiState.update {
                     val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
@@ -281,27 +286,29 @@ class HomeViewModel
                     } else {
                         hiddenPrayers
                     }
-                    val nextShariaTime = if (calcSettings.parameters != null && location != null) {
+                    val nextShariaTime = if (calcSettings.isConfigured && location != null) {
                         getNextShariaTimesUseCase(
                             instant = currentInstant,
-                            calculationParameters = calcSettings.parameters,
+                            calculationParameters = calcSettings.effectiveParameters,
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
                             excluding = nextExcluded,
+                            swedishCityId = calcSettings.swedishCityId,
                         )
                     } else {
                         null
                     }
                     val highlightedShariaTime =
-                        if (settings.highlightCurrentPrayer && calcSettings.parameters != null && location != null) {
+                        if (settings.highlightCurrentPrayer && calcSettings.isConfigured && location != null) {
                             getCurrentShariaTimesUseCase(
                                 instant = currentInstant,
-                                calculationParameters = calcSettings.parameters,
+                                calculationParameters = calcSettings.effectiveParameters,
                                 calculationAdjustments = calcSettings.calculationAdjustments,
                                 arabicCalendar = settings.selectedArabicCalendar,
                                 locationDetail = location.locationDetail,
                                 excluding = hiddenPrayers,
+                                swedishCityId = calcSettings.swedishCityId,
                             )
                         } else {
                             nextShariaTime
@@ -342,7 +349,7 @@ class HomeViewModel
                         locale = settings.selectedLocale,
                         numberingSystem = settings.numberingSystem,
                         location = location,
-                        isCalculationConfigured = calcSettings.parameters != null,
+                        isCalculationConfigured = calcSettings.isConfigured,
                         showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
                         nextShariaTime = nextShariaTime,
                         countdownText = countdownText,
@@ -366,21 +373,31 @@ class HomeViewModel
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
+                swedishDownloader.downloadSignal.onStart { emit(Unit) }
             ) {
                     viewingInstant,
                     settings,
                     calcSettings,
                     locations,
+                    _,
                 ->
                 _uiState.update {
+                    val swedishCityId = calcSettings.swedishCityId
+                    if (swedishCityId != null) {
+                        val viewingYear = viewingInstant.toLocalDate().year
+                        viewModelScope.launch {
+                            swedishDownloader.prefetchYear(swedishCityId, viewingYear)
+                        }
+                    }
                     val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
-                    val shariaTimes = if (calcSettings.parameters != null && location != null) {
+                    val shariaTimes = if (calcSettings.isConfigured && location != null) {
                         getShariaTimesUseCase(
                             instant = viewingInstant,
-                            calculationParameters = calcSettings.parameters,
+                            calculationParameters = calcSettings.effectiveParameters,
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
+                            swedishCityId = calcSettings.swedishCityId,
                         )
                     } else {
                         null

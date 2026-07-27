@@ -45,6 +45,7 @@ class AdhanScheduler @Inject constructor(
     private val alarmRepository: AlarmRepository,
     private val notificationRepository: NotificationRepository,
     private val audioDurationProbe: AudioDurationProbe,
+    private val swedishDownloader: com.github.meypod.al_azan.core.data.network.SwedishDownloader,
 ) {
     private val mutex = Mutex()
 
@@ -89,6 +90,18 @@ class AdhanScheduler @Inject constructor(
                 settingsRepository.update { it.copy(skippedOccurrences = livePruned) }
             }
             val fromMs = maxOf(nowMs, deliveredMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS, silencedUntilMs)
+
+            // Ensure IFIS data is pre-fetched for offline/background support
+            if (calc.swedishCityId != null) {
+                val calendar = java.util.Calendar.getInstance()
+                val currentYear = calendar.get(java.util.Calendar.YEAR)
+                val currentMonth = calendar.get(java.util.Calendar.MONTH) + 1
+
+                swedishDownloader.prefetchYear(calc.swedishCityId, currentYear)
+                if (currentMonth == 12 && calendar.get(java.util.Calendar.DAY_OF_MONTH) >= 25) {
+                    swedishDownloader.prefetchYear(calc.swedishCityId, currentYear + 1)
+                }
+            }
 
             // "Skip": pass over any occurrence the user skipped (logical (prayer, date) match), so the
             // next non-skipped prayer is armed instead — no time-based floor, so it survives re-calcs.

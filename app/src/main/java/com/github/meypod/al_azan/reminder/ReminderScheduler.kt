@@ -48,6 +48,7 @@ class ReminderScheduler @Inject constructor(
     private val alarmRepository: AlarmRepository,
     private val notificationRepository: NotificationRepository,
     private val audioDurationProbe: AudioDurationProbe,
+    private val swedishDownloader: com.github.meypod.al_azan.core.data.network.SwedishDownloader,
 ) {
     private val mutex = Mutex()
 
@@ -110,7 +111,18 @@ class ReminderScheduler @Inject constructor(
                 lastSignatures.clear()
                 return@withLock emptyList()
             }
-
+            // Ensure IFIS data is pre-fetched for offline/background support
+            if (calc.swedishCityId != null) {
+                val calendar = java.util.Calendar.getInstance()
+                val currentYear = calendar.get(java.util.Calendar.YEAR)
+                val currentMonth = calendar.get(java.util.Calendar.MONTH) + 1
+                // Prefetch current month
+                swedishDownloader.getPrayerTimes(calc.swedishCityId, currentMonth, currentYear)
+                // Prefetch next month if we are near the end of the month
+                val nextMonth = if (currentMonth == 12) 1 else currentMonth + 1
+                val nextYear = if (currentMonth == 12) currentYear + 1 else currentYear
+                swedishDownloader.getPrayerTimes(calc.swedishCityId, nextMonth, nextYear)
+            }
             val alarmType = AlarmSchedulingDefaults.alarmType(settings.useDifferentAlarmType)
             val outcomes = mutableListOf<Outcome>()
             val newSignatures = mutableMapOf<String, Long>()
@@ -217,6 +229,7 @@ class ReminderScheduler @Inject constructor(
                 calculationAdjustments = calc.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
                 locationDetail = location,
+                swedishCityId = calc.swedishCityId,
             )
             val trigger = times.forPrayer(reminder.prayer) + offsetMinutes
             val matchesDay = reminder.days?.shouldFireFor(trigger) ?: true

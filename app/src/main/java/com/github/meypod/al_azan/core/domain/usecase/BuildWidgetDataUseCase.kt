@@ -37,7 +37,8 @@ class BuildWidgetDataUseCase @Inject constructor(
         calcSettings: CalculationSettings,
         location: CalculationLocationDetail?,
     ): WidgetData? {
-        val parameters = calcSettings.parameters ?: return null
+        if (!calcSettings.isConfigured) return null
+        val parameters = calcSettings.effectiveParameters
         if (location == null) return null
 
         val arabicCalendarLocale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale
@@ -49,6 +50,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location,
+            swedishCityId = calcSettings.swedishCityId,
         )
 
         val nextShariaTime = getNextShariaTimesUseCase(
@@ -58,6 +60,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location,
             excluding = hidden,
+            swedishCityId = calcSettings.swedishCityId,
         )
 
         val activePrayer = if (settings.highlightCurrentPrayerWidget) {

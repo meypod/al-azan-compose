@@ -80,8 +80,10 @@ class PrayerTimesAppFunctions @Inject constructor(
         }
 
         val calcSettings = calculationSettingsRepository.fetch()
-        val parameters = calcSettings.parameters
-            ?: throw IllegalStateException("No calculation method configured in the app yet.")
+        if (!calcSettings.isConfigured) {
+            throw Exception("Calculation method or Swedish city is not configured")
+        }
+        val parameters = calcSettings.effectiveParameters
         val location = favoriteLocationsRepository.fetch()
             .firstOrNull { it.id == calcSettings.locationId }
             ?: throw IllegalStateException("No location configured in the app yet.")
@@ -98,6 +100,7 @@ class PrayerTimesAppFunctions @Inject constructor(
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location.locationDetail,
+            swedishCityId = calcSettings.swedishCityId,
         )
 
         val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ROOT)
