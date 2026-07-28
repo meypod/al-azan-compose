@@ -238,23 +238,23 @@
     <string name="home_shortcuts_help">Pilih pintasan untuk ditampilkan di bilah alat layar beranda.</string>
     <string name="shortcut_column">Pintasan</string>
     <string name="home_max_shortcuts_warning">Jumlah maksimum pintasan tercapai</string>
-    <string name="lunar_day_starts_at_maghrib">Tanggal Lunar berganti saat waktu Maghrib</string>
+    <string name="lunar_day_starts_at_maghrib">Tanggal Hijriyah berganti saat waktu Maghrib</string>
     <string name="use_24_hour_format">Gunakan format 24 Jam</string>
     <string name="numbering_system">Sistem penomoran</string>
     <string name="numbering_system_help">Memaksa semua angka menggunakan sistem yang dipilih.</string>
     <string name="numbering_system_latn">Arab Barat</string>
     <string name="numbering_system_arab">Arab Timur</string>
     <string name="numbering_system_arabext">Persia</string>
-    <string name="lunar_calendar_language">Bahasa Kalender Lunar</string>
-    <string name="lunar_calendar_language_help">Ubah bahasa yang digunakan untuk kalender lunar.</string>
+    <string name="lunar_calendar_language">Bahasa Kalender Hijriyah</string>
+    <string name="lunar_calendar_language_help">Ubah bahasa yang digunakan untuk kalender hijriyah.</string>
     <string name="secondary_calendar">Kalender Sekunder</string>
     <string name="secondary_calendar_help">Kalender yang digunakan di bilah alat layar beranda dan widget.</string>
     <string name="hide_toolbar_calendar">Sembunyikan kalender bilah alat</string>
     <string name="hide_toolbar_calendar_help">Sembunyikan tanggal di samping tombol menu di atas.</string>
-    <string name="swap_home_calendars">Tukar kalender lunar dan sekunder</string>
-    <string name="swap_home_calendars_help">Tampilkan kalender sekunder di header beranda dan tanggal lunar di bilah alat.</string>
-    <string name="calendar_lunar">Lunar</string>
-    <string name="calendar_gregorian">Gregorian</string>
+    <string name="swap_home_calendars">Tukar kalender hijriyah dan sekunder</string>
+    <string name="swap_home_calendars_help">Tampilkan kalender sekunder di header beranda dan tanggal hijriyah di bilah alat.</string>
+    <string name="calendar_lunar">Hijriyah</string>
+    <string name="calendar_gregorian">Masehi</string>
     <string name="calendar_persian">Persia</string>
     <string name="calendar_ethiopic">Etiopia</string>
     <string name="calendar_buddhist">Buddha</string>
@@ -263,15 +263,15 @@
          Lunar calendar  (core/domain/model/lunar, settings/calculation)
          ============================================================ -->
     <string name="calendar">Kalender</string>
-    <string name="lunar_calendar">Kalender Lunar</string>
-    <string name="lunar_calendar_supporting_text">Jenis kalender lunar yang ditampilkan di layar utama dan widget.</string>
+    <string name="lunar_calendar">Kalender Hijriyah</string>
+    <string name="lunar_calendar_supporting_text">Jenis kalender hijriyah yang ditampilkan di layar utama dan widget.</string>
     <string name="lunar_islamic">Islam</string>
     <string name="lunar_islamic_ummalqura">Islam (Umm al-Qura)</string>
     <string name="lunar_islamic_tabular">Islam (tabular)</string>
     <string name="lunar_islamic_civil">Islam (sipil)</string>
     <string name="lunar_islamic_saudi_sighting">Islam (penampakan Arab Saudi)</string>
     <string name="attention_title"><b>Perhatian!</b></string>
-    <string name="lunar_calendar_warning">Kalender lunar aplikasi ini telah dihitung sebelumnya dan mungkin tidak akurat karena tidak berdasarkan penampakan bulan. Hal ini sangat penting untuk diperhatikan terutama untuk awal dan akhir Ramadan.</string>
+    <string name="lunar_calendar_warning">Kalender hijriyah aplikasi ini telah dihitung sebelumnya dan mungkin tidak akurat karena tidak berdasarkan penampakan bulan. Hal ini sangat penting untuk diperhatikan terutama untuk awal dan akhir Ramadan.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)
@@ -346,7 +346,7 @@
     <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
     <string name="adjustments_title">Penyesuaian</string>
     <string name="adjustments_help">Jumlah menit yang akan ditambahkan ke waktu yang dihitung.</string>
-    <string name="lunar_days_adjustment_help">Jumlah hari yang akan ditambahkan ke kalender lunar.</string>
+    <string name="lunar_days_adjustment_help">Jumlah hari yang akan ditambahkan ke kalender hijriyah.</string>
     <string name="increment">Kenaikan</string>
     <string name="decrement">Penurunan</string>
 
