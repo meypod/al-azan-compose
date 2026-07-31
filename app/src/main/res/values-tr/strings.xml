@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Alarmları güvenilir tutun</string>
     <string name="battery_optimization_permission_rationale">Alarmlarınızın güvenilir şekilde iletilmesi için bu uygulamanın arka planda çalışmaya devam etmesine izin verin. Aksi takdirde sistem, pil tasarrufu için uygulamayı durdurabilir ve alarmlar gecikebilir veya kaçırılabilir.</string>
     <string name="battery_optimization_permission_denied_text">Pil optimizasyonu hâlâ açık, bu yüzden alarmlar gecikebilir veya kaçırılabilir. Buna daha sonra ayarlardan izin verebilirsiniz.</string>
+    <string name="display_over_apps_permission_title">Diğer uygulamaların üzerinde göstermeye izin ver</string>
+    <string name="display_over_apps_permission_rationale">Alarm ekranının her zaman açılması için bu uygulamanın diğer uygulamaların üzerinde gösterilmesine izin verin. Yeni Android sürümleri bu izin olmadan alarm ekranının arka planda açılmasını engeller.</string>
+    <string name="display_over_apps_permission_denied_text">Bu izin olmadan alarm ekranı kendiliğinden açılmayabilir. Buna daha sonra ayarlardan izin verebilirsiniz.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Bir ezan veya hatırlatıcı çalarken ekranı açma veya tam ekran alarmı gösterme.</string>
     <string name="force_launch_alarm_screen">Alarm ekranını her zaman aç</string>
     <string name="force_launch_alarm_screen_help">Tam ekran alarmının doğrudan açılmasını zorla. Telefonunuz onu kilit ekranının üzerinde göstermiyorsa bunu deneyin.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Diğer uygulamaların üzerinde gösterme izni kaldırıldı, bu yüzden alarm ekranı kendiliğinden açılamıyor.</string>
     <string name="notifications">Bildirimler</string>
     <string name="auto_silent_on_dismiss">Reddettikten sonra Rahatsız Etmeyin</string>
     <string name="auto_silent_on_dismiss_help">Bir ezanı reddettiğinizde, telefon bir süreliğine Rahatsız Etmeyin moduna geçer. Erteleme bunu yapmaz. Yalnızca ezan için geçerlidir.</string>

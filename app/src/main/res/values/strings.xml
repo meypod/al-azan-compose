@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Keep alarms reliable</string>
     <string name="battery_optimization_permission_rationale">To deliver your alarms reliably, allow this app to keep running in the background. Without this, the system may stop it to save battery and delay or miss alarms.</string>
     <string name="battery_optimization_permission_denied_text">Battery optimization is still on, so alarms may be delayed or missed. You can allow this later in settings.</string>
+    <string name="display_over_apps_permission_title">Allow displaying over other apps</string>
+    <string name="display_over_apps_permission_rationale">To always open the alarm screen, allow this app to display over other apps. Newer Android versions block the alarm screen from opening in the background without it.</string>
+    <string name="display_over_apps_permission_denied_text">Without this, the alarm screen may not open on its own. You can allow it later in settings.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Don\'t turn on the screen or show the full-screen alarm when an adhan or reminder plays.</string>
     <string name="force_launch_alarm_screen">Always open the alarm screen</string>
     <string name="force_launch_alarm_screen_help">Force the full-screen alarm to open directly. Try this if your phone doesn\'t show it over the lock screen.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Permission to display over other apps was removed, so the alarm screen can\'t open on its own.</string>
     <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Do Not Disturb after dismiss</string>
     <string name="auto_silent_on_dismiss_help">When you dismiss an adhan, the phone goes into Do Not Disturb for a while. Snoozing doesn\'t. Applies to adhans only.</string>

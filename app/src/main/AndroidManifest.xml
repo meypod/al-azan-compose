@@ -11,6 +11,13 @@
         android:name="android.permission.USE_FULL_SCREEN_INTENT"
         tools:ignore="FullScreenIntentPolicy" />
 
+    <!--
+      "Display over other apps". The only background-activity-launch exemption that doesn't expire:
+      without it, "Always open the alarm screen" is silently blocked on Android 15+ (and on OEM skins
+      that gate background starts behind this toggle). Optional — the full-screen intent still works.
+    -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Alarme zuverlässig halten</string>
     <string name="battery_optimization_permission_rationale">Damit Ihre Alarme zuverlässig zugestellt werden, erlauben Sie dieser App, im Hintergrund weiterzulaufen. Andernfalls kann das System sie zum Energiesparen beenden, wodurch Alarme verzögert werden oder ausbleiben.</string>
     <string name="battery_optimization_permission_denied_text">Die Akkuoptimierung ist noch aktiv, daher können Alarme verzögert werden oder ausbleiben. Sie können dies später in den Einstellungen erlauben.</string>
+    <string name="display_over_apps_permission_title">Anzeige über anderen Apps erlauben</string>
+    <string name="display_over_apps_permission_rationale">Damit der Alarmbildschirm immer geöffnet wird, erlauben Sie dieser App die Anzeige über anderen Apps. Neuere Android-Versionen verhindern sonst, dass sich der Alarmbildschirm im Hintergrund öffnet.</string>
+    <string name="display_over_apps_permission_denied_text">Ohne diese Berechtigung öffnet sich der Alarmbildschirm möglicherweise nicht von selbst. Sie können dies später in den Einstellungen erlauben.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Bildschirm nicht einschalten und keinen Vollbild-Alarm anzeigen, wenn ein Adhan oder eine Erinnerung abgespielt wird.</string>
     <string name="force_launch_alarm_screen">Alarmbildschirm immer öffnen</string>
     <string name="force_launch_alarm_screen_help">Erzwingt, dass der Vollbild-Alarm direkt geöffnet wird. Versuchen Sie dies, wenn Ihr Telefon ihn nicht über dem Sperrbildschirm anzeigt.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Die Berechtigung zur Anzeige über anderen Apps wurde entfernt, daher kann sich der Alarmbildschirm nicht von selbst öffnen.</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="auto_silent_on_dismiss">„Bitte nicht stören“ nach dem Ablehnen</string>
     <string name="auto_silent_on_dismiss_help">Wenn Sie einen Adhan ablehnen, wechselt das Telefon eine Weile in den Modus „Bitte nicht stören“. Beim Schlummern nicht. Gilt nur für den Adhan.</string>

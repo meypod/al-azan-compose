@@ -1,0 +1,1 @@
+- Fix "Always open the alarm screen" option in alarm settings to behave correctly

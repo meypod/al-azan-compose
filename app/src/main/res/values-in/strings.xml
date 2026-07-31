@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Jaga keandalan alarm</string>
     <string name="battery_optimization_permission_rationale">Agar alarm Anda terkirim dengan andal, izinkan aplikasi ini tetap berjalan di latar belakang. Tanpa ini, sistem dapat menghentikannya untuk menghemat baterai sehingga alarm tertunda atau terlewat.</string>
     <string name="battery_optimization_permission_denied_text">Pengoptimalan baterai masih aktif, jadi alarm bisa tertunda atau terlewat. Anda dapat mengizinkannya nanti di pengaturan.</string>
+    <string name="display_over_apps_permission_title">Izinkan tampil di atas aplikasi lain</string>
+    <string name="display_over_apps_permission_rationale">Agar layar alarm selalu terbuka, izinkan aplikasi ini tampil di atas aplikasi lain. Tanpa izin ini, versi Android yang lebih baru mencegah layar alarm terbuka di latar belakang.</string>
+    <string name="display_over_apps_permission_denied_text">Tanpa ini, layar alarm mungkin tidak terbuka dengan sendirinya. Anda dapat mengizinkannya nanti di pengaturan.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Jangan nyalakan layar atau tampilkan alarm layar penuh saat adzan atau pengingat diputar.</string>
     <string name="force_launch_alarm_screen">Selalu buka layar alarm</string>
     <string name="force_launch_alarm_screen_help">Paksa alarm layar penuh untuk terbuka langsung. Coba ini jika ponsel Anda tidak menampilkannya di atas layar kunci.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Izin untuk tampil di atas aplikasi lain telah dicabut, sehingga layar alarm tidak dapat terbuka dengan sendirinya.</string>
     <string name="notifications">Notifikasi</string>
     <string name="auto_silent_on_dismiss">Jangan Ganggu setelah dihentikan</string>
     <string name="auto_silent_on_dismiss_help">Saat Anda menghentikan adzan, ponsel masuk ke mode Jangan Ganggu untuk sementara waktu. Menunda tidak. Hanya berlaku untuk azan.</string>

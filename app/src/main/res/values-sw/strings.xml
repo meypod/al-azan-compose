@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Weka kengele za kuaminika</string>
     <string name="battery_optimization_permission_rationale">Ili kuwasilisha kengele zako kwa uhakika, ruhusu programu hii iendelee kufanya kazi chinichini. Bila hili, mfumo unaweza kuizima ili kuokoa betri, na kengele zikachelewa au kukosekana.</string>
     <string name="battery_optimization_permission_denied_text">Uboreshaji wa betri bado umewashwa, hivyo kengele zinaweza kuchelewa au kukosekana. Unaweza kuruhusu hili baadaye katika mipangilio.</string>
+    <string name="display_over_apps_permission_title">Ruhusu kuonyesha juu ya programu zingine</string>
+    <string name="display_over_apps_permission_rationale">Ili skrini ya kengele ifunguke kila wakati, ruhusu programu hii kuonyesha juu ya programu zingine. Bila hili, matoleo mapya ya Android yanazuia skrini ya kengele kufunguka chinichini.</string>
+    <string name="display_over_apps_permission_denied_text">Bila hili, skrini ya kengele huenda isifunguke yenyewe. Unaweza kuruhusu hili baadaye katika mipangilio.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Usiwashe skrini au kuonyesha kengele ya skrini nzima wakati adhana au kikumbusho kinacheza.</string>
     <string name="force_launch_alarm_screen">Fungua skrini ya kengele kila wakati</string>
     <string name="force_launch_alarm_screen_help">Lazimisha kengele ya skrini nzima ifunguke moja kwa moja. Jaribu hii ikiwa simu yako haiionyeshi juu ya skrini iliyofungwa.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Ruhusa ya kuonyesha juu ya programu zingine imeondolewa, hivyo skrini ya kengele haiwezi kufunguka yenyewe.</string>
     <string name="notifications">Ujulisho</string>
     <string name="auto_silent_on_dismiss">Usisumbue baada ya kupuuzia</string>
     <string name="auto_silent_on_dismiss_help">Unapopuuzia adhana, simu huingia katika Usisumbue kwa muda. Kuahirisha hakufanyi hivyo. Inahusu adhana pekee.</string>

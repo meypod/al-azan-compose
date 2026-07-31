@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Održite pouzdanost alarma</string>
     <string name="battery_optimization_permission_rationale">Da bi se vaši alarmi pouzdano isporučivali, dozvolite ovoj aplikaciji da nastavi raditi u pozadini. Bez toga, sistem je može zaustaviti radi uštede baterije, pa alarmi mogu kasniti ili izostati.</string>
     <string name="battery_optimization_permission_denied_text">Optimizacija baterije je još uvijek uključena, pa alarmi mogu kasniti ili izostati. Ovo možete dozvoliti kasnije u postavkama.</string>
+    <string name="display_over_apps_permission_title">Dozvoli prikaz preko drugih aplikacija</string>
+    <string name="display_over_apps_permission_rationale">Da bi se ekran alarma uvijek otvarao, dozvolite ovoj aplikaciji prikaz preko drugih aplikacija. Novije verzije Androida bez toga sprječavaju otvaranje ekrana alarma u pozadini.</string>
+    <string name="display_over_apps_permission_denied_text">Bez toga se ekran alarma možda neće otvoriti sam. Ovo možete dozvoliti kasnije u postavkama.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Nemoj uključivati ekran niti prikazivati alarm preko cijelog ekrana kada se reproducira ezan ili podsjetnik.</string>
     <string name="force_launch_alarm_screen">Uvijek otvori ekran alarma</string>
     <string name="force_launch_alarm_screen_help">Prisili alarm preko cijelog ekrana da se otvori direktno. Pokušajte ovo ako ga vaš telefon ne prikazuje preko zaključanog ekrana.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Dozvola za prikaz preko drugih aplikacija je uklonjena, pa se ekran alarma ne može otvoriti sam.</string>
     <string name="notifications">Obavijesti</string>
     <string name="auto_silent_on_dismiss">Ne smetaj nakon odbacivanja</string>
     <string name="auto_silent_on_dismiss_help">Kada odbacite ezan, telefon prelazi u režim Ne smetaj na neko vrijeme. Odgađanje to ne čini. Odnosi se samo na ezan.</string>

@@ -59,6 +59,13 @@ enum class SchedulingPermission {
      * Optional — improves delivery reliability for background alarms; never blocks.
      */
     BatteryOptimization,
+
+    /**
+     * SYSTEM_ALERT_WINDOW ("display over other apps"), granted via a special-access settings screen.
+     * Required by "always open the alarm screen": it is the only non-expiring background-activity-launch
+     * exemption, so on Android 15+ that setting cannot work without it and the switch is gated on it.
+     */
+    DisplayOverApps,
 }
 
 /** One permission to request, with the rationale/denied copy that fits the calling feature. */
@@ -110,6 +117,7 @@ fun Settings.isDontAskAgain(permission: SchedulingPermission): Boolean =
         SchedulingPermission.FullScreenIntent -> dontAskPermissionFullScreenIntent
         SchedulingPermission.DndAccess -> dontAskPermissionDndAccess
         SchedulingPermission.BatteryOptimization -> dontAskPermissionBatteryOptimization
+        SchedulingPermission.DisplayOverApps -> dontAskPermissionDisplayOverApps
     }
 
 /** Sets the persisted "don't ask again" flag for a permission. */
@@ -121,6 +129,7 @@ fun Settings.withDontAskAgain(permission: SchedulingPermission): Settings =
         SchedulingPermission.FullScreenIntent -> copy(dontAskPermissionFullScreenIntent = true)
         SchedulingPermission.DndAccess -> copy(dontAskPermissionDndAccess = true)
         SchedulingPermission.BatteryOptimization -> copy(dontAskPermissionBatteryOptimization = true)
+        SchedulingPermission.DisplayOverApps -> copy(dontAskPermissionDisplayOverApps = true)
     }
 
 /** Standard step lists. PhoneState (optional, call interruption) is requested for both adhan and reminders. */
@@ -181,6 +190,15 @@ object SchedulingPermissionSteps {
             SchedulingPermission.FullScreenIntent,
             R.string.reminder_full_screen_intent_permission_rationale,
             R.string.reminder_full_screen_intent_permission_denied_text,
+        ),
+    )
+
+    /** Asked when the user turns on "always open the alarm screen" — that path needs the BAL exemption. */
+    val forceLaunchAlarm: List<PermissionStep> = listOf(
+        PermissionStep(
+            SchedulingPermission.DisplayOverApps,
+            R.string.display_over_apps_permission_rationale,
+            R.string.display_over_apps_permission_denied_text,
         ),
     )
 
@@ -309,6 +327,12 @@ fun rememberSchedulingPermissionRequest(
             resolveSettingsStep(step, { batteryOptimizationGranted(context) }) { openBatteryOptimizationSettings(context) }
         }
 
+    val displayOverAppsLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val step = queue.value.firstOrNull() ?: return@rememberLauncherForActivityResult
+            resolveSettingsStep(step, { displayOverAppsGranted(context) }) { openDisplayOverAppsSettings(context) }
+        }
+
     fun ask(step: PermissionStep) {
         when (step.permission) {
             SchedulingPermission.Notification -> notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -355,6 +379,15 @@ fun rememberSchedulingPermissionRequest(
             SchedulingPermission.BatteryOptimization -> {
                 try {
                     batteryOptimizationLauncher.launch(batteryOptimizationIntent(context))
+                } catch (_: ActivityNotFoundException) {
+                    Toast.makeText(context, R.string.open_settings_failed, Toast.LENGTH_LONG).show()
+                    finishStep(step, granted = false, asked = true)
+                }
+            }
+
+            SchedulingPermission.DisplayOverApps -> {
+                try {
+                    displayOverAppsLauncher.launch(displayOverAppsIntent(context))
                 } catch (_: ActivityNotFoundException) {
                     Toast.makeText(context, R.string.open_settings_failed, Toast.LENGTH_LONG).show()
                     finishStep(step, granted = false, asked = true)
@@ -440,7 +473,11 @@ private fun isGranted(
         SchedulingPermission.DndAccess -> dndAccessGranted(context)
 
         SchedulingPermission.BatteryOptimization -> batteryOptimizationGranted(context)
+
+        SchedulingPermission.DisplayOverApps -> displayOverAppsGranted(context)
     }
+
+private fun displayOverAppsGranted(context: Context): Boolean = AndroidSettings.canDrawOverlays(context)
 
 private fun batteryOptimizationGranted(context: Context): Boolean {
     val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -477,6 +514,7 @@ private fun titleResFor(permission: SchedulingPermission): Int =
         SchedulingPermission.FullScreenIntent -> R.string.full_screen_intent_permission_title
         SchedulingPermission.DndAccess -> R.string.dnd_permission_title
         SchedulingPermission.BatteryOptimization -> R.string.battery_optimization_permission_title
+        SchedulingPermission.DisplayOverApps -> R.string.display_over_apps_permission_title
     }
 
 @StringRes
@@ -485,6 +523,7 @@ private fun confirmLabelResFor(permission: SchedulingPermission): Int =
         SchedulingPermission.ExactAlarm,
         SchedulingPermission.FullScreenIntent,
         SchedulingPermission.DndAccess,
+        SchedulingPermission.DisplayOverApps,
         -> R.string.open_settings_label
 
         else -> R.string.okay
@@ -533,6 +572,21 @@ private fun openBatteryOptimizationSettings(context: Context) {
     safeStart(
         context,
         Intent(AndroidSettings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+            .apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP },
+    )
+}
+
+private fun displayOverAppsIntent(context: Context): Intent =
+    Intent(
+        AndroidSettings.ACTION_MANAGE_OVERLAY_PERMISSION,
+        "package:${context.packageName}".toUri(),
+    ).apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP }
+
+// Recovery path when the user returns without granting: the app-wide "display over other apps" list.
+private fun openDisplayOverAppsSettings(context: Context) {
+    safeStart(
+        context,
+        Intent(AndroidSettings.ACTION_MANAGE_OVERLAY_PERMISSION)
             .apply { flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP },
     )
 }

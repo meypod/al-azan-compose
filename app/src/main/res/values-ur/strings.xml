@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">الارم قابلِ اعتماد رکھیں</string>
     <string name="battery_optimization_permission_rationale">آپ کے الارم قابلِ اعتماد طریقے سے پہنچانے کے لیے، اس ایپ کو پس منظر میں چلتے رہنے کی اجازت دیں۔ اس کے بغیر، نظام بیٹری بچانے کے لیے اسے روک سکتا ہے اور الارم تاخیر سے بج سکتے ہیں یا چھوٹ سکتے ہیں۔</string>
     <string name="battery_optimization_permission_denied_text">بیٹری آپٹیمائزیشن اب بھی آن ہے، اس لیے الارم تاخیر سے بج سکتے ہیں یا چھوٹ سکتے ہیں۔ آپ بعد میں ترتیبات میں اس کی اجازت دے سکتے ہیں۔</string>
+    <string name="display_over_apps_permission_title">دوسری ایپس کے اوپر دکھانے کی اجازت دیں</string>
+    <string name="display_over_apps_permission_rationale">الارم اسکرین ہمیشہ کھولنے کے لیے، اس ایپ کو دوسری ایپس کے اوپر دکھانے کی اجازت دیں۔ اس کے بغیر اینڈرائیڈ کے نئے ورژن الارم اسکرین کو پس منظر میں کھلنے سے روکتے ہیں۔</string>
+    <string name="display_over_apps_permission_denied_text">اس کے بغیر، الارم اسکرین خود سے نہیں کھل سکتی۔ آپ بعد میں ترتیبات میں اس کی اجازت دے سکتے ہیں۔</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">جب کوئی اذان یا یاد دہانی چلے تو اسکرین آن نہ کریں اور نہ ہی فُل اسکرین الارم دکھائیں۔</string>
     <string name="force_launch_alarm_screen">ہمیشہ الارم اسکرین کھولیں</string>
     <string name="force_launch_alarm_screen_help">فُل اسکرین الارم کو براہِ راست کھلنے پر مجبور کریں۔ اگر آپ کا فون اسے لاک اسکرین کے اوپر نہیں دکھاتا تو یہ آزمائیں۔</string>
+    <string name="force_launch_alarm_screen_permission_missing">دوسری ایپس کے اوپر دکھانے کی اجازت ہٹا دی گئی ہے، اس لیے الارم اسکرین خود سے نہیں کھل سکتی۔</string>
     <string name="notifications">اطلاعات</string>
     <string name="auto_silent_on_dismiss">برطرف کرنے کے بعد ڈسٹرب نہ کریں</string>
     <string name="auto_silent_on_dismiss_help">جب آپ اذان برطرف کرتے ہیں، تو فون کچھ دیر کے لیے ڈسٹرب نہ کریں میں چلا جاتا ہے۔ اسنوز کرنے سے ایسا نہیں ہوتا۔ صرف اذان پر لاگو ہوتا ہے۔</string>

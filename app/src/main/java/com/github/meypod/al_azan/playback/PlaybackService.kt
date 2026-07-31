@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.playback
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.app.PendingIntent
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -21,9 +22,12 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
 import android.os.SystemClock
+import android.provider.Settings
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -58,6 +62,8 @@ class PlaybackService :
     AudioManager.OnAudioFocusChangeListener {
 
     companion object {
+        private const val TAG = "PlaybackService"
+
         const val ACTION_PLAY = "com.github.meypod.al_azan.action.ADHAN_PLAY"
         const val ACTION_STOP = "com.github.meypod.al_azan.action.ADHAN_STOP"
 
@@ -279,14 +285,15 @@ class PlaybackService :
         //    leaving no Stop control. In that case we launch even when "keep screen off" (fullScreen=false)
         //    is set — otherwise the adhan would be unstoppable from the UI.
         // When notifications are on and force-launch is off we rely on the FSI/heads-up + notification, so the
-        // alarm screen doesn't needlessly take over while the phone is in active use. The adhan fires via
-        // setAlarmClock, whose background-activity-launch exemption permits this; if unavailable (e.g. the
-        // alternate ExactAllowWhileIdle alarm type) the launch is silently dropped.
+        // alarm screen doesn't needlessly take over while the phone is in active use. Starting an activity
+        // from here is a background launch: on Android 15+ it needs the "display over other apps" grant,
+        // which the force-launch setting is gated on.
         val notificationsEnabled = NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()
         if (forceLaunchActivity || !notificationsEnabled) {
-            runCatching {
-                startActivity(alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops))
-            }
+            launchAlarmActivity(
+                alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops),
+                forced = forceLaunchActivity,
+            )
         }
         // Now that playback is actually starting, remember what to leave behind if it ends on its own.
         lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
@@ -632,6 +639,75 @@ class PlaybackService :
         return builder.build()
     }
 
+    /**
+     * Starts the full-screen alarm from the service, i.e. from the background.
+     *
+     * A background-activity-launch denial does NOT throw — the framework drops the start and only logs
+     * it under its own tag — so catching alone would report success on a launch that never happened.
+     * We log the overlay-permission state next to every attempt instead: it's the one non-expiring BAL
+     * exemption, so its absence is the actionable explanation when users report "nothing opened".
+     */
+    private fun launchAlarmActivity(
+        intent: Intent,
+        forced: Boolean,
+    ) {
+        val canDrawOverlays = Settings.canDrawOverlays(this)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                sendAlarmActivityPendingIntent(intent)
+            } else {
+                startActivity(intent)
+            }
+            Log.i(TAG, "Alarm activity start requested (forced=$forced, canDrawOverlays=$canDrawOverlays)")
+        } catch (e: Exception) { // includes PendingIntent.CanceledException, which isn't a RuntimeException
+            Log.e(TAG, "Alarm activity start threw (forced=$forced, canDrawOverlays=$canDrawOverlays)", e)
+            return
+        }
+        if (!canDrawOverlays) {
+            Log.w(
+                TAG,
+                "No 'display over other apps' permission — the system may have blocked this start. " +
+                    "Check logcat for a background activity launch denial.",
+            )
+        }
+    }
+
+    /**
+     * Sends the alarm screen as a PendingIntent with the background-activity-start mode opted in.
+     *
+     * From API 34 the sender must declare that intent explicitly or the start isn't even considered a
+     * background launch. It is only an opt-in, not a grant: the system still requires a real exemption
+     * (the "display over other apps" permission), so this does not replace it.
+     *
+     * The PendingIntent matches the notification's content intent — same component and extras — so both
+     * routes lead to the same activity instance.
+     */
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    private fun sendAlarmActivityPendingIntent(intent: Intent) {
+        val options = ActivityOptions.makeBasic()
+            .setPendingIntentBackgroundActivityStartMode(backgroundActivityStartMode())
+        PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        ).send(this, 0, null, null, null, null, options.toBundle())
+    }
+
+    /**
+     * API 36 split the old blanket mode in two. We need ALLOW_ALWAYS: the alarm fires while the app is in
+     * the background, which is exactly what ALLOW_IF_VISIBLE excludes. Both still only opt in — the system
+     * keeps requiring a real exemption.
+     */
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    @Suppress("DEPRECATION") // MODE_BACKGROUND_ACTIVITY_START_ALLOWED: the only option below API 36.
+    private fun backgroundActivityStartMode(): Int =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+            ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOW_ALWAYS
+        } else {
+            ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED
+        }
+
     private fun alarmActivityIntent(
         prayerName: String,
         timeLabel: String,
@@ -682,12 +758,19 @@ class PlaybackService :
      * one so the passed prayer/reminder still leaves a trace, matching the old app. A user dismiss
      * (notification Stop, swipe, volume press, the firing handlers) removes it outright.
      */
+    // The notify below is guarded by areNotificationsEnabled(), which lint doesn't accept as a
+    // POST_NOTIFICATIONS check. It's also wrapped: the trace is cosmetic, and this runs during teardown,
+    // so nothing it can throw (on any OEM build) should be able to take the service down with it.
+    @SuppressLint("MissingPermission")
     private fun cleanupAndStop(leaveLingering: Boolean = false) {
         if (stopped) return
         stopped = true
         teardownPlayback()
         _stopSignal.tryEmit(Unit)
-        val lingering = if (leaveLingering) buildLingeringNotification() else null
+        // Notifications off (permission denied, or the user disabled them) means the trace can never be
+        // shown, so don't build one either.
+        val notificationsEnabled = NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()
+        val lingering = if (leaveLingering && notificationsEnabled) buildLingeringNotification() else null
         // Always remove the foreground notification first: the trace lives on a different (silent)
         // channel, which a same-id re-post could never switch to.
         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -695,7 +778,9 @@ class PlaybackService :
             // A fresh id per trace so successive passed prayers/reminders stack instead of replacing one
             // another. Posted exactly once per playback (guarded above), and the clock only moves forward,
             // so this stays unique even across a process restart while an earlier trace is still showing.
-            NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), lingering)
+            runCatching {
+                NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), lingering)
+            }.onFailure { Log.w(TAG, "Could not post the lingering notification", it) }
         }
         stopSelf()
     }

@@ -17,15 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
@@ -34,12 +38,16 @@ import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntri
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
+import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.PreviewIconButton
+import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
+import com.github.meypod.al_azan.core.presentation.dialog.isSchedulingPermissionGranted
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
@@ -309,6 +317,27 @@ private fun DisplayCard(
     uiState: AdhanSettingsUiState,
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
+    val context = LocalContext.current
+    // Android 15+ blocks background activity starts, so "display over other apps" is what makes this
+    // setting work at all — the switch is gated on it. Re-read on resume: the user (or the system) can
+    // revoke it from outside the app, which would leave the switch on but inert.
+    var canDisplayOverApps by remember {
+        mutableStateOf(isSchedulingPermissionGranted(context, SchedulingPermission.DisplayOverApps))
+    }
+    LifecycleResumeEffect(Unit) {
+        canDisplayOverApps = isSchedulingPermissionGranted(context, SchedulingPermission.DisplayOverApps)
+        onPauseOrDispose {}
+    }
+    val requestDisplayOverApps = rememberSchedulingPermissionRequest(
+        isDontAskAgain = { false },
+        onDontAskAgain = {},
+        onComplete = { results ->
+            val granted = results.granted(SchedulingPermission.DisplayOverApps)
+            canDisplayOverApps = granted
+            // Only now does the setting mean anything, so this is where it's turned on.
+            if (granted) onAction(AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle(true))
+        },
+    )
     SettingsCard {
         // "Keep screen off" and "Always open the alarm screen" are opposites — enabling one disables the
         // other (handled in the ViewModel), so both stay visible.
@@ -322,8 +351,50 @@ private fun DisplayCard(
             title = stringResource(R.string.force_launch_alarm_screen),
             subtitle = stringResource(R.string.force_launch_alarm_screen_help),
             checked = uiState.settings.forceLaunchAlarmActivity,
-            onCheckedChange = { onAction(AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle(it)) },
+            onCheckedChange = { enabled ->
+                when {
+                    !enabled -> onAction(AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle(false))
+
+                    canDisplayOverApps -> onAction(AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle(true))
+
+                    // Ungranted: ask first and let onComplete flip the switch, so it never sits on
+                    // while the launch it promises is blocked.
+                    else -> requestDisplayOverApps(SchedulingPermissionSteps.forceLaunchAlarm)
+                }
+            },
         )
+        // Revoked after the fact — the switch is on but the alarm screen can't open.
+        if (uiState.settings.forceLaunchAlarmActivity && !canDisplayOverApps) {
+            DisplayOverAppsWarning(
+                onGrantClick = { requestDisplayOverApps(SchedulingPermissionSteps.forceLaunchAlarm) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun DisplayOverAppsWarning(onGrantClick: () -> Unit) {
+    // Nested card with tonal elevation so it separates from the settings card around it, matching the
+    // lunar-calendar notice in the calculation settings.
+    ACard(tonalElevation = 2.dp) { innerCardPadding ->
+        InformationRow(
+            Modifier
+                .fillMaxWidth()
+                .padding(innerCardPadding),
+            // The text carries the message; the icon only marks it as a problem.
+            iconDescription = null,
+            iconRes = R.drawable.baseline_close_24,
+            contentColor = MaterialTheme.colorScheme.error,
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+                Text(stringResource(R.string.force_launch_alarm_screen_permission_missing))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    PrimaryButton(onGrantClick) {
+                        Text(stringResource(R.string.open_settings_label))
+                    }
+                }
+            }
+        }
     }
 }
 

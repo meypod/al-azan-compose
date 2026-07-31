@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">هشدار‌ها را قابل‌اعتماد نگه دارید</string>
     <string name="battery_optimization_permission_rationale">برای رساندن مطمئن هشدار‌ها، به این برنامه اجازه دهید در پس‌زمینه فعال بماند. بدون آن، سیستم ممکن است برای صرفه‌جویی در باتری آن را متوقف کند و هشدار‌ها با تأخیر بزنند یا از دست بروند.</string>
     <string name="battery_optimization_permission_denied_text">بهینه‌سازی باتری هنوز روشن است، بنابراین ممکن است هشدار‌ها با تأخیر بزنند یا از دست بروند. می‌توانید بعداً این را در تنظیمات اجازه دهید.</string>
+    <string name="display_over_apps_permission_title">اجازهٔ نمایش روی برنامه‌های دیگر</string>
+    <string name="display_over_apps_permission_rationale">برای اینکه صفحهٔ هشدار همیشه باز شود، به این برنامه اجازهٔ نمایش روی برنامه‌های دیگر را بدهید. نسخه‌های جدیدتر اندروید بدون آن از باز شدن صفحهٔ هشدار در پس‌زمینه جلوگیری می‌کنند.</string>
+    <string name="display_over_apps_permission_denied_text">بدون این، ممکن است صفحهٔ هشدار خودبه‌خود باز نشود. می‌توانید بعداً این را در تنظیمات اجازه دهید.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">هنگام پخش اذان یا یادآوری، صفحه روشن نشود و هشدار تمام‌صفحه نمایش داده نشود.</string>
     <string name="force_launch_alarm_screen">همیشه صفحهٔ هشدار را باز کن</string>
     <string name="force_launch_alarm_screen_help">هشدار تمام‌صفحه را وادار کن مستقیماً باز شود. اگر تلفن شما آن را روی صفحهٔ قفل نشان نمی‌دهد، این را امتحان کنید.</string>
+    <string name="force_launch_alarm_screen_permission_missing">اجازهٔ نمایش روی برنامه‌های دیگر برداشته شده است، بنابراین صفحهٔ هشدار نمی‌تواند خودبه‌خود باز شود.</string>
     <string name="notifications">اعلان‌ها</string>
     <string name="auto_silent_on_dismiss">مزاحم نشوید پس از رد کردن</string>
     <string name="auto_silent_on_dismiss_help">وقتی اذان را رد می‌کنید، تلفن برای مدتی به حالت «مزاحم نشوید» می‌رود. تعویق این کار را انجام نمی‌دهد. فقط برای اذان اعمال می‌شود.</string>

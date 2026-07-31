@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">अलार्म भरोसेमंद रखें</string>
     <string name="battery_optimization_permission_rationale">आपके अलार्म भरोसेमंद तरीके से पहुँचाने के लिए, इस ऐप को बैकग्राउंड में चलते रहने की अनुमति दें। इसके बिना, सिस्टम बैटरी बचाने के लिए इसे रोक सकता है और अलार्म देर से बज सकते हैं या छूट सकते हैं।</string>
     <string name="battery_optimization_permission_denied_text">बैटरी ऑप्टिमाइज़ेशन अब भी चालू है, इसलिए अलार्म देर से बज सकते हैं या छूट सकते हैं। आप इसे बाद में सेटिंग्स में अनुमति दे सकते हैं।</string>
+    <string name="display_over_apps_permission_title">दूसरे ऐप्स के ऊपर दिखाने की अनुमति दें</string>
+    <string name="display_over_apps_permission_rationale">अलार्म स्क्रीन हमेशा खोलने के लिए, इस ऐप को दूसरे ऐप्स के ऊपर दिखाने की अनुमति दें। इसके बिना नए Android संस्करण अलार्म स्क्रीन को बैकग्राउंड में खुलने से रोकते हैं।</string>
+    <string name="display_over_apps_permission_denied_text">इसके बिना, अलार्म स्क्रीन अपने आप नहीं खुल सकती। आप इसे बाद में सेटिंग्स में अनुमति दे सकते हैं।</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">जब अज़ान या अनुस्मारक बजे तो स्क्रीन चालू न करें या फ़ुल-स्क्रीन अलार्म न दिखाएँ।</string>
     <string name="force_launch_alarm_screen">हमेशा अलार्म स्क्रीन खोलें</string>
     <string name="force_launch_alarm_screen_help">फ़ुल-स्क्रीन अलार्म को सीधे खुलने के लिए बाध्य करें। अगर आपका फ़ोन इसे लॉक स्क्रीन के ऊपर नहीं दिखाता तो इसे आज़माएँ।</string>
+    <string name="force_launch_alarm_screen_permission_missing">दूसरे ऐप्स के ऊपर दिखाने की अनुमति हटा दी गई है, इसलिए अलार्म स्क्रीन अपने आप नहीं खुल सकती।</string>
     <string name="notifications">सूचनाएँ</string>
     <string name="auto_silent_on_dismiss">हटाने के बाद परेशान न करें</string>
     <string name="auto_silent_on_dismiss_help">जब आप अज़ान हटाते हैं, तो फ़ोन कुछ समय के लिए डू नॉट डिस्टर्ब में चला जाता है। स्नूज़ करने से नहीं होता। केवल अज़ान पर लागू होता है।</string>

@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Garder les alarmes fiables</string>
     <string name="battery_optimization_permission_rationale">Pour que vos alarmes soient diffusées de manière fiable, autorisez cette application à continuer de fonctionner en arrière-plan. Sans cela, le système peut l\'arrêter pour économiser la batterie, retardant ou manquant les alarmes.</string>
     <string name="battery_optimization_permission_denied_text">L\'optimisation de la batterie est toujours activée, donc les alarmes peuvent être retardées ou manquées. Vous pouvez l\'autoriser plus tard dans les paramètres.</string>
+    <string name="display_over_apps_permission_title">Autoriser l\'affichage par-dessus les autres applications</string>
+    <string name="display_over_apps_permission_rationale">Pour toujours ouvrir l\'écran d\'alarme, autorisez cette application à s\'afficher par-dessus les autres applications. Sans cela, les versions récentes d\'Android empêchent l\'écran d\'alarme de s\'ouvrir en arrière-plan.</string>
+    <string name="display_over_apps_permission_denied_text">Sans cela, l\'écran d\'alarme risque de ne pas s\'ouvrir tout seul. Vous pouvez l\'autoriser plus tard dans les paramètres.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Ne pas allumer l\'écran ni afficher l\'alarme en plein écran lorsqu\'un Adhan ou un rappel retentit.</string>
     <string name="force_launch_alarm_screen">Toujours ouvrir l\'écran d\'alarme</string>
     <string name="force_launch_alarm_screen_help">Forcer l\'alarme en plein écran à s\'ouvrir directement. Essayez ceci si votre téléphone ne l\'affiche pas sur l\'écran de verrouillage.</string>
+    <string name="force_launch_alarm_screen_permission_missing">L\'autorisation d\'affichage par-dessus les autres applications a été retirée, l\'écran d\'alarme ne peut donc pas s\'ouvrir tout seul.</string>
     <string name="notifications">Notifications</string>
     <string name="auto_silent_on_dismiss">Ne pas déranger après avoir ignoré</string>
     <string name="auto_silent_on_dismiss_help">Lorsque vous ignorez un Adhan, le téléphone passe en mode Ne pas déranger pendant un certain temps. Le report ne le fait pas. Ne s\'applique qu\'à l\'adhan.</string>

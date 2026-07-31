@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">حافظ على موثوقية المنبهات</string>
     <string name="battery_optimization_permission_rationale">لتسليم منبهاتك بشكل موثوق، اسمح لهذا التطبيق بالاستمرار في العمل في الخلفية. بدون ذلك، قد يوقفه النظام لتوفير البطارية فتتأخر المنبهات أو تفوتك.</string>
     <string name="battery_optimization_permission_denied_text">لا يزال تحسين البطارية مفعّلًا، لذا قد تتأخر المنبهات أو تفوتك. يمكنك السماح بذلك لاحقًا من الإعدادات.</string>
+    <string name="display_over_apps_permission_title">السماح بالعرض فوق التطبيقات الأخرى</string>
+    <string name="display_over_apps_permission_rationale">لفتح شاشة المنبه دائمًا، اسمح لهذا التطبيق بالعرض فوق التطبيقات الأخرى. تمنع إصدارات أندرويد الأحدث فتح شاشة المنبه في الخلفية بدون ذلك.</string>
+    <string name="display_over_apps_permission_denied_text">بدون ذلك، قد لا تُفتح شاشة المنبه من تلقاء نفسها. يمكنك السماح بذلك لاحقًا من الإعدادات.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">عدم تشغيل الشاشة أو عرض المنبه بملء الشاشة عند تشغيل أذان أو تذكير.</string>
     <string name="force_launch_alarm_screen">افتح شاشة المنبه دائمًا</string>
     <string name="force_launch_alarm_screen_help">أجبر منبه ملء الشاشة على الفتح مباشرةً. جرّب هذا إذا كان هاتفك لا يعرضه فوق شاشة القفل.</string>
+    <string name="force_launch_alarm_screen_permission_missing">تمت إزالة إذن العرض فوق التطبيقات الأخرى، لذا لا يمكن لشاشة المنبه أن تُفتح من تلقاء نفسها.</string>
     <string name="notifications">إشعارات</string>
     <string name="auto_silent_on_dismiss">عدم الإزعاج بعد التجاهل</string>
     <string name="auto_silent_on_dismiss_help">عند تجاهلك للأذان، يدخل الهاتف في وضع عدم الإزعاج لفترة. الغفوة لا تفعل ذلك. ينطبق على الأذان فقط.</string>

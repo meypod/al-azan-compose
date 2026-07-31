@@ -100,6 +100,9 @@
     <string name="battery_optimization_permission_title">Giữ báo thức đáng tin cậy</string>
     <string name="battery_optimization_permission_rationale">Để báo thức được gửi đáng tin cậy, hãy cho phép ứng dụng này tiếp tục chạy trong nền. Nếu không, hệ thống có thể dừng ứng dụng để tiết kiệm pin, khiến báo thức bị trễ hoặc bị bỏ lỡ.</string>
     <string name="battery_optimization_permission_denied_text">Tối ưu hóa pin vẫn đang bật, nên báo thức có thể bị trễ hoặc bị bỏ lỡ. Bạn có thể cho phép việc này sau trong phần cài đặt.</string>
+    <string name="display_over_apps_permission_title">Cho phép hiển thị trên ứng dụng khác</string>
+    <string name="display_over_apps_permission_rationale">Để màn hình báo thức luôn mở, hãy cho phép ứng dụng này hiển thị trên các ứng dụng khác. Nếu không, các phiên bản Android mới sẽ chặn màn hình báo thức mở trong nền.</string>
+    <string name="display_over_apps_permission_denied_text">Nếu không có quyền này, màn hình báo thức có thể không tự mở. Bạn có thể cho phép việc này sau trong phần cài đặt.</string>
 
     <!-- ============================================================
          Audio preview  (core/data/audio)
@@ -385,6 +388,7 @@
     <string name="dont_show_alarm_screen_help">Không bật màn hình hoặc hiển thị báo thức toàn màn hình khi Azan hoặc lời nhắc phát.</string>
     <string name="force_launch_alarm_screen">Luôn mở màn hình báo thức</string>
     <string name="force_launch_alarm_screen_help">Buộc báo thức toàn màn hình mở trực tiếp. Hãy thử cách này nếu điện thoại của bạn không hiển thị nó trên màn hình khóa.</string>
+    <string name="force_launch_alarm_screen_permission_missing">Quyền hiển thị trên ứng dụng khác đã bị gỡ bỏ, nên màn hình báo thức không thể tự mở.</string>
     <string name="notifications">Thông báo</string>
     <string name="auto_silent_on_dismiss">Không làm phiền sau khi bỏ qua</string>
     <string name="auto_silent_on_dismiss_help">Khi bạn bỏ qua một lần Azan, điện thoại chuyển sang chế độ Không làm phiền trong một khoảng thời gian. Báo lại thì không. Chỉ áp dụng cho azan.</string>
