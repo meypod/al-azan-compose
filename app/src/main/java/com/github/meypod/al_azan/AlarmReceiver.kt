@@ -6,7 +6,9 @@ import android.content.Intent
 import android.util.Log
 import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.adhan.AdhanFiringHandler
+import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.playback.SoftSoundContract
 import com.github.meypod.al_azan.ramadan.RamadanNoticeContract
 import com.github.meypod.al_azan.ramadan.RamadanNoticeHandler
 import com.github.meypod.al_azan.reminder.ReminderContract
@@ -43,6 +45,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var ramadanNoticeHandler: RamadanNoticeHandler
+
+    @Inject
+    lateinit var softSoundPlayer: SoftSoundPlayer
 
     override fun onReceive(
         context: Context,
@@ -94,6 +99,10 @@ class AlarmReceiver : BroadcastReceiver() {
                 val reminderId = intent.getStringExtra(ReminderContract.EXTRA_REMINDER_ID) ?: return
                 async { reminderFiringHandler.onCancelReminder(reminderId) }
             }
+
+            // The user swiped a soft sound's notification away. Stopping happens inline — the sound is
+            // short, so handing it to a coroutine would let it outlive the gesture.
+            SoftSoundContract.ACTION_STOP_SOFT_SOUND -> softSoundPlayer.stop()
 
             RamadanNoticeContract.ACTION_RAMADAN_CHECK -> async { ramadanNoticeHandler.onCheckFired() }
 

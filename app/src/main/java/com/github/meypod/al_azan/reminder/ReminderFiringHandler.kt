@@ -37,6 +37,7 @@ import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
 import com.github.meypod.al_azan.playback.PlaybackService
+import com.github.meypod.al_azan.playback.SoftSoundContract
 import com.github.meypod.al_azan.playback.missedNotificationConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -178,12 +179,21 @@ class ReminderFiringHandler @Inject constructor(
                 }
             } else {
                 // Soft (short, non-looping) sound or no sound: a plain auto-cancel notification, the
-                // sound played once via a lightweight player (no foreground service / stop UI), and a
-                // single vibration if requested (continuous would have been routed to the service above).
-                postNotifyOnlyNotification(reminderId, title, timeLabel, null, settings)
+                // sound played once via a lightweight player (no foreground service), and a single
+                // vibration if requested (continuous would have been routed to the service above).
+                // There's no full-screen alarm to stop it from, so the notification carries the
+                // stop controls.
+                postNotifyOnlyNotification(
+                    reminderId,
+                    title,
+                    timeLabel,
+                    null,
+                    settings,
+                    stoppableSound = soundUri != null,
+                )
                 if (soundUri != null) {
                     if (vibration != VibrationMode.Off) VibrationController.vibrate(context, VibrationMode.Once)
-                    softSoundPlayer.play(soundUri)
+                    softSoundPlayer.play(soundUri, stopOnVolumeButton = settings.volumeButtonStopsAdhan)
                 }
             }
         }
@@ -294,16 +304,23 @@ class ReminderFiringHandler @Inject constructor(
         )
     }
 
+    /**
+     * The plain reminder notification, used both for a soft sound and for the sound-less cases (silent
+     * sound, or a live call). [stoppableSound] makes swiping the notification away stop the sound — set
+     * only when one is actually playing, so a dismissal never fires a pointless broadcast.
+     */
     private suspend fun postNotifyOnlyNotification(
         reminderId: String,
         title: String,
         subtitle: String,
         body: String?,
         settings: Settings,
+        stoppableSound: Boolean = false,
     ) {
+        val notificationId = ReminderContract.notificationId(reminderId)
         notificationRepository.notify(
             NotificationConfig(
-                id = ReminderContract.notificationId(reminderId),
+                id = notificationId,
                 title = TextResource.Literal(title),
                 subtitle = TextResource.Literal(subtitle),
                 body = body?.let { TextResource.Literal(it) },
@@ -312,6 +329,7 @@ class ReminderFiringHandler @Inject constructor(
                     category = AndroidNotificationCategory.CATEGORY_ALARM,
                     autoCancel = true,
                     showTimestamp = false,
+                    dismissAction = SoftSoundContract.stopAction(notificationId).takeIf { stoppableSound },
                 ),
             ),
         )

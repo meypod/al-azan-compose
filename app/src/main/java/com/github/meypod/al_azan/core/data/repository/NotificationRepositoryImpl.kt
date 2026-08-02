@@ -96,7 +96,8 @@ class NotificationRepositoryImpl @Inject constructor(
                         createNavDeepLinkPendingIntent(Route.Main.Home),
                     )
 
-                is NotificationPressAction.Broadcast -> createBroadcastPendingIntent(action)
+                is NotificationPressAction.Broadcast ->
+                    builder.setContentIntent(createBroadcastPendingIntent(action))
 
                 null -> {
                     builder.setContentIntent(null)

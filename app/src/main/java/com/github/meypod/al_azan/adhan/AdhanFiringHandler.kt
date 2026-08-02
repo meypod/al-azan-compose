@@ -46,6 +46,7 @@ import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackLauncher
 import com.github.meypod.al_azan.playback.PlaybackRequest
 import com.github.meypod.al_azan.playback.PlaybackService
+import com.github.meypod.al_azan.playback.SoftSoundContract
 import com.github.meypod.al_azan.playback.missedNotificationConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -150,12 +151,19 @@ class AdhanFiringHandler @Inject constructor(
             }
         } else {
             // Soft (short, non-looping) muezzin or notify-only: plain notification, the sound played
-            // once via a lightweight player when there is one (no foreground service / stop UI), and a
-            // single vibration if requested (continuous would have been routed to the service above).
-            postNotifyOnlyNotification(prayer, settings.formatTime(timestamp), body, settings)
+            // once via a lightweight player when there is one (no foreground service), and a single
+            // vibration if requested (continuous would have been routed to the service above). There's
+            // no full-screen alarm to stop it from, so the notification carries the stop controls.
+            postNotifyOnlyNotification(
+                prayer,
+                settings.formatTime(timestamp),
+                body,
+                settings,
+                stoppableSound = soundUri != null,
+            )
             if (soundUri != null) {
                 if (vibration != VibrationMode.Off) VibrationController.vibrate(context, VibrationMode.Once)
-                softSoundPlayer.play(soundUri)
+                softSoundPlayer.play(soundUri, stopOnVolumeButton = settings.volumeButtonStopsAdhan)
             }
         }
         adhanScheduler.schedule()
@@ -461,11 +469,17 @@ class AdhanFiringHandler @Inject constructor(
         postUpcomingNotification(DEV_TEST_PRAYER, Clock.System.now().toEpochMilliseconds())
     }
 
+    /**
+     * The plain adhan notification, used both for a soft sound and for the sound-less cases (notify-only,
+     * or a live call). [stoppableSound] makes swiping the notification away stop the sound — set only
+     * when one is actually playing, so a dismissal never fires a pointless broadcast.
+     */
     private suspend fun postNotifyOnlyNotification(
         prayer: Prayer,
         subtitle: String,
         body: String?,
         settings: Settings,
+        stoppableSound: Boolean = false,
     ) {
         notificationRepository.notify(
             NotificationConfig(
@@ -478,6 +492,9 @@ class AdhanFiringHandler @Inject constructor(
                     category = AndroidNotificationCategory.CATEGORY_ALARM,
                     autoCancel = true,
                     showTimestamp = false,
+                    dismissAction = SoftSoundContract
+                        .stopAction(AdhanContract.ADHAN_NOTIFICATION_ID)
+                        .takeIf { stoppableSound },
                 ),
             ),
         )

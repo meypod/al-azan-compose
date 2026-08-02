@@ -7,7 +7,13 @@ package com.github.meypod.al_azan.core.domain.audio
  */
 const val INTRUSIVE_MIN_DURATION_MS = 5_000L
 
+/**
+ * [durationMs] is null when the length couldn't be read at all (unreadable uri, missing metadata).
+ * That's treated as intrusive: an unmeasurable sound is far more likely to be a long adhan than a
+ * chime, and guessing "soft" there strips the alarm of its full-screen screen and stop controls —
+ * the worse way to be wrong.
+ */
 fun isIntrusiveAudio(
     loop: Boolean,
     durationMs: Long?,
-): Boolean = loop || (durationMs ?: 0L) >= INTRUSIVE_MIN_DURATION_MS
+): Boolean = loop || durationMs == null || durationMs >= INTRUSIVE_MIN_DURATION_MS

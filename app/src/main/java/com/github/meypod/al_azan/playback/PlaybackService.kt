@@ -11,11 +11,7 @@ import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.media.MediaMetadata
 import android.media.MediaPlayer
-import android.media.VolumeProvider
-import android.media.session.MediaSession
-import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,6 +33,7 @@ import com.github.meypod.al_azan.MainActivity
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.alarm.AlarmActivity
+import com.github.meypod.al_azan.core.data.audio.VolumeKeyDismissMonitor
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
@@ -96,11 +93,6 @@ class PlaybackService :
             AudioManager.STREAM_SYSTEM,
         )
 
-        // Arbitrary range for the stop-on-volume MediaSession's remote VolumeProvider. The value never
-        // matters (any key press just stops the alarm); it sits mid-range so a press in either direction
-        // yields an onAdjust callback.
-        private const val VOLUME_PROVIDER_MAX = 100
-
         // Emitted whenever playback stops (notification "Dismiss", loop cap, call, etc.) so a visible
         // full-screen AlarmActivity can close itself even when the stop didn't originate from its UI.
         private val _stopSignal = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
@@ -142,8 +134,7 @@ class PlaybackService :
     private var telephonyCallback: TelephonyCallback? = null
     private var phoneStateListener: PhoneStateListener? = null
     private var volumeReceiver: BroadcastReceiver? = null
-    private var mediaSession: MediaSession? = null
-    private var stopOnVolume = false
+    private var volumeKeyMonitor: VolumeKeyDismissMonitor? = null
     private var playbackStream = AudioManager.STREAM_ALARM
     private var wasPlayingBeforeCall = false
     private var volumePercent = -1
@@ -266,18 +257,18 @@ class PlaybackService :
         // SERVICE), so bailing on denial silenced the adhan whenever it fired with the screen locked.
         requestAudioFocus(useMediaUsage)
         registerCallStateListener()
-        stopOnVolume = volumeButtonStops
-        // Primary stop-on-volume path: an active MediaSession with a remote VolumeProvider receives the
-        // hardware volume keys at the audio layer, so a press stops the alarm even with the screen off /
-        // locked — the case the VOLUME_CHANGED broadcast never reaches. The broadcast is only a fallback for
-        // when the session can't be created, and otherwise drives normal (mirror) mode.
+        // The volume keys either stop the alarm or adjust it — never both, so exactly one of these arms.
         if (volumeButtonStops) {
             // Mirror the notification's labels onto the session so the prayer/reminder shows up on the lock
             // screen, Android Auto, and Bluetooth head units while it sounds.
             val sessionSubtitle = body?.takeIf { it.isNotEmpty() } ?: timeLabel
-            setupVolumeKeyMediaSession(title, sessionSubtitle)
+            volumeKeyMonitor = VolumeKeyDismissMonitor(
+                context = this,
+                nowPlaying = VolumeKeyDismissMonitor.NowPlaying(title, sessionSubtitle),
+            ) { cleanupAndStop() }.also { it.start() }
+        } else {
+            registerVolumeMirrorReceiver()
         }
-        registerVolumeReceiver()
         VibrationController.vibrate(this, vibration)
         // Directly open the full-screen alarm when either:
         //  - the user forced it (some OEMs ignore the full-screen-intent over the lock screen), or
@@ -467,35 +458,26 @@ class PlaybackService :
     }
 
     /**
-     * Drives normal (mirror) mode, and is a fallback stop path only when the MediaSession (the reliable
-     * stop-on-volume mechanism) couldn't be created — see the null-session check in onReceive. Fires when a
-     * stream volume actually changes.
+     * Normal (mirror) mode only — when the volume keys stop the alarm instead,
+     * [VolumeKeyDismissMonitor] owns them. Fires when a stream volume actually changes.
      */
-    private fun registerVolumeReceiver() {
+    private fun registerVolumeMirrorReceiver() {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(
                 c: Context?,
                 i: Intent?,
             ) {
-                if (i == null) return
-                if (stopOnVolume) {
-                    // The MediaSession is the reliable stop path and absorbs real key presses (so this
-                    // broadcast rarely reflects one). Only fall back to it when the session couldn't be set
-                    // up — otherwise an unrelated stream change could falsely cut the adhan short.
-                    if (mediaSession == null) cleanupAndStop()
-                } else {
-                    mirrorVolumeToPlayer(i) // normal mode: follow the user's volume change live
-                }
+                if (i != null) mirrorVolumeToPlayer(i)
             }
         }
         volumeReceiver = receiver
         ContextCompat.registerReceiver(
             this,
             receiver,
-            IntentFilter("android.media.VOLUME_CHANGED_ACTION"),
+            IntentFilter(VolumeKeyDismissMonitor.ACTION_VOLUME_CHANGED),
             // EXPORTED: some OEMs won't deliver the system VOLUME_CHANGED broadcast to a NOT_EXPORTED
             // runtime receiver while the screen is off. VOLUME_CHANGED_ACTION is a protected broadcast
-            // (only the system can send it), so exporting doesn't let other apps spoof a stop.
+            // (only the system can send it), so exporting doesn't let other apps spoof one.
             ContextCompat.RECEIVER_EXPORTED,
         )
     }
@@ -523,65 +505,6 @@ class PlaybackService :
         if (max <= 0) return
         val ratio = (value.toFloat() / max).coerceIn(0f, 1f)
         runCatching { player?.setVolume(ratio, ratio) }
-    }
-
-    /**
-     * The reliable stop-on-volume path: an active [MediaSession] with a remote [VolumeProvider]. While a
-     * session is active and playing, the framework routes the hardware volume keys to its VolumeProvider at
-     * the audio layer — before they reach any window or change a stream — so a press dismisses the alarm
-     * even with the screen off or locked, the case the VOLUME_CHANGED broadcast never reaches. Because the
-     * provider owns the volume, an edge press still fires an onAdjust callback, so no volume nudging is
-     * needed. The audio itself is played by the MediaPlayer, not this session; the session exists to capture
-     * the keys and to surface the prayer/reminder as now-playing metadata on the lock screen / Auto / BT.
-     */
-    private fun setupVolumeKeyMediaSession(
-        title: String,
-        subtitle: String,
-    ) {
-        val session = runCatching { MediaSession(this, "adhan-volume") }.getOrNull() ?: return
-        val provider = object : VolumeProvider(VOLUME_CONTROL_RELATIVE, VOLUME_PROVIDER_MAX, VOLUME_PROVIDER_MAX / 2) {
-            override fun onAdjustVolume(direction: Int) {
-                if (direction != 0) cleanupAndStop() // any up/down press dismisses the alarm
-            }
-
-            override fun onSetVolumeTo(volume: Int) = cleanupAndStop()
-        }
-        runCatching {
-            // A callback (with an explicit main-thread handler) must exist for the platform MediaSession to
-            // have a message handler to dispatch incoming volume adjustments onto — without it the framework
-            // routes the key to our session but the VolumeProvider callback is silently dropped.
-            session.setCallback(
-                object : MediaSession.Callback() {
-                    override fun onStop() = cleanupAndStop()
-                },
-                mainHandler,
-            )
-            session.setMetadata(
-                MediaMetadata.Builder()
-                    .putString(MediaMetadata.METADATA_KEY_TITLE, title)
-                    .putString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE, title)
-                    .putString(MediaMetadata.METADATA_KEY_ARTIST, subtitle)
-                    .putString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE, subtitle)
-                    .build(),
-            )
-            session.setPlaybackToRemote(provider)
-            // A PLAYING state makes this the active session the framework routes volume keys to.
-            session.setPlaybackState(
-                PlaybackState.Builder()
-                    .setState(PlaybackState.STATE_PLAYING, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 1f)
-                    .build(),
-            )
-            session.isActive = true
-        }
-        mediaSession = session
-    }
-
-    private fun releaseVolumeKeyMediaSession() {
-        mediaSession?.let {
-            runCatching { it.isActive = false }
-            runCatching { it.release() }
-        }
-        mediaSession = null
     }
 
     @SuppressLint("FullScreenIntentPolicy")
@@ -727,7 +650,7 @@ class PlaybackService :
         }
 
     /**
-     * Releases every playback resource (player, audio focus, listeners, volume MediaSession, vibration) and
+     * Releases every playback resource (player, audio focus, listeners, volume-key capture, vibration) and
      * cancels the loop cap. Idempotent and null-safe, so it is reused both to stop a cycle ([cleanupAndStop])
      * and to wipe a prior cycle's leftovers when this instance is reused for a new PLAY. Does NOT touch the
      * foreground notification, the stopped latch, or stopSelf — those belong to [cleanupAndStop].
@@ -747,7 +670,8 @@ class PlaybackService :
         abandonAudioFocus()
         unregisterCallStateListener()
         unregisterVolumeReceiver()
-        releaseVolumeKeyMediaSession()
+        volumeKeyMonitor?.stop()
+        volumeKeyMonitor = null
         VibrationController.stop(this)
     }
 
