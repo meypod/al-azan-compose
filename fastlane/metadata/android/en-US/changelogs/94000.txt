@@ -1,0 +1,2 @@
+- Fixed an issue where short sounds were not getting stopped after dismissing the adhan or reminder notifications
+- Volume button now also stops the short sounds
