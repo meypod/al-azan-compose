@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Press to select a method</string>
     <string name="calculation_method_modified">%1$s (Modified)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">30 minutes is added to Isha time during Ramadan in this method.</string>
-    <string name="calc_method_turkey_approximation_note">Diyanet method provided in Al-Azan is an approximation of the official times. Since there\'s not enough documentation available on how the times are exactly calculated, times may not align with the official website, especially out of Turkey.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet uses a 17° Isha angle for Turkey and the countries following its calendar (among others Spain, Greece, Bulgaria, Albania, Azerbaijan, Egypt), and 16° for its European calendars. Pick the variant matching the calendar of your country. Times are calculated to follow the published calendars closely, but small differences can remain.</string>
     <string name="fajr_angle">Fajr Angle</string>
     <string name="isha_angle">Isha Angle</string>
     <string name="isha_interval">Isha Interval</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">France angle 15</string>
     <string name="calc_method_france18">France angle 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Turkey</string>
+    <string name="calc_method_turkey_europe">Diyanet İşleri Başkanlığı, Europe</string>
     <string name="calc_method_russia">Spiritual Administration of Muslims of Russia</string>
     <string name="calc_method_jafari">Shia Ithna Ashari, Leva Institute, Qum, Iran</string>
     <string name="calc_method_tehran">Shia, Institute of Geophysics, University of Tehran, Iran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Middle of the Night</string>
     <string name="high_latitude_seventh">Seventh of the Night</string>
     <string name="high_latitude_twilight_angle">Twilight Angle</string>
+    <string name="high_latitude_proportional_depression">Proportional Depression (Diyanet Takdir)</string>
     <string name="asr_calculation">Asr Calculation</string>
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Default)</string>
     <string name="asr_hanafi">Hanafi</string>
@@ -690,6 +692,12 @@
     <string name="ramadan_dont_show_again">Don\'t show again</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Diyanet prayer times updated</string>
+    <string name="diyanet_change_notice_body">Your Diyanet times changed, and your manual minute adjustments were cleared. A separate method for Diyanet\'s European calendars was added. Tap to check your method and times.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Prayer Times Widget</string>
@@ -714,6 +722,8 @@
     <string name="dnd_active_channel_description">The silent, ongoing notice shown while \"Dismiss &amp; silent\" Do Not Disturb is active, letting you turn it off early.</string>
     <string name="ramadan_notice_channel_name">Ramadan notice</string>
     <string name="ramadan_notice_channel_description">A yearly reminder that the pre-calculated calendar may be off for the start and end of Ramadan.</string>
+    <string name="important_notice_channel_name">Important notices</string>
+    <string name="important_notice_channel_description">Rare notices about changes that affect the prayer times shown to you.</string>
     <string name="permission_revoked_channel_name">Permission Revoked</string>
     <string name="permission_revoked_channel_description">Alerts you when a required permission has been denied or revoked, which may affect app functionality.</string>
     <string name="travel_mode_channel_name">Travel mode</string>

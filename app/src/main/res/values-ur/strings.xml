@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">طریقہ منتخب کرنے کے لیے دبائیں۔</string>
     <string name="calculation_method_modified">%1$s (ترمیم شدہ)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">اس طریقہ سے رمضان میں عشاء کے وقت میں 30 منٹ کا اضافہ کیا جاتا ہے۔</string>
-    <string name="calc_method_turkey_approximation_note">الازان میں فراہم کردہ دیانیت کا طریقہ سرکاری اوقات کا تخمینہ ہے۔ چونکہ اوقات کا صحیح حساب کیسے لگایا جاتا ہے اس کے بارے میں کافی دستاویزات دستیاب نہیں ہیں، ہو سکتا ہے اوقات سرکاری ویب سائٹ کے مطابق نہ ہوں، خاص طور پر ترکی سے باہر۔</string>
+    <string name="calc_method_turkey_isha_angle_note">دیانت ترکی اور اس کے کیلنڈر کی پیروی کرنے والے ممالک (جن میں اسپین، یونان، بلغاریہ، البانیہ، آذربائیجان، مصر شامل ہیں) کے لیے عشاء کا زاویہ 17° اور اپنے یورپی کیلنڈروں کے لیے 16° استعمال کرتا ہے۔ وہ طریقہ منتخب کریں جو آپ کے ملک کے کیلنڈر سے مطابقت رکھتا ہو۔ اوقات کو شائع شدہ کیلنڈروں کے قریب رکھ کر شمار کیا جاتا ہے، تاہم معمولی فرق باقی رہ سکتا ہے۔</string>
     <string name="fajr_angle">فجر زاویہ</string>
     <string name="isha_angle">عشاء زاویہ</string>
     <string name="isha_interval">عشاء کا وقفہ</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">فرانس زاویہ 15</string>
     <string name="calc_method_france18">فرانس زاویہ 18</string>
     <string name="calc_method_turkey">دیانت اشلری باشکانلیغی، ترکی</string>
+    <string name="calc_method_turkey_europe">دیانت اشلری باشکانلیغی، یورپ</string>
     <string name="calc_method_russia">روس کے مسلمانوں کی روحانی انتظامیہ</string>
     <string name="calc_method_jafari">شیعہ اثنا عشری، لیوا انسٹی ٹیوٹ، قم، ایران</string>
     <string name="calc_method_tehran">شیعہ، انسٹی ٹیوٹ آف جیو فزکس، یونیورسٹی آف تہران، ایران</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">رات کا درمیانی حصہ</string>
     <string name="high_latitude_seventh">رات کا ساتواں حصہ</string>
     <string name="high_latitude_twilight_angle">گودھولی کا زاویہ</string>
+    <string name="high_latitude_proportional_depression">متناسب انحطاط (دیانت تقدیر)</string>
     <string name="asr_calculation">عصر کا حساب</string>
     <string name="asr_shafi_default">شافعی، مالکی، حنبلی (پہلے سے طے شدہ)</string>
     <string name="asr_hanafi">حنفی</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">دوبارہ نہ دکھائیں</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">دیانت کے نماز اوقات اپ ڈیٹ ہو گئے</string>
+    <string name="diyanet_change_notice_body">آپ کے دیانت اوقات بدل گئے ہیں اور آپ کی دستی منٹ ایڈجسٹمنٹ مٹا دی گئی ہیں۔ دیانت کے یورپی کیلنڈروں کے لیے الگ طریقہ شامل کیا گیا ہے۔ اپنا طریقہ اور اوقات دیکھنے کے لیے ٹیپ کریں۔</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">نماز کے اوقات کا ویجٹ</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">خاموش، جاری اطلاع جو \"برطرف کریں اور خاموش\" ڈسٹرب نہ کریں فعال ہونے کے دوران دکھائی جاتی ہے، تاکہ آپ اسے جلد بند کر سکیں۔</string>
     <string name="ramadan_notice_channel_name">رمضان کی اطلاع</string>
     <string name="ramadan_notice_channel_description">ایک سالانہ یاد دہانی کہ پہلے سے شمار شدہ کیلنڈر رمضان کے آغاز اور اختتام کے لیے غلط ہو سکتا ہے۔</string>
+    <string name="important_notice_channel_name">اہم اطلاعات</string>
+    <string name="important_notice_channel_description">ایسی تبدیلیوں کے بارے میں شاذ و نادر اطلاعات جو آپ کو دکھائے جانے والے نماز کے اوقات پر اثر ڈالتی ہیں۔</string>
     <string name="permission_revoked_channel_name">اجازت منسوخ کر دی گئی</string>
     <string name="permission_revoked_channel_description">آپ کو خبردار کرتا ہے جب کوئی درکار اجازت مسترد یا منسوخ کر دی گئی ہو، جو ایپ کی فعالیت کو متاثر کر سکتی ہے۔</string>
     <string name="travel_mode_channel_name">سفر موڈ</string>

@@ -97,7 +97,7 @@ sealed interface Route : NavKey {
             }
 
             @Serializable
-            data object Calculations : Route {
+            data object Calculations : Route, DeepLinkableRoute {
                 @Serializable
                 data object Adjustments : Route
 
@@ -151,6 +151,13 @@ internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
             DeepLinkPattern(
                 Route.Main.Settings.WidgetSettings.CustomBuilder.serializer(),
                 Route.Main.Settings.WidgetSettings.CustomBuilder.toUriString().toUri(),
+            ),
+        )
+        // "al-azan://Calculations" — opened by tapping a notice about a calculation change.
+        add(
+            DeepLinkPattern(
+                Route.Main.Settings.Calculations.serializer(),
+                Route.Main.Settings.Calculations.toUriString().toUri(),
             ),
         )
         // Debug-only: extra screens for tooling (fastlane screenshot scripts) to open directly via adb.

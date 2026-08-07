@@ -82,6 +82,7 @@ fun AdvancedCalcScreen(
                         HighLatitudeRule.MIDDLE_OF_THE_NIGHT -> resources.getString(R.string.high_latitude_middle)
                         HighLatitudeRule.SEVENTH_OF_THE_NIGHT -> resources.getString(R.string.high_latitude_seventh)
                         HighLatitudeRule.TWILIGHT_ANGLE -> resources.getString(R.string.high_latitude_twilight_angle)
+                        HighLatitudeRule.PROPORTIONAL_DEPRESSION -> resources.getString(R.string.high_latitude_proportional_depression)
                     }
                 },
                 selectedKey = uiState.highLatitude?.name ?: "auto",

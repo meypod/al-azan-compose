@@ -214,6 +214,15 @@ data class Settings(
      * intent over the lock screen. Only takes effect when the full-screen alarm is enabled.
      */
     val forceLaunchAlarmActivity: Boolean = false,
+    /**
+     * Set by the one-time Diyanet migration (adhan 0.0.13) for users whose calculation settings it
+     * rewrote, and cleared once the explanatory notice has actually been posted. Kept as pending
+     * state rather than notifying inline so the notice survives a start where notifications are not
+     * permitted yet.
+     *
+     * @see com.github.meypod.al_azan.di.DiyanetParamsMigrationRunner
+     */
+    val diyanetChangeNoticePending: Boolean = false,
 )
 
 @Serializable

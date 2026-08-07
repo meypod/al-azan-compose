@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">اضغط لتحديد طريقة</string>
     <string name="calculation_method_modified">%1$s (مُعدّل)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">يتم إضافة 30 دقيقة إلى وقت صلاة العشاء خلال شهر رمضان</string>
-    <string name="calc_method_turkey_approximation_note">طريقة \"الديانة\" المتوفرة في الأذان، تقريبية للأوقات الرسمية. نظرًا لعدم توفر وثائق كافية حول كيفية حساب الأوقات بدقة، فقد لا تتوافق الأوقات مع الموقع الرسمي، خاصة خارج تركيا.</string>
+    <string name="calc_method_turkey_isha_angle_note">تستخدم رئاسة الشؤون الدينية زاوية 17° للعشاء في تركيا والدول التي تتبع تقويمها (منها إسبانيا واليونان وبلغاريا وألبانيا وأذربيجان ومصر)، و16° لتقاويمها الأوروبية. اختر الطريقة المطابقة لتقويم بلدك. وتُحسب الأوقات لتقترب من التقاويم المنشورة قدر الإمكان، لكن قد تبقى فروق صغيرة.</string>
     <string name="fajr_angle">زاوية الفجر</string>
     <string name="isha_angle">زاوية العشاء</string>
     <string name="isha_interval">فاصل العشاء</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">فرنسا الزاوية 15</string>
     <string name="calc_method_france18">فرنسا الزاوية 18</string>
     <string name="calc_method_turkey">رئاسة الشؤون الدينية، تركيا</string>
+    <string name="calc_method_turkey_europe">رئاسة الشؤون الدينية، أوروبا</string>
     <string name="calc_method_russia">الإدارة الروحية لمسلمي روسيا</string>
     <string name="calc_method_jafari">الشيعة الإثنا عشرية، معهد ليفا، قم، إيران</string>
     <string name="calc_method_tehran">الشيعة، معهد الجيوفيزياء، جامعة طهران، إيران</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">منتصف الليل</string>
     <string name="high_latitude_seventh">سُبع الليل</string>
     <string name="high_latitude_twilight_angle">زاوية الشفق</string>
+    <string name="high_latitude_proportional_depression">الانخفاض النسبي (تقدير الديانة)</string>
     <string name="asr_calculation">حساب العصر</string>
     <string name="asr_shafi_default">شافعي، مالكي، حنبلي (افتراضي)</string>
     <string name="asr_hanafi">حنفي</string>
@@ -703,6 +705,12 @@
     <string name="ramadan_dont_show_again">لا تظهر مرة أخرى</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">تم تحديث أوقات صلاة الديانة</string>
+    <string name="diyanet_change_notice_body">تغيرت أوقات الديانة لديك، وتم مسح تعديلات الدقائق اليدوية. وأضيفت طريقة منفصلة للتقاويم الأوروبية للديانة. اضغط للتحقق من الطريقة والأوقات.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">مصغّر أوقات الصلاة</string>
@@ -727,6 +735,8 @@
     <string name="dnd_active_channel_description">الإشعار الصامت المستمر الذي يظهر أثناء تفعيل وضع عدم الإزعاج عبر \"التجاهل والكتم\"، ليتيح لك إيقافه مبكرًا.</string>
     <string name="ramadan_notice_channel_name">إشعار رمضان</string>
     <string name="ramadan_notice_channel_description">تذكير سنوي بأن التقويم المحسوب مسبقًا قد يكون غير دقيق لبداية رمضان ونهايته.</string>
+    <string name="important_notice_channel_name">إشعارات مهمة</string>
+    <string name="important_notice_channel_description">إشعارات نادرة حول تغييرات تؤثر على أوقات الصلاة المعروضة لك.</string>
     <string name="permission_revoked_channel_name">تم إلغاء الإذن</string>
     <string name="permission_revoked_channel_description">ينبّهك عند رفض أو إلغاء إذن مطلوب، مما قد يؤثر على عمل التطبيق.</string>
     <string name="travel_mode_channel_name">وضع السفر</string>

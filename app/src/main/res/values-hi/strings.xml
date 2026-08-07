@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">कोई विधि चुनने के लिए दबाएँ</string>
     <string name="calculation_method_modified">%1$s (संशोधित)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">इस तरीके से रमजान के दौरान ईशा के समय में 30 मिनट जोड़ा जाता है</string>
-    <string name="calc_method_turkey_approximation_note">अल-अज़ान में प्रदान की गई डायनेट पद्धति आधिकारिक समय का एक अनुमान है। चूंकि समय की सटीक गणना कैसे की जाती है, इस पर पर्याप्त दस्तावेज उपलब्ध नहीं हैं, इसलिए समय आधिकारिक वेबसाइट के साथ संरेखित नहीं हो सकता है, खासकर तुर्की से बाहर।</string>
+    <string name="calc_method_turkey_isha_angle_note">दियानेट तुर्की और उसके कैलेंडर का पालन करने वाले देशों (जैसे स्पेन, ग्रीस, बुल्गारिया, अल्बानिया, अज़रबैजान, मिस्र) के लिए 17° का ईशा कोण और अपने यूरोपीय कैलेंडर के लिए 16° का उपयोग करता है। अपने देश के कैलेंडर से मेल खाने वाला विकल्प चुनें। समय की गणना प्रकाशित कैलेंडर के करीब रहने के लिए की जाती है, फिर भी छोटे अंतर रह सकते हैं।</string>
     <string name="fajr_angle">फज्र कोण</string>
     <string name="isha_angle">ईशा कोण</string>
     <string name="isha_interval">ईशा अंतराल</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">फ़्रांस कोण 15</string>
     <string name="calc_method_france18">फ़्रांस कोण 18</string>
     <string name="calc_method_turkey">दियानेट इशलेरी बाशकानलिग़ी, तुर्की</string>
+    <string name="calc_method_turkey_europe">दियानेट इशलेरी बाशकानलिग़ी, यूरोप</string>
     <string name="calc_method_russia">रूस के मुसलमानों का आध्यात्मिक प्रशासन</string>
     <string name="calc_method_jafari">शिया इस्ना अशरी, लेवा संस्थान, क़ुम, ईरान</string>
     <string name="calc_method_tehran">शिया, भूभौतिकी संस्थान, तेहरान विश्वविद्यालय, ईरान</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">रात का मध्य भाग</string>
     <string name="high_latitude_seventh">रात का सातवाँ भाग</string>
     <string name="high_latitude_twilight_angle">गोधूलि कोण</string>
+    <string name="high_latitude_proportional_depression">आनुपातिक अवनमन (दियानेट तक़दीर)</string>
     <string name="asr_calculation">असर की गणना</string>
     <string name="asr_shafi_default">शाफ़ई, मालिकी, हनबली (डिफ़ॉल्ट)</string>
     <string name="asr_hanafi">हनफ़ी</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">दोबारा न दिखाएँ</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">दियानेट नमाज़ के समय अपडेट हुए</string>
+    <string name="diyanet_change_notice_body">आपके दियानेट समय बदल गए हैं और आपके मिनट समायोजन हटा दिए गए हैं। दियानेट के यूरोपीय कैलेंडर के लिए अलग पद्धति जोड़ी गई है। पद्धति और समय जाँचने के लिए टैप करें।</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">नमाज़ के समय विजेट</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">\"हटाएँ और साइलेंट\" परेशान न करें सक्रिय रहने के दौरान दिखाई जाने वाली साइलेंट, जारी सूचना, जो आपको इसे जल्दी बंद करने देती है।</string>
     <string name="ramadan_notice_channel_name">रमज़ान सूचना</string>
     <string name="ramadan_notice_channel_description">एक वार्षिक अनुस्मारक कि पूर्व-गणना किया गया कैलेंडर रमज़ान के आरंभ और अंत के लिए ग़लत हो सकता है।</string>
+    <string name="important_notice_channel_name">महत्वपूर्ण सूचनाएँ</string>
+    <string name="important_notice_channel_description">आपको दिखाए जाने वाले नमाज़ के समय को प्रभावित करने वाले बदलावों की दुर्लभ सूचनाएँ।</string>
     <string name="permission_revoked_channel_name">अनुमति रद्द</string>
     <string name="permission_revoked_channel_description">जब कोई आवश्यक अनुमति अस्वीकृत या रद्द कर दी जाती है, तो आपको सचेत करता है, जो ऐप की कार्यक्षमता को प्रभावित कर सकता है।</string>
     <string name="travel_mode_channel_name">यात्रा मोड</string>

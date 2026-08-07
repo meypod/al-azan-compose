@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Pritisnite za odabir metode</string>
     <string name="calculation_method_modified">%1$s (modificirano)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">30 minuta se dodaje na Jaciju tokom Ramazana u ovoj metodi</string>
-    <string name="calc_method_turkey_approximation_note">Diyanet metoda navedena u Al-Azanu je približnost službenog vremena. Budući da nema dovoljno dokumentacije o tome kako se tačno računaju vremena, vremena moguće neće biti usklađena sa službenim web stranicama, posebno izvan Turske.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet koristi ugao jacije od 17° za Tursku i zemlje koje slijede njen kalendar (između ostalih Španija, Grčka, Bugarska, Albanija, Azerbejdžan, Egipat), a 16° za svoje evropske kalendare. Odaberite varijantu koja odgovara kalendaru vaše zemlje. Vaktovi se računaju tako da blisko prate objavljene kalendare, ali male razlike mogu ostati.</string>
     <string name="fajr_angle">Kut Sabaha</string>
     <string name="isha_angle">Kut Jacije</string>
     <string name="isha_interval">Interval Jacije</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">Francuski ugao 15</string>
     <string name="calc_method_france18">Francuski ugao 18</string>
     <string name="calc_method_turkey">Predsjedništvo za vjerska pitanja, Turska</string>
+    <string name="calc_method_turkey_europe">Predsjedništvo za vjerska pitanja, Evropa</string>
     <string name="calc_method_russia">Duhovna Uprava Muslimana Rusije</string>
     <string name="calc_method_jafari">Šiitski Isna Ašari, Institut Leva, Kum, Iran</string>
     <string name="calc_method_tehran">Šiitski, Institut za geofiziku, Univerzitet u Teheranu, Iran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Usred Noći</string>
     <string name="high_latitude_seventh">Sedmina noći</string>
     <string name="high_latitude_twilight_angle">Ugao Sumraka</string>
+    <string name="high_latitude_proportional_depression">Proporcionalna depresija (Diyanet takdir)</string>
     <string name="asr_calculation">Kalkulacija Ikindije</string>
     <string name="asr_shafi_default">Šafija, Malikija, Hanbelija (zadano)</string>
     <string name="asr_hanafi">Hanefija</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">Ne prikazuj ponovo</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Diyanet vaktovi su ažurirani</string>
+    <string name="diyanet_change_notice_body">Vaši Diyanet vaktovi su se promijenili, a ručna podešavanja u minutama su obrisana. Dodana je zasebna metoda za Diyanetove evropske kalendare. Dodirnite da provjerite metodu i vaktove.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Vidžet vremena molitve</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">Tiha, trajna obavijest prikazana dok je aktivan režim Ne smetaj iz opcije \"Odbaci i utišaj\", koja vam omogućava da ga ranije isključite.</string>
     <string name="ramadan_notice_channel_name">Obavijest o Ramazanu</string>
     <string name="ramadan_notice_channel_description">Godišnji podsjetnik da unaprijed izračunati kalendar može biti netačan za početak i kraj Ramazana.</string>
+    <string name="important_notice_channel_name">Važna obavještenja</string>
+    <string name="important_notice_channel_description">Rijetka obavještenja o promjenama koje utječu na vaktove koji vam se prikazuju.</string>
     <string name="permission_revoked_channel_name">Dozvola opozvana</string>
     <string name="permission_revoked_channel_description">Upozorava vas kada je potrebna dozvola odbijena ili opozvana, što može uticati na funkcionalnost aplikacije.</string>
     <string name="travel_mode_channel_name">Režim putovanja</string>

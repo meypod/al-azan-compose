@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Nhấn để chọn một phương pháp</string>
     <string name="calculation_method_modified">%1$s (Đã sửa đổi)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">30 phút được thêm vào thời gian Isha trong tháng Ramadan theo phương pháp này</string>
-    <string name="calc_method_turkey_approximation_note">Phương pháp Diyanet được cung cấp ở Al-Azan là phương pháp gần đúng với thời gian chính thức. Vì không có đủ tài liệu về cách tính toán chính xác thời gian nên thời gian có thể không khớp với trang web chính thức, đặc biệt là ngoài Thổ Nhĩ Kỳ.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet dùng góc Isha 17° cho Thổ Nhĩ Kỳ và các nước theo lịch của họ (trong đó có Tây Ban Nha, Hy Lạp, Bulgaria, Albania, Azerbaijan, Ai Cập), và 16° cho lịch châu Âu của họ. Hãy chọn phương pháp khớp với lịch của nước bạn. Giờ được tính để bám sát các lịch đã công bố, nhưng vẫn có thể còn chênh lệch nhỏ.</string>
     <string name="fajr_angle">Góc Fajr</string>
     <string name="isha_angle">Góc Isha</string>
     <string name="isha_interval">Khung Isha</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">Pháp góc 15</string>
     <string name="calc_method_france18">Pháp góc 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Thổ Nhĩ Kỳ</string>
+    <string name="calc_method_turkey_europe">Diyanet İşleri Başkanlığı, Châu Âu</string>
     <string name="calc_method_russia">Cơ quan Quản lý Tinh thần của người Hồi giáo ở Nga</string>
     <string name="calc_method_jafari">Shia Ithna Ashari, Viện Leva, Qum, Iran</string>
     <string name="calc_method_tehran">Shia, Viện Địa vật lý, Đại học Tehran, Iran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Giữa đêm</string>
     <string name="high_latitude_seventh">Một phần bảy của Đêm</string>
     <string name="high_latitude_twilight_angle">Góc chạng vạng</string>
+    <string name="high_latitude_proportional_depression">Độ hạ tỉ lệ (Takdir của Diyanet)</string>
     <string name="asr_calculation">Tính Asr</string>
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Mặc định)</string>
     <string name="asr_hanafi">Hanafi</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">Không hiển thị lại</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Đã cập nhật giờ cầu nguyện Diyanet</string>
+    <string name="diyanet_change_notice_body">Giờ Diyanet của bạn đã thay đổi và các điều chỉnh phút thủ công đã bị xóa. Đã thêm phương pháp riêng cho lịch châu Âu của Diyanet. Chạm để kiểm tra phương pháp và giờ của bạn.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Tiện ích Giờ cầu nguyện</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">Thông báo im lặng, đang diễn ra được hiển thị khi chế độ Không làm phiền \"Bỏ qua &amp; tắt tiếng\" đang hoạt động, cho phép bạn tắt nó sớm.</string>
     <string name="ramadan_notice_channel_name">Thông báo Ramadan</string>
     <string name="ramadan_notice_channel_description">Lời nhắc hàng năm rằng lịch được tính toán trước có thể bị lệch vào đầu và cuối tháng Ramadan.</string>
+    <string name="important_notice_channel_name">Thông báo quan trọng</string>
+    <string name="important_notice_channel_description">Những thông báo hiếm gặp về các thay đổi ảnh hưởng đến giờ cầu nguyện hiển thị cho bạn.</string>
     <string name="permission_revoked_channel_name">Quyền Bị Thu hồi</string>
     <string name="permission_revoked_channel_description">Cảnh báo bạn khi một quyền cần thiết đã bị từ chối hoặc thu hồi, điều này có thể ảnh hưởng đến chức năng của ứng dụng.</string>
     <string name="travel_mode_channel_name">Chế độ du lịch</string>

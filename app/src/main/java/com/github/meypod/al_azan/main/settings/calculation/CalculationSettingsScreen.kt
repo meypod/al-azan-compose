@@ -93,8 +93,8 @@ fun CalculationSettingsScreen(
                             { Text(stringResource(R.string.calc_method_umm_al_qura_ramadan_note)) }
                         }
 
-                        CalculationMethod.TURKEY -> {
-                            { Text(stringResource(R.string.calc_method_turkey_approximation_note)) }
+                        CalculationMethod.TURKEY, CalculationMethod.TURKEY_EUROPE -> {
+                            { Text(stringResource(R.string.calc_method_turkey_isha_angle_note)) }
                         }
 
                         else -> null

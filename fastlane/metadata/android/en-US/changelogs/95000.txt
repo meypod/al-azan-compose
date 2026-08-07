@@ -1,0 +1,3 @@
+- Reworked the Diyanet (Turkey) method to follow the official calendars more closely. Your times will change, noticeably so outside Turkey, and manual minute adjustments were reset because they corrected the old times
+- Added a separate Diyanet method for its European calendars, which use a 16° Isha angle instead of 17°
+- Added Diyanet's high latitude estimation (takdir), so its times stay usable in northern Europe and inside the polar circle

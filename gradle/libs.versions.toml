@@ -19,8 +19,8 @@ lifecycleViewmodelNav3 = "2.11.0"
 kotlinxSerialization = "1.11.0"
 kotlinSerialization = "2.4.10"
 material3AdaptiveNav3 = "1.3.0-rc01"
-mmkv = "1.3.16"
-adhan = "0.0.12"
+mmkv = "1.3.17"
+adhan = "0.0.13"
 appfunctions = "1.0.0-alpha10"
 mockito = "5.23.0"
 mockitoKotlin = "6.3.0"
@@ -56,7 +56,7 @@ androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecy
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 androidx-material3-adaptive-navigation3 = { module = "androidx.compose.material3.adaptive:adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
 tencent-mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
-batoulapps-adhan = { module = "io.github.meypod:adhan_kotlin    ", version.ref = "adhan" }
+batoulapps-adhan = { module = "io.github.meypod:adhan_kotlin", version.ref = "adhan" }
 androidx-appfunctions = { module = "androidx.appfunctions:appfunctions", version.ref = "appfunctions" }
 androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-compiler", version.ref = "appfunctions" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }

@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">একটি পদ্ধতি নির্বাচন করতে টিপুন</string>
     <string name="calculation_method_modified">%1$s (পরিবর্তিত)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">এই পদ্ধতিতে রমজানে ইশার সময়ের সাথে ৩০ মিনিট যোগ করা হয়</string>
-    <string name="calc_method_turkey_approximation_note">দিয়ানেট থেকে আসা সময়সমূহ অফিসিয়াল সময়ের আনুমানিক। যেহেতু সময় ঠিক কীভাবে গণনা করা হয় সে সম্পর্কে যথেষ্ট ডকুমেন্টেশন নেই, তাই সময়গুলি অফিসিয়াল ওয়েবসাইটের সাথে নাও মিলতে পারে, বিশেষ করে তুরস্কের বাইরে।</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet তুরস্ক ও তার ক্যালেন্ডার অনুসরণকারী দেশগুলোর (যেমন স্পেন, গ্রিস, বুলগেরিয়া, আলবেনিয়া, আজারবাইজান, মিশর) জন্য ১৭° ইশার কোণ ব্যবহার করে, আর ইউরোপীয় ক্যালেন্ডারের জন্য ১৬°। আপনার দেশের ক্যালেন্ডারের সঙ্গে মেলে এমন পদ্ধতিটি বেছে নিন। সময় প্রকাশিত ক্যালেন্ডারের কাছাকাছি রেখে গণনা করা হয়, তবে সামান্য পার্থক্য থাকতে পারে।</string>
     <string name="fajr_angle">ফজরের কোণ</string>
     <string name="isha_angle">ইশার কোণ</string>
     <string name="isha_interval">ইশার ব্যবধান</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">ফ্রান্স কোণ 15</string>
     <string name="calc_method_france18">ফ্রান্স কোণ 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, তুরস্ক</string>
+    <string name="calc_method_turkey_europe">Diyanet İşleri Başkanlığı, ইউরোপ</string>
     <string name="calc_method_russia">রাশিয়ার মুসলমানদের আধ্যাত্মিক প্রশাসন</string>
     <string name="calc_method_jafari">শিয়া ইসনা আশারি, লেভা ইনস্টিটিউট, কোম, ইরান</string>
     <string name="calc_method_tehran">শিয়া, জিওফিজিক্স ইনস্টিটিউট, তেহরান বিশ্ববিদ্যালয়, ইরান</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">রাতের মাঝখানে</string>
     <string name="high_latitude_seventh">রাতের সপ্তমাংশ</string>
     <string name="high_latitude_twilight_angle">গোধূলি কোণ</string>
+    <string name="high_latitude_proportional_depression">আনুপাতিক অবনমন (Diyanet তাকদির)</string>
     <string name="asr_calculation">আসরের হিসাব</string>
     <string name="asr_shafi_default">শফি, মালিকি, হাম্বলী (ডিফল্ট)</string>
     <string name="asr_hanafi">হানাফী</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">আবার দেখাবেন না</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Diyanet নামাজের সময় হালনাগাদ হয়েছে</string>
+    <string name="diyanet_change_notice_body">আপনার Diyanet সময় বদলে গেছে এবং আপনার হাতে করা মিনিট সমন্বয় মুছে ফেলা হয়েছে। Diyanet-এর ইউরোপীয় ক্যালেন্ডারের জন্য আলাদা পদ্ধতি যোগ করা হয়েছে। পদ্ধতি ও সময় দেখতে ট্যাপ করুন।</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">সালাতের সময় উইজেট</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">\"খারিজ করুন ও নীরব করুন\" ডু নট ডিস্টার্ব সক্রিয় থাকা অবস্থায় দেখানো নীরব, চলমান নোটিশ, যা আপনাকে আগেই এটি বন্ধ করতে দেয়।</string>
     <string name="ramadan_notice_channel_name">রমজান বিজ্ঞপ্তি</string>
     <string name="ramadan_notice_channel_description">একটি বার্ষিক রিমাইন্ডার যে রমজানের শুরু ও শেষের জন্য পূর্ব-গণনাকৃত ক্যালেন্ডার ভুল হতে পারে।</string>
+    <string name="important_notice_channel_name">গুরুত্বপূর্ণ বিজ্ঞপ্তি</string>
+    <string name="important_notice_channel_description">আপনাকে দেখানো নামাজের সময় প্রভাবিত করে এমন পরিবর্তন সম্পর্কে বিরল বিজ্ঞপ্তি।</string>
     <string name="permission_revoked_channel_name">অনুমতি প্রত্যাহার করা হয়েছে</string>
     <string name="permission_revoked_channel_description">একটি প্রয়োজনীয় অনুমতি প্রত্যাখ্যাত বা প্রত্যাহার করা হলে আপনাকে সতর্ক করে, যা অ্যাপের কার্যকারিতাকে প্রভাবিত করতে পারে।</string>
     <string name="travel_mode_channel_name">ভ্রমণ মোড</string>

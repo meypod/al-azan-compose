@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Appuyer pour sélectionner une méthode</string>
     <string name="calculation_method_modified">%1$s (Modifié)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">Cette méthode permet d\'ajouter 30 minutes à l\'heure de l\'Isha pendant le Ramadan</string>
-    <string name="calc_method_turkey_approximation_note">La méthode Diyanet fournie dans Al-Azan est une approximation des horaires officiels. Étant donné qu\'il n\'existe pas suffisamment de documentation sur la manière dont les heures sont calculées, il se peut que les heures ne correspondent pas à celles du site web officiel, en particulier en dehors de la Turquie.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet utilise un angle de l\'Isha de 17° pour la Turquie et les pays qui suivent son calendrier (entre autres l\'Espagne, la Grèce, la Bulgarie, l\'Albanie, l\'Azerbaïdjan, l\'Égypte), et de 16° pour ses calendriers européens. Choisissez la variante correspondant au calendrier de votre pays. Les horaires sont calculés pour suivre de près les calendriers publiés, mais de petits écarts peuvent subsister.</string>
     <string name="fajr_angle">Angle Fajr</string>
     <string name="isha_angle">Angle Isha</string>
     <string name="isha_interval">Intervalle Isha</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">France angle 15</string>
     <string name="calc_method_france18">France angle 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Turquie</string>
+    <string name="calc_method_turkey_europe">Diyanet İşleri Başkanlığı, Europe</string>
     <string name="calc_method_russia">Administration spirituelle des musulmans de Russie</string>
     <string name="calc_method_jafari">Chiite Ithna Ashari, Institut Leva, Qom, Iran</string>
     <string name="calc_method_tehran">Chiite, Institut de géophysique, Université de Téhéran, Iran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Le milieu de la nuit</string>
     <string name="high_latitude_seventh">Septième de la nuit</string>
     <string name="high_latitude_twilight_angle">Angle du crépuscule</string>
+    <string name="high_latitude_proportional_depression">Dépression proportionnelle (takdir Diyanet)</string>
     <string name="asr_calculation">Calcul du Asr</string>
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (par défaut)</string>
     <string name="asr_hanafi">Hanafi</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">Ne pas montrer à nouveau</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Horaires Diyanet mis à jour</string>
+    <string name="diyanet_change_notice_body">Vos horaires Diyanet ont changé et vos ajustements manuels en minutes ont été effacés. Une méthode distincte pour les calendriers européens de Diyanet a été ajoutée. Appuyez pour vérifier votre méthode et vos horaires.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Widget des horaires de prières</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">L\'avis silencieux et persistant affiché lorsque le mode Ne pas déranger « Ignorer et mettre en silence » est actif, vous permettant de le désactiver plus tôt.</string>
     <string name="ramadan_notice_channel_name">Avis du Ramadan</string>
     <string name="ramadan_notice_channel_description">Un rappel annuel indiquant que le calendrier précalculé peut être inexact pour le début et la fin du Ramadan.</string>
+    <string name="important_notice_channel_name">Avis importants</string>
+    <string name="important_notice_channel_description">Avis rares concernant des changements qui affectent les horaires de prière qui vous sont affichés.</string>
     <string name="permission_revoked_channel_name">Autorisation révoquée</string>
     <string name="permission_revoked_channel_description">Vous alerte lorsqu\'une autorisation requise a été refusée ou révoquée, ce qui peut affecter le fonctionnement de l\'application.</string>
     <string name="travel_mode_channel_name">Mode voyage</string>

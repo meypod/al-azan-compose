@@ -23,6 +23,7 @@ fun CalculationMethod.i18n(resources: Resources) =
         CalculationMethod.FRANCE15 -> resources.getString(R.string.calc_method_france15)
         CalculationMethod.FRANCE18 -> resources.getString(R.string.calc_method_france18)
         CalculationMethod.TURKEY -> resources.getString(R.string.calc_method_turkey)
+        CalculationMethod.TURKEY_EUROPE -> resources.getString(R.string.calc_method_turkey_europe)
         CalculationMethod.RUSSIA -> resources.getString(R.string.calc_method_russia)
         CalculationMethod.JAFARI -> resources.getString(R.string.calc_method_jafari)
         CalculationMethod.TEHRAN -> resources.getString(R.string.calc_method_tehran)

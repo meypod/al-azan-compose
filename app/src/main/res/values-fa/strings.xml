@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">برای انتخاب لمس کنید</string>
     <string name="calculation_method_modified">%1$s (اصلاح‌شده)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">در این روش 30 دقیقه به زمان عشا در ماه رمضان اضافه می شود</string>
-    <string name="calc_method_turkey_approximation_note">روش دیانت ارائه شده در الاذان تقریبی از اوقات رسمی است. از آنجایی که اسناد کافی در مورد نحوه محاسبه دقیق زمان وجود ندارد، ممکن است زمان ها با وب سایت رسمی دیانت، به ویژه خارج از ترکیه، مطابقت نداشته باشند.</string>
+    <string name="calc_method_turkey_isha_angle_note">ریاست امور مذهبی برای ترکیه و کشورهایی که از تقویم آن پیروی می‌کنند (از جمله اسپانیا، یونان، بلغارستان، آلبانی، آذربایجان و مصر) زاویهٔ عشای ۱۷ درجه و برای تقویم‌های اروپایی خود ۱۶ درجه به کار می‌برد. روشی را انتخاب کنید که با تقویم کشور شما مطابقت دارد. اوقات چنان محاسبه می‌شود که به تقویم‌های منتشرشده نزدیک باشد، اما ممکن است اختلاف‌های کوچکی باقی بماند.</string>
     <string name="fajr_angle">زاویه فجر</string>
     <string name="isha_angle">زاویه عشاء</string>
     <string name="isha_interval">فاصله عشاء</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">فرانسه زاویه 15</string>
     <string name="calc_method_france18">فرانسه زاویه 18</string>
     <string name="calc_method_turkey">ریاست امور مذهبی، ترکیه</string>
+    <string name="calc_method_turkey_europe">ریاست امور مذهبی، اروپا</string>
     <string name="calc_method_russia">اداره معنوی مسلمانان روسیه</string>
     <string name="calc_method_jafari">شیعه اثنی‌عشری، مؤسسهٔ لِوا، قم، ایران</string>
     <string name="calc_method_tehran">شیعه، مؤسسهٔ ژئوفیزیک دانشگاه تهران، ایران</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">نیمه شب شرعی</string>
     <string name="high_latitude_seventh">یک‌هفتم شب</string>
     <string name="high_latitude_twilight_angle">زاویه گرگ و میش</string>
+    <string name="high_latitude_proportional_depression">افت متناسب (تقدیر دیانت)</string>
     <string name="asr_calculation">محاسبه عصر</string>
     <string name="asr_shafi_default">شافعی، مالکی، حنبلی (پیش‌فرض)</string>
     <string name="asr_hanafi">حنفی</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">دیگر نشان نده</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">اوقات نماز دیانت به‌روزرسانی شد</string>
+    <string name="diyanet_change_notice_body">اوقات دیانت شما تغییر کرد و تنظیم‌های دقیقه‌ای دستی شما پاک شد. برای تقویم‌های اروپایی دیانت روش جداگانه‌ای افزوده شد. برای بررسی روش و اوقات ضربه بزنید.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">ابزارک اوقات شرعی</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">اطلاعیهٔ بی‌صدا و دائمی که هنگام فعال بودن مزاحم نشوید «رد کردن و بی‌صدا» نمایش داده می‌شود تا بتوانید آن را زودتر خاموش کنید.</string>
     <string name="ramadan_notice_channel_name">اطلاعیهٔ رمضان</string>
     <string name="ramadan_notice_channel_description">یادآوری سالانه‌ای مبنی بر اینکه تقویم از‌پیش‌محاسبه‌شده ممکن است برای آغاز و پایان رمضان دقیق نباشد.</string>
+    <string name="important_notice_channel_name">اعلان‌های مهم</string>
+    <string name="important_notice_channel_description">اعلان‌های نادر دربارهٔ تغییراتی که بر اوقات نمازی که به شما نشان داده می‌شود اثر می‌گذارد.</string>
     <string name="permission_revoked_channel_name">دسترسی لغو شد</string>
     <string name="permission_revoked_channel_description">هنگامی که یک دسترسی لازم رد یا لغو شده باشد به شما هشدار می‌دهد، که ممکن است بر عملکرد برنامه تأثیر بگذارد.</string>
     <string name="travel_mode_channel_name">حالت سفر</string>

@@ -70,7 +70,15 @@ class NotificationRepositoryImpl @Inject constructor(
         val localized = localizedResources.current
         payload.title?.let { builder.setContentTitle(it.asString(localized)) }
         payload.subtitle?.let { builder.setSubText(it.asString(localized)) }
-        payload.body?.let { builder.setContentText(it.asString(localized)) }
+        payload.body?.let {
+            val body = it.asString(localized)
+            builder.setContentText(body)
+            // Collapsed, a notification shows one line. Bodies that explain something (a notice rather
+            // than a prayer name) need the expanded view to be readable at all.
+            if (!hasCustomView) {
+                builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+            }
+        }
         payload.badgeCount?.let { builder.setNumber(it) }
         builder.setOngoing(payload.android.ongoing)
         builder.setCategory(payload.android.category.toNotificationCompat())

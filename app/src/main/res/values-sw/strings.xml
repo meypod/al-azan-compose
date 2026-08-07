@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Bonyeza ili kuchagua mbinu</string>
     <string name="calculation_method_modified">%1$s (Iliyorekebishwa)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">Dakika 30 huongezwa kwa wakati wa Isha wakati wa Ramadhani kwa njia hii</string>
-    <string name="calc_method_turkey_approximation_note">Diyaneti ilio kwenye Al-Azan ni kadirio wa mda halali. Kwa sababu uandikaji wa hati ya jinsi gani mida inavyo piga hesabu ni chache, mida haitatukia kabisa na tovuti halisi, sana nje ya Uturuki.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyaneti hutumia pembe ya Isha ya 17° kwa Uturuki na nchi zinazofuata kalenda yake (miongoni mwa nyingine Uhispania, Ugiriki, Bulgaria, Albania, Azerbaijan, Misri), na 16° kwa kalenda zake za Ulaya. Chagua ile inayolingana na kalenda ya nchi yako. Nyakati hukokotolewa ili kufuata kwa karibu kalenda zilizochapishwa, lakini tofauti ndogo zinaweza kubaki.</string>
     <string name="fajr_angle">Pembe ya Fajr</string>
     <string name="isha_angle">Pembe ya Isha</string>
     <string name="isha_interval">Muda wa Isha</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">Pembe ya Ufaransa 15</string>
     <string name="calc_method_france18">Pembe ya Ufaransa 18</string>
     <string name="calc_method_turkey">Diyaneti İşleri Başkanlığı, Uturuki</string>
+    <string name="calc_method_turkey_europe">Diyaneti İşleri Başkanlığı, Ulaya</string>
     <string name="calc_method_russia">Utawala wa Kiroho wa Waislamu wa Urusi</string>
     <string name="calc_method_jafari">Shia Ithna Ashari, Taasisi ya Leva, Qum, Iran</string>
     <string name="calc_method_tehran">Shia, Taasisi ya Jiofizikia, Chuo Kikuu cha Tehran, Iran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Katikati ya Usiku</string>
     <string name="high_latitude_seventh">Sehemu ya Saba ya Usiku</string>
     <string name="high_latitude_twilight_angle">Pembe ya Utusiutusi wa asubuhi au jioni</string>
+    <string name="high_latitude_proportional_depression">Mteremko Sawia (Takdir ya Diyaneti)</string>
     <string name="asr_calculation">Hesabu ya Asr</string>
     <string name="asr_shafi_default">Shafi, Maliki, Hanbali (Chaguomsingi)</string>
     <string name="asr_hanafi">Hanafi</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">Usionyeshe tena</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Nyakati za sala za Diyaneti zimesasishwa</string>
+    <string name="diyanet_change_notice_body">Nyakati zako za Diyaneti zimebadilika na marekebisho yako ya dakika yameondolewa. Njia tofauti ya kalenda za Ulaya za Diyaneti imeongezwa. Gusa ili kukagua njia na nyakati zako.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Wijeti ya Nyakati za Swala</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">Ilani kimya inayoendelea inayoonyeshwa wakati Usisumbue wa \"Puuzilia &amp; nyamazisha simu\" umewashwa, ikikuwezesha kuuzima mapema.</string>
     <string name="ramadan_notice_channel_name">Ilani ya Ramadhani</string>
     <string name="ramadan_notice_channel_description">Kikumbusho cha kila mwaka kwamba kalenda iliyokokotolewa awali inaweza kuwa si sahihi kwa mwanzo na mwisho wa Ramadhani.</string>
+    <string name="important_notice_channel_name">Taarifa muhimu</string>
+    <string name="important_notice_channel_description">Taarifa nadra kuhusu mabadiliko yanayoathiri nyakati za sala unazoonyeshwa.</string>
     <string name="permission_revoked_channel_name">Ruhusa Imebatilishwa</string>
     <string name="permission_revoked_channel_description">Hukutahadharisha wakati ruhusa inayohitajika imekataliwa au kubatilishwa, jambo ambalo linaweza kuathiri utendaji wa programu.</string>
     <string name="travel_mode_channel_name">Hali ya kusafiri</string>

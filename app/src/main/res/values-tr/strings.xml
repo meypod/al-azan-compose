@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Bir yöntem seçmek için basın</string>
     <string name="calculation_method_modified">%1$s (Değiştirilmiş)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">Bu yöntemde ramazan boyunca yatsı vaktine 30 dakika eklenir</string>
-    <string name="calc_method_turkey_approximation_note">Al-Azan\'da verilen Diyanet yöntemi resmi saatlerin yaklaşık bir değeridir. Zamanların tam olarak nasıl hesaplandığına dair yeterli belge bulunmadığından, özellikle Türkiye dışında zamanlar resmi web sitesiyle uyumlu olmayabilir.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet, Türkiye ve takvimini izleyen ülkeler (diğerlerinin yanı sıra İspanya, Yunanistan, Bulgaristan, Arnavutluk, Azerbaycan, Mısır) için 17° yatsı açısı, Avrupa takvimleri için ise 16° kullanır. Ülkenizin takvimine uyan seçeneği seçin. Vakitler, yayımlanan takvimlere yakın olacak şekilde hesaplanır; yine de küçük farklar kalabilir.</string>
     <string name="fajr_angle">Fecr Açısı</string>
     <string name="isha_angle">Yatsı Açısı</string>
     <string name="isha_interval">Yatsı Aralığı</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">Fransa açısı 15</string>
     <string name="calc_method_france18">Fransa açısı 18</string>
     <string name="calc_method_turkey">Diyanet İşleri Başkanlığı, Türkiye</string>
+    <string name="calc_method_turkey_europe">Diyanet İşleri Başkanlığı, Avrupa</string>
     <string name="calc_method_russia">Rusya Müslümanlarının Ruhani Yönetimi</string>
     <string name="calc_method_jafari">Şii İsna Aşeri, Leva Enstitüsü, Kum, İran</string>
     <string name="calc_method_tehran">Şii, Jeofizik Enstitüsü, Tahran Üniversitesi, İran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Gecenin Ortası</string>
     <string name="high_latitude_seventh">Gecenin Yedide Biri</string>
     <string name="high_latitude_twilight_angle">Alacakaranlık Açısı</string>
+    <string name="high_latitude_proportional_depression">Orantılı Alçalma (Diyanet takdiri)</string>
     <string name="asr_calculation">İkindi hesaplama</string>
     <string name="asr_shafi_default">Şafi, Maliki, Hanbeli (Varsayılan)</string>
     <string name="asr_hanafi">Hanefi</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">Bir daha gösterme</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Diyanet namaz vakitleri güncellendi</string>
+    <string name="diyanet_change_notice_body">Diyanet vakitleriniz değişti ve elle yaptığınız dakika ayarları silindi. Diyanet\'in Avrupa takvimleri için ayrı bir yöntem eklendi. Yönteminizi ve vakitlerinizi kontrol etmek için dokunun.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Namaz Vakitleri Widget\'ı</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">\"Reddet ve sustur\" Rahatsız Etmeyin etkinken gösterilen, erken kapatmanıza olanak tanıyan sessiz, sürekli bildirim.</string>
     <string name="ramadan_notice_channel_name">Ramazan uyarısı</string>
     <string name="ramadan_notice_channel_description">Önceden hesaplanan takvimin Ramazan\'ın başlangıcı ve bitişi için yanlış olabileceğine dair yıllık bir hatırlatma.</string>
+    <string name="important_notice_channel_name">Önemli bildirimler</string>
+    <string name="important_notice_channel_description">Size gösterilen namaz vakitlerini etkileyen değişikliklere dair nadir bildirimler.</string>
     <string name="permission_revoked_channel_name">İzin İptal Edildi</string>
     <string name="permission_revoked_channel_description">Uygulamanın işlevselliğini etkileyebilecek, gerekli bir iznin reddedildiği veya iptal edildiği durumlarda sizi uyarır.</string>
     <string name="travel_mode_channel_name">Seyahat modu</string>

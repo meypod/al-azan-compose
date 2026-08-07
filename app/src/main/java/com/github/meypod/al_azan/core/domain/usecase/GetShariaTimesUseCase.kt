@@ -9,7 +9,6 @@ import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import com.github.meypod.al_azan.core.domain.util.isInRamadan
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
-import io.github.meypod.adhan_kotlin.Coordinates
 import io.github.meypod.adhan_kotlin.PrayerTimes
 import io.github.meypod.adhan_kotlin.SunnahTimes
 import io.github.meypod.adhan_kotlin.data.DateComponents
@@ -27,14 +26,7 @@ class GetShariaTimesUseCase @Inject constructor() {
         locationDetail: CalculationLocationDetail,
     ): ShariaTimes {
         val dayBeginning = getDayBeginning(instant)
-        val finalCoordinates = locationDetail.toCoordinates().let {
-            if (calculationParameters.method == CalculationMethod.TURKEY && it.latitude >= 62.0) {
-                // appendix (d)
-                Coordinates(latitude = 62.0, longitude = it.longitude) // todo: change source and use .copy()
-            } else {
-                it
-            }
-        }
+        val finalCoordinates = locationDetail.toCoordinates()
         val finalCalculationParameters = when (calculationParameters.method) {
             CalculationMethod.UMM_AL_QURA -> {
                 if (isInRamadan(

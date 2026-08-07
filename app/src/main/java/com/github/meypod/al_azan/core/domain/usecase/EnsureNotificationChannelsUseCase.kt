@@ -24,6 +24,7 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
         const val MISSED_CHANNEL_ID = "missed_channel_id"
         const val DND_ACTIVE_CHANNEL_ID = "dnd_active_channel_id"
         const val RAMADAN_NOTICE_CHANNEL_ID = "ramadan_notice_channel_id"
+        const val IMPORTANT_NOTICE_CHANNEL_ID = "important_notice_channel_id"
     }
 
     operator fun invoke() {
@@ -130,6 +131,14 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     id = RAMADAN_NOTICE_CHANNEL_ID,
                     name = TextResource.StringResId(R.string.ramadan_notice_channel_name),
                     description = TextResource.StringResId(R.string.ramadan_notice_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                ),
+                // One-off notices about changes that alter the times the app shows, so the user is told
+                // rather than left to notice a silent shift.
+                NotificationChannelConfig(
+                    id = IMPORTANT_NOTICE_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.important_notice_channel_name),
+                    description = TextResource.StringResId(R.string.important_notice_channel_description),
                     importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
                 ),
             ),

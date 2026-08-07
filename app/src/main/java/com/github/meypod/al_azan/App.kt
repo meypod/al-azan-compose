@@ -7,6 +7,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.github.meypod.al_azan.appfunctions.PrayerTimesAppFunctions
 import com.github.meypod.al_azan.di.AdhanSyncInitializer
+import com.github.meypod.al_azan.di.DiyanetChangeNoticeInitializer
 import com.github.meypod.al_azan.di.DndSyncInitializer
 import com.github.meypod.al_azan.di.MigrationEntryPoint
 import com.github.meypod.al_azan.di.NotificationChannelInitializer
@@ -29,6 +30,7 @@ class App :
         private const val TAG = "App"
         private const val SETTINGS_STORAGE = "SETTINGS_STORAGE"
         private const val MIGRATED_TO_V2 = "MIGRATED_TO_V2"
+        private const val MIGRATED_DIYANET_TAKDIR = "MIGRATED_DIYANET_TAKDIR"
     }
 
     @Inject
@@ -51,6 +53,9 @@ class App :
 
     @Inject
     lateinit var dndSyncInitializer: dagger.Lazy<DndSyncInitializer>
+
+    @Inject
+    lateinit var diyanetChangeNoticeInitializer: dagger.Lazy<DiyanetChangeNoticeInitializer>
 
     @Inject
     lateinit var prayerTimesAppFunctions: Provider<PrayerTimesAppFunctions>
@@ -86,11 +91,24 @@ class App :
             }
             mmkv.encode(MIGRATED_TO_V2, true)
         }
+        if (!mmkv.contains(MIGRATED_DIYANET_TAKDIR)) {
+            runCatching {
+                runBlocking {
+                    val migrationEntryPoint =
+                        EntryPointAccessors.fromApplication(this@App, MigrationEntryPoint::class.java)
+                    migrationEntryPoint.diyanetParamsMigrationRunner().run()
+                }
+            }.onFailure { error ->
+                Log.e(TAG, "Diyanet parameters migration failed.", error)
+            }
+            mmkv.encode(MIGRATED_DIYANET_TAKDIR, true)
+        }
         notificationChannelInitializer.get().start() // we use lazy because MMKV needs to be initialized first
         widgetSyncInitializer.get().start()
         adhanSyncInitializer.get().start()
         reminderSyncInitializer.get().start()
         ramadanNoticeInitializer.get().start()
         dndSyncInitializer.get().start()
+        diyanetChangeNoticeInitializer.get().start()
     }
 }

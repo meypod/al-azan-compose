@@ -285,7 +285,7 @@
     <string name="calculation_method_select_placeholder">Tekan untuk memilih metode</string>
     <string name="calculation_method_modified">%1$s (Dimodifikasi)</string>
     <string name="calc_method_umm_al_qura_ramadan_note">30 menit ditambahkan pada waktu Isya selama bulan Ramadan dalam metode ini</string>
-    <string name="calc_method_turkey_approximation_note">Metode Diyanet yang disediakan di Al-Azan adalah perkiraan waktu resmi. Karena tidak ada dokumentasi yang cukup tersedia tentang bagaimana waktu-waktu tersebut dihitung secara tepat, waktu-waktu tersebut mungkin tidak sama dengan situs web resmi, terutama di luar Turki.</string>
+    <string name="calc_method_turkey_isha_angle_note">Diyanet menggunakan sudut Isya 17° untuk Turki dan negara-negara yang mengikuti kalendernya (antara lain Spanyol, Yunani, Bulgaria, Albania, Azerbaijan, Mesir), dan 16° untuk kalender Eropanya. Pilih varian yang sesuai dengan kalender negara Anda. Waktu dihitung agar mendekati kalender yang diterbitkan, tetapi perbedaan kecil masih mungkin ada.</string>
     <string name="fajr_angle">Sudut Subuh</string>
     <string name="isha_angle">Sudut Isya\'</string>
     <string name="isha_interval">Interval Isya\'</string>
@@ -312,6 +312,7 @@
     <string name="calc_method_france15">Sudut Prancis 15</string>
     <string name="calc_method_france18">Sudut Prancis 18</string>
     <string name="calc_method_turkey">Presidensi Urusan Agama Republik Turki (Diyanet)</string>
+    <string name="calc_method_turkey_europe">Presidensi Urusan Agama Republik Turki (Diyanet), Eropa</string>
     <string name="calc_method_russia">Administrasi Keagamaan Muslim Rusia</string>
     <string name="calc_method_jafari">Syiah Itsna Asyari, Institut Leva, Qum, Iran</string>
     <string name="calc_method_tehran">Syiah, Institut Geofisika, Universitas Tehran, Iran</string>
@@ -333,6 +334,7 @@
     <string name="high_latitude_middle">Pertengahan malam</string>
     <string name="high_latitude_seventh">Sepertujuh Malam</string>
     <string name="high_latitude_twilight_angle">Sudut Senja</string>
+    <string name="high_latitude_proportional_depression">Depresi Proporsional (Takdir Diyanet)</string>
     <string name="asr_calculation">Perhitungan Waktu Ashar</string>
     <string name="asr_shafi_default">Syafi\'i, Maliki, Hanbali (Default)</string>
     <string name="asr_hanafi">Hanafi</string>
@@ -687,6 +689,12 @@
     <string name="ramadan_dont_show_again">Jangan tampilkan lagi</string>
 
     <!-- ============================================================
+         Diyanet change notice  (di/DiyanetChangeNotice)
+         ============================================================ -->
+    <string name="diyanet_change_notice_title">Waktu salat Diyanet diperbarui</string>
+    <string name="diyanet_change_notice_body">Waktu Diyanet Anda berubah dan penyesuaian menit manual Anda dihapus. Metode terpisah untuk kalender Eropa Diyanet ditambahkan. Ketuk untuk memeriksa metode dan waktu Anda.</string>
+
+    <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
     <string name="widget_channel_name">Widget Waktu Sholat</string>
@@ -711,6 +719,8 @@
     <string name="dnd_active_channel_description">Pemberitahuan senyap yang terus ditampilkan saat Jangan Ganggu \"Hentikan &amp; senyap\" aktif, sehingga Anda dapat mematikannya lebih awal.</string>
     <string name="ramadan_notice_channel_name">Pemberitahuan Ramadan</string>
     <string name="ramadan_notice_channel_description">Pengingat tahunan bahwa kalender yang dihitung sebelumnya mungkin meleset untuk awal dan akhir Ramadan.</string>
+    <string name="important_notice_channel_name">Pemberitahuan penting</string>
+    <string name="important_notice_channel_description">Pemberitahuan langka tentang perubahan yang memengaruhi waktu salat yang ditampilkan kepada Anda.</string>
     <string name="permission_revoked_channel_name">Izin Dicabut</string>
     <string name="permission_revoked_channel_description">Memberi tahu Anda saat izin yang diperlukan telah ditolak atau dicabut, yang dapat memengaruhi fungsi aplikasi.</string>
     <string name="travel_mode_channel_name">Mode perjalanan</string>
