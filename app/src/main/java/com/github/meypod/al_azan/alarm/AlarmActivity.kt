@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.alarm
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -31,6 +32,10 @@ class AlarmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         showOverLockScreen()
+        // Back must not make a sounding alarm go away: it would leave the adhan playing with its screen
+        // gone. Only an explicit Dismiss (here or on the notification) ends it, and the stop collector
+        // below closes this screen when it does.
+        onBackPressedDispatcher.addCallback(this) { }
 
         setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()

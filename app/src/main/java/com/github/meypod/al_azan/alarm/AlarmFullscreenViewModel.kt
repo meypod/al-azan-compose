@@ -36,6 +36,9 @@ class AlarmFullscreenViewModel @Inject constructor(
     localizedResources: LocalizedResources,
 ) : ViewModel() {
 
+    private val alarmId: Long =
+        savedStateHandle.get<Long>(PlaybackService.EXTRA_ALARM_ID) ?: 0L
+
     private val prayer: Prayer? =
         savedStateHandle.get<String>(AdhanContract.EXTRA_PRAYER)
             ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
@@ -119,6 +122,9 @@ class AlarmFullscreenViewModel @Inject constructor(
     val finish = _finish.receiveAsFlow()
 
     fun onAction(action: AlarmFullscreenUiAction) {
+        // Every action here ends the alarm. Retire it before the handler stops playback, so the app doesn't
+        // re-open this screen in the gap before the service tears down.
+        PlaybackService.markAlarmHandled(alarmId)
         when (action) {
             AlarmFullscreenUiAction.OnDismiss -> onDismiss()
             AlarmFullscreenUiAction.OnDismissAndSilent -> onDismissAndSilent()

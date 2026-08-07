@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
@@ -16,7 +19,9 @@ import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.deepLinkPatterns
 import com.github.meypod.al_azan.core.presentation.navigation.deeplink.parseUriToRoute
 import com.github.meypod.al_azan.di.LanguageSync
+import com.github.meypod.al_azan.playback.PlaybackService
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -52,6 +57,26 @@ class MainActivity : AppCompatActivity() {
                     appIntroDone = initialSettings.appIntroDone,
                     startingRoute = startingRoute,
                 )
+            }
+        }
+
+        openAlarmScreenWhileSounding()
+    }
+
+    /**
+     * A sounding adhan or reminder takes over the app: whether it started while we were away or while the
+     * user was mid-use, the alarm screen is what they need in front of them.
+     *
+     * Re-checked on every return to the foreground, so leaving the alarm screen without acting on it (Home,
+     * a notification, the recents switcher) and coming back brings it up again. Dismissing or snoozing
+     * retires the alarm, which is what stops this from re-opening what the user just dealt with.
+     */
+    private fun openAlarmScreenWhileSounding() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                PlaybackService.activeAlarm.collect { alarm ->
+                    if (alarm != null) startActivity(PlaybackService.alarmActivityIntent(this@MainActivity, alarm))
+                }
             }
         }
     }

@@ -41,8 +41,12 @@ import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackService.Companion.FADE_IN_MIN_DURATION_MS
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 /**
  * Foreground service that plays the adhan for a prayer. Extras-driven (the firing side resolves all
@@ -80,6 +84,7 @@ class PlaybackService :
         const val EXTRA_IS_REMINDER = "is_reminder"
         const val EXTRA_LOOP = "loop"
         const val EXTRA_LANGUAGE_TAGS = "language_tags"
+        const val EXTRA_ALARM_ID = "alarm_id"
 
         private const val NOTIFICATION_ID = 0xADA2
 
@@ -97,6 +102,42 @@ class PlaybackService :
         // full-screen AlarmActivity can close itself even when the stop didn't originate from its UI.
         private val _stopSignal = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
         val stopSignal: SharedFlow<Unit> = _stopSignal.asSharedFlow()
+
+        // The alarm sounding right now, or null. Lets the app bring up the alarm screen for an adhan that
+        // started while it was in the background, instead of showing the home screen over a ringing alarm.
+        private val _activeAlarm = MutableStateFlow<ActiveAlarm?>(null)
+        val activeAlarm: StateFlow<ActiveAlarm?> = _activeAlarm.asStateFlow()
+
+        private var alarmSessionCounter = 0L
+
+        /**
+         * Marks the alarm the user acted on (dismiss / snooze) as handled, so the app stops treating it as
+         * something to put back in front of them. Stopping playback clears this too, but not synchronously:
+         * the alarm screen finishes before the service has torn down, and the app would otherwise re-open
+         * it on the way back. Ignores a stale id so a newer alarm that already replaced this one survives.
+         */
+        fun markAlarmHandled(id: Long) {
+            _activeAlarm.update { if (it?.id == id) null else it }
+        }
+
+        /**
+         * Builds the alarm-screen intent for [alarm]. Shared so the service's own launch and a launch from
+         * the app land on the same activity with the same extras.
+         */
+        fun alarmActivityIntent(
+            context: Context,
+            alarm: ActiveAlarm,
+        ): Intent =
+            Intent(context, AlarmActivity::class.java).apply {
+                putExtra(EXTRA_ALARM_ID, alarm.id)
+                putExtra(AdhanContract.EXTRA_PRAYER, alarm.prayerName)
+                putExtra(EXTRA_TIME_LABEL, alarm.timeLabel)
+                putExtra(EXTRA_TITLE, alarm.title)
+                putExtra(EXTRA_HEADER, alarm.header)
+                putExtra(EXTRA_IS_REMINDER, alarm.isReminder)
+                putExtra(EXTRA_VOLUME_BUTTON_STOPS, alarm.volumeButtonStops)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
 
         // Looping is driven by the caller (EXTRA_LOOP): notification-style reminder tones loop, a full
         // adhan plays once. This cap stops a looped sound from playing forever if nothing dismisses it.
@@ -211,6 +252,17 @@ class PlaybackService :
         val useMediaUsage = intent.getBooleanExtra(EXTRA_USE_MEDIA_USAGE, false)
         val languageTags = intent.getStringExtra(EXTRA_LANGUAGE_TAGS).orEmpty()
         playbackStream = if (useMediaUsage) AudioManager.STREAM_MUSIC else AudioManager.STREAM_ALARM
+        // Describes this alarm to every surface that can show it (notification, full-screen activity, and
+        // the app opening onto a sounding alarm). Published as the active one only once playback starts.
+        val alarm = ActiveAlarm(
+            id = ++alarmSessionCounter,
+            prayerName = prayerName,
+            timeLabel = timeLabel,
+            title = title,
+            header = header,
+            isReminder = isReminder,
+            volumeButtonStops = volumeButtonStops,
+        )
         // ACTION_PLAY always arrives via startForegroundService, so we MUST call startForeground (a
         // bail without it crashes). A blank channel id would itself crash startForeground (the channel
         // must exist on O+), so fall back to a guaranteed channel, then stop below for the bad intent.
@@ -218,18 +270,7 @@ class PlaybackService :
             ?: EnsureNotificationChannelsUseCase.ADHAN_CHANNEL_ID
         startForeground(
             NOTIFICATION_ID,
-            buildNotification(
-                safeChannelId,
-                title,
-                body,
-                prayerName,
-                timeLabel,
-                header,
-                isReminder,
-                volumeButtonStops,
-                fullScreen,
-                languageTags,
-            ),
+            buildNotification(safeChannelId, alarm, body, fullScreen, languageTags),
         )
         if (channelId.isNullOrEmpty()) {
             cleanupAndStop()
@@ -275,16 +316,15 @@ class PlaybackService :
         //  - notifications are denied, so the OS suppresses the FGS notification AND its full-screen-intent,
         //    leaving no Stop control. In that case we launch even when "keep screen off" (fullScreen=false)
         //    is set — otherwise the adhan would be unstoppable from the UI.
-        // When notifications are on and force-launch is off we rely on the FSI/heads-up + notification, so the
-        // alarm screen doesn't needlessly take over while the phone is in active use. Starting an activity
-        // from here is a background launch: on Android 15+ it needs the "display over other apps" grant,
-        // which the force-launch setting is gated on.
+        // When notifications are on and force-launch is off we rely on the FSI/heads-up + notification.
+        // Starting an activity from here is a background launch: on Android 15+ it needs the "display over
+        // other apps" grant, which the force-launch setting is gated on. That restriction is why this stays
+        // conditional — when our own app is in the foreground it opens the alarm screen itself off
+        // [activeAlarm], no exemption needed.
+        _activeAlarm.value = alarm
         val notificationsEnabled = NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()
         if (forceLaunchActivity || !notificationsEnabled) {
-            launchAlarmActivity(
-                alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops),
-                forced = forceLaunchActivity,
-            )
+            launchAlarmActivity(alarmActivityIntent(this, alarm), forced = forceLaunchActivity)
         }
         // Now that playback is actually starting, remember what to leave behind if it ends on its own.
         lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
@@ -510,22 +550,15 @@ class PlaybackService :
     @SuppressLint("FullScreenIntentPolicy")
     private fun buildNotification(
         channelId: String,
-        title: String,
+        alarm: ActiveAlarm,
         body: String?,
-        prayerName: String,
-        timeLabel: String,
-        header: String,
-        isReminder: Boolean,
-        volumeButtonStops: Boolean,
         fullScreen: Boolean,
         languageTags: String,
     ): android.app.Notification {
-        val alarmActivityIntent =
-            alarmActivityIntent(prayerName, timeLabel, title, header, isReminder, volumeButtonStops)
         val contentIntent = PendingIntent.getActivity(
             this,
             0,
-            alarmActivityIntent,
+            alarmActivityIntent(this, alarm),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
         val stopIntent = PendingIntent.getService(
@@ -537,8 +570,8 @@ class PlaybackService :
 
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.monochrome_notif)
-            .setContentTitle(title)
-            .setSubText(timeLabel)
+            .setContentTitle(alarm.title)
+            .setSubText(alarm.timeLabel)
             .setContentText(body)
             .setShowWhen(false)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
@@ -631,24 +664,6 @@ class PlaybackService :
             ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED
         }
 
-    private fun alarmActivityIntent(
-        prayerName: String,
-        timeLabel: String,
-        title: String,
-        header: String,
-        isReminder: Boolean,
-        volumeButtonStops: Boolean,
-    ): Intent =
-        Intent(this, AlarmActivity::class.java).apply {
-            putExtra(AdhanContract.EXTRA_PRAYER, prayerName)
-            putExtra(EXTRA_TIME_LABEL, timeLabel)
-            putExtra(EXTRA_TITLE, title)
-            putExtra(EXTRA_HEADER, header)
-            putExtra(EXTRA_IS_REMINDER, isReminder)
-            putExtra(EXTRA_VOLUME_BUTTON_STOPS, volumeButtonStops)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-
     /**
      * Releases every playback resource (player, audio focus, listeners, volume-key capture, vibration) and
      * cancels the loop cap. Idempotent and null-safe, so it is reused both to stop a cycle ([cleanupAndStop])
@@ -690,6 +705,7 @@ class PlaybackService :
         if (stopped) return
         stopped = true
         teardownPlayback()
+        _activeAlarm.value = null
         _stopSignal.tryEmit(Unit)
         // Notifications off (permission denied, or the user disabled them) means the trace can never be
         // shown, so don't build one either.
@@ -738,6 +754,22 @@ class PlaybackService :
             .setContentIntent(contentIntent)
             .build()
     }
+
+    /**
+     * What the alarm screen needs to describe the alarm that is sounding.
+     *
+     * [id] identifies one playback, so a consumer can tell a new alarm from the one it already reacted
+     * to and does not re-open the screen the user just left.
+     */
+    data class ActiveAlarm(
+        val id: Long,
+        val prayerName: String,
+        val timeLabel: String,
+        val title: String,
+        val header: String,
+        val isReminder: Boolean,
+        val volumeButtonStops: Boolean,
+    )
 
     /** What [buildLingeringNotification] needs from the PLAY intent to leave a trace after a natural end. */
     private data class LingerDetails(
