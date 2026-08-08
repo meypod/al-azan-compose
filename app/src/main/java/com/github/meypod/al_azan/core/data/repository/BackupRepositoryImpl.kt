@@ -22,6 +22,7 @@ import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigReposi
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.di.DiyanetChangeNoticePoster
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import com.tencent.mmkv.MMKV
@@ -51,6 +52,7 @@ class BackupRepositoryImpl(
     private val adhanScheduler: AdhanScheduler,
     private val reminderScheduler: ReminderScheduler,
     private val widgetUpdater: WidgetUpdater,
+    private val diyanetChangeNoticePoster: DiyanetChangeNoticePoster,
 ) : BackupRepository {
 
     private companion object {
@@ -127,6 +129,11 @@ class BackupRepositoryImpl(
         adhanScheduler.schedule()
         reminderScheduler.schedule()
         widgetUpdater.update()
+
+        // Restoring a bundle from before the adhan 0.0.13 Diyanet fix corrects it on the way in, which
+        // changes the user's times and drops their minute adjustments. That is raised as a pending notice,
+        // and the only other thing that delivers one runs at process start — long past by now.
+        diyanetChangeNoticePoster.postIfPending()
     }
 
     /** Drops the user audio library and resets any custom muezzin selection to the default adhan. */

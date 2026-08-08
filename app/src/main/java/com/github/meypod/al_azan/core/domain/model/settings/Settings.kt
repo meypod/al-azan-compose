@@ -215,12 +215,19 @@ data class Settings(
      */
     val forceLaunchAlarmActivity: Boolean = false,
     /**
-     * Set by the one-time Diyanet migration (adhan 0.0.13) for users whose calculation settings it
-     * rewrote, and cleared once the explanatory notice has actually been posted. Kept as pending
-     * state rather than notifying inline so the notice survives a start where notifications are not
-     * permitted yet.
+     * Whether these settings were written by a build carrying the adhan 0.0.13 Diyanet behaviour.
      *
-     * @see com.github.meypod.al_azan.di.DiyanetParamsMigrationRunner
+     * Lives here rather than in a migration flag of its own so it travels with the data: a backup taken
+     * before the fix restores as `false` and gets corrected, while a newer one keeps the minute
+     * adjustments its owner set against times that were already right.
+     *
+     * @see com.github.meypod.al_azan.core.domain.model.calculation.withDiyanetFixApplied
+     */
+    val diyanetFixApplied: Boolean = false,
+    /**
+     * Set when the Diyanet fix rewrites someone's calculation settings, and cleared once the explanatory
+     * notice has actually been posted. Kept as pending state rather than notifying inline so the notice
+     * survives a start where notifications are not permitted yet.
      */
     val diyanetChangeNoticePending: Boolean = false,
 )

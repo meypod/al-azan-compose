@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.di
 
+import android.util.Log
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.TextResource
 import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
@@ -63,11 +64,22 @@ constructor(
     }
 }
 
-/** Posts the pending Diyanet-change notice, if any, once per process start. */
+/**
+ * Applies the Diyanet fix to settings that predate it, then delivers the notice it raises.
+ *
+ * Off the main thread, unlike the legacy v2 migration: the sync initializers react to the corrected
+ * settings when they land, so the only cost of not blocking startup is that a first schedule may use the
+ * old times for a moment before being redone.
+ */
 @Singleton
-class DiyanetChangeNoticeInitializer @Inject constructor(
+class DiyanetFixInitializer @Inject constructor(
+    private val diyanetParamsMigrationRunner: DiyanetParamsMigrationRunner,
     private val diyanetChangeNoticePoster: DiyanetChangeNoticePoster,
 ) {
+    private companion object {
+        const val TAG = "DiyanetFixInitializer"
+    }
+
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     @OptIn(ExperimentalAtomicApi::class)
@@ -76,6 +88,10 @@ class DiyanetChangeNoticeInitializer @Inject constructor(
     @OptIn(ExperimentalAtomicApi::class)
     fun start() {
         if (!started.compareAndSet(expectedValue = false, newValue = true)) return
-        scope.launch { diyanetChangeNoticePoster.postIfPending() }
+        scope.launch {
+            runCatching { diyanetParamsMigrationRunner.run() }
+                .onFailure { Log.e(TAG, "Diyanet fix failed. Will retry on next launch.", it) }
+            diyanetChangeNoticePoster.postIfPending()
+        }
     }
 }

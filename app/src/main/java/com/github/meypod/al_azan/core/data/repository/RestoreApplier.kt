@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.data.repository
 import com.github.meypod.al_azan.core.data.locale.deviceSupportedLanguageOrEnglish
 import com.github.meypod.al_azan.core.data.model.RestoreData
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.calculation.withDiyanetFixApplied
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -37,9 +38,20 @@ constructor(
     private val appLocaleManager: AppLocaleManager,
 ) {
     suspend fun apply(data: RestoreData) {
-        val settings = withResolvedLocale(data.settings)
+        // A bundle written before adhan 0.0.13 carries the old Diyanet parameters and the minute
+        // adjustments that compensated for them; restoring it verbatim would quietly bring the wrong times
+        // back. The bundle says which it is, so a newer one restores exactly as saved.
+        val needsDiyanetFix = !data.settings.diyanetFixApplied
+        val calculationSettings =
+            if (needsDiyanetFix) data.calculationSettings.withDiyanetFixApplied() else data.calculationSettings
+
+        val settings = withResolvedLocale(data.settings).copy(
+            diyanetFixApplied = true,
+            diyanetChangeNoticePending = data.settings.diyanetChangeNoticePending ||
+                calculationSettings != data.calculationSettings,
+        )
         settingsRepository.update { settings }
-        calculationSettingsRepository.update { data.calculationSettings }
+        calculationSettingsRepository.update { calculationSettings }
         alarmSettingsRepository.update { data.alarmSettings }
         counterRepository.update { data.counters }
         reminderRepository.update { healReminders(data.reminders) }

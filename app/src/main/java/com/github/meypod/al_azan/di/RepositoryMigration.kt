@@ -134,6 +134,4 @@ constructor(
 @InstallIn(SingletonComponent::class)
 interface MigrationEntryPoint {
     fun repositoryMigrationRunner(): RepositoryMigrationRunner
-
-    fun diyanetParamsMigrationRunner(): DiyanetParamsMigrationRunner
 }
