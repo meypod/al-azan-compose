@@ -182,9 +182,10 @@ private fun filterParam(
     val body = raw.drop(sign.length)
     if (!decimals) return sign + body.filter { it.isDigit() }
     var seenDot = false
+    var fractionDigits = 0
     val digits = body.filter { ch ->
         when {
-            ch.isDigit() -> true
+            ch.isDigit() -> if (seenDot) fractionDigits++ < DECIMAL_PLACES else true
 
             ch == '.' && !seenDot -> {
                 seenDot = true
@@ -204,7 +205,7 @@ private fun roundParam(
     decimals: Boolean,
 ): Double {
     val next = value + direction * step
-    return if (decimals) (next * 10).roundToLong() / 10.0 else next.roundToLong().toDouble()
+    return if (decimals) (next * DECIMAL_SCALE).roundToLong() / DECIMAL_SCALE else next.roundToLong().toDouble()
 }
 
 private fun formatParam(
@@ -212,9 +213,12 @@ private fun formatParam(
     decimals: Boolean,
 ): String {
     if (!decimals) return value.roundToInt().toString()
-    val rounded = (value * 10).roundToLong() / 10.0
+    val rounded = (value * DECIMAL_SCALE).roundToLong() / DECIMAL_SCALE
     return if (rounded % 1.0 == 0.0) rounded.toLong().toString() else rounded.toString()
 }
+
+private const val DECIMAL_PLACES = 2
+private const val DECIMAL_SCALE = 100.0
 
 @Preview
 @Composable
