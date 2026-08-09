@@ -480,7 +480,7 @@
     <string name="delete_reminder_body">Hatırlatıcıyı silmek istediğinizden emin misiniz?</string>
     <plurals name="delete_reminders_body">
         <item quantity="one">%1$d hatırlatıcıyı silmek istediğinizden emin misiniz?</item>
-        <item quantity="other">%1$d hatırlatıcıyı silmek istediğinizden emin misiniz?</item>
+        <item quantity="other">%1$d hatırlatıcıları silmek istediğinizden emin misiniz?</item>
     </plurals>
     <string name="only_once_label">Sadece Bir Kez</string>
     <string name="everyday_label">Her gün</string>
