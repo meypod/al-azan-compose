@@ -44,6 +44,9 @@ android {
     }
 
     androidResources { generateLocaleConfig = true }
+
+    // Robolectric resolves resources and the manifest for the unit tests that need a real Android runtime.
+    testOptions { unitTests { isIncludeAndroidResources = true } }
 }
 
 // Preserve the old app's versionCode scheme (logical code * 1000) so Play Store
@@ -138,6 +141,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

@@ -24,6 +24,7 @@ import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -35,16 +36,15 @@ import com.github.meypod.al_azan.adhan.AdhanContract
 import com.github.meypod.al_azan.alarm.AlarmActivity
 import com.github.meypod.al_azan.core.data.audio.VolumeKeyDismissMonitor
 import com.github.meypod.al_azan.core.data.locale.withAppLocale
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.util.device.CallStateInspector
 import com.github.meypod.al_azan.core.util.device.VibrationController
 import com.github.meypod.al_azan.playback.PlaybackService.Companion.FADE_IN_MIN_DURATION_MS
-import kotlinx.coroutines.flow.MutableSharedFlow
+import com.github.meypod.al_azan.playback.PlaybackService.Companion.markAlarmHandled
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -84,9 +84,74 @@ class PlaybackService :
         const val EXTRA_IS_REMINDER = "is_reminder"
         const val EXTRA_LOOP = "loop"
         const val EXTRA_LANGUAGE_TAGS = "language_tags"
-        const val EXTRA_ALARM_ID = "alarm_id"
 
         private const val NOTIFICATION_ID = 0xADA2
+
+        /**
+         * The alarm sounding right now, or null. The service that plays the sound owns the fact that it is
+         * playing: only it can publish or retire one, which is why the mutators below are private to it.
+         *
+         * Read by the alarm screen, which renders whatever is here, and by the app, which opens that screen
+         * whenever it is set.
+         */
+        private val _activeAlarm = MutableStateFlow<ActiveAlarm?>(null)
+        val activeAlarm: StateFlow<ActiveAlarm?> = _activeAlarm.asStateFlow()
+
+        private var lastAlarmId = 0L
+
+        private var lastTraceNotificationId = 0
+
+        /**
+         * A distinct notification id per trace, so successive passed prayers stack instead of replacing one
+         * another.
+         *
+         * Clock-based, because ids have to stay clear of traces already in the shade from before a process
+         * restart, and the clock is the only thing that survives one. Forced upwards when two traces land in
+         * the same millisecond, which the clock alone would give the same id.
+         */
+        private fun nextTraceNotificationId(): Int {
+            val now = System.currentTimeMillis().toInt()
+            lastTraceNotificationId = if (now > lastTraceNotificationId) now else lastTraceNotificationId + 1
+            return lastTraceNotificationId
+        }
+
+        /**
+         * Publishes a newly started alarm. Ids start at 1, so 0 is never a live alarm.
+         *
+         * Would be private — only the service publishes alarms — but the id semantics of
+         * [markAlarmHandled] can't be tested without being able to start one. Lint's `VisibleForTests`
+         * check flags any production caller other than this class.
+         */
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal fun startAlarm(
+            prayer: Prayer?,
+            timeLabel: String,
+            title: String,
+            header: String,
+            isReminder: Boolean,
+        ): ActiveAlarm =
+            ActiveAlarm(
+                id = ++lastAlarmId,
+                prayer = prayer,
+                timeLabel = timeLabel,
+                title = title,
+                header = header,
+                isReminder = isReminder,
+            ).also { _activeAlarm.value = it }
+
+        /**
+         * Retires the alarm the user acted on (dismiss / snooze) — the one thing the alarm screen has to be
+         * able to do from outside.
+         *
+         * Separate from playback stopping because the user acts before the service has torn down: the alarm
+         * screen finishes immediately, and in that gap the app would otherwise re-open it for the alarm just
+         * dismissed. Stopping clears this unconditionally, so [id] is not what makes an alarm dismissable —
+         * it only keeps this early, optimistic retirement from applying to an alarm that already replaced
+         * the one acted on.
+         */
+        fun markAlarmHandled(id: Long) {
+            _activeAlarm.update { if (it?.id == id) null else it }
+        }
 
         // Streams the hardware volume keys might drive while the alarm plays (device-dependent). Used by
         // normal (mirror) mode, which can't assume which stream the keys hit.
@@ -98,50 +163,13 @@ class PlaybackService :
             AudioManager.STREAM_SYSTEM,
         )
 
-        // Emitted whenever playback stops (notification "Dismiss", loop cap, call, etc.) so a visible
-        // full-screen AlarmActivity can close itself even when the stop didn't originate from its UI.
-        private val _stopSignal = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-        val stopSignal: SharedFlow<Unit> = _stopSignal.asSharedFlow()
-
-        // The alarm sounding right now, or null. Lets the app bring up the alarm screen for an adhan that
-        // started while it was in the background, instead of showing the home screen over a ringing alarm.
-        private val _activeAlarm = MutableStateFlow<ActiveAlarm?>(null)
-        val activeAlarm: StateFlow<ActiveAlarm?> = _activeAlarm.asStateFlow()
-
-        private var alarmSessionCounter = 0L
-
-        /**
-         * Marks the alarm the user acted on (dismiss / snooze) as handled, so the app stops treating it as
-         * something to put back in front of them. Stopping playback clears this too, but not synchronously:
-         * the alarm screen finishes before the service has torn down, and the app would otherwise re-open
-         * it on the way back. Ignores a stale id so a newer alarm that already replaced this one survives.
-         */
-        fun markAlarmHandled(id: Long) {
-            _activeAlarm.update { if (it?.id == id) null else it }
-        }
-
-        /**
-         * Builds the alarm-screen intent for [alarm]. Shared so the service's own launch and a launch from
-         * the app land on the same activity with the same extras.
-         */
-        fun alarmActivityIntent(
-            context: Context,
-            alarm: ActiveAlarm,
-        ): Intent =
-            Intent(context, AlarmActivity::class.java).apply {
-                putExtra(EXTRA_ALARM_ID, alarm.id)
-                putExtra(AdhanContract.EXTRA_PRAYER, alarm.prayerName)
-                putExtra(EXTRA_TIME_LABEL, alarm.timeLabel)
-                putExtra(EXTRA_TITLE, alarm.title)
-                putExtra(EXTRA_HEADER, alarm.header)
-                putExtra(EXTRA_IS_REMINDER, alarm.isReminder)
-                putExtra(EXTRA_VOLUME_BUTTON_STOPS, alarm.volumeButtonStops)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
-
         // Looping is driven by the caller (EXTRA_LOOP): notification-style reminder tones loop, a full
         // adhan plays once. This cap stops a looped sound from playing forever if nothing dismisses it.
         private const val LOOP_CAP_MS = 5 * 60 * 1000L
+
+        // How long a paused alarm waits for its interruption to end before giving up. Same window as the
+        // loop cap: past it the prayer time has moved on and resuming would be noise, not a call to prayer.
+        private const val INTERRUPTION_CAP_MS = LOOP_CAP_MS
 
         // Gradual volume: the player gain ramps 0 → 1 over this window. The gain scales below the
         // stream level, so the ramp tops out at the target volume (custom or device) either way.
@@ -217,6 +245,14 @@ class PlaybackService :
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val loopCapRunnable = Runnable { cleanupAndStop(leaveLingering = true) }
 
+    /**
+     * A call (or any other interruption) can outlast the alarm it paused. Without this, a non-looping adhan
+     * paused mid-play never resumes and never completes, leaving the service alive and its ongoing
+     * notification on screen indefinitely. Give up after the same window a looping sound gets, and leave
+     * the usual trace.
+     */
+    private val interruptionCapRunnable = Runnable { cleanupAndStop(leaveLingering = true) }
+
     private val audioManager: AudioManager? by lazy { getSystemService() }
     private val telephonyManager: TelephonyManager? by lazy { getSystemService() }
 
@@ -236,6 +272,12 @@ class PlaybackService :
         // runs. Release any leftovers and clear the stopped latch so this cycle owns clean resources and can
         // itself be dismissed; without the reset, stopped stays true and the new adhan is unstoppable. No-op
         // on a brand-new instance.
+        //
+        // Being replaced is as involuntary as ending on its own, and it erases more: the previous alarm's
+        // sound stops and its foreground notification is overwritten by this one, since both use the same
+        // id. Leave the same quiet trace a natural end leaves, so it isn't gone without a record. `stopped`
+        // is false only while a previous cycle is still live — one that already ended left its own trace.
+        if (!stopped) postLingeringTrace()
         teardownPlayback()
         stopped = false
 
@@ -252,17 +294,20 @@ class PlaybackService :
         val useMediaUsage = intent.getBooleanExtra(EXTRA_USE_MEDIA_USAGE, false)
         val languageTags = intent.getStringExtra(EXTRA_LANGUAGE_TAGS).orEmpty()
         playbackStream = if (useMediaUsage) AudioManager.STREAM_MUSIC else AudioManager.STREAM_ALARM
-        // Describes this alarm to every surface that can show it (notification, full-screen activity, and
-        // the app opening onto a sounding alarm). Published as the active one only once playback starts.
-        val alarm = ActiveAlarm(
-            id = ++alarmSessionCounter,
-            prayerName = prayerName,
+        // Publishes the alarm every surface renders from: this notification, the full-screen screen, and
+        // the app opening onto a sounding alarm. Safe to publish before the bail-outs below — each one
+        // goes through cleanupAndStop, which clears it again.
+        val alarm = startAlarm(
+            prayer = prayerName.takeIf { it.isNotEmpty() }?.let { runCatching { Prayer.valueOf(it) }.getOrNull() },
             timeLabel = timeLabel,
             title = title,
             header = header,
             isReminder = isReminder,
-            volumeButtonStops = volumeButtonStops,
         )
+        // What to leave behind if this alarm ends without the user acting on it. Set before the bail-outs
+        // below so the one that leaves a trace describes this alarm; the previous alarm's details are still
+        // in here until now, and the bails that don't leave a trace never read it.
+        lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
         // ACTION_PLAY always arrives via startForegroundService, so we MUST call startForeground (a
         // bail without it crashes). A blank channel id would itself crash startForeground (the channel
         // must exist on O+), so fall back to a guaranteed channel, then stop below for the bad intent.
@@ -290,7 +335,13 @@ class PlaybackService :
         continuousVibration = vibration == VibrationMode.Continuous
 
         if (isCallActive()) {
-            cleanupAndStop()
+            // Never sounded, and the user didn't dismiss it — they were on a call. Only the race reaches
+            // here; the firing handlers catch a call that was already up and post their own notice. Borrow
+            // their wording so both read the same in the shade.
+            lingerDetails = lingerDetails?.copy(
+                body = withAppLocale(languageTags).getString(R.string.missed_during_call_body, timeLabel),
+            )
+            cleanupAndStop(leaveLingering = true)
             return START_NOT_STICKY
         }
         // Best-effort: an alarm must sound even when focus is denied. On Android 14+ the system's
@@ -321,13 +372,10 @@ class PlaybackService :
         // other apps" grant, which the force-launch setting is gated on. That restriction is why this stays
         // conditional — when our own app is in the foreground it opens the alarm screen itself off
         // [activeAlarm], no exemption needed.
-        _activeAlarm.value = alarm
         val notificationsEnabled = NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()
         if (forceLaunchActivity || !notificationsEnabled) {
-            launchAlarmActivity(alarmActivityIntent(this, alarm), forced = forceLaunchActivity)
+            launchAlarmActivity(AlarmActivity.intent(this), forced = forceLaunchActivity)
         }
-        // Now that playback is actually starting, remember what to leave behind if it ends on its own.
-        lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
         applyAbsoluteStreamVolume()
         startPlayer(uri, useMediaUsage)
         return START_NOT_STICKY
@@ -360,7 +408,9 @@ class PlaybackService :
         useMediaUsage: Boolean,
     ) {
         player?.release()
-        player = MediaPlayer().apply {
+        // Assigned before the calls that can throw, so teardown owns it either way. Building it inside the
+        // assignment left a failed player unreferenced until after cleanup had already run, leaking it.
+        val mp = MediaPlayer().apply {
             setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
             setAudioAttributes(
                 AudioAttributes.Builder()
@@ -371,12 +421,15 @@ class PlaybackService :
             setOnPreparedListener(this@PlaybackService)
             setOnCompletionListener(this@PlaybackService)
             setOnErrorListener(this@PlaybackService)
-            val ok = runCatching {
-                setDataSource(applicationContext, uri)
-                prepareAsync()
-            }.isSuccess
-            if (!ok) cleanupAndStop()
         }
+        player = mp
+        val ok = runCatching {
+            mp.setDataSource(applicationContext, uri)
+            mp.prepareAsync()
+        }.isSuccess
+        // The sound couldn't be opened — a deleted custom file, a revoked uri permission. The alarm is lost
+        // through no fault of the user's, so it leaves a trace like any other end they didn't ask for.
+        if (!ok) cleanupAndStop(leaveLingering = true)
     }
 
     override fun onPrepared(mp: MediaPlayer) {
@@ -436,12 +489,15 @@ class PlaybackService :
             if (player?.isPlaying == true) {
                 player?.pause()
                 wasPlayingBeforeCall = true
+                mainHandler.removeCallbacks(interruptionCapRunnable)
+                mainHandler.postDelayed(interruptionCapRunnable, INTERRUPTION_CAP_MS)
             }
         }
     }
 
     private fun resume() {
         wasPlayingBeforeCall = false
+        mainHandler.removeCallbacks(interruptionCapRunnable)
         runCatching { player?.start() }
     }
 
@@ -558,7 +614,7 @@ class PlaybackService :
         val contentIntent = PendingIntent.getActivity(
             this,
             0,
-            alarmActivityIntent(this, alarm),
+            AlarmActivity.intent(this),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
         val stopIntent = PendingIntent.getService(
@@ -672,6 +728,7 @@ class PlaybackService :
      */
     private fun teardownPlayback() {
         mainHandler.removeCallbacks(loopCapRunnable)
+        mainHandler.removeCallbacks(interruptionCapRunnable)
         mainHandler.removeCallbacks(fadeInRunnable)
         fadeInStartedAt = 0L
         player?.let { mp ->
@@ -694,39 +751,46 @@ class PlaybackService :
      * Stops playback and tears the service down. When [leaveLingering] is true (the adhan/reminder ended
      * on its own — playback finished, looped past the cap, errored, or lost audio focus — rather than the
      * user dismissing it) the foreground notification is detached and replaced with a quiet, dismissible
-     * one so the passed prayer/reminder still leaves a trace, matching the old app. A user dismiss
-     * (notification Stop, swipe, volume press, the firing handlers) removes it outright.
+     * one so the passed prayer/reminder still leaves a trace, matching the old app. Every involuntary end
+     * leaves one: playback finishing, the loop cap, an error, lost audio focus, being replaced by the next
+     * alarm, or arriving during a call. A user dismiss (notification Stop, swipe, volume press, the firing
+     * handlers) removes it outright.
      */
-    // The notify below is guarded by areNotificationsEnabled(), which lint doesn't accept as a
-    // POST_NOTIFICATIONS check. It's also wrapped: the trace is cosmetic, and this runs during teardown,
-    // so nothing it can throw (on any OEM build) should be able to take the service down with it.
-    @SuppressLint("MissingPermission")
     private fun cleanupAndStop(leaveLingering: Boolean = false) {
         if (stopped) return
         stopped = true
         teardownPlayback()
         _activeAlarm.value = null
-        _stopSignal.tryEmit(Unit)
         // Notifications off (permission denied, or the user disabled them) means the trace can never be
         // shown, so don't build one either.
-        val notificationsEnabled = NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()
-        val lingering = if (leaveLingering && notificationsEnabled) buildLingeringNotification() else null
         // Always remove the foreground notification first: the trace lives on a different (silent)
         // channel, which a same-id re-post could never switch to.
         stopForeground(STOP_FOREGROUND_REMOVE)
-        if (lingering != null) {
-            // A fresh id per trace so successive passed prayers/reminders stack instead of replacing one
-            // another. Posted exactly once per playback (guarded above), and the clock only moves forward,
-            // so this stays unique even across a process restart while an earlier trace is still showing.
-            runCatching {
-                NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), lingering)
-            }.onFailure { Log.w(TAG, "Could not post the lingering notification", it) }
-        }
+        if (leaveLingering) postLingeringTrace()
         stopSelf()
     }
 
     /**
-     * The notification left in place after a natural end: same prayer/reminder title and time, but quiet
+     * Posts the quiet trace for the playback that just ended, on the silent "missed" channel.
+     *
+     * At most once per playback — its callers are mutually exclusive, guarded by `stopped`.
+     */
+    // The notify is guarded by areNotificationsEnabled(), which lint doesn't accept as a
+    // POST_NOTIFICATIONS check. It's also wrapped: the trace is cosmetic, and this runs during teardown,
+    // so nothing it can throw (on any OEM build) should be able to take the service down with it.
+    @SuppressLint("MissingPermission")
+    private fun postLingeringTrace() {
+        // Notifications off (permission denied, or the user disabled them) means the trace can never be
+        // shown, so don't build one either.
+        if (!NotificationManagerCompat.from(applicationContext).areNotificationsEnabled()) return
+        val lingering = buildLingeringNotification() ?: return
+        runCatching {
+            NotificationManagerCompat.from(this).notify(nextTraceNotificationId(), lingering)
+        }.onFailure { Log.w(TAG, "Could not post the lingering notification", it) }
+    }
+
+    /**
+     * The notification left in place after an alarm the user never acted on: same title and time, but quiet
      * and dismissible (no Stop action, no full-screen, not ongoing) and on the silent "missed" channel.
      * Tapping it opens the app. Returns null if the PLAY intent never reached the point of capturing its
      * details (a misfire/early bail).
@@ -756,22 +820,24 @@ class PlaybackService :
     }
 
     /**
-     * What the alarm screen needs to describe the alarm that is sounding.
+     * An adhan or reminder that is sounding right now, as the alarm screen needs to describe it.
      *
-     * [id] identifies one playback, so a consumer can tell a new alarm from the one it already reacted
-     * to and does not re-open the screen the user just left.
+     * The strings are resolved by the firing side, which is the only place that knows the app language on
+     * the pre-API 33 background contexts the alarm fires from.
+     *
+     * [id] identifies one playback, so an action taken on this alarm can never be mistaken for one taken
+     * on the alarm that replaced it.
      */
     data class ActiveAlarm(
         val id: Long,
-        val prayerName: String,
+        val prayer: Prayer?,
         val timeLabel: String,
         val title: String,
         val header: String,
         val isReminder: Boolean,
-        val volumeButtonStops: Boolean,
     )
 
-    /** What [buildLingeringNotification] needs from the PLAY intent to leave a trace after a natural end. */
+    /** What [buildLingeringNotification] needs from the PLAY intent to leave a trace for an unacted alarm. */
     private data class LingerDetails(
         val title: String,
         val body: String?,

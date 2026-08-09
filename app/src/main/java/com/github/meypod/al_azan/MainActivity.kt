@@ -11,6 +11,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.github.meypod.al_azan.alarm.AlarmActivity
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 PlaybackService.activeAlarm.collect { alarm ->
-                    if (alarm != null) startActivity(PlaybackService.alarmActivityIntent(this@MainActivity, alarm))
+                    if (alarm != null) startActivity(AlarmActivity.intent(this@MainActivity))
                 }
             }
         }
