@@ -1,3 +1,4 @@
 - Reworked the Diyanet (Turkey) method to follow the official calendars more closely. Your times will change, a lot outside Turkey, and manual minute adjustments were reset because they corrected the old times
 - Added a Diyanet method for Europe (16° Isha) and its high latitude estimation
 - Opening the app during an adhan now shows the alarm screen
+- Other small fixes and improvements
