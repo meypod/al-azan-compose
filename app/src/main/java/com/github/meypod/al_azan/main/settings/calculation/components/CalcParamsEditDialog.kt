@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.settings.calculation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
@@ -50,11 +53,29 @@ fun CalcParamsEditDialog(
     onDismiss: () -> Unit,
 ) {
     var draft by remember { mutableStateOf(parameters) }
+    // A short window (landscape phones) can't fit four stacked steppers, so lay them out in two
+    // columns and let the dialog grow past the platform default width to make room.
+    val windowHeight = LocalWindowInfo.current.containerDpSize.height
+    val twoColumns = windowHeight < TWO_COLUMN_MAX_HEIGHT
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        modifier = if (twoColumns) {
+            Modifier
+                .padding(horizontal = dimensionResource(R.dimen.page_padding))
+                .widthIn(max = TWO_COLUMN_DIALOG_MAX_WIDTH)
+        } else {
+            Modifier
+        },
+        properties = DialogProperties(usePlatformDefaultWidth = !twoColumns),
         title = { Text(stringResource(R.string.edit_calculation_parameters)) },
-        text = { CalcParamsEditContent(draft = draft, onDraftChange = { draft = it }) },
+        text = {
+            CalcParamsEditContent(
+                draft = draft,
+                onDraftChange = { draft = it },
+                columns = if (twoColumns) 2 else 1,
+            )
+        },
         confirmButton = {
             TextButton(onClick = { onConfirm(draft) }) {
                 Text(stringResource(R.string.confirm))
@@ -73,10 +94,13 @@ private fun CalcParamsEditContent(
     draft: CalculationParameters,
     onDraftChange: (CalculationParameters) -> Unit,
     modifier: Modifier = Modifier,
+    columns: Int = 1,
 ) {
-    Column(
-        modifier = modifier,
+    FlowRow(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_large)),
+        maxItemsInEachRow = columns,
     ) {
         val degrees = stringResource(R.string.degrees_unit)
         ParamStepper(
@@ -84,14 +108,14 @@ private fun CalcParamsEditContent(
             value = draft.fajrAngle,
             onValueChange = { onDraftChange(draft.copy(fajrAngle = it)) },
             unit = degrees,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.weight(1f),
         )
         ParamStepper(
             label = stringResource(R.string.isha_angle),
             value = draft.ishaAngle,
             onValueChange = { onDraftChange(draft.copy(ishaAngle = it)) },
             unit = degrees,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.weight(1f),
         )
         ParamStepper(
             label = stringResource(R.string.isha_interval),
@@ -99,14 +123,14 @@ private fun CalcParamsEditContent(
             onValueChange = { onDraftChange(draft.copy(ishaInterval = it.roundToInt())) },
             decimals = false,
             unit = stringResource(R.string.minutes_unit),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.weight(1f),
         )
         ParamStepper(
             label = stringResource(R.string.maghrib_angle),
             value = draft.maghribAngle,
             onValueChange = { onDraftChange(draft.copy(maghribAngle = it)) },
             unit = degrees,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.weight(1f),
         )
     }
 }
@@ -219,6 +243,8 @@ private fun formatParam(
 
 private const val DECIMAL_PLACES = 2
 private const val DECIMAL_SCALE = 100.0
+private val TWO_COLUMN_MAX_HEIGHT = 480.dp
+private val TWO_COLUMN_DIALOG_MAX_WIDTH = 620.dp
 
 @Preview
 @Composable
@@ -233,6 +259,24 @@ private fun CalcParamsEditDialogPreview() {
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 620)
+@Composable
+private fun CalcParamsEditContentTwoColumnsPreview() {
+    AlAzanThemePreview {
+        var draft by remember {
+            mutableStateOf(
+                CalculationParameters(fajrAngle = 18.5, ishaAngle = 0.0, ishaInterval = 90, maghribAngle = 4.0),
+            )
+        }
+        CalcParamsEditContent(
+            draft = draft,
+            onDraftChange = { draft = it },
+            columns = 2,
+            modifier = Modifier.padding(dimensionResource(R.dimen.element_padding)),
+        )
     }
 }
 
