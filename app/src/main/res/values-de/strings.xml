@@ -98,7 +98,6 @@
     <string name="display_over_apps_permission_title">Anzeige über anderen Apps erlauben</string>
     <string name="display_over_apps_permission_rationale">Damit der Alarmbildschirm immer geöffnet wird, erlauben Sie dieser App die Anzeige über anderen Apps. Neuere Android-Versionen verhindern sonst, dass sich der Alarmbildschirm im Hintergrund öffnet.</string>
     <string name="display_over_apps_permission_denied_text">Ohne diese Berechtigung öffnet sich der Alarmbildschirm möglicherweise nicht von selbst. Sie können dies später in den Einstellungen erlauben.</string>
-
     <!-- ============================================================
          Audio preview  (core/data/audio)
          ============================================================ -->
@@ -662,7 +661,6 @@
          ============================================================ -->
     <string name="diyanet_change_notice_title">Diyanet-Gebetszeiten aktualisiert</string>
     <string name="diyanet_change_notice_body">Ihre Diyanet-Zeiten haben sich geändert und Ihre manuellen Minutenanpassungen wurden gelöscht. Für die europäischen Kalender von Diyanet gibt es jetzt eine eigene Methode. Tippen Sie, um Methode und Zeiten zu prüfen.</string>
-
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
@@ -689,7 +687,7 @@
     <string name="ramadan_notice_channel_name">Ramadan-Hinweis</string>
     <string name="ramadan_notice_channel_description">Eine jährliche Erinnerung daran, dass der vorberechnete Kalender für den Beginn und das Ende des Ramadan abweichen kann.</string>
     <string name="important_notice_channel_name">Wichtige Hinweise</string>
-    <string name="important_notice_channel_description">Seltene Hinweise zu Änderungen, die die Ihnen angezeigten Gebetszeiten betreffen.</string>
+    <string name="important_notice_channel_description">Seltene Hinweise zu Änderungen der angezeigten Gebetszeiten.</string>
     <string name="permission_revoked_channel_name">Berechtigung widerrufen</string>
     <string name="permission_revoked_channel_description">Benachrichtigt Sie, wenn eine erforderliche Berechtigung verweigert oder widerrufen wurde, was die Funktionsfähigkeit der App beeinträchtigen kann.</string>
     <string name="travel_mode_channel_name">Reisemodus</string>
