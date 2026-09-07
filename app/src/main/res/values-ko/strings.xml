@@ -473,4 +473,13 @@
     <string name="dnd_active_body">방해 금지가 %1$s까지 켜져 있습니다. 소리를 지금 복구하려면 끄기를 누르세요.</string>
     <string name="dnd_access_card_title">방해 금지 접근</string>
     <string name="adaptive_charging">적응형 충전</string>
+    <string name="auto_silent_on_dismiss">무시한 후 방해 금지</string>
+    <string name="auto_silent_duration">방해 금지 기간</string>
+    <string name="auto_silent_duration_help">무시한 후 방해 금지가 유지되는 기간입니다.</string>
+    <string name="masjid_an_nabawi">마스지드 안나바위</string>
+    <string name="abdul_basit_abdus_samad">압둘-바시트 압두스-사마드</string>
+    <string name="ragheb_mustafa_ghalwash">라게브 무스타파 갈와시</string>
+    <string name="moazen_zade">모아젠 자데</string>
+    <string name="show_notification_widget">알림 위젯 보이기</string>
+    <string name="show_countdown_timer">카운트다운 타이머 보이기</string>
 </resources>
