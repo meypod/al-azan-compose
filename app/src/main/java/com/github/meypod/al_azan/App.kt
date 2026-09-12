@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.appfunctions.PrayerTimesAppFunctions
 import com.github.meypod.al_azan.di.AdhanSyncInitializer
 import com.github.meypod.al_azan.di.DiyanetFixInitializer
 import com.github.meypod.al_azan.di.DndSyncInitializer
+import com.github.meypod.al_azan.di.LegacyMethodHealInitializer
 import com.github.meypod.al_azan.di.MigrationEntryPoint
 import com.github.meypod.al_azan.di.NotificationChannelInitializer
 import com.github.meypod.al_azan.di.RamadanNoticeInitializer
@@ -57,6 +58,9 @@ class App :
     lateinit var diyanetFixInitializer: dagger.Lazy<DiyanetFixInitializer>
 
     @Inject
+    lateinit var legacyMethodHealInitializer: dagger.Lazy<LegacyMethodHealInitializer>
+
+    @Inject
     lateinit var prayerTimesAppFunctions: Provider<PrayerTimesAppFunctions>
 
     override val workManagerConfiguration: Configuration
@@ -97,5 +101,6 @@ class App :
         ramadanNoticeInitializer.get().start()
         dndSyncInitializer.get().start()
         diyanetFixInitializer.get().start()
+        legacyMethodHealInitializer.get().start()
     }
 }

@@ -230,6 +230,16 @@ data class Settings(
      * survives a start where notifications are not permitted yet.
      */
     val diyanetChangeNoticePending: Boolean = false,
+    /**
+     * Set once the repair for the broken legacy calculation-method migration has run.
+     *
+     * Lives here rather than in a migration flag of its own so it travels with the data: a backup taken
+     * while the settings were corrupt restores as `false` and gets repaired, while a newer one keeps the
+     * method its owner has since chosen.
+     *
+     * @see com.github.meypod.al_azan.core.data.model.old.withLegacyMethodHealed
+     */
+    val legacyMethodHealApplied: Boolean = false,
 )
 
 @Serializable

@@ -7,6 +7,8 @@ import com.github.meypod.al_azan.core.data.audio.AudioPreviewPlayerImpl
 import com.github.meypod.al_azan.core.data.format.WidgetFormatterImpl
 import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.data.locale.PerAppLocaleMarker
+import com.github.meypod.al_azan.core.data.model.old.LegacyCalculationSettingsReader
+import com.github.meypod.al_azan.core.data.model.old.MmkvLegacyCalculationSettingsReader
 import com.github.meypod.al_azan.core.data.repository.AlarmRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AlarmSettingsRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.AppLocaleManagerImpl
@@ -100,6 +102,12 @@ object RepositoryModule {
     @Singleton
     fun provideSettingsRepository(settingsDatastore: MMKVDataStore<Settings>): SettingsRepository =
         SettingsRepositoryImpl(settingsDatastore = settingsDatastore)
+
+    @Provides
+    @Singleton
+    fun provideLegacyCalculationSettingsReader(
+        reader: MmkvLegacyCalculationSettingsReader,
+    ): LegacyCalculationSettingsReader = reader
 
     @Provides
     @Singleton
