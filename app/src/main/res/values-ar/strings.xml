@@ -43,15 +43,15 @@
     <!-- ============================================================
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
-    <string name="fajr">فجر</string>
+    <string name="fajr">الفجر</string>
     <string name="sunrise">شروق الشمس</string>
-    <string name="dhuhr">ظهر</string>
-    <string name="asr">عصر</string>
+    <string name="dhuhr">الظهر</string>
+    <string name="asr">العصر</string>
     <string name="sunset">غروب الشمس</string>
-    <string name="maghrib">مغرب</string>
-    <string name="isha">عشاء</string>
+    <string name="maghrib">المغرب</string>
+    <string name="isha">العشاء</string>
     <string name="midnight">منتصف الليل</string>
-    <string name="tahajjud">تهجّد</string>
+    <string name="tahajjud">التهجّد</string>
 
     <!-- ============================================================
          Permission dialogs  (core/presentation/dialog)
@@ -364,7 +364,7 @@
     <string name="notification">إشعار</string>
     <string name="sound">صوت</string>
     <string name="prayer_setting_accessibility">إعدادات %1$s</string>
-    <string name="tahajjud_is_last_third_hint">التهجد هو الثلث الأخير من الليل</string>
+    <string name="tahajjud_is_last_third_hint">التهجّد هو الثلث الأخير من الليل</string>
     <string name="use_default_muezzin">استخدام الافتراضي</string>
     <string name="custom_muezzin">مؤذّن مخصص</string>
     <string name="use_default_vibration">استخدام الافتراضي</string>
