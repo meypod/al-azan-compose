@@ -6,20 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.core.presentation.LightColorScheme
 import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.SnackbarController
 import com.github.meypod.al_azan.core.presentation.feedback.ObserveScheduleFeedback
 import com.github.meypod.al_azan.intro.IntroNavigation
 import com.github.meypod.al_azan.main.MainNavigation
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun NavigationRoot(
@@ -28,15 +24,7 @@ fun NavigationRoot(
 ) {
     val rootBackStack =
         rememberNavBackStack(
-            configuration =
-                SavedStateConfiguration {
-                    serializersModule = SerializersModule {
-                        polymorphic(NavKey::class) {
-                            subclass(Route.Intro::class, Route.Intro.serializer())
-                            subclass(Route.Main::class, Route.Main.serializer())
-                        }
-                    }
-                },
+            configuration = routeSavedStateConfiguration,
             if (appIntroDone) Route.Main else Route.Intro,
         )
 

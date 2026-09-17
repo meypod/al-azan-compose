@@ -42,7 +42,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.AppSnackbarHost
@@ -56,6 +55,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
 import com.github.meypod.al_azan.core.presentation.navigation.rootRedirectFallback
+import com.github.meypod.al_azan.core.presentation.navigation.routeSavedStateConfiguration
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.fadeScrollEdges
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
@@ -81,8 +81,6 @@ import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootScreen
 import com.github.meypod.al_azan.main.settings.troubleshoot.TroubleshootViewModel
 import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootScreen
 import com.github.meypod.al_azan.main.settings.troubleshoot.advanced.AdvancedTroubleshootViewModel
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun IntroNavigation(onFinishIntro: () -> Unit) {
@@ -90,53 +88,7 @@ fun IntroNavigation(onFinishIntro: () -> Unit) {
 
     val introBackstack =
         rememberNavBackStack(
-            configuration =
-                SavedStateConfiguration {
-                    serializersModule = SerializersModule {
-                        polymorphic(NavKey::class) {
-                            subclass(
-                                Route.Intro.LanguageSelection::class,
-                                Route.Intro.LanguageSelection.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.RestoreBackup::class,
-                                Route.Intro.RestoreBackup.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Location::class,
-                                Route.Intro.Location.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Calculation::class,
-                                Route.Intro.Calculation.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Calculation.Adjustments::class,
-                                Route.Intro.Calculation.Adjustments.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Calculation.AdvancedCalculation::class,
-                                Route.Intro.Calculation.AdvancedCalculation.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Adhan::class,
-                                Route.Intro.Adhan.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Adhan.PrayerSchedule::class,
-                                Route.Intro.Adhan.PrayerSchedule.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Troubleshoot::class,
-                                Route.Intro.Troubleshoot.serializer(),
-                            )
-                            subclass(
-                                Route.Intro.Troubleshoot.AdvancedTroubleshoot::class,
-                                Route.Intro.Troubleshoot.AdvancedTroubleshoot.serializer(),
-                            )
-                        }
-                    }
-                },
+            configuration = routeSavedStateConfiguration,
             Route.Intro.LanguageSelection,
         )
 

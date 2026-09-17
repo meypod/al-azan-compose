@@ -18,7 +18,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import androidx.savedstate.serialization.SavedStateConfiguration
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.navigation.BindBackStackWithController
@@ -27,6 +26,7 @@ import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.core.presentation.navigation.navigateTo
 import com.github.meypod.al_azan.core.presentation.navigation.rememberHorizontalSlideDirections
 import com.github.meypod.al_azan.core.presentation.navigation.rootRedirectFallback
+import com.github.meypod.al_azan.core.presentation.navigation.routeSavedStateConfiguration
 import com.github.meypod.al_azan.main.about.AboutScreen
 import com.github.meypod.al_azan.main.about.AboutViewModel
 import com.github.meypod.al_azan.main.counter.CounterScreen
@@ -77,8 +77,6 @@ import com.github.meypod.al_azan.main.silence.SilenceStatusScreen
 import com.github.meypod.al_azan.main.silence.SilenceStatusViewModel
 import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsScreen
 import com.github.meypod.al_azan.main.upcoming_alarms.UpcomingAlarmsViewModel
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
 
 @Composable
 fun MainNavigation(
@@ -89,67 +87,7 @@ fun MainNavigation(
 
     val mainBackstack =
         rememberNavBackStack(
-            configuration =
-                SavedStateConfiguration {
-                    serializersModule = SerializersModule {
-                        polymorphic(NavKey::class) {
-                            subclass(Route.Main.Home::class, Route.Main.Home.serializer())
-                            subclass(Route.Main.SilenceStatus::class, Route.Main.SilenceStatus.serializer())
-                            subclass(Route.Main.Location::class, Route.Main.Location.serializer())
-                            subclass(Route.Main.CalendarView::class, Route.Main.CalendarView.serializer())
-                            subclass(Route.Main.MonthlyView::class, Route.Main.MonthlyView.serializer())
-                            subclass(Route.Main.Reminder::class, Route.Main.Reminder.serializer())
-                            subclass(Route.Main.Qibla::class, Route.Main.Qibla.serializer())
-                            subclass(Route.Main.QiblaCompass::class, Route.Main.QiblaCompass.serializer())
-                            subclass(Route.Main.Counter::class, Route.Main.Counter.serializer())
-                            subclass(Route.Main.Settings::class, Route.Main.Settings.serializer())
-                            subclass(Route.Main.Settings.InterfaceSettings::class, Route.Main.Settings.InterfaceSettings.serializer())
-                            subclass(
-                                Route.Main.Settings.SoundAndNotifications::class,
-                                Route.Main.Settings.SoundAndNotifications.serializer(),
-                            )
-                            subclass(Route.Main.Settings.Calculations::class, Route.Main.Settings.Calculations.serializer())
-                            subclass(Route.Main.Settings.Troubleshoot::class, Route.Main.Settings.Troubleshoot.serializer())
-                            subclass(Route.Main.Settings.WidgetSettings::class, Route.Main.Settings.WidgetSettings.serializer())
-                            subclass(
-                                Route.Main.Settings.WidgetSettings.TableAppearance::class,
-                                Route.Main.Settings.WidgetSettings.TableAppearance.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.WidgetSettings.CompactAppearance::class,
-                                Route.Main.Settings.WidgetSettings.CompactAppearance.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.WidgetSettings.CustomBuilder::class,
-                                Route.Main.Settings.WidgetSettings.CustomBuilder.serializer(),
-                            )
-                            subclass(Route.Main.Settings.BackupAndRestore::class, Route.Main.Settings.BackupAndRestore.serializer())
-                            subclass(Route.Main.Settings.Developer::class, Route.Main.Settings.Developer.serializer())
-                            subclass(
-                                Route.Main.Settings.Calculations.Adjustments::class,
-                                Route.Main.Settings.Calculations.Adjustments.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.Calculations.AdvancedCalculation::class,
-                                Route.Main.Settings.Calculations.AdvancedCalculation.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot::class,
-                                Route.Main.Settings.Troubleshoot.AdvancedTroubleshoot.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin::class,
-                                Route.Main.Settings.SoundAndNotifications.ScheduleAndMuezzin.serializer(),
-                            )
-                            subclass(
-                                Route.Main.Settings.SoundAndNotifications.PrayerSchedule::class,
-                                Route.Main.Settings.SoundAndNotifications.PrayerSchedule.serializer(),
-                            )
-                            subclass(Route.Main.UpcomingAlarms::class, Route.Main.UpcomingAlarms.serializer())
-                            subclass(Route.Main.About::class, Route.Main.About.serializer())
-                        }
-                    }
-                },
+            configuration = routeSavedStateConfiguration,
             // A deep-link / DND-rule launch arrives as a single starting route; seed Home beneath it so
             // Back (and the screen's own close) lands on Home instead of dead-ending on one entry.
             *when {
