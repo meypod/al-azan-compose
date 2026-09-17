@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.core.presentation.components
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
@@ -12,7 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.core.net.toUri
+import com.github.meypod.al_azan.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,23 +34,50 @@ data class PickedAudio(
  * Remembers an audio file picker. Calling the returned lambda opens the system document picker
  * filtered to audio; the chosen file is copied into internal storage off the main thread and
  * [onPicked] is invoked with the result. Cancellation and copy failures are silent (no callback).
+ *
+ * Devices without a documents provider (bare AOSP builds, TVs) have no `OPEN_DOCUMENT` handler, so
+ * the older `GET_CONTENT` picker is tried next; the copy happens right away, which is all either
+ * one grants us.
  */
 @Composable
 fun rememberAudioFilePicker(onPicked: (PickedAudio) -> Unit): () -> Unit {
     val context = LocalContext.current
+    val resources = LocalResources.current
+    val snackbarController = LocalSnackbarController.current
     val scope = rememberCoroutineScope()
     val currentOnPicked by rememberUpdatedState(onPicked)
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        if (uri == null) return@rememberLauncherForActivityResult
-        scope.launch {
-            val picked = withContext(Dispatchers.IO) { copyAudioToInternal(context, uri) }
-            if (picked != null) currentOnPicked(picked)
+    val handleResult: (Uri?) -> Unit = { uri ->
+        if (uri != null) {
+            scope.launch {
+                val picked = withContext(Dispatchers.IO) { copyAudioToInternal(context, uri) }
+                if (picked != null) currentOnPicked(picked)
+            }
         }
     }
-    return remember(launcher) { { launcher.launch(arrayOf("audio/*")) } }
+    val openDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = handleResult,
+    )
+    val getContentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = handleResult,
+    )
+    return remember(openDocumentLauncher, getContentLauncher, resources, snackbarController, scope) {
+        {
+            try {
+                openDocumentLauncher.launch(arrayOf(AUDIO_MIME_TYPE))
+            } catch (_: ActivityNotFoundException) {
+                try {
+                    getContentLauncher.launch(AUDIO_MIME_TYPE)
+                } catch (_: ActivityNotFoundException) {
+                    scope.launch { snackbarController.show(resources.getString(R.string.no_app_found)) }
+                }
+            }
+        }
+    }
 }
+
+private const val AUDIO_MIME_TYPE = "audio/*"
 
 private fun copyAudioToInternal(
     context: Context,
