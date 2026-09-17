@@ -22,6 +22,7 @@
     <string name="information">Taarifa</string>
     <string name="selected">Imechaguliwa</string>
     <string name="no_items_found">Hakuna vitu vilivyopatikana</string>
+    <string name="no_app_found">Hakuna programu iliyopatikana ya kufanya hili.</string>
     <string name="search_placeholder">Tafuta</string>
     <string name="drag_handle_description">Kishikizo cha kuburuta</string>
     <string name="dont_ask_again">Usiulize tena</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">Weka eneo</string>
     <string name="set_calculation_hint">Weka njia ya kuhesabu</string>
     <string name="prayer_times_unavailable_hint">Nyakati za swala haziwezi kuonyeshwa bado. Kamilisha usanidi:</string>
+    <string name="prayer_times_unresolvable_hint">Nyakati za swala hapa haziwezi kuhesabiwa kwa njia ya sasa ya kuhesabu. Ndani ya duara la ncha ya dunia jua linaweza lisichomoze wala kutua; chagua njia nyingine, au uchague jinsi ya kulitatua katika Mipangilio ya Hesabu Endelevu.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">Kiislamu (uangaliaji wa Saudi Arabia)</string>
     <string name="attention_title"><b>Tahadhari!</b></string>
     <string name="lunar_calendar_warning">Kalenda ya mwezi ya programu huhesabiwa mapema na huenda isiwe sahihi kwa sababu haitegemei mwonekano wa mwezi. Hili ni muhimu sana kuzingatiwa kwa mwanzo na mwisho wa Ramadhani.</string>
+    <string name="polar_circle_unresolved_warning">Hapa jua halichomozi wala kutua kwa sehemu ya mwaka. Kwa njia ya sasa siku hizo hazina nyakati za swala, hivyo chagua njia nyingine au uchague jinsi ya kuzitatua katika Mipangilio ya Hesabu Endelevu.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

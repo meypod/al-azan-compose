@@ -21,6 +21,7 @@
     <string name="information">Bilgi</string>
     <string name="selected">Seçilmiş</string>
     <string name="no_items_found">Öğe bulunamadı</string>
+    <string name="no_app_found">Bunu açabilecek bir uygulama bulunamadı.</string>
     <string name="search_placeholder">Ara</string>
     <string name="drag_handle_description">Sürükleme tutamacı</string>
     <string name="dont_ask_again">Bir daha sorma</string>
@@ -152,6 +153,7 @@
     <string name="set_location_hint">Konumu ayarla</string>
     <string name="set_calculation_hint">Hesaplama yöntemini ayarla</string>
     <string name="prayer_times_unavailable_hint">Namaz vakitleri henüz gösterilemiyor. Kurulumu tamamlayın:</string>
+    <string name="prayer_times_unresolvable_hint">Mevcut hesaplama yöntemiyle burada namaz vakitleri hesaplanamıyor. Kutup dairesi içinde güneş hiç doğmayabilir veya batmayabilir; başka bir yöntem seçin ya da gelişmiş hesaplama ayarlarından bunun nasıl çözüleceğini belirleyin.</string>
     <!-- ============================================================
          Settings menu  (main/settings/menu)
          ============================================================ -->
@@ -261,6 +263,7 @@
     <string name="lunar_islamic_saudi_sighting">İslami (Suudi Arabistan gözlemi)</string>
     <string name="attention_title"><b>Dikkat!</b></string>
     <string name="lunar_calendar_warning">Uygulamanın ay takvimi önceden hesaplanmıştır ve ay gözlemlerine dayanmadığı için doğru olmayabilir. Bu özellikle Ramazan\'ın başlangıcı ve bitişi için önemlidir.</string>
+    <string name="polar_circle_unresolved_warning">Burada yılın bir bölümünde güneş doğmaz veya batmaz. Mevcut yöntemle o günlerin namaz vakitleri yoktur; başka bir yöntem seçin ya da gelişmiş hesaplama ayarlarından bunların nasıl çözüleceğini belirleyin.</string>
     <!-- ============================================================
          Calculation  (main/settings/calculation)
          ============================================================ -->

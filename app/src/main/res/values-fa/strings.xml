@@ -22,6 +22,7 @@
     <string name="information">اطلاعات</string>
     <string name="selected">انتخاب شده</string>
     <string name="no_items_found">موردی یافت نشد</string>
+    <string name="no_app_found">برنامه‌ای برای انجام این کار پیدا نشد.</string>
     <string name="search_placeholder">جستجو…</string>
     <string name="drag_handle_description">دستگیره جابجایی</string>
     <string name="dont_ask_again">دیگر نپرس</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">تنظیم موقعیت مکانی</string>
     <string name="set_calculation_hint">تنظیم روش محاسبه</string>
     <string name="prayer_times_unavailable_hint">هنوز نمی‌توان اوقات شرعی را نمایش داد. راه‌اندازی را کامل کنید:</string>
+    <string name="prayer_times_unresolvable_hint">با روش محاسبهٔ فعلی نمی‌توان اوقات شرعی این‌جا را محاسبه کرد. داخل مدار قطبی ممکن است خورشید هرگز طلوع یا غروب نکند؛ روش دیگری انتخاب کنید یا در تنظیمات پیشرفته محاسبه مشخص کنید که چگونه حل شود.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">اسلامی (رؤیت هلال عربستان سعودی)</string>
     <string name="attention_title"><b>توجه!</b></string>
     <string name="lunar_calendar_warning">تقویم قمری این برنامه از قبل محاسبه شده است و ممکن است دقیق نباشد زیرا بر اساس رؤیت ماه نیست. توجه به این موضوع برای شروع و پایان ماه مبارک رمضان بسیار مهم است.</string>
+    <string name="polar_circle_unresolved_warning">بخشی از سال، خورشید این‌جا طلوع یا غروب نمی‌کند. با روش فعلی آن روزها اوقات شرعی ندارند؛ روش دیگری انتخاب کنید یا در تنظیمات پیشرفته محاسبه مشخص کنید چگونه حل شوند.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

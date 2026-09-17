@@ -22,6 +22,7 @@
     <string name="information">Informasi</string>
     <string name="selected">Dipilih</string>
     <string name="no_items_found">Tidak ada item yang ditemukan</string>
+    <string name="no_app_found">Tidak ada aplikasi yang dapat menangani ini.</string>
     <string name="search_placeholder">Cari…</string>
     <string name="drag_handle_description">Gagang seret</string>
     <string name="dont_ask_again">Jangan tanya lagi</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">Atur lokasi</string>
     <string name="set_calculation_hint">Atur metode perhitungan</string>
     <string name="prayer_times_unavailable_hint">Waktu sholat belum dapat ditampilkan. Lengkapi pengaturan:</string>
+    <string name="prayer_times_unresolvable_hint">Waktu sholat di sini tidak dapat dihitung dengan metode perhitungan saat ini. Di dalam lingkaran kutub, matahari mungkin tidak pernah terbit atau terbenam; pilih metode lain, atau tentukan cara mengatasinya di Pengaturan Lanjutan.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">Islam (penampakan Arab Saudi)</string>
     <string name="attention_title"><b>Perhatian!</b></string>
     <string name="lunar_calendar_warning">Kalender lunar aplikasi ini telah dihitung sebelumnya dan mungkin tidak akurat karena tidak berdasarkan penampakan bulan. Hal ini sangat penting untuk diperhatikan terutama untuk awal dan akhir Ramadan.</string>
+    <string name="polar_circle_unresolved_warning">Di sini matahari tidak terbit atau terbenam selama sebagian tahun. Dengan metode saat ini, hari-hari tersebut tidak memiliki waktu sholat, jadi pilih metode lain atau tentukan cara mengatasinya di Pengaturan Lanjutan.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

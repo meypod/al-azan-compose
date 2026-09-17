@@ -22,6 +22,7 @@
     <string name="information">Informacije</string>
     <string name="selected">Odabrano</string>
     <string name="no_items_found">Nema pronađenih stavki</string>
+    <string name="no_app_found">Nije pronađena nijedna aplikacija za ovo.</string>
     <string name="search_placeholder">Tražite…</string>
     <string name="drag_handle_description">Ručica za povlačenje</string>
     <string name="dont_ask_again">Ne pitaj opet</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">Postavi lokaciju</string>
     <string name="set_calculation_hint">Postavi metodu kalkulacije</string>
     <string name="prayer_times_unavailable_hint">Vremena molitve još se ne mogu prikazati. Dovršite postavljanje:</string>
+    <string name="prayer_times_unresolvable_hint">Vremena molitve se ovdje ne mogu izračunati trenutnom metodom. Unutar polarnog kruga sunce možda nikada ne izlazi ni ne zalazi; odaberite drugu metodu ili u naprednim postavkama kalkulacije izaberite kako to razriješiti.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">Islamski (Saudijsko posmatranje)</string>
     <string name="attention_title"><b>Pažnja!</b></string>
     <string name="lunar_calendar_warning">Lunarni kalendar aplikacije je unaprijed izračunat i možda neće biti tačan jer nije zasnovan na viđenjima mjeseca. Ovo je posebno važno napomenuti za početak i kraj Ramazana.</string>
+    <string name="polar_circle_unresolved_warning">Ovdje sunce jedan dio godine ne izlazi niti zalazi. S trenutnom metodom ti dani nemaju vremena molitve, pa odaberite drugu metodu ili u naprednim postavkama kalkulacije izaberite kako ih razriješiti.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

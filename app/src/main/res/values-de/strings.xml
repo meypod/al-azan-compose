@@ -21,6 +21,7 @@
     <string name="information">Information</string>
     <string name="selected">Ausgewählt</string>
     <string name="no_items_found">Keine Einträge gefunden</string>
+    <string name="no_app_found">Keine App gefunden, die das öffnen kann.</string>
     <string name="search_placeholder">Suchen…</string>
     <string name="drag_handle_description">Ziehgriff</string>
     <string name="dont_ask_again">Nicht erneut nachfragen</string>
@@ -152,6 +153,7 @@
     <string name="set_location_hint">Standort festlegen</string>
     <string name="set_calculation_hint">Berechnungsmethode festlegen</string>
     <string name="prayer_times_unavailable_hint">Gebetszeiten können noch nicht angezeigt werden. Schließen Sie die Einrichtung ab:</string>
+    <string name="prayer_times_unresolvable_hint">Mit der aktuellen Berechnungsmethode lassen sich hier keine Gebetszeiten berechnen. Innerhalb des Polarkreises geht die Sonne womöglich nie auf oder unter; wählen Sie eine andere Methode oder legen Sie in den erweiterten Berechnungseinstellungen fest, wie das aufgelöst wird.</string>
     <!-- ============================================================
          Settings menu  (main/settings/menu)
          ============================================================ -->
@@ -261,6 +263,7 @@
     <string name="lunar_islamic_saudi_sighting">Islamisch (Sichtung in Saudi-Arabien)</string>
     <string name="attention_title"><b>Achtung!</b></string>
     <string name="lunar_calendar_warning">Der Mondkalender der App ist vorberechnet und möglicherweise nicht genau, da er nicht auf Mondsichtungen basiert. Dies ist vor allem für den Beginn und das Ende des Ramadan wichtig zu beachten.</string>
+    <string name="polar_circle_unresolved_warning">Hier geht die Sonne einen Teil des Jahres nicht auf oder unter. Mit der aktuellen Methode haben diese Tage keine Gebetszeiten; wählen Sie eine andere Methode oder legen Sie in den erweiterten Berechnungseinstellungen fest, wie sie aufgelöst werden.</string>
     <!-- ============================================================
          Calculation  (main/settings/calculation)
          ============================================================ -->

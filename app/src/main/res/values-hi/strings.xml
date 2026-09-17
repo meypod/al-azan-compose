@@ -22,6 +22,7 @@
     <string name="information">जानकारी</string>
     <string name="selected">चयनित</string>
     <string name="no_items_found">कोई आइटम नहीं मिला</string>
+    <string name="no_app_found">इसे खोलने के लिए कोई ऐप नहीं मिला।</string>
     <string name="search_placeholder">खोजें…</string>
     <string name="drag_handle_description">खींचने का हैंडल</string>
     <string name="dont_ask_again">दोबारा न पूछें</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">स्थान सेट करें</string>
     <string name="set_calculation_hint">गणना विधि सेट करें</string>
     <string name="prayer_times_unavailable_hint">नमाज़ के समय अभी नहीं दिखाए जा सकते। सेटअप पूरा करें:</string>
+    <string name="prayer_times_unresolvable_hint">वर्तमान गणना विधि से यहाँ नमाज़ के समय की गणना नहीं की जा सकती। ध्रुवीय वृत्त के भीतर सूर्य कभी उदय या अस्त नहीं हो सकता; कोई दूसरी विधि चुनें, या उन्नत गणना सेटिंग्स में तय करें कि इसे कैसे हल किया जाए।</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">इस्लामी (सऊदी अरब चाँद दर्शन)</string>
     <string name="attention_title"><b>ध्यान दें!</b></string>
     <string name="lunar_calendar_warning">ऐप का चंद्र कैलेंडर पूर्व-गणना है और सटीक नहीं हो सकता है क्योंकि यह चंद्रमा के देखे जाने पर आधारित नहीं है। रमज़ान की शुरुआत और अंत के लिए यह विशेष रूप से महत्वपूर्ण है।</string>
+    <string name="polar_circle_unresolved_warning">यहाँ साल के कुछ हिस्से में सूर्य उदय या अस्त नहीं होता। मौजूदा विधि से उन दिनों के नमाज़ के समय नहीं होते, इसलिए कोई दूसरी विधि चुनें या उन्नत गणना सेटिंग्स में तय करें कि उन्हें कैसे हल किया जाए।</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

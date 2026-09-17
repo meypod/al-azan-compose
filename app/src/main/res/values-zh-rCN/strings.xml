@@ -62,6 +62,7 @@
     <string name="menu">菜单</string>
     <string name="set_location_hint">设置地点</string>
     <string name="set_calculation_hint">设置计算方法</string>
+    <string name="prayer_times_unresolvable_hint">当前计算方法无法计算此处的祈祷时间。在极圈内，太阳可能永远不会升起或落下；请选择其他方法，或在高级计算设置中选择解决方式。</string>
     <string name="settings">设置</string>
     <string name="alarm_settings_title">闹钟设定</string>
     <string name="interface_settings">界面设置</string>
@@ -87,6 +88,7 @@
     <string name="location_traveling_mode">旅行模式</string>
     <string name="location_is_disabled_notif_title">地理位置服务已禁用</string>
     <string name="no_items_found">未找到对象</string>
+    <string name="no_app_found">未找到可处理此操作的应用。</string>
     <string name="show_prayer_times_help">选择要在主屏幕上显示的祈祷时间。</string>
     <string name="show_prayer_times_title">显示祈祷时间</string>
     <string name="fajr">晨礼</string>
@@ -139,6 +141,7 @@
     <string name="lunar_islamic_saudi_sighting">伊斯兰历（沙特阿拉伯）</string>
     <string name="attention_title"><b>注意！</b></string>
     <string name="lunar_calendar_warning">该应用程序的阴历是预先计算的，可能并不准确，因为它并非基于实际观测到的新月。这一点在斋月开始和结束时尤为重要。</string>
+    <string name="polar_circle_unresolved_warning">此处一年中有一段时间太阳不升起或不落下。使用当前方法时，这些日子没有祈祷时间；请选择其他方法，或在高级计算设置中选择解决方式。</string>
     <string name="calculation_method">计算方法</string>
     <string name="calculation_method_select_placeholder">点击选择方法</string>
     <string name="fajr_angle">晨礼角度</string>

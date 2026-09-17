@@ -22,6 +22,7 @@
     <string name="information">তথ্য</string>
     <string name="selected">নির্বাচিত</string>
     <string name="no_items_found">কোনো আইটেম পাওয়া যায়নি</string>
+    <string name="no_app_found">এটি খোলার মতো কোনো অ্যাপ পাওয়া যায়নি।</string>
     <string name="search_placeholder">অনুসন্ধান করুন</string>
     <string name="drag_handle_description">টেনে সরানোর হাতল</string>
     <string name="dont_ask_again">আবার জিজ্ঞাসা করবেন না</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">অবস্থান সেট করুন</string>
     <string name="set_calculation_hint">হিসাব পদ্ধতি সেট করুন</string>
     <string name="prayer_times_unavailable_hint">সালাতের সময় এখনও দেখানো যাচ্ছে না। সেটআপ সম্পন্ন করুন:</string>
+    <string name="prayer_times_unresolvable_hint">বর্তমান হিসাব পদ্ধতিতে এখানে সালাতের সময় হিসাব করা যাচ্ছে না। মেরুবৃত্তের ভেতরে সূর্য কখনও উদিত বা অস্ত নাও হতে পারে; অন্য একটি পদ্ধতি বেছে নিন, অথবা আরও গণনার সেটিংসে এটি কীভাবে সমাধান হবে তা ঠিক করুন।</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">ইসলামিক (সৌদি আরব চাঁদ দেখা)</string>
     <string name="attention_title"><b>মনোযোগ!</b></string>
     <string name="lunar_calendar_warning">অ্যাপটির চন্দ্র ক্যালেন্ডার পূর্ব-গণনা করা এবং সঠিক নাও হতে পারে কারণ এটি চাঁদ দেখার উপর ভিত্তি করে নয়। রমজানের শুরু এবং শেষের জন্য এটি বিশেষভাবে গুরুত্বপূর্ণ।</string>
+    <string name="polar_circle_unresolved_warning">বছরের কিছু সময় এখানে সূর্য উদিত বা অস্ত হয় না। বর্তমান পদ্ধতিতে সেই দিনগুলোর কোনো সালাতের সময় থাকে না, তাই অন্য একটি পদ্ধতি বেছে নিন অথবা আরও গণনার সেটিংসে সেগুলো কীভাবে সমাধান হবে তা ঠিক করুন।</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

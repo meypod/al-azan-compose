@@ -22,6 +22,7 @@
     <string name="information">معلومات</string>
     <string name="selected">محدد</string>
     <string name="no_items_found">لا توجد عناصر</string>
+    <string name="no_app_found">لم يتم العثور على تطبيق للقيام بذلك.</string>
     <string name="search_placeholder">بحث</string>
     <string name="drag_handle_description">مقبض السحب</string>
     <string name="dont_ask_again">لا تسأل مرة أخرى</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">تعيين الموقع</string>
     <string name="set_calculation_hint">تعيين طريقة الحساب</string>
     <string name="prayer_times_unavailable_hint">لا يمكن عرض أوقات الصلاة بعد. أكمل الإعداد:</string>
+    <string name="prayer_times_unresolvable_hint">لا يمكن حساب أوقات الصلاة هنا بطريقة الحساب الحالية. داخل الدائرة القطبية قد لا تشرق الشمس أو تغرب أبدًا؛ اختر طريقة أخرى، أو حدّد كيفية معالجة ذلك في إعدادات الحسابات المتقدمة.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">إسلامي (رؤية المملكة العربية السعودية)</string>
     <string name="attention_title"><b>انتباه!</b></string>
     <string name="lunar_calendar_warning">التقويم القمري الخاص بالتطبيق محسوب مسبقًا وقد لا يكون دقيقًا لأنه لا يعتمد على رؤية الهلال. هذا مهم جدًا للملاحظة بالنسبة لبداية ونهاية رمضان.</string>
+    <string name="polar_circle_unresolved_warning">لا تشرق الشمس أو تغرب هنا في جزء من السنة. بطريقة الحساب الحالية لا توجد أوقات صلاة لتلك الأيام، فاختر طريقة أخرى أو حدّد كيفية معالجتها في إعدادات الحسابات المتقدمة.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

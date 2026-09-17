@@ -22,6 +22,7 @@
     <string name="information">معلومات</string>
     <string name="selected">منتخب شدہ</string>
     <string name="no_items_found">کوئی آئٹم نہیں ملا</string>
+    <string name="no_app_found">اسے کھولنے کے لیے کوئی ایپ نہیں ملی۔</string>
     <string name="search_placeholder">تلاش کریں۔</string>
     <string name="drag_handle_description">گھسیٹنے کا ہینڈل</string>
     <string name="dont_ask_again">دوبارہ نہ پوچھیں</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">مقام طے کریں</string>
     <string name="set_calculation_hint">حساب کتاب کا طریقہ طے کریں</string>
     <string name="prayer_times_unavailable_hint">نماز کے اوقات ابھی نہیں دکھائے جا سکتے۔ سیٹ اپ مکمل کریں:</string>
+    <string name="prayer_times_unresolvable_hint">موجودہ حساب کتاب کے طریقے سے یہاں نماز کے اوقات کا حساب نہیں لگایا جا سکتا۔ قطبی دائرے کے اندر ممکن ہے سورج کبھی طلوع یا غروب نہ ہو؛ کوئی دوسرا طریقہ منتخب کریں، یا اعلی درجے کی حساب کی ترتیبات میں طے کریں کہ اسے کیسے حل کیا جائے۔</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">اسلامی (سعودی عرب کی رؤیت)</string>
     <string name="attention_title"><b>توجہ!</b></string>
     <string name="lunar_calendar_warning">ایپ کا قمری کیلنڈر پہلے سے شمار کیا گیا ہے اور ممکن ہے درست نہ ہو کیونکہ یہ چاند دیکھنے پر مبنی نہیں ہے۔ رمضان کے آغاز اور اختتام کے لیے یہ خاص طور پر اہم ہے۔</string>
+    <string name="polar_circle_unresolved_warning">یہاں سال کے کچھ حصے میں سورج طلوع یا غروب نہیں ہوتا۔ موجودہ طریقے سے ان دنوں کے نماز کے اوقات نہیں ہوتے، اس لیے کوئی دوسرا طریقہ منتخب کریں یا اعلی درجے کی حساب کی ترتیبات میں طے کریں کہ انہیں کیسے حل کیا جائے۔</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

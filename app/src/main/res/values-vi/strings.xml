@@ -22,6 +22,7 @@
     <string name="information">Thông tin</string>
     <string name="selected">Đã chọn</string>
     <string name="no_items_found">Không tìm thấy mục nào</string>
+    <string name="no_app_found">Không tìm thấy ứng dụng nào để xử lý việc này.</string>
     <string name="search_placeholder">Tìm kiếm</string>
     <string name="drag_handle_description">Tay kéo</string>
     <string name="dont_ask_again">Đừng hỏi lại</string>
@@ -161,6 +162,7 @@
     <string name="set_location_hint">Đặt vị trí</string>
     <string name="set_calculation_hint">Đặt phương pháp tính</string>
     <string name="prayer_times_unavailable_hint">Chưa thể hiển thị giờ cầu nguyện. Hoàn tất thiết lập:</string>
+    <string name="prayer_times_unresolvable_hint">Không thể tính giờ cầu nguyện ở đây bằng phương pháp tính hiện tại. Bên trong vòng cực, mặt trời có thể không bao giờ mọc hoặc lặn; hãy chọn phương pháp khác, hoặc chọn cách xử lý trong Cài đặt Tính toán Nâng cao.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -275,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">Hồi giáo (Ngắm tại Ả Rập Saudi)</string>
     <string name="attention_title"><b>Chú ý!</b></string>
     <string name="lunar_calendar_warning">Lịch âm của ứng dụng được tính toán trước và có thể không chính xác vì nó không dựa trên các lần ngắm mặt trăng. Điều này đặc biệt quan trọng cần lưu ý lúc bắt đầu và kết thúc tháng Ramadan.</string>
+    <string name="polar_circle_unresolved_warning">Ở đây mặt trời không mọc hoặc lặn trong một phần của năm. Với phương pháp hiện tại, những ngày đó không có giờ cầu nguyện; hãy chọn phương pháp khác hoặc chọn cách xử lý trong Cài đặt Tính toán Nâng cao.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)
