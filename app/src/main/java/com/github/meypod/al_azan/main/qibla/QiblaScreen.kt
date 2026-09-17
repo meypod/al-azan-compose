@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
@@ -25,9 +26,11 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.InformationCard
+import com.github.meypod.al_azan.core.presentation.components.LocalSnackbarController
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import kotlinx.coroutines.launch
 
 @Composable
 fun QiblaScreen(
@@ -36,7 +39,10 @@ fun QiblaScreen(
     modifier: Modifier = Modifier,
 ) {
     val uriHandler = LocalUriHandler.current
-    val localeTag = LocalResources.current.configuration.locales[0].toLanguageTag()
+    val resources = LocalResources.current
+    val localeTag = resources.configuration.locales[0].toLanguageTag()
+    val snackbarController = LocalSnackbarController.current
+    val scope = rememberCoroutineScope()
     ScreenScaffold(
         title = stringResource(R.string.qibla),
         onBackClick = { NavigationController.navigateBack() },
@@ -66,7 +72,15 @@ fun QiblaScreen(
                 QiblaTile(
                     icon = R.drawable.globe_location,
                     label = stringResource(R.string.qibla_use_map),
-                ) { uriHandler.openUri("$QIBLA_MAP_URL?lang=$localeTag") }
+                ) {
+                    // No browser installed (bare AOSP builds, some TVs): AndroidUriHandler turns the
+                    // missing activity into an IllegalArgumentException.
+                    try {
+                        uriHandler.openUri("$QIBLA_MAP_URL?lang=$localeTag")
+                    } catch (_: IllegalArgumentException) {
+                        scope.launch { snackbarController.show(resources.getString(R.string.no_app_found)) }
+                    }
+                }
                 QiblaTile(
                     icon = R.drawable.compass_outline,
                     label = stringResource(R.string.qibla_use_compass),

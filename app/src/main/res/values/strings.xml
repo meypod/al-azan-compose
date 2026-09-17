@@ -22,6 +22,7 @@
     <string name="information">Information</string>
     <string name="selected">Selected</string>
     <string name="no_items_found">No items found</string>
+    <string name="no_app_found">No app found to handle this.</string>
     <string name="search_placeholder">Search…</string>
     <string name="drag_handle_description">Drag handle</string>
     <string name="dont_ask_again">Don\'t ask again</string>
