@@ -1,0 +1,3 @@
+- Fixed some issues leading to app crash
+- Now the app warns if some days cannot be calculated due to polar conditions and asks user to set them early to not get surprises
+- Small fix to Arabic language's prayer times names
