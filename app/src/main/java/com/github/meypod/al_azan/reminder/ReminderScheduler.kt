@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.reminder
 import android.util.Log
 import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSchedulingDefaults
 import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
@@ -217,7 +218,7 @@ class ReminderScheduler @Inject constructor(
                 calculationAdjustments = calc.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
                 locationDetail = location,
-            )
+            ).timesOrNull ?: continue
             val trigger = times.forPrayer(reminder.prayer) + offsetMinutes
             val matchesDay = reminder.days?.shouldFireFor(trigger) ?: true
             val isSkipped = skipped.isReminderSkipped(reminder.id, trigger.toLocalDate())

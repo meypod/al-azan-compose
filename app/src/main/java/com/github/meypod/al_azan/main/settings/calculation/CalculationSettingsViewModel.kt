@@ -2,7 +2,9 @@ package com.github.meypod.al_azan.main.settings.calculation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.meypod.al_azan.core.domain.model.calculation.needsPolarCircleResolution
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
@@ -22,17 +24,25 @@ class CalculationSettingsViewModel
 @Inject constructor(
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val settingsRepository: SettingsRepository,
+    private val favoriteLocationsRepository: FavoriteLocationsRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CalculationSettingsUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            combine(calculationSettingsRepository.data, settingsRepository.data) { calcSettings, settings ->
+            combine(
+                calculationSettingsRepository.data,
+                settingsRepository.data,
+                favoriteLocationsRepository.data,
+            ) { calcSettings, settings, locations ->
+                val location = locations.firstOrNull { it.id == calcSettings.locationId }?.locationDetail
                 _uiState.update { state ->
                     state.copy(
                         calculationParameters = calcSettings.parameters,
                         selectedCalendar = settings.selectedArabicCalendar,
+                        polarCircleUnresolved = calcSettings.parameters != null && location != null &&
+                            location.needsPolarCircleResolution(calcSettings.parameters),
                     )
                 }
             }.collect()

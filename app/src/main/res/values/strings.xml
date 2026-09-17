@@ -162,6 +162,7 @@
     <string name="set_location_hint">Set location</string>
     <string name="set_calculation_hint">Set calculation method</string>
     <string name="prayer_times_unavailable_hint">Prayer times can\’t be shown yet. Complete the setup:</string>
+    <string name="prayer_times_unresolvable_hint">Prayer times can\’t be calculated here with the current method. Inside the polar circle the sun may never rise or set; pick another method, or choose how to resolve it in advanced calculation settings.</string>
 
     <!-- ============================================================
          Settings menu  (main/settings/menu)
@@ -276,6 +277,7 @@
     <string name="lunar_islamic_saudi_sighting">Islamic (Saudi Arabia sighting)</string>
     <string name="attention_title"><b>Attention!</b></string>
     <string name="lunar_calendar_warning">The app\'s lunar calendar is pre-calculated and may not be accurate because it isn\'t based on moon sightings. This is especially important to note for the start and end of Ramadan.</string>
+    <string name="polar_circle_unresolved_warning">The sun doesn\’t rise or set here for part of the year. With the current method those days have no prayer times, so pick another method or choose how to resolve them in advanced calculation settings.</string>
 
     <!-- ============================================================
          Calculation  (main/settings/calculation)

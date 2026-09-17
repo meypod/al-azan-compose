@@ -25,6 +25,8 @@ data class HomeUiState(
     val isCalculationConfigured: Boolean = false,
     val showNextPrayerCountdown: Boolean = true,
     val shariaTimes: ShariaTimes? = null,
+    /** Location and method are set, yet they define no times for the viewed day (see [com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase]). */
+    val prayerTimesUnresolvable: Boolean = false,
     val nextShariaTime: ShariaTimeDetails? = null,
     val highlightedShariaTime: ShariaTimeDetails? = null,
     val countdownText: String = "--:--:--",

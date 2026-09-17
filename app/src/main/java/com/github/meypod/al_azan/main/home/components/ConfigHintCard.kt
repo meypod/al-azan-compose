@@ -29,6 +29,8 @@ fun ConfigHintCard(
     onLocationClick: () -> Unit,
     onCalculationClick: () -> Unit,
     modifier: Modifier = Modifier,
+    /** Setup is complete, but the location and method together define no times. */
+    unresolvableTimes: Boolean = false,
 ) {
     Surface(
         modifier = modifier.dropShadow2(MaterialTheme.shapes.extraLarge),
@@ -51,7 +53,9 @@ fun ConfigHintCard(
                     tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    stringResource(R.string.prayer_times_unavailable_hint),
+                    stringResource(
+                        if (unresolvableTimes) R.string.prayer_times_unresolvable_hint else R.string.prayer_times_unavailable_hint,
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -65,7 +69,7 @@ fun ConfigHintCard(
                     Text(stringResource(R.string.set_location_hint))
                 }
             }
-            if (missingCalculation) {
+            if (missingCalculation || unresolvableTimes) {
                 TextButton(onClick = onCalculationClick, modifier = Modifier.fillMaxWidth()) {
                     Icon(
                         painterResource(R.drawable.settings),
@@ -95,6 +99,13 @@ private fun ConfigHintCardPreview() {
                 missingCalculation = true,
                 onLocationClick = {},
                 onCalculationClick = {},
+            )
+            ConfigHintCard(
+                missingLocation = false,
+                missingCalculation = false,
+                onLocationClick = {},
+                onCalculationClick = {},
+                unresolvableTimes = true,
             )
         }
     }

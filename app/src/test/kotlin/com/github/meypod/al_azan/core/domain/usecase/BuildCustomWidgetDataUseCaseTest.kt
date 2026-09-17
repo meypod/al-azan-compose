@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimesResult
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
@@ -103,7 +104,7 @@ class BuildCustomWidgetDataUseCaseTest {
         nextDay: Long = nextDayMillis,
     ): BuildCustomWidgetDataUseCase {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any()) } doReturn shariaTimes
+            on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next
@@ -217,7 +218,7 @@ class BuildCustomWidgetDataUseCaseTest {
     @Test
     fun `next-prayer search excludes prayers not placed on the widget`() {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any()) } doReturn shariaTimes
+            on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn details(Prayer.Dhuhr, at(12.0))

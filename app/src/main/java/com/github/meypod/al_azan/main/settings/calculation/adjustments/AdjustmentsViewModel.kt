@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.main.settings.calculation.adjustments
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
@@ -110,7 +111,7 @@ class AdjustmentsViewModel @Inject constructor(
             calculationAdjustments = calc.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location,
-        )
+        ).timesOrNull ?: return
         val formattedTime = settings.formatTime(times.forPrayer(prayer).toEpochMilliseconds())
         scheduleFeedback.notify(ScheduleFeedbackInfo.PrayerAdjusted(prayer, formattedTime))
     }

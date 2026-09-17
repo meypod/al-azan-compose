@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSchedulingDefaults
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
@@ -58,9 +59,9 @@ class GetNextShariaTimesUseCase @Inject constructor(
                 calculationAdjustments,
                 arabicCalendar,
                 locationDetail,
-            )
-            val nextPrayer = prevDayShariahTimes.nextPrayerForAlarm(instant, alarmSettings, excluding, isSkipped)
-            if (nextPrayer != null) {
+            ).timesOrNull
+            val nextPrayer = prevDayShariahTimes?.nextPrayerForAlarm(instant, alarmSettings, excluding, isSkipped)
+            if (prevDayShariahTimes != null && nextPrayer != null) {
                 return ShariaTimeDetails(
                     forInstant = prevDayInstant,
                     forDate = DateComponents.from(prevDayInstant),
@@ -81,11 +82,13 @@ class GetNextShariaTimesUseCase @Inject constructor(
         for (dayOffset in 0..AlarmSchedulingDefaults.SEARCH_DAYS) {
             shariahTimes =
                 getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
+                    .timesOrNull
             // On the current day, match against "now" (the next upcoming prayer). On any later day,
             // match against the start of that day so we get its first prayer AND so the weekday used by
             // alarmSettings' per-weekday checks is that day's, not today's.
             val reference = if (dayOffset == 0) instant else getDayBeginning(instantToCheck)
-            nextPrayer = shariahTimes.nextPrayerForAlarm(reference, alarmSettings, excluding, isSkipped)
+            // A day with no times has nothing to arm, so keep scanning
+            nextPrayer = shariahTimes?.nextPrayerForAlarm(reference, alarmSettings, excluding, isSkipped)
             if (nextPrayer == null) {
                 instantToCheck = addDaysTimeZoneAware(instantToCheck, 1)
             } else {

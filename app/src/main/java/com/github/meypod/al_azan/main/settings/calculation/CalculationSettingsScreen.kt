@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -130,6 +131,10 @@ fun CalculationSettingsScreen(
                     )
                 }
 
+                if (uiState.polarCircleUnresolved) {
+                    PolarCircleWarningCard()
+                }
+
                 if (editingParams) {
                     uiState.calculationParameters?.let { params ->
                         CalcParamsEditDialog(
@@ -186,6 +191,53 @@ fun CalculationSettingsScreen(
         SettingLinkButton(stringResource(R.string.advanced_calculation_settings)) {
             onAction(CalculationSettingsUiAction.OnAdvancedSettingsClick(advancedRoute))
         }
+    }
+}
+
+/**
+ * The chosen method leaves part of the year undefined here; advanced settings hold the way out.
+ * Nested in the method card like the other notices, but on the error container rather than the plain
+ * surface: unlike them it reports something that will stop working, not something to keep in mind.
+ */
+@Composable
+private fun PolarCircleWarningCard(modifier: Modifier = Modifier) {
+    ACard(modifier, color = MaterialTheme.colorScheme.errorContainer) { cardPadding ->
+        InformationRow(
+            Modifier
+                .fillMaxWidth()
+                .padding(cardPadding),
+            // The text carries the message; the icon only marks it as a problem.
+            iconDescription = null,
+            iconRes = R.drawable.baseline_warning_24,
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+                Text(annotatedStringResource(R.string.attention_title))
+                Text(stringResource(R.string.polar_circle_unresolved_warning))
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PolarCircleWarningCardPreview() {
+    AlAzanThemePreview {
+        PolarCircleWarningCard()
+    }
+}
+
+@Preview
+@Composable
+private fun CalculationSettingsPolarCirclePreview() {
+    AlAzanThemePreview {
+        CalculationSettingsScreen(
+            uiState = CalculationSettingsUiState(
+                calculationParameters = CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters,
+                polarCircleUnresolved = true,
+            ),
+            onAction = {},
+        )
     }
 }
 

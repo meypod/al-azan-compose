@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
@@ -278,7 +279,7 @@ private fun HomeHeaderPreview() {
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
             locationDetail = CalculationLocationDetail(0.0, 0.0),
-        )
+        ).timesOrNull
         val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
             instant = instant,
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
@@ -311,7 +312,7 @@ private fun HomeHeaderWideLayoutPreview() {
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
             locationDetail = CalculationLocationDetail(0.0, 0.0),
-        )
+        ).timesOrNull
         val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
             instant = instant,
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,

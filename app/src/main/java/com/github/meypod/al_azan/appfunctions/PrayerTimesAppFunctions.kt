@@ -4,6 +4,7 @@ import androidx.appfunctions.AppFunction
 import androidx.appfunctions.AppFunctionContext
 import androidx.appfunctions.AppFunctionSerializable
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
@@ -98,7 +99,7 @@ class PrayerTimesAppFunctions @Inject constructor(
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location.locationDetail,
-        )
+        ).timesOrNull ?: throw IllegalStateException("Prayer times can't be calculated for this location and calculation method.")
 
         val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ROOT)
         val entries = SHARIA_TIMES_IN_ORDER.map { prayer ->

@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.adhan.NON_PRAYERS_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimesResult
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
@@ -374,7 +376,7 @@ class HomeViewModel
                 ->
                 _uiState.update {
                     val location = locations.firstOrNull { loc -> loc.id == calcSettings.locationId }
-                    val shariaTimes = if (calcSettings.parameters != null && location != null) {
+                    val shariaTimesResult = if (calcSettings.parameters != null && location != null) {
                         getShariaTimesUseCase(
                             instant = viewingInstant,
                             calculationParameters = calcSettings.parameters,
@@ -392,7 +394,8 @@ class HomeViewModel
                         .map { skip -> skip.prayer }
                         .toSet()
                     it.copy(
-                        shariaTimes = shariaTimes,
+                        shariaTimes = shariaTimesResult?.timesOrNull,
+                        prayerTimesUnresolvable = shariaTimesResult is ShariaTimesResult.Unresolvable,
                         skippedPrayers = skippedPrayers,
                     )
                 }

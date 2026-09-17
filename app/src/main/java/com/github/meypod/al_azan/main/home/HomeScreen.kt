@@ -56,6 +56,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
@@ -372,13 +373,14 @@ fun HomeScreen(
                         ),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
                 ) {
-                    if (uiState.location == null || !uiState.isCalculationConfigured) {
+                    if (uiState.location == null || !uiState.isCalculationConfigured || uiState.prayerTimesUnresolvable) {
                         ConfigHintCard(
                             missingLocation = uiState.location == null,
                             missingCalculation = !uiState.isCalculationConfigured,
                             onLocationClick = { onAction(HomeUiAction.OnLocationTextClick) },
                             onCalculationClick = { onAction(HomeUiAction.OnCalculationLinkClick) },
                             modifier = Modifier.padding(bottom = dimensionResource(R.dimen.element_padding)),
+                            unresolvableTimes = uiState.prayerTimesUnresolvable,
                         )
                     }
                     ShariaTimesBox(
@@ -455,7 +457,7 @@ private fun HomeLoadedPreview() {
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
             locationDetail = CalculationLocationDetail(0.0, 0.0),
-        )
+        ).timesOrNull
         val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
             instant = instant,
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,

@@ -4,6 +4,7 @@ import android.icu.text.DateFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -114,7 +115,7 @@ class MonthlyViewViewModel @Inject constructor(
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
-                        )
+                        ).timesOrNull
                     } else {
                         null
                     }

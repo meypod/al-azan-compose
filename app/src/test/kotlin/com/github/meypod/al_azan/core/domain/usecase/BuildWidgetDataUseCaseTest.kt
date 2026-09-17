@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimesResult
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
@@ -100,7 +101,7 @@ class BuildWidgetDataUseCaseTest {
         nextDay: Long = nextDayMillis,
     ): BuildWidgetDataUseCase {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any()) } doReturn shariaTimes
+            on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next

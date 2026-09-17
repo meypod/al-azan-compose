@@ -4,6 +4,7 @@ import com.github.meypod.al_azan.core.data.audio.AudioDurationProbe
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.adhan.toAdhanKey
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
@@ -88,7 +89,7 @@ class GetUpcomingIntrusiveAlarmsUseCase @Inject constructor(
                 calculationAdjustments = calc.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
                 locationDetail = location,
-            )
+            ).timesOrNull ?: continue
 
             for (prayer in SHARIA_TIMES_IN_ORDER) {
                 val fire = times.forPrayer(prayer)

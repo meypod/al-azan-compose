@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.domain.usecase
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import io.github.meypod.adhan_kotlin.CalculationParameters
@@ -12,7 +13,8 @@ import kotlin.time.Instant
  * whose time has already passed on the same day.
  *
  * Returns null when no prayer has passed yet on that day (e.g. the early hours before Fajr),
- * mirroring the behavior of the legacy app where nothing is highlighted in that window.
+ * mirroring the behavior of the legacy app where nothing is highlighted in that window, and when the
+ * day has no times at all (see [com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimesResult]).
  */
 class GetCurrentShariaTimesUseCase @Inject constructor(
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
@@ -31,7 +33,7 @@ class GetCurrentShariaTimesUseCase @Inject constructor(
             calculationAdjustments,
             arabicCalendar,
             locationDetail,
-        )
+        ).timesOrNull ?: return null
         val currentPrayer = shariaTimes.currentPrayer(instant, excluding) ?: return null
         return ShariaTimeDetails(
             forInstant = instant,

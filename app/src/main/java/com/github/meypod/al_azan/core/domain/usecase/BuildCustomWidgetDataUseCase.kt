@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
@@ -52,7 +53,8 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         // could be one that isn't shown (e.g. Sunset), so the countdown would target an unseen time.
         val notPlaced = Prayer.entries.toSet() - config.rows.flatten().toSet()
 
-        fun shariaTimesFor(loc: CalculationLocationDetail) = getShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc)
+        fun shariaTimesFor(loc: CalculationLocationDetail) =
+            getShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc).timesOrNull
 
         fun nextFor(loc: CalculationLocationDetail) =
             getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, excluding = notPlaced)
@@ -60,7 +62,7 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         // Countdown and the redraw time follow the primary (first) location; dates are location-
         // independent (Hijri day-shift uses the primary's maghrib).
         val primary = locations.first()
-        val primaryTimes = shariaTimesFor(primary)
+        val primaryTimes = shariaTimesFor(primary) ?: return null
         val primaryNext = nextFor(primary)
         val maghribShift = maghribHijriDayShift(
             now = instant,
@@ -102,8 +104,9 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
                 }
             }
 
-        val pages = locations.map { loc ->
-            val shariaTimes = if (loc == primary) primaryTimes else shariaTimesFor(loc)
+        // A secondary location of its own can be inside the polar circle with no times; skip its page
+        val pages = locations.mapNotNull { loc ->
+            val shariaTimes = (if (loc == primary) primaryTimes else shariaTimesFor(loc)) ?: return@mapNotNull null
             val active = activePrayer(shariaTimes, nextFor(loc), settings, instant)
             // Rows are the user's explicit arrangement; drop empty rows so they don't leave blank space.
             val prayerRows = config.rows

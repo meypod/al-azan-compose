@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.domain.usecase
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
@@ -49,7 +50,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location,
-        )
+        ).timesOrNull ?: return null
 
         val nextShariaTime = getNextShariaTimesUseCase(
             instant = instant,

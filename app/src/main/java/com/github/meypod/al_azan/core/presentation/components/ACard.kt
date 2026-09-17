@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -20,6 +21,7 @@ import com.github.meypod.al_azan.core.presentation.LOREM_IMPSUM_SHORT
 @Composable
 fun ACard(
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surface,
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
     compact: Boolean = false,
@@ -38,6 +40,7 @@ fun ACard(
 ) {
     Surface(
         modifier,
+        color = color,
         tonalElevation = tonalElevation,
         shadowElevation = shadowElevation,
         shape = MaterialTheme.shapes.medium,
