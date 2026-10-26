@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- ============================================================
          Shared / common UI  (core/presentation/components)
          ============================================================ -->
@@ -28,18 +27,15 @@
     <string name="custom_minutes">دلخواه</string>
     <string name="custom_minutes_tap_to_edit">برای ویرایش ضربه بزنید</string>
     <string name="custom_minutes_dialog_title">دقیقهٔ دلخواه</string>
-
     <!-- Shared prayer-times selector (used by interface & widget settings) -->
     <string name="show_prayer_times_title">نمایش اوقات شرعی</string>
     <string name="show_prayer_times_help">انتخاب کنید کدام اوقات شرعی در صفحهٔ اصلی نمایش داده شوند.</string>
     <string name="show_column">نمایش</string>
     <string name="time_column">وقت</string>
-
     <!-- Stepper / wizard navigation -->
     <string name="back_button">بازگشت</string>
     <string name="next_button">بعدی</string>
     <string name="finish_button">پایان</string>
-
     <!-- ============================================================
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
@@ -52,7 +48,6 @@
     <string name="isha">عشاء</string>
     <string name="midnight">نیمه شب</string>
     <string name="tahajjud">تهجد</string>
-
     <!-- ============================================================
          Permission dialogs  (core/presentation/dialog)
          ============================================================ -->
@@ -103,13 +98,11 @@
     <string name="display_over_apps_permission_title">اجازهٔ نمایش روی برنامه‌های دیگر</string>
     <string name="display_over_apps_permission_rationale">برای اینکه صفحهٔ هشدار همیشه باز شود، به این برنامه اجازهٔ نمایش روی برنامه‌های دیگر را بدهید. نسخه‌های جدیدتر اندروید بدون آن از باز شدن صفحهٔ هشدار در پس‌زمینه جلوگیری می‌کنند.</string>
     <string name="display_over_apps_permission_denied_text">بدون این، ممکن است صفحهٔ هشدار خودبه‌خود باز نشود. می‌توانید بعداً این را در تنظیمات اجازه دهید.</string>
-
     <!-- ============================================================
          Audio preview  (core/data/audio)
          ============================================================ -->
     <string name="adhan_preview_playing">در حال پخش پیش‌نمایش اذان</string>
     <string name="adhan_preview_channel_name">پیش‌نمایش اذان</string>
-
     <!-- ============================================================
          Custom audio / sound picker  (core/presentation/components)
          ============================================================ -->
@@ -122,7 +115,6 @@
     <string name="add_from_local_files">افزودن از فایل‌های محلی</string>
     <string name="reminder_default_sound">پیش‌فرض (اعلان)</string>
     <string name="silent_sound">بی‌صدا</string>
-
     <!-- ============================================================
          Vibration & weekdays  (core/presentation/mapper)
          ============================================================ -->
@@ -136,7 +128,6 @@
     <string name="weekday_thursday">پنج‌شنبه</string>
     <string name="weekday_friday">جمعه</string>
     <string name="weekday_saturday">شنبه</string>
-
     <!-- ============================================================
          Intro / onboarding  (intro)
          ============================================================ -->
@@ -150,7 +141,6 @@
     <string name="skip">رد کردن</string>
     <string name="skip_dialog_body">تنظیمات مورد نیاز ناقص هستند. برای اینکه برنامه اوقات شرعی را نشان دهد، بعداً باید آن را از صفحهٔ تنظیمات تنظیم کنید.</string>
     <string name="restoring_backup">در حال بازیابی پشتیبان…</string>
-
     <!-- ============================================================
          Home / main screen  (main/home)
          ============================================================ -->
@@ -161,7 +151,6 @@
     <string name="set_location_hint">تنظیم موقعیت مکانی</string>
     <string name="set_calculation_hint">تنظیم روش محاسبه</string>
     <string name="prayer_times_unavailable_hint">هنوز نمی‌توان اوقات شرعی را نمایش داد. راه‌اندازی را کامل کنید:</string>
-
     <!-- ============================================================
          Settings menu  (main/settings/menu)
          ============================================================ -->
@@ -175,7 +164,6 @@
     <string name="interface_settings">تنظیمات رابط کاربری</string>
     <string name="widget_settings_title">تنظیمات ابزارک</string>
     <string name="backup_and_restore_title"><![CDATA[پشتیبان‌گیری و بازیابی]]></string>
-
     <!-- ============================================================
          Location  (main/location)
          ============================================================ -->
@@ -208,7 +196,6 @@
     <string name="location_traveling_mode">حالت سفر</string>
     <string name="location_traveling_hint">موقعیت شما را به‌صورت دوره‌ای به‌روزرسانی می‌کند. ممکن است مصرف باتری را افزایش دهد.</string>
     <string name="last_updated_at">آخرین به‌روزرسانی: %1$s</string>
-
     <!-- ============================================================
          Travel mode  (worker)
          ============================================================ -->
@@ -216,7 +203,6 @@
     <string name="location_is_disabled_notif_body">حالت سفر فعال است، اما خدمات موقعیت مکانی شما خاموش است. لطفاً موقعیت مکانی را فعال کنید تا برنامه بتواند موقعیت شما را به‌طور قابل‌اعتماد به‌روزرسانی کند.</string>
     <string name="worker_location_permission_revoked_title">دسترسی موقعیت مکانی لغو شد</string>
     <string name="worker_location_permission_revoked_body">حالت سفر فعال است، اما برنامه دیگر دسترسی به موقعیت مکانی ندارد. برای ادامه، حالت سفر را غیرفعال کنید یا دسترسی به موقعیت مکانی را اعطا کنید.</string>
-
     <!-- ============================================================
          Interface / appearance settings  (main/settings/appearance)
          ============================================================ -->
@@ -261,7 +247,6 @@
     <string name="calendar_persian">فارسی</string>
     <string name="calendar_ethiopic">اتیوپیایی</string>
     <string name="calendar_buddhist">بودایی</string>
-
     <!-- ============================================================
          Lunar calendar  (core/domain/model/lunar, settings/calculation)
          ============================================================ -->
@@ -275,7 +260,6 @@
     <string name="lunar_islamic_saudi_sighting">اسلامی (رؤیت هلال عربستان سعودی)</string>
     <string name="attention_title"><b>توجه!</b></string>
     <string name="lunar_calendar_warning">تقویم قمری این برنامه از قبل محاسبه شده است و ممکن است دقیق نباشد زیرا بر اساس رؤیت ماه نیست. توجه به این موضوع برای شروع و پایان ماه مبارک رمضان بسیار مهم است.</string>
-
     <!-- ============================================================
          Calculation  (main/settings/calculation)
          ============================================================ -->
@@ -320,7 +304,6 @@
     <string name="calc_method_algeria">وزارت امور دینی و وقف الجزایر</string>
     <string name="calc_method_brunei">وزارت امور دینی (برونئی دارالسلام)</string>
     <string name="calc_method_tunisia">وزارت امور دینی تونس</string>
-
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">تنظیمات پیشرفته محاسبه</string>
     <string name="rounding_method">روش گرد کردن</string>
@@ -343,18 +326,16 @@
     <string name="polar_aqrab_balad">اقرب بلد</string>
     <string name="polar_aqrab_yaum">اقرب یوم</string>
     <string name="shafaq">شفق</string>
-    <string name="shafaq_help">«شفق» در روش محاسبهٔ «کمیته رویت هلال ماه» برای تعیین نوع گرگ و میش به‌منظور تعیین زمان عشاء استفاده می‌شود.</string>
+    <string name="shafaq_help">در روش کمیته رؤیت هلال، از «شفق» استفاده می‌شود تا مشخص شود برای تعیین وقت نماز عشا کدام نوع شفق باید به کار رود.</string>
     <string name="shafaq_general_default">عمومی (پیش‌فرض)</string>
     <string name="shafaq_ahmer">قرمز</string>
     <string name="shafaq_abyad">سفید</string>
-
     <!-- Calculation — adjustments (main/settings/calculation/adjustments) -->
     <string name="adjustments_title">تنظیمات زمان</string>
     <string name="adjustments_help">تعداد دقایقی که به اوقات محاسبه‌شده اضافه می‌شود.</string>
     <string name="lunar_days_adjustment_help">تعداد روزهایی که به تقویم قمری اضافه می‌شود.</string>
     <string name="increment">افزایش</string>
     <string name="decrement">کاهش</string>
-
     <!-- ============================================================
          Schedule, sound & muezzin  (main/settings/adhan)
          ============================================================ -->
@@ -366,10 +347,10 @@
     <string name="prayer_setting_accessibility">تنظیمات %1$s</string>
     <string name="tahajjud_is_last_third_hint">تهجد ثلث آخر شب است</string>
     <string name="use_default_muezzin">استفاده از پیش‌فرض</string>
-    <string name="custom_muezzin">مؤذن دلخواه</string>
+    <string name="custom_muezzin">مؤذن سفارشی (یا: اذان‌گوی سفارشی)</string>
     <string name="use_default_vibration">استفاده از پیش‌فرض</string>
     <string name="vibration_mode">حالت ویبره</string>
-    <string name="vibration_mode_help">آیا هنگام شروع پخش اذان یا یادآوری، تلفن باید بلرزد؟</string>
+    <string name="vibration_mode_help">آیا گوشی باید وقتی پخش اذان یا یادآورها شروع می‌شود، بلرزد؟</string>
     <string name="show_upcoming_alarm">نمایش اعلان «هشدار آینده»</string>
     <string name="show_upcoming_alarm_help">در صورت فعال بودن، حدود یک ساعت قبل از هر اذان یک اعلان نمایش داده می‌شود.</string>
     <string name="custom_upcoming_time">اطلاع قبل از اذان</string>
@@ -398,7 +379,6 @@
     <string name="auto_silent_duration_help">مزاحم نشوید پس از رد کردن، چه مدت روشن می‌ماند.</string>
     <string name="notify_on_skipped_adhan">اعلان بی‌صدا به‌جای رد کردن</string>
     <string name="notify_on_skipped_adhan_help">وقتی اذانی را با «رد کردن» در صفحهٔ هشدارهای آینده رد می‌کنید، یا با «لغو زنگ هشدار» از اعلان «هشدار آینده» لغو می‌کنید، به‌جای حذف آن، در زمانش یک اعلان بی‌صدا نمایش داده می‌شود. این گزینه فقط برای اذان‌ها کاربرد دارد.</string>
-
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">مؤذن</string>
     <string name="unknown">نامشخص</string>
@@ -407,7 +387,6 @@
     <string name="ragheb_mustafa_ghalwash">راغب مصطفی غلوش</string>
     <string name="moazen_zade">مؤذن‌زاده</string>
     <string name="prayer_times_rescheduled">اذان بعدی: %1$s، ساعت %2$s</string>
-
     <!-- ============================================================
          Widget settings  (main/settings/widget)
          ============================================================ -->
@@ -435,7 +414,6 @@
     <string name="notification_widget_layout_help">جدولی اوقات نماز را فهرست می‌کند؛ فشرده نماز بعدی را با شمارش معکوس نشان می‌دهد.</string>
     <string name="notification_widget_layout_table">جدولی</string>
     <string name="notification_widget_layout_compact">فشرده</string>
-
     <!-- Custom widget builder (main/settings/widget/custom) -->
     <string name="widget_section_custom_appearance">ابزارک سفارشی</string>
     <string name="widget_section_custom_appearance_caption">ابزارک سفارشی خودتان را بسازید و تصمیم بگیرید چه چیزی و چگونه نمایش داده شود.</string>
@@ -470,7 +448,6 @@
     <string name="color_picker_hex">هگز (#AARRGGBB)</string>
     <string name="color_picker_alpha">شفافیت</string>
     <string name="color_picker_use_default">مطابق با پوسته</string>
-
     <!-- ============================================================
          Backup & restore  (main/settings/backup)
          ============================================================ -->
@@ -487,7 +464,6 @@
     <string name="restore_failed">بازیابی ممکن نشد. ممکن است فایل نامعتبر یا خراب باشد.</string>
     <string name="export_old_app_data">بازیابی داده‌های نسخهٔ قبلی</string>
     <string name="export_old_app_data_help">داده‌های شما از نسخهٔ قبلی هنوز روی این دستگاه در دسترس است. می‌توانید آن را به‌صورت نسخهٔ پشتیبان خروجی بگیرید و برای بازگشت در نسخهٔ قدیمی بازیابی کنید.</string>
-
     <!-- ============================================================
          Reminders  (main/reminder)
          ============================================================ -->
@@ -510,10 +486,10 @@
     <string name="turn_off">خاموش کردن</string>
     <string name="reminder_duplicate">تکثیر</string>
     <string name="delete_reminder_title">حذف یادآوری</string>
-    <string name="delete_reminder_body">آیا مطمئن هستید که می‌خواهید این یادآوری را حذف کنید؟</string>
+    <string name="delete_reminder_body">آیا مطمئن هستید که می‌خواهید یادآور را حذف کنید؟</string>
     <plurals name="delete_reminders_body">
         <item quantity="one">آیا مطمئن هستید که می‌خواهید %1$d یادآوری را حذف کنید؟</item>
-        <item quantity="other">آیا مطمئن هستید که می‌خواهید %1$d یادآوری را حذف کنید؟</item>
+        <item quantity="other">آیا مطمئن هستید که می‌خواهید %1$d یادآور را حذف کنید؟</item>
     </plurals>
     <string name="only_once_label">فقط یک بار</string>
     <string name="everyday_label">هر روز</string>
@@ -531,7 +507,6 @@
         <item quantity="one">%1$d دقیقه بعد از %2$s</item>
         <item quantity="other">%1$d دقیقه بعد از %2$s</item>
     </plurals>
-
     <!-- ============================================================
          Qada counter  (main/counter)
          ============================================================ -->
@@ -554,7 +529,6 @@
     <string name="time_unit_day_short">روز</string>
     <string name="time_unit_hour_short">ساعت</string>
     <string name="time_unit_minute_short">دقیقه</string>
-
     <!-- ============================================================
          Qibla  (main/qibla)
          ============================================================ -->
@@ -582,7 +556,6 @@
     <string name="qibla_turn_right_a11y">برای رو به قبله شدن %1$d درجه به راست بچرخید</string>
     <string name="qibla_turn_left_a11y">برای رو به قبله شدن %1$d درجه به چپ بچرخید</string>
     <string name="qibla_unreliable_a11y">جهت قطب‌نما قابل اعتماد نیست، دستگاه خود را کالیبره کنید</string>
-
     <!-- ============================================================
          Monthly view  (main/monthly)
          ============================================================ -->
@@ -591,7 +564,6 @@
     <string name="next_month">ماه بعد</string>
     <string name="show_this_month">نمایش این ماه</string>
     <string name="date_column">تاریخ</string>
-
     <!-- ============================================================
          Troubleshoot  (main/settings/troubleshoot)
          ============================================================ -->
@@ -635,7 +607,6 @@
     <string name="adaptive_charging_caution">احتیاط: در برخی دستگاه‌ها این نوع هشدار بیشتر تحت تأثیر بهینه‌سازی باتری قرار می‌گیرد، بنابراین اذان و یادآوری‌ها ممکن است با تأخیر یا از دست رفته باشند. با احتیاط استفاده کنید.</string>
     <string name="different_alarm_enable">استفاده از نوع دیگری از زنگ هشدار</string>
     <string name="different_alarm_notification_rationale">این نوع هشدار نمی‌تواند به‌تنهایی هشدار تمام‌صفحه را نشان دهد، بنابراین برای توقف اذان به اعلان‌ها نیاز است. برای استفاده از آن اعلان‌ها را اجازه دهید.</string>
-
     <!-- ============================================================
          Developer  (main/settings/developer)
          ============================================================ -->
@@ -657,7 +628,6 @@
     <string name="dev_silence_reset_toast">بازهٔ مزاحم نشوید پاک شد</string>
     <string name="dev_delivered_cleared_toast">زمان‌های تحویل هشدار پاک شد</string>
     <string name="dev_unlocked_toast">حالت توسعه‌دهنده فعال شد</string>
-
     <!-- ============================================================
          Fullscreen alarm & alarm actions  (alarm, adhan, reminder)
          ============================================================ -->
@@ -680,20 +650,17 @@
     <string name="missed_while_off_body">در زمان خاموش بودن دستگاه در %1$s گذشت</string>
     <string name="missed_window_title">ممکن است برخی هشدارها از دست رفته باشند</string>
     <string name="missed_window_body">به نظر می‌رسد دستگاه شما مدتی خاموش بوده است. هر بار فقط هشدار بعدی زمان‌بندی می‌شود، بنابراین همهٔ نمازها یا یادآوری‌های آن بازه را نمی‌توان اینجا نشان داد.</string>
-
     <!-- ============================================================
          Ramadan notice  (ramadan, main/home)
          ============================================================ -->
     <string name="ramadan_notice_title">توجه!</string>
     <string name="ramadan_remind_next_year">سال بعد به من یادآوری کن</string>
     <string name="ramadan_dont_show_again">دیگر نشان نده</string>
-
     <!-- ============================================================
          Diyanet change notice  (di/DiyanetChangeNotice)
          ============================================================ -->
     <string name="diyanet_change_notice_title">اوقات نماز دیانت به‌روزرسانی شد</string>
     <string name="diyanet_change_notice_body">اوقات دیانت شما تغییر کرد و تنظیم‌های دقیقه‌ای دستی شما پاک شد. برای تقویم‌های اروپایی دیانت روش جداگانه‌ای افزوده شد. برای بررسی روش و اوقات ضربه بزنید.</string>
-
     <!-- ============================================================
          Notification channels  (core/domain/usecase)
          ============================================================ -->
@@ -725,7 +692,6 @@
     <string name="permission_revoked_channel_description">هنگامی که یک دسترسی لازم رد یا لغو شده باشد به شما هشدار می‌دهد، که ممکن است بر عملکرد برنامه تأثیر بگذارد.</string>
     <string name="travel_mode_channel_name">حالت سفر</string>
     <string name="travel_mode_channel_description">اعلان‌های مربوط به حالت سفر</string>
-
     <!-- ============================================================
          About  (main/about)
          ============================================================ -->
@@ -735,7 +701,6 @@
     <string name="home_url" translatable="false"><a href="%1$s">%1$s</a></string>
     <string name="license">مجوز</string>
     <string name="about_credits">تمامی حقوق صداهای اذان متعلق به صاحبان مربوطهٔ آن است.</string>
-
     <!-- ============================================================
          Upcoming alarms  (main/upcoming_alarms)
          ============================================================ -->
@@ -750,5 +715,4 @@
     <string name="tomorrow">فردا</string>
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
-
 </resources>
