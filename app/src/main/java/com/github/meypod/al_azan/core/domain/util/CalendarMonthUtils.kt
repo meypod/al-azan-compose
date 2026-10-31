@@ -112,6 +112,34 @@ fun calendarDayOf(
     return CalendarDayPosition(cal.get(Calendar.DAY_OF_MONTH), cal.getActualMaximum(Calendar.DAY_OF_MONTH))
 }
 
+/** First and last civil dates of the [system] month containing [date]. */
+fun calendarMonthSpan(
+    date: LocalDate,
+    system: CalendarSystem,
+): ClosedRange<LocalDate> {
+    val position = calendarDayOf(date, system)
+    val first = date - DatePeriod(days = position.day - 1)
+    return first..first + DatePeriod(days = position.monthLength - 1)
+}
+
+/** [dates] written in [system] as one span, e.g. the months of another calendar a month covers. */
+fun formatDateSpan(
+    dates: ClosedRange<LocalDate>,
+    system: CalendarSystem,
+    skeleton: String,
+    numberingSystem: NumberingSystem,
+): String {
+    val shift = DatePeriod(days = system.dayShift)
+    return formatInstantRange(
+        localNoon(dates.start + shift),
+        localNoon(dates.endInclusive + shift),
+        system.locale,
+        system.calendar,
+        skeleton,
+        numberingSystem,
+    )
+}
+
 /** Longest month [system] can have (31 for Gregorian and Persian, 30 for the Hijri calendars). */
 fun calendarMaxMonthLength(system: CalendarSystem): Int = icuCalendar(system.calendar).getMaximum(Calendar.DAY_OF_MONTH)
 

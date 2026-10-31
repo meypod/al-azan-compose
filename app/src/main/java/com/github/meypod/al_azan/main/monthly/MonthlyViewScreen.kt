@@ -171,7 +171,6 @@ fun MonthlyViewScreen(
                     firstDayOfWeek = uiState.settings.resolvedFirstDayOfWeek(),
                     calendarIndex = uiState.calendarMode.pickerIndex,
                     skeleton = DateFormat.YEAR_MONTH,
-                    showOtherCalendar = false,
                     precision = CalendarPickerPrecision.Month,
                 )
             }

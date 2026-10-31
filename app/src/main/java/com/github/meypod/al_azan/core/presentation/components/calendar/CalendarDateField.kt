@@ -21,7 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.calendar.CalendarSystem
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+import com.github.meypod.al_azan.core.domain.util.calendarMonthSpan
 import com.github.meypod.al_azan.core.domain.util.formatDate
+import com.github.meypod.al_azan.core.domain.util.formatDateSpan
 import com.github.meypod.al_azan.core.domain.util.localeFirstDayOfWeek
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePaddedPreview
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
@@ -30,7 +32,8 @@ import kotlinx.datetime.LocalDate
 
 /**
  * Outlined field showing [date] in calendars[[calendarIndex]] using [skeleton] (and, when
- * [showOtherCalendar], the next calendar as supporting text); tapping anywhere on it opens
+ * [showOtherCalendar], the next calendar as supporting text: the same date, or by month the span the
+ * shown month covers); tapping anywhere on it opens
  * [CalendarDatePickerDialog] on that calendar. [onDateChange] also gets the calendar index showing in
  * the picker when confirmed, for screens whose view follows it.
  */
@@ -57,6 +60,14 @@ fun CalendarDateField(
     val interactionSource = remember { MutableInteractionSource() }
     fun formatted(system: CalendarSystem) = formatDate(date, system, skeleton, numberingSystem)
 
+    // By month, the other calendar shows the span the month covers (a month rarely lines up with one).
+    fun otherFormatted(system: CalendarSystem) =
+        if (precision == CalendarPickerPrecision.Month) {
+            formatDateSpan(calendarMonthSpan(date, calendars[shownIndex].system), system, skeleton, numberingSystem)
+        } else {
+            formatted(system)
+        }
+
     CompactOutlinedTextField(
         value = formatted(calendars[shownIndex].system),
         onValueChange = {},
@@ -73,7 +84,7 @@ fun CalendarDateField(
         label = label,
         supportingText = calendars.getOrNull((shownIndex + 1) % calendars.size)
             ?.takeIf { showOtherCalendar && calendars.size > 1 }
-            ?.let { other -> { Text(formatted(other.system), color = MaterialTheme.colorScheme.onSurfaceVariant) } },
+            ?.let { other -> { Text(otherFormatted(other.system), color = MaterialTheme.colorScheme.onSurfaceVariant) } },
         trailingIcon = { Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null) },
         fixedLabel = true,
     )

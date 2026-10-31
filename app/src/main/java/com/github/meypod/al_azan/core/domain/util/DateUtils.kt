@@ -2,6 +2,8 @@ package com.github.meypod.al_azan.core.domain.util
 
 import android.content.res.Resources
 import android.icu.text.DateFormat
+import android.icu.text.DateIntervalFormat
+import android.icu.util.DateInterval
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.icu.util.ULocale
@@ -38,6 +40,26 @@ fun formatInstant(
         DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=islamic$numbers"))
     }
     return formatter.format(Date.from(instant.toJavaInstant()))
+}
+
+/** The span [start]..[end] in [calendar], collapsing what both ends share ("Aban – Azar 1405"). */
+fun formatInstantRange(
+    start: Instant,
+    end: Instant,
+    locale: String,
+    calendar: String,
+    skeleton: String,
+    numberingSystem: NumberingSystem = NumberingSystem.Default,
+): String {
+    val numbers = if (numberingSystem == NumberingSystem.Default) "" else ";numbers=${numberingSystem.value}"
+    val formatter = try {
+        DateIntervalFormat.getInstance(skeleton, ULocale("$locale@calendar=$calendar$numbers"))
+    } catch (e: IllegalArgumentException) {
+        // Same OEM ICU fallback as [formatInstant].
+        if (calendar == "islamic" || !calendar.startsWith("islamic")) throw e
+        DateIntervalFormat.getInstance(skeleton, ULocale("$locale@calendar=islamic$numbers"))
+    }
+    return formatter.format(DateInterval(start.toEpochMilliseconds(), end.toEpochMilliseconds()))
 }
 
 fun formatTimeOfDay(

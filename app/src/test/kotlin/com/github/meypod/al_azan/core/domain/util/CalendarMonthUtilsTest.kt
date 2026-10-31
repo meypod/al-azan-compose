@@ -129,4 +129,20 @@ class CalendarMonthUtilsTest {
         assertEquals(LocalDate(2027, 11, 3), addCalendarYears(date, 1, gregorian))
         assertEquals(LocalDate(2027, 2, 28), addCalendarYears(LocalDate(2028, 2, 29), -1, gregorian))
     }
+
+    @Test
+    fun `a month's span covers its first to last civil day`() {
+        // Aban 1405 runs from 23 October to 21 November 2026.
+        assertEquals(LocalDate(2026, 10, 23)..LocalDate(2026, 11, 21), calendarMonthSpan(date, persian))
+        assertEquals(LocalDate(2026, 11, 1)..LocalDate(2026, 11, 30), calendarMonthSpan(date, gregorian))
+    }
+
+    @Test
+    fun `a span in another calendar names both months once`() {
+        val aban = calendarMonthSpan(date, persian)
+        assertEquals("October – November 2026", formatDateSpan(aban, gregorian, "yMMMM", NumberingSystem.Latn).replace('\u2009', ' '))
+        // Within one month it collapses to that month.
+        val november = calendarMonthSpan(date, gregorian)
+        assertEquals("November 2026", formatDateSpan(november.start..november.start, gregorian, "yMMMM", NumberingSystem.Latn))
+    }
 }
