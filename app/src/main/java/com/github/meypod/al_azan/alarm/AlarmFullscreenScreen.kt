@@ -229,6 +229,7 @@ fun AlarmFullscreenScreen(
                     uiState.title,
                     color = contentColor,
                     style = MaterialTheme.typography.displayMedium,
+                    textAlign = TextAlign.Center,
                 )
                 Text(
                     uiState.timeLabel,
@@ -575,7 +576,7 @@ private fun AlarmFullscreenClassicLightPreview() {
         AlarmFullscreenScreen(
             uiState = AlarmFullscreenUiState(
                 header = stringResource(R.string.alarm_azan_header),
-                title = "Maghrib",
+                title = "A very long text for determining alignment",
                 timeLabel = "19:38",
                 dismissAndSilentMinutes = 15,
                 shortRemindMinutes = 15,
