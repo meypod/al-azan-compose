@@ -23,6 +23,7 @@ import com.github.meypod.al_azan.core.domain.util.formatCountdownToHHmmss
 import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import com.github.meypod.al_azan.core.domain.util.hijriYear
 import com.github.meypod.al_azan.core.domain.util.isRamadanNoticeDue
+import com.github.meypod.al_azan.core.domain.util.resolvedFirstDayOfWeek
 import com.github.meypod.al_azan.core.domain.util.tickFlow
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
@@ -42,6 +43,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.daysUntil
 import javax.inject.Inject
 import kotlin.time.Clock
 import kotlin.time.DurationUnit
@@ -150,6 +153,7 @@ class HomeViewModel
             HomeUiAction.OnNextDayClick -> onNextDayClick()
             HomeUiAction.OnPrevDayClick -> onPrevDayClick()
             HomeUiAction.OnShowTodayClick -> onShowTodayClick()
+            is HomeUiAction.OnDatePicked -> onDatePicked(action.date, action.calendarIndex)
             HomeUiAction.OnReminderLinkClick -> onReminderLinkClick()
             HomeUiAction.OnQiblaLinkClick -> onQiblaLinkClick()
             HomeUiAction.OnQiblaShortcutClick -> onQiblaShortcutClick()
@@ -184,6 +188,17 @@ class HomeViewModel
 
     private fun onNextDayClick() {
         _uiState.update { it.copy(viewingInstant = addDaysTimeZoneAware(it.viewingInstant, 1)) }
+    }
+
+    /** Moves by whole days from now, like the prev/next day buttons, so the time of day carries over. */
+    private fun onDatePicked(
+        date: LocalDate,
+        calendarIndex: Int,
+    ) {
+        _uiState.update {
+            val days = it.currentInstant.toLocalDate().daysUntil(date)
+            it.copy(viewingInstant = addDaysTimeZoneAware(it.currentInstant, days), datePickerCalendarIndex = calendarIndex)
+        }
     }
 
     private fun onPrevDayClick() {
@@ -341,6 +356,8 @@ class HomeViewModel
                         arabicCalendarLocale = settings.selectedLocaleForArabicCalendar ?: settings.selectedLocale,
                         hijriDateAdjustment = calcSettings.calculationAdjustments.hijriDate,
                         calendar = settings.selectedSecondaryCalendar.value,
+                        secondaryCalendar = settings.selectedSecondaryCalendar,
+                        firstDayOfWeek = settings.resolvedFirstDayOfWeek(),
                         locale = settings.selectedLocale,
                         numberingSystem = settings.numberingSystem,
                         location = location,

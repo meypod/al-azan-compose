@@ -20,6 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,15 +43,19 @@ import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
+import com.github.meypod.al_azan.core.domain.model.calendar.CalendarSystem
 import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.usecase.GetNextShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatInstant
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.DarkTertiary
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
 import com.github.meypod.al_azan.core.presentation.components.FakeFilledIconButton
+import com.github.meypod.al_azan.core.presentation.components.calendar.CalendarDatePickerDialog
+import com.github.meypod.al_azan.core.presentation.components.calendar.rememberUserPickerCalendars
 import com.github.meypod.al_azan.core.presentation.util.patternedBackground
 import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitmap
 import com.github.meypod.al_azan.main.home.HomeUiAction
@@ -125,6 +133,7 @@ fun HomeHeader(
                 HomeDateColumn(
                     uiState = uiState,
                     contentColor = headerContentColor,
+                    onAction = onAction,
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -157,7 +166,7 @@ fun HomeHeader(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                HomeDateColumn(uiState = uiState, contentColor = headerContentColor)
+                HomeDateColumn(uiState = uiState, contentColor = headerContentColor, onAction = onAction)
             }
             Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
         }
@@ -228,14 +237,29 @@ fun HomeHeader(
     }
 }
 
+/** Weekday and date of the viewed day; tapping it opens a date picker to jump to another day. */
 @Composable
 private fun HomeDateColumn(
     uiState: HomeUiState,
     contentColor: Color,
+    onAction: (HomeUiAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var picking by rememberSaveable { mutableStateOf(false) }
+    val calendars = rememberUserPickerCalendars(
+        secondaryCalendar = uiState.secondaryCalendar,
+        secondary = CalendarSystem(uiState.calendar, uiState.locale),
+        lunar = CalendarSystem(uiState.arabicCalendar, uiState.arabicCalendarLocale, uiState.hijriDateAdjustment),
+    )
+    // A plain rounded touch surface rather than a button, so the header keeps its size.
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .clickable(
+                onClickLabel = stringResource(R.string.choose_date),
+                role = Role.Button,
+                onClick = { picking = true },
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -262,6 +286,23 @@ private fun HomeDateColumn(
             color = contentColor,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
+        )
+    }
+    if (picking) {
+        CalendarDatePickerDialog(
+            initial = uiState.viewingInstant.toLocalDate(),
+            onConfirm = { date, calendarIndex ->
+                picking = false
+                onAction(HomeUiAction.OnDatePicked(date, calendarIndex))
+            },
+            onDismiss = { picking = false },
+            calendars = calendars,
+            weekLocale = uiState.locale,
+            numberingSystem = uiState.numberingSystem,
+            firstDayOfWeek = uiState.firstDayOfWeek,
+            today = uiState.currentInstant.toLocalDate(),
+            // The calendar last used here, else the one the header shows the date in.
+            initialCalendarIndex = uiState.datePickerCalendarIndex ?: if (uiState.swapHomeCalendars) 0 else 1,
         )
     }
 }

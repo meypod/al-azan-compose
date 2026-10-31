@@ -6,8 +6,10 @@ import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.settings.HomeShortcut
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.usecase.ShariaTimeDetails
+import kotlinx.datetime.DayOfWeek
 import kotlin.time.Instant
 
 @Immutable
@@ -19,6 +21,10 @@ data class HomeUiState(
     val arabicCalendarLocale: String = "en-US",
     val hijriDateAdjustment: Int = 0,
     val calendar: String = "gregorian",
+    val secondaryCalendar: SecondaryCalendar = SecondaryCalendar.Gregorian,
+    val firstDayOfWeek: DayOfWeek = DayOfWeek.SUNDAY,
+    /** Calendar last confirmed in the header's date picker, reopened next time; null until then. */
+    val datePickerCalendarIndex: Int? = null,
     val locale: String = "en-US",
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val location: FavoriteLocation? = null,
