@@ -44,6 +44,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.github.meypod.al_azan.R
@@ -381,8 +382,12 @@ private fun ReminderRow(
             Text(
                 text = repeatLabel,
                 style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.End,
                 modifier = Modifier
-                    .padding(end = 8.dp)
+                    // Shares the row with the title instead of taking its full width first, so a long
+                    // weekday list wraps rather than squeezing the title into a sliver.
+                    .weight(1f, fill = false)
+                    .padding(start = 8.dp, end = 8.dp)
                     // Colour alone isn't seen by everyone, nor announced.
                     .then(if (expired) Modifier.semantics { contentDescription = "$repeatLabel, $expiredLabel" } else Modifier),
                 // Red only while it is on: a reminder that is off is not expected to fire anyway.
