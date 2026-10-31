@@ -520,6 +520,7 @@
     <string name="reminder_interval_start">Beginn</string>
     <string name="choose_date">Datum wählen</string>
     <string name="reminder_custom_interval_title">Alle wie viele Tage wiederholen?</string>
+    <string name="custom_number_range">Geben Sie eine Zahl von %1$d bis %2$d ein</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d Minute</item>
         <item quantity="other">%1$d Minuten</item>

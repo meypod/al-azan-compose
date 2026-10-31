@@ -45,6 +45,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
@@ -54,6 +55,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.util.formatDate
 import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
 import com.github.meypod.al_azan.core.domain.util.resolvedFirstDayOfWeek
+import com.github.meypod.al_azan.core.domain.util.weekdaysFrom
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
@@ -82,6 +84,10 @@ fun ReminderScreen(
     // ask again" here too — the flow special-cases them.
     val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
     val pickerCalendars = rememberUserPickerCalendars(uiState.settings, uiState.hijriDateAdjustment)
+    LifecycleResumeEffect(Unit) {
+        onAction(ReminderUiAction.OnResume)
+        onPauseOrDispose {}
+    }
     val requestPermissions = rememberSchedulingPermissionRequest(
         isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
         onDontAskAgain = { onAction(ReminderUiAction.OnPermissionDontAskAgain(it)) },
@@ -423,7 +429,7 @@ private fun repeatLabel(
     // No day rule fires every day (the scheduler treats null as always matching).
     val days = r.days?.selectedDays() ?: PrayerAlarmSettings.ALL_DAYS
     if (days.size == 7) return stringResource(R.string.everyday_label)
-    val dayLabels = days.map { it.localized() }
+    val dayLabels = weekdaysFrom(settings.resolvedFirstDayOfWeek()).filter { it in days }.map { it.localized() }
     return dayLabels.joinToString(", ")
 }
 

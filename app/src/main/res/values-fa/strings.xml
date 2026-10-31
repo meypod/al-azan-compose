@@ -543,6 +543,7 @@
     <string name="reminder_interval_start">شروع از</string>
     <string name="choose_date">انتخاب تاریخ</string>
     <string name="reminder_custom_interval_title">هر چند روز یک بار تکرار شود؟</string>
+    <string name="custom_number_range">عددی از %1$d تا %2$d وارد کنید</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d دقیقه</item>
         <item quantity="other">%1$d دقیقه</item>

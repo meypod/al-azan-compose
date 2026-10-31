@@ -31,6 +31,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlinx.datetime.TimeZone as KotlinxTimeZone
 import java.util.TimeZone
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
 
 /** Real prayer times for Tehran, so fire times and dates behave as on a device there. */
@@ -128,13 +129,13 @@ class ReminderTriggerTest {
         assertEquals(day(20), later.nextDate(at(start, 12)))
     }
 
-    /** Tahajjud falls after midnight, so the fire date is the day after the one it is computed for. */
+    /** Date rules count the prayer day: Tahajjud of a cycle day fires just after midnight, the next civil day. */
     @Test
-    fun `a prayer after midnight fires only on cycle days`() {
+    fun `a night prayer follows its prayer day's cycle`() {
         val r = reminder(everyDays = 3, prayer = Prayer.Tahajjud)
         val trigger = r.nextTrigger(at(start, 12), emptyList(), calendars, ::timesFor)!!
-        assertTrue(r.interval!!.firesOn(trigger.toLocalDate()))
-        assertTrue(trigger.toLocalDate() > start)
+        assertEquals(timesFor(at(start, 12))!!.tahajjud - 5.minutes, trigger)
+        assertEquals(day(1), trigger.toLocalDate())
     }
 
     @Test
@@ -236,5 +237,37 @@ class ReminderTriggerTest {
     @Test
     fun `released reminders without a once flag fire daily`() {
         assertEquals(day(1), released(once = null, days = null).nextDate(at(start, 12)))
+    }
+
+    /** Tahajjud for a prayer day falls after 00:00; a reschedule then must not skip tonight's. */
+    @Test
+    fun `a reschedule after midnight keeps tonight's night prayer`() {
+        val tahajjud = reminder(prayer = Prayer.Tahajjud)
+        val tonight = timesFor(at(start, 12))!!.tahajjud
+        assertTrue(tonight.toLocalDate() > start)
+        val justAfterMidnight = at(start + DatePeriod(days = 1), 0)
+        assertEquals(tonight - 5.minutes, tahajjud.nextTrigger(justAfterMidnight, emptyList(), calendars, ::timesFor))
+        // A dated one-off for that prayer day is found too, rather than cancelled.
+        val once = tahajjud.copy(once = true, days = null, onceDate = start)
+        assertEquals(tonight - 5.minutes, once.nextTrigger(justAfterMidnight, emptyList(), calendars, ::timesFor))
+    }
+
+    /** The Persian 31st exists only in the first six months, so the next one can be most of a year away. */
+    @Test
+    fun `a monthly day missing from half the year is still found`() {
+        val persian = calendars.copy(locale = "en")
+        val r = reminder().copy(monthly = ReminderMonthly(MonthlyCalendar.Civil(SecondaryCalendar.Persian), 31))
+        // 2 November 2026 is in Aban; the next 31st is 31 Farvardin 1406, 20 April 2027.
+        assertEquals(LocalDate(2027, 4, 20), r.nextTrigger(at(start, 12), emptyList(), persian, ::timesFor)?.toLocalDate())
+    }
+
+    /** 24-hour steps from late evening used to jump over the date of a spring-forward change. */
+    @Test
+    fun `a dated one-off on a DST change day is found`() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"))
+        val dstDay = LocalDate(2026, 3, 29)
+        val once = reminder().copy(once = true, days = null, onceDate = dstDay)
+        val lateEvening = LocalDate(2026, 1, 10).atTime(LocalTime(23, 30)).toInstant(KotlinxTimeZone.currentSystemDefault())
+        assertEquals(dstDay, once.nextTrigger(lateEvening, emptyList(), calendars, ::timesFor)?.let { it.toLocalDate() })
     }
 }

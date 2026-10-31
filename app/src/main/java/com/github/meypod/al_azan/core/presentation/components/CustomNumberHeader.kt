@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -98,6 +99,8 @@ private fun CustomNumberDialog(
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
     val canSubmit = value.toIntOrNull()?.let { it in range } == true
+    // Say why Confirm is off when the range is bounded; an unbounded one only rules out 0.
+    val rangeHint = if (range.last != Int.MAX_VALUE) stringResource(R.string.custom_number_range, range.first, range.last) else null
     val submit = { if (canSubmit) onConfirm(value.toInt()) }
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -109,6 +112,14 @@ private fun CustomNumberDialog(
                 placeholder = stringResource(R.string.custom_minutes),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { submit() }),
+                supportingText = rangeHint?.let { hint ->
+                    {
+                        Text(
+                            hint,
+                            color = if (value.isNotEmpty() && !canSubmit) MaterialTheme.colorScheme.error else Color.Unspecified,
+                        )
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),

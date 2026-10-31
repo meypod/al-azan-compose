@@ -123,7 +123,7 @@ class GetUpcomingIntrusiveAlarmsUseCase @Inject constructor(
                 val offset = (reminder.duration * reminder.durationModifier).toDuration(DurationUnit.MINUTES)
                 val fire = times.forPrayer(reminder.prayer) + offset
                 if (fire < now) continue
-                if (!reminder.firesAt(fire, calendars)) continue
+                if (!reminder.firesAt(fire, dayInstant.toLocalDate(), calendars)) continue
                 val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
                 val vibration = reminder.vibration ?: alarmSettings.vibrationMode
                 val intrusive = vibration == VibrationMode.Continuous || isIntrusiveAudio(soundEntry)

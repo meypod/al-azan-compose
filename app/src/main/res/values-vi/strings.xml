@@ -542,6 +542,7 @@
     <string name="reminder_interval_start">Bắt đầu</string>
     <string name="choose_date">Chọn ngày</string>
     <string name="reminder_custom_interval_title">Lặp lại sau mỗi bao nhiêu ngày?</string>
+    <string name="custom_number_range">Nhập một số từ %1$d đến %2$d</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d phút</item>
         <item quantity="other">%1$d phút</item>

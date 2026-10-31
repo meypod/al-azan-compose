@@ -544,6 +544,7 @@
     <string name="reminder_interval_start">Početak</string>
     <string name="choose_date">Odaberite datum</string>
     <string name="reminder_custom_interval_title">Ponavljati svakih koliko dana?</string>
+    <string name="custom_number_range">Unesite broj od %1$d do %2$d</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minuta</item>
         <item quantity="other">%1$d minuta</item>

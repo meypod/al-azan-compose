@@ -10,6 +10,9 @@ import kotlinx.datetime.LocalDate
 
 sealed interface ReminderUiAction {
     object OnAddClick : ReminderUiAction
+
+    /** The screen came back to the foreground. */
+    object OnResume : ReminderUiAction
     data class OnToggleEnabled(
         val id: String,
         val enabled: Boolean,

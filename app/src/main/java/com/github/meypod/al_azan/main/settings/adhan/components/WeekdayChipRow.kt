@@ -46,6 +46,8 @@ fun WeekdayChipRow(
     accent: ChipAccent = ChipAccent.Primary,
     alignment: Alignment.Horizontal = Alignment.Start,
     firstDayOfWeek: DayOfWeek = DayOfWeek.SUNDAY,
+    /** Days that can't be toggled right now, e.g. the last selected one where at least one is required. */
+    isEnabled: (DayOfWeek) -> Boolean = { true },
 ) {
     val chipColors = accent.filterChipColors()
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
@@ -60,6 +62,7 @@ fun WeekdayChipRow(
                     FilterChip(
                         selected = isSelected,
                         onClick = { onToggle(day) },
+                        enabled = isEnabled(day),
                         label = { Text(day.localized(), style = MaterialTheme.typography.labelLarge) },
                         colors = chipColors,
                     )

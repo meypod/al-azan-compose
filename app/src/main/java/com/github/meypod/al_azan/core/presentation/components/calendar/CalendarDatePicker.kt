@@ -62,6 +62,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -116,6 +117,7 @@ fun CalendarDatePicker(
     isSelectable: (LocalDate) -> Boolean = { true },
     initialCalendarIndex: Int = 0,
     onCalendarIndexChange: (Int) -> Unit = {},
+    revealRequest: Int = 0,
     precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
 ) {
     require(calendars.isNotEmpty()) { "CalendarDatePicker needs at least one calendar" }
@@ -142,6 +144,14 @@ fun CalendarDatePicker(
             view = homeView
         }
     }
+    // An explicit request (e.g. "Today" when today is already selected) brings the selection back into
+    // view even though the selection itself didn't change.
+    LaunchedEffect(revealRequest) {
+        if (revealRequest > 0) {
+            shownEpochDay = selected.toEpochDays()
+            view = homeView
+        }
+    }
     val show = { date: LocalDate ->
         shownEpochDay = date.toEpochDays()
         view = homeView
@@ -159,7 +169,7 @@ fun CalendarDatePicker(
         var chromeHeight by remember { mutableStateOf(0.dp) }
         val squareRow = maxWidth / 7
         val rowHeight = if (constraints.hasBoundedHeight) {
-            ((maxHeight - chromeHeight - spacing - WEEKDAY_ROW_HEIGHT) / MAX_WEEKS).coerceIn(MIN_ROW_HEIGHT, squareRow)
+            ((maxHeight - chromeHeight - spacing - WEEKDAY_ROW_HEIGHT) / MAX_WEEKS).coerceIn(MIN_ROW_HEIGHT, maxOf(MIN_ROW_HEIGHT, squareRow))
         } else {
             squareRow
         }
@@ -198,7 +208,7 @@ fun CalendarDatePicker(
                     IconButton(
                         onClick = { stepBy(-1) },
                         enabled = stepping,
-                        modifier = Modifier.alpha(if (stepping) 1f else 0f),
+                        modifier = Modifier.alpha(if (stepping) 1f else 0f).then(if (stepping) Modifier else Modifier.clearAndSetSemantics {}),
                     ) {
                         Icon(painterResource(R.drawable.arrow_back), contentDescription = stringResource(prevLabel))
                     }
@@ -224,7 +234,7 @@ fun CalendarDatePicker(
                     IconButton(
                         onClick = { stepBy(1) },
                         enabled = stepping,
-                        modifier = Modifier.alpha(if (stepping) 1f else 0f),
+                        modifier = Modifier.alpha(if (stepping) 1f else 0f).then(if (stepping) Modifier else Modifier.clearAndSetSemantics {}),
                     ) {
                         Icon(painterResource(R.drawable.arrow_forward), contentDescription = stringResource(nextLabel))
                     }
@@ -436,6 +446,7 @@ private fun DayCell(
     onClick: () -> Unit,
 ) {
     val colors = MaterialTheme.colorScheme
+    val todayLabel = stringResource(R.string.today)
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -453,7 +464,10 @@ private fun DayCell(
             )
             .then(if (isToday && !isSelected) Modifier.border(1.dp, colors.primary, CircleShape) else Modifier)
             .selectable(selected = isSelected, enabled = enabled, onClick = onClick, role = Role.RadioButton)
-            .semantics { contentDescription = description },
+            .semantics {
+                contentDescription = description
+                if (isToday) stateDescription = todayLabel
+            },
     ) {
         Text(
             text = label,
@@ -493,6 +507,7 @@ fun CalendarDatePickerDialog(
     precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
 ) {
     var picked by rememberSaveable { mutableLongStateOf(initial.toEpochDays()) }
+    var reveal by rememberSaveable { mutableIntStateOf(0) }
     var calendarIndex by rememberSaveable { mutableIntStateOf(initialCalendarIndex) }
     val padding = dimensionResource(R.dimen.page_padding)
     BasicAlertDialog(
@@ -519,6 +534,7 @@ fun CalendarDatePickerDialog(
                     today = today,
                     isMarked = { isMarked(LocalDate.fromEpochDays(picked), it) },
                     isSelectable = isSelectable,
+                    revealRequest = reveal,
                     initialCalendarIndex = initialCalendarIndex,
                     onCalendarIndexChange = { calendarIndex = it },
                     precision = precision,
@@ -527,7 +543,13 @@ fun CalendarDatePickerDialog(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    TextButton(onClick = { picked = today.toEpochDays() }, enabled = isSelectable(today)) { Text(stringResource(R.string.today)) }
+                    TextButton(
+                        onClick = {
+                            picked = today.toEpochDays()
+                            reveal++
+                        },
+                        enabled = isSelectable(today),
+                    ) { Text(stringResource(R.string.today)) }
                     Spacer(Modifier.weight(1f))
                     TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
                     TextButton(onClick = { onConfirm(LocalDate.fromEpochDays(picked), calendarIndex) }) { Text(stringResource(R.string.okay)) }

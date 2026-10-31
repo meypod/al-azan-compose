@@ -70,6 +70,9 @@ fun HomeHeader(
     onAction: (HomeUiAction) -> Unit,
 ) {
     val classic = uiState.themeColor.isClassic()
+    // Held here, not in the date column: rotating moves that column between layouts, which would
+    // otherwise close an open date picker.
+    var pickingDate by rememberSaveable { mutableStateOf(false) }
     val headerContentColor = if (classic) MaterialTheme.colorScheme.onSurface else Color.White
     val countdownColor = if (classic) MaterialTheme.colorScheme.onSurface else DarkTertiary
     val patternImage = rememberPatternImageBitmap(R.drawable.pattern)
@@ -134,6 +137,8 @@ fun HomeHeader(
                     uiState = uiState,
                     contentColor = headerContentColor,
                     onAction = onAction,
+                    picking = pickingDate,
+                    onPickingChange = { pickingDate = it },
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -166,7 +171,13 @@ fun HomeHeader(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                HomeDateColumn(uiState = uiState, contentColor = headerContentColor, onAction = onAction)
+                HomeDateColumn(
+                    uiState = uiState,
+                    contentColor = headerContentColor,
+                    onAction = onAction,
+                    picking = pickingDate,
+                    onPickingChange = { pickingDate = it },
+                )
             }
             Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
         }
@@ -243,9 +254,10 @@ private fun HomeDateColumn(
     uiState: HomeUiState,
     contentColor: Color,
     onAction: (HomeUiAction) -> Unit,
+    picking: Boolean,
+    onPickingChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var picking by rememberSaveable { mutableStateOf(false) }
     val calendars = rememberUserPickerCalendars(
         secondaryCalendar = uiState.secondaryCalendar,
         secondary = CalendarSystem(uiState.calendar, uiState.locale),
@@ -258,7 +270,7 @@ private fun HomeDateColumn(
             .clickable(
                 onClickLabel = stringResource(R.string.choose_date),
                 role = Role.Button,
-                onClick = { picking = true },
+                onClick = { onPickingChange(true) },
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -292,10 +304,10 @@ private fun HomeDateColumn(
         CalendarDatePickerDialog(
             initial = uiState.viewingInstant.toLocalDate(),
             onConfirm = { date, calendarIndex ->
-                picking = false
+                onPickingChange(false)
                 onAction(HomeUiAction.OnDatePicked(date, calendarIndex))
             },
-            onDismiss = { picking = false },
+            onDismiss = { onPickingChange(false) },
             calendars = calendars,
             weekLocale = uiState.locale,
             numberingSystem = uiState.numberingSystem,

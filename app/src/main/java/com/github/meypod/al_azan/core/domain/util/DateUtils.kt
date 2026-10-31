@@ -39,8 +39,14 @@ fun formatInstant(
         if (calendar == "islamic" || !calendar.startsWith("islamic")) throw e
         DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=islamic$numbers"))
     }
-    return formatter.format(Date.from(instant.toJavaInstant()))
+    return formatter.format(Date.from(instant.toJavaInstant())).withoutEraPlaceholder()
 }
+
+// ICU has no era names for some calendars in many languages (Ethiopic) and prints a placeholder like
+// "ERA1" instead; the year reads correctly without it.
+private val ERA_PLACEHOLDER = Regex("\\s*\\bERA\\d\\b")
+
+private fun String.withoutEraPlaceholder(): String = replace(ERA_PLACEHOLDER, "")
 
 /** The span [start]..[end] in [calendar], collapsing what both ends share ("Aban – Azar 1405"). */
 fun formatInstantRange(
@@ -59,7 +65,7 @@ fun formatInstantRange(
         if (calendar == "islamic" || !calendar.startsWith("islamic")) throw e
         DateIntervalFormat.getInstance(skeleton, ULocale("$locale@calendar=islamic$numbers"))
     }
-    return formatter.format(DateInterval(start.toEpochMilliseconds(), end.toEpochMilliseconds()))
+    return formatter.format(DateInterval(start.toEpochMilliseconds(), end.toEpochMilliseconds())).toString().withoutEraPlaceholder()
 }
 
 fun formatTimeOfDay(
@@ -205,7 +211,16 @@ private val icuCalendarPrototypes = ConcurrentHashMap<Pair<String, String>, Cale
  */
 internal fun icuCalendar(calendar: String): Calendar {
     val zone = TimeZone.getDefault()
-    val prototype = icuCalendarPrototypes.getOrPut(calendar to zone.id) { Calendar.getInstance(zone, ULocale("@calendar=$calendar")) }
+    val prototype = icuCalendarPrototypes.getOrPut(calendar to zone.id) {
+        val requested = runCatching { Calendar.getInstance(zone, ULocale("@calendar=$calendar")) }.getOrNull()
+        // Some OEM ICU builds reject an Islamic variant, or quietly return a Gregorian calendar for it;
+        // degrade to plain "islamic" as [formatInstant] does, so date math and formatting agree.
+        if (requested != null && (requested.type == calendar || !calendar.startsWith("islamic"))) {
+            requested
+        } else {
+            Calendar.getInstance(zone, ULocale("@calendar=islamic"))
+        }
+    }
     return prototype.clone() as Calendar
 }
 

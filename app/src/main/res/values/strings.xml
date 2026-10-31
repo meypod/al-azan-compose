@@ -544,6 +544,7 @@
     <string name="reminder_interval_start">Starting</string>
     <string name="choose_date">Choose date</string>
     <string name="reminder_custom_interval_title">Repeat every how many days?</string>
+    <string name="custom_number_range">Enter a number from %1$d to %2$d</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minute</item>
         <item quantity="other">%1$d minutes</item>

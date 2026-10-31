@@ -145,4 +145,12 @@ class CalendarMonthUtilsTest {
         val november = calendarMonthSpan(date, gregorian)
         assertEquals("November 2026", formatDateSpan(november.start..november.start, gregorian, "yMMMM", NumberingSystem.Latn))
     }
+
+    /** ICU lacks Ethiopic era names in these languages and prints "ERA1"; dates must not show it. */
+    @Test
+    fun `ethiopic dates carry no era placeholder`() {
+        val ethiopic = CalendarSystem("ethiopic", "en")
+        assertEquals("2019", formatDate(date, ethiopic, "y", NumberingSystem.Latn))
+        assertTrue(!month(ethiopic).yearLabel.contains("ERA"))
+    }
 }

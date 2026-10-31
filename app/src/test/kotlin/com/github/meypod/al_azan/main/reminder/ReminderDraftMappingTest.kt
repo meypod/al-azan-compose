@@ -23,7 +23,7 @@ class ReminderDraftMappingTest {
     @Test
     fun `each repeat mode survives a save and reopen`() {
         listOf(
-            ReminderEditDraft(repeat = ReminderRepeat.Once(LocalDate(2026, 11, 20))),
+            ReminderEditDraft(repeat = ReminderRepeat.Once(LocalDate(2026, 11, 20), picked = true)),
             ReminderEditDraft(repeat = ReminderRepeat.Weekdays, days = mondayWednesday),
             ReminderEditDraft(repeat = ReminderRepeat.Every(interval)),
             ReminderEditDraft(repeat = ReminderRepeat.Monthly(ReminderMonthly(MonthlyCalendar.Lunar, 13))),

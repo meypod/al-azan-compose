@@ -3,14 +3,17 @@ package com.github.meypod.al_azan.main.reminder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
+import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.audio.DeviceRingtone
 import com.github.meypod.al_azan.core.domain.model.reminder.MonthlyCalendar
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderInterval
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderMonthly
+import com.github.meypod.al_azan.core.domain.model.reminder.nextOccurrence
 import com.github.meypod.al_azan.core.domain.model.reminder.nextTrigger
 import com.github.meypod.al_azan.core.domain.model.reminder.reminderCalendars
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
@@ -43,6 +46,17 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
+/** The fields that decide when a reminder fires; a change here makes its old skips meaningless. */
+private fun Reminder.schedule() = listOf(prayer, duration, durationModifier, once, days, interval, monthly, onceDate)
+
+/** What moves a draft's fire time; the one-off check reruns only when it changes. */
+private data class OnceCheckKey(
+    val prayer: Prayer,
+    val duration: Int,
+    val modifier: ReminderTimeModifier,
+    val repeat: ReminderRepeat,
+)
+
 /** Id for checking a draft; it only matters for matching skips, which draft checks never pass. */
 private const val DRAFT_ID = "draft"
 
@@ -57,6 +71,12 @@ class ReminderViewModel @Inject constructor(
     private val audioPreviewPlayer: AudioPreviewPlayer,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ReminderUiState())
+
+    /**
+     * Bumped when the screen resumes: the expiry wait uses uptime, which stops in deep sleep, and the
+     * clock or time zone may have changed meanwhile.
+     */
+    private val expiryCheckRequests = MutableStateFlow(0)
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -84,7 +104,10 @@ class ReminderViewModel @Inject constructor(
         }
         viewModelScope.launch {
             // Latest only: each draft edit supersedes the previous check.
-            uiState.map { it.editDraft }.distinctUntilChanged().collectLatest(::checkOnceDate)
+            // Only what moves the fire time; labels, sounds and vibration don't.
+            uiState.map { s -> s.editDraft?.let { d -> OnceCheckKey(d.prayer, d.duration, d.modifier, d.repeat) } }
+                .distinctUntilChanged()
+                .collectLatest { checkOnceDate(_uiState.value.editDraft) }
         }
         viewModelScope.launch {
             combine(
@@ -92,7 +115,8 @@ class ReminderViewModel @Inject constructor(
                 settingsRepository.data,
                 calculationSettingsRepository.data,
                 favoriteLocationsRepository.data,
-            ) { reminders, _, _, _ -> reminders }.collectLatest(::trackExpiredOnceReminders)
+                expiryCheckRequests,
+            ) { reminders, _, _, _, _ -> reminders }.collectLatest(::trackExpiredOnceReminders)
         }
         viewModelScope.launch {
             audioPreviewPlayer.playingId.collect { id ->
@@ -135,8 +159,9 @@ class ReminderViewModel @Inject constructor(
             is ReminderUiAction.OnDraftDayToggle -> onDraftDayToggle(action)
             is ReminderUiAction.OnDraftRepeatChange -> onDraftRepeatChange(action.option)
             is ReminderUiAction.OnDraftIntervalStartChange -> onDraftIntervalStartChange(action.date)
+            ReminderUiAction.OnResume -> expiryCheckRequests.update { it + 1 }
             is ReminderUiAction.OnDraftOnceDateChange -> updateDraft { d ->
-                if (d.repeat is ReminderRepeat.Once) d.copy(repeat = ReminderRepeat.Once(action.date)) else d
+                if (d.repeat is ReminderRepeat.Once) d.copy(repeat = ReminderRepeat.Once(action.date, picked = true)) else d
             }
             is ReminderUiAction.OnDraftMonthlyCalendarChange -> onDraftMonthlyCalendarChange(action.calendar)
             is ReminderUiAction.OnDraftMonthlyDayChange -> updateMonthly { it.copy(day = action.day) }
@@ -311,23 +336,25 @@ class ReminderViewModel @Inject constructor(
 
     private fun onDraftRepeatChange(option: RepeatOption) =
         updateDraft { d ->
+            // The current mode's value joins the remembered ones, so switching back restores it.
+            val memory = d.otherRepeats.filterNot { it::class == d.repeat::class } + d.repeat
             val repeat = when (option) {
-                RepeatOption.Once -> d.repeat as? ReminderRepeat.Once ?: ReminderRepeat.Once()
+                RepeatOption.Once -> memory.filterIsInstance<ReminderRepeat.Once>().lastOrNull() ?: ReminderRepeat.Once()
                 RepeatOption.Weekdays -> ReminderRepeat.Weekdays
                 is RepeatOption.EveryDays -> {
                     // Changing the length keeps the chosen start date; a new interval starts today.
-                    val start = (d.repeat as? ReminderRepeat.Every)?.interval?.startDate ?: today()
+                    val start = memory.filterIsInstance<ReminderRepeat.Every>().lastOrNull()?.interval?.startDate ?: today()
                     ReminderRepeat.Every(ReminderInterval(everyDays = option.days, startDate = start))
                 }
 
-                RepeatOption.Monthly -> (d.repeat as? ReminderRepeat.Monthly) ?: run {
+                RepeatOption.Monthly -> memory.filterIsInstance<ReminderRepeat.Monthly>().lastOrNull() ?: run {
                     // The user's secondary calendar, starting on today's day so the first reminder is
                     // at most a month away.
                     val calendar = MonthlyCalendar.Civil(_uiState.value.settings.selectedSecondaryCalendar)
                     ReminderRepeat.Monthly(ReminderMonthly(calendar, calendarDayOf(today(), calendars().systemFor(calendar)).day))
                 }
             }
-            d.copy(repeat = repeat)
+            d.copy(repeat = repeat, otherRepeats = memory.filterNot { it::class == repeat::class })
         }
 
     private fun onDraftIntervalStartChange(date: LocalDate) =
@@ -363,12 +390,17 @@ class ReminderViewModel @Inject constructor(
         val timesFor = timesFor() ?: return
         // Judged by what the editor shows: weekdays and skips it doesn't show don't count. A one-off
         // saved without a date keeps firing as stored until it is edited (see the scheduler).
-        val fireAt = draft.toReminder(DRAFT_ID).nextTrigger(now, emptyList(), calendars(), timesFor)
-        if (once.date == null) {
-            // Re-runs this check with the filled-in date.
-            fireAt?.let { updateDraft { d -> if (d.repeat == once) d.copy(repeat = ReminderRepeat.Once(it.toLocalDate())) else d } }
-            return
+        if (!once.picked) {
+            // Not chosen by the user: keep the date on the next occurrence as prayer or offset change.
+            val nextDay = draft.copy(repeat = ReminderRepeat.Once()).toReminder(DRAFT_ID)
+                .nextOccurrence(now, emptyList(), calendars(), timesFor)?.prayerDay
+            if (nextDay != null && nextDay != once.date) {
+                // Re-runs this check with the new date.
+                updateDraft { d -> if (d.repeat == once) d.copy(repeat = ReminderRepeat.Once(nextDay)) else d }
+                return
+            }
         }
+        val fireAt = draft.toReminder(DRAFT_ID).nextTrigger(now, emptyList(), calendars(), timesFor)
         _uiState.update { it.copy(onceSchedule = fireAt?.let { at -> OnceSchedule.At(at.toEpochMilliseconds()) } ?: OnceSchedule.Passed) }
     }
 
@@ -425,7 +457,15 @@ class ReminderViewModel @Inject constructor(
         val draft = _uiState.value.editDraft ?: return
         val id = draft.id ?: UUID.randomUUID().toString()
         val reminder = draft.toReminder(id)
+        val previous = _uiState.value.reminders.firstOrNull { it.id == id }
         viewModelScope.launch {
+            // Skips were for the old schedule; a changed rule must not inherit them (a dated one-off on
+            // a skipped day would silently never fire).
+            if (previous != null && previous.schedule() != reminder.schedule()) {
+                settingsRepository.update { s ->
+                    s.copy(skippedOccurrences = s.skippedOccurrences.filterNot { it is SkippedAlarm.Reminder && it.reminderId == id })
+                }
+            }
             reminderRepository.update { list ->
                 val existing = list.indexOfFirst { it.id == id }
                 if (existing >= 0) list.mapIndexed { i, r -> if (i == existing) reminder else r } else list + reminder

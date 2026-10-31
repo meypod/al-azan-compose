@@ -377,6 +377,7 @@
     <string name="reminder_interval_start">시작일</string>
     <string name="choose_date">날짜 선택</string>
     <string name="reminder_custom_interval_title">며칠마다 반복할까요?</string>
+    <string name="custom_number_range">%1$d에서 %2$d 사이의 숫자를 입력하세요</string>
     <string name="counter_label_placeholder">예: 수브하날라</string>
     <string name="qibla_i_understand">이해합니다</string>
     <string name="qibla_use_map">지도 사용하기</string>

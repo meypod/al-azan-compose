@@ -543,6 +543,7 @@
     <string name="reminder_interval_start">शुरुआत</string>
     <string name="choose_date">तारीख चुनें</string>
     <string name="reminder_custom_interval_title">कितने दिनों में दोहराएँ?</string>
+    <string name="custom_number_range">%1$d से %2$d के बीच कोई संख्या दर्ज करें</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d मिनट</item>
         <item quantity="other">%1$d मिनट</item>

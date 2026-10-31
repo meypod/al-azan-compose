@@ -551,6 +551,7 @@
     <string name="reminder_interval_start">البدء من</string>
     <string name="choose_date">اختر التاريخ</string>
     <string name="reminder_custom_interval_title">التكرار كل كم يوم؟</string>
+    <string name="custom_number_range">أدخل رقمًا من %1$d إلى %2$d</string>
     <plurals name="time_unit_minutes">
         <item quantity="zero">%1$d دقيقة</item>
         <item quantity="one">دقيقة واحدة</item>

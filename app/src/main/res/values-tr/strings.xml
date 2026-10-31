@@ -520,6 +520,7 @@
     <string name="reminder_interval_start">Başlangıç</string>
     <string name="choose_date">Tarih seç</string>
     <string name="reminder_custom_interval_title">Kaç günde bir tekrarlansın?</string>
+    <string name="custom_number_range">%1$d ile %2$d arasında bir sayı girin</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d dakika</item>
         <item quantity="other">%1$d dakika</item>

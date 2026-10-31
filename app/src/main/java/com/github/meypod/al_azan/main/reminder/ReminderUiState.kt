@@ -31,13 +31,19 @@ data class ReminderEditDraft(
      * restores it. Defaults to every day; never empty.
      */
     val days: Set<DayOfWeek> = DayOfWeek.entries.toSet(),
+    /** The last value of each other repeat mode, restored when switching back to it (like [days]). */
+    val otherRepeats: List<ReminderRepeat> = emptyList(),
 )
 
 @Immutable
 sealed interface ReminderRepeat {
-    /** [date] is null only until the view model fills in the next occurrence's date. */
+    /**
+     * [date] follows the next occurrence of the draft's prayer and offset until the user [picked] one;
+     * null only until the view model first fills it in.
+     */
     data class Once(
         val date: LocalDate? = null,
+        val picked: Boolean = false,
     ) : ReminderRepeat
 
     data object Weekdays : ReminderRepeat
@@ -125,7 +131,7 @@ fun Reminder.toDraft(): ReminderEditDraft =
         // Matches the alarm side, which only turns a reminder off after firing when once is true;
         // a missing flag (old migrated data) repeats.
         repeat = when {
-            once == true -> ReminderRepeat.Once(onceDate)
+            once == true -> ReminderRepeat.Once(onceDate, picked = onceDate != null)
             monthly != null -> ReminderRepeat.Monthly(monthly)
             interval != null -> ReminderRepeat.Every(interval)
             else -> ReminderRepeat.Weekdays

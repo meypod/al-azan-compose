@@ -62,9 +62,9 @@ class ReminderIntervalTest {
     fun `interval overrides the weekday selection`() {
         val atFajr = { date: LocalDate -> date.atTime(LocalTime(5, 0)).toInstant(TimeZone.currentSystemDefault()) }
         val r = reminder(interval = everyThree, days = PrayerAlarmSettings.Bool(true))
-        assertTrue(r.firesAt(atFajr(day(3)), calendars))
-        assertFalse(r.firesAt(atFajr(day(4)), calendars))
-        assertTrue(reminder(days = PrayerAlarmSettings.Bool(true)).firesAt(atFajr(day(4)), calendars))
+        assertTrue(r.firesAt(atFajr(day(3)), day(3), calendars))
+        assertFalse(r.firesAt(atFajr(day(4)), day(4), calendars))
+        assertTrue(reminder(days = PrayerAlarmSettings.Bool(true)).firesAt(atFajr(day(4)), day(4), calendars))
     }
 
     /** One skipped occurrence of the longest interval must still be found by the scheduler scan. */
@@ -99,14 +99,10 @@ class ReminderIntervalTest {
     }
 
     @Test
-    fun `only days next to an occurrence may fire`() {
-        val r = reminder(everyThree)
-        assertTrue(r.mayFireNear(day(-1), calendars))
-        assertTrue(r.mayFireNear(day(1), calendars))
-        assertFalse(r.mayFireNear(day(-2), calendars))
-        assertTrue(reminder().mayFireNear(day(-2), calendars))
-        // Long custom intervals rule out most days, so the scheduler's long scan stays cheap.
-        val yearly = reminder(ReminderInterval(everyDays = ReminderInterval.MAX_DAYS, startDate = start))
-        assertEquals(7, (0..ReminderInterval.MAX_DAYS * 2).count { yearly.mayFireNear(day(it), calendars) })
+    fun `date rules rule days out, weekday rules leave it to the fire time`() {
+        val rule = reminder(everyThree).dateRule(calendars)
+        assertEquals(true, rule(day(3)))
+        assertEquals(false, rule(day(4)))
+        assertNull(reminder().dateRule(calendars)(day(4)))
     }
 }

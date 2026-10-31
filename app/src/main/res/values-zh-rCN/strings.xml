@@ -210,6 +210,7 @@
     <string name="today">今天</string>
     <string name="tomorrow">明天</string>
     <string name="reminder_custom_interval_title">每隔几天重复？</string>
+    <string name="custom_number_range">请输入 %1$d 到 %2$d 之间的数字</string>
     <string name="first_day_of_week">每周第一天</string>
     <string name="first_day_of_week_help">日历和星期选择中每周开始的日期。</string>
     <string name="default_with_value">默认（%1$s）</string>

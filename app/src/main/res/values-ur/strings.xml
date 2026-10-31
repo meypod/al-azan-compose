@@ -543,6 +543,7 @@
     <string name="reminder_interval_start">آغاز</string>
     <string name="choose_date">تاریخ منتخب کریں</string>
     <string name="reminder_custom_interval_title">کتنے دنوں بعد دہرایا جائے؟</string>
+    <string name="custom_number_range">%1$d سے %2$d تک کوئی عدد درج کریں</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d منٹ</item>
         <item quantity="other">%1$d منٹ</item>

@@ -543,6 +543,7 @@
     <string name="reminder_interval_start">শুরু</string>
     <string name="choose_date">তারিখ বেছে নিন</string>
     <string name="reminder_custom_interval_title">কত দিন পর পর পুনরাবৃত্তি হবে?</string>
+    <string name="custom_number_range">%1$d থেকে %2$d এর মধ্যে একটি সংখ্যা দিন</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d মিনিট</item>
         <item quantity="other">%1$d মিনিট</item>

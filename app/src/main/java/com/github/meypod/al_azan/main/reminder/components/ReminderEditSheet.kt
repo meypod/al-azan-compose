@@ -261,6 +261,8 @@ fun ReminderEditSheet(
                     onToggle = { onAction(ReminderUiAction.OnDraftDayToggle(it)) },
                     alignment = Alignment.CenterHorizontally,
                     firstDayOfWeek = firstDayOfWeek,
+                    // A weekly reminder needs a day: the last selected one can't be cleared.
+                    isEnabled = { it !in draft.days || draft.days.size > 1 },
                 )
             }
             Row(
@@ -461,7 +463,9 @@ private fun MonthlyRuleFields(
 ) {
     val resources = LocalResources.current
     val lastDayLabel = stringResource(R.string.reminder_month_last_day)
-    val civilOptions = listOfNotNull(monthly.calendar as? MonthlyCalendar.Civil, MonthlyCalendar.Civil(secondaryCalendar)).distinct()
+    // The calendar the reminder was opened with stays offered after switching away from it.
+    val openedCalendar = remember { monthly.calendar as? MonthlyCalendar.Civil }
+    val civilOptions = listOfNotNull(openedCalendar, monthly.calendar as? MonthlyCalendar.Civil, MonthlyCalendar.Civil(secondaryCalendar)).distinct()
     val options: List<MonthlyCalendar> = civilOptions + MonthlyCalendar.Lunar
     val longest = remember(monthly.calendar, lunar) {
         val system = when (val calendar = monthly.calendar) {

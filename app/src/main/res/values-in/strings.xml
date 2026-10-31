@@ -542,6 +542,7 @@
     <string name="reminder_interval_start">Mulai</string>
     <string name="choose_date">Pilih tanggal</string>
     <string name="reminder_custom_interval_title">Ulangi setiap berapa hari?</string>
+    <string name="custom_number_range">Masukkan angka dari %1$d sampai %2$d</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d menit</item>
         <item quantity="other">%1$d menit</item>

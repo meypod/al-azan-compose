@@ -43,8 +43,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
+import kotlinx.datetime.plus
 import javax.inject.Inject
 import kotlin.time.Clock
 import kotlin.time.DurationUnit
@@ -196,8 +199,10 @@ class HomeViewModel
         calendarIndex: Int,
     ) {
         _uiState.update {
+            // Calendar days in the local zone, so a jump across a DST change still lands on [date].
+            val zone = TimeZone.currentSystemDefault()
             val days = it.currentInstant.toLocalDate().daysUntil(date)
-            it.copy(viewingInstant = addDaysTimeZoneAware(it.currentInstant, days), datePickerCalendarIndex = calendarIndex)
+            it.copy(viewingInstant = it.currentInstant.plus(days, DateTimeUnit.DAY, zone), datePickerCalendarIndex = calendarIndex)
         }
     }
 
