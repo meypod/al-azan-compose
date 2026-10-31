@@ -315,7 +315,7 @@ private fun ReminderRepeatSelect(
         SettingLabel(stringResource(R.string.reminder_interval_start))
         CalendarDateField(
             date = interval.startDate,
-            onDateChange = { onAction(ReminderUiAction.OnDraftIntervalStartChange(it)) },
+            onDateChange = { date, _ -> onAction(ReminderUiAction.OnDraftIntervalStartChange(date)) },
             calendars = calendars,
             weekLocale = weekLocale,
             numberingSystem = numberingSystem,

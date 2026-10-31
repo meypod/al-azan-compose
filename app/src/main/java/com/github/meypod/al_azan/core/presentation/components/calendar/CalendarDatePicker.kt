@@ -98,6 +98,7 @@ data class PickerCalendar(
  * is more than one. Dates are always real civil dates, so switching calendars keeps the selection.
  *
  * @param weekLocale locale of the weekday names heading the grid.
+ * @param initialCalendarIndex the calendar shown first; [onCalendarIndexChange] reports toggles.
  * @param isMarked days to tint faintly, e.g. the occurrences that follow from the selection.
  */
 @Composable
@@ -111,9 +112,11 @@ fun CalendarDatePicker(
     firstDayOfWeek: DayOfWeek = remember(weekLocale) { localeFirstDayOfWeek(weekLocale) },
     today: LocalDate = remember { Clock.System.now().toLocalDate() },
     isMarked: (LocalDate) -> Boolean = { false },
+    initialCalendarIndex: Int = 0,
+    onCalendarIndexChange: (Int) -> Unit = {},
 ) {
     require(calendars.isNotEmpty()) { "CalendarDatePicker needs at least one calendar" }
-    var calendarIndex by rememberSaveable { mutableIntStateOf(0) }
+    var calendarIndex by rememberSaveable { mutableIntStateOf(initialCalendarIndex) }
     val system = calendars[calendarIndex.coerceIn(calendars.indices)].system
     // Any day inside the shown month; saved as epoch days since LocalDate is not Saveable.
     var shownEpochDay by rememberSaveable { mutableLongStateOf(selected.toEpochDays()) }
@@ -157,7 +160,10 @@ fun CalendarDatePicker(
                         calendars.forEachIndexed { index, calendar ->
                             SegmentedButton(
                                 selected = index == calendarIndex,
-                                onClick = { calendarIndex = index },
+                                onClick = {
+                            calendarIndex = index
+                            onCalendarIndexChange(index)
+                        },
                                 shape = SegmentedButtonDefaults.itemShape(index, calendars.size),
                             ) {
                                 Text(calendar.label)
@@ -417,7 +423,8 @@ private fun DayCell(
 @Composable
 fun CalendarDatePickerDialog(
     initial: LocalDate,
-    onConfirm: (LocalDate) -> Unit,
+    /** The picked date and the index of the calendar showing when confirmed. */
+    onConfirm: (date: LocalDate, calendarIndex: Int) -> Unit,
     onDismiss: () -> Unit,
     calendars: List<PickerCalendar>,
     weekLocale: String,
@@ -425,8 +432,10 @@ fun CalendarDatePickerDialog(
     firstDayOfWeek: DayOfWeek = remember(weekLocale) { localeFirstDayOfWeek(weekLocale) },
     isMarked: (picked: LocalDate, date: LocalDate) -> Boolean = { _, _ -> false },
     today: LocalDate = remember { Clock.System.now().toLocalDate() },
+    initialCalendarIndex: Int = 0,
 ) {
     var picked by rememberSaveable { mutableLongStateOf(initial.toEpochDays()) }
+    var calendarIndex by rememberSaveable { mutableIntStateOf(initialCalendarIndex) }
     val padding = dimensionResource(R.dimen.page_padding)
     BasicAlertDialog(
         onDismissRequest = onDismiss,
@@ -451,6 +460,8 @@ fun CalendarDatePickerDialog(
                     firstDayOfWeek = firstDayOfWeek,
                     today = today,
                     isMarked = { isMarked(LocalDate.fromEpochDays(picked), it) },
+                    initialCalendarIndex = initialCalendarIndex,
+                    onCalendarIndexChange = { calendarIndex = it },
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -459,7 +470,7 @@ fun CalendarDatePickerDialog(
                     TextButton(onClick = { picked = today.toEpochDays() }) { Text(stringResource(R.string.today)) }
                     Spacer(Modifier.weight(1f))
                     TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
-                    TextButton(onClick = { onConfirm(LocalDate.fromEpochDays(picked)) }) { Text(stringResource(R.string.okay)) }
+                    TextButton(onClick = { onConfirm(LocalDate.fromEpochDays(picked), calendarIndex) }) { Text(stringResource(R.string.okay)) }
                 }
             }
         }

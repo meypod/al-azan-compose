@@ -29,13 +29,15 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 
 /**
- * Outlined field showing [date] in the first of [calendars] (the second, if any, as supporting text);
- * tapping anywhere on it opens [CalendarDatePickerDialog].
+ * Outlined field showing [date] in calendars[[calendarIndex]] using [skeleton] (and, when
+ * [showOtherCalendar], the next calendar as supporting text); tapping anywhere on it opens
+ * [CalendarDatePickerDialog] on that calendar. [onDateChange] also gets the calendar index showing in
+ * the picker when confirmed, for screens whose view follows it.
  */
 @Composable
 fun CalendarDateField(
     date: LocalDate,
-    onDateChange: (LocalDate) -> Unit,
+    onDateChange: (date: LocalDate, calendarIndex: Int) -> Unit,
     calendars: List<PickerCalendar>,
     weekLocale: String,
     numberingSystem: NumberingSystem,
@@ -43,14 +45,18 @@ fun CalendarDateField(
     label: (@Composable () -> Unit)? = null,
     firstDayOfWeek: DayOfWeek = remember(weekLocale) { localeFirstDayOfWeek(weekLocale) },
     isMarked: (picked: LocalDate, date: LocalDate) -> Boolean = { _, _ -> false },
+    calendarIndex: Int = 0,
+    skeleton: String = DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY,
+    showOtherCalendar: Boolean = true,
 ) {
     require(calendars.isNotEmpty()) { "CalendarDateField needs at least one calendar" }
+    val shownIndex = calendarIndex.coerceIn(calendars.indices)
     var picking by rememberSaveable { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
-    fun formatted(system: CalendarSystem) = formatDate(date, system, DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY, numberingSystem)
+    fun formatted(system: CalendarSystem) = formatDate(date, system, skeleton, numberingSystem)
 
     CompactOutlinedTextField(
-        value = formatted(calendars.first().system),
+        value = formatted(calendars[shownIndex].system),
         onValueChange = {},
         modifier = modifier.clickable(
             interactionSource = interactionSource,
@@ -63,9 +69,9 @@ fun CalendarDateField(
         displayOnly = true,
         interactionSource = interactionSource,
         label = label,
-        supportingText = calendars.getOrNull(1)?.let { secondary ->
-            { Text(formatted(secondary.system), color = MaterialTheme.colorScheme.onSurfaceVariant) }
-        },
+        supportingText = calendars.getOrNull((shownIndex + 1) % calendars.size)
+            ?.takeIf { showOtherCalendar && calendars.size > 1 }
+            ?.let { other -> { Text(formatted(other.system), color = MaterialTheme.colorScheme.onSurfaceVariant) } },
         trailingIcon = { Icon(painterResource(R.drawable.calendar_month_outline), contentDescription = null) },
         fixedLabel = true,
     )
@@ -73,9 +79,9 @@ fun CalendarDateField(
     if (picking) {
         CalendarDatePickerDialog(
             initial = date,
-            onConfirm = {
+            onConfirm = { picked, index ->
                 picking = false
-                onDateChange(it)
+                onDateChange(picked, index)
             },
             onDismiss = { picking = false },
             calendars = calendars,
@@ -83,6 +89,7 @@ fun CalendarDateField(
             numberingSystem = numberingSystem,
             firstDayOfWeek = firstDayOfWeek,
             isMarked = isMarked,
+            initialCalendarIndex = shownIndex,
         )
     }
 }
@@ -93,7 +100,7 @@ private fun CalendarDateFieldPreview() {
     AlAzanThemePaddedPreview {
         CalendarDateField(
             date = LocalDate(2026, 11, 3),
-            onDateChange = {},
+            onDateChange = { _, _ -> },
             calendars = listOf(
                 PickerCalendar(CalendarSystem("gregorian", "en"), "Gregorian"),
                 PickerCalendar(CalendarSystem("islamic-umalqura", "en"), "Lunar"),

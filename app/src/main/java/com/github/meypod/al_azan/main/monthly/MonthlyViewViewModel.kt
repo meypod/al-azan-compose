@@ -17,6 +17,7 @@ import com.github.meypod.al_azan.core.domain.util.calendarMonthDays
 import com.github.meypod.al_azan.core.domain.util.formatInstant
 import com.github.meypod.al_azan.core.domain.util.isSameCalendarMonth
 import com.github.meypod.al_azan.core.domain.util.isSameGregorianDay
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,6 +25,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
 import javax.inject.Inject
 import kotlin.time.Clock
 
@@ -51,7 +57,7 @@ class MonthlyViewViewModel @Inject constructor(
             MonthlyViewUiAction.OnPrevMonthClick -> onPrevMonthClick()
             MonthlyViewUiAction.OnNextMonthClick -> onNextMonthClick()
             MonthlyViewUiAction.OnShowThisMonthClick -> onShowThisMonthClick()
-            MonthlyViewUiAction.OnToggleCalendarClick -> onToggleCalendarClick()
+            is MonthlyViewUiAction.OnDatePicked -> onDatePicked(action.date, action.mode)
         }
     }
 
@@ -63,13 +69,13 @@ class MonthlyViewViewModel @Inject constructor(
         anchor.value = Clock.System.now()
     }
 
-    private fun onToggleCalendarClick() {
-        calendarMode.update {
-            when (it) {
-                MonthlyCalendarMode.SECONDARY -> MonthlyCalendarMode.LUNAR
-                MonthlyCalendarMode.LUNAR -> MonthlyCalendarMode.SECONDARY
-            }
-        }
+    private fun onDatePicked(
+        date: LocalDate,
+        mode: MonthlyCalendarMode,
+    ) {
+        calendarMode.value = mode
+        // Noon keeps the anchor clear of DST transitions around midnight.
+        anchor.value = date.atTime(LocalTime(12, 0)).toInstant(TimeZone.currentSystemDefault())
     }
 
     private fun shiftMonth(delta: Int) {
@@ -137,11 +143,13 @@ class MonthlyViewViewModel @Inject constructor(
                 }
 
                 MonthlyViewUiState(
-                    monthLabel = formatInstant(anchorInCalendar, locale, calendar, DateFormat.YEAR_MONTH, settings.numberingSystem),
+                    anchorDate = anchorInstant.toLocalDate(),
                     rows = rows,
                     isCurrentMonth = isSameCalendarMonth(anchorInCalendar, addDaysTimeZoneAware(now, adjustment), calendar),
                     calendarMode = mode,
                     themeColor = settings.themeColor,
+                    settings = settings,
+                    hijriDateAdjustment = calcSettings.calculationAdjustments.hijriDate,
                 )
             }.collect { state -> _uiState.value = state }
         }

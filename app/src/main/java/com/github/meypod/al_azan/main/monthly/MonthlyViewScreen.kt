@@ -1,10 +1,10 @@
 package com.github.meypod.al_azan.main.monthly
 
+import android.icu.text.DateFormat
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -20,9 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
@@ -52,6 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
+import com.github.meypod.al_azan.core.domain.util.resolvedFirstDayOfWeek
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.ClassicHighlightBackground
 import com.github.meypod.al_azan.core.presentation.DarkOnTertiaryContainer
@@ -60,10 +59,13 @@ import com.github.meypod.al_azan.core.presentation.DarkTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightOnTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
+import com.github.meypod.al_azan.core.presentation.components.calendar.CalendarDateField
+import com.github.meypod.al_azan.core.presentation.components.calendar.rememberUserPickerCalendars
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.util.drawHorizontalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.core.presentation.util.dropShadow2
+import kotlinx.datetime.LocalDate
 
 // Breathing room added to the widest measured cell text so glyphs never touch the
 // column edge. Columns are floored at this content width; the table fills the card
@@ -156,11 +158,21 @@ fun MonthlyViewScreen(
                     Icon(painterResource(R.drawable.arrow_forward), null)
                 }
             }
-            MonthLabelButton(
-                label = uiState.monthLabel,
-                calendarMode = uiState.calendarMode,
-                onClick = { onAction(MonthlyViewUiAction.OnToggleCalendarClick) },
-            )
+            uiState.anchorDate?.let { anchorDate ->
+                // Picking a date shows its month, in whichever calendar the picker was showing.
+                CalendarDateField(
+                    date = anchorDate,
+                    onDateChange = { date, index -> onAction(MonthlyViewUiAction.OnDatePicked(date, monthlyCalendarModeAt(index))) },
+                    calendars = rememberUserPickerCalendars(uiState.settings, uiState.hijriDateAdjustment),
+                    weekLocale = uiState.settings.selectedLocale,
+                    numberingSystem = uiState.settings.numberingSystem,
+                    modifier = Modifier.fillMaxWidth(),
+                    firstDayOfWeek = uiState.settings.resolvedFirstDayOfWeek(),
+                    calendarIndex = uiState.calendarMode.pickerIndex,
+                    skeleton = DateFormat.YEAR_MONTH,
+                    showOtherCalendar = false,
+                )
+            }
         }
 
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -246,29 +258,6 @@ private fun rememberColumnFloor(rows: List<MonthlyDayRow>): Dp {
             }
         }
         with(density) { widestPx.toDp() } + COLUMN_TEXT_CUSHION
-    }
-}
-
-@Composable
-private fun MonthLabelButton(
-    label: String,
-    calendarMode: MonthlyCalendarMode,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val contentColor = when (calendarMode) {
-        MonthlyCalendarMode.SECONDARY -> MaterialTheme.colorScheme.tertiary
-        MonthlyCalendarMode.LUNAR -> MaterialTheme.colorScheme.secondary
-    }
-    OutlinedButton(
-        onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(6.dp),
-        border = BorderStroke(1.dp, contentColor),
-        colors = ButtonDefaults.outlinedButtonColors(contentColor = contentColor),
-    ) {
-        Text(label, fontWeight = FontWeight.Medium)
     }
 }
 
@@ -376,32 +365,6 @@ private fun previewRows() = (1..31).map { MonthlyDayRow(it.toString(), "03:59", 
 
 @Preview(showBackground = true)
 @Composable
-private fun MonthLabelButtonSecondaryPreview() {
-    AlAzanThemePreview {
-        MonthLabelButton(
-            label = "1403, Khordad",
-            calendarMode = MonthlyCalendarMode.SECONDARY,
-            onClick = {},
-            modifier = Modifier.padding(10.dp),
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MonthLabelButtonLunarPreview() {
-    AlAzanThemePreview {
-        MonthLabelButton(
-            label = "1445, Dhu al-Qadah",
-            calendarMode = MonthlyCalendarMode.LUNAR,
-            onClick = {},
-            modifier = Modifier.padding(10.dp),
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
 private fun HeaderRowPreview() {
     AlAzanThemePreview {
         HeaderRow(64.dp, 320.dp, ROW_END_INSET, rememberScrollState())
@@ -440,7 +403,7 @@ private fun MonthlyViewPreview() {
     AlAzanThemePreview {
         MonthlyViewScreen(
             uiState = MonthlyViewUiState(
-                monthLabel = "1403, Khordad",
+                anchorDate = LocalDate(2026, 11, 3),
                 rows = previewRows(),
             ),
             onAction = {},
