@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.model.widget.DateCalendar
 import com.github.meypod.al_azan.core.domain.model.widget.HeaderBlock
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import org.junit.Assert.assertEquals
@@ -93,7 +94,9 @@ class BuildCustomWidgetDataUseCaseTest {
             calendar: String,
             numberingSystem: NumberingSystem,
             withDayName: Boolean,
-        ) = if (withDayName) "day:$calendar" else "date:$calendar"
+            format: HeaderDateFormat,
+        ) = (if (withDayName) "day:$calendar" else "date:$calendar") +
+            if (format == HeaderDateFormat.Full) "" else ":${format.name}"
 
         override fun adjustDays(
             instant: Instant,
@@ -251,6 +254,18 @@ class BuildCustomWidgetDataUseCaseTest {
         val locResult = useCase().invoke(at(9.0), settings(), calc(), location, locConfig)!!
         assertEquals("Testville", locResult.topStartText)
         assertNull(locResult.topEndText)
+    }
+
+    @Test
+    fun `header date format applies to both date slots`() {
+        val config = CustomWidgetConfig(
+            topStart = HeaderBlock.Date(calendar = DateCalendar.Hijri, withDayName = true),
+            topEnd = HeaderBlock.Date(calendar = DateCalendar.Gregorian, withDayName = false),
+            headerDateFormat = HeaderDateFormat.Numeric,
+        )
+        val result = useCase().invoke(at(9.0), settings(), calc(), location, config)!!
+        assertEquals("day:islamic:Numeric", result.topStartText)
+        assertEquals("date:gregorian:Numeric", result.topEndText)
     }
 
     @Test

@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">%1$s तारीख़</string>
     <string name="custom_widget_header_date_day">%1$s तारीख़ + सप्ताह का दिन</string>
     <string name="custom_widget_header_location">स्थान का नाम</string>
+    <string name="custom_widget_date_format">तारीख़ का प्रारूप</string>
+    <string name="custom_widget_date_format_full">पूर्ण</string>
+    <string name="custom_widget_date_format_abbreviated">संक्षिप्त</string>
+    <string name="custom_widget_date_format_numeric">संख्यात्मक</string>
     <string name="color_picker_hex">हेक्स (#AARRGGBB)</string>
     <string name="color_picker_alpha">अल्फ़ा</string>
     <string name="color_picker_use_default">थीम से मिलाएँ</string>

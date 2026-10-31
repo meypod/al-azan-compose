@@ -93,6 +93,7 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
                             calendar = arabicCalendar,
                             numberingSystem = settings.numberingSystem,
                             withDayName = block.withDayName,
+                            format = config.headerDateFormat,
                         )
                     } else {
                         formatter.formatDate(
@@ -101,6 +102,7 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
                             calendar = icu,
                             numberingSystem = settings.numberingSystem,
                             withDayName = block.withDayName,
+                            format = config.headerDateFormat,
                         )
                     }
                 }

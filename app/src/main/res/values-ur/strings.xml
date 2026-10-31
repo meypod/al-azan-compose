@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">%1$s تاریخ</string>
     <string name="custom_widget_header_date_day">%1$s تاریخ + ہفتے کا دن</string>
     <string name="custom_widget_header_location">مقام کا نام</string>
+    <string name="custom_widget_date_format">تاریخ کا فارمیٹ</string>
+    <string name="custom_widget_date_format_full">مکمل</string>
+    <string name="custom_widget_date_format_abbreviated">مختصر</string>
+    <string name="custom_widget_date_format_numeric">عددی</string>
     <string name="color_picker_hex">ہیکس (#AARRGGBB)</string>
     <string name="color_picker_alpha">الفا</string>
     <string name="color_picker_use_default">تھیم سے ملائیں</string>

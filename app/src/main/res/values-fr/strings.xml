@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">Date (%1$s)</string>
     <string name="custom_widget_header_date_day">Date (%1$s) + jour de la semaine</string>
     <string name="custom_widget_header_location">Nom du lieu</string>
+    <string name="custom_widget_date_format">Format de date</string>
+    <string name="custom_widget_date_format_full">Complet</string>
+    <string name="custom_widget_date_format_abbreviated">Abrégé</string>
+    <string name="custom_widget_date_format_numeric">Numérique</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>
     <string name="color_picker_use_default">Adapter au thème</string>

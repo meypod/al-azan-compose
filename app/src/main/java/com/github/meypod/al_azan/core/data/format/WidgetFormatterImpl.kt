@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.core.data.format
 
 import android.icu.text.DateFormat
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 import com.github.meypod.al_azan.core.domain.usecase.WidgetFormatter
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.formatInstant
@@ -26,9 +27,15 @@ class WidgetFormatterImpl @Inject constructor() : WidgetFormatter {
         calendar: String,
         numberingSystem: NumberingSystem,
         withDayName: Boolean,
+        format: HeaderDateFormat,
     ): String {
+        val (weekday, date) = when (format) {
+            HeaderDateFormat.Full -> DateFormat.WEEKDAY to DateFormat.YEAR_MONTH_DAY
+            HeaderDateFormat.Abbreviated -> DateFormat.ABBR_WEEKDAY to DateFormat.YEAR_ABBR_MONTH_DAY
+            HeaderDateFormat.Numeric -> DateFormat.ABBR_WEEKDAY to DateFormat.YEAR_NUM_MONTH_DAY
+        }
         // ICU reorders a concatenated skeleton into the locale's proper weekday+date pattern.
-        val skeleton = if (withDayName) DateFormat.WEEKDAY + DateFormat.YEAR_MONTH_DAY else DateFormat.YEAR_MONTH_DAY
+        val skeleton = if (withDayName) weekday + date else date
         return formatInstant(instant, locale, calendar, skeleton = skeleton, numberingSystem = numberingSystem)
     }
 

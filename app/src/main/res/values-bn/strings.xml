@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">%1$s তারিখ</string>
     <string name="custom_widget_header_date_day">%1$s তারিখ + সপ্তাহের দিন</string>
     <string name="custom_widget_header_location">অবস্থানের নাম</string>
+    <string name="custom_widget_date_format">তারিখের ফরম্যাট</string>
+    <string name="custom_widget_date_format_full">পূর্ণ</string>
+    <string name="custom_widget_date_format_abbreviated">সংক্ষিপ্ত</string>
+    <string name="custom_widget_date_format_numeric">সংখ্যাসূচক</string>
     <string name="color_picker_hex">হেক্স (#AARRGGBB)</string>
     <string name="color_picker_alpha">অ্যালফা</string>
     <string name="color_picker_use_default">থিমের সাথে মিলান</string>

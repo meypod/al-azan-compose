@@ -13,6 +13,7 @@ import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetPrayerCell
 import com.github.meypod.al_azan.core.domain.model.widget.HeaderBlock
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 import com.github.meypod.al_azan.core.domain.model.widget.icuCalendar
 import com.github.meypod.al_azan.core.domain.model.widget.withRowCount
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
@@ -108,6 +109,7 @@ class CustomWidgetBuilderViewModel @Inject constructor(
             is CustomWidgetBuilderUiAction.OnCountdownToggle -> onCountdownToggle(action.enabled)
             is CustomWidgetBuilderUiAction.OnCountdownColorChange -> onCountdownColorChange(action.color)
             is CustomWidgetBuilderUiAction.OnHeaderFontScaleChange -> onHeaderFontScaleChange(action.scale)
+            is CustomWidgetBuilderUiAction.OnHeaderDateFormatChange -> onHeaderDateFormatChange(action.format)
             is CustomWidgetBuilderUiAction.OnPrayerFontScaleChange -> onPrayerFontScaleChange(action.scale)
             is CustomWidgetBuilderUiAction.OnCountdownFontScaleChange -> onCountdownFontScaleChange(action.scale)
             is CustomWidgetBuilderUiAction.OnTopStartChange -> onTopStartChange(action.block)
@@ -132,6 +134,8 @@ class CustomWidgetBuilderViewModel @Inject constructor(
 
     private fun onHeaderFontScaleChange(scale: Float) =
         update { it.copy(headerFontScale = scale.coerceIn(CustomWidgetConfig.FONT_SCALE_RANGE)) }
+
+    private fun onHeaderDateFormatChange(format: HeaderDateFormat) = update { it.copy(headerDateFormat = format) }
 
     private fun onPrayerFontScaleChange(scale: Float) =
         update { it.copy(prayerFontScale = scale.coerceIn(CustomWidgetConfig.FONT_SCALE_RANGE)) }
@@ -179,8 +183,8 @@ class CustomWidgetBuilderViewModel @Inject constructor(
             bgColor = config.bgColor,
             textColor = config.textColor,
             highlightColor = config.highlightColor,
-            topStartText = previewHeader(config.topStart, settings, now, location),
-            topEndText = previewHeader(config.topEnd, settings, now, location),
+            topStartText = previewHeader(config.topStart, config.headerDateFormat, settings, now, location),
+            topEndText = previewHeader(config.topEnd, config.headerDateFormat, settings, now, location),
             prayerRows = prayerRows,
             countdown = null,
             showCountdown = false,
@@ -213,6 +217,7 @@ class CustomWidgetBuilderViewModel @Inject constructor(
 
     private fun previewHeader(
         block: HeaderBlock?,
+        format: HeaderDateFormat,
         settings: Settings,
         now: Instant,
         location: CalculationLocationDetail?,
@@ -231,6 +236,7 @@ class CustomWidgetBuilderViewModel @Inject constructor(
                         calendar = settings.selectedArabicCalendar,
                         numberingSystem = settings.numberingSystem,
                         withDayName = block.withDayName,
+                        format = format,
                     )
                 } else {
                     formatter.formatDate(
@@ -239,6 +245,7 @@ class CustomWidgetBuilderViewModel @Inject constructor(
                         calendar = icu,
                         numberingSystem = settings.numberingSystem,
                         withDayName = block.withDayName,
+                        format = format,
                     )
                 }
             }

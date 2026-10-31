@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">Ngày %1$s</string>
     <string name="custom_widget_header_date_day">Ngày %1$s + thứ trong tuần</string>
     <string name="custom_widget_header_location">Tên vị trí</string>
+    <string name="custom_widget_date_format">Định dạng ngày</string>
+    <string name="custom_widget_date_format_full">Đầy đủ</string>
+    <string name="custom_widget_date_format_abbreviated">Viết tắt</string>
+    <string name="custom_widget_date_format_numeric">Dạng số</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>
     <string name="color_picker_use_default">Theo giao diện</string>

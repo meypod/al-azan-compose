@@ -62,6 +62,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -84,6 +85,7 @@ import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetData
 import com.github.meypod.al_azan.core.domain.model.widget.DateCalendar
 import com.github.meypod.al_azan.core.domain.model.widget.HeaderBlock
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 import com.github.meypod.al_azan.core.domain.model.widget.withPrayerPlaced
 import com.github.meypod.al_azan.core.domain.model.widget.withPrayerRemoved
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
@@ -397,6 +399,18 @@ private fun ColumnScope.OptionCards(
                     }
                 }
             }
+            val dateFormatLabel = stringResource(R.string.custom_widget_date_format)
+            val resources = LocalResources.current
+            BottomSelect(
+                modifier = Modifier.fillMaxWidth(),
+                options = HeaderDateFormat.entries,
+                optionKey = { it.name },
+                optionLabel = { resources.getString(headerDateFormatRes(it)) },
+                selectedKey = config.headerDateFormat.name,
+                onSelect = { onAction(CustomWidgetBuilderUiAction.OnHeaderDateFormatChange(it)) },
+                label = { Text(dateFormatLabel) },
+                placeholder = dateFormatLabel,
+            )
             FontSizeSlider(
                 scale = config.headerFontScale,
                 onChange = { onAction(CustomWidgetBuilderUiAction.OnHeaderFontScaleChange(it)) },
@@ -1047,6 +1061,14 @@ private fun calendarNameRes(calendar: DateCalendar): Int =
         DateCalendar.Persian -> R.string.calendar_persian
         DateCalendar.Ethiopic -> R.string.calendar_ethiopic
         DateCalendar.Buddhist -> R.string.calendar_buddhist
+    }
+
+@StringRes
+private fun headerDateFormatRes(format: HeaderDateFormat): Int =
+    when (format) {
+        HeaderDateFormat.Full -> R.string.custom_widget_date_format_full
+        HeaderDateFormat.Abbreviated -> R.string.custom_widget_date_format_abbreviated
+        HeaderDateFormat.Numeric -> R.string.custom_widget_date_format_numeric
     }
 
 @Composable

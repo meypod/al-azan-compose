@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.settings.WidgetCityNamePos
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import org.junit.Assert.assertEquals
@@ -90,6 +91,7 @@ class BuildWidgetDataUseCaseTest {
             calendar: String,
             numberingSystem: NumberingSystem,
             withDayName: Boolean,
+            format: HeaderDateFormat,
         ) = "date:$calendar"
 
         override fun adjustDays(

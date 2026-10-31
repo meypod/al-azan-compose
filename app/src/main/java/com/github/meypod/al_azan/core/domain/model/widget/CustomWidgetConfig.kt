@@ -35,6 +35,8 @@ data class CustomWidgetConfig(
     val headerFontScale: Float = 1f,
     val prayerFontScale: Float = 1f,
     val countdownFontScale: Float = 1f,
+    /** How every date in the header is written; applies to both slots. */
+    val headerDateFormat: HeaderDateFormat = HeaderDateFormat.Full,
 ) {
     companion object {
         const val MAX_PRAYER_ROWS = 2
@@ -57,6 +59,22 @@ sealed interface HeaderBlock {
     @Serializable
     @SerialName("location")
     data object LocationName : HeaderBlock
+}
+
+/** Date style for header dates. The weekday, when shown, is full for [Full] and abbreviated otherwise. */
+@Serializable
+enum class HeaderDateFormat {
+    /** e.g. "Monday, 17 August 2026" */
+    @SerialName("full")
+    Full,
+
+    /** e.g. "Mon, 17 Aug 2026" */
+    @SerialName("abbreviated")
+    Abbreviated,
+
+    /** e.g. "Mon, 17/08/2026" */
+    @SerialName("numeric")
+    Numeric,
 }
 
 @Serializable

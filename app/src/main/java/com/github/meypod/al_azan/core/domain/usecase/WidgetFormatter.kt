@@ -1,6 +1,7 @@
 package com.github.meypod.al_azan.core.domain.usecase
 
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 import kotlin.time.Instant
 
 /**
@@ -22,6 +23,7 @@ interface WidgetFormatter {
         numberingSystem: NumberingSystem,
         /** When true, prefix the weekday name (e.g. "Friday, 12 Rajab 1447"). */
         withDayName: Boolean = false,
+        format: HeaderDateFormat = HeaderDateFormat.Full,
     ): String
 
     /** Time-zone aware day shift (used for the Hijri date offset). */

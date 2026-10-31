@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">%1$s datum</string>
     <string name="custom_widget_header_date_day">%1$s datum + dan u sedmici</string>
     <string name="custom_widget_header_location">Naziv lokacije</string>
+    <string name="custom_widget_date_format">Format datuma</string>
+    <string name="custom_widget_date_format_full">Puni</string>
+    <string name="custom_widget_date_format_abbreviated">Skraćeni</string>
+    <string name="custom_widget_date_format_numeric">Numerički</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alfa</string>
     <string name="color_picker_use_default">Uskladi s temom</string>

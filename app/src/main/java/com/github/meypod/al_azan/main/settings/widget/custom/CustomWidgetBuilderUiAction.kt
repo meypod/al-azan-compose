@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.settings.widget.custom
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.widget.HeaderBlock
+import com.github.meypod.al_azan.core.domain.model.widget.HeaderDateFormat
 
 sealed interface CustomWidgetBuilderUiAction {
     data class OnBgColorChange(
@@ -37,6 +38,10 @@ sealed interface CustomWidgetBuilderUiAction {
     /** Per-section text-size multipliers over the baseline (see [CustomWidgetConfig.FONT_SCALE_RANGE]). */
     data class OnHeaderFontScaleChange(
         val scale: Float,
+    ) : CustomWidgetBuilderUiAction
+
+    data class OnHeaderDateFormatChange(
+        val format: HeaderDateFormat,
     ) : CustomWidgetBuilderUiAction
 
     data class OnPrayerFontScaleChange(

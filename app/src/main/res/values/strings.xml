@@ -472,6 +472,10 @@
     <string name="custom_widget_header_date">%1$s date</string>
     <string name="custom_widget_header_date_day">%1$s date + weekday</string>
     <string name="custom_widget_header_location">Location name</string>
+    <string name="custom_widget_date_format">Date format</string>
+    <string name="custom_widget_date_format_full">Full</string>
+    <string name="custom_widget_date_format_abbreviated">Abbreviated</string>
+    <string name="custom_widget_date_format_numeric">Numeric</string>
     <string name="color_picker_hex">Hex (#AARRGGBB)</string>
     <string name="color_picker_alpha">Alpha</string>
     <string name="color_picker_use_default">Match theme</string>

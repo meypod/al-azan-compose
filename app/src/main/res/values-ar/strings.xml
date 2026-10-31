@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">تاريخ %1$s</string>
     <string name="custom_widget_header_date_day">تاريخ %1$s + يوم الأسبوع</string>
     <string name="custom_widget_header_location">اسم الموقع</string>
+    <string name="custom_widget_date_format">تنسيق التاريخ</string>
+    <string name="custom_widget_date_format_full">كامل</string>
+    <string name="custom_widget_date_format_abbreviated">مختصر</string>
+    <string name="custom_widget_date_format_numeric">رقمي</string>
     <string name="color_picker_hex">ست عشري (#AARRGGBB)</string>
     <string name="color_picker_alpha">الشفافية</string>
     <string name="color_picker_use_default">مطابقة السمة</string>

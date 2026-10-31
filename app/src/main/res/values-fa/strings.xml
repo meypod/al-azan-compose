@@ -471,6 +471,10 @@
     <string name="custom_widget_header_date">تاریخ %1$s</string>
     <string name="custom_widget_header_date_day">تاریخ %1$s + روز هفته</string>
     <string name="custom_widget_header_location">نام موقعیت</string>
+    <string name="custom_widget_date_format">قالب تاریخ</string>
+    <string name="custom_widget_date_format_full">کامل</string>
+    <string name="custom_widget_date_format_abbreviated">کوتاه</string>
+    <string name="custom_widget_date_format_numeric">عددی</string>
     <string name="color_picker_hex">هگز (#AARRGGBB)</string>
     <string name="color_picker_alpha">شفافیت</string>
     <string name="color_picker_use_default">مطابق با پوسته</string>
