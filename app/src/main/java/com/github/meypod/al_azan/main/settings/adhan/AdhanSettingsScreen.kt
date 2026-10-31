@@ -83,6 +83,7 @@ private fun ColumnScope.AdhanSettingsContent(
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
     NotificationsCard(uiState, onAction)
+    AutoDismissCard(uiState, onAction)
     VibrationCard(uiState, onAction)
     PlaybackCard(uiState, onAction)
     VolumeCard(uiState, onAction)
@@ -234,14 +235,26 @@ private fun NotificationsCard(
             checked = uiState.alarmSettings.notifyOnSkippedAdhan,
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle(it)) },
         )
-        AutoDismissSelect(
-            selected = uiState.alarmSettings.autoDismissNotificationMinutes,
-            onSelect = { onAction(AdhanSettingsUiAction.OnAutoDismissNotificationsChange(it)) },
-        )
     }
 }
 
 /** When to clear the notification an adhan or reminder leaves after firing: never, a preset, or custom. */
+@Composable
+private fun AutoDismissCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    SettingsCard {
+        Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.tiny_padding))) {
+            SettingHeader(stringResource(R.string.auto_dismiss_notifications), stringResource(R.string.auto_dismiss_notifications_help))
+            AutoDismissSelect(
+                selected = uiState.alarmSettings.autoDismissNotificationMinutes,
+                onSelect = { onAction(AdhanSettingsUiAction.OnAutoDismissNotificationsChange(it)) },
+            )
+        }
+    }
+}
+
 @Composable
 private fun AutoDismissSelect(
     selected: Int?,
@@ -259,8 +272,6 @@ private fun AutoDismissSelect(
         selectedKey = selected?.toString() ?: AUTO_DISMISS_NEVER_KEY,
         selectedLabelOverride = custom?.let(minutesLabel),
         onSelect = onSelect,
-        label = { Text(stringResource(R.string.auto_dismiss_notifications)) },
-        supportingText = { Text(stringResource(R.string.auto_dismiss_notifications_help)) },
         headerContent = { onPick ->
             CustomNumberHeader(
                 currentValue = custom,
