@@ -38,6 +38,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.getDefaultAdhanEntri
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
+import com.github.meypod.al_azan.core.presentation.components.CustomNumberHeader
 import com.github.meypod.al_azan.core.presentation.components.InformationRow
 import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.PreviewIconButton
@@ -68,6 +69,13 @@ fun AdhanSettingsScreen(
 }
 
 private val UPCOMING_TIME_OPTIONS = listOf(5, 10, 15, 30, 60, 90)
+
+/** null keeps notifications; the rest are minutes. */
+private val AUTO_DISMISS_OPTIONS: List<Int?> = listOf(null, 5, 10, 15, 30, 60)
+private const val AUTO_DISMISS_NEVER_KEY = "never"
+
+/** A day: longer than any notification is worth keeping around automatically. */
+private const val AUTO_DISMISS_MAX_MINUTES = 24 * 60
 
 @Composable
 private fun ColumnScope.AdhanSettingsContent(
@@ -220,6 +228,10 @@ private fun NotificationsCard(
             checked = uiState.alarmSettings.showNextPrayerTime,
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnShowNextInNotificationToggle(it)) },
         )
+        AutoDismissSelect(
+            selected = uiState.alarmSettings.autoDismissNotificationMinutes,
+            onSelect = { onAction(AdhanSettingsUiAction.OnAutoDismissNotificationsChange(it)) },
+        )
         SettingSwitch(
             title = stringResource(R.string.notify_on_skipped_adhan),
             subtitle = stringResource(R.string.notify_on_skipped_adhan_help),
@@ -227,6 +239,38 @@ private fun NotificationsCard(
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle(it)) },
         )
     }
+}
+
+/** When to clear the notification an adhan or reminder leaves after firing: never, a preset, or custom. */
+@Composable
+private fun AutoDismissSelect(
+    selected: Int?,
+    onSelect: (Int?) -> Unit,
+) {
+    val resources = LocalResources.current
+    val neverLabel = stringResource(R.string.auto_dismiss_never)
+    val minutesLabel = { minutes: Int -> resources.getQuantityString(R.plurals.time_unit_minutes, minutes, minutes) }
+    val custom = selected?.takeUnless { it in AUTO_DISMISS_OPTIONS }
+    BottomSelect(
+        modifier = Modifier.fillMaxWidth(),
+        options = AUTO_DISMISS_OPTIONS,
+        optionKey = { it?.toString() ?: AUTO_DISMISS_NEVER_KEY },
+        optionLabel = { it?.let(minutesLabel) ?: neverLabel },
+        selectedKey = selected?.toString() ?: AUTO_DISMISS_NEVER_KEY,
+        selectedLabelOverride = custom?.let(minutesLabel),
+        onSelect = onSelect,
+        label = { Text(stringResource(R.string.auto_dismiss_notifications)) },
+        supportingText = { Text(stringResource(R.string.auto_dismiss_notifications_help)) },
+        headerContent = { onPick ->
+            CustomNumberHeader(
+                currentValue = custom,
+                valueLabel = minutesLabel,
+                dialogTitle = stringResource(R.string.custom_minutes_dialog_title),
+                range = 1..AUTO_DISMISS_MAX_MINUTES,
+                onPick = { onPick(it) },
+            )
+        },
+    )
 }
 
 @Composable

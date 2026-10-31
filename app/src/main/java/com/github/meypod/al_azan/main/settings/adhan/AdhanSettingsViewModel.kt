@@ -93,6 +93,9 @@ class AdhanSettingsViewModel
             is AdhanSettingsUiAction.OnForceLaunchAlarmActivityToggle -> onForceLaunchAlarmActivityToggle(action)
             is AdhanSettingsUiAction.OnAutoSilentOnDismissToggle -> onAutoSilentOnDismissToggle(action)
             is AdhanSettingsUiAction.OnAutoSilentDurationChange -> onAutoSilentDurationChange(action)
+            is AdhanSettingsUiAction.OnAutoDismissNotificationsChange -> viewModelScope.launch {
+                alarmSettingsRepository.update { it.copy(autoDismissNotificationMinutes = action.minutes) }
+            }
             is AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle -> onNotifyOnSkippedAdhanToggle(action)
             is AdhanSettingsUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action)
             AdhanSettingsUiAction.OnNotificationSettingsClick -> onNotificationSettingsClick()

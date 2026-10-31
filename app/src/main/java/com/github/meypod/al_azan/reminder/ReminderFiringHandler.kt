@@ -10,6 +10,7 @@ import com.github.meypod.al_azan.core.data.audio.toAudioUri
 import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.model.TextResource
 import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
+import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.alarm.upsert
@@ -159,7 +160,7 @@ class ReminderFiringHandler @Inject constructor(
                         R.string.missed_during_call_body,
                         timeLabel,
                     )
-                    postNotifyOnlyNotification(reminderId, title, timeLabel, callBody, settings)
+                    postNotifyOnlyNotification(reminderId, title, timeLabel, callBody, settings, alarmSettings.autoDismissNotificationMillis)
                 } else {
                     playbackLauncher.launch(
                         PlaybackRequest.from(
@@ -189,6 +190,7 @@ class ReminderFiringHandler @Inject constructor(
                     timeLabel,
                     null,
                     settings,
+                    timeoutMillis = alarmSettings.autoDismissNotificationMillis,
                     stoppableSound = soundUri != null,
                 )
                 if (soundUri != null) {
@@ -315,6 +317,8 @@ class ReminderFiringHandler @Inject constructor(
         subtitle: String,
         body: String?,
         settings: Settings,
+        /** Removes the notification after this long; null keeps it (see [AlarmSettings.autoDismissNotificationMillis]). */
+        timeoutMillis: Long?,
         stoppableSound: Boolean = false,
     ) {
         val notificationId = ReminderContract.notificationId(reminderId)
@@ -330,6 +334,7 @@ class ReminderFiringHandler @Inject constructor(
                     autoCancel = true,
                     showTimestamp = false,
                     dismissAction = SoftSoundContract.stopAction(notificationId).takeIf { stoppableSound },
+                    timeoutAfterMillis = timeoutMillis,
                 ),
             ),
         )

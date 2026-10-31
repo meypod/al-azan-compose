@@ -371,6 +371,9 @@
     <string name="reminder_once_passed">이미 지난 시간입니다. 이후 날짜를 선택하세요.</string>
     <string name="reminder_once_on">%1$s 한 번</string>
     <string name="reminder_expired">만료됨</string>
+    <string name="auto_dismiss_notifications">알림 자동 삭제</string>
+    <string name="auto_dismiss_notifications_help">아잔이나 리마인더 후 남은 알림을 지웁니다.</string>
+    <string name="auto_dismiss_never">안 함</string>
     <plurals name="reminder_every_n_days">
         <item quantity="other">%1$d일마다</item>
     </plurals>

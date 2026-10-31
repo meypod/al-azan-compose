@@ -132,7 +132,7 @@ class AdhanFiringHandler @Inject constructor(
                     R.string.missed_during_call_body,
                     settings.formatTime(timestamp),
                 )
-                postNotifyOnlyNotification(prayer, settings.formatTime(timestamp), callBody, settings)
+                postNotifyOnlyNotification(prayer, settings.formatTime(timestamp), callBody, settings, alarmSettings.autoDismissNotificationMillis)
             } else {
                 playbackLauncher.launch(
                     PlaybackRequest.from(
@@ -159,6 +159,7 @@ class AdhanFiringHandler @Inject constructor(
                 settings.formatTime(timestamp),
                 body,
                 settings,
+                timeoutMillis = alarmSettings.autoDismissNotificationMillis,
                 stoppableSound = soundUri != null,
             )
             if (soundUri != null) {
@@ -479,6 +480,8 @@ class AdhanFiringHandler @Inject constructor(
         subtitle: String,
         body: String?,
         settings: Settings,
+        /** Removes the notification after this long; null keeps it (see [AlarmSettings.autoDismissNotificationMillis]). */
+        timeoutMillis: Long?,
         stoppableSound: Boolean = false,
     ) {
         notificationRepository.notify(
@@ -495,6 +498,7 @@ class AdhanFiringHandler @Inject constructor(
                     dismissAction = SoftSoundContract
                         .stopAction(AdhanContract.ADHAN_NOTIFICATION_ID)
                         .takeIf { stoppableSound },
+                    timeoutAfterMillis = timeoutMillis,
                 ),
             ),
         )

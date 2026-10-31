@@ -386,6 +386,9 @@
     <string name="auto_silent_duration">Dauer von „Bitte nicht stören“</string>
     <string name="auto_silent_duration_help">Wie lange „Bitte nicht stören“ nach dem Ablehnen aktiv bleibt.</string>
     <string name="notify_on_skipped_adhan">Stumm benachrichtigen statt überspringen</string>
+    <string name="auto_dismiss_notifications">Benachrichtigungen entfernen nach</string>
+    <string name="auto_dismiss_notifications_help">Entfernt die Benachrichtigung, die nach einem Adhan oder einer Erinnerung bleibt.</string>
+    <string name="auto_dismiss_never">Nie</string>
     <string name="notify_on_skipped_adhan_help">Wenn Sie einen Adhan mit „Überspringen“ im Bildschirm „Anstehende Alarme“ überspringen oder ihn mit „Alarm abbrechen“ aus seiner Benachrichtigung „Bevorstehender Alarm“ abbrechen, wird zu seiner Zeit eine stumme Benachrichtigung angezeigt, statt ihn zu verwerfen. Gilt nur für Adhane.</string>
     <!-- Muezzin voices (core/domain/model/settings) -->
     <string name="muezzin">Gebetsrufer</string>

@@ -88,6 +88,7 @@ class NotificationRepositoryImpl @Inject constructor(
         builder.setGroup(payload.android.group)
         builder.setVisibility(payload.android.visibility.toNotificationCompat())
         builder.setAutoCancel(payload.android.autoCancel)
+        payload.android.timeoutAfterMillis?.let { builder.setTimeoutAfter(it) }
         payload.android.sortKey?.let { builder.setSortKey(it) }
 
         if (payload.android.pressAction == null) {

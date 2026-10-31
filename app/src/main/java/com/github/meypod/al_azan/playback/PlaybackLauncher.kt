@@ -43,6 +43,8 @@ data class PlaybackRequest(
      * since service contexts don't carry the per-app locale on pre-API 33.
      */
     val languageTags: String = "",
+    /** Removes the notification left after an unacted alarm after this long; null keeps it. */
+    val lingerTimeoutMillis: Long? = null,
 ) {
     companion object {
         /**
@@ -81,6 +83,7 @@ data class PlaybackRequest(
             header = header,
             isReminder = isReminder,
             languageTags = settings.selectedLocale,
+            lingerTimeoutMillis = alarmSettings.autoDismissNotificationMillis,
         )
     }
 }
@@ -98,6 +101,7 @@ class PlaybackLauncher @Inject constructor(
         val extras = Bundle().apply {
             putString(AdhanContract.EXTRA_PRAYER, request.prayerName)
             putString(PlaybackService.EXTRA_TITLE, request.title)
+            request.lingerTimeoutMillis?.let { putLong(PlaybackService.EXTRA_LINGER_TIMEOUT_MS, it) }
             putString(PlaybackService.EXTRA_HEADER, request.header)
             putBoolean(PlaybackService.EXTRA_IS_REMINDER, request.isReminder)
             putString(PlaybackService.EXTRA_BODY, request.body)

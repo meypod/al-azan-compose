@@ -404,6 +404,9 @@
     <string name="auto_silent_duration">Durasi Jangan Ganggu</string>
     <string name="auto_silent_duration_help">Berapa lama Jangan Ganggu tetap aktif setelah dihentikan.</string>
     <string name="notify_on_skipped_adhan">Beri tahu diam-diam alih-alih melewati</string>
+    <string name="auto_dismiss_notifications">Hapus notifikasi setelah</string>
+    <string name="auto_dismiss_notifications_help">Menghapus notifikasi yang tersisa setelah azan atau pengingat berbunyi.</string>
+    <string name="auto_dismiss_never">Tidak pernah</string>
     <string name="notify_on_skipped_adhan_help">Saat Anda melewati azan dengan “Lewati” di layar Alarm mendatang, atau membatalkannya dengan “Batalkan Alarm” dari notifikasi “Alarm yang akan datang”, notifikasi senyap ditampilkan pada waktunya alih-alih dibuang. Hanya berlaku untuk azan.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->

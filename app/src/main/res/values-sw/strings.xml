@@ -404,6 +404,9 @@
     <string name="auto_silent_duration">Muda wa Usisumbue</string>
     <string name="auto_silent_duration_help">Muda ambao Usisumbue hubaki umewashwa baada ya kupuuzia.</string>
     <string name="notify_on_skipped_adhan">Arifa kimya badala ya kuruka</string>
+    <string name="auto_dismiss_notifications">Ondoa arifa baada ya</string>
+    <string name="auto_dismiss_notifications_help">Huondoa arifa inayobaki baada ya adhana au kikumbusho.</string>
+    <string name="auto_dismiss_never">Kamwe</string>
     <string name="notify_on_skipped_adhan_help">Unaporuka adhana kwa “Ruka” kwenye skrini ya Kengele zinazokuja, au kuighairi kwa “Ghairi Kengele” kutoka arifa ya “Kengele inayokuja”, arifa kimya huonyeshwa kwa wakati wake badala ya kuiacha. Inahusu adhana pekee.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->

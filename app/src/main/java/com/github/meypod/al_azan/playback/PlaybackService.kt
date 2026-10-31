@@ -84,6 +84,7 @@ class PlaybackService :
         const val EXTRA_IS_REMINDER = "is_reminder"
         const val EXTRA_LOOP = "loop"
         const val EXTRA_LANGUAGE_TAGS = "language_tags"
+        const val EXTRA_LINGER_TIMEOUT_MS = "linger_timeout_ms"
 
         private const val NOTIFICATION_ID = 0xADA2
 
@@ -307,7 +308,12 @@ class PlaybackService :
         // What to leave behind if this alarm ends without the user acting on it. Set before the bail-outs
         // below so the one that leaves a trace describes this alarm; the previous alarm's details are still
         // in here until now, and the bails that don't leave a trace never read it.
-        lingerDetails = LingerDetails(title = title, body = body, timeLabel = timeLabel)
+        lingerDetails = LingerDetails(
+            title = title,
+            body = body,
+            timeLabel = timeLabel,
+            timeoutMillis = intent.getLongExtra(EXTRA_LINGER_TIMEOUT_MS, -1).takeIf { it > 0 },
+        )
         // ACTION_PLAY always arrives via startForegroundService, so we MUST call startForeground (a
         // bail without it crashes). A blank channel id would itself crash startForeground (the channel
         // must exist on O+), so fall back to a guaranteed channel, then stop below for the bad intent.
@@ -816,6 +822,7 @@ class PlaybackService :
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(contentIntent)
+            .apply { details.timeoutMillis?.let(::setTimeoutAfter) }
             .build()
     }
 
@@ -842,6 +849,8 @@ class PlaybackService :
         val title: String,
         val body: String?,
         val timeLabel: String,
+        /** The user's auto-dismiss delay; the system removes the trace after it, waking nothing. */
+        val timeoutMillis: Long?,
     )
 
     private fun abandonAudioFocus() {

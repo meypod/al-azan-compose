@@ -134,6 +134,11 @@ sealed interface AdhanSettingsUiAction {
         val minutes: Int,
     ) : AdhanSettingsUiAction
 
+    /** null keeps the notifications. */
+    data class OnAutoDismissNotificationsChange(
+        val minutes: Int?,
+    ) : AdhanSettingsUiAction
+
     data class OnNotifyOnSkippedAdhanToggle(
         val enabled: Boolean,
     ) : AdhanSettingsUiAction

@@ -404,6 +404,9 @@
     <string name="auto_silent_duration">مدة عدم الإزعاج</string>
     <string name="auto_silent_duration_help">المدة التي يبقى فيها وضع عدم الإزعاج مفعّلًا بعد التجاهل.</string>
     <string name="notify_on_skipped_adhan">إشعار صامت بدل التخطّي</string>
+    <string name="auto_dismiss_notifications">إزالة الإشعارات بعد</string>
+    <string name="auto_dismiss_notifications_help">يزيل الإشعار الذي يبقى بعد الأذان أو التذكير.</string>
+    <string name="auto_dismiss_never">أبدًا</string>
     <string name="notify_on_skipped_adhan_help">عند «تخطّي» الأذان من شاشة التنبيهات القادمة، أو «إلغاء المنبه» من إشعار «التنبيه القادم»، يُعرض إشعار صامت في وقته بدلاً من إسقاطه. ينطبق على الأذان فقط.</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->

@@ -110,4 +110,7 @@ data class AndroidNotificationConfig(
      * Custom expanded-state content view. See [customContentView].
      */
     var customBigContentView: RemoteViews? = null,
+
+    /** Removes the notification after this long, if still showing (`setTimeoutAfter`); null keeps it. */
+    var timeoutAfterMillis: Long? = null,
 )

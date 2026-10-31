@@ -17,6 +17,8 @@ data class AlarmSettings(
     val autoSilentDurationMinutes: Int = 30,
     /** When true, skipping an adhan posts a silent notification at its time instead of dropping it entirely. */
     val notifyOnSkippedAdhan: Boolean = false,
+    /** Minutes after which an adhan's or reminder's notification left after firing is removed; null keeps it. */
+    val autoDismissNotificationMinutes: Int? = null,
     //
     val fajrSound: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val fajrNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
@@ -47,6 +49,9 @@ data class AlarmSettings(
     val midnightVibration: VibrationMode? = null,
     val tahajjudVibration: VibrationMode? = null,
 ) {
+    /** [autoDismissNotificationMinutes] in milliseconds, for a notification timeout. */
+    val autoDismissNotificationMillis: Long? get() = autoDismissNotificationMinutes?.let { it * 60_000L }
+
     fun shouldNotifyFor(
         instant: Instant,
         prayers: List<Prayer>? = null,

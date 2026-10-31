@@ -404,6 +404,9 @@
     <string name="auto_silent_duration">ڈسٹرب نہ کریں کی مدت</string>
     <string name="auto_silent_duration_help">برطرف کرنے کے بعد ڈسٹرب نہ کریں کتنی دیر آن رہتا ہے۔</string>
     <string name="notify_on_skipped_adhan">آگے بڑھانے کے بجائے خاموش اطلاع</string>
+    <string name="auto_dismiss_notifications">اطلاعات ہٹائیں بعد از</string>
+    <string name="auto_dismiss_notifications_help">اذان یا یاد دہانی کے بعد رہ جانے والی اطلاع ہٹا دیتا ہے۔</string>
+    <string name="auto_dismiss_never">کبھی نہیں</string>
     <string name="notify_on_skipped_adhan_help">جب آپ آنے والے الارمز اسکرین پر «آگے بڑھیں» سے کوئی اذان چھوڑتے ہیں، یا اس کی «آنے والا الارم» اطلاع سے «الارم منسوخ کریں» سے منسوخ کرتے ہیں، تو اسے ہٹانے کے بجائے اُس کے وقت پر ایک خاموش اطلاع دکھائی جاتی ہے۔ یہ صرف اذان پر لاگو ہوتا ہے۔</string>
 
     <!-- Muezzin voices (core/domain/model/settings) -->

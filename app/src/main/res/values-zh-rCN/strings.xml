@@ -202,6 +202,9 @@
     <string name="reminder_once_passed">该时间已过，请选择更晚的日期。</string>
     <string name="reminder_once_on">%1$s 一次</string>
     <string name="reminder_expired">已过期</string>
+    <string name="auto_dismiss_notifications">自动清除通知</string>
+    <string name="auto_dismiss_notifications_help">清除宣礼或提醒响起后留下的通知。</string>
+    <string name="auto_dismiss_never">从不</string>
     <plurals name="reminder_every_n_days">
         <item quantity="other">每 %1$d 天</item>
     </plurals>
