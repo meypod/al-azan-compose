@@ -27,7 +27,14 @@ fun formatInstant(
     numberingSystem: NumberingSystem = NumberingSystem.Default,
 ): String {
     val numbers = if (numberingSystem == NumberingSystem.Default) "" else ";numbers=${numberingSystem.value}"
-    val formatter = DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar$numbers"))
+    val formatter = try {
+        DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar$numbers"))
+    } catch (e: IllegalArgumentException) {
+        // Some OEM-modified ICU builds reject Islamic variants stock ICU supports ("Unknown calendar type").
+        // Degrade to plain "islamic" rather than crash the caller (e.g. alarm scheduling).
+        if (calendar == "islamic" || !calendar.startsWith("islamic")) throw e
+        DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=islamic$numbers"))
+    }
     return formatter.format(Date.from(instant.toJavaInstant()))
 }
 
