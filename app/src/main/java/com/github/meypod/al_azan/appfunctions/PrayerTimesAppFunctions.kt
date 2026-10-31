@@ -45,7 +45,7 @@ data class PrayerTimesResult(
 )
 
 /**
- * Prayer-time calculation exposed to on-device AI agents through [BasePrayerTimesAppFunctionService].
+ * Prayer-time calculation exposed to on-device AI agents through [BaseAlAzanAppFunctionService].
  */
 class PrayerTimesAppFunctions @Inject constructor(
     private val settingsRepository: SettingsRepository,
@@ -53,7 +53,7 @@ class PrayerTimesAppFunctions @Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
 ) {
-    /** Backs [BasePrayerTimesAppFunctionService.getPrayerTimes], which documents the contract for agents. */
+    /** Backs [BaseAlAzanAppFunctionService.getPrayerTimes], which documents the contract for agents. */
     suspend fun getPrayerTimes(date: String): PrayerTimesResult {
         val localDate = try {
             LocalDate.parse(date)

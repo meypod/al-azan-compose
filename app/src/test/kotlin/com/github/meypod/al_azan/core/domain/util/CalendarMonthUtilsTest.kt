@@ -153,4 +153,35 @@ class CalendarMonthUtilsTest {
         assertEquals("2019", formatDate(date, ethiopic, "y", NumberingSystem.Latn))
         assertTrue(!month(ethiopic).yearLabel.contains("ERA"))
     }
+
+    @Test
+    fun `converts a civil date to and from Persian`() {
+        assertEquals(CalendarDate(1405, 8, 10), calendarDateOf(LocalDate(2026, 11, 1), persian))
+        assertEquals(LocalDate(2026, 11, 1), civilDateOf(CalendarDate(1405, 8, 10), persian))
+    }
+
+    @Test
+    fun `a day the calendar does not have converts to null`() {
+        // 1404 is a common Persian year, so Esfand ends on the 29th; 1403 was leap.
+        assertNull(civilDateOf(CalendarDate(1404, 12, 30), persian))
+        assertEquals(LocalDate(2025, 3, 20), civilDateOf(CalendarDate(1403, 12, 30), persian))
+        assertNull(civilDateOf(CalendarDate(1405, 13, 1), persian))
+        assertNull(civilDateOf(CalendarDate(1405, 1, 0), persian))
+    }
+
+    @Test
+    fun `the Hijri day shift applies both ways`() {
+        val shifted = lunar.copy(dayShift = 1)
+        assertEquals(calendarDateOf(date + DatePeriod(days = 1), lunar), calendarDateOf(date, shifted))
+        assertEquals(date, civilDateOf(calendarDateOf(date, shifted), shifted))
+    }
+
+    @Test
+    fun `Ethiopic has a thirteenth month and Buddhist years count from the Buddhist era`() {
+        val ethiopic = CalendarSystem("ethiopic", "en")
+        assertEquals(LocalDate(2026, 9, 6), civilDateOf(CalendarDate(2018, 13, 1), ethiopic))
+        assertEquals(CalendarDate(2018, 13, 1), calendarDateOf(LocalDate(2026, 9, 6), ethiopic))
+        assertEquals(CalendarDate(2569, 11, 1), calendarDateOf(LocalDate(2026, 11, 1), CalendarSystem("buddhist", "en")))
+        assertEquals(LocalDate(2026, 11, 1), civilDateOf(CalendarDate(2026, 11, 1), gregorian))
+    }
 }

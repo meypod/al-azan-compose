@@ -183,9 +183,9 @@
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
-        <!-- AppFunctions entry point, generated from BasePrayerTimesAppFunctionService. Only the system binds it (API 36+). -->
+        <!-- AppFunctions entry point, generated from BaseAlAzanAppFunctionService. Only the system binds it (API 36+). -->
         <service
-            android:name=".appfunctions.PrayerTimesAppFunctionService"
+            android:name=".appfunctions.AlAzanAppFunctionService"
             android:exported="true"
             android:permission="android.permission.BIND_APP_FUNCTION_SERVICE"
             tools:targetApi="36">
@@ -194,7 +194,7 @@
                 android:value="app_functions_schema.xsd" />
             <property
                 android:name="android.app.appfunctions.v2"
-                android:value="prayer_times_app_functions.xml" />
+                android:value="app_functions.xml" />
             <intent-filter>
                 <action android:name="android.app.appfunctions.AppFunctionService" />
             </intent-filter>

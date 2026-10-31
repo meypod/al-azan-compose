@@ -140,6 +140,43 @@ fun formatDateSpan(
     )
 }
 
+/** A day as written in a calendar; [month] is 1-based (13 months for Ethiopic). */
+data class CalendarDate(
+    val year: Int,
+    val month: Int,
+    val day: Int,
+)
+
+/** [date] written in [system], after its day shift. */
+fun calendarDateOf(
+    date: LocalDate,
+    system: CalendarSystem,
+): CalendarDate {
+    val cal = icuCalendar(system.calendar)
+    cal.timeInMillis = localNoon(date + DatePeriod(days = system.dayShift)).toEpochMilliseconds()
+    return CalendarDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH))
+}
+
+/** The civil date [date] names in [system], or null when that day does not exist in it. */
+fun civilDateOf(
+    date: CalendarDate,
+    system: CalendarSystem,
+): LocalDate? {
+    val cal = icuCalendar(system.calendar)
+    // Start from a modern day so the era stays current (Ethiopic and Gregorian years count within one).
+    cal.timeInMillis = localNoon(LocalDate(2000, 1, 1)).toEpochMilliseconds()
+    cal.isLenient = false
+    cal.set(Calendar.YEAR, date.year)
+    cal.set(Calendar.MONTH, date.month - 1)
+    cal.set(Calendar.DAY_OF_MONTH, date.day)
+    val millis = try {
+        cal.timeInMillis
+    } catch (_: IllegalArgumentException) {
+        return null
+    }
+    return Instant.fromEpochMilliseconds(millis).toLocalDate() - DatePeriod(days = system.dayShift)
+}
+
 /** Longest month [system] can have (31 for Gregorian and Persian, 30 for the Hijri calendars). */
 fun calendarMaxMonthLength(system: CalendarSystem): Int = icuCalendar(system.calendar).getMaximum(Calendar.DAY_OF_MONTH)
 
