@@ -1,7 +1,8 @@
-- Reminders can repeat every few days, monthly (secondary or lunar calendar), or once on a chosen date
+- Reminders can repeat every few days, monthly (any calendar), or once on a chosen date
 - New date picker for both calendars, also on the home date and monthly view
-- Notifications can be cleared automatically after a set time
+- Notifications can be cleared after a set time
 - New first day of the week setting
-- Added the Morocco method and a date format option for the custom widget
-- Widget highlights the next Fajr after Isha when the lunar day starts at maghrib
+- Added the Morocco method and a custom widget date format option
+- Midnight method setting now applies to Midnight and Tahajjud
+- Widget highlights next Fajr after Isha in maghrib lunar mode
 - Fixed alarms that could go unscheduled after a skip
