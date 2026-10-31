@@ -50,11 +50,18 @@ fun Reminder.mayFireNear(date: LocalDate): Boolean {
 }
 
 /**
- * Day offsets from [from] a scheduler must scan to find the next occurrence, allowing one skipped
- * occurrence plus a day of slack for night prayers that fire after midnight.
+ * Day offsets from [from] a scheduler must scan to find the next occurrence: one full cycle (a week,
+ * or the interval) past the next possible day for each of the [skippedCount] skipped occurrences, plus
+ * a day of slack for fire times past midnight. [mayFireNear] keeps long interval scans cheap.
  */
-fun Reminder.searchDays(from: LocalDate): Int {
-    val interval = interval ?: return AlarmSchedulingDefaults.SEARCH_DAYS
+fun Reminder.searchDays(
+    from: LocalDate,
+    skippedCount: Int = 0,
+): Int {
+    val skips = skippedCount.coerceAtLeast(0)
+    val interval = interval ?: return maxOf(AlarmSchedulingDefaults.SEARCH_DAYS, DAYS_IN_WEEK * (1 + skips) + 1)
     val untilNext = from.daysUntil(interval.nextOnOrAfter(from))
-    return maxOf(AlarmSchedulingDefaults.SEARCH_DAYS, untilNext + interval.everyDays + 1)
+    return maxOf(AlarmSchedulingDefaults.SEARCH_DAYS, untilNext + interval.everyDays * (1 + skips) + 1)
 }
+
+private const val DAYS_IN_WEEK = 7
