@@ -173,6 +173,10 @@
     <string name="widget_section_notification">알림 위젯</string>
     <string name="notification_widget_layout_label">레이아웃</string>
     <string name="custom_widget_font_size">글씨 크기</string>
+    <string name="custom_widget_date_format">날짜 형식</string>
+    <string name="custom_widget_date_format_full">전체</string>
+    <string name="custom_widget_date_format_abbreviated">약식</string>
+    <string name="custom_widget_date_format_numeric">숫자</string>
     <string name="custom_widget_prayers">예배 시간</string>
     <string name="custom_widget_remove">제거</string>
     <string name="custom_widget_locations">위치</string>

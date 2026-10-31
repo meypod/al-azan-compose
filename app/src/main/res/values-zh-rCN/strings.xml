@@ -173,6 +173,10 @@
     <string name="unknown">未知</string>
     <string name="widget_city_name_pos_label">地点</string>
     <string name="widget_section_notification">通知小部件</string>
+    <string name="custom_widget_date_format">日期格式</string>
+    <string name="custom_widget_date_format_full">完整</string>
+    <string name="custom_widget_date_format_abbreviated">缩写</string>
+    <string name="custom_widget_date_format_numeric">数字</string>
     <string name="create_a_backup">创建备份</string>
     <string name="restore_label">恢复</string>
     <string name="restore_help">从备份文件中恢复设置。</string>
