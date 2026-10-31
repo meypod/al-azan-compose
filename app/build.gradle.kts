@@ -67,11 +67,6 @@ kotlin {
     }
 }
 
-// Aggregates @AppFunction declarations into the generated index the system reads.
-ksp {
-    arg("appfunctions:aggregateAppFunctions", "true")
-}
-
 composeCompiler {
     stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("compose_stability.conf"))
 }

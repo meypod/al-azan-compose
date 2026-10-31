@@ -1,7 +1,5 @@
 package com.github.meypod.al_azan.appfunctions
 
-import androidx.appfunctions.AppFunction
-import androidx.appfunctions.AppFunctionContext
 import androidx.appfunctions.AppFunctionSerializable
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
@@ -47,7 +45,7 @@ data class PrayerTimesResult(
 )
 
 /**
- * Exposes the app's prayer-time calculation to on-device AI agents via AppFunctions.
+ * Prayer-time calculation exposed to on-device AI agents through [BasePrayerTimesAppFunctionService].
  */
 class PrayerTimesAppFunctions @Inject constructor(
     private val settingsRepository: SettingsRepository,
@@ -55,25 +53,8 @@ class PrayerTimesAppFunctions @Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
 ) {
-    /**
-     * Returns the Islamic prayer times (adhan times) for a given Gregorian date,
-     * computed for the user's configured location and calculation method.
-     *
-     * Use this to answer questions such as "what time is Fajr tomorrow" or "when is
-     * Maghrib on 2026-06-20". The result includes Fajr, Sunrise, Dhuhr, Asr, Sunset,
-     * Maghrib, Isha, Midnight and Tahajjud, each with a local clock time and a full
-     * UTC timestamp.
-     *
-     * @param date The Gregorian date to compute prayer times for, in ISO yyyy-MM-dd
-     *   format, for example 2026-06-20.
-     * @return The prayer times for that date. Fails if the user has not yet configured
-     *   a location and calculation method, or if the date is malformed.
-     */
-    @AppFunction(isDescribedByKDoc = true)
-    suspend fun getPrayerTimes(
-        appFunctionContext: AppFunctionContext,
-        date: String,
-    ): PrayerTimesResult {
+    /** Backs [BasePrayerTimesAppFunctionService.getPrayerTimes], which documents the contract for agents. */
+    suspend fun getPrayerTimes(date: String): PrayerTimesResult {
         val localDate = try {
             LocalDate.parse(date)
         } catch (e: DateTimeParseException) {

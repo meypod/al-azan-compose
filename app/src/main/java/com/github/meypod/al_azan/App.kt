@@ -2,10 +2,8 @@ package com.github.meypod.al_azan
 
 import android.app.Application
 import android.util.Log
-import androidx.appfunctions.AppFunctionConfiguration
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.github.meypod.al_azan.appfunctions.PrayerTimesAppFunctions
 import com.github.meypod.al_azan.di.AdhanSyncInitializer
 import com.github.meypod.al_azan.di.DiyanetFixInitializer
 import com.github.meypod.al_azan.di.DndSyncInitializer
@@ -19,13 +17,11 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
-import javax.inject.Provider
 
 @HiltAndroidApp
 class App :
     Application(),
-    Configuration.Provider,
-    AppFunctionConfiguration.Provider {
+    Configuration.Provider {
     companion object {
         private const val TAG = "App"
         private const val SETTINGS_STORAGE = "SETTINGS_STORAGE"
@@ -56,18 +52,8 @@ class App :
     @Inject
     lateinit var diyanetFixInitializer: dagger.Lazy<DiyanetFixInitializer>
 
-    @Inject
-    lateinit var prayerTimesAppFunctions: Provider<PrayerTimesAppFunctions>
-
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
-
-    override val appFunctionConfiguration: AppFunctionConfiguration
-        get() = AppFunctionConfiguration.Builder()
-            .addEnclosingClassFactory(PrayerTimesAppFunctions::class.java) {
-                prayerTimesAppFunctions.get()
-            }
-            .build()
 
     override fun onCreate() {
         super.onCreate()
