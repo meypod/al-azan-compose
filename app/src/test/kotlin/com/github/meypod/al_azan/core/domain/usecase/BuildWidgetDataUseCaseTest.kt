@@ -19,6 +19,7 @@ import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import kotlin.time.Instant
 
@@ -40,6 +41,30 @@ class BuildWidgetDataUseCaseTest {
         isha = at(20.0),
         midnight = at(24.5),
         tahajjud = at(27.0),
+    )
+
+    /** The following day's times, served for [tomorrowInstant] so tests can tell which day a row shows. */
+    private val tomorrowInstant = at(29.0)
+    private val tomorrowTimes = ShariaTimes(
+        forInstant = tomorrowInstant,
+        forDate = DateComponents(2026, 1, 2),
+        fajr = at(29.0),
+        sunrise = at(30.0),
+        dhuhr = at(36.0),
+        asr = at(39.0),
+        sunset = at(42.0),
+        maghrib = at(42.2),
+        isha = at(44.0),
+        midnight = at(48.5),
+        tahajjud = at(51.0),
+    )
+    private val tomorrowFajr = ShariaTimeDetails(
+        forInstant = tomorrowInstant,
+        forDate = DateComponents(2026, 1, 2),
+        prayer = Prayer.Fajr,
+        prayerTime = at(29.0),
+        notify = false,
+        sound = false,
     )
 
     private val location = CalculationLocationDetail(lat = 0.0, long = 0.0, label = "Testville")
@@ -102,6 +127,7 @@ class BuildWidgetDataUseCaseTest {
     ): BuildWidgetDataUseCase {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
+            on { invoke(eq(tomorrowInstant), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(tomorrowTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next
@@ -115,6 +141,7 @@ class BuildWidgetDataUseCaseTest {
         showCountdown: Boolean = false,
         showWidget: Boolean = false,
         cityNamePos: WidgetCityNamePos = WidgetCityNamePos.None,
+        lunarDayAtMaghrib: Boolean = false,
     ) = Settings(
         selectedLocale = "en",
         selectedArabicCalendar = "islamic",
@@ -124,6 +151,7 @@ class BuildWidgetDataUseCaseTest {
         showWidgetCountdown = showCountdown,
         showWidget = showWidget,
         widgetCityNamePos = cityNamePos,
+        widgetHijriDayStartsAtMaghrib = lunarDayAtMaghrib,
     )
 
     private fun calc() = CalculationSettings(parameters = params)
@@ -215,17 +243,52 @@ class BuildWidgetDataUseCaseTest {
     fun `does not highlight the next prayer when it rolls to the following day`() {
         // After the day's last prayer, the next prayer is tomorrow's Fajr (forInstant on the next day).
         // The table still shows today's times, so no row should be highlighted until the midnight redraw.
-        val tomorrowFajr = ShariaTimeDetails(
-            forInstant = at(29.0),
-            forDate = DateComponents(2026, 1, 2),
-            prayer = Prayer.Fajr,
-            prayerTime = at(29.0),
-            notify = false,
-            sound = false,
-        )
         val result = useCase(next = tomorrowFajr)
             .invoke(at(20.5), settings(highlightCurrent = false), calc(), location)!!
         assertTrue(result.rows.none { it.isActive })
+        assertEquals("t${shariaTimes.fajr.toEpochMilliseconds()}", result.rows.single { it.prayer == Prayer.Fajr }.timeText)
+    }
+
+    @Test
+    fun `after isha with lunar day at maghrib the table shows tomorrow and highlights fajr`() {
+        // The lunar day already turned at maghrib, so once the next prayer rolls to tomorrow the table
+        // follows it: tomorrow's times, with the upcoming Fajr highlighted.
+        val result = useCase(next = tomorrowFajr)
+            .invoke(at(20.5), settings(lunarDayAtMaghrib = true), calc(), location)!!
+        val fajr = result.rows.single { it.prayer == Prayer.Fajr }
+        assertTrue(fajr.isActive)
+        assertTrue(result.rows.none { it.prayer != Prayer.Fajr && it.isActive })
+        assertEquals("t${tomorrowTimes.fajr.toEpochMilliseconds()}", fajr.timeText)
+        assertEquals("t${tomorrowTimes.isha.toEpochMilliseconds()}", result.rows.single { it.prayer == Prayer.Isha }.timeText)
+    }
+
+    @Test
+    fun `before maghrib the table keeps today even if the next prayer is tomorrow`() {
+        // Evening prayers hidden: after Asr the next visible prayer is tomorrow's Fajr, but the lunar day
+        // hasn't turned yet, so the table stays on today.
+        val hidden = listOf(Prayer.Sunset, Prayer.Maghrib, Prayer.Isha, Prayer.Midnight, Prayer.Tahajjud)
+        val result = useCase(next = tomorrowFajr)
+            .invoke(at(16.0), settings(hidden = hidden, lunarDayAtMaghrib = true), calc(), location)!!
+        assertTrue(result.rows.none { it.isActive })
+        assertEquals("t${shariaTimes.fajr.toEpochMilliseconds()}", result.rows.single { it.prayer == Prayer.Fajr }.timeText)
+    }
+
+    @Test
+    fun `lunar day at maghrib moves the table on in current prayer mode too`() {
+        // The table follows the lunar day regardless of highlight mode. Tomorrow's first prayer hasn't
+        // started yet, so the shown day has no current prayer to highlight.
+        val result = useCase(next = tomorrowFajr)
+            .invoke(at(20.5), settings(highlightCurrent = true, lunarDayAtMaghrib = true), calc(), location)!!
+        assertTrue(result.rows.none { it.isActive })
+        assertEquals("t${tomorrowTimes.isha.toEpochMilliseconds()}", result.rows.single { it.prayer == Prayer.Isha }.timeText)
+    }
+
+    @Test
+    fun `nextUpdate ignores the shown day maghrib once the table moves on`() {
+        // nextUpdate must not pick up tomorrow's maghrib from the shown table; the next prayer wins.
+        val result = useCase(next = tomorrowFajr, nextDay = at(28.0).toEpochMilliseconds())
+            .invoke(at(20.5), settings(lunarDayAtMaghrib = true), calc(), location)!!
+        assertEquals(at(28.0).toEpochMilliseconds(), result.nextUpdateAtMillis)
     }
 
     @Test

@@ -23,6 +23,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.atLeastOnce
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import kotlin.time.Instant
@@ -45,6 +46,30 @@ class BuildCustomWidgetDataUseCaseTest {
         isha = at(20.0),
         midnight = at(24.5),
         tahajjud = at(27.0),
+    )
+
+    /** The following day's times, served for [tomorrowInstant] so tests can tell which day a row shows. */
+    private val tomorrowInstant = at(29.0)
+    private val tomorrowTimes = ShariaTimes(
+        forInstant = tomorrowInstant,
+        forDate = DateComponents(2026, 1, 2),
+        fajr = at(29.0),
+        sunrise = at(30.0),
+        dhuhr = at(36.0),
+        asr = at(39.0),
+        sunset = at(42.0),
+        maghrib = at(42.2),
+        isha = at(44.0),
+        midnight = at(48.5),
+        tahajjud = at(51.0),
+    )
+    private val tomorrowFajr = ShariaTimeDetails(
+        forInstant = tomorrowInstant,
+        forDate = DateComponents(2026, 1, 2),
+        prayer = Prayer.Fajr,
+        prayerTime = at(29.0),
+        notify = false,
+        sound = false,
     )
 
     private val location = CalculationLocationDetail(lat = 0.0, long = 0.0, label = "Testville")
@@ -105,6 +130,7 @@ class BuildCustomWidgetDataUseCaseTest {
     ): BuildCustomWidgetDataUseCase {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
+            on { invoke(eq(tomorrowInstant), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(tomorrowTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
             on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next
@@ -112,12 +138,15 @@ class BuildCustomWidgetDataUseCaseTest {
         return BuildCustomWidgetDataUseCase(getShariaTimes, getNext, FakeFormatter(nextDay))
     }
 
-    private fun settings(highlightCurrent: Boolean = false) =
-        Settings(
-            selectedLocale = "en",
-            selectedArabicCalendar = "islamic",
-            highlightCurrentPrayerWidget = highlightCurrent,
-        )
+    private fun settings(
+        highlightCurrent: Boolean = false,
+        lunarDayAtMaghrib: Boolean = false,
+    ) = Settings(
+        selectedLocale = "en",
+        selectedArabicCalendar = "islamic",
+        highlightCurrentPrayerWidget = highlightCurrent,
+        widgetHijriDayStartsAtMaghrib = lunarDayAtMaghrib,
+    )
 
     private fun calc() = CalculationSettings(parameters = params)
 
@@ -169,6 +198,26 @@ class BuildCustomWidgetDataUseCaseTest {
         val cells = result.prayerRows.flatten()
         assertTrue(cells.single { it.prayer == Prayer.Asr }.isActive)
         assertTrue(cells.none { it.prayer == Prayer.Dhuhr && it.isActive })
+    }
+
+    @Test
+    fun `after isha with lunar day at maghrib the table shows tomorrow and highlights fajr`() {
+        val config = CustomWidgetConfig(rows = listOf(listOf(Prayer.Fajr, Prayer.Isha)))
+        val result = useCase(next = tomorrowFajr)
+            .invoke(at(20.5), settings(lunarDayAtMaghrib = true), calc(), location, config)!!
+        val fajr = result.prayerRows.flatten().single { it.prayer == Prayer.Fajr }
+        assertTrue(fajr.isActive)
+        assertEquals("t${tomorrowTimes.fajr.toEpochMilliseconds()}", fajr.timeText)
+    }
+
+    @Test
+    fun `after isha without lunar day at maghrib the table keeps today and highlights nothing`() {
+        val config = CustomWidgetConfig(rows = listOf(listOf(Prayer.Fajr, Prayer.Isha)))
+        val result = useCase(next = tomorrowFajr)
+            .invoke(at(20.5), settings(), calc(), location, config)!!
+        val cells = result.prayerRows.flatten()
+        assertTrue(cells.none { it.isActive })
+        assertEquals("t${shariaTimes.fajr.toEpochMilliseconds()}", cells.single { it.prayer == Prayer.Fajr }.timeText)
     }
 
     @Test

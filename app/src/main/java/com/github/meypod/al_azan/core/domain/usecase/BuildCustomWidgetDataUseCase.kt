@@ -53,8 +53,10 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         // could be one that isn't shown (e.g. Sunset), so the countdown would target an unseen time.
         val notPlaced = Prayer.entries.toSet() - config.rows.flatten().toSet()
 
-        fun shariaTimesFor(loc: CalculationLocationDetail) =
-            getShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc).timesOrNull
+        fun shariaTimesFor(
+            loc: CalculationLocationDetail,
+            at: Instant = instant,
+        ) = getShariaTimesUseCase(at, parameters, adjustments, arabicCalendar, loc).timesOrNull
 
         fun nextFor(loc: CalculationLocationDetail) =
             getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, excluding = notPlaced)
@@ -106,8 +108,20 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
 
         // A secondary location of its own can be inside the polar circle with no times; skip its page
         val pages = locations.mapNotNull { loc ->
-            val shariaTimes = (if (loc == primary) primaryTimes else shariaTimesFor(loc)) ?: return@mapNotNull null
-            val active = activePrayer(shariaTimes, nextFor(loc), settings, instant)
+            val todayTimes = (if (loc == primary) primaryTimes else shariaTimesFor(loc)) ?: return@mapNotNull null
+            val next = if (loc == primary) primaryNext else nextFor(loc)
+            val tableInstant = widgetTableInstant(
+                instant = instant,
+                next = next,
+                maghribShift = maghribShift,
+                formatter = formatter,
+            )
+            val shariaTimes = if (tableInstant == instant) {
+                todayTimes
+            } else {
+                shariaTimesFor(loc, tableInstant) ?: return@mapNotNull null
+            }
+            val active = activePrayer(shariaTimes, next, settings, instant, tableInstant)
             // Rows are the user's explicit arrangement; drop empty rows so they don't leave blank space.
             val prayerRows = config.rows
                 .map { row ->
@@ -185,16 +199,18 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         }
 
     // Highlight the current prayer (when the user opted in) else the next one, but only while it is
-    // still on the displayed day — after the last prayer the "next" rolls to tomorrow's Fajr.
+    // on the displayed day: after the last prayer the "next" rolls to tomorrow's Fajr, which the table
+    // shows only when it followed it (see widgetTableInstant).
     private fun activePrayer(
         shariaTimes: ShariaTimes,
         next: ShariaTimeDetails?,
         settings: Settings,
         instant: Instant,
+        tableInstant: Instant,
     ): Prayer? =
         if (settings.highlightCurrentPrayerWidget) {
             shariaTimes.currentPrayer(instant)
         } else {
-            next?.takeIf { formatter.isSameDay(it.forInstant, instant) }?.prayer
+            next?.takeIf { formatter.isSameDay(it.forInstant, tableInstant) }?.prayer
         }
 }

@@ -61,11 +61,34 @@ class BuildWidgetDataUseCase @Inject constructor(
             excluding = hidden,
         )
 
+        val maghribShift = maghribHijriDayShift(
+            now = instant,
+            maghrib = shariaTimes.maghrib,
+            enabled = settings.widgetHijriDayStartsAtMaghrib,
+        )
+        val tableInstant = widgetTableInstant(
+            instant = instant,
+            next = nextShariaTime,
+            maghribShift = maghribShift,
+            formatter = formatter,
+        )
+        val tableTimes = if (tableInstant == instant) {
+            shariaTimes
+        } else {
+            getShariaTimesUseCase(
+                instant = tableInstant,
+                calculationParameters = parameters,
+                calculationAdjustments = calcSettings.calculationAdjustments,
+                arabicCalendar = settings.selectedArabicCalendar,
+                locationDetail = location,
+            ).timesOrNull ?: return null
+        }
+
         val activePrayer = if (settings.highlightCurrentPrayerWidget) {
             // Determine the current prayer considering hidden ones too. If it's visible, highlight it.
             // If it's hidden, only the two combinable pairs fall back to their earlier prayer (when that
             // one is visible); any other hidden current prayer highlights nothing (e.g. after Midnight).
-            val current = shariaTimes.currentPrayer(instant)
+            val current = tableTimes.currentPrayer(instant)
             when {
                 current == null -> null
                 current !in hidden -> current
@@ -73,10 +96,10 @@ class BuildWidgetDataUseCase @Inject constructor(
             }
         } else {
             // Once the day's last prayer passes, the next prayer rolls to the following day (e.g. Fajr
-            // after Isha). The table keeps showing today's times, so highlighting that row would point
-            // at a time belonging to a different day. Only highlight while the next prayer is still on
-            // the displayed day; the midnight redraw rebuilds the table and the highlight returns.
-            nextShariaTime?.takeIf { formatter.isSameDay(it.forInstant, instant) }?.prayer
+            // after Isha). Unless the table followed it (see widgetTableInstant), highlighting that row
+            // would point at a time belonging to a different day. Only highlight while the next prayer
+            // is on the displayed day; the midnight redraw rebuilds the table and the highlight returns.
+            nextShariaTime?.takeIf { formatter.isSameDay(it.forInstant, tableInstant) }?.prayer
         }
 
         val rows = SHARIA_TIMES_IN_ORDER
@@ -85,7 +108,7 @@ class BuildWidgetDataUseCase @Inject constructor(
                 WidgetPrayerRow(
                     prayer = prayer,
                     timeText = formatter.formatPrayerTime(
-                        instant = shariaTimes.forPrayer(prayer),
+                        instant = tableTimes.forPrayer(prayer),
                         is24Hour = settings.is24HourFormat,
                         numberingSystem = settings.numberingSystem,
                         locale = settings.selectedLocale,
@@ -94,11 +117,6 @@ class BuildWidgetDataUseCase @Inject constructor(
                 )
             }
 
-        val maghribShift = maghribHijriDayShift(
-            now = instant,
-            maghrib = shariaTimes.maghrib,
-            enabled = settings.widgetHijriDayStartsAtMaghrib,
-        )
         val lunarText = formatter.formatDate(
             instant = formatter.adjustDays(instant, calcSettings.calculationAdjustments.hijriDate + maghribShift),
             locale = arabicCalendarLocale,
