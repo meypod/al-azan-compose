@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">Thay đổi ngôn ngữ dùng cho âm lịch.</string>
     <string name="secondary_calendar">Lịch phụ</string>
     <string name="secondary_calendar_help">Lịch được dùng trên thanh công cụ màn hình chính và tiện ích.</string>
+    <string name="first_day_of_week">Ngày đầu tuần</string>
+    <string name="first_day_of_week_help">Ngày bắt đầu tuần trong lịch và khi chọn ngày.</string>
+    <string name="default_with_value">Mặc định (%1$s)</string>
     <string name="hide_toolbar_calendar">Ẩn lịch trên thanh công cụ</string>
     <string name="hide_toolbar_calendar_help">Ẩn ngày bên cạnh nút menu ở trên cùng.</string>
     <string name="swap_home_calendars">Hoán đổi lịch âm và lịch phụ</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">Đặt một tên</string>
     <string name="reminder_time">Giờ</string>
     <string name="reminder_sound">Âm báo</string>
-    <string name="reminder_only_once">Chỉ một lần</string>
-    <string name="reminder_only_once_help">Khi bật, lời nhắc này kích hoạt một lần rồi tự tắt. Khi tắt, nó lặp lại vào các ngày bạn chọn bên dưới.</string>
     <string name="reminder_before">trước</string>
     <string name="reminder_after">sau</string>
     <string name="reminder_save">Lưu</string>
@@ -525,6 +526,13 @@
     </plurals>
     <string name="only_once_label">Chỉ một lần</string>
     <string name="everyday_label">Hàng ngày</string>
+    <string name="reminder_repeat_weekdays">Các ngày trong tuần</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="other">Mỗi %1$d ngày</item>
+    </plurals>
+    <string name="reminder_interval_start">Bắt đầu</string>
+    <string name="choose_date">Chọn ngày</string>
+    <string name="reminder_custom_interval_title">Lặp lại sau mỗi bao nhiêu ngày?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d phút</item>
         <item quantity="other">%1$d phút</item>

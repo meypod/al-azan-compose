@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">Badilisha lugha inayotumika kwa kalenda ya mwezi.</string>
     <string name="secondary_calendar">Kalenda ya Sekondari</string>
     <string name="secondary_calendar_help">Kalenda inayotumika kwenye upau wa vidhibiti wa skrini ya nyumbani na wijeti.</string>
+    <string name="first_day_of_week">Siku ya kwanza ya wiki</string>
+    <string name="first_day_of_week_help">Wiki inapoanzia katika kalenda na uchaguzi wa siku.</string>
+    <string name="default_with_value">Chaguo-msingi (%1$s)</string>
     <string name="hide_toolbar_calendar">Ficha kalenda ya upau wa vidhibiti</string>
     <string name="hide_toolbar_calendar_help">Ficha tarehe iliyo karibu na kitufe cha menyu juu.</string>
     <string name="swap_home_calendars">Badilishana kalenda ya mwezi na ya pili</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">Toa jina</string>
     <string name="reminder_time">Wakati</string>
     <string name="reminder_sound">Sauti</string>
-    <string name="reminder_only_once">Mara moja tu</string>
-    <string name="reminder_only_once_help">Ikiwashwa, kikumbusho hiki hulia mara moja kisha hujizima chenyewe. Ikizimwa, hujirudia katika siku unazochagua hapa chini.</string>
     <string name="reminder_before">kabla</string>
     <string name="reminder_after">baada ya</string>
     <string name="reminder_save">Hifadhi</string>
@@ -525,6 +526,14 @@
     </plurals>
     <string name="only_once_label">Mara moja tu</string>
     <string name="everyday_label">Kila siku</string>
+    <string name="reminder_repeat_weekdays">Siku za wiki</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">Kila siku %1$d</item>
+        <item quantity="other">Kila siku %1$d</item>
+    </plurals>
+    <string name="reminder_interval_start">Kuanzia</string>
+    <string name="choose_date">Chagua tarehe</string>
+    <string name="reminder_custom_interval_title">Rudia kila siku ngapi?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">dakika %1$d</item>
         <item quantity="other">dakika %1$d</item>

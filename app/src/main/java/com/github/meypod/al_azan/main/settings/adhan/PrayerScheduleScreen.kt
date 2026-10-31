@@ -26,6 +26,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.NOTIFICATION_AUDIO_I
 import com.github.meypod.al_azan.core.domain.model.settings.SILENT_AUDIO_ID
 import com.github.meypod.al_azan.core.domain.model.settings.isResolvable
 import com.github.meypod.al_azan.core.domain.model.settings.mapAdhanIdToEntry
+import com.github.meypod.al_azan.core.domain.util.resolvedFirstDayOfWeek
 import com.github.meypod.al_azan.core.presentation.AlAzanTheme
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerSection
@@ -53,6 +54,7 @@ fun PrayerScheduleScreen(
     modifier: Modifier = Modifier,
 ) {
     val globalDefaultMuezzin = uiState.settings.selectedAdhanEntries[AdhanKey.Default]
+    val firstDayOfWeek = uiState.settings.resolvedFirstDayOfWeek()
     // An unresolvable override (orphaned/corrupted) is treated as no override, so the row falls back to
     // the global default instead of showing "unknown" — matching what actually plays (resolveSound).
     val customMuezzin = uiState.settings.selectedAdhanEntries[prayer.toAdhanKey()]?.takeIf { it.isResolvable() }
@@ -195,6 +197,7 @@ fun PrayerScheduleScreen(
                     }
                 },
                 accent = ChipAccent.Tertiary,
+                firstDayOfWeek = firstDayOfWeek,
             )
         }
 
@@ -209,6 +212,7 @@ fun PrayerScheduleScreen(
                     onAction(AdhanSettingsUiAction.OnScheduleNotifyDayToggle(prayer, day))
                     guardEnable(enabling) { onAction(AdhanSettingsUiAction.OnScheduleNotifyDayToggle(prayer, day)) }
                 },
+                firstDayOfWeek = firstDayOfWeek,
             )
         }
     }

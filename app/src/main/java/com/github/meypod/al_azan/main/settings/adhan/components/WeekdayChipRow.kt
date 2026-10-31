@@ -16,19 +16,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.github.meypod.al_azan.R
+import com.github.meypod.al_azan.core.domain.util.weekdaysFrom
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePaddedPreview
 import com.github.meypod.al_azan.core.presentation.mapper.localized
 import kotlinx.datetime.DayOfWeek
-
-private val WEEK_ORDER_SUNDAY_FIRST: List<DayOfWeek> = listOf(
-    DayOfWeek.SUNDAY,
-    DayOfWeek.MONDAY,
-    DayOfWeek.TUESDAY,
-    DayOfWeek.WEDNESDAY,
-    DayOfWeek.THURSDAY,
-    DayOfWeek.FRIDAY,
-    DayOfWeek.SATURDAY,
-)
 
 enum class ChipAccent { Primary, Secondary, Tertiary }
 
@@ -54,6 +45,7 @@ fun WeekdayChipRow(
     modifier: Modifier = Modifier,
     accent: ChipAccent = ChipAccent.Primary,
     alignment: Alignment.Horizontal = Alignment.Start,
+    firstDayOfWeek: DayOfWeek = DayOfWeek.SUNDAY,
 ) {
     val chipColors = accent.filterChipColors()
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides Dp.Unspecified) {
@@ -62,7 +54,7 @@ fun WeekdayChipRow(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact), alignment = alignment),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding_compact)),
         ) {
-            WEEK_ORDER_SUNDAY_FIRST.forEach { day ->
+            weekdaysFrom(firstDayOfWeek).forEach { day ->
                 val isSelected = day in selected
                 key(day.ordinal) {
                     FilterChip(

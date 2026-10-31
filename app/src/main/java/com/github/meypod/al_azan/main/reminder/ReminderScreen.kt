@@ -48,10 +48,12 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
+import com.github.meypod.al_azan.core.domain.util.resolvedFirstDayOfWeek
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
+import com.github.meypod.al_azan.core.presentation.components.calendar.rememberUserPickerCalendars
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
@@ -231,6 +233,10 @@ fun ReminderScreen(
             deviceSounds = uiState.deviceSounds,
             adhanEntries = uiState.adhanEntries,
             playingSoundId = uiState.playingSoundId,
+            calendars = rememberUserPickerCalendars(uiState.settings, uiState.hijriDateAdjustment),
+            weekLocale = uiState.settings.selectedLocale,
+            numberingSystem = uiState.settings.numberingSystem,
+            firstDayOfWeek = uiState.settings.resolvedFirstDayOfWeek(),
         )
     }
 
@@ -368,8 +374,11 @@ private fun ReminderRow(
 
 @Composable
 private fun dayLabel(r: Reminder): String {
-    if (r.once == true || r.days == null) return stringResource(R.string.only_once_label)
-    val days = (r.days as? PrayerAlarmSettings.ByWeekDay)?.days?.filterValues { it }?.keys ?: emptySet()
+    // Same reading as the editor and the alarms: only once == true is a one-off.
+    if (r.once == true) return stringResource(R.string.only_once_label)
+    r.interval?.let { return pluralStringResource(R.plurals.reminder_every_n_days, it.everyDays, it.everyDays) }
+    // No day rule fires every day (the scheduler treats null as always matching).
+    val days = r.days?.selectedDays() ?: PrayerAlarmSettings.ALL_DAYS
     if (days.size == 7) return stringResource(R.string.everyday_label)
     val dayLabels = days.map { it.localized() }
     return dayLabels.joinToString(", ")

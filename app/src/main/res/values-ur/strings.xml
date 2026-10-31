@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">قمری کیلنڈر کے لیے استعمال ہونے والی زبان تبدیل کریں۔</string>
     <string name="secondary_calendar">ثانوی کیلنڈر</string>
     <string name="secondary_calendar_help">ہوم اسکرین ٹول بار اور ویجٹ میں استعمال ہونے والا کیلنڈر۔</string>
+    <string name="first_day_of_week">ہفتے کا پہلا دن</string>
+    <string name="first_day_of_week_help">کیلنڈر اور دنوں کے انتخاب میں ہفتہ کس دن سے شروع ہو۔</string>
+    <string name="default_with_value">طے شدہ (%1$s)</string>
     <string name="hide_toolbar_calendar">ٹول بار کیلنڈر چھپائیں</string>
     <string name="hide_toolbar_calendar_help">اوپر مینو بٹن کے پاس والی تاریخ چھپائیں۔</string>
     <string name="swap_home_calendars">قمری اور ثانوی کیلنڈر کی جگہ بدلیں</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">ایک نام دیں</string>
     <string name="reminder_time">وقت</string>
     <string name="reminder_sound">آواز</string>
-    <string name="reminder_only_once">صرف ایک بار</string>
-    <string name="reminder_only_once_help">جب آن ہو، تو یہ یاد دہانی ایک بار بجتی ہے اور پھر خود کو بند کر دیتی ہے۔ جب بند ہو، تو یہ نیچے منتخب کردہ دنوں پر دہرائی جاتی ہے۔</string>
     <string name="reminder_before">پہلے</string>
     <string name="reminder_after">کے بعد</string>
     <string name="reminder_save">محفوظ کریں</string>
@@ -525,6 +526,14 @@
     </plurals>
     <string name="only_once_label">صرف ایک بار</string>
     <string name="everyday_label">ہر روز</string>
+    <string name="reminder_repeat_weekdays">ہفتے کے دن</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">ہر %1$d دن</item>
+        <item quantity="other">ہر %1$d دن</item>
+    </plurals>
+    <string name="reminder_interval_start">آغاز</string>
+    <string name="choose_date">تاریخ منتخب کریں</string>
+    <string name="reminder_custom_interval_title">کتنے دنوں بعد دہرایا جائے؟</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d منٹ</item>
         <item quantity="other">%1$d منٹ</item>

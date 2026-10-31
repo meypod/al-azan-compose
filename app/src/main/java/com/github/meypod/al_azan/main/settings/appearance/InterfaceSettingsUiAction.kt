@@ -5,6 +5,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.HomeShortcut
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
+import kotlinx.datetime.DayOfWeek
 
 sealed interface InterfaceSettingsUiAction {
     data class OnLanguageChange(
@@ -55,6 +56,11 @@ sealed interface InterfaceSettingsUiAction {
 
     data class OnSecondaryCalendarChange(
         val value: SecondaryCalendar,
+    ) : InterfaceSettingsUiAction
+
+    /** null follows the app language. */
+    data class OnFirstDayOfWeekChange(
+        val value: DayOfWeek?,
     ) : InterfaceSettingsUiAction
 
     data class OnHideToolbarCalendarToggle(

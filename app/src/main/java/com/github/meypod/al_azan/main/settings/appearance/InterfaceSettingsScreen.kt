@@ -50,6 +50,8 @@ import com.github.meypod.al_azan.core.domain.model.settings.SupportedLocales
 import com.github.meypod.al_azan.core.domain.model.settings.ThemeColor
 import com.github.meypod.al_azan.core.domain.model.settings.i18n
 import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
+import com.github.meypod.al_azan.core.domain.util.localeFirstDayOfWeek
+import com.github.meypod.al_azan.core.domain.util.weekdaysFrom
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.DarkSurface
 import com.github.meypod.al_azan.core.presentation.LightSecondaryContainer
@@ -62,9 +64,12 @@ import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
+import com.github.meypod.al_azan.core.presentation.mapper.localized
+import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.datetime.DayOfWeek
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -426,16 +431,25 @@ private fun CalendarsCard(
                 modifier = Modifier.fillMaxWidth(),
                 options = SecondaryCalendar.entries,
                 optionKey = { it.name },
-                optionLabel = {
-                    when (it) {
-                        SecondaryCalendar.Gregorian -> resources.getString(R.string.calendar_gregorian)
-                        SecondaryCalendar.Persian -> resources.getString(R.string.calendar_persian)
-                        SecondaryCalendar.Ethiopic -> resources.getString(R.string.calendar_ethiopic)
-                        SecondaryCalendar.Buddhist -> resources.getString(R.string.calendar_buddhist)
-                    }
-                },
+                optionLabel = { resources.getString(it.stringRes()) },
                 selectedKey = uiState.settings.selectedSecondaryCalendar.name,
                 onSelect = { onAction(InterfaceSettingsUiAction.OnSecondaryCalendarChange(it)) },
+            )
+
+            SettingHeader(
+                stringResource(R.string.first_day_of_week),
+                stringResource(R.string.first_day_of_week_help),
+            )
+            val localeFirstDay = localeFirstDayOfWeek(uiState.settings.selectedLocale)
+            val defaultFirstDayLabel = stringResource(R.string.default_with_value, localeFirstDay.localized())
+            val weekdayLabels = DayOfWeek.entries.associateWith { resources.getString(it.stringRes()) }
+            BottomSelect(
+                modifier = Modifier.fillMaxWidth(),
+                options = listOf<DayOfWeek?>(null) + weekdaysFrom(localeFirstDay),
+                optionKey = { it?.name ?: "default" },
+                optionLabel = { it?.let(weekdayLabels::getValue) ?: defaultFirstDayLabel },
+                selectedKey = uiState.settings.firstDayOfWeek?.name ?: "default",
+                onSelect = { onAction(InterfaceSettingsUiAction.OnFirstDayOfWeekChange(it)) },
             )
         }
     }

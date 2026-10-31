@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">Change the language used for lunar calendar.</string>
     <string name="secondary_calendar">Secondary Calendar</string>
     <string name="secondary_calendar_help">The calendar used in the home screen toolbar and the widget.</string>
+    <string name="first_day_of_week">First day of the week</string>
+    <string name="first_day_of_week_help">Where weeks start in calendars and weekday selections.</string>
+    <string name="default_with_value">Default (%1$s)</string>
     <string name="hide_toolbar_calendar">Hide toolbar calendar</string>
     <string name="hide_toolbar_calendar_help">Hide the date next to the menu button at the top.</string>
     <string name="swap_home_calendars">Swap lunar and secondary calendars</string>
@@ -507,8 +510,6 @@
     <string name="reminder_label_placeholder">Give a name</string>
     <string name="reminder_time">Time</string>
     <string name="reminder_sound">Sound</string>
-    <string name="reminder_only_once">Only Once</string>
-    <string name="reminder_only_once_help">When on, this reminder fires a single time and then turns itself off. When off, it repeats on the days you select below.</string>
     <string name="reminder_before">Before</string>
     <string name="reminder_after">After</string>
     <string name="reminder_save">Save</string>
@@ -526,6 +527,14 @@
     </plurals>
     <string name="only_once_label">Only Once</string>
     <string name="everyday_label">Everyday</string>
+    <string name="reminder_repeat_weekdays">Days of the week</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">Every %1$d day</item>
+        <item quantity="other">Every %1$d days</item>
+    </plurals>
+    <string name="reminder_interval_start">Starting</string>
+    <string name="choose_date">Choose date</string>
+    <string name="reminder_custom_interval_title">Repeat every how many days?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minute</item>
         <item quantity="other">%1$d minutes</item>

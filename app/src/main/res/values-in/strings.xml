@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">Ubah bahasa yang digunakan untuk kalender lunar.</string>
     <string name="secondary_calendar">Kalender Sekunder</string>
     <string name="secondary_calendar_help">Kalender yang digunakan di bilah alat layar beranda dan widget.</string>
+    <string name="first_day_of_week">Hari pertama dalam seminggu</string>
+    <string name="first_day_of_week_help">Awal minggu di kalender dan pilihan hari.</string>
+    <string name="default_with_value">Bawaan (%1$s)</string>
     <string name="hide_toolbar_calendar">Sembunyikan kalender bilah alat</string>
     <string name="hide_toolbar_calendar_help">Sembunyikan tanggal di samping tombol menu di atas.</string>
     <string name="swap_home_calendars">Tukar kalender lunar dan sekunder</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">Beri nama</string>
     <string name="reminder_time">Waktu</string>
     <string name="reminder_sound">Suara</string>
-    <string name="reminder_only_once">Hanya sekali</string>
-    <string name="reminder_only_once_help">Saat aktif, pengingat ini berbunyi satu kali lalu mematikan dirinya sendiri. Saat nonaktif, pengingat berulang pada hari yang Anda pilih di bawah.</string>
     <string name="reminder_before">sebelum</string>
     <string name="reminder_after">setelah</string>
     <string name="reminder_save">Simpan</string>
@@ -525,6 +526,13 @@
     </plurals>
     <string name="only_once_label">Hanya sekali</string>
     <string name="everyday_label">Setiap hari</string>
+    <string name="reminder_repeat_weekdays">Hari dalam seminggu</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="other">Setiap %1$d hari</item>
+    </plurals>
+    <string name="reminder_interval_start">Mulai</string>
+    <string name="choose_date">Pilih tanggal</string>
+    <string name="reminder_custom_interval_title">Ulangi setiap berapa hari?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d menit</item>
         <item quantity="other">%1$d menit</item>

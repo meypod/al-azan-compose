@@ -14,6 +14,9 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocati
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.reminder.firesAt
+import com.github.meypod.al_azan.core.domain.model.reminder.mayFireNear
+import com.github.meypod.al_azan.core.domain.model.reminder.searchDays
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -210,8 +213,11 @@ class ReminderScheduler @Inject constructor(
     ): Long? {
         val parameters = calc.parameters ?: return null
         val offsetMinutes = (reminder.duration * reminder.durationModifier).toDuration(DurationUnit.MINUTES)
-        for (dayOffset in 0..AlarmSchedulingDefaults.SEARCH_DAYS) {
+        val searchDays = reminder.searchDays(Instant.fromEpochMilliseconds(fromMs).toLocalDate())
+        for (dayOffset in 0..searchDays) {
             val dayInstant = Instant.fromEpochMilliseconds(fromMs) + dayOffset.toDuration(DurationUnit.DAYS)
+            // Long intervals scan far ahead; skip days that cannot fire before calculating them.
+            if (!reminder.mayFireNear(dayInstant.toLocalDate())) continue
             val times = getShariaTimesUseCase(
                 instant = dayInstant,
                 calculationParameters = parameters,
@@ -220,9 +226,8 @@ class ReminderScheduler @Inject constructor(
                 locationDetail = location,
             ).timesOrNull ?: continue
             val trigger = times.forPrayer(reminder.prayer) + offsetMinutes
-            val matchesDay = reminder.days?.shouldFireFor(trigger) ?: true
             val isSkipped = skipped.isReminderSkipped(reminder.id, trigger.toLocalDate())
-            if (matchesDay && !isSkipped && trigger.toEpochMilliseconds() >= fromMs) {
+            if (reminder.firesAt(trigger) && !isSkipped && trigger.toEpochMilliseconds() >= fromMs) {
                 return trigger.toEpochMilliseconds()
             }
         }

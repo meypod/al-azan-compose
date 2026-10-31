@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">चंद्र कैलेंडर के लिए उपयोग की जाने वाली भाषा बदलें।</string>
     <string name="secondary_calendar">माध्यमिक कैलेंडर</string>
     <string name="secondary_calendar_help">होम स्क्रीन टूलबार और विजेट में उपयोग होने वाला कैलेंडर।</string>
+    <string name="first_day_of_week">सप्ताह का पहला दिन</string>
+    <string name="first_day_of_week_help">कैलेंडर और दिन चुनने में सप्ताह किस दिन से शुरू हो।</string>
+    <string name="default_with_value">डिफ़ॉल्ट (%1$s)</string>
     <string name="hide_toolbar_calendar">टूलबार कैलेंडर छिपाएं</string>
     <string name="hide_toolbar_calendar_help">ऊपर मेन्यू बटन के पास दिखने वाली तारीख छिपाएं।</string>
     <string name="swap_home_calendars">चंद्र और द्वितीयक कैलेंडर की अदला-बदली करें</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">एक नाम दें</string>
     <string name="reminder_time">समय</string>
     <string name="reminder_sound">ध्वनि</string>
-    <string name="reminder_only_once">सिर्फ एक बार</string>
-    <string name="reminder_only_once_help">चालू होने पर, यह अनुस्मारक एक बार बजता है और फिर स्वयं बंद हो जाता है। बंद होने पर, यह नीचे चुने गए दिनों पर दोहराता है।</string>
     <string name="reminder_before">इससे पहले</string>
     <string name="reminder_after">इसके बाद</string>
     <string name="reminder_save">सहेजें</string>
@@ -525,6 +526,14 @@
     </plurals>
     <string name="only_once_label">सिर्फ एक बार</string>
     <string name="everyday_label">हर दिन</string>
+    <string name="reminder_repeat_weekdays">सप्ताह के दिन</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">हर %1$d दिन</item>
+        <item quantity="other">हर %1$d दिन</item>
+    </plurals>
+    <string name="reminder_interval_start">शुरुआत</string>
+    <string name="choose_date">तारीख चुनें</string>
+    <string name="reminder_custom_interval_title">कितने दिनों में दोहराएँ?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d मिनट</item>
         <item quantity="other">%1$d मिनट</item>

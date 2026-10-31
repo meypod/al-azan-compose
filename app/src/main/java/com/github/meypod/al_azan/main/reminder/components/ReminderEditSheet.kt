@@ -1,68 +1,66 @@
 package com.github.meypod.al_azan.main.reminder.components
 
 import android.content.res.Resources
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import com.github.meypod.al_azan.core.domain.model.calendar.CalendarSystem
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderInterval
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerField
 import com.github.meypod.al_azan.core.presentation.components.AudioPickerSection
 import com.github.meypod.al_azan.core.presentation.components.BottomSelect
 import com.github.meypod.al_azan.core.presentation.components.CompactOutlinedTextField
+import com.github.meypod.al_azan.core.presentation.components.CustomNumberHeader
 import com.github.meypod.al_azan.core.presentation.components.MinutesSelect
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.SettingLabel
+import com.github.meypod.al_azan.core.presentation.components.calendar.CalendarDateField
+import com.github.meypod.al_azan.core.presentation.components.calendar.PickerCalendar
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.core.presentation.util.drawVerticalScrollbar
 import com.github.meypod.al_azan.main.reminder.ReminderEditDraft
+import com.github.meypod.al_azan.main.reminder.ReminderRepeat
 import com.github.meypod.al_azan.main.reminder.ReminderTimeModifier
 import com.github.meypod.al_azan.main.reminder.ReminderUiAction
+import com.github.meypod.al_azan.main.reminder.RepeatOption
+import com.github.meypod.al_azan.main.reminder.option
 import com.github.meypod.al_azan.main.settings.adhan.components.WeekdayChipRow
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 
 private val DURATIONS = listOf(5, 10, 15, 30, 60)
 private const val DEFAULT_VIBRATION_KEY = "__default__"
@@ -77,6 +75,10 @@ fun ReminderEditSheet(
     deviceSounds: List<ReminderAudioEntry> = emptyList(),
     adhanEntries: List<AudioEntry> = emptyList(),
     playingSoundId: String? = null,
+    calendars: List<PickerCalendar> = emptyList(),
+    weekLocale: String = "en",
+    numberingSystem: NumberingSystem = NumberingSystem.Default,
+    firstDayOfWeek: DayOfWeek = DayOfWeek.SUNDAY,
 ) {
     val resources = LocalResources.current
     val defaultVibrationLabel = stringResource(R.string.use_default_vibration)
@@ -223,51 +225,15 @@ fun ReminderEditSheet(
                     onSelect = { onAction(ReminderUiAction.OnDraftVibrationChange(it)) },
                 )
             }
-            Column {
-                var showOnlyOnceHelp by remember { mutableStateOf(false) }
-                val onlyOnceLabel = stringResource(R.string.reminder_only_once)
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                ) {
-                    Text(onlyOnceLabel)
-                    Icon(
-                        painterResource(R.drawable.info_variant_outline),
-                        contentDescription = stringResource(R.string.reminder_only_once_help),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .size(18.dp)
-                            .clickable(role = Role.Button) { showOnlyOnceHelp = true },
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Switch(
-                        checked = draft.only,
-                        onCheckedChange = { onAction(ReminderUiAction.OnDraftOnlyOnceToggle(it)) },
-                        modifier = Modifier.semantics {
-                            contentDescription = onlyOnceLabel
-                        },
-                    )
-                }
-                HorizontalDivider()
-                if (showOnlyOnceHelp) {
-                    AlertDialog(
-                        onDismissRequest = { showOnlyOnceHelp = false },
-                        title = { Text(stringResource(R.string.reminder_only_once)) },
-                        text = { Text(stringResource(R.string.reminder_only_once_help)) },
-                        confirmButton = {
-                            TextButton(onClick = { showOnlyOnceHelp = false }) {
-                                Text(stringResource(R.string.okay))
-                            }
-                        },
-                    )
-                }
+            ReminderRepeatSelect(draft.repeat, onAction, calendars, weekLocale, numberingSystem, firstDayOfWeek)
+            if (draft.repeat == ReminderRepeat.Weekdays) {
+                WeekdayChipRow(
+                    selected = draft.days,
+                    onToggle = { onAction(ReminderUiAction.OnDraftDayToggle(it)) },
+                    alignment = Alignment.CenterHorizontally,
+                    firstDayOfWeek = firstDayOfWeek,
+                )
             }
-            WeekdayChipRow(
-                selected = draft.days,
-                onToggle = { onAction(ReminderUiAction.OnDraftDayToggle(it)) },
-                alignment = Alignment.CenterHorizontally,
-            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -289,6 +255,77 @@ fun ReminderEditSheet(
 }
 
 private fun Prayer.asLabel(res: Resources): String = res.getString(stringRes)
+
+private val PRESET_INTERVAL_DAYS = 2..6
+private val REPEAT_OPTIONS: List<RepeatOption> =
+    listOf(RepeatOption.Once, RepeatOption.Weekdays) + PRESET_INTERVAL_DAYS.map { RepeatOption.EveryDays(it) }
+
+private fun RepeatOption.key(): String =
+    when (this) {
+        RepeatOption.Once -> "once"
+        RepeatOption.Weekdays -> "weekdays"
+        is RepeatOption.EveryDays -> "every_$days"
+    }
+
+/** How the reminder repeats and, for an interval, which upcoming day it starts on. */
+@Composable
+private fun ReminderRepeatSelect(
+    repeat: ReminderRepeat,
+    onAction: (ReminderUiAction) -> Unit,
+    calendars: List<PickerCalendar>,
+    weekLocale: String,
+    numberingSystem: NumberingSystem,
+    firstDayOfWeek: DayOfWeek,
+) {
+    val resources = LocalResources.current
+    val onceLabel = stringResource(R.string.only_once_label)
+    val weekdaysLabel = stringResource(R.string.reminder_repeat_weekdays)
+    val everyLabel = { days: Int -> resources.getQuantityString(R.plurals.reminder_every_n_days, days, days) }
+    val customDays = (repeat as? ReminderRepeat.Every)?.interval?.everyDays?.takeUnless { it in PRESET_INTERVAL_DAYS }
+    Column {
+        SettingLabel(stringResource(R.string.repeat))
+        BottomSelect(
+            modifier = Modifier.fillMaxWidth(),
+            options = REPEAT_OPTIONS,
+            optionKey = { it.key() },
+            optionLabel = {
+                when (it) {
+                    RepeatOption.Once -> onceLabel
+                    RepeatOption.Weekdays -> weekdaysLabel
+                    is RepeatOption.EveryDays -> everyLabel(it.days)
+                }
+            },
+            selectedKey = repeat.option.key(),
+            selectedLabelOverride = customDays?.let(everyLabel),
+            onSelect = { onAction(ReminderUiAction.OnDraftRepeatChange(it)) },
+            headerContent = { onPick ->
+                CustomNumberHeader(
+                    currentValue = customDays,
+                    valueLabel = everyLabel,
+                    dialogTitle = stringResource(R.string.reminder_custom_interval_title),
+                    range = ReminderInterval.MIN_DAYS..ReminderInterval.MAX_DAYS,
+                    onPick = { onPick(RepeatOption.EveryDays(it)) },
+                )
+            },
+        )
+    }
+    val interval = (repeat as? ReminderRepeat.Every)?.interval ?: return
+    if (calendars.isEmpty()) return
+    Column {
+        SettingLabel(stringResource(R.string.reminder_interval_start))
+        CalendarDateField(
+            date = interval.startDate,
+            onDateChange = { onAction(ReminderUiAction.OnDraftIntervalStartChange(it)) },
+            calendars = calendars,
+            weekLocale = weekLocale,
+            numberingSystem = numberingSystem,
+            modifier = Modifier.fillMaxWidth(),
+            firstDayOfWeek = firstDayOfWeek,
+            // Tint the days the reminder would fire on from the date being picked.
+            isMarked = { picked, date -> interval.copy(startDate = picked).firesOn(date) },
+        )
+    }
+}
 
 /** Adhan/user audio entries are offered as reminder sounds; resource labels resolve via [res]. */
 private fun AudioEntry.toReminderOption(res: Resources): ReminderAudioEntry? =
@@ -355,10 +392,36 @@ private fun ReminderEditSheetEditPreview() {
                         duration = 15,
                         modifier = ReminderTimeModifier.Before,
                         prayer = Prayer.Fajr,
-                        only = false,
+                        repeat = ReminderRepeat.Weekdays,
                         days = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
                     ),
                     onAction = {},
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ReminderEditSheetIntervalPreview() {
+    AlAzanThemePreview {
+        Scaffold { padding ->
+            Column(Modifier.padding(padding)) {
+                ReminderEditSheet(
+                    draft = ReminderEditDraft(
+                        id = "1",
+                        label = "Fasting",
+                        duration = 30,
+                        modifier = ReminderTimeModifier.Before,
+                        prayer = Prayer.Fajr,
+                        repeat = ReminderRepeat.Every(ReminderInterval(everyDays = 2, startDate = LocalDate(2026, 11, 2))),
+                    ),
+                    onAction = {},
+                    calendars = listOf(
+                        PickerCalendar(CalendarSystem("gregorian", "en"), "Gregorian"),
+                        PickerCalendar(CalendarSystem("islamic-umalqura", "en"), "Lunar"),
+                    ),
                 )
             }
         }

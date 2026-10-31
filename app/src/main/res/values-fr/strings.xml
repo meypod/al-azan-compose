@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">Modifier la langue utilisée pour le calendrier lunaire.</string>
     <string name="secondary_calendar">Calendrier secondaire</string>
     <string name="secondary_calendar_help">Le calendrier utilisé dans la barre d\'outils de l\'écran d\'accueil et le widget.</string>
+    <string name="first_day_of_week">Premier jour de la semaine</string>
+    <string name="first_day_of_week_help">Jour de début de la semaine dans les calendriers et le choix des jours.</string>
+    <string name="default_with_value">Par défaut (%1$s)</string>
     <string name="hide_toolbar_calendar">Masquer le calendrier de la barre d\'outils</string>
     <string name="hide_toolbar_calendar_help">Masquer la date à côté du bouton de menu en haut.</string>
     <string name="swap_home_calendars">Permuter les calendriers lunaire et secondaire</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">Donnez un nom</string>
     <string name="reminder_time">Heure</string>
     <string name="reminder_sound">Son</string>
-    <string name="reminder_only_once">Une seule fois</string>
-    <string name="reminder_only_once_help">Lorsqu\'il est activé, ce rappel se déclenche une seule fois puis se désactive automatiquement. Lorsqu\'il est désactivé, il se répète les jours que vous sélectionnez ci-dessous.</string>
     <string name="reminder_before">avant</string>
     <string name="reminder_after">après</string>
     <string name="reminder_save">Enregistrer</string>
@@ -525,6 +526,14 @@
     </plurals>
     <string name="only_once_label">Une seule fois</string>
     <string name="everyday_label">Tous les jours</string>
+    <string name="reminder_repeat_weekdays">Jours de la semaine</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">Tous les %1$d jour</item>
+        <item quantity="other">Tous les %1$d jours</item>
+    </plurals>
+    <string name="reminder_interval_start">À partir du</string>
+    <string name="choose_date">Choisir une date</string>
+    <string name="reminder_custom_interval_title">Répéter tous les combien de jours ?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minute</item>
         <item quantity="other">%1$d minutes</item>

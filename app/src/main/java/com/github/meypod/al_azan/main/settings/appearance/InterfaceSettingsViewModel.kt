@@ -62,6 +62,7 @@ class InterfaceSettingsViewModel @Inject constructor(
             is InterfaceSettingsUiAction.OnLunarLanguageChange -> onLunarLanguageChange(action)
 
             is InterfaceSettingsUiAction.OnSecondaryCalendarChange -> onSecondaryCalendarChange(action)
+            is InterfaceSettingsUiAction.OnFirstDayOfWeekChange -> update { it.copy(firstDayOfWeek = action.value) }
 
             is InterfaceSettingsUiAction.OnHideToolbarCalendarToggle ->
                 update {

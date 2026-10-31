@@ -241,6 +241,9 @@
     <string name="lunar_calendar_language_help">Ay takvimi için kullanılan dili değiştirin.</string>
     <string name="secondary_calendar">İkincil takvim</string>
     <string name="secondary_calendar_help">Ana ekran araç çubuğunda ve widget\'ta kullanılan takvim.</string>
+    <string name="first_day_of_week">Haftanın ilk günü</string>
+    <string name="first_day_of_week_help">Takvimlerde ve gün seçiminde haftanın başladığı gün.</string>
+    <string name="default_with_value">Varsayılan (%1$s)</string>
     <string name="hide_toolbar_calendar">Araç çubuğu takvimini gizle</string>
     <string name="hide_toolbar_calendar_help">Üstte menü düğmesinin yanındaki tarihi gizle.</string>
     <string name="swap_home_calendars">Ay ve ikincil takvimlerin yerini değiştir</string>
@@ -483,8 +486,6 @@
     <string name="reminder_label_placeholder">Bir isim verin</string>
     <string name="reminder_time">Vakit</string>
     <string name="reminder_sound">Ses</string>
-    <string name="reminder_only_once">Sadece Bir Kez</string>
-    <string name="reminder_only_once_help">Açık olduğunda, bu hatırlatıcı bir kez çalar ve ardından kendini kapatır. Kapalı olduğunda, aşağıda seçtiğiniz günlerde tekrarlanır.</string>
     <string name="reminder_before">önce</string>
     <string name="reminder_after">sonra</string>
     <string name="reminder_save">Kaydet</string>
@@ -502,6 +503,14 @@
     </plurals>
     <string name="only_once_label">Sadece Bir Kez</string>
     <string name="everyday_label">Her gün</string>
+    <string name="reminder_repeat_weekdays">Haftanın günleri</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">Her %1$d günde bir</item>
+        <item quantity="other">Her %1$d günde bir</item>
+    </plurals>
+    <string name="reminder_interval_start">Başlangıç</string>
+    <string name="choose_date">Tarih seç</string>
+    <string name="reminder_custom_interval_title">Kaç günde bir tekrarlansın?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d dakika</item>
         <item quantity="other">%1$d dakika</item>

@@ -11,6 +11,8 @@ import com.github.meypod.al_azan.core.domain.model.adhan.AdhanKey
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.serializers.DayOfWeekSerializer
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -117,6 +119,9 @@ data class Settings(
     @Serializable(with = EmptyStringAsNullSerializer::class)
     val selectedLocaleForArabicCalendar: String? = null,
     val selectedSecondaryCalendar: SecondaryCalendar = SecondaryCalendar.Gregorian,
+    /** First day of the week in calendars and weekday selections; null follows the app language. */
+    @Serializable(with = DayOfWeekSerializer::class)
+    val firstDayOfWeek: DayOfWeek? = null,
     /** Hide the date shown in the home top app bar (next to the menu button). */
     val hideToolbarCalendar: Boolean = false,
     /** Swap home calendar positions: secondary calendar in the header, lunar (Hijri) date in the toolbar. */

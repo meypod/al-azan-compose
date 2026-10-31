@@ -170,7 +170,7 @@ fun maghribHijriDayShift(
     return if (now >= maghrib) 1 else 0
 }
 
-private fun icuCalendar(calendar: String): Calendar = Calendar.getInstance(TimeZone.getDefault(), ULocale("@calendar=$calendar"))
+internal fun icuCalendar(calendar: String): Calendar = Calendar.getInstance(TimeZone.getDefault(), ULocale("@calendar=$calendar"))
 
 /**
  * Returns one [Instant] (local noon, to stay clear of DST boundaries) for every day of the

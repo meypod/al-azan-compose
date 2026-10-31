@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">تغيير اللغة المستخدمة للتقويم القمري.</string>
     <string name="secondary_calendar">التقويم الثانوي</string>
     <string name="secondary_calendar_help">التقويم المستخدم في شريط أدوات الشاشة الرئيسية والأداة.</string>
+    <string name="first_day_of_week">أول يوم في الأسبوع</string>
+    <string name="first_day_of_week_help">بداية الأسبوع في التقويمات واختيار أيام الأسبوع.</string>
+    <string name="default_with_value">الافتراضي (%1$s)</string>
     <string name="hide_toolbar_calendar">إخفاء تقويم شريط الأدوات</string>
     <string name="hide_toolbar_calendar_help">إخفاء التاريخ بجوار زر القائمة في الأعلى.</string>
     <string name="swap_home_calendars">تبديل التقويم القمري والثانوي</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">أعطِ اسمًا</string>
     <string name="reminder_time">وقت</string>
     <string name="reminder_sound">صوت</string>
-    <string name="reminder_only_once">مرة واحدة فقط</string>
-    <string name="reminder_only_once_help">عند التفعيل، يُطلق هذا التذكير مرة واحدة ثم يُوقف نفسه. عند الإيقاف، يتكرر في الأيام التي تحددها أدناه.</string>
     <string name="reminder_before">قبل</string>
     <string name="reminder_after">بعد</string>
     <string name="reminder_save">حفظ</string>
@@ -529,6 +530,18 @@
     </plurals>
     <string name="only_once_label">مرة واحدة فقط</string>
     <string name="everyday_label">كل يوم</string>
+    <string name="reminder_repeat_weekdays">أيام الأسبوع</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="zero">كل %1$d يوم</item>
+        <item quantity="one">كل يوم</item>
+        <item quantity="two">كل يومين</item>
+        <item quantity="few">كل %1$d أيام</item>
+        <item quantity="many">كل %1$d يومًا</item>
+        <item quantity="other">كل %1$d يوم</item>
+    </plurals>
+    <string name="reminder_interval_start">البدء من</string>
+    <string name="choose_date">اختر التاريخ</string>
+    <string name="reminder_custom_interval_title">التكرار كل كم يوم؟</string>
     <plurals name="time_unit_minutes">
         <item quantity="zero">%1$d دقيقة</item>
         <item quantity="one">دقيقة واحدة</item>

@@ -241,6 +241,9 @@
     <string name="lunar_calendar_language_help">Ändern Sie die für den Mondkalender verwendete Sprache.</string>
     <string name="secondary_calendar">Sekundärer Kalender</string>
     <string name="secondary_calendar_help">Der Kalender, der in der Symbolleiste des Startbildschirms und im Widget verwendet wird.</string>
+    <string name="first_day_of_week">Erster Wochentag</string>
+    <string name="first_day_of_week_help">Womit die Woche in Kalendern und bei der Tagesauswahl beginnt.</string>
+    <string name="default_with_value">Standard (%1$s)</string>
     <string name="hide_toolbar_calendar">Symbolleisten-Kalender ausblenden</string>
     <string name="hide_toolbar_calendar_help">Das Datum neben der Menüschaltfläche oben ausblenden.</string>
     <string name="swap_home_calendars">Mond- und Sekundärkalender tauschen</string>
@@ -483,8 +486,6 @@
     <string name="reminder_label_placeholder">Namen vergeben</string>
     <string name="reminder_time">Zeit</string>
     <string name="reminder_sound">Ton</string>
-    <string name="reminder_only_once">Nur einmal</string>
-    <string name="reminder_only_once_help">Wenn aktiviert, wird diese Erinnerung einmal ausgelöst und schaltet sich dann selbst aus. Wenn deaktiviert, wiederholt sie sich an den unten ausgewählten Tagen.</string>
     <string name="reminder_before">vor</string>
     <string name="reminder_after">nach</string>
     <string name="reminder_save">Speichern</string>
@@ -502,6 +503,14 @@
     </plurals>
     <string name="only_once_label">Nur einmal</string>
     <string name="everyday_label">Täglich</string>
+    <string name="reminder_repeat_weekdays">Wochentage</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">Jeden %1$d. Tag</item>
+        <item quantity="other">Alle %1$d Tage</item>
+    </plurals>
+    <string name="reminder_interval_start">Beginn</string>
+    <string name="choose_date">Datum wählen</string>
+    <string name="reminder_custom_interval_title">Alle wie viele Tage wiederholen?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d Minute</item>
         <item quantity="other">%1$d Minuten</item>

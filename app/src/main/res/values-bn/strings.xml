@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">চন্দ্র ক্যালেন্ডারের জন্য ব্যবহৃত ভাষা পরিবর্তন করুন।</string>
     <string name="secondary_calendar">দ্বিতীয় ক্যালেন্ডার</string>
     <string name="secondary_calendar_help">হোম স্ক্রিনের টুলবার এবং উইজেটে ব্যবহৃত ক্যালেন্ডার।</string>
+    <string name="first_day_of_week">সপ্তাহের প্রথম দিন</string>
+    <string name="first_day_of_week_help">ক্যালেন্ডার ও সপ্তাহের দিন বাছাইয়ে সপ্তাহ কোথা থেকে শুরু হবে।</string>
+    <string name="default_with_value">ডিফল্ট (%1$s)</string>
     <string name="hide_toolbar_calendar">টুলবার ক্যালেন্ডার লুকান</string>
     <string name="hide_toolbar_calendar_help">উপরে মেনু বোতামের পাশের তারিখ লুকান।</string>
     <string name="swap_home_calendars">চান্দ্র ও দ্বিতীয় ক্যালেন্ডার অদলবদল করুন</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">একটি নাম দিন</string>
     <string name="reminder_time">সময়</string>
     <string name="reminder_sound">শব্দ</string>
-    <string name="reminder_only_once">শুধুমাত্র একবার</string>
-    <string name="reminder_only_once_help">চালু থাকলে, এই রিমাইন্ডারটি একবার বাজে এবং তারপর নিজে নিজে বন্ধ হয়ে যায়। বন্ধ থাকলে, এটি নিচে বেছে নেওয়া দিনগুলোতে পুনরাবৃত্তি হয়।</string>
     <string name="reminder_before">আগে</string>
     <string name="reminder_after">পরে</string>
     <string name="reminder_save">সংরক্ষণ করুন</string>
@@ -525,6 +526,14 @@
     </plurals>
     <string name="only_once_label">শুধুমাত্র একবার</string>
     <string name="everyday_label">প্রতিদিন</string>
+    <string name="reminder_repeat_weekdays">সপ্তাহের দিন</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">প্রতি %1$d দিন</item>
+        <item quantity="other">প্রতি %1$d দিন</item>
+    </plurals>
+    <string name="reminder_interval_start">শুরু</string>
+    <string name="choose_date">তারিখ বেছে নিন</string>
+    <string name="reminder_custom_interval_title">কত দিন পর পর পুনরাবৃত্তি হবে?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d মিনিট</item>
         <item quantity="other">%1$d মিনিট</item>

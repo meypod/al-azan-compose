@@ -188,11 +188,22 @@
     <string name="restore_failed">无法恢复设置。文件可能无效或已损坏。</string>
     <string name="reminder_time">时间</string>
     <string name="reminder_sound">音效</string>
-    <string name="reminder_only_once">仅一次</string>
     <string name="reminder_save">保存</string>
     <string name="reminder_edit">编辑</string>
     <string name="everyday_label">每日</string>
     <string name="only_once_label">仅一次</string>
+    <string name="reminder_repeat_weekdays">按星期</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="other">每 %1$d 天</item>
+    </plurals>
+    <string name="reminder_interval_start">开始日期</string>
+    <string name="choose_date">选择日期</string>
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
+    <string name="reminder_custom_interval_title">每隔几天重复？</string>
+    <string name="first_day_of_week">每周第一天</string>
+    <string name="first_day_of_week_help">日历和星期选择中每周开始的日期。</string>
+    <string name="default_with_value">默认（%1$s）</string>
     <plurals name="time_unit_minutes">
         <item quantity="other">%1$d分钟</item>
     </plurals>

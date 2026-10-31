@@ -15,6 +15,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocati
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.reminder.firesAt
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
@@ -120,7 +121,7 @@ class GetUpcomingIntrusiveAlarmsUseCase @Inject constructor(
                 val offset = (reminder.duration * reminder.durationModifier).toDuration(DurationUnit.MINUTES)
                 val fire = times.forPrayer(reminder.prayer) + offset
                 if (fire < now) continue
-                if (reminder.days?.shouldFireFor(fire) == false) continue
+                if (!reminder.firesAt(fire)) continue
                 val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
                 val vibration = reminder.vibration ?: alarmSettings.vibrationMode
                 val intrusive = vibration == VibrationMode.Continuous || isIntrusiveAudio(soundEntry)

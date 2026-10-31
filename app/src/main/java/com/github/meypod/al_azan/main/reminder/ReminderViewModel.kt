@@ -3,14 +3,16 @@ package com.github.meypod.al_azan.main.reminder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
-import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.audio.DeviceRingtone
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderInterval
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
+import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,14 +20,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.time.Clock
 
 @HiltViewModel
 class ReminderViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val settingsRepository: SettingsRepository,
+    private val calculationSettingsRepository: CalculationSettingsRepository,
     private val ringtoneRepository: RingtoneRepository,
     private val audioPreviewPlayer: AudioPreviewPlayer,
 ) : ViewModel() {
@@ -44,6 +48,11 @@ class ReminderViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(userSounds = sounds, adhanEntries = settings.savedAdhanAudioEntries, settings = settings)
                 }
+            }
+        }
+        viewModelScope.launch {
+            calculationSettingsRepository.data.collect { calc ->
+                _uiState.update { it.copy(hijriDateAdjustment = calc.calculationAdjustments.hijriDate) }
             }
         }
         viewModelScope.launch {
@@ -88,8 +97,9 @@ class ReminderViewModel @Inject constructor(
             is ReminderUiAction.OnAddSoundFile -> onAddSoundFile(action)
             is ReminderUiAction.OnPreviewSound -> onPreviewSound(action)
             ReminderUiAction.OnStopPreview -> onStopPreview()
-            is ReminderUiAction.OnDraftOnlyOnceToggle -> onDraftOnlyOnceToggle(action)
             is ReminderUiAction.OnDraftDayToggle -> onDraftDayToggle(action)
+            is ReminderUiAction.OnDraftRepeatChange -> onDraftRepeatChange(action.option)
+            is ReminderUiAction.OnDraftIntervalStartChange -> onDraftIntervalStartChange(action.date)
             is ReminderUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action.permission)
         }
     }
@@ -252,27 +262,34 @@ class ReminderViewModel @Inject constructor(
 
     private fun onStopPreview() = audioPreviewPlayer.stop()
 
-    // Invariant: a repeating reminder (only == false) must have at least one day selected.
-    private fun onDraftOnlyOnceToggle(action: ReminderUiAction.OnDraftOnlyOnceToggle) =
-        updateDraft { d ->
-            // Switching to "repeat" with no day picked would never fire -> default to every day.
-            if (!action.value && d.days.isEmpty()) {
-                d.copy(only = false, days = DayOfWeek.entries.toSet())
-            } else {
-                d.copy(only = action.value)
-            }
-        }
-
     private fun onDraftDayToggle(action: ReminderUiAction.OnDraftDayToggle) =
         updateDraft { d ->
             val newDays = if (action.day in d.days) d.days - action.day else d.days + action.day
-            // Deselecting the last day of a repeating reminder falls back to "only once".
-            if (newDays.isEmpty() && !d.only) {
-                d.copy(days = newDays, only = true)
-            } else {
-                d.copy(days = newDays)
-            }
+            // The last day stays selected: a weekly reminder with no day would never fire.
+            if (newDays.isEmpty()) d else d.copy(days = newDays)
         }
+
+    private fun onDraftRepeatChange(option: RepeatOption) =
+        updateDraft { d ->
+            val repeat = when (option) {
+                RepeatOption.Once -> ReminderRepeat.Once
+                RepeatOption.Weekdays -> ReminderRepeat.Weekdays
+                is RepeatOption.EveryDays -> {
+                    // Changing the length keeps the chosen start date; a new interval starts today.
+                    val start = (d.repeat as? ReminderRepeat.Every)?.interval?.startDate ?: today()
+                    ReminderRepeat.Every(ReminderInterval(everyDays = option.days, startDate = start))
+                }
+            }
+            d.copy(repeat = repeat)
+        }
+
+    private fun onDraftIntervalStartChange(date: LocalDate) =
+        updateDraft { d ->
+            val repeat = d.repeat as? ReminderRepeat.Every ?: return@updateDraft d
+            d.copy(repeat = ReminderRepeat.Every(repeat.interval.copy(startDate = date)))
+        }
+
+    private fun today(): LocalDate = Clock.System.now().toLocalDate()
 
     private fun toggleSelection(id: String) {
         _uiState.update {
@@ -288,23 +305,7 @@ class ReminderViewModel @Inject constructor(
     private fun saveDraft() {
         val draft = _uiState.value.editDraft ?: return
         val id = draft.id ?: UUID.randomUUID().toString()
-        val reminder = Reminder(
-            id = id,
-            label = draft.label,
-            enabled = true,
-            prayer = draft.prayer,
-            duration = draft.duration,
-            durationModifier = if (draft.modifier == ReminderTimeModifier.After) 1 else -1,
-            sound = draft.sound,
-            vibration = draft.vibration,
-            once = draft.only,
-            // A repeating reminder with no day picked would never fire; treat empty as every day.
-            days = if (draft.only) {
-                null
-            } else {
-                PrayerAlarmSettings.ByWeekDay(draft.days.ifEmpty { DayOfWeek.entries.toSet() }.associateWith { true })
-            },
-        )
+        val reminder = draft.toReminder(id)
         viewModelScope.launch {
             reminderRepository.update { list ->
                 val existing = list.indexOfFirst { it.id == id }

@@ -5,6 +5,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 
 sealed interface ReminderUiAction {
     object OnAddClick : ReminderUiAction
@@ -94,12 +95,16 @@ sealed interface ReminderUiAction {
 
     object OnStopPreview : ReminderUiAction
 
-    data class OnDraftOnlyOnceToggle(
-        val value: Boolean,
-    ) : ReminderUiAction
-
     data class OnDraftDayToggle(
         val day: DayOfWeek,
+    ) : ReminderUiAction
+
+    data class OnDraftRepeatChange(
+        val option: RepeatOption,
+    ) : ReminderUiAction
+
+    data class OnDraftIntervalStartChange(
+        val date: LocalDate,
     ) : ReminderUiAction
 
     /** Persist "don't ask again" for a permission. In the enable flow only optional perms reach this. */

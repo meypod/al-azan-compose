@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">تغییر زبان مورد استفاده برای تقویم قمری.</string>
     <string name="secondary_calendar">تقویم ثانویه</string>
     <string name="secondary_calendar_help">تقویم استفاده‌شده در نوار ابزار صفحه اصلی و ویجت.</string>
+    <string name="first_day_of_week">نخستین روز هفته</string>
+    <string name="first_day_of_week_help">روزی که هفته در تقویم‌ها و انتخاب روزهای هفته از آن شروع می‌شود.</string>
+    <string name="default_with_value">پیش‌فرض (%1$s)</string>
     <string name="hide_toolbar_calendar">پنهان کردن تقویم نوار ابزار</string>
     <string name="hide_toolbar_calendar_help">تاریخ کنار دکمه منو در بالا را پنهان کنید.</string>
     <string name="swap_home_calendars">جابجایی تقویم قمری و ثانویه</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">یک نام بگذارید</string>
     <string name="reminder_time">وقت</string>
     <string name="reminder_sound">صدا</string>
-    <string name="reminder_only_once">فقط یک بار</string>
-    <string name="reminder_only_once_help">وقتی روشن باشد، این یادآوری یک‌بار به صدا درمی‌آید و سپس خودش خاموش می‌شود. وقتی خاموش باشد، در روزهایی که در پایین انتخاب می‌کنید تکرار می‌شود.</string>
     <string name="reminder_before">قبل از</string>
     <string name="reminder_after">بعد از</string>
     <string name="reminder_save">ذخیره</string>
@@ -525,6 +526,14 @@
     </plurals>
     <string name="only_once_label">فقط یک بار</string>
     <string name="everyday_label">هر روز</string>
+    <string name="reminder_repeat_weekdays">روزهای هفته</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">هر %1$d روز</item>
+        <item quantity="other">هر %1$d روز</item>
+    </plurals>
+    <string name="reminder_interval_start">شروع از</string>
+    <string name="choose_date">انتخاب تاریخ</string>
+    <string name="reminder_custom_interval_title">هر چند روز یک بار تکرار شود؟</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d دقیقه</item>
         <item quantity="other">%1$d دقیقه</item>

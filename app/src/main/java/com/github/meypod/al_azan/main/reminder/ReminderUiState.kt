@@ -6,6 +6,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderInterval
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import kotlinx.datetime.DayOfWeek
@@ -22,10 +23,42 @@ data class ReminderEditDraft(
     val prayer: Prayer = Prayer.Fajr,
     val sound: ReminderAudioEntry? = null,
     val vibration: VibrationMode? = null,
-    val only: Boolean = true,
-    /** Defaults to every day so a reminder switched to "repeat" fires daily unless narrowed. */
+    val repeat: ReminderRepeat = ReminderRepeat.Once,
+    /**
+     * Used when [repeat] is [ReminderRepeat.Weekdays], kept across mode switches so switching back
+     * restores it. Defaults to every day; never empty.
+     */
     val days: Set<DayOfWeek> = DayOfWeek.entries.toSet(),
 )
+
+@Immutable
+sealed interface ReminderRepeat {
+    data object Once : ReminderRepeat
+
+    data object Weekdays : ReminderRepeat
+
+    data class Every(
+        val interval: ReminderInterval,
+    ) : ReminderRepeat
+}
+
+/** A choice in the repeat dropdown; unlike [ReminderRepeat] an interval has no start date yet. */
+sealed interface RepeatOption {
+    data object Once : RepeatOption
+
+    data object Weekdays : RepeatOption
+
+    data class EveryDays(
+        val days: Int,
+    ) : RepeatOption
+}
+
+val ReminderRepeat.option: RepeatOption
+    get() = when (this) {
+        ReminderRepeat.Once -> RepeatOption.Once
+        ReminderRepeat.Weekdays -> RepeatOption.Weekdays
+        is ReminderRepeat.Every -> RepeatOption.EveryDays(interval.everyDays)
+    }
 
 @Immutable
 data class ReminderUiState(
@@ -46,6 +79,8 @@ data class ReminderUiState(
     val deletingBulk: Boolean = false,
     /** Used by the permission flow to read persisted "don't ask again" flags (optional permissions). */
     val settings: Settings = Settings(selectedLocale = "en"),
+    /** Day offset applied to lunar dates, so the start-date picker matches the rest of the app. */
+    val hijriDateAdjustment: Int = 0,
 ) {
     fun allSelected(): Boolean = reminders.isNotEmpty() && selectedIds.size == reminders.size
 }
@@ -59,9 +94,37 @@ fun Reminder.toDraft(): ReminderEditDraft =
         prayer = prayer,
         sound = sound,
         vibration = vibration,
-        only = once ?: true,
+        // Matches the alarm side, which only turns a reminder off after firing when once is true;
+        // a missing flag (old migrated data) repeats.
+        repeat = when {
+            once == true -> ReminderRepeat.Once
+            interval != null -> ReminderRepeat.Every(interval)
+            else -> ReminderRepeat.Weekdays
+        },
         // No stored day selection (a one-off, or legacy empty) defaults to every day.
         days = (days as? PrayerAlarmSettings.ByWeekDay)?.days?.filterValues { it }?.keys
             ?.ifEmpty { null }
             ?: DayOfWeek.entries.toSet(),
+    )
+
+/** The saved reminder for this draft; saving always enables it. */
+fun ReminderEditDraft.toReminder(id: String): Reminder =
+    Reminder(
+        id = id,
+        label = label,
+        enabled = true,
+        prayer = prayer,
+        duration = duration,
+        durationModifier = if (modifier == ReminderTimeModifier.After) 1 else -1,
+        sound = sound,
+        vibration = vibration,
+        once = repeat == ReminderRepeat.Once,
+        days = when (repeat) {
+            ReminderRepeat.Once -> null
+            // Every day, so an older app version that ignores the interval still fires it.
+            is ReminderRepeat.Every -> PrayerAlarmSettings.Bool(true)
+            // A weekly reminder with no day picked would never fire; treat empty as every day.
+            ReminderRepeat.Weekdays -> PrayerAlarmSettings.ByWeekDay(days.ifEmpty { DayOfWeek.entries.toSet() }.associateWith { true })
+        },
+        interval = (repeat as? ReminderRepeat.Every)?.interval,
     )

@@ -313,6 +313,9 @@
     <string name="numbering_system_help">모든 숫자가 선택된 체계로 강제 변환됩니다.</string>
     <string name="lunar_calendar_language_help">음력에 사용할 언어를 변경합니다.</string>
     <string name="secondary_calendar_help">홈 화면 툴바와 위젯에서 사용되는 달력입니다.</string>
+    <string name="first_day_of_week">한 주의 시작 요일</string>
+    <string name="first_day_of_week_help">달력과 요일 선택에서 한 주가 시작되는 요일입니다.</string>
+    <string name="default_with_value">기본값(%1$s)</string>
     <string name="hide_toolbar_calendar">툴바 달력 숨기기</string>
     <string name="lunar_islamic_ummalqura">이슬람력 (움 알-꾸라)</string>
     <string name="lunar_islamic_tabular">이슬람력 (표 계산 방식)</string>
@@ -358,6 +361,13 @@
     <string name="counter_new_title">새 계수기</string>
     <string name="counter_edit_title">라벨 편집</string>
     <string name="only_once_label">한 번만</string>
+    <string name="reminder_repeat_weekdays">요일</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="other">%1$d일마다</item>
+    </plurals>
+    <string name="reminder_interval_start">시작일</string>
+    <string name="choose_date">날짜 선택</string>
+    <string name="reminder_custom_interval_title">며칠마다 반복할까요?</string>
     <string name="counter_label_placeholder">예: 수브하날라</string>
     <string name="qibla_i_understand">이해합니다</string>
     <string name="qibla_use_map">지도 사용하기</string>

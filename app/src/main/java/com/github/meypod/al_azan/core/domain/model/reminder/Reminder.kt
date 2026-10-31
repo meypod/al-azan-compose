@@ -28,6 +28,8 @@ data class Reminder(
     val vibration: VibrationMode? = null,
     val once: Boolean? = null,
     val days: PrayerAlarmSettings? = null,
+    /** When set, overrides [days]; [days] is kept as every day so older app versions still fire it. */
+    val interval: ReminderInterval? = null,
 )
 
 @Serializable(with = ReminderAudioEntrySerializer::class)

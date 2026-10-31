@@ -254,6 +254,9 @@
     <string name="lunar_calendar_language_help">Promijeni jezik koji se koristi za lunarni kalendar.</string>
     <string name="secondary_calendar">Sekundarni Kalendar</string>
     <string name="secondary_calendar_help">Kalendar koji se koristi u alatnoj traci početnog ekrana i widgetu.</string>
+    <string name="first_day_of_week">Prvi dan sedmice</string>
+    <string name="first_day_of_week_help">Gdje sedmica počinje u kalendarima i odabiru dana.</string>
+    <string name="default_with_value">Zadano (%1$s)</string>
     <string name="hide_toolbar_calendar">Sakrij kalendar alatne trake</string>
     <string name="hide_toolbar_calendar_help">Sakrij datum pored dugmeta menija na vrhu.</string>
     <string name="swap_home_calendars">Zamijeni lunarni i sekundarni kalendar</string>
@@ -506,8 +509,6 @@
     <string name="reminder_label_placeholder">Dajte naziv</string>
     <string name="reminder_time">Vrijeme</string>
     <string name="reminder_sound">Zvuk</string>
-    <string name="reminder_only_once">Samo jednom</string>
-    <string name="reminder_only_once_help">Kada je uključeno, ovaj podsjetnik se oglasi jednom i zatim se sam isključi. Kada je isključeno, ponavlja se u danima koje odaberete ispod.</string>
     <string name="reminder_before">prije</string>
     <string name="reminder_after">nakon</string>
     <string name="reminder_save">Sačuvaj</string>
@@ -525,6 +526,15 @@
     </plurals>
     <string name="only_once_label">Samo jednom</string>
     <string name="everyday_label">Svaki dan</string>
+    <string name="reminder_repeat_weekdays">Dani u sedmici</string>
+    <plurals name="reminder_every_n_days">
+        <item quantity="one">Svaki %1$d dan</item>
+        <item quantity="few">Svaka %1$d dana</item>
+        <item quantity="other">Svakih %1$d dana</item>
+    </plurals>
+    <string name="reminder_interval_start">Početak</string>
+    <string name="choose_date">Odaberite datum</string>
+    <string name="reminder_custom_interval_title">Ponavljati svakih koliko dana?</string>
     <plurals name="time_unit_minutes">
         <item quantity="one">%1$d minuta</item>
         <item quantity="other">%1$d minuta</item>
