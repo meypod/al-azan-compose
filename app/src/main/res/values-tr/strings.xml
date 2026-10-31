@@ -580,6 +580,8 @@
     <string name="monthly_view_title">Aylık görünüm</string>
     <string name="prev_month">Önceki Ay</string>
     <string name="next_month">Gelecek Ay</string>
+    <string name="prev_year">Önceki Yıl</string>
+    <string name="next_year">Gelecek Yıl</string>
     <string name="show_this_month">Bu Ayı Göster</string>
     <string name="date_column">Tarih</string>
     <!-- ============================================================

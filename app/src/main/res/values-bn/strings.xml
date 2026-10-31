@@ -606,6 +606,8 @@
     <string name="monthly_view_title">মাসিক ভিউ</string>
     <string name="prev_month">আগের মাস</string>
     <string name="next_month">পরের মাস</string>
+    <string name="prev_year">আগের বছর</string>
+    <string name="next_year">পরের বছর</string>
     <string name="show_this_month">এই মাস দেখান</string>
     <string name="date_column">তারিখ</string>
 

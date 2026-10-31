@@ -606,6 +606,8 @@
     <string name="monthly_view_title">Vue mensuelle</string>
     <string name="prev_month">Mois précédent</string>
     <string name="next_month">Mois suivant</string>
+    <string name="prev_year">Année précédente</string>
+    <string name="next_year">Année suivante</string>
     <string name="show_this_month">Afficher ce mois-ci</string>
     <string name="date_column">Date</string>
 

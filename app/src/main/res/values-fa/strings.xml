@@ -606,6 +606,8 @@
     <string name="monthly_view_title">نمای ماهانه</string>
     <string name="prev_month">ماه قبل</string>
     <string name="next_month">ماه بعد</string>
+    <string name="prev_year">سال قبل</string>
+    <string name="next_year">سال بعد</string>
     <string name="show_this_month">نمایش این ماه</string>
     <string name="date_column">تاریخ</string>
 

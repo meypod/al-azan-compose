@@ -580,6 +580,8 @@
     <string name="monthly_view_title">Monatsansicht</string>
     <string name="prev_month">Voriger Monat</string>
     <string name="next_month">Nächster Monat</string>
+    <string name="prev_year">Voriges Jahr</string>
+    <string name="next_year">Nächstes Jahr</string>
     <string name="show_this_month">Diesen Monat anzeigen</string>
     <string name="date_column">Datum</string>
     <!-- ============================================================

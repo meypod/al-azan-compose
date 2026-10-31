@@ -380,6 +380,8 @@
     <string name="qibla_no_location">설정된 위치 없음</string>
     <string name="prev_month">이전 달</string>
     <string name="next_month">다음 달</string>
+    <string name="prev_year">이전 해</string>
+    <string name="next_year">다음 해</string>
     <string name="show_this_month">이 달 보이기</string>
     <string name="allow_app_to_keep_running">백그라운드에서 앱 실행 허용</string>
     <string name="dnd_access_status_missing">허가되지 않음</string>

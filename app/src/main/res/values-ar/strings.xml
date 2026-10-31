@@ -626,6 +626,8 @@
     <string name="monthly_view_title">العرض الشهري</string>
     <string name="prev_month">الشهر السابق</string>
     <string name="next_month">الشهر القادم</string>
+    <string name="prev_year">السنة السابقة</string>
+    <string name="next_year">السنة القادمة</string>
     <string name="show_this_month">عرض هذا الشهر</string>
     <string name="date_column">التاريخ</string>
 

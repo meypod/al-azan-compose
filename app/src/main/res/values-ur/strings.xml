@@ -606,6 +606,8 @@
     <string name="monthly_view_title">ماہانہ نظارہ</string>
     <string name="prev_month">پچھلا مہینہ</string>
     <string name="next_month">اگلا مہینہ</string>
+    <string name="prev_year">پچھلا سال</string>
+    <string name="next_year">اگلا سال</string>
     <string name="show_this_month">یہ مہینہ دکھائیں</string>
     <string name="date_column">تاریخ</string>
 

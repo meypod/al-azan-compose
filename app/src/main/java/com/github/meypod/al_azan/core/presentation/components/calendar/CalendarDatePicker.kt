@@ -114,25 +114,40 @@ fun CalendarDatePicker(
     isMarked: (LocalDate) -> Boolean = { false },
     initialCalendarIndex: Int = 0,
     onCalendarIndexChange: (Int) -> Unit = {},
+    precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
 ) {
     require(calendars.isNotEmpty()) { "CalendarDatePicker needs at least one calendar" }
+    val byMonth = precision == CalendarPickerPrecision.Month
     var calendarIndex by rememberSaveable { mutableIntStateOf(initialCalendarIndex) }
     val system = calendars[calendarIndex.coerceIn(calendars.indices)].system
-    // Any day inside the shown month; saved as epoch days since LocalDate is not Saveable.
+    // Any day inside the shown month (or, by month, the shown year); saved as epoch days since
+    // LocalDate is not Saveable.
     var shownEpochDay by rememberSaveable { mutableLongStateOf(selected.toEpochDays()) }
     val shown = LocalDate.fromEpochDays(shownEpochDay)
-    var view by rememberSaveable { mutableStateOf(PickerView.Days) }
+    val homeView = if (byMonth) PickerView.Months else PickerView.Days
+    var view by rememberSaveable { mutableStateOf(homeView) }
     val month = remember(shown, system, numberingSystem) { calendarMonth(shown, system, numberingSystem) }
-    // Follow a selection made from outside (e.g. a "Today" action) when it lands in another month.
+    // Follow a selection made from outside (e.g. a "Today" action) when it lands outside the shown
+    // month (or year, by month).
     LaunchedEffect(selected) {
-        if (month.days.none { it.date == selected }) {
+        val visible = if (byMonth) {
+            formatDate(selected, system, DateFormat.YEAR, numberingSystem) == month.yearLabel
+        } else {
+            month.days.any { it.date == selected }
+        }
+        if (!visible) {
             shownEpochDay = selected.toEpochDays()
-            view = PickerView.Days
+            view = homeView
         }
     }
     val show = { date: LocalDate ->
         shownEpochDay = date.toEpochDays()
-        view = PickerView.Days
+        view = homeView
+    }
+    val pickMonth = { date: LocalDate -> if (byMonth) onSelect(date) else show(date) }
+    // Arrows step months over the day grid and years over the month grid; hidden in the year list.
+    val stepBy = { delta: Int ->
+        shownEpochDay = (if (byMonth) addCalendarYears(shown, delta, system) else addCalendarMonths(shown, delta, system)).toEpochDays()
     }
 
     BoxWithConstraints(modifier) {
@@ -154,16 +169,16 @@ fun CalendarDatePicker(
             Column(
                 modifier = Modifier.onSizeChanged { chromeHeight = with(density) { it.height.toDp() } },
                 verticalArrangement = Arrangement.spacedBy(spacing),
-                ) {
+            ) {
                 if (calendars.size > 1) {
                     SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                         calendars.forEachIndexed { index, calendar ->
                             SegmentedButton(
                                 selected = index == calendarIndex,
                                 onClick = {
-                            calendarIndex = index
-                            onCalendarIndexChange(index)
-                        },
+                                    calendarIndex = index
+                                    onCalendarIndexChange(index)
+                                },
                                 shape = SegmentedButtonDefaults.itemShape(index, calendars.size),
                             ) {
                                 Text(calendar.label)
@@ -175,38 +190,41 @@ fun CalendarDatePicker(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    val stepping = view == PickerView.Days
+                    val stepping = view == homeView
+                    val (prevLabel, nextLabel) = if (byMonth) R.string.prev_year to R.string.next_year else R.string.prev_month to R.string.next_month
                     // Kept in layout when hidden, so the month and year buttons don't jump between views.
                     IconButton(
-                        onClick = { shownEpochDay = addCalendarMonths(shown, -1, system).toEpochDays() },
+                        onClick = { stepBy(-1) },
                         enabled = stepping,
                         modifier = Modifier.alpha(if (stepping) 1f else 0f),
                     ) {
-                        Icon(painterResource(R.drawable.arrow_back), contentDescription = stringResource(R.string.prev_month))
+                        Icon(painterResource(R.drawable.arrow_back), contentDescription = stringResource(prevLabel))
                     }
                     Row(
                         modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.Center,
                     ) {
-                        ViewToggleButton(
-                            label = month.monthLabel,
-                            open = view == PickerView.Months,
-                            onClick = { view = if (view == PickerView.Months) PickerView.Days else PickerView.Months },
-                            modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
-                        )
+                        if (!byMonth) {
+                            ViewToggleButton(
+                                label = month.monthLabel,
+                                open = view == PickerView.Months,
+                                onClick = { view = if (view == PickerView.Months) homeView else PickerView.Months },
+                                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+                            )
+                        }
                         ViewToggleButton(
                             label = month.yearLabel,
                             open = view == PickerView.Years,
-                            onClick = { view = if (view == PickerView.Years) PickerView.Days else PickerView.Years },
+                            onClick = { view = if (view == PickerView.Years) homeView else PickerView.Years },
                             modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
                         )
                     }
                     IconButton(
-                        onClick = { shownEpochDay = addCalendarMonths(shown, 1, system).toEpochDays() },
+                        onClick = { stepBy(1) },
                         enabled = stepping,
                         modifier = Modifier.alpha(if (stepping) 1f else 0f),
                     ) {
-                        Icon(painterResource(R.drawable.arrow_forward), contentDescription = stringResource(R.string.next_month))
+                        Icon(painterResource(R.drawable.arrow_forward), contentDescription = stringResource(nextLabel))
                     }
                 }
             }
@@ -214,13 +232,23 @@ fun CalendarDatePicker(
             Box(Modifier.fillMaxWidth().height(WEEKDAY_ROW_HEIGHT + rowHeight * MAX_WEEKS)) {
                 when (view) {
                     PickerView.Days -> DaysView(month, selected, today, weekLocale, firstDayOfWeek, rowHeight, isMarked, onSelect)
-                    PickerView.Months -> MonthsView(shown, system, numberingSystem, onPick = show)
-                    PickerView.Years -> YearsView(shown, system, numberingSystem, onPick = show)
+                    PickerView.Months -> MonthsView(
+                        shown = shown,
+                        highlighted = if (byMonth) selected else shown,
+                        today = today,
+                        system = system,
+                        numberingSystem = numberingSystem,
+                        onPick = pickMonth,
+                    )
+                    PickerView.Years -> YearsView(shown, today, system, numberingSystem, onPick = show)
                 }
             }
         }
     }
 }
+
+/** Whether a [CalendarDatePicker] picks a day or a whole month (any day of it stands for the month). */
+enum class CalendarPickerPrecision { Day, Month }
 
 private enum class PickerView { Days, Months, Years }
 
@@ -309,15 +337,23 @@ private fun DaysView(
 @Composable
 private fun MonthsView(
     shown: LocalDate,
+    highlighted: LocalDate,
+    today: LocalDate,
     system: CalendarSystem,
     numberingSystem: NumberingSystem,
     onPick: (LocalDate) -> Unit,
 ) {
     val months = remember(shown, system, numberingSystem) { calendarYearMonths(shown, system, numberingSystem) }
-    val current = months.lastOrNull { it.date <= shown }
+    val currentMonth = remember(today, system) { calendarYearMonths(today, system, numberingSystem).last { it.date <= today }.date }
+    val highlightedMonth = remember(highlighted, system) { calendarYearMonths(highlighted, system, numberingSystem).last { it.date <= highlighted }.date }
     LazyVerticalGrid(columns = GridCells.Fixed(MONTH_COLUMNS), modifier = Modifier.fillMaxSize()) {
         items(months, key = { it.date.toEpochDays() }) { month ->
-            SelectorCell(label = month.label, isSelected = month == current, onClick = { onPick(month.date) })
+            SelectorCell(
+                label = month.label,
+                isSelected = month.date == highlightedMonth,
+                isCurrent = month.date == currentMonth,
+                onClick = { onPick(month.date) },
+            )
         }
     }
 }
@@ -325,20 +361,24 @@ private fun MonthsView(
 @Composable
 private fun YearsView(
     shown: LocalDate,
+    today: LocalDate,
     system: CalendarSystem,
     numberingSystem: NumberingSystem,
     onPick: (LocalDate) -> Unit,
 ) {
     val offsets = -YEAR_RANGE..YEAR_RANGE
+    val currentYear = remember(today, system, numberingSystem) { formatDate(today, system, DateFormat.YEAR, numberingSystem) }
     // Open with the shown year in view, a couple of rows from the top.
     val state = rememberLazyGridState(initialFirstVisibleItemIndex = (YEAR_RANGE - 2 * YEAR_COLUMNS).coerceAtLeast(0))
     LazyVerticalGrid(columns = GridCells.Fixed(YEAR_COLUMNS), state = state, modifier = Modifier.fillMaxSize()) {
         items(offsets.count(), key = { it }) { index ->
             val offset = offsets.first + index
             val date = remember(shown, system, offset) { addCalendarYears(shown, offset, system) }
+            val label = formatDate(date, system, DateFormat.YEAR, numberingSystem)
             SelectorCell(
-                label = formatDate(date, system, DateFormat.YEAR, numberingSystem),
+                label = label,
                 isSelected = offset == 0,
+                isCurrent = label == currentYear,
                 onClick = { onPick(date) },
             )
         }
@@ -349,6 +389,7 @@ private fun YearsView(
 private fun SelectorCell(
     label: String,
     isSelected: Boolean,
+    isCurrent: Boolean,
     onClick: () -> Unit,
 ) {
     val colors = MaterialTheme.colorScheme
@@ -358,13 +399,20 @@ private fun SelectorCell(
             .padding(4.dp)
             .clip(CircleShape)
             .then(if (isSelected) Modifier.background(colors.primary) else Modifier)
+            // The current month or year is ringed like today in the day grid.
+            .then(if (isCurrent && !isSelected) Modifier.border(1.dp, colors.primary, CircleShape) else Modifier)
             .selectable(selected = isSelected, onClick = onClick, role = Role.RadioButton)
             .padding(vertical = 10.dp),
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
-            color = if (isSelected) colors.onPrimary else colors.onSurface,
+            color = when {
+                isSelected -> colors.onPrimary
+                isCurrent -> colors.primary
+                else -> colors.onSurface
+            },
+            fontWeight = if (isCurrent) FontWeight.Bold else null,
             maxLines = 1,
         )
     }
@@ -433,6 +481,7 @@ fun CalendarDatePickerDialog(
     isMarked: (picked: LocalDate, date: LocalDate) -> Boolean = { _, _ -> false },
     today: LocalDate = remember { Clock.System.now().toLocalDate() },
     initialCalendarIndex: Int = 0,
+    precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
 ) {
     var picked by rememberSaveable { mutableLongStateOf(initial.toEpochDays()) }
     var calendarIndex by rememberSaveable { mutableIntStateOf(initialCalendarIndex) }
@@ -462,6 +511,7 @@ fun CalendarDatePickerDialog(
                     isMarked = { isMarked(LocalDate.fromEpochDays(picked), it) },
                     initialCalendarIndex = initialCalendarIndex,
                     onCalendarIndexChange = { calendarIndex = it },
+                    precision = precision,
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -510,6 +560,22 @@ private fun CalendarDatePickerPersianPreview() {
             weekLocale = "fa",
             numberingSystem = NumberingSystem.Default,
             today = LocalDate(2026, 10, 31),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CalendarMonthPickerPreview() {
+    AlAzanThemePaddedPreview {
+        CalendarDatePicker(
+            selected = LocalDate(2026, 11, 3),
+            onSelect = {},
+            calendars = listOf(PickerCalendar(CalendarSystem("gregorian", "en"), "Gregorian")),
+            weekLocale = "en",
+            numberingSystem = NumberingSystem.Default,
+            today = LocalDate(2026, 10, 31),
+            precision = CalendarPickerPrecision.Month,
         )
     }
 }

@@ -605,6 +605,8 @@
     <string name="monthly_view_title">Tampilan bulanan</string>
     <string name="prev_month">Bulan Sebelumnya</string>
     <string name="next_month">Bulan Depan</string>
+    <string name="prev_year">Tahun Sebelumnya</string>
+    <string name="next_year">Tahun Depan</string>
     <string name="show_this_month">Tampilkan Bulan Ini</string>
     <string name="date_column">Tanggal</string>
 

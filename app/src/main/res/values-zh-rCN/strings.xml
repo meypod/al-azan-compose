@@ -220,6 +220,8 @@
     <string name="compass_sensor_unavailable">指南针传感器不可用</string>
     <string name="prev_month">前一月</string>
     <string name="next_month">下一月</string>
+    <string name="prev_year">前一年</string>
+    <string name="next_year">下一年</string>
     <string name="date_column">日期</string>
     <string name="troubleshoot_title">修复常见问题</string>
     <string name="advanced">高级</string>

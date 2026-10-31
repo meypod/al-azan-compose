@@ -609,6 +609,8 @@
     <string name="monthly_view_title">Monthly view</string>
     <string name="prev_month">Prev Month</string>
     <string name="next_month">Next Month</string>
+    <string name="prev_year">Prev Year</string>
+    <string name="next_year">Next Year</string>
     <string name="show_this_month">Show This Month</string>
     <string name="date_column">Date</string>
 

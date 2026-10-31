@@ -60,6 +60,7 @@ import com.github.meypod.al_azan.core.presentation.LightOnTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.LightTertiaryContainer
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.calendar.CalendarDateField
+import com.github.meypod.al_azan.core.presentation.components.calendar.CalendarPickerPrecision
 import com.github.meypod.al_azan.core.presentation.components.calendar.rememberUserPickerCalendars
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.util.drawHorizontalScrollbar
@@ -159,7 +160,7 @@ fun MonthlyViewScreen(
                 }
             }
             uiState.anchorDate?.let { anchorDate ->
-                // Picking a date shows its month, in whichever calendar the picker was showing.
+                // Picking a month shows it, in whichever calendar the picker was showing.
                 CalendarDateField(
                     date = anchorDate,
                     onDateChange = { date, index -> onAction(MonthlyViewUiAction.OnDatePicked(date, monthlyCalendarModeAt(index))) },
@@ -171,6 +172,7 @@ fun MonthlyViewScreen(
                     calendarIndex = uiState.calendarMode.pickerIndex,
                     skeleton = DateFormat.YEAR_MONTH,
                     showOtherCalendar = false,
+                    precision = CalendarPickerPrecision.Month,
                 )
             }
         }

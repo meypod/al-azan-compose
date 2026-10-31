@@ -48,6 +48,7 @@ fun CalendarDateField(
     calendarIndex: Int = 0,
     skeleton: String = DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY,
     showOtherCalendar: Boolean = true,
+    precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
 ) {
     require(calendars.isNotEmpty()) { "CalendarDateField needs at least one calendar" }
     val shownIndex = calendarIndex.coerceIn(calendars.indices)
@@ -90,6 +91,7 @@ fun CalendarDateField(
             firstDayOfWeek = firstDayOfWeek,
             isMarked = isMarked,
             initialCalendarIndex = shownIndex,
+            precision = precision,
         )
     }
 }

@@ -606,6 +606,8 @@
     <string name="monthly_view_title">Mwonekano wa kila mwezi</string>
     <string name="prev_month">Mwezi Uliopita</string>
     <string name="next_month">Mwezi ujao</string>
+    <string name="prev_year">Mwaka Uliopita</string>
+    <string name="next_year">Mwaka ujao</string>
     <string name="show_this_month">Onyesha Mwezi Huu</string>
     <string name="date_column">Tarehe</string>
 

@@ -607,6 +607,8 @@
     <string name="monthly_view_title">Mjesečni prikaz</string>
     <string name="prev_month">Prethodni Mjesec</string>
     <string name="next_month">Sljedeći Mjesec</string>
+    <string name="prev_year">Prethodna Godina</string>
+    <string name="next_year">Sljedeća Godina</string>
     <string name="show_this_month">Prikaži ovaj mjesec</string>
     <string name="date_column">Datum</string>
 

@@ -605,6 +605,8 @@
     <string name="monthly_view_title">Xem theo tháng</string>
     <string name="prev_month">Tháng Trước</string>
     <string name="next_month">Tháng Sau</string>
+    <string name="prev_year">Năm Trước</string>
+    <string name="next_year">Năm Sau</string>
     <string name="show_this_month">Hiển thị Tháng này</string>
     <string name="date_column">Ngày</string>
 
