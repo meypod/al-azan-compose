@@ -3,6 +3,7 @@ package com.github.meypod.al_azan.core.domain.model.reminder
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSchedulingDefaults
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.calendar.CalendarSystem
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -21,6 +22,9 @@ import org.junit.Test
 class ReminderIntervalTest {
 
     private val start = LocalDate(2026, 11, 2)
+
+    // Only monthly rules read calendars; these tests cover the others.
+    private val calendars = ReminderCalendars("en", CalendarSystem("islamic", "en"))
     private val everyThree = ReminderInterval(everyDays = 3, startDate = start)
 
     private fun day(offset: Int) = start + DatePeriod(days = offset)
@@ -58,9 +62,9 @@ class ReminderIntervalTest {
     fun `interval overrides the weekday selection`() {
         val atFajr = { date: LocalDate -> date.atTime(LocalTime(5, 0)).toInstant(TimeZone.currentSystemDefault()) }
         val r = reminder(interval = everyThree, days = PrayerAlarmSettings.Bool(true))
-        assertTrue(r.firesAt(atFajr(day(3))))
-        assertFalse(r.firesAt(atFajr(day(4))))
-        assertTrue(reminder(days = PrayerAlarmSettings.Bool(true)).firesAt(atFajr(day(4))))
+        assertTrue(r.firesAt(atFajr(day(3)), calendars))
+        assertFalse(r.firesAt(atFajr(day(4)), calendars))
+        assertTrue(reminder(days = PrayerAlarmSettings.Bool(true)).firesAt(atFajr(day(4)), calendars))
     }
 
     /** One skipped occurrence of the longest interval must still be found by the scheduler scan. */
@@ -97,12 +101,12 @@ class ReminderIntervalTest {
     @Test
     fun `only days next to an occurrence may fire`() {
         val r = reminder(everyThree)
-        assertTrue(r.mayFireNear(day(-1)))
-        assertTrue(r.mayFireNear(day(1)))
-        assertFalse(r.mayFireNear(day(-2)))
-        assertTrue(reminder().mayFireNear(day(-2)))
+        assertTrue(r.mayFireNear(day(-1), calendars))
+        assertTrue(r.mayFireNear(day(1), calendars))
+        assertFalse(r.mayFireNear(day(-2), calendars))
+        assertTrue(reminder().mayFireNear(day(-2), calendars))
         // Long custom intervals rule out most days, so the scheduler's long scan stays cheap.
         val yearly = reminder(ReminderInterval(everyDays = ReminderInterval.MAX_DAYS, startDate = start))
-        assertEquals(7, (0..ReminderInterval.MAX_DAYS * 2).count { yearly.mayFireNear(day(it)) })
+        assertEquals(7, (0..ReminderInterval.MAX_DAYS * 2).count { yearly.mayFireNear(day(it), calendars) })
     }
 }

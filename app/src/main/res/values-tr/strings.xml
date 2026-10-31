@@ -504,6 +504,15 @@
     <string name="only_once_label">Sadece Bir Kez</string>
     <string name="everyday_label">Her gün</string>
     <string name="reminder_repeat_weekdays">Haftanın günleri</string>
+    <string name="reminder_repeat_monthly">Her ay</string>
+    <string name="reminder_day_of_month">Ayın günü</string>
+    <string name="reminder_month_last_day">Son gün</string>
+    <string name="reminder_monthly_on_day">Her ayın %1$s. günü (%2$s)</string>
+    <string name="reminder_monthly_last_day">Her ayın son günü (%1$s)</string>
+    <string name="reminder_once_fires_at">%1$s %2$s saatinde</string>
+    <string name="reminder_once_passed">Bu saat geçti. Daha sonraki bir tarih seçin.</string>
+    <string name="reminder_once_on">Bir kez, %1$s</string>
+    <string name="reminder_expired">Süresi doldu</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">Her %1$d günde bir</item>
         <item quantity="other">Her %1$d günde bir</item>

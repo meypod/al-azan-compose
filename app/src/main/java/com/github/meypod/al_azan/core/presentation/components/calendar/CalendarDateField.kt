@@ -49,6 +49,7 @@ fun CalendarDateField(
     skeleton: String = DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY,
     showOtherCalendar: Boolean = true,
     precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
+    isSelectable: (LocalDate) -> Boolean = { true },
 ) {
     require(calendars.isNotEmpty()) { "CalendarDateField needs at least one calendar" }
     val shownIndex = calendarIndex.coerceIn(calendars.indices)
@@ -92,6 +93,7 @@ fun CalendarDateField(
             isMarked = isMarked,
             initialCalendarIndex = shownIndex,
             precision = precision,
+            isSelectable = isSelectable,
         )
     }
 }

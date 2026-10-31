@@ -528,6 +528,15 @@
     <string name="only_once_label">Only Once</string>
     <string name="everyday_label">Everyday</string>
     <string name="reminder_repeat_weekdays">Days of the week</string>
+    <string name="reminder_repeat_monthly">Every month</string>
+    <string name="reminder_day_of_month">Day of the month</string>
+    <string name="reminder_month_last_day">Last day</string>
+    <string name="reminder_monthly_on_day">Day %1$s of each month (%2$s)</string>
+    <string name="reminder_monthly_last_day">Last day of each month (%1$s)</string>
+    <string name="reminder_once_fires_at">Fires on %1$s at %2$s</string>
+    <string name="reminder_once_passed">This time has already passed. Pick a later date.</string>
+    <string name="reminder_once_on">Once on %1$s</string>
+    <string name="reminder_expired">Expired</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">Every %1$d day</item>
         <item quantity="other">Every %1$d days</item>

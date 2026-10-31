@@ -527,6 +527,15 @@
     <string name="only_once_label">صرف ایک بار</string>
     <string name="everyday_label">ہر روز</string>
     <string name="reminder_repeat_weekdays">ہفتے کے دن</string>
+    <string name="reminder_repeat_monthly">ہر مہینے</string>
+    <string name="reminder_day_of_month">مہینے کا دن</string>
+    <string name="reminder_month_last_day">آخری دن</string>
+    <string name="reminder_monthly_on_day">ہر مہینے کا %1$s واں دن (%2$s)</string>
+    <string name="reminder_monthly_last_day">ہر مہینے کا آخری دن (%1$s)</string>
+    <string name="reminder_once_fires_at">%1$s کو %2$s بجے</string>
+    <string name="reminder_once_passed">یہ وقت گزر چکا ہے۔ بعد کی تاریخ منتخب کریں۔</string>
+    <string name="reminder_once_on">ایک بار، %1$s</string>
+    <string name="reminder_expired">میعاد ختم</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">ہر %1$d دن</item>
         <item quantity="other">ہر %1$d دن</item>

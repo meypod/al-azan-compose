@@ -1,5 +1,6 @@
 package com.github.meypod.al_azan.main.reminder
 
+import android.icu.text.DateFormat
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -47,18 +48,24 @@ import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.calendar.secondaryCalendarSystem
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
+import com.github.meypod.al_azan.core.domain.model.settings.Settings
+import com.github.meypod.al_azan.core.domain.util.formatDate
+import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
 import com.github.meypod.al_azan.core.domain.util.resolvedFirstDayOfWeek
 import com.github.meypod.al_azan.core.presentation.AlAzanThemePreview
 import com.github.meypod.al_azan.core.presentation.components.ACard
 import com.github.meypod.al_azan.core.presentation.components.PrimaryButton
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
+import com.github.meypod.al_azan.core.presentation.components.calendar.PickerCalendar
 import com.github.meypod.al_azan.core.presentation.components.calendar.rememberUserPickerCalendars
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
 import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.localized
 import com.github.meypod.al_azan.core.presentation.mapper.reminderDurationTitle
+import com.github.meypod.al_azan.core.presentation.mapper.stringRes
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.main.reminder.components.ReminderEditSheet
 
@@ -74,6 +81,7 @@ fun ReminderScreen(
     // off if denied. Required perms keep asking; the optional ones (phone-state, FSI) honor/offer "don't
     // ask again" here too — the flow special-cases them.
     val pendingRevert = remember { mutableStateOf<(() -> Unit)?>(null) }
+    val pickerCalendars = rememberUserPickerCalendars(uiState.settings, uiState.hijriDateAdjustment)
     val requestPermissions = rememberSchedulingPermissionRequest(
         isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
         onDontAskAgain = { onAction(ReminderUiAction.OnPermissionDontAskAgain(it)) },
@@ -206,6 +214,8 @@ fun ReminderScreen(
                 uiState.reminders.forEach { r ->
                     ReminderRow(
                         reminder = r,
+                        repeatLabel = repeatLabel(r, uiState.settings),
+                        expired = r.id in uiState.expiredReminderIds,
                         isSelected = r.id in uiState.selectedIds,
                         selectionMode = uiState.selectionMode,
                         onAction = onAction,
@@ -233,10 +243,13 @@ fun ReminderScreen(
             deviceSounds = uiState.deviceSounds,
             adhanEntries = uiState.adhanEntries,
             playingSoundId = uiState.playingSoundId,
-            calendars = rememberUserPickerCalendars(uiState.settings, uiState.hijriDateAdjustment),
+            calendars = pickerCalendars,
             weekLocale = uiState.settings.selectedLocale,
             numberingSystem = uiState.settings.numberingSystem,
             firstDayOfWeek = uiState.settings.resolvedFirstDayOfWeek(),
+            secondaryCalendar = uiState.settings.selectedSecondaryCalendar,
+            onceSchedule = uiState.onceSchedule,
+            is24Hour = uiState.settings.is24HourFormat,
         )
     }
 
@@ -294,12 +307,16 @@ private fun EmptyState(onAction: (ReminderUiAction) -> Unit) {
 @Composable
 private fun ReminderRow(
     reminder: Reminder,
+    repeatLabel: String,
+    /** A dated one-off whose time has gone by: its date shows red while enabled, and is announced as expired. */
+    expired: Boolean = false,
     isSelected: Boolean,
     selectionMode: Boolean,
     onAction: (ReminderUiAction) -> Unit,
     onEnabledChange: (Boolean) -> Unit = {},
 ) {
     val bg = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f) else Color.Transparent
+    val expiredLabel = stringResource(R.string.reminder_expired)
     val layoutDirection = LocalLayoutDirection.current
     val title = reminderDurationTitle(
         LocalResources.current,
@@ -356,10 +373,14 @@ private fun ReminderRow(
                 )
             }
             Text(
-                text = dayLabel(reminder),
+                text = repeatLabel,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(end = 8.dp),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    // Colour alone isn't seen by everyone, nor announced.
+                    .then(if (expired) Modifier.semantics { contentDescription = "$repeatLabel, $expiredLabel" } else Modifier),
+                // Red only while it is on: a reminder that is off is not expected to fire anyway.
+                color = if (expired && reminder.enabled) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Switch(
                 checked = reminder.enabled,
@@ -372,10 +393,32 @@ private fun ReminderRow(
     }
 }
 
+/** Short "when it repeats" summary. */
 @Composable
-private fun dayLabel(r: Reminder): String {
+private fun repeatLabel(
+    r: Reminder,
+    settings: Settings,
+): String {
     // Same reading as the editor and the alarms: only once == true is a one-off.
-    if (r.once == true) return stringResource(R.string.only_once_label)
+    if (r.once == true) {
+        val date = r.onceDate ?: return stringResource(R.string.only_once_label)
+        return stringResource(
+            R.string.reminder_once_on,
+            formatDate(date, settings.secondaryCalendarSystem(), DateFormat.ABBR_MONTH_WEEKDAY_DAY, settings.numberingSystem),
+        )
+    }
+    r.monthly?.let { monthly ->
+        val calendarName = stringResource(monthly.calendar.stringRes())
+        return if (monthly.isLastDay) {
+            stringResource(R.string.reminder_monthly_last_day, calendarName)
+        } else {
+            stringResource(
+                R.string.reminder_monthly_on_day,
+                formatWithUnicodeDigits(monthly.day.toString(), settings.numberingSystem, settings.selectedLocale),
+                calendarName,
+            )
+        }
+    }
     r.interval?.let { return pluralStringResource(R.plurals.reminder_every_n_days, it.everyDays, it.everyDays) }
     // No day rule fires every day (the scheduler treats null as always matching).
     val days = r.days?.selectedDays() ?: PrayerAlarmSettings.ALL_DAYS
@@ -400,6 +443,7 @@ private fun ReminderRowNormalPreview() {
     AlAzanThemePreview {
         ReminderRow(
             reminder = sampleReminder,
+            repeatLabel = "Only once",
             isSelected = false,
             selectionMode = false,
             onAction = {},
@@ -413,6 +457,7 @@ private fun ReminderRowSelectionUnselectedPreview() {
     AlAzanThemePreview {
         ReminderRow(
             reminder = sampleReminder,
+            repeatLabel = "Only once",
             isSelected = false,
             selectionMode = true,
             onAction = {},
@@ -426,6 +471,7 @@ private fun ReminderRowSelectionSelectedPreview() {
     AlAzanThemePreview {
         ReminderRow(
             reminder = sampleReminder,
+            repeatLabel = "Only once",
             isSelected = true,
             selectionMode = true,
             onAction = {},

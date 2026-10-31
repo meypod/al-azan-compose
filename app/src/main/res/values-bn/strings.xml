@@ -527,6 +527,15 @@
     <string name="only_once_label">শুধুমাত্র একবার</string>
     <string name="everyday_label">প্রতিদিন</string>
     <string name="reminder_repeat_weekdays">সপ্তাহের দিন</string>
+    <string name="reminder_repeat_monthly">প্রতি মাসে</string>
+    <string name="reminder_day_of_month">মাসের দিন</string>
+    <string name="reminder_month_last_day">শেষ দিন</string>
+    <string name="reminder_monthly_on_day">প্রতি মাসের %1$s তারিখ (%2$s)</string>
+    <string name="reminder_monthly_last_day">প্রতি মাসের শেষ দিন (%1$s)</string>
+    <string name="reminder_once_fires_at">%1$s তারিখে %2$s সময়ে বাজবে</string>
+    <string name="reminder_once_passed">এই সময় পেরিয়ে গেছে। পরের কোনো তারিখ বেছে নিন।</string>
+    <string name="reminder_once_on">একবার, %1$s</string>
+    <string name="reminder_expired">মেয়াদোত্তীর্ণ</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">প্রতি %1$d দিন</item>
         <item quantity="other">প্রতি %1$d দিন</item>

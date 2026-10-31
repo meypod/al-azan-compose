@@ -2,8 +2,11 @@ package com.github.meypod.al_azan.main.reminder
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
+import com.github.meypod.al_azan.core.domain.model.reminder.MonthlyCalendar
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderInterval
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderMonthly
+import com.github.meypod.al_azan.core.domain.model.settings.SecondaryCalendar
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import org.junit.Assert.assertEquals
@@ -20,15 +23,17 @@ class ReminderDraftMappingTest {
     @Test
     fun `each repeat mode survives a save and reopen`() {
         listOf(
-            ReminderEditDraft(repeat = ReminderRepeat.Once),
+            ReminderEditDraft(repeat = ReminderRepeat.Once(LocalDate(2026, 11, 20))),
             ReminderEditDraft(repeat = ReminderRepeat.Weekdays, days = mondayWednesday),
             ReminderEditDraft(repeat = ReminderRepeat.Every(interval)),
+            ReminderEditDraft(repeat = ReminderRepeat.Monthly(ReminderMonthly(MonthlyCalendar.Lunar, 13))),
+            ReminderEditDraft(repeat = ReminderRepeat.Monthly(ReminderMonthly(MonthlyCalendar.Civil(SecondaryCalendar.Persian), ReminderMonthly.LAST_DAY))),
         ).forEach { assertEquals(it, roundTrip(it)) }
     }
 
     @Test
     fun `once stores no day rule or interval`() {
-        val r = ReminderEditDraft(repeat = ReminderRepeat.Once, days = mondayWednesday).toReminder("r")
+        val r = ReminderEditDraft(repeat = ReminderRepeat.Once(LocalDate(2026, 11, 20)), days = mondayWednesday).toReminder("r")
         assertEquals(true, r.once)
         assertNull(r.days)
         assertNull(r.interval)
@@ -60,5 +65,24 @@ class ReminderDraftMappingTest {
         val saved = legacyWeekly.toDraft().toReminder("r")
         assertEquals(false, saved.once)
         assertEquals(mondayWednesday, saved.days?.selectedDays())
+    }
+
+    @Test
+    fun `monthly keeps every day as the fallback for older app versions`() {
+        val rule = ReminderMonthly(MonthlyCalendar.Lunar, 13)
+        val r = ReminderEditDraft(repeat = ReminderRepeat.Monthly(rule)).toReminder("r")
+        assertEquals(false, r.once)
+        assertEquals(PrayerAlarmSettings.Bool(true), r.days)
+        assertEquals(rule, r.monthly)
+        assertNull(r.interval)
+    }
+
+    @Test
+    fun `a one-off keeps its date, and older ones open without one`() {
+        val r = ReminderEditDraft(repeat = ReminderRepeat.Once(LocalDate(2026, 11, 20))).toReminder("r")
+        assertEquals(true, r.once)
+        assertEquals(LocalDate(2026, 11, 20), r.onceDate)
+        val legacy = Reminder(id = "r", prayer = Prayer.Fajr, duration = 5, durationModifier = -1, once = true)
+        assertEquals(ReminderRepeat.Once(null), legacy.toDraft().repeat)
     }
 }

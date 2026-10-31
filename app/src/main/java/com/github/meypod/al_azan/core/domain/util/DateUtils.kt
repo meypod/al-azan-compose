@@ -11,8 +11,10 @@ import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
 import java.time.ZoneId
+import java.util.concurrent.ConcurrentHashMap
 import java.util.Date
 import kotlin.math.abs
+import kotlin.time.Duration.Companion.days
 import kotlin.time.DurationUnit
 import kotlin.time.Instant
 import kotlin.time.toDuration
@@ -63,8 +65,9 @@ fun Settings.formatTime(timestamp: Long): String =
 
 /**
  * Time-of-day for [timestamp] with a relative day appended once it isn't today: just the time today,
- * "<time>, Tomorrow" tomorrow, and "<time>, <weekday>" later. Used for reschedule feedback, which is
- * otherwise ambiguous once a skip pushes the next firing past today. [nowMs] is the reference instant.
+ * "<time>, Tomorrow" tomorrow, "<time>, <weekday>" within the week and "<time>, <date>" later. Used for
+ * reschedule feedback, which is otherwise ambiguous once a skip pushes the next firing past today.
+ * [nowMs] is the reference instant.
  */
 fun Settings.formatRescheduleWhen(
     timestamp: Long,
@@ -77,7 +80,9 @@ fun Settings.formatRescheduleWhen(
     val day = when {
         isSameGregorianDay(fire, now) -> return time
         isSameGregorianDay(fire, addDaysTimeZoneAware(now, 1)) -> resources.getString(R.string.tomorrow)
-        else -> formatInstant(fire, selectedLocale, "gregorian", DateFormat.WEEKDAY, numberingSystem)
+        // A weekday alone is ambiguous past the coming week (monthly or long-interval reminders).
+        fire - now < 6.days -> formatInstant(fire, selectedLocale, "gregorian", DateFormat.WEEKDAY, numberingSystem)
+        else -> formatInstant(fire, selectedLocale, "gregorian", DateFormat.ABBR_MONTH_WEEKDAY_DAY, numberingSystem)
     }
     return resources.getString(R.string.reschedule_when, time, day)
 }
@@ -170,7 +175,17 @@ fun maghribHijriDayShift(
     return if (now >= maghrib) 1 else 0
 }
 
-internal fun icuCalendar(calendar: String): Calendar = Calendar.getInstance(TimeZone.getDefault(), ULocale("@calendar=$calendar"))
+private val icuCalendarPrototypes = ConcurrentHashMap<Pair<String, String>, Calendar>()
+
+/**
+ * A fresh ICU calendar of type [calendar] in the default time zone. Cloned from a cached prototype:
+ * creating one resolves locale and calendar data, which dominated scans checking many dates.
+ */
+internal fun icuCalendar(calendar: String): Calendar {
+    val zone = TimeZone.getDefault()
+    val prototype = icuCalendarPrototypes.getOrPut(calendar to zone.id) { Calendar.getInstance(zone, ULocale("@calendar=$calendar")) }
+    return prototype.clone() as Calendar
+}
 
 /**
  * Returns one [Instant] (local noon, to stay clear of DST boundaries) for every day of the

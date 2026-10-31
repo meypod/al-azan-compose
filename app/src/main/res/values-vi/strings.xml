@@ -527,6 +527,15 @@
     <string name="only_once_label">Chỉ một lần</string>
     <string name="everyday_label">Hàng ngày</string>
     <string name="reminder_repeat_weekdays">Các ngày trong tuần</string>
+    <string name="reminder_repeat_monthly">Hàng tháng</string>
+    <string name="reminder_day_of_month">Ngày trong tháng</string>
+    <string name="reminder_month_last_day">Ngày cuối</string>
+    <string name="reminder_monthly_on_day">Ngày %1$s hàng tháng (%2$s)</string>
+    <string name="reminder_monthly_last_day">Ngày cuối mỗi tháng (%1$s)</string>
+    <string name="reminder_once_fires_at">Nhắc vào %1$s lúc %2$s</string>
+    <string name="reminder_once_passed">Thời điểm này đã qua. Hãy chọn ngày sau.</string>
+    <string name="reminder_once_on">Một lần vào %1$s</string>
+    <string name="reminder_expired">Đã hết hạn</string>
     <plurals name="reminder_every_n_days">
         <item quantity="other">Mỗi %1$d ngày</item>
     </plurals>

@@ -3,33 +3,56 @@ package com.github.meypod.al_azan.main.reminder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.meypod.al_azan.core.domain.audio.AudioPreviewPlayer
+import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimes
+import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.audio.DeviceRingtone
+import com.github.meypod.al_azan.core.domain.model.reminder.MonthlyCalendar
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderInterval
+import com.github.meypod.al_azan.core.domain.model.reminder.ReminderMonthly
+import com.github.meypod.al_azan.core.domain.model.reminder.nextTrigger
+import com.github.meypod.al_azan.core.domain.model.reminder.reminderCalendars
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
+import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
+import com.github.meypod.al_azan.core.domain.util.calendarDayOf
+import com.github.meypod.al_azan.core.domain.util.calendarMaxMonthLength
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.time.Clock
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
+
+/** Id for checking a draft; it only matters for matching skips, which draft checks never pass. */
+private const val DRAFT_ID = "draft"
 
 @HiltViewModel
 class ReminderViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val settingsRepository: SettingsRepository,
     private val calculationSettingsRepository: CalculationSettingsRepository,
+    private val favoriteLocationsRepository: FavoriteLocationsRepository,
+    private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val ringtoneRepository: RingtoneRepository,
     private val audioPreviewPlayer: AudioPreviewPlayer,
 ) : ViewModel() {
@@ -58,6 +81,18 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             val ringtones = ringtoneRepository.getDeviceRingtones().map { it.toReminderAudioEntry() }
             _uiState.update { it.copy(deviceSounds = ringtones) }
+        }
+        viewModelScope.launch {
+            // Latest only: each draft edit supersedes the previous check.
+            uiState.map { it.editDraft }.distinctUntilChanged().collectLatest(::checkOnceDate)
+        }
+        viewModelScope.launch {
+            combine(
+                reminderRepository.data,
+                settingsRepository.data,
+                calculationSettingsRepository.data,
+                favoriteLocationsRepository.data,
+            ) { reminders, _, _, _ -> reminders }.collectLatest(::trackExpiredOnceReminders)
         }
         viewModelScope.launch {
             audioPreviewPlayer.playingId.collect { id ->
@@ -100,6 +135,11 @@ class ReminderViewModel @Inject constructor(
             is ReminderUiAction.OnDraftDayToggle -> onDraftDayToggle(action)
             is ReminderUiAction.OnDraftRepeatChange -> onDraftRepeatChange(action.option)
             is ReminderUiAction.OnDraftIntervalStartChange -> onDraftIntervalStartChange(action.date)
+            is ReminderUiAction.OnDraftOnceDateChange -> updateDraft { d ->
+                if (d.repeat is ReminderRepeat.Once) d.copy(repeat = ReminderRepeat.Once(action.date)) else d
+            }
+            is ReminderUiAction.OnDraftMonthlyCalendarChange -> onDraftMonthlyCalendarChange(action.calendar)
+            is ReminderUiAction.OnDraftMonthlyDayChange -> updateMonthly { it.copy(day = action.day) }
             is ReminderUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action.permission)
         }
     }
@@ -272,12 +312,19 @@ class ReminderViewModel @Inject constructor(
     private fun onDraftRepeatChange(option: RepeatOption) =
         updateDraft { d ->
             val repeat = when (option) {
-                RepeatOption.Once -> ReminderRepeat.Once
+                RepeatOption.Once -> d.repeat as? ReminderRepeat.Once ?: ReminderRepeat.Once()
                 RepeatOption.Weekdays -> ReminderRepeat.Weekdays
                 is RepeatOption.EveryDays -> {
                     // Changing the length keeps the chosen start date; a new interval starts today.
                     val start = (d.repeat as? ReminderRepeat.Every)?.interval?.startDate ?: today()
                     ReminderRepeat.Every(ReminderInterval(everyDays = option.days, startDate = start))
+                }
+
+                RepeatOption.Monthly -> (d.repeat as? ReminderRepeat.Monthly) ?: run {
+                    // The user's secondary calendar, starting on today's day so the first reminder is
+                    // at most a month away.
+                    val calendar = MonthlyCalendar.Civil(_uiState.value.settings.selectedSecondaryCalendar)
+                    ReminderRepeat.Monthly(ReminderMonthly(calendar, calendarDayOf(today(), calendars().systemFor(calendar)).day))
                 }
             }
             d.copy(repeat = repeat)
@@ -288,6 +335,78 @@ class ReminderViewModel @Inject constructor(
             val repeat = d.repeat as? ReminderRepeat.Every ?: return@updateDraft d
             d.copy(repeat = ReminderRepeat.Every(repeat.interval.copy(startDate = date)))
         }
+
+    private fun onDraftMonthlyCalendarChange(calendar: MonthlyCalendar) =
+        updateMonthly { monthly ->
+            // A day the new calendar never has (the 31st in a Hijri calendar) would never fire.
+            val longest = calendarMaxMonthLength(calendars().systemFor(calendar))
+            monthly.copy(calendar = calendar, day = monthly.day.coerceAtMost(longest))
+        }
+
+    private fun updateMonthly(transform: (ReminderMonthly) -> ReminderMonthly) =
+        updateDraft { d ->
+            val repeat = d.repeat as? ReminderRepeat.Monthly ?: return@updateDraft d
+            d.copy(repeat = ReminderRepeat.Monthly(transform(repeat.monthly)))
+        }
+
+    /**
+     * Fills a one-off's missing date with its next occurrence (new drafts, and older one-offs saved
+     * without a date, so saving keeps when they fire), then reports when the chosen date would fire.
+     */
+    private suspend fun checkOnceDate(draft: ReminderEditDraft?) {
+        val once = draft?.repeat as? ReminderRepeat.Once
+        if (once == null) {
+            _uiState.update { it.copy(onceSchedule = OnceSchedule.Unknown) }
+            return
+        }
+        val now = Clock.System.now()
+        val timesFor = timesFor() ?: return
+        // Judged by what the editor shows: weekdays and skips it doesn't show don't count. A one-off
+        // saved without a date keeps firing as stored until it is edited (see the scheduler).
+        val fireAt = draft.toReminder(DRAFT_ID).nextTrigger(now, emptyList(), calendars(), timesFor)
+        if (once.date == null) {
+            // Re-runs this check with the filled-in date.
+            fireAt?.let { updateDraft { d -> if (d.repeat == once) d.copy(repeat = ReminderRepeat.Once(it.toLocalDate())) else d } }
+            return
+        }
+        _uiState.update { it.copy(onceSchedule = fireAt?.let { at -> OnceSchedule.At(at.toEpochMilliseconds()) } ?: OnceSchedule.Passed) }
+    }
+
+    /**
+     * Marks dated one-offs whose time has gone by as expired. Rather than polling, it sleeps until the soonest
+     * pending one is due and checks again; any reminder or settings change restarts it.
+     */
+    private suspend fun trackExpiredOnceReminders(reminders: List<Reminder>) {
+        val dated = reminders.filter { it.once == true && it.onceDate != null }
+        while (true) {
+            val timesFor = timesFor() ?: return
+            val calendars = settingsRepository.data.first().reminderCalendars(calculationSettingsRepository.data.first().calculationAdjustments.hijriDate)
+            val now = Clock.System.now()
+            val next = dated.associate { it.id to it.nextTrigger(now, emptyList(), calendars, timesFor) }
+            _uiState.update { it.copy(expiredReminderIds = next.filterValues { at -> at == null }.keys) }
+            val soonest = next.values.filterNotNull().minOrNull() ?: return
+            delay(soonest - now + 1.seconds)
+        }
+    }
+
+    /** Prayer times of the day containing an instant, for the selected location; null when unset. */
+    private suspend fun timesFor(): ((Instant) -> ShariaTimes?)? {
+        val settings = settingsRepository.data.first()
+        val calc = calculationSettingsRepository.data.first()
+        val parameters = calc.parameters ?: return null
+        val location = favoriteLocationsRepository.data.first().firstOrNull { it.id == calc.locationId }?.locationDetail ?: return null
+        return { instant ->
+            getShariaTimesUseCase(
+                instant = instant,
+                calculationParameters = parameters,
+                calculationAdjustments = calc.calculationAdjustments,
+                arabicCalendar = settings.selectedArabicCalendar,
+                locationDetail = location,
+            ).timesOrNull
+        }
+    }
+
+    private fun calendars() = _uiState.value.let { it.settings.reminderCalendars(it.hijriDateAdjustment) }
 
     private fun today(): LocalDate = Clock.System.now().toLocalDate()
 

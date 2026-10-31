@@ -531,6 +531,15 @@
     <string name="only_once_label">مرة واحدة فقط</string>
     <string name="everyday_label">كل يوم</string>
     <string name="reminder_repeat_weekdays">أيام الأسبوع</string>
+    <string name="reminder_repeat_monthly">كل شهر</string>
+    <string name="reminder_day_of_month">يوم من الشهر</string>
+    <string name="reminder_month_last_day">اليوم الأخير</string>
+    <string name="reminder_monthly_on_day">اليوم %1$s من كل شهر (%2$s)</string>
+    <string name="reminder_monthly_last_day">آخر يوم من كل شهر (%1$s)</string>
+    <string name="reminder_once_fires_at">يعمل يوم %1$s الساعة %2$s</string>
+    <string name="reminder_once_passed">هذا الوقت قد مضى. اختر تاريخًا لاحقًا.</string>
+    <string name="reminder_once_on">مرة واحدة في %1$s</string>
+    <string name="reminder_expired">منتهي</string>
     <plurals name="reminder_every_n_days">
         <item quantity="zero">كل %1$d يوم</item>
         <item quantity="one">كل يوم</item>

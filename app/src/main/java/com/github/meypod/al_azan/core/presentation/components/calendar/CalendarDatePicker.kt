@@ -100,6 +100,7 @@ data class PickerCalendar(
  * @param weekLocale locale of the weekday names heading the grid.
  * @param initialCalendarIndex the calendar shown first; [onCalendarIndexChange] reports toggles.
  * @param isMarked days to tint faintly, e.g. the occurrences that follow from the selection.
+ * @param isSelectable days the user may pick; others are dimmed and inert (e.g. past days).
  */
 @Composable
 fun CalendarDatePicker(
@@ -112,6 +113,7 @@ fun CalendarDatePicker(
     firstDayOfWeek: DayOfWeek = remember(weekLocale) { localeFirstDayOfWeek(weekLocale) },
     today: LocalDate = remember { Clock.System.now().toLocalDate() },
     isMarked: (LocalDate) -> Boolean = { false },
+    isSelectable: (LocalDate) -> Boolean = { true },
     initialCalendarIndex: Int = 0,
     onCalendarIndexChange: (Int) -> Unit = {},
     precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
@@ -231,7 +233,7 @@ fun CalendarDatePicker(
             // Same size in every view and month, so the dialog does not jump around.
             Box(Modifier.fillMaxWidth().height(WEEKDAY_ROW_HEIGHT + rowHeight * MAX_WEEKS)) {
                 when (view) {
-                    PickerView.Days -> DaysView(month, selected, today, weekLocale, firstDayOfWeek, rowHeight, isMarked, onSelect)
+                    PickerView.Days -> DaysView(month, selected, today, weekLocale, firstDayOfWeek, rowHeight, isMarked, isSelectable, onSelect)
                     PickerView.Months -> MonthsView(
                         shown = shown,
                         highlighted = if (byMonth) selected else shown,
@@ -291,6 +293,7 @@ private fun DaysView(
     firstDayOfWeek: DayOfWeek,
     rowHeight: Dp,
     isMarked: (LocalDate) -> Boolean,
+    isSelectable: (LocalDate) -> Boolean,
     onSelect: (LocalDate) -> Unit,
 ) {
     val weekdays = remember(firstDayOfWeek) { weekdaysFrom(firstDayOfWeek) }
@@ -323,6 +326,7 @@ private fun DaysView(
                                 isSelected = day.date == selected,
                                 isToday = day.date == today,
                                 isMarked = isMarked(day.date),
+                                enabled = isSelectable(day.date),
                                 onClick = { onSelect(day.date) },
                             )
                         }
@@ -419,6 +423,7 @@ private fun SelectorCell(
 }
 
 private const val MARKED_ALPHA = 0.16f
+private const val DISABLED_ALPHA = 0.38f
 
 @Composable
 private fun DayCell(
@@ -427,6 +432,7 @@ private fun DayCell(
     isSelected: Boolean,
     isToday: Boolean,
     isMarked: Boolean,
+    enabled: Boolean,
     onClick: () -> Unit,
 ) {
     val colors = MaterialTheme.colorScheme
@@ -446,7 +452,7 @@ private fun DayCell(
                 },
             )
             .then(if (isToday && !isSelected) Modifier.border(1.dp, colors.primary, CircleShape) else Modifier)
-            .selectable(selected = isSelected, onClick = onClick, role = Role.RadioButton)
+            .selectable(selected = isSelected, enabled = enabled, onClick = onClick, role = Role.RadioButton)
             .semantics { contentDescription = description },
     ) {
         Text(
@@ -458,7 +464,9 @@ private fun DayCell(
                 else -> colors.onSurface
             },
             fontWeight = if (isToday) FontWeight.Bold else null,
-            modifier = Modifier.clearAndSetSemantics {},
+            modifier = Modifier
+                .alpha(if (enabled) 1f else DISABLED_ALPHA)
+                .clearAndSetSemantics {},
         )
     }
 }
@@ -479,6 +487,7 @@ fun CalendarDatePickerDialog(
     numberingSystem: NumberingSystem,
     firstDayOfWeek: DayOfWeek = remember(weekLocale) { localeFirstDayOfWeek(weekLocale) },
     isMarked: (picked: LocalDate, date: LocalDate) -> Boolean = { _, _ -> false },
+    isSelectable: (LocalDate) -> Boolean = { true },
     today: LocalDate = remember { Clock.System.now().toLocalDate() },
     initialCalendarIndex: Int = 0,
     precision: CalendarPickerPrecision = CalendarPickerPrecision.Day,
@@ -509,6 +518,7 @@ fun CalendarDatePickerDialog(
                     firstDayOfWeek = firstDayOfWeek,
                     today = today,
                     isMarked = { isMarked(LocalDate.fromEpochDays(picked), it) },
+                    isSelectable = isSelectable,
                     initialCalendarIndex = initialCalendarIndex,
                     onCalendarIndexChange = { calendarIndex = it },
                     precision = precision,
@@ -517,7 +527,7 @@ fun CalendarDatePickerDialog(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    TextButton(onClick = { picked = today.toEpochDays() }) { Text(stringResource(R.string.today)) }
+                    TextButton(onClick = { picked = today.toEpochDays() }, enabled = isSelectable(today)) { Text(stringResource(R.string.today)) }
                     Spacer(Modifier.weight(1f))
                     TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
                     TextButton(onClick = { onConfirm(LocalDate.fromEpochDays(picked), calendarIndex) }) { Text(stringResource(R.string.okay)) }

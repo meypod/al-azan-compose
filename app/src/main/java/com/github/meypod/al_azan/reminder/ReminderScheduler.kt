@@ -14,6 +14,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettin
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.reminder.nextTrigger
+import com.github.meypod.al_azan.core.domain.model.reminder.reminderCalendars
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -217,7 +218,8 @@ class ReminderScheduler @Inject constructor(
         skipped: List<SkippedAlarm>,
     ): Long? {
         val parameters = calc.parameters ?: return null
-        return reminder.nextTrigger(Instant.fromEpochMilliseconds(fromMs), skipped) { dayInstant ->
+        val calendars = settings.reminderCalendars(calc.calculationAdjustments.hijriDate)
+        return reminder.nextTrigger(Instant.fromEpochMilliseconds(fromMs), skipped, calendars) { dayInstant ->
             getShariaTimesUseCase(
                 instant = dayInstant,
                 calculationParameters = parameters,

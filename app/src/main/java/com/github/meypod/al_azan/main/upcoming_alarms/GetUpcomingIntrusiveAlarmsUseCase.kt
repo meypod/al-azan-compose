@@ -16,6 +16,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettin
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.reminder.ReminderAudioEntry
 import com.github.meypod.al_azan.core.domain.model.reminder.firesAt
+import com.github.meypod.al_azan.core.domain.model.reminder.reminderCalendars
 import com.github.meypod.al_azan.core.domain.model.settings.AudioEntry
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
@@ -69,6 +70,7 @@ class GetUpcomingIntrusiveAlarmsUseCase @Inject constructor(
 
         val now = Instant.fromEpochMilliseconds(nowMs)
         val skipped = settings.skippedOccurrences
+        val calendars = settings.reminderCalendars(calc.calculationAdjustments.hijriDate)
 
         // Probe each distinct sound at most once — MediaMetadataRetriever is not free, and the default
         // adhan/reminder sound repeats across many prayers.
@@ -121,7 +123,7 @@ class GetUpcomingIntrusiveAlarmsUseCase @Inject constructor(
                 val offset = (reminder.duration * reminder.durationModifier).toDuration(DurationUnit.MINUTES)
                 val fire = times.forPrayer(reminder.prayer) + offset
                 if (fire < now) continue
-                if (!reminder.firesAt(fire)) continue
+                if (!reminder.firesAt(fire, calendars)) continue
                 val soundEntry = reminder.sound ?: ReminderAudioEntry.DefaultReminderAudioEntry
                 val vibration = reminder.vibration ?: alarmSettings.vibrationMode
                 val intrusive = vibration == VibrationMode.Continuous || isIntrusiveAudio(soundEntry)

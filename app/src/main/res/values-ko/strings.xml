@@ -362,6 +362,15 @@
     <string name="counter_edit_title">라벨 편집</string>
     <string name="only_once_label">한 번만</string>
     <string name="reminder_repeat_weekdays">요일</string>
+    <string name="reminder_repeat_monthly">매월</string>
+    <string name="reminder_day_of_month">날짜</string>
+    <string name="reminder_month_last_day">마지막 날</string>
+    <string name="reminder_monthly_on_day">매월 %1$s일 (%2$s)</string>
+    <string name="reminder_monthly_last_day">매월 마지막 날 (%1$s)</string>
+    <string name="reminder_once_fires_at">%1$s %2$s에 알림</string>
+    <string name="reminder_once_passed">이미 지난 시간입니다. 이후 날짜를 선택하세요.</string>
+    <string name="reminder_once_on">%1$s 한 번</string>
+    <string name="reminder_expired">만료됨</string>
     <plurals name="reminder_every_n_days">
         <item quantity="other">%1$d일마다</item>
     </plurals>

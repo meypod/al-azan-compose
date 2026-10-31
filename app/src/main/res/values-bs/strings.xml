@@ -527,6 +527,15 @@
     <string name="only_once_label">Samo jednom</string>
     <string name="everyday_label">Svaki dan</string>
     <string name="reminder_repeat_weekdays">Dani u sedmici</string>
+    <string name="reminder_repeat_monthly">Svakog mjeseca</string>
+    <string name="reminder_day_of_month">Dan u mjesecu</string>
+    <string name="reminder_month_last_day">Posljednji dan</string>
+    <string name="reminder_monthly_on_day">%1$s. dan svakog mjeseca (%2$s)</string>
+    <string name="reminder_monthly_last_day">Posljednji dan svakog mjeseca (%1$s)</string>
+    <string name="reminder_once_fires_at">Oglasit će se %1$s u %2$s</string>
+    <string name="reminder_once_passed">Ovo vrijeme je prošlo. Odaberite kasniji datum.</string>
+    <string name="reminder_once_on">Jednom, %1$s</string>
+    <string name="reminder_expired">Isteklo</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">Svaki %1$d dan</item>
         <item quantity="few">Svaka %1$d dana</item>

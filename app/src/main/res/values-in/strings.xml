@@ -527,6 +527,15 @@
     <string name="only_once_label">Hanya sekali</string>
     <string name="everyday_label">Setiap hari</string>
     <string name="reminder_repeat_weekdays">Hari dalam seminggu</string>
+    <string name="reminder_repeat_monthly">Setiap bulan</string>
+    <string name="reminder_day_of_month">Tanggal</string>
+    <string name="reminder_month_last_day">Hari terakhir</string>
+    <string name="reminder_monthly_on_day">Tanggal %1$s setiap bulan (%2$s)</string>
+    <string name="reminder_monthly_last_day">Hari terakhir setiap bulan (%1$s)</string>
+    <string name="reminder_once_fires_at">Berbunyi %1$s pukul %2$s</string>
+    <string name="reminder_once_passed">Waktu ini sudah lewat. Pilih tanggal yang lebih lambat.</string>
+    <string name="reminder_once_on">Sekali pada %1$s</string>
+    <string name="reminder_expired">Kedaluwarsa</string>
     <plurals name="reminder_every_n_days">
         <item quantity="other">Setiap %1$d hari</item>
     </plurals>

@@ -527,6 +527,15 @@
     <string name="only_once_label">فقط یک بار</string>
     <string name="everyday_label">هر روز</string>
     <string name="reminder_repeat_weekdays">روزهای هفته</string>
+    <string name="reminder_repeat_monthly">هر ماه</string>
+    <string name="reminder_day_of_month">روز ماه</string>
+    <string name="reminder_month_last_day">روز آخر</string>
+    <string name="reminder_monthly_on_day">روز %1$s هر ماه (%2$s)</string>
+    <string name="reminder_monthly_last_day">روز آخر هر ماه (%1$s)</string>
+    <string name="reminder_once_fires_at">در %1$s ساعت %2$s یادآوری می‌شود</string>
+    <string name="reminder_once_passed">این زمان گذشته است. تاریخ دیرتری انتخاب کنید.</string>
+    <string name="reminder_once_on">یک بار در %1$s</string>
+    <string name="reminder_expired">منقضی شده</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">هر %1$d روز</item>
         <item quantity="other">هر %1$d روز</item>

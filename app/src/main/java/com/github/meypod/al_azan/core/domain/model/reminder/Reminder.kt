@@ -4,6 +4,7 @@ import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.PrayerAlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.VibrationMode
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -30,6 +31,10 @@ data class Reminder(
     val days: PrayerAlarmSettings? = null,
     /** When set, overrides [days]; [days] is kept as every day so older app versions still fire it. */
     val interval: ReminderInterval? = null,
+    /** Same as [interval], for a monthly rule; at most one of the two is set. */
+    val monthly: ReminderMonthly? = null,
+    /** Date a one-off ([once]) fires on; null (older one-offs) fires at its next occurrence. */
+    val onceDate: LocalDate? = null,
 )
 
 @Serializable(with = ReminderAudioEntrySerializer::class)

@@ -527,6 +527,15 @@
     <string name="only_once_label">Mara moja tu</string>
     <string name="everyday_label">Kila siku</string>
     <string name="reminder_repeat_weekdays">Siku za wiki</string>
+    <string name="reminder_repeat_monthly">Kila mwezi</string>
+    <string name="reminder_day_of_month">Siku ya mwezi</string>
+    <string name="reminder_month_last_day">Siku ya mwisho</string>
+    <string name="reminder_monthly_on_day">Siku ya %1$s ya kila mwezi (%2$s)</string>
+    <string name="reminder_monthly_last_day">Siku ya mwisho ya kila mwezi (%1$s)</string>
+    <string name="reminder_once_fires_at">Italia %1$s saa %2$s</string>
+    <string name="reminder_once_passed">Muda huu umeshapita. Chagua tarehe ya baadaye.</string>
+    <string name="reminder_once_on">Mara moja tarehe %1$s</string>
+    <string name="reminder_expired">Imeisha muda</string>
     <plurals name="reminder_every_n_days">
         <item quantity="one">Kila siku %1$d</item>
         <item quantity="other">Kila siku %1$d</item>

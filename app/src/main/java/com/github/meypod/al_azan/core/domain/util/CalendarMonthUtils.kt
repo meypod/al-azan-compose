@@ -96,6 +96,25 @@ fun addCalendarYears(
     return Instant.fromEpochMilliseconds(cal.timeInMillis).toLocalDate() - DatePeriod(days = system.dayShift)
 }
 
+/** Where a civil date falls in a calendar month. */
+data class CalendarDayPosition(
+    val day: Int,
+    val monthLength: Int,
+)
+
+/** Day of the month of [date] in [system] (after its day shift), and that month's length. */
+fun calendarDayOf(
+    date: LocalDate,
+    system: CalendarSystem,
+): CalendarDayPosition {
+    val cal = icuCalendar(system.calendar)
+    cal.timeInMillis = localNoon(date + DatePeriod(days = system.dayShift)).toEpochMilliseconds()
+    return CalendarDayPosition(cal.get(Calendar.DAY_OF_MONTH), cal.getActualMaximum(Calendar.DAY_OF_MONTH))
+}
+
+/** Longest month [system] can have (31 for Gregorian and Persian, 30 for the Hijri calendars). */
+fun calendarMaxMonthLength(system: CalendarSystem): Int = icuCalendar(system.calendar).getMaximum(Calendar.DAY_OF_MONTH)
+
 /** [date] moved by [months] months of [system]; the day of month is clamped to the target month. */
 fun addCalendarMonths(
     date: LocalDate,
