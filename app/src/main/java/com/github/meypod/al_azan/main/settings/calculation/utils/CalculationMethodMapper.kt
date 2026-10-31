@@ -31,6 +31,7 @@ fun CalculationMethod.i18n(resources: Resources) =
         CalculationMethod.ALGERIA -> resources.getString(R.string.calc_method_algeria)
         CalculationMethod.BRUNEI -> resources.getString(R.string.calc_method_brunei)
         CalculationMethod.TUNISIA -> resources.getString(R.string.calc_method_tunisia)
+        CalculationMethod.MOROCCO -> resources.getString(R.string.calc_method_morocco)
     }
 
 /**

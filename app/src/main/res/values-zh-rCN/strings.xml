@@ -159,6 +159,7 @@
     <string name="calc_method_singapore">新加坡</string>
     <string name="calc_method_qatar">卡塔尔</string>
     <string name="calc_method_kuwait">科威特</string>
+    <string name="calc_method_morocco">摩洛哥宗教基金与伊斯兰事务部</string>
     <string name="midnight_sunset_to_sunrise">日落至日出</string>
     <string name="high_latitude">高纬度</string>
     <string name="high_latitude_none_automatic">无（自动）</string>

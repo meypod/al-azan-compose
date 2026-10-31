@@ -331,6 +331,7 @@
     <string name="calc_method_kemenag">인도네시아 공화국 종교부 (KEMENAG)</string>
     <string name="calc_method_algeria">알제리 종교부</string>
     <string name="calc_method_tunisia">튀니지 종교부</string>
+    <string name="calc_method_morocco">모로코 하부스 이슬람부</string>
     <string name="midnight_sunset_to_fajr_default">일몰부터 파즈르까지 (기본)</string>
     <string name="midnight_sunset_to_sunrise">일몰에서 일출까지</string>
     <string name="high_latitude">고위도</string>

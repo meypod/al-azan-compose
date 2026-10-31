@@ -308,6 +308,7 @@
     <string name="calc_method_algeria">Diyanet İşleri ve Vakıflar Bakanlığı, Cezayir</string>
     <string name="calc_method_brunei">Din İşleri Bakanlığı (Brunei Darüsselam)</string>
     <string name="calc_method_tunisia">Tunus Din İşleri Bakanlığı</string>
+    <string name="calc_method_morocco">Vakıflar ve İslami İşler Bakanlığı, Fas</string>
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Gelişmiş hesaplama ayarları</string>
     <string name="rounding_method">Yuvarlama Yöntemi</string>

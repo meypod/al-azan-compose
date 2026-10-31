@@ -323,6 +323,7 @@
     <string name="calc_method_algeria">وزارت مذہبی امور اور وقف، الجزائر</string>
     <string name="calc_method_brunei">کیمینٹرین ہال ایہوال یوگاما (برونائی دارالسلام)</string>
     <string name="calc_method_tunisia">تیونس کی وزارت مذہبی امور</string>
+    <string name="calc_method_morocco">وزارت اوقاف و اسلامی امور، مراکش</string>
 
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">اعلی درجے کی حساب کی ترتیبات</string>

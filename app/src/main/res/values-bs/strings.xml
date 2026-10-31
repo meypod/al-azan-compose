@@ -323,6 +323,7 @@
     <string name="calc_method_algeria">Ministarstvo Vjerskih Poslova i Vakfa, Alžir</string>
     <string name="calc_method_brunei">Ministarstvo za Vjerska Pitanja (Brunej)</string>
     <string name="calc_method_tunisia">Ministarstvo za vjerska pitanja Tunisa</string>
+    <string name="calc_method_morocco">Ministarstvo habusa i islamskih poslova, Maroko</string>
 
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Napredne Postavke Kalkulacije</string>

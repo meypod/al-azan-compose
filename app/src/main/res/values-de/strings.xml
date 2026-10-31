@@ -308,6 +308,7 @@
     <string name="calc_method_algeria">Ministerium für religiöse Angelegenheiten und Wakfs, Algerien</string>
     <string name="calc_method_brunei">Ministerium für religiöse Angelegenheiten (Brunei Darussalam)</string>
     <string name="calc_method_tunisia">Ministerium für religiöse Angelegenheiten von Tunesien</string>
+    <string name="calc_method_morocco">Ministerium für Habous und islamische Angelegenheiten, Marokko</string>
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Erweiterte Berechnungseinstellungen</string>
     <string name="rounding_method">Rundungsmethode</string>

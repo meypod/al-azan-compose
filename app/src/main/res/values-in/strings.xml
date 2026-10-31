@@ -323,6 +323,7 @@
     <string name="calc_method_algeria">Kementerian Agama dan Wakaf, Aljazair</string>
     <string name="calc_method_brunei">Kementrian Hal Ehwal Ugama (Brunei Darussalam)</string>
     <string name="calc_method_tunisia">Kementerian Agama Tunisia</string>
+    <string name="calc_method_morocco">Kementerian Wakaf dan Urusan Islam, Maroko</string>
 
     <!-- Calculation — advanced (main/settings/calculation/advanced) -->
     <string name="advanced_calculation_title">Pengaturan Lanjutan</string>
