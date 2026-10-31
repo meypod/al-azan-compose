@@ -59,9 +59,7 @@ fun Reminder.searchDays(
     skippedCount: Int = 0,
 ): Int {
     val skips = skippedCount.coerceAtLeast(0)
-    val interval = interval ?: return maxOf(AlarmSchedulingDefaults.SEARCH_DAYS, DAYS_IN_WEEK * (1 + skips) + 1)
+    val interval = interval ?: return AlarmSchedulingDefaults.weeklySearchDays(skips)
     val untilNext = from.daysUntil(interval.nextOnOrAfter(from))
     return maxOf(AlarmSchedulingDefaults.SEARCH_DAYS, untilNext + interval.everyDays * (1 + skips) + 1)
 }
-
-private const val DAYS_IN_WEEK = 7

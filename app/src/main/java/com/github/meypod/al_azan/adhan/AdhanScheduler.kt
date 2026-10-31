@@ -105,6 +105,10 @@ class AdhanScheduler @Inject constructor(
                 isSkipped = { prayer, prayerTime ->
                     !notifyOnSkip && livePruned.isAdhanSkipped(prayer, prayerTime.toLocalDate())
                 },
+                // Passed-over skips can push a weekly adhan weeks out; look far enough to still find it.
+                searchDays = AlarmSchedulingDefaults.weeklySearchDays(
+                    if (notifyOnSkip) 0 else livePruned.count { it is SkippedAlarm.Adhan },
+                ),
             )
             if (next == null) {
                 cancelAll()

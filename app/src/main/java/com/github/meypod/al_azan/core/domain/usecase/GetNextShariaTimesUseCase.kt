@@ -37,6 +37,8 @@ class GetNextShariaTimesUseCase @Inject constructor(
      * Gets the next ShariaTimes after the passed [Instant]
      *
      * @param alarmSettings If not null, will return the first Shariah time according to this settings
+     * @param searchDays how many days ahead to look; callers passing over skipped occurrences should
+     * widen it (see [AlarmSchedulingDefaults.weeklySearchDays]).
      */
     operator fun invoke(
         instant: Instant,
@@ -47,6 +49,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         alarmSettings: AlarmSettings? = null,
         excluding: Set<Prayer> = emptySet(),
         isSkipped: (Prayer, Instant) -> Boolean = { _, _ -> false },
+        searchDays: Int = AlarmSchedulingDefaults.SEARCH_DAYS,
     ): ShariaTimeDetails? {
         val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -76,10 +79,9 @@ class GetNextShariaTimesUseCase @Inject constructor(
         var instantToCheck = instant
         var shariahTimes: ShariaTimes? = null
         var nextPrayer: Prayer? = null
-        // Scan today (offset 0) through +SEARCH_DAYS. Worst case is prayer-day +8 (a weekly alarm whose
-        // only enabled day is tomorrow, once skipped, recurs +7; a night prayer like tahajjud fires the
-        // *following* calendar day but is found while iterating its prayer-day) — the horizon leaves slack.
-        for (dayOffset in 0..AlarmSchedulingDefaults.SEARCH_DAYS) {
+        // Scan today (offset 0) through +searchDays. A night prayer like tahajjud fires the *following*
+        // calendar day but is found while iterating its prayer-day.
+        for (dayOffset in 0..searchDays) {
             shariahTimes =
                 getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
                     .timesOrNull

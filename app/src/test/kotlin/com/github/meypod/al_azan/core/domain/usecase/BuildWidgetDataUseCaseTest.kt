@@ -132,7 +132,7 @@ class BuildWidgetDataUseCaseTest {
             on { invoke(eq(tomorrowInstant), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(tomorrowTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any()) } doReturn next
+            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any(), any()) } doReturn next
         }
         return BuildWidgetDataUseCase(getShariaTimes, getNext, FakeFormatter(nextDay))
     }

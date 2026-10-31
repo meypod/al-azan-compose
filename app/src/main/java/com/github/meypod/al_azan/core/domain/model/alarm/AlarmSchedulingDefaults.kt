@@ -13,6 +13,14 @@ object AlarmSchedulingDefaults {
      */
     const val SEARCH_DAYS = 10
 
+    private const val DAYS_IN_WEEK = 7
+
+    /**
+     * Scan length for weekday-based alarms with [skippedCount] skipped occurrences: each skip can push
+     * the next occurrence a further week out (today's passed plus next week's skipped is +14).
+     */
+    fun weeklySearchDays(skippedCount: Int): Int = maxOf(SEARCH_DAYS, DAYS_IN_WEEK * (1 + skippedCount.coerceAtLeast(0)) + 1)
+
     /**
      * Most reliable alarm type the user permits: [AlarmType.AlarmClock] by default (survives Doze, shows
      * the system alarm icon), or [AlarmType.ExactAllowWhileIdle] when they opted out of the alarm icon.
