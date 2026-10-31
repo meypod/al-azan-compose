@@ -56,13 +56,14 @@ class GetShariaTimesUseCase @Inject constructor() {
                 ),
             )
         }
-        // How adhan reports "this day has no times here"
-        val prayerTimes = try {
-            PrayerTimes(finalCoordinates, DateComponents.from(dayBeginning), finalCalculationParameters)
+        // How adhan reports "this day has no times here". SunnahTimes computes the next day's
+        // PrayerTimes too, so it throws the same way on the last day before an unresolvable one.
+        val (prayerTimes, sunnahTimes) = try {
+            val prayerTimes = PrayerTimes(finalCoordinates, DateComponents.from(dayBeginning), finalCalculationParameters)
+            prayerTimes to SunnahTimes(prayerTimes)
         } catch (_: IllegalStateException) {
             return ShariaTimesResult.Unresolvable
         }
-        val sunnahTimes = SunnahTimes(prayerTimes)
         val shariaTimes = ShariaTimes.from(dayBeginning, prayerTimes, sunnahTimes)
         return ShariaTimesResult.Available(
             shariaTimes.copy(

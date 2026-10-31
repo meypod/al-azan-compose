@@ -17,6 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Instant
 
 /** Tromso, well inside the polar circle: the sun neither rises nor sets around the solstices. */
@@ -49,6 +50,18 @@ class GetShariaTimesUseCaseTest {
     @Test
     fun `polar night with no resolution has no times instead of crashing`() {
         assertEquals(ShariaTimesResult.Unresolvable, timesFor(Instant.parse("2026-12-21T12:00:00Z"), polarLocation))
+    }
+
+    /**
+     * Sunnah times derive the night from the next day's Fajr, so the last day before an unresolvable
+     * one used to throw from outside the guarded calculation. Every day must give a result instead.
+     */
+    @Test
+    fun `no day of the year at a polar location crashes`() {
+        val start = Instant.parse("2026-01-01T12:00:00Z")
+        val results = (0 until 365).map { day -> timesFor(start + day.days, polarLocation) }
+        assertTrue(results.any { it is ShariaTimesResult.Unresolvable })
+        assertTrue(results.any { it is ShariaTimesResult.Available })
     }
 
     @Test
