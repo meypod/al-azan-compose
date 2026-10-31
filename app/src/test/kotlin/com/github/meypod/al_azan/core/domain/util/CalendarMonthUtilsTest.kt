@@ -184,4 +184,16 @@ class CalendarMonthUtilsTest {
         assertEquals(CalendarDate(2569, 11, 1), calendarDateOf(LocalDate(2026, 11, 1), CalendarSystem("buddhist", "en")))
         assertEquals(LocalDate(2026, 11, 1), civilDateOf(CalendarDate(2026, 11, 1), gregorian))
     }
+
+    /** Regression: with a Hijri adjustment the weekday followed the shifted day, one off from the real one. */
+    @Test
+    fun `a day-shifted date keeps its real weekday`() {
+        val shifted = lunar.copy(dayShift = 1)
+        // 3 November 2026 is a Tuesday; the shifted Hijri date is the one 4 November has unshifted.
+        val expectedDay = calendarDateOf(date + DatePeriod(days = 1), lunar).day.toString()
+        val text = formatDate(date, shifted, "yMMMMEEEEd", NumberingSystem.Latn)
+        assertTrue(text, text.startsWith("Tuesday") && Regex("\\b$expectedDay\\b").containsMatchIn(text))
+        val description = month(shifted).days.first { it.date == date }.description
+        assertEquals(text, description)
+    }
 }

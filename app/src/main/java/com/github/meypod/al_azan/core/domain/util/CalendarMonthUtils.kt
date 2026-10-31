@@ -51,10 +51,11 @@ fun calendarMonth(
 ): CalendarMonth {
     val shifted = localNoon(date + DatePeriod(days = system.dayShift))
     val days = calendarMonthDays(shifted, system.calendar).map { instant ->
+        val day = instant.toLocalDate() - DatePeriod(days = system.dayShift)
         CalendarMonthDay(
-            date = instant.toLocalDate() - DatePeriod(days = system.dayShift),
+            date = day,
             label = formatInstant(instant, system.locale, system.calendar, DateFormat.DAY, numberingSystem),
-            description = formatInstant(instant, system.locale, system.calendar, DateFormat.YEAR_MONTH_WEEKDAY_DAY, numberingSystem),
+            description = formatDate(day, system, DateFormat.YEAR_MONTH_WEEKDAY_DAY, numberingSystem),
         )
     }
     return CalendarMonth(
@@ -190,13 +191,17 @@ fun addCalendarMonths(
     return addCalendarMonths(shifted, months, system.calendar).toLocalDate() - DatePeriod(days = system.dayShift)
 }
 
-/** [date] written out in [system] using the ICU [skeleton]. */
+/** [date] written out in [system] using the ICU [skeleton]; a weekday stays [date]'s own. */
 fun formatDate(
     date: LocalDate,
     system: CalendarSystem,
     skeleton: String,
     numberingSystem: NumberingSystem,
-): String = formatInstant(localNoon(date + DatePeriod(days = system.dayShift)), system.locale, system.calendar, skeleton, numberingSystem)
+): String {
+    val shifted = localNoon(date + DatePeriod(days = system.dayShift))
+    if (system.dayShift == 0) return formatInstant(shifted, system.locale, system.calendar, skeleton, numberingSystem)
+    return formatInstant(shifted, localNoon(date), system.locale, system.calendar, skeleton, numberingSystem)
+}
 
 /** [locale]'s customary first day of the week (e.g. Saturday for Persian, Monday for German). */
 fun localeFirstDayOfWeek(locale: String): DayOfWeek = Calendar.getInstance(ULocale(locale)).firstDayOfWeek.toDayOfWeek()

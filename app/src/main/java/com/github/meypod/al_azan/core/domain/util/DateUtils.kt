@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
+import java.text.FieldPosition
 import java.time.ZoneId
 import java.util.concurrent.ConcurrentHashMap
 import java.util.Date
@@ -29,9 +30,39 @@ fun formatInstant(
     calendar: String = "gregorian",
     skeleton: String = DateFormat.YEAR_MONTH_DAY,
     numberingSystem: NumberingSystem = NumberingSystem.Default,
+): String = dateFormatter(locale, calendar, skeleton, numberingSystem).format(Date.from(instant.toJavaInstant())).withoutEraPlaceholder()
+
+/**
+ * [instant] formatted like [formatInstant], but naming the weekday of [weekdayOf]. A day-shifted
+ * calendar (the Hijri adjustment) moves the date, not the weekday it falls on.
+ */
+fun formatInstant(
+    instant: Instant,
+    weekdayOf: Instant,
+    locale: String,
+    calendar: String,
+    skeleton: String,
+    numberingSystem: NumberingSystem,
 ): String {
+    val formatter = dateFormatter(locale, calendar, skeleton, numberingSystem)
+    val weekday = FieldPosition(DateFormat.DAY_OF_WEEK_FIELD)
+    val text = formatter.format(Date.from(instant.toJavaInstant()), StringBuffer(), weekday)
+    if (weekday.endIndex > weekday.beginIndex) {
+        val actual = FieldPosition(DateFormat.DAY_OF_WEEK_FIELD)
+        val actualText = formatter.format(Date.from(weekdayOf.toJavaInstant()), StringBuffer(), actual)
+        text.replace(weekday.beginIndex, weekday.endIndex, actualText.substring(actual.beginIndex, actual.endIndex))
+    }
+    return text.toString().withoutEraPlaceholder()
+}
+
+private fun dateFormatter(
+    locale: String,
+    calendar: String,
+    skeleton: String,
+    numberingSystem: NumberingSystem,
+): DateFormat {
     val numbers = if (numberingSystem == NumberingSystem.Default) "" else ";numbers=${numberingSystem.value}"
-    val formatter = try {
+    return try {
         DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=$calendar$numbers"))
     } catch (e: IllegalArgumentException) {
         // Some OEM-modified ICU builds reject Islamic variants stock ICU supports ("Unknown calendar type").
@@ -39,7 +70,6 @@ fun formatInstant(
         if (calendar == "islamic" || !calendar.startsWith("islamic")) throw e
         DateFormat.getInstanceForSkeleton(skeleton, ULocale("$locale@calendar=islamic$numbers"))
     }
-    return formatter.format(Date.from(instant.toJavaInstant())).withoutEraPlaceholder()
 }
 
 // ICU has no era names for some calendars in many languages (Ethiopic) and prints a placeholder like
