@@ -12,13 +12,23 @@ fun AudioEntry.toAudioUri(context: Context): Uri? =
     when (this) {
         is AudioEntry.ResourceAudioEntry ->
             when (id) {
-                NOTIFICATION_AUDIO_ID ->
-                    // Resolved live (not from resId) so it follows the user's current system notification sound.
-                    RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
-                        ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                // Resolved live (not from resId) so it follows the user's current system notification sound.
+                NOTIFICATION_AUDIO_ID -> notificationSoundUri(context)
 
                 else -> resId?.let { "android.resource://${context.packageName}/$it".toUri() }
             }
 
         is AudioEntry.ExternalAudioEntry -> filepath?.toUri()
     }
+
+/**
+ * The current system notification sound. Some OEM ROMs write to system settings inside
+ * [RingtoneManager.getActualDefaultRingtoneUri] (resetting a missing sound), which throws for apps without
+ * WRITE_SETTINGS; the settings-backed default URI resolves to the same sound at play time.
+ */
+fun notificationSoundUri(context: Context): Uri =
+    try {
+        RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
+    } catch (_: SecurityException) {
+        null
+    } ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

@@ -1,7 +1,6 @@
 package com.github.meypod.al_azan.core.data.audio
 
 import android.content.Context
-import android.media.RingtoneManager
 import android.net.Uri
 import androidx.core.net.toUri
 import com.github.meypod.al_azan.R
@@ -27,7 +26,5 @@ fun ReminderAudioEntry.toAudioUri(context: Context): Uri? =
 
         is ReminderAudioEntry.ExternalReminderAudioEntry -> filepath.toUri()
 
-        ReminderAudioEntry.DefaultReminderAudioEntry ->
-            RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
-                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        ReminderAudioEntry.DefaultReminderAudioEntry -> notificationSoundUri(context)
     }
