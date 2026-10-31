@@ -61,6 +61,7 @@ import com.github.meypod.al_azan.core.presentation.util.rememberPatternImageBitm
 import com.github.meypod.al_azan.main.home.HomeUiAction
 import com.github.meypod.al_azan.main.home.HomeUiState
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import kotlin.time.Instant
 
 @Composable
@@ -331,6 +332,7 @@ private fun HomeHeaderPreview() {
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
+            midnightMethod = MidnightMethod.SunsetToFajr,
             locationDetail = CalculationLocationDetail(0.0, 0.0),
         ).timesOrNull
         val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
@@ -338,6 +340,7 @@ private fun HomeHeaderPreview() {
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
+            midnightMethod = MidnightMethod.SunsetToFajr,
             locationDetail = CalculationLocationDetail(0.0, 0.0),
         )
         HomeHeader(
@@ -364,6 +367,7 @@ private fun HomeHeaderWideLayoutPreview() {
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
+            midnightMethod = MidnightMethod.SunsetToFajr,
             locationDetail = CalculationLocationDetail(0.0, 0.0),
         ).timesOrNull
         val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
@@ -371,6 +375,7 @@ private fun HomeHeaderWideLayoutPreview() {
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
+            midnightMethod = MidnightMethod.SunsetToFajr,
             locationDetail = CalculationLocationDetail(0.0, 0.0),
         )
         HomeHeader(

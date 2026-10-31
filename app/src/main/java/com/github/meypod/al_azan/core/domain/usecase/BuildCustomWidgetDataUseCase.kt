@@ -56,10 +56,10 @@ class BuildCustomWidgetDataUseCase @Inject constructor(
         fun shariaTimesFor(
             loc: CalculationLocationDetail,
             at: Instant = instant,
-        ) = getShariaTimesUseCase(at, parameters, adjustments, arabicCalendar, loc).timesOrNull
+        ) = getShariaTimesUseCase(at, parameters, adjustments, arabicCalendar, loc, calcSettings.midnightMethod).timesOrNull
 
         fun nextFor(loc: CalculationLocationDetail) =
-            getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, excluding = notPlaced)
+            getNextShariaTimesUseCase(instant, parameters, adjustments, arabicCalendar, loc, calcSettings.midnightMethod, excluding = notPlaced)
 
         // Countdown and the redraw time follow the primary (first) location; dates are location-
         // independent (Hijri day-shift uses the primary's maghrib).

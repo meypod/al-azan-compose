@@ -17,6 +17,7 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -67,6 +68,7 @@ class WidgetSyncInitializer @Inject constructor(
         val selectedSecondaryCalendar: SecondaryCalendar,
         val parameters: CalculationParameters?,
         val calculationAdjustments: CalculationAdjustments,
+        val midnightMethod: MidnightMethod,
         val locationId: String?,
         val locationLat: Double?,
         val locationLong: Double?,
@@ -113,6 +115,7 @@ class WidgetSyncInitializer @Inject constructor(
                     selectedSecondaryCalendar = settings.selectedSecondaryCalendar,
                     parameters = calc.parameters,
                     calculationAdjustments = calc.calculationAdjustments,
+                    midnightMethod = calc.midnightMethod,
                     locationId = calc.locationId,
                     locationLat = location?.lat,
                     locationLong = location?.long,

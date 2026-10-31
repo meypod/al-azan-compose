@@ -225,6 +225,7 @@ class ReminderScheduler @Inject constructor(
                 calculationParameters = parameters,
                 calculationAdjustments = calc.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
+                midnightMethod = calc.midnightMethod,
                 locationDetail = location,
             ).timesOrNull
         }?.toEpochMilliseconds()

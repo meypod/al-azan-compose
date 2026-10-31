@@ -5,6 +5,7 @@ import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjustments
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import javax.inject.Inject
 import kotlin.time.Instant
 
@@ -25,6 +26,7 @@ class GetCurrentShariaTimesUseCase @Inject constructor(
         calculationAdjustments: CalculationAdjustments,
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
+        midnightMethod: MidnightMethod,
         excluding: Set<Prayer> = emptySet(),
     ): ShariaTimeDetails? {
         val shariaTimes = getShariaTimesUseCase(
@@ -33,6 +35,7 @@ class GetCurrentShariaTimesUseCase @Inject constructor(
             calculationAdjustments,
             arabicCalendar,
             locationDetail,
+            midnightMethod,
         ).timesOrNull ?: return null
         val currentPrayer = shariaTimes.currentPrayer(instant, excluding) ?: return null
         return ShariaTimeDetails(

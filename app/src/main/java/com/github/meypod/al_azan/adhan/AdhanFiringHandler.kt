@@ -219,6 +219,7 @@ class AdhanFiringHandler @Inject constructor(
                 calculationAdjustments = calc.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
                 locationDetail = location,
+                midnightMethod = calc.midnightMethod,
                 alarmSettings = alarmSettings,
             )
         }.getOrNull()

@@ -11,6 +11,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocati
 import com.github.meypod.al_azan.core.domain.util.addDaysTimeZoneAware
 import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -46,6 +47,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         calculationAdjustments: CalculationAdjustments,
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
+        midnightMethod: MidnightMethod,
         alarmSettings: AlarmSettings? = null,
         excluding: Set<Prayer> = emptySet(),
         isSkipped: (Prayer, Instant) -> Boolean = { _, _ -> false },
@@ -62,6 +64,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
                 calculationAdjustments,
                 arabicCalendar,
                 locationDetail,
+                midnightMethod,
             ).timesOrNull
             val nextPrayer = prevDayShariahTimes?.nextPrayerForAlarm(instant, alarmSettings, excluding, isSkipped)
             if (prevDayShariahTimes != null && nextPrayer != null) {
@@ -83,7 +86,7 @@ class GetNextShariaTimesUseCase @Inject constructor(
         // calendar day but is found while iterating its prayer-day.
         for (dayOffset in 0..searchDays) {
             shariahTimes =
-                getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail)
+                getShariaTimesUseCase(instantToCheck, calculationParameters, calculationAdjustments, arabicCalendar, locationDetail, midnightMethod)
                     .timesOrNull
             // On the current day, match against "now" (the next upcoming prayer). On any later day,
             // match against the start of that day so we get its first prayer AND so the weekday used by

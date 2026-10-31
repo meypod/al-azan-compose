@@ -10,6 +10,7 @@ import com.github.meypod.al_azan.core.domain.util.getDayBeginning
 import com.github.meypod.al_azan.core.domain.util.isInRamadan
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import io.github.meypod.adhan_kotlin.PrayerTimes
 import io.github.meypod.adhan_kotlin.SunnahTimes
 import io.github.meypod.adhan_kotlin.data.DateComponents
@@ -26,6 +27,8 @@ class GetShariaTimesUseCase @Inject constructor() {
         calculationAdjustments: CalculationAdjustments,
         arabicCalendar: String,
         locationDetail: CalculationLocationDetail,
+        /** How Midnight (and so Tahajjud, the last third of the night) is measured. */
+        midnightMethod: MidnightMethod,
     ): ShariaTimesResult {
         val dayBeginning = getDayBeginning(instant)
         val finalCoordinates = locationDetail.toCoordinates()
@@ -60,7 +63,7 @@ class GetShariaTimesUseCase @Inject constructor() {
         // PrayerTimes too, so it throws the same way on the last day before an unresolvable one.
         val (prayerTimes, sunnahTimes) = try {
             val prayerTimes = PrayerTimes(finalCoordinates, DateComponents.from(dayBeginning), finalCalculationParameters)
-            prayerTimes to SunnahTimes(prayerTimes)
+            prayerTimes to SunnahTimes(prayerTimes, midnightMethod)
         } catch (_: IllegalStateException) {
             return ShariaTimesResult.Unresolvable
         }

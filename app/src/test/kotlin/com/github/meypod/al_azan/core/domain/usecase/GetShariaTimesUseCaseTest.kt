@@ -8,6 +8,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocati
 import com.github.meypod.al_azan.core.domain.model.calculation.needsPolarCircleResolution
 import io.github.meypod.adhan_kotlin.CalculationMethod
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import io.github.meypod.adhan_kotlin.PolarCircleResolution
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -34,12 +35,14 @@ class GetShariaTimesUseCaseTest {
         instant: Instant,
         locationDetail: CalculationLocationDetail,
         parameters: CalculationParameters = CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters,
+        midnightMethod: MidnightMethod = MidnightMethod.SunsetToFajr,
     ) = getShariaTimes(
         instant = instant,
         calculationParameters = parameters,
         calculationAdjustments = CalculationAdjustments(),
         arabicCalendar = "islamic",
         locationDetail = locationDetail,
+        midnightMethod = midnightMethod,
     )
 
     @Test
@@ -89,5 +92,16 @@ class GetShariaTimesUseCaseTest {
 
         assertFalse(temperateLocation.needsPolarCircleResolution(default))
         assertNotNull(timesFor(solstice, temperateLocation, default).timesOrNull)
+    }
+
+    /** The setting used to be ignored: Midnight always ran from sunset to Fajr. */
+    @Test
+    fun `midnight follows the chosen midnight method`() {
+        val day = Instant.parse("2026-06-21T12:00:00Z")
+        val toFajr = timesFor(day, temperateLocation, midnightMethod = MidnightMethod.SunsetToFajr).timesOrNull!!
+        val toSunrise = timesFor(day, temperateLocation, midnightMethod = MidnightMethod.SunsetToSunrise).timesOrNull!!
+        // Sunrise comes after Fajr, so measuring to it puts Midnight later.
+        assertTrue(toSunrise.midnight > toFajr.midnight)
+        assertTrue(toSunrise.tahajjud > toFajr.tahajjud)
     }
 }

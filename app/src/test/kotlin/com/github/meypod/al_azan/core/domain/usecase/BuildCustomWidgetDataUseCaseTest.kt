@@ -132,11 +132,11 @@ class BuildCustomWidgetDataUseCaseTest {
         nextDay: Long = nextDayMillis,
     ): BuildCustomWidgetDataUseCase {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
-            on { invoke(eq(tomorrowInstant), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(tomorrowTimes)
+            on { invoke(any(), any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
+            on { invoke(eq(tomorrowInstant), any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(tomorrowTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any(), any()) } doReturn next
+            on { invoke(any(), any(), any(), any(), any(), any(), anyOrNull(), any(), any(), any()) } doReturn next
         }
         return BuildCustomWidgetDataUseCase(getShariaTimes, getNext, FakeFormatter(nextDay))
     }
@@ -282,10 +282,10 @@ class BuildCustomWidgetDataUseCaseTest {
     @Test
     fun `next-prayer search excludes prayers not placed on the widget`() {
         val getShariaTimes = mock<GetShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
+            on { invoke(any(), any(), any(), any(), any(), any()) } doReturn ShariaTimesResult.Available(shariaTimes)
         }
         val getNext = mock<GetNextShariaTimesUseCase> {
-            on { invoke(any(), any(), any(), any(), any(), anyOrNull(), any(), any(), any()) } doReturn details(Prayer.Dhuhr, at(12.0))
+            on { invoke(any(), any(), any(), any(), any(), any(), anyOrNull(), any(), any(), any()) } doReturn details(Prayer.Dhuhr, at(12.0))
         }
         val config = CustomWidgetConfig(rows = listOf(listOf(Prayer.Fajr, Prayer.Dhuhr)), showCountdown = true)
 
@@ -295,7 +295,7 @@ class BuildCustomWidgetDataUseCaseTest {
         // Only placed prayers stay searchable; every other prayer (Sunset, Maghrib, Isha, …) is excluded,
         // so the countdown can never target a time the widget doesn't show.
         val excluded = argumentCaptor<Set<Prayer>>()
-        verify(getNext, atLeastOnce()).invoke(any(), any(), any(), any(), any(), anyOrNull(), excluded.capture(), any(), any())
+        verify(getNext, atLeastOnce()).invoke(any(), any(), any(), any(), any(), any(), anyOrNull(), excluded.capture(), any(), any())
         assertEquals(SHARIA_TIMES_IN_ORDER.toSet() - setOf(Prayer.Fajr, Prayer.Dhuhr), excluded.firstValue)
     }
 

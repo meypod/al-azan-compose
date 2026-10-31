@@ -13,6 +13,7 @@ import com.github.meypod.al_azan.core.domain.util.formatRescheduleWhen
 import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedback
 import com.github.meypod.al_azan.core.presentation.feedback.ScheduleFeedbackInfo
 import io.github.meypod.adhan_kotlin.CalculationParameters
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -51,6 +52,7 @@ class AdhanSyncInitializer @Inject constructor(
         val alarmSettings: AlarmSettings,
         val parameters: CalculationParameters?,
         val calculationAdjustments: CalculationAdjustments,
+        val midnightMethod: MidnightMethod,
         val locationId: String?,
         val locationLat: Double?,
         val locationLong: Double?,
@@ -77,6 +79,7 @@ class AdhanSyncInitializer @Inject constructor(
                     alarmSettings = alarmSettings,
                     parameters = calc.parameters,
                     calculationAdjustments = calc.calculationAdjustments,
+                    midnightMethod = calc.midnightMethod,
                     locationId = calc.locationId,
                     locationLat = location?.lat,
                     locationLong = location?.long,

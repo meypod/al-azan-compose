@@ -80,6 +80,7 @@ import com.github.meypod.al_azan.main.home.components.HomeHeader
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBox
 import com.github.meypod.al_azan.main.home.components.ShariaTimesBoxUiState
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import io.github.meypod.adhan_kotlin.data.DateComponents
 import kotlinx.coroutines.launch
 import kotlin.time.DurationUnit
@@ -456,6 +457,7 @@ private fun HomeLoadedPreview() {
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
+            midnightMethod = MidnightMethod.SunsetToFajr,
             locationDetail = CalculationLocationDetail(0.0, 0.0),
         ).timesOrNull
         val nextShariaTime = GetNextShariaTimesUseCase(getShariaTimesUseCase)(
@@ -463,6 +465,7 @@ private fun HomeLoadedPreview() {
             calculationParameters = CalculationMethod.MOON_SIGHTING_COMMITTEE.parameters,
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
+            midnightMethod = MidnightMethod.SunsetToFajr,
             locationDetail = CalculationLocationDetail(0.0, 0.0),
         )
         HomeScreen(

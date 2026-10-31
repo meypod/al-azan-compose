@@ -310,6 +310,7 @@ class HomeViewModel
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
                             locationDetail = location.locationDetail,
+                            midnightMethod = calcSettings.midnightMethod,
                             excluding = nextExcluded,
                         )
                     } else {
@@ -323,6 +324,7 @@ class HomeViewModel
                                 calculationAdjustments = calcSettings.calculationAdjustments,
                                 arabicCalendar = settings.selectedArabicCalendar,
                                 locationDetail = location.locationDetail,
+                                midnightMethod = calcSettings.midnightMethod,
                                 excluding = hiddenPrayers,
                             )
                         } else {
@@ -404,6 +406,7 @@ class HomeViewModel
                             calculationParameters = calcSettings.parameters,
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
+                            midnightMethod = calcSettings.midnightMethod,
                             locationDetail = location.locationDetail,
                         )
                     } else {

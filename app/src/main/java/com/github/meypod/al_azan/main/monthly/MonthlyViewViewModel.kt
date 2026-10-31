@@ -120,6 +120,7 @@ class MonthlyViewViewModel @Inject constructor(
                             calculationParameters = parameters,
                             calculationAdjustments = calcSettings.calculationAdjustments,
                             arabicCalendar = settings.selectedArabicCalendar,
+                            midnightMethod = calcSettings.midnightMethod,
                             locationDetail = location.locationDetail,
                         ).timesOrNull
                     } else {

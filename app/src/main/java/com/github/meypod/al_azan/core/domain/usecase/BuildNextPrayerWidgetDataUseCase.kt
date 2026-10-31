@@ -36,6 +36,7 @@ class BuildNextPrayerWidgetDataUseCase @Inject constructor(
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location,
+            midnightMethod = calcSettings.midnightMethod,
             excluding = excluding,
         ) ?: return null
 

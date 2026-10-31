@@ -110,6 +110,7 @@ class AdjustmentsViewModel @Inject constructor(
             calculationParameters = parameters,
             calculationAdjustments = calc.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
+            midnightMethod = calc.midnightMethod,
             locationDetail = location,
         ).timesOrNull ?: return
         val formattedTime = settings.formatTime(times.forPrayer(prayer).toEpochMilliseconds())

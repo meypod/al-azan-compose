@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.core.domain.model.calculation.CalculationAdjust
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationLocationDetail
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -56,6 +57,7 @@ class GetNextShariaTimesUseCaseTest {
         calculationAdjustments = CalculationAdjustments(),
         arabicCalendar = "islamic",
         locationDetail = CalculationLocationDetail(lat = 35.69, long = 51.39),
+        midnightMethod = MidnightMethod.SunsetToFajr,
         alarmSettings = mondayFajrOnly,
         isSkipped = { prayer, time -> prayer == Prayer.Fajr && time.toLocalDate() in skippedDates },
         searchDays = searchDays,

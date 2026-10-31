@@ -98,6 +98,7 @@ class PrayerTimesAppFunctions @Inject constructor(
             calculationParameters = parameters,
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
+            midnightMethod = calcSettings.midnightMethod,
             locationDetail = location.locationDetail,
         ).timesOrNull ?: throw IllegalStateException("Prayer times can't be calculated for this location and calculation method.")
 

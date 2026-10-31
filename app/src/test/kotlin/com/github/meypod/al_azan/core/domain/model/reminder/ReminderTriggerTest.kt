@@ -13,6 +13,7 @@ import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.calendarDayOf
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import io.github.meypod.adhan_kotlin.CalculationMethod
+import io.github.meypod.adhan_kotlin.MidnightMethod
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -29,10 +30,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import kotlinx.datetime.TimeZone as KotlinxTimeZone
 import java.util.TimeZone
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
+import kotlinx.datetime.TimeZone as KotlinxTimeZone
 
 /** Real prayer times for Tehran, so fire times and dates behave as on a device there. */
 @RunWith(RobolectricTestRunner::class)
@@ -61,6 +62,7 @@ class ReminderTriggerTest {
             calculationAdjustments = CalculationAdjustments(),
             arabicCalendar = "islamic",
             locationDetail = tehran,
+            midnightMethod = MidnightMethod.SunsetToFajr,
         ).timesOrNull
 
     private fun day(offset: Int) = start + DatePeriod(days = offset)

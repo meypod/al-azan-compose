@@ -49,6 +49,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             calculationParameters = parameters,
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
+            midnightMethod = calcSettings.midnightMethod,
             locationDetail = location,
         ).timesOrNull ?: return null
 
@@ -58,6 +59,7 @@ class BuildWidgetDataUseCase @Inject constructor(
             calculationAdjustments = calcSettings.calculationAdjustments,
             arabicCalendar = settings.selectedArabicCalendar,
             locationDetail = location,
+            midnightMethod = calcSettings.midnightMethod,
             excluding = hidden,
         )
 
@@ -80,6 +82,7 @@ class BuildWidgetDataUseCase @Inject constructor(
                 calculationParameters = parameters,
                 calculationAdjustments = calcSettings.calculationAdjustments,
                 arabicCalendar = settings.selectedArabicCalendar,
+                midnightMethod = calcSettings.midnightMethod,
                 locationDetail = location,
             ).timesOrNull ?: return null
         }
