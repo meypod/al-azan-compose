@@ -245,4 +245,8 @@
     <string name="dnd_status_open_app">打开应用</string>
     <string name="dev_run">运行</string>
     <string name="developer_title">开发者</string>
+    <string name="find_location_button">定位到我</string>
+    <string name="see_options">参见选项</string>
+    <string name="edit_label">编辑标签</string>
+    <string name="coordinates_copied">坐标已复制至剪贴板。</string>
 </resources>

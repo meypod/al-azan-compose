@@ -23,7 +23,7 @@
     <string name="selected">محدد</string>
     <string name="no_items_found">لا توجد عناصر</string>
     <string name="no_app_found">لم يتم العثور على تطبيق للقيام بذلك.</string>
-    <string name="search_placeholder">بحث</string>
+    <string name="search_placeholder">بحث…</string>
     <string name="drag_handle_description">مقبض السحب</string>
     <string name="dont_ask_again">لا تسأل مرة أخرى</string>
     <string name="custom_minutes">مخصص</string>
@@ -290,7 +290,7 @@
     <string name="calculation_method">طريقة الحساب</string>
     <string name="calculation_method_select_placeholder">اضغط لتحديد طريقة</string>
     <string name="calculation_method_modified">%1$s (مُعدّل)</string>
-    <string name="calc_method_umm_al_qura_ramadan_note">يتم إضافة 30 دقيقة إلى وقت صلاة العشاء خلال شهر رمضان</string>
+    <string name="calc_method_umm_al_qura_ramadan_note">يتم إضافة 30 دقيقة إلى وقت صلاة العشاء خلال شهر رمضان.</string>
     <string name="calc_method_turkey_isha_angle_note">تستخدم رئاسة الشؤون الدينية زاوية 17° للعشاء في تركيا والدول التي تتبع تقويمها (منها إسبانيا واليونان وبلغاريا وألبانيا وأذربيجان ومصر)، و16° لتقاويمها الأوروبية. اختر الطريقة المطابقة لتقويم بلدك. وتُحسب الأوقات لتقترب من التقاويم المنشورة قدر الإمكان، لكن قد تبقى فروق صغيرة.</string>
     <string name="fajr_angle">زاوية الفجر</string>
     <string name="isha_angle">زاوية العشاء</string>
@@ -350,7 +350,7 @@
     <string name="polar_aqrab_balad">أقرب بلد</string>
     <string name="polar_aqrab_yaum">أقرب يوم</string>
     <string name="shafaq">شفق</string>
-    <string name="shafaq_help">يُستخدم الشفق بواسطة طريقة \"لجنة رؤية الهلال\" لتحديد نوع الشفق الذي يجب استخدامه لتحديد وقت العشاء.</string>
+    <string name="shafaq_help">تعتمد طريقة «لجنة رؤية الهلال» على إعداد «الشفق» لتحديد أي نوع من الشفق يجب استخدامه لحساب وقت دخول صلاة العشاء.</string>
     <string name="shafaq_general_default">عام (افتراضي)</string>
     <string name="shafaq_ahmer">أحمر</string>
     <string name="shafaq_abyad">أبيض</string>
@@ -376,7 +376,7 @@
     <string name="custom_muezzin">مؤذّن مخصص</string>
     <string name="use_default_vibration">استخدام الافتراضي</string>
     <string name="vibration_mode">وضع الاهتزاز</string>
-    <string name="vibration_mode_help">هل يهتز الهاتف عندما يبدأ الأذان أو التذكير؟</string>
+    <string name="vibration_mode_help">هل يجب أن يهتز الهاتف عند بدء تشغيل الأذان أو التذكيرات؟</string>
     <string name="show_upcoming_alarm">إظهار إشعار \"التنبيه القادم\"</string>
     <string name="show_upcoming_alarm_help">في حال التفعيل، سيظهر إشعار قبل كل أذان بساعة تقريبًا.</string>
     <string name="custom_upcoming_time">التنبيه قبل الأذان</string>
@@ -518,7 +518,7 @@
     <string name="reminder_edit">تعديل</string>
     <string name="reminder_selected_count">%1$d محدد</string>
     <string name="select_all">الكل</string>
-    <string name="turn_on">تشغيل</string>
+    <string name="turn_on">تفعيل</string>
     <string name="turn_off">إيقاف</string>
     <string name="reminder_duplicate">تكرار</string>
     <string name="delete_reminder_title">حذف التذكير</string>
@@ -614,11 +614,11 @@
     <string name="qibla_use_map">استخدم الخريطة</string>
     <string name="qibla_use_compass">استخدم البوصلة</string>
     <string name="qibla_compass">بوصلة القبلة</string>
-    <string name="qibla_location_label">موقع</string>
+    <string name="qibla_location_label">موقع:</string>
     <string name="qibla_location_from_settings">من الإعدادات</string>
-    <string name="qibla_label">القبلة</string>
+    <string name="qibla_label">القبلة:</string>
     <string name="qibla_degrees_from_north">%1$d° من الشمال</string>
-    <string name="qibla_accuracy_label">دقة</string>
+    <string name="qibla_accuracy_label">دقة:</string>
     <string name="qibla_refresh_location">تحديث الموقع من GPS</string>
     <string name="qibla_lock_orientation">قفل اتجاه الشاشة</string>
     <string name="qibla_unlock_orientation">إلغاء قفل اتجاه الشاشة</string>

@@ -350,7 +350,7 @@
     <string name="polar_aqrab_balad">اقرب بلد</string>
     <string name="polar_aqrab_yaum">اقرب یوم</string>
     <string name="shafaq">شفق</string>
-    <string name="shafaq_help">«شفق» در روش محاسبهٔ «کمیته رویت هلال ماه» برای تعیین نوع گرگ و میش به‌منظور تعیین زمان عشاء استفاده می‌شود.</string>
+    <string name="shafaq_help">در روش کمیته رؤیت هلال، از «شفق» استفاده می‌شود تا مشخص شود برای تعیین وقت نماز عشا کدام نوع شفق باید به کار رود.</string>
     <string name="shafaq_general_default">عمومی (پیش‌فرض)</string>
     <string name="shafaq_ahmer">قرمز</string>
     <string name="shafaq_abyad">سفید</string>
@@ -376,7 +376,7 @@
     <string name="custom_muezzin">مؤذن دلخواه</string>
     <string name="use_default_vibration">استفاده از پیش‌فرض</string>
     <string name="vibration_mode">حالت ویبره</string>
-    <string name="vibration_mode_help">آیا هنگام شروع پخش اذان یا یادآوری، تلفن باید بلرزد؟</string>
+    <string name="vibration_mode_help">آیا گوشی باید وقتی پخش اذان یا یادآورها شروع می‌شود، بلرزد؟</string>
     <string name="show_upcoming_alarm">نمایش اعلان «هشدار آینده»</string>
     <string name="show_upcoming_alarm_help">در صورت فعال بودن، حدود یک ساعت قبل از هر اذان یک اعلان نمایش داده می‌شود.</string>
     <string name="custom_upcoming_time">اطلاع قبل از اذان</string>
@@ -522,10 +522,10 @@
     <string name="turn_off">خاموش کردن</string>
     <string name="reminder_duplicate">تکثیر</string>
     <string name="delete_reminder_title">حذف یادآوری</string>
-    <string name="delete_reminder_body">آیا مطمئن هستید که می‌خواهید این یادآوری را حذف کنید؟</string>
+    <string name="delete_reminder_body">آیا مطمئن هستید که می‌خواهید یادآور را حذف کنید؟</string>
     <plurals name="delete_reminders_body">
         <item quantity="one">آیا مطمئن هستید که می‌خواهید %1$d یادآوری را حذف کنید؟</item>
-        <item quantity="other">آیا مطمئن هستید که می‌خواهید %1$d یادآوری را حذف کنید؟</item>
+        <item quantity="other">آیا مطمئن هستید که می‌خواهید %1$d یادآور را حذف کنید؟</item>
     </plurals>
     <string name="only_once_label">فقط یک بار</string>
     <string name="everyday_label">هر روز</string>
