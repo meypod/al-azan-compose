@@ -351,7 +351,7 @@
     <string name="prayer_setting_accessibility">%1$s-Einstellungen</string>
     <string name="tahajjud_is_last_third_hint">Tahajjud ist das letzte Drittel der Nacht</string>
     <string name="use_default_muezzin">Standard verwenden</string>
-    <string name="custom_muezzin">Benutzerdefinierter Muezzin (Gebetsrufer)</string>
+    <string name="custom_muezzin">Benutzerdefinierter Gebetsrufer</string>
     <string name="use_default_vibration">Standard verwenden</string>
     <string name="vibration_mode">Vibrationsmodus</string>
     <string name="vibration_mode_help">Soll das Telefon vibrieren, wenn der Gebetsruf oder Erinnerungen abgespielt werden?</string>
@@ -384,9 +384,9 @@
     <string name="notify_on_skipped_adhan">Stumm benachrichtigen statt überspringen</string>
     <string name="notify_on_skipped_adhan_help">Wenn Sie einen Adhan mit „Überspringen“ im Bildschirm „Anstehende Alarme“ überspringen oder ihn mit „Alarm abbrechen“ aus seiner Benachrichtigung „Bevorstehender Alarm“ abbrechen, wird zu seiner Zeit eine stumme Benachrichtigung angezeigt, statt ihn zu verwerfen. Gilt nur für Adhane.</string>
     <!-- Muezzin voices (core/domain/model/settings) -->
-    <string name="muezzin">Muezzin (Gebetsrufer)</string>
+    <string name="muezzin">Gebetsrufer</string>
     <string name="unknown">Unbekannt</string>
-    <string name="masjid_an_nabawi">Majid an Babası (Prophetenmoschee)</string>
+    <string name="masjid_an_nabawi">Prophetenmoschee</string>
     <string name="abdul_basit_abdus_samad">Abdulbasit Abdussamad</string>
     <string name="ragheb_mustafa_ghalwash">Raghib Mustafa Ghalwasch</string>
     <string name="moazen_zade">Moazenzadeh</string>
