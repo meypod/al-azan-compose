@@ -40,15 +40,15 @@
     <!-- ============================================================
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
-    <string name="fajr">Fadschr</string>
+    <string name="fajr">Fajr</string>
     <string name="sunrise">Sonnenaufgang</string>
-    <string name="dhuhr">Zuhr</string>
-    <string name="asr">Nachmittagsgebet</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
     <string name="sunset">Sonnenuntergang</string>
-    <string name="maghrib">Abendgebet</string>
-    <string name="isha">Ischa</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
     <string name="midnight">Mitternacht</string>
-    <string name="tahajjud">Tahaddschud</string>
+    <string name="tahajjud">Tahajjud</string>
     <!-- ============================================================
          Permission dialogs  (core/presentation/dialog)
          ============================================================ -->
