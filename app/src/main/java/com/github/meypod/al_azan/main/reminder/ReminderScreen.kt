@@ -385,8 +385,9 @@ private fun ReminderRow(
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     // Shares the row with the title instead of taking its full width first, so a long
-                    // weekday list wraps rather than squeezing the title into a sliver.
-                    .weight(1f, fill = false)
+                    // weekday list wraps rather than squeezing the title into a sliver. Filling its share
+                    // (text is end-aligned) keeps the switch pinned to the row end for short labels.
+                    .weight(1f)
                     .padding(start = 8.dp, end = 8.dp)
                     // Colour alone isn't seen by everyone, nor announced.
                     .then(if (expired) Modifier.semantics { contentDescription = "$repeatLabel, $expiredLabel" } else Modifier),
