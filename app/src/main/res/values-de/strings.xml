@@ -42,7 +42,7 @@
          ============================================================ -->
     <string name="fajr">Fajr</string>
     <string name="sunrise">Sonnenaufgang</string>
-    <string name="dhuhr">Dhur</string>
+    <string name="dhuhr">Dhuhr</string>
     <string name="asr">Asr</string>
     <string name="sunset">Sonnenuntergang</string>
     <string name="maghrib">Maghrib</string>
