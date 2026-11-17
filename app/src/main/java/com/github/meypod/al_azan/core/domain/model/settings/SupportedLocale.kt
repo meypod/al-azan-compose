@@ -10,6 +10,7 @@ data class SupportedLocale(
 val SupportedLocales =
     listOf(
         SupportedLocale(label = "English", value = "en", tags = "english"),
+        SupportedLocale(label = "Español", value = "es", tags = "español,espanol,spanish"),
         SupportedLocale(label = "العربیة", value = "ar", tags = "العربية,arabic"),
         SupportedLocale(label = "فارسی", value = "fa", tags = "farsi,persian,فارسی"),
         SupportedLocale(label = "Türkçe", value = "tr", tags = "turkish,türkçe,tr"),
@@ -23,3 +24,4 @@ val SupportedLocales =
         SupportedLocale(label = "বাংলা", value = "bn", tags = "bangla,bangladesh"),
         SupportedLocale(label = "Kiswahili", value = "sw", tags = "Kiswahili"),
     )
+
