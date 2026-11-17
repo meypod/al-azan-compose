@@ -24,4 +24,3 @@ val SupportedLocales =
         SupportedLocale(label = "বাংলা", value = "bn", tags = "bangla,bangladesh"),
         SupportedLocale(label = "Kiswahili", value = "sw", tags = "Kiswahili"),
     )
-
