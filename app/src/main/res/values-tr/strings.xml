@@ -171,6 +171,7 @@
          Location  (main/location)
          ============================================================ -->
     <string name="location_title">Konum</string>
+    <string name="switch_location">Konumu değiştir</string>
     <string name="location_info_card">Namaz vakitlerinizi doğru hesaplayabilmemiz için konumunuza ihtiyacımız var.</string>
     <string name="locations_list_title">Kayıtlı konumlar</string>
     <string name="locations_list_empty_state">Henüz konum yok. Başlamak için bir tane ekleyin.</string>
