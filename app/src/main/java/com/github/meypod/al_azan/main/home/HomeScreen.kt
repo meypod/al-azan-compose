@@ -188,6 +188,16 @@ fun HomeScreen(
                     )
                     NavigationDrawerItem(
                         icon = {
+                            Icon(painterResource(R.drawable.clipboard), contentDescription = null)
+                        },
+                        label = { Text(stringResource(R.string.prayer_log_title)) },
+                        selected = false,
+                        onClick = {
+                            onAction(HomeUiAction.OnPrayerLogLinkClick)
+                        },
+                    )
+                    NavigationDrawerItem(
+                        icon = {
                             Icon(painterResource(R.drawable.settings), contentDescription = null)
                         },
                         label = { Text(stringResource(R.string.settings)) },
@@ -286,6 +296,7 @@ fun HomeScreen(
                         HomeShortcut.Reminders -> R.drawable.alarm to HomeUiAction.OnReminderLinkClick
                         HomeShortcut.MonthlyView -> R.drawable.calendar_month_outline to HomeUiAction.OnMonthlyViewClick
                         HomeShortcut.UpcomingAlarms -> R.drawable.outline_calendar_month_24 to HomeUiAction.OnUpcomingAlarmsClick
+                        HomeShortcut.PrayerLog -> R.drawable.clipboard to HomeUiAction.OnPrayerLogLinkClick
                     }
                     IconButton(onClick = { onAction(action) }) {
                         Icon(

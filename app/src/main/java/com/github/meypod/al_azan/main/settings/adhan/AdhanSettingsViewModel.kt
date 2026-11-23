@@ -20,6 +20,7 @@ import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.presentation.components.deleteAudioFile
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.core.presentation.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.time.Clock
 
 /** Used when the device's current alarm volume can't be read on enable. */
 private const val FALLBACK_CUSTOM_ADHAN_VOLUME = 50
@@ -97,6 +99,9 @@ class AdhanSettingsViewModel
                 alarmSettingsRepository.update { it.copy(autoDismissNotificationMinutes = action.minutes) }
             }
             is AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle -> onNotifyOnSkippedAdhanToggle(action)
+            is AdhanSettingsUiAction.OnPrayerCheckInToggle -> onPrayerCheckInToggle(action)
+            is AdhanSettingsUiAction.OnAutoQadaToggle -> onAutoQadaToggle(action)
+            AdhanSettingsUiAction.OnOpenPrayerLogClick -> NavigationController.navigateTo(Route.Main.PrayerLog)
             is AdhanSettingsUiAction.OnPermissionDontAskAgain -> onPermissionDontAskAgain(action)
             AdhanSettingsUiAction.OnNotificationSettingsClick -> onNotificationSettingsClick()
             AdhanSettingsUiAction.OnPlaybackSettingsClick -> onPlaybackSettingsClick()
@@ -254,6 +259,23 @@ class AdhanSettingsViewModel
     private fun onNotifyOnSkippedAdhanToggle(action: AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle) {
         viewModelScope.launch {
             alarmSettingsRepository.update { it.copy(notifyOnSkippedAdhan = action.enabled) }
+        }
+    }
+
+    private fun onPrayerCheckInToggle(action: AdhanSettingsUiAction.OnPrayerCheckInToggle) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update {
+                it.copy(
+                    prayerCheckInEnabled = action.enabled,
+                    prayerCheckInSinceMillis = if (action.enabled) Clock.System.now().toEpochMilliseconds() else null,
+                )
+            }
+        }
+    }
+
+    private fun onAutoQadaToggle(action: AdhanSettingsUiAction.OnAutoQadaToggle) {
+        viewModelScope.launch {
+            alarmSettingsRepository.update { it.copy(autoQadaOnMissedPrayer = action.enabled) }
         }
     }
 

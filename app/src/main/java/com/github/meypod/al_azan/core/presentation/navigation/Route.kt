@@ -80,6 +80,9 @@ sealed interface Route : NavKey {
         data object Counter : Route, DeepLinkableRoute
 
         @Serializable
+        data object PrayerLog : Route, DeepLinkableRoute
+
+        @Serializable
         data object Settings : Route {
 
             @Serializable
@@ -144,6 +147,8 @@ internal val deepLinkPatterns: List<DeepLinkPattern<out Route>> by lazy {
         add(DeepLinkPattern(Route.Main.Home.serializer(), Route.Main.Home.toUriString().toUri()))
         // "al-azan://SilenceStatus"
         add(DeepLinkPattern(Route.Main.SilenceStatus.serializer(), Route.Main.SilenceStatus.toUriString().toUri()))
+        // "al-azan://PrayerLog" — opened by tapping a prayer check-in notification.
+        add(DeepLinkPattern(Route.Main.PrayerLog.serializer(), Route.Main.PrayerLog.toUriString().toUri()))
         // "al-azan://UpcomingAlarms" — opened by tapping a pre-alarm ("upcoming") notification.
         add(DeepLinkPattern(Route.Main.UpcomingAlarms.serializer(), Route.Main.UpcomingAlarms.toUriString().toUri()))
         // "al-azan://CustomBuilder" — opened by tapping the not-yet-configured custom widget's hint.

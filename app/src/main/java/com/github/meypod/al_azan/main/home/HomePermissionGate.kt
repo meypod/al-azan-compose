@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPerm
 /** Inputs for the home permission re-check: which scheduled features are active. */
 data class HomePermissionCheck(
     val adhanScheduled: Boolean,
+    val checkInScheduled: Boolean = false,
     val hasScheduledAlarms: Boolean,
     /** Adhan plays a sound → the full-screen alarm needs full-screen-intent access. */
     val fullScreenRequired: Boolean,
@@ -52,16 +53,18 @@ fun HomePermissionGate(
     LaunchedEffect(Unit) {
         val check = getCheck()
         val steps = buildList {
+            if ((check.adhanScheduled || check.checkInScheduled) &&
+                !isSchedulingPermissionGranted(context, SchedulingPermission.Notification)
+            ) {
+                add(
+                    PermissionStep(
+                        SchedulingPermission.Notification,
+                        R.string.home_notification_permission_rationale,
+                        R.string.adhan_notification_permission_denied_text,
+                    ),
+                )
+            }
             if (check.adhanScheduled) {
-                if (!isSchedulingPermissionGranted(context, SchedulingPermission.Notification)) {
-                    add(
-                        PermissionStep(
-                            SchedulingPermission.Notification,
-                            R.string.home_notification_permission_rationale,
-                            R.string.adhan_notification_permission_denied_text,
-                        ),
-                    )
-                }
                 if (!isSchedulingPermissionGranted(context, SchedulingPermission.PhoneState)) {
                     add(
                         PermissionStep(

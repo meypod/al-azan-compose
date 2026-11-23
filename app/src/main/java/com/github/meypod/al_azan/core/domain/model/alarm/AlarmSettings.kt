@@ -19,6 +19,12 @@ data class AlarmSettings(
     val notifyOnSkippedAdhan: Boolean = false,
     /** Minutes after which an adhan's or reminder's notification left after firing is removed; null keeps it. */
     val autoDismissNotificationMinutes: Int? = null,
+    /** Whether prayer check-in notifications ("Have you prayed X?") are shown at each obligatory prayer time. */
+    val prayerCheckInEnabled: Boolean = false,
+    /** Whether missed prayers automatically increment the Qada counter when their window ends. */
+    val autoQadaOnMissedPrayer: Boolean = false,
+    /** Epoch millis when prayer check-in was enabled; avoids retroactively marking older prayers missed. */
+    val prayerCheckInSinceMillis: Long? = null,
     //
     val fajrSound: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),
     val fajrNotify: PrayerAlarmSettings = PrayerAlarmSettings.Bool(false),

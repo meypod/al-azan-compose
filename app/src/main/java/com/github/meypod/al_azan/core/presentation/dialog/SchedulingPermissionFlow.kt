@@ -209,6 +209,19 @@ object SchedulingPermissionSteps {
             R.string.dnd_permission_denied_text,
         ),
     )
+
+    val prayerCheckIn: List<PermissionStep> = listOf(
+        PermissionStep(
+            SchedulingPermission.Notification,
+            R.string.prayer_checkin_notification_permission_rationale,
+            R.string.prayer_checkin_notification_permission_denied_text,
+        ),
+        PermissionStep(
+            SchedulingPermission.ExactAlarm,
+            R.string.prayer_checkin_exact_alarm_permission_rationale,
+            R.string.prayer_checkin_exact_alarm_permission_denied_text,
+        ),
+    )
 }
 
 /**

@@ -124,6 +124,10 @@
                 <action android:name="com.github.meypod.al_azan.action.STOP_SOFT_SOUND" />
                 <action android:name="com.github.meypod.al_azan.action.RAMADAN_REMIND_NEXT_YEAR" />
                 <action android:name="com.github.meypod.al_azan.action.RAMADAN_DONT_SHOW_AGAIN" />
+                <action android:name="com.github.meypod.al_azan.action.PRAYER_CHECKIN_PROMPT" />
+                <action android:name="com.github.meypod.al_azan.action.PRAYER_CHECKIN_PRAYED" />
+                <action android:name="com.github.meypod.al_azan.action.PRAYER_CHECKIN_NOT_YET" />
+                <action android:name="com.github.meypod.al_azan.action.PRAYER_CHECKIN_EXPIRED" />
             </intent-filter>
         </receiver>
 

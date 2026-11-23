@@ -789,4 +789,35 @@
          (both already localized); this string is only the separator, so it isn't translated. -->
     <string name="reschedule_when" translatable="false">%1$s, %2$s</string>
 
+    <!-- ============================================================
+         Prayer check-in & Prayer log
+         ============================================================ -->
+    <string name="prayer_checkin_title">Prayer check-in</string>
+    <string name="prayer_checkin_help">Show a notification at each prayer time asking if you have prayed.</string>
+    <string name="auto_qada_title">Auto-add missed prayers to Qada</string>
+    <string name="auto_qada_help">Automatically increment the Qada counter when a prayer window ends without being marked as prayed.</string>
+    <string name="open_prayer_log">Open prayer log</string>
+    <string name="prayer_log_title">Prayer log</string>
+    <string name="prayer_status_prayed">Prayed</string>
+    <string name="prayer_status_missed">Missed</string>
+    <string name="prayer_status_pending">Pending</string>
+    <string name="have_you_prayed_format">Have you prayed %1$s?</string>
+    <string name="prayer_action_prayed">Prayed</string>
+    <string name="prayer_action_not_yet">Not yet</string>
+    <string name="prayer_checkin_channel_name">Prayer check-in</string>
+    <string name="prayer_checkin_channel_description">Notifications asking if you have prayed the current prayer.</string>
+    <string name="prayer_log_streak">Daily prayers</string>
+    <string name="prayed_count_format">%1$d/%2$d prayed</string>
+    <string name="prayer_log_recent_history">Recent history</string>
+    <string name="mark_as_prayed">Mark as prayed</string>
+    <string name="mark_as_missed">Mark as missed</string>
+    <string name="clear_status">Clear status</string>
+    <string name="prayer_checkin_disabled_hint">Enable prayer check-in in Sound &amp; notifications to receive check-in prompts and auto-log missed prayers.</string>
+    <string name="prayer_checkin_open_settings">Open notification settings</string>
+    <string name="prayer_checkin_notification_permission_rationale">Prayer check-in posts a notification at each prayer time. Allow notifications to enable it.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">Notifications are required for prayer check-in prompts.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">Prayer check-in prompts and window-end checks must fire on time. Allow exact alarms to enable it.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">Exact alarm permission is required for timely prayer check-ins.</string>
+    <string name="dev_fire_checkin_now">Post prayer check-in now</string>
+
 </resources>
