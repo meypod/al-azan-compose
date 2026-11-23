@@ -3,17 +3,21 @@ package com.github.meypod.al_azan.main.home.components
 import android.icu.text.DateFormat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +43,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.adhan.i18n
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
@@ -195,27 +201,60 @@ fun HomeHeader(
                 Arrangement.Center
             },
         ) {
-            Button(
-                onClick = { onAction(HomeUiAction.OnLocationTextClick) },
-                colors = ButtonColors(
-                    Color.Transparent,
-                    headerContentColor,
-                    headerContentColor.copy(alpha = 0.6f),
-                    Color.Transparent,
-                ),
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
-                    verticalAlignment = Alignment.CenterVertically,
+                Button(
+                    onClick = { onAction(HomeUiAction.OnLocationTextClick) },
+                    contentPadding = if (uiState.canSwitchLocation) {
+                        PaddingValues(
+                            start = 16.dp,
+                            top = 8.dp,
+                            end = 2.dp,
+                            bottom = 8.dp,
+                        )
+                    } else {
+                        ButtonDefaults.ContentPadding
+                    },
+                    colors = ButtonColors(
+                        Color.Transparent,
+                        headerContentColor,
+                        headerContentColor.copy(alpha = 0.6f),
+                        Color.Transparent,
+                    ),
                 ) {
-                    Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
-                    Text(
-                        uiState.location?.locationDetail?.toDisplayString()
-                            ?: stringResource(R.string.set_location_hint),
-                        color = headerContentColor,
-                        style = MaterialTheme.typography.labelMedium,
-                        textDecoration = TextDecoration.Underline,
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.icon_padding)),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(painterResource(R.drawable.map_marker), contentDescription = stringResource(R.string.location_title))
+                        Text(
+                            uiState.location?.locationDetail?.toDisplayString()
+                                ?: stringResource(R.string.set_location_hint),
+                            color = headerContentColor,
+                            style = MaterialTheme.typography.labelMedium,
+                            textDecoration = TextDecoration.Underline,
+                        )
+                    }
+                }
+                if (uiState.canSwitchLocation) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .clickable(
+                                role = Role.Button,
+                                onClick = { onAction(HomeUiAction.OnSwitchLocationClick) },
+                            )
+                            .padding(4.dp),
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_swap_horiz_24),
+                            contentDescription = stringResource(R.string.switch_location),
+                            tint = headerContentColor,
+                            modifier = Modifier.size(20.dp),
+                        )
+                    }
                 }
             }
 

@@ -13,6 +13,7 @@ sealed interface HomeUiAction {
         val calendarIndex: Int,
     ) : HomeUiAction
     object OnLocationTextClick : HomeUiAction
+    object OnSwitchLocationClick : HomeUiAction
     object OnCalculationLinkClick : HomeUiAction
     object OnCalendarDateClick : HomeUiAction
     object OnReminderLinkClick : HomeUiAction

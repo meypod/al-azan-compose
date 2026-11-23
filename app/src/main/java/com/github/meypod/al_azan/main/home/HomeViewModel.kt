@@ -1,13 +1,18 @@
 package com.github.meypod.al_azan.main.home
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.github.meypod.al_azan.core.domain.model.adhan.NON_PRAYERS_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.SHARIA_TIMES_IN_ORDER
 import com.github.meypod.al_azan.core.domain.model.adhan.ShariaTimesResult
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
+import com.github.meypod.al_azan.core.domain.model.favorite_location.StaticFavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.TravelingFavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.favorite_location.nextStaticFavoriteLocation
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -31,7 +36,9 @@ import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.withDontAskAgain
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.worker.TRAVEL_MODE_WORK_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,6 +63,7 @@ import kotlin.time.toDuration
 @HiltViewModel
 class HomeViewModel
 @Inject constructor(
+    @param:ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val calculationSettingsRepository: CalculationSettingsRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
@@ -152,6 +160,7 @@ class HomeViewModel
         when (action) {
             HomeUiAction.OnCalendarDateClick -> onCalendarDateClick()
             HomeUiAction.OnLocationTextClick -> onLocationTextClick()
+            HomeUiAction.OnSwitchLocationClick -> onSwitchLocationClick()
             HomeUiAction.OnCalculationLinkClick -> onCalculationLinkClick()
             HomeUiAction.OnNextDayClick -> onNextDayClick()
             HomeUiAction.OnPrevDayClick -> onPrevDayClick()
@@ -187,6 +196,23 @@ class HomeViewModel
 
     private fun onLocationTextClick() {
         NavigationController.navigateTo(Route.Main.Location)
+    }
+
+    private fun onSwitchLocationClick() {
+        viewModelScope.launch {
+            val locations = favoriteLocationsRepository.fetch()
+            val currentLocationId = calculationSettingsRepository.fetch().locationId
+            val beforeTravelId = settingsRepository.fetch().locationIdBeforeTravel
+            val next = nextStaticFavoriteLocation(
+                locations = locations,
+                currentLocationId = currentLocationId,
+                locationIdBeforeTravel = beforeTravelId,
+            ) ?: return@launch
+            calculationSettingsRepository.update { it.copy(locationId = next.id) }
+            if (currentLocationId == TravelingFavoriteLocation.LOCATION_ID) {
+                WorkManager.getInstance(context).cancelUniqueWork(TRAVEL_MODE_WORK_NAME)
+            }
+        }
     }
 
     private fun onNextDayClick() {
@@ -368,6 +394,7 @@ class HomeViewModel
                         locale = settings.selectedLocale,
                         numberingSystem = settings.numberingSystem,
                         location = location,
+                        canSwitchLocation = locations.count { loc -> loc is StaticFavoriteLocation } >= 2,
                         isCalculationConfigured = calcSettings.parameters != null,
                         showNextPrayerCountdown = settings.showHomeNextPrayerCountdown,
                         nextShariaTime = nextShariaTime,

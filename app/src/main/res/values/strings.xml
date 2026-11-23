@@ -182,6 +182,7 @@
          Location  (main/location)
          ============================================================ -->
     <string name="location_title">Location</string>
+    <string name="switch_location">Switch location</string>
     <string name="location_info_card">We need your location to calculate your prayer times properly.</string>
     <string name="locations_list_title">Saved locations</string>
     <string name="locations_list_empty_state">No locations yet. Add one to get started.</string>
