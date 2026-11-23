@@ -1,17 +1,9 @@
 package com.github.meypod.al_azan.prayer_checkin
 
-import com.github.meypod.al_azan.R
-import com.github.meypod.al_azan.core.data.locale.LocalizedResources
-import com.github.meypod.al_azan.core.domain.model.TextResource
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.domain.model.alarm.upsert
-import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationCategory
-import com.github.meypod.al_azan.core.domain.model.notification.AndroidNotificationConfig
-import com.github.meypod.al_azan.core.domain.model.notification.NotificationButton
-import com.github.meypod.al_azan.core.domain.model.notification.NotificationConfig
-import com.github.meypod.al_azan.core.domain.model.notification.NotificationPressAction
 import com.github.meypod.al_azan.core.domain.model.prayer_log.LOGGABLE_DAILY_PRAYERS
 import com.github.meypod.al_azan.core.domain.model.prayer_log.PrayerRecordStatus
 import com.github.meypod.al_azan.core.domain.model.reminder.nextOccurrence
@@ -24,10 +16,8 @@ import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.PrayerLogRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
-import com.github.meypod.al_azan.core.domain.usecase.EnsureNotificationChannelsUseCase
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
 import com.github.meypod.al_azan.core.domain.util.toLocalDate
-import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.reminder.ReminderContract
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import kotlinx.coroutines.flow.first
@@ -49,8 +39,8 @@ class PrayerCheckInHandler internal constructor(
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val reminderScheduler: ReminderScheduler,
     private val alarmRepository: AlarmRepository,
-    private val localizedResources: LocalizedResources,
     private val prayerCheckInFinalizer: PrayerCheckInFinalizer,
+    private val prayerCheckInNotifier: PrayerCheckInNotifier,
     private val prayerCheckInScheduler: PrayerCheckInScheduler,
     private val nowProvider: () -> Instant,
 ) {
@@ -66,8 +56,8 @@ class PrayerCheckInHandler internal constructor(
         getShariaTimesUseCase: GetShariaTimesUseCase,
         reminderScheduler: ReminderScheduler,
         alarmRepository: AlarmRepository,
-        localizedResources: LocalizedResources,
         prayerCheckInFinalizer: PrayerCheckInFinalizer,
+        prayerCheckInNotifier: PrayerCheckInNotifier,
         prayerCheckInScheduler: PrayerCheckInScheduler,
     ) : this(
         notificationRepository = notificationRepository,
@@ -80,11 +70,12 @@ class PrayerCheckInHandler internal constructor(
         getShariaTimesUseCase = getShariaTimesUseCase,
         reminderScheduler = reminderScheduler,
         alarmRepository = alarmRepository,
-        localizedResources = localizedResources,
         prayerCheckInFinalizer = prayerCheckInFinalizer,
+        prayerCheckInNotifier = prayerCheckInNotifier,
         prayerCheckInScheduler = prayerCheckInScheduler,
         nowProvider = { Clock.System.now() },
     )
+
     suspend fun onPromptFired(
         prayer: Prayer,
         date: LocalDate,
@@ -102,13 +93,8 @@ class PrayerCheckInHandler internal constructor(
         }
 
         prayerCheckInFinalizer.finalizePassedPrayers()
-
-        val existingStatus = prayerLogRepository.getRecordForDate(date)?.statusFor(prayer)
-        if (existingStatus == null) {
-            postCheckInNotification(prayer, date)
-        }
-
-        prayerCheckInScheduler.schedule()
+        prayerCheckInNotifier.promptIfDue(prayer, date)
+        prayerCheckInScheduler.schedule(justPrompted = prayer to date)
     }
 
     suspend fun onPrayed(
@@ -116,7 +102,7 @@ class PrayerCheckInHandler internal constructor(
         date: LocalDate,
     ) {
         prayerLogRepository.setPrayerStatus(date, prayer, PrayerRecordStatus.Prayed)
-        notificationRepository.cancelNotification(PrayerCheckInContract.notificationId(prayer))
+        prayerCheckInNotifier.cancelPrompt(prayer)
         alarmRepository.cancel(PrayerCheckInContract.expiredAlarmId(prayer))
         skipRemindersInPrayerWindow(prayer, date)
         prayerCheckInScheduler.schedule()
@@ -127,14 +113,14 @@ class PrayerCheckInHandler internal constructor(
         @Suppress("UNUSED_PARAMETER") date: LocalDate,
     ) {
         // Dismiss the check-in question; pending reminders and the end-of-window alarm stay active.
-        notificationRepository.cancelNotification(PrayerCheckInContract.notificationId(prayer))
+        prayerCheckInNotifier.cancelPrompt(prayer)
     }
 
     suspend fun onExpired(
         prayer: Prayer,
         date: LocalDate,
     ) {
-        notificationRepository.cancelNotification(PrayerCheckInContract.notificationId(prayer))
+        prayerCheckInNotifier.cancelPrompt(prayer)
         prayerCheckInFinalizer.finalizePrayerIfUnrecorded(prayer, date)
         prayerCheckInScheduler.schedule()
     }
@@ -149,7 +135,7 @@ class PrayerCheckInHandler internal constructor(
             val scheduledExpired = alarmRepository.getScheduled()
                 .firstOrNull { it.id == PrayerCheckInContract.expiredAlarmId(prayer) }
             if (scheduledExpired?.extras?.get(PrayerCheckInContract.EXTRA_DATE) == date.toString()) {
-                notificationRepository.cancelNotification(PrayerCheckInContract.notificationId(prayer))
+                prayerCheckInNotifier.cancelPrompt(prayer)
                 alarmRepository.cancel(PrayerCheckInContract.expiredAlarmId(prayer))
             }
             if (newStatus == PrayerRecordStatus.Prayed) {
@@ -168,11 +154,11 @@ class PrayerCheckInHandler internal constructor(
         val now = nowProvider()
         val today = now.toLocalDate()
         val prayer = resolveCurrentPrayerForDev(now, today) ?: Prayer.Fajr
-        postCheckInNotification(prayer, today)
+        prayerCheckInNotifier.forcePromptForDev(prayer, today)
     }
 
     private suspend fun resolveCurrentPrayerForDev(
-        now: kotlin.time.Instant,
+        now: Instant,
         today: LocalDate,
     ): Prayer? {
         val calc = calculationSettingsRepository.data.first()
@@ -192,54 +178,6 @@ class PrayerCheckInHandler internal constructor(
             val window = prayerWindow(prayer, times) ?: return@firstOrNull false
             now >= window.start && now < window.end
         }
-    }
-
-    private suspend fun postCheckInNotification(
-        prayer: Prayer,
-        date: LocalDate,
-    ) {
-        val prayerName = localizedResources.current.getString(prayer.stringRes)
-        val question = localizedResources.current.getString(R.string.have_you_prayed_format, prayerName)
-
-        notificationRepository.notify(
-            NotificationConfig(
-                id = PrayerCheckInContract.notificationId(prayer),
-                title = TextResource.StringResId(prayer.stringRes),
-                body = TextResource.Literal(question),
-                android = AndroidNotificationConfig(
-                    channelId = EnsureNotificationChannelsUseCase.PRAYER_CHECKIN_CHANNEL_ID,
-                    category = AndroidNotificationCategory.CATEGORY_REMINDER,
-                    ongoing = true,
-                    onlyAlertOnce = true,
-                    autoCancel = false,
-                    pressAction = NotificationPressAction.Route(Route.Main.PrayerLog),
-                    actions = listOf(
-                        NotificationButton(
-                            title = TextResource.StringResId(R.string.prayer_action_prayed),
-                            pressAction = NotificationPressAction.Broadcast(
-                                action = PrayerCheckInContract.ACTION_CHECKIN_PRAYED,
-                                requestCode = (PrayerCheckInContract.ACTION_CHECKIN_PRAYED + prayer.name).hashCode(),
-                                extras = mapOf(
-                                    PrayerCheckInContract.EXTRA_PRAYER to prayer.name,
-                                    PrayerCheckInContract.EXTRA_DATE to date.toString(),
-                                ),
-                            ),
-                        ),
-                        NotificationButton(
-                            title = TextResource.StringResId(R.string.prayer_action_not_yet),
-                            pressAction = NotificationPressAction.Broadcast(
-                                action = PrayerCheckInContract.ACTION_CHECKIN_NOT_YET,
-                                requestCode = (PrayerCheckInContract.ACTION_CHECKIN_NOT_YET + prayer.name).hashCode(),
-                                extras = mapOf(
-                                    PrayerCheckInContract.EXTRA_PRAYER to prayer.name,
-                                    PrayerCheckInContract.EXTRA_DATE to date.toString(),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
     }
 
     private suspend fun skipRemindersInPrayerWindow(

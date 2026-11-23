@@ -220,6 +220,13 @@ class PrayerCheckInHandlerTest {
         val localizedResources = mock(LocalizedResources::class.java)
         `when`(localizedResources.current).thenReturn(resources)
 
+        val notifier = PrayerCheckInNotifier(
+            notificationRepository = notifRepo,
+            prayerLogRepository = prayerLogRepo,
+            settingsRepository = settingsRepo,
+            alarmSettingsRepository = alarmSettingsRepo,
+            localizedResources = localizedResources,
+        )
         val finalizer = PrayerCheckInFinalizer(
             prayerLogRepository = prayerLogRepo,
             alarmSettingsRepository = alarmSettingsRepo,
@@ -239,8 +246,8 @@ class PrayerCheckInHandlerTest {
             prayerLogRepository = prayerLogRepo,
             getShariaTimesUseCase = getShariaTimes,
             alarmRepository = alarmRepo,
-            notificationRepository = notifRepo,
             prayerCheckInFinalizer = finalizer,
+            prayerCheckInNotifier = notifier,
             nowProvider = { now },
         )
         val handler = PrayerCheckInHandler(
@@ -254,14 +261,15 @@ class PrayerCheckInHandlerTest {
             getShariaTimesUseCase = getShariaTimes,
             reminderScheduler = reminderScheduler,
             alarmRepository = alarmRepo,
-            localizedResources = localizedResources,
             prayerCheckInFinalizer = finalizer,
+            prayerCheckInNotifier = notifier,
             prayerCheckInScheduler = scheduler,
             nowProvider = { now },
         )
 
         return Fixture(
             handler = handler,
+            scheduler = scheduler,
             finalizer = finalizer,
             prayerLogRepo = prayerLogRepo,
             counterRepo = counterRepo,
@@ -274,6 +282,7 @@ class PrayerCheckInHandlerTest {
 
     private data class Fixture(
         val handler: PrayerCheckInHandler,
+        val scheduler: PrayerCheckInScheduler,
         val finalizer: PrayerCheckInFinalizer,
         val prayerLogRepo: FakePrayerLogRepository,
         val counterRepo: FakeCounterRepository,
@@ -426,5 +435,29 @@ class PrayerCheckInHandlerTest {
 
         assertTrue(f.prayerLogRepo.fetch().isEmpty())
         assertTrue(f.counterRepo.fetch().isEmpty())
+    }
+
+    @Test
+    fun `schedule posts catch-up notification once when clock jumps into an active prayer window`() = runTest {
+        // Tehran Dhuhr on 2026-11-23 starts ~08:30Z (12:00 IRST) and ends at Asr ~11:20Z.
+        val f = buildFixture(
+            now = Instant.parse("2026-11-23T09:15:00Z"),
+            alarmSettings = AlarmSettings(
+                prayerCheckInEnabled = true,
+                autoQadaOnMissedPrayer = true,
+                prayerCheckInSinceMillis = Instant.parse("2026-11-23T08:00:00Z").toEpochMilliseconds(),
+            ),
+        )
+
+        // First reconcile (simulating TimeChangeReceiver after user moved clock forward past Dhuhr start):
+        f.scheduler.schedule()
+        assertEquals(1, f.notifRepo.posted.size)
+        assertEquals(PrayerCheckInContract.notificationId(Prayer.Dhuhr), f.notifRepo.posted.single().id)
+        assertTrue(PrayerCheckInContract.expiredAlarmId(Prayer.Dhuhr) in f.alarmRepo.scheduled)
+
+        // Second reconcile after user tapped Not yet (still unrecorded in window): must NOT re-post.
+        f.handler.onNotYet(Prayer.Dhuhr, testDate)
+        f.scheduler.schedule()
+        assertEquals(1, f.notifRepo.posted.size)
     }
 }

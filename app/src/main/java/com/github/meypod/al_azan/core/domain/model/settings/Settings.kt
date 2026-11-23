@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.SkippedAlarm
 import com.github.meypod.al_azan.core.util.serialization.EmptyStringAsNullSerializer
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.serializers.DayOfWeekSerializer
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
@@ -235,6 +236,11 @@ data class Settings(
      * survives a start where notifications are not permitted yet.
      */
     val diyanetChangeNoticePending: Boolean = false,
+    /**
+     * Last prayer-day date for which a check-in notification was posted per prayer, so clock
+     * changes and reconciles prompt each active occurrence at most once.
+     */
+    val deliveredPrayerCheckIns: Map<Prayer, LocalDate> = emptyMap(),
 )
 
 @Serializable

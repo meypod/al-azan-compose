@@ -264,6 +264,7 @@ class AdhanSettingsViewModel
 
     private fun onPrayerCheckInToggle(action: AdhanSettingsUiAction.OnPrayerCheckInToggle) {
         viewModelScope.launch {
+            settingsRepository.update { it.copy(deliveredPrayerCheckIns = emptyMap()) }
             alarmSettingsRepository.update {
                 it.copy(
                     prayerCheckInEnabled = action.enabled,

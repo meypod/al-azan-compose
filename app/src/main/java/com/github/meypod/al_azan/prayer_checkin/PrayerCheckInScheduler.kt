@@ -13,7 +13,6 @@ import com.github.meypod.al_azan.core.domain.repository.AlarmRepository
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
-import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
 import com.github.meypod.al_azan.core.domain.repository.PrayerLogRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.usecase.GetShariaTimesUseCase
@@ -31,9 +30,9 @@ import kotlin.time.Clock
 import kotlin.time.Instant
 
 /**
- * Schedules the next prayer check-in prompt alarm ([PrayerCheckInContract.ACTION_CHECKIN_PROMPT]) and
- * active-window expiration alarms ([PrayerCheckInContract.ACTION_CHECKIN_EXPIRED]), keeping its
- * schedule completely independent of adhan sound/notification settings.
+ * Schedules the next prayer check-in prompt alarm ([PrayerCheckInContract.ACTION_CHECKIN_PROMPT]),
+ * posts catch-up prompts when a clock change or reboot lands inside an active prayer window, and
+ * arms active-window expiration alarms ([PrayerCheckInContract.ACTION_CHECKIN_EXPIRED]).
  */
 @Singleton
 class PrayerCheckInScheduler internal constructor(
@@ -44,8 +43,8 @@ class PrayerCheckInScheduler internal constructor(
     private val prayerLogRepository: PrayerLogRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val alarmRepository: AlarmRepository,
-    private val notificationRepository: NotificationRepository,
     private val prayerCheckInFinalizer: PrayerCheckInFinalizer,
+    private val prayerCheckInNotifier: PrayerCheckInNotifier,
     private val nowProvider: () -> Instant,
 ) {
     @Inject
@@ -57,8 +56,8 @@ class PrayerCheckInScheduler internal constructor(
         prayerLogRepository: PrayerLogRepository,
         getShariaTimesUseCase: GetShariaTimesUseCase,
         alarmRepository: AlarmRepository,
-        notificationRepository: NotificationRepository,
         prayerCheckInFinalizer: PrayerCheckInFinalizer,
+        prayerCheckInNotifier: PrayerCheckInNotifier,
     ) : this(
         settingsRepository = settingsRepository,
         alarmSettingsRepository = alarmSettingsRepository,
@@ -67,8 +66,8 @@ class PrayerCheckInScheduler internal constructor(
         prayerLogRepository = prayerLogRepository,
         getShariaTimesUseCase = getShariaTimesUseCase,
         alarmRepository = alarmRepository,
-        notificationRepository = notificationRepository,
         prayerCheckInFinalizer = prayerCheckInFinalizer,
+        prayerCheckInNotifier = prayerCheckInNotifier,
         nowProvider = { Clock.System.now() },
     )
 
@@ -78,10 +77,11 @@ class PrayerCheckInScheduler internal constructor(
         const val TAG = "PrayerCheckInScheduler"
     }
 
-    suspend fun schedule() =
+    suspend fun schedule(justPrompted: Pair<Prayer, LocalDate>? = null) =
         mutex.withLock {
             val now = nowProvider()
-            val alarmSettings = alarmSettingsRepository.data.first()
+            val nowMs = now.toEpochMilliseconds()
+            var alarmSettings = alarmSettingsRepository.data.first()
             val calc = calculationSettingsRepository.data.first()
             val parameters = calc.parameters
             val location = favoriteLocationsRepository.data.first()
@@ -92,11 +92,21 @@ class PrayerCheckInScheduler internal constructor(
                 return@withLock
             }
 
+            // If the user moved the clock backward before check-in was enabled, anchor sinceMillis to now
+            // so future prayers on the adjusted clock still trigger and finalize normally.
+            val storedSince = alarmSettings.prayerCheckInSinceMillis
+            val sinceMillis = if (storedSince == null || nowMs < storedSince) {
+                alarmSettingsRepository.update { it.copy(prayerCheckInSinceMillis = nowMs) }
+                alarmSettings = alarmSettings.copy(prayerCheckInSinceMillis = nowMs)
+                nowMs
+            } else {
+                storedSince
+            }
+
             prayerCheckInFinalizer.finalizePassedPrayers(now)
 
             val settings = settingsRepository.data.first()
             val recordsByDate = prayerLogRepository.fetch().associateBy { it.date }
-            val sinceMillis = alarmSettings.prayerCheckInSinceMillis ?: now.toEpochMilliseconds()
 
             fun timesFor(date: LocalDate): ShariaTimes? =
                 getShariaTimesUseCase(
@@ -108,20 +118,75 @@ class PrayerCheckInScheduler internal constructor(
                     midnightMethod = calc.midnightMethod,
                 ).timesOrNull
 
+            reconcileActiveWindows(
+                now = now,
+                sinceMillis = sinceMillis,
+                justPrompted = justPrompted,
+                recordsByDate = recordsByDate,
+                timesFor = ::timesFor,
+            )
+
             scheduleNextPrompt(
                 now = now,
                 deliveredMs = settings.deliveredAlarmTimestamps[PrayerCheckInContract.DELIVERED_KEY] ?: 0L,
                 recordsByDate = recordsByDate,
                 timesFor = ::timesFor,
             )
-
-            reconcileActiveExpirations(
-                now = now,
-                sinceMillis = sinceMillis,
-                recordsByDate = recordsByDate,
-                timesFor = ::timesFor,
-            )
         }
+
+    private suspend fun reconcileActiveWindows(
+        now: Instant,
+        sinceMillis: Long,
+        justPrompted: Pair<Prayer, LocalDate>?,
+        recordsByDate: Map<LocalDate, DailyPrayerRecord>,
+        timesFor: (LocalDate) -> ShariaTimes?,
+    ) {
+        val today = now.toLocalDate()
+        val datesToScan = listOf(today - DatePeriod(days = 1), today)
+        val activeArms = mutableMapOf<Prayer, Pair<LocalDate, Instant>>()
+
+        for (date in datesToScan) {
+            val times = timesFor(date) ?: continue
+            val record = recordsByDate[date]
+            for (prayer in LOGGABLE_DAILY_PRAYERS) {
+                if (record?.statusFor(prayer) != null) continue
+                val window = prayerWindow(prayer, times) ?: continue
+                if (window.start.toEpochMilliseconds() < sinceMillis) continue
+                val inWindow = now >= window.start && now < window.end
+                val isJustPrompted = justPrompted == (prayer to date) && now < window.end
+                if (inWindow || isJustPrompted) {
+                    activeArms[prayer] = date to window.end
+                    if (inWindow) {
+                        // Catch-up: if clock jumped or device booted into an unprompted prayer window, show now.
+                        prayerCheckInNotifier.promptIfDue(prayer, date)
+                    }
+                }
+            }
+        }
+
+        val scheduledIds = alarmRepository.getScheduled().map { it.id }.toSet()
+        for (prayer in LOGGABLE_DAILY_PRAYERS) {
+            val alarmId = PrayerCheckInContract.expiredAlarmId(prayer)
+            val active = activeArms[prayer]
+            if (active != null) {
+                val (date, endInstant) = active
+                alarmRepository.schedule(
+                    ScheduledAlarm(
+                        id = alarmId,
+                        triggerAtMillis = endInstant.toEpochMilliseconds(),
+                        action = PrayerCheckInContract.ACTION_CHECKIN_EXPIRED,
+                        type = AlarmType.ExactAllowWhileIdle,
+                        extras = mapOf(
+                            PrayerCheckInContract.EXTRA_PRAYER to prayer.name,
+                            PrayerCheckInContract.EXTRA_DATE to date.toString(),
+                        ),
+                    ),
+                )
+            } else if (alarmId in scheduledIds) {
+                alarmRepository.cancel(alarmId)
+            }
+        }
+    }
 
     private suspend fun scheduleNextPrompt(
         now: Instant,
@@ -130,7 +195,9 @@ class PrayerCheckInScheduler internal constructor(
         timesFor: (LocalDate) -> ShariaTimes?,
     ) {
         val nowMs = now.toEpochMilliseconds()
-        val fromMs = maxOf(nowMs, deliveredMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS)
+        // If clock moved backward behind deliveredMs, deliveredMs shouldn't block prompts on the new clock.
+        val effectiveDeliveredMs = if (deliveredMs > nowMs) 0L else deliveredMs
+        val fromMs = maxOf(nowMs, effectiveDeliveredMs + AlarmSchedulingDefaults.REFIRE_GUARD_MS)
         val fromInstant = Instant.fromEpochMilliseconds(fromMs)
         val startDate = fromInstant.toLocalDate()
 
@@ -171,53 +238,6 @@ class PrayerCheckInScheduler internal constructor(
         )
     }
 
-    private suspend fun reconcileActiveExpirations(
-        now: Instant,
-        sinceMillis: Long,
-        recordsByDate: Map<LocalDate, DailyPrayerRecord>,
-        timesFor: (LocalDate) -> ShariaTimes?,
-    ) {
-        val today = now.toLocalDate()
-        val datesToScan = listOf(today - DatePeriod(days = 1), today)
-        val activeArms = mutableMapOf<Prayer, Pair<LocalDate, Instant>>()
-
-        for (date in datesToScan) {
-            val times = timesFor(date) ?: continue
-            val record = recordsByDate[date]
-            for (prayer in LOGGABLE_DAILY_PRAYERS) {
-                if (record?.statusFor(prayer) != null) continue
-                val window = prayerWindow(prayer, times) ?: continue
-                if (window.end.toEpochMilliseconds() < sinceMillis) continue
-                if (now >= window.start && now < window.end) {
-                    activeArms[prayer] = date to window.end
-                }
-            }
-        }
-
-        val scheduledIds = alarmRepository.getScheduled().map { it.id }.toSet()
-        for (prayer in LOGGABLE_DAILY_PRAYERS) {
-            val alarmId = PrayerCheckInContract.expiredAlarmId(prayer)
-            val active = activeArms[prayer]
-            if (active != null) {
-                val (date, endInstant) = active
-                alarmRepository.schedule(
-                    ScheduledAlarm(
-                        id = alarmId,
-                        triggerAtMillis = endInstant.toEpochMilliseconds(),
-                        action = PrayerCheckInContract.ACTION_CHECKIN_EXPIRED,
-                        type = AlarmType.ExactAllowWhileIdle,
-                        extras = mapOf(
-                            PrayerCheckInContract.EXTRA_PRAYER to prayer.name,
-                            PrayerCheckInContract.EXTRA_DATE to date.toString(),
-                        ),
-                    ),
-                )
-            } else if (alarmId in scheduledIds) {
-                alarmRepository.cancel(alarmId)
-            }
-        }
-    }
-
     private suspend fun cancelIfScheduled(id: String) {
         val scheduled = alarmRepository.getScheduled().any { it.id == id }
         if (scheduled) alarmRepository.cancel(id)
@@ -231,7 +251,7 @@ class PrayerCheckInScheduler internal constructor(
         for (prayer in LOGGABLE_DAILY_PRAYERS) {
             val expId = PrayerCheckInContract.expiredAlarmId(prayer)
             if (expId in scheduledIds) alarmRepository.cancel(expId)
-            notificationRepository.cancelNotification(PrayerCheckInContract.notificationId(prayer))
+            prayerCheckInNotifier.cancelPrompt(prayer)
         }
     }
 }

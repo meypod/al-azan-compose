@@ -93,8 +93,8 @@ class PrayerCheckInFinalizer internal constructor(
 
             for (prayer in LOGGABLE_DAILY_PRAYERS) {
                 val window = prayerWindow(prayer, times) ?: continue
-                // Never retroactively mark prayers missed if their window ended before check-in was enabled.
-                if (window.end.toEpochMilliseconds() < sinceMillis) continue
+                // Only finalize prayers that started after check-in was enabled.
+                if (window.start.toEpochMilliseconds() < sinceMillis) continue
                 if (now >= window.end) {
                     notificationRepository.cancelNotification(PrayerCheckInContract.notificationId(prayer))
                     finalizePrayerIfUnrecorded(prayer, date, alarmSettings.autoQadaOnMissedPrayer)
