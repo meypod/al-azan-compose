@@ -78,8 +78,9 @@ class PrayerLogViewModel @Inject constructor(
             prayerLogRepository.data.collectLatest { records ->
                 val date = _uiState.value.selectedDate
                 val current = records.firstOrNull { it.date == date }
+                val cutoff = Clock.System.now().toLocalDate().minus(DatePeriod(days = RECENT_HISTORY_DAYS))
                 val nonEmpty = records
-                    .filter { it.statuses.isNotEmpty() }
+                    .filter { it.statuses.isNotEmpty() && it.date >= cutoff }
                     .sortedByDescending { it.date }
                 _uiState.update {
                     it.copy(
@@ -157,3 +158,6 @@ class PrayerLogViewModel @Inject constructor(
         _uiState.update { it.copy(prayerTimes = formattedMap) }
     }
 }
+
+/** The recent-history card only lists this many days back; older days stay reachable via the date picker. */
+private const val RECENT_HISTORY_DAYS = 30

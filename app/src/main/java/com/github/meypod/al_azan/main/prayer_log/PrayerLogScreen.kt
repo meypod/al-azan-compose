@@ -350,7 +350,7 @@ private fun RecentHistoryCard(
     uiState: PrayerLogUiState,
     onAction: (PrayerLogUiAction) -> Unit,
 ) {
-    val recent = uiState.recentRecords.take(14)
+    val recent = uiState.recentRecords
     if (recent.isEmpty()) return
     val secondaryCal = uiState.settings.secondaryCalendarSystem()
 
