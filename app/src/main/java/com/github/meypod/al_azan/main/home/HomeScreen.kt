@@ -188,16 +188,6 @@ fun HomeScreen(
                     )
                     NavigationDrawerItem(
                         icon = {
-                            Icon(painterResource(R.drawable.clipboard), contentDescription = null)
-                        },
-                        label = { Text(stringResource(R.string.prayer_log_title)) },
-                        selected = false,
-                        onClick = {
-                            onAction(HomeUiAction.OnPrayerLogLinkClick)
-                        },
-                    )
-                    NavigationDrawerItem(
-                        icon = {
                             Icon(painterResource(R.drawable.settings), contentDescription = null)
                         },
                         label = { Text(stringResource(R.string.settings)) },

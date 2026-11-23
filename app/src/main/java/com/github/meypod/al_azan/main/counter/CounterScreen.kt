@@ -14,6 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.Switch
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -73,6 +78,21 @@ fun CounterScreen(
         modifier = modifier,
         scrollable = false,
         contentPadding = PaddingValues(0.dp),
+        actions = {
+            var menuOpen by remember { mutableStateOf(false) }
+            Box {
+                IconButton(onClick = { menuOpen = true }) {
+                    Icon(painterResource(R.drawable.menu_more_h), contentDescription = stringResource(R.string.show_last_change_time))
+                }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.show_last_change_time)) },
+                        trailingIcon = { Switch(checked = uiState.showLastChangeTime, onCheckedChange = null) },
+                        onClick = { onAction(CounterUiAction.OnShowLastChangeToggle(!uiState.showLastChangeTime)) },
+                    )
+                }
+            }
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onAction(CounterUiAction.OnAddClick) },
@@ -84,20 +104,6 @@ fun CounterScreen(
         },
     ) {
         val pagePadding = dimensionResource(R.dimen.page_padding)
-        Column(
-            Modifier.padding(start = pagePadding, end = pagePadding, top = pagePadding),
-        ) {
-            ACard { cardPadding ->
-                Box(Modifier.padding(cardPadding)) {
-                    SettingSwitch(
-                        title = stringResource(R.string.show_last_change_time),
-                        subtitle = null,
-                        checked = uiState.showLastChangeTime,
-                        onCheckedChange = { onAction(CounterUiAction.OnShowLastChangeToggle(it)) },
-                    )
-                }
-            }
-        }
 
         uiState.addDialog?.let { AddCounterDialog(draft = it, onAction = onAction) }
         uiState.editDialog?.let { EditCounterDialog(draft = it, onAction = onAction) }
@@ -109,7 +115,7 @@ fun CounterScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = pagePadding),
+            contentPadding = PaddingValues(start = pagePadding, end = pagePadding, top = pagePadding),
             itemContent = { counter, isPlaceholder, itemModifier, dragHandleModifier ->
                 CounterRow(
                     counter = counter,
