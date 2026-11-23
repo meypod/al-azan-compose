@@ -129,13 +129,8 @@ fun CounterScreen(
                 )
             },
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-            footerContent = {
-                Column {
-                    Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
-                    TodayPrayerStrip(uiState = uiState, onAction = onAction)
-                    Spacer(Modifier.height(62.dp))
-                }
-            },
+            headerContent = { TodayPrayerStrip(uiState = uiState, onAction = onAction) },
+            footerContent = { Spacer(Modifier.height(62.dp)) },
         )
     }
 }
