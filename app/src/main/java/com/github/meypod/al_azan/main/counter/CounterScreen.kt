@@ -97,8 +97,6 @@ fun CounterScreen(
                     )
                 }
             }
-            Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
-            TodayPrayerStrip(uiState = uiState, onAction = onAction)
         }
 
         uiState.addDialog?.let { AddCounterDialog(draft = it, onAction = onAction) }
@@ -125,7 +123,13 @@ fun CounterScreen(
                 )
             },
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
-            footerContent = { Spacer(Modifier.height(62.dp)) },
+            footerContent = {
+                Column {
+                    Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
+                    TodayPrayerStrip(uiState = uiState, onAction = onAction)
+                    Spacer(Modifier.height(62.dp))
+                }
+            },
         )
     }
 }

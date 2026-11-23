@@ -782,4 +782,32 @@
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
 
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">Check-in salat</string>
+    <string name="prayer_checkin_help">Tampilkan notifikasi di setiap waktu salat yang menanyakan apakah Anda sudah salat.</string>
+    <string name="auto_qada_title">Tambahkan otomatis salat yang terlewat ke Qada</string>
+    <string name="auto_qada_help">Tambah penghitung Qada secara otomatis saat waktu salat berakhir tanpa ditandai sudah salat.</string>
+    <string name="open_prayer_log">Buka catatan salat</string>
+    <string name="prayer_log_title">Catatan salat</string>
+    <string name="prayer_status_prayed">Sudah salat</string>
+    <string name="prayer_status_missed">Terlewat</string>
+    <string name="prayer_status_pending">Menunggu</string>
+    <string name="have_you_prayed_format">Sudahkah Anda salat %1$s?</string>
+    <string name="prayer_action_prayed">Sudah salat</string>
+    <string name="prayer_action_not_yet">Belum</string>
+    <string name="prayer_checkin_channel_name">Check-in salat</string>
+    <string name="prayer_checkin_channel_description">Notifikasi yang menanyakan apakah Anda sudah melaksanakan salat saat ini.</string>
+    <string name="prayer_log_streak">Salat harian</string>
+    <string name="prayed_count_format">%1$d/%2$d sudah salat</string>
+    <string name="prayer_log_recent_history">Riwayat terbaru</string>
+    <string name="mark_as_prayed">Tandai sudah salat</string>
+    <string name="mark_as_missed">Tandai terlewat</string>
+    <string name="clear_status">Hapus status</string>
+    <string name="prayer_checkin_disabled_hint">Aktifkan check-in salat di pengaturan suara dan notifikasi untuk menerima pengingat dan mencatat otomatis salat yang terlewat.</string>
+    <string name="prayer_checkin_open_settings">Buka pengaturan notifikasi</string>
+    <string name="prayer_checkin_notification_permission_rationale">Check-in salat mengirim notifikasi di setiap waktu salat. Izinkan notifikasi untuk mengaktifkannya.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">Notifikasi diperlukan untuk pengingat check-in salat.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">Pengingat check-in salat dan pengecekan akhir waktu harus tepat waktu. Izinkan alarm tepat untuk mengaktifkannya.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">Izin alarm tepat diperlukan agar check-in salat tepat waktu.</string>
 </resources>
