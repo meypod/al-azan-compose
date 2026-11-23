@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,10 +31,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
+import com.github.meypod.al_azan.core.domain.model.prayer_log.LOGGABLE_DAILY_PRAYERS
+import com.github.meypod.al_azan.core.domain.model.prayer_log.PrayerRecordStatus
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.util.DateDiff
 import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
@@ -93,6 +97,8 @@ fun CounterScreen(
                     )
                 }
             }
+            Spacer(Modifier.height(dimensionResource(R.dimen.element_padding)))
+            TodayPrayerStrip(uiState = uiState, onAction = onAction)
         }
 
         uiState.addDialog?.let { AddCounterDialog(draft = it, onAction = onAction) }
@@ -121,6 +127,80 @@ fun CounterScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
             footerContent = { Spacer(Modifier.height(62.dp)) },
         )
+    }
+}
+
+@Composable
+private fun TodayPrayerStrip(
+    uiState: CounterUiState,
+    onAction: (CounterUiAction) -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = stringResource(R.string.today),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                TextButton(onClick = { onAction(CounterUiAction.OnOpenPrayerLog) }) {
+                    Text(stringResource(R.string.prayer_log_title))
+                }
+            }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                LOGGABLE_DAILY_PRAYERS.forEach { prayer ->
+                    val status = uiState.todayRecord?.statusFor(prayer)
+                    val (container, content, icon) = when (status) {
+                        PrayerRecordStatus.Prayed -> Triple(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.onPrimaryContainer,
+                            R.drawable.baseline_check_24,
+                        )
+                        PrayerRecordStatus.Missed -> Triple(
+                            MaterialTheme.colorScheme.errorContainer,
+                            MaterialTheme.colorScheme.onErrorContainer,
+                            R.drawable.baseline_close_24,
+                        )
+                        null -> Triple(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.colorScheme.onSurfaceVariant,
+                            null,
+                        )
+                    }
+                    Surface(
+                        onClick = { onAction(CounterUiAction.OnTogglePrayer(prayer)) },
+                        shape = MaterialTheme.shapes.medium,
+                        color = container,
+                        contentColor = content,
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Column(
+                            Modifier.padding(vertical = 8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                        ) {
+                            Box(Modifier.size(18.dp), contentAlignment = Alignment.Center) {
+                                if (icon != null) Icon(painterResource(icon), null, Modifier.size(16.dp))
+                            }
+                            Text(
+                                text = stringResource(prayer.stringRes),
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1,
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

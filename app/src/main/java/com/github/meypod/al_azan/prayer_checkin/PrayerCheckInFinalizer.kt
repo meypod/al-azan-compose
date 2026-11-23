@@ -2,8 +2,8 @@ package com.github.meypod.al_azan.prayer_checkin
 
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.adhan.timesOrNull
+import com.github.meypod.al_azan.core.domain.model.counter.adjustCounter
 import com.github.meypod.al_azan.core.domain.model.counter.counterIdForPrayer
-import com.github.meypod.al_azan.core.domain.model.counter.ensureDefaultCounters
 import com.github.meypod.al_azan.core.domain.model.prayer_log.LOGGABLE_DAILY_PRAYERS
 import com.github.meypod.al_azan.core.domain.model.prayer_log.PrayerRecordStatus
 import com.github.meypod.al_azan.core.domain.repository.AlarmSettingsRepository
@@ -139,19 +139,6 @@ class PrayerCheckInFinalizer internal constructor(
     private suspend fun incrementQadaCounter(prayer: Prayer) {
         val counterId = counterIdForPrayer(prayer) ?: return
         val nowMs = nowProvider().toEpochMilliseconds()
-        counterRepository.update { existing ->
-            val ensured = ensureDefaultCounters(existing)
-            ensured.map { counter ->
-                if (counter.id == counterId) {
-                    counter.copy(
-                        count = counter.count + 1,
-                        lastCount = counter.count,
-                        lastModified = nowMs,
-                    )
-                } else {
-                    counter
-                }
-            }
-        }
+        counterRepository.update { existing -> adjustCounter(existing, counterId, 1, nowMs) }
     }
 }

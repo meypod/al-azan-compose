@@ -17,7 +17,8 @@ import com.github.meypod.al_azan.core.domain.util.toLocalDate
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.core.presentation.navigation.Route
 import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInFinalizer
-import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInHandler
+import com.github.meypod.al_azan.prayer_checkin.PrayerStatusEditor
+import com.github.meypod.al_azan.prayer_checkin.nextPrayerStatus
 import com.github.meypod.al_azan.prayer_checkin.localNoonInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,7 +43,7 @@ class PrayerLogViewModel @Inject constructor(
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val getShariaTimesUseCase: GetShariaTimesUseCase,
     private val prayerCheckInFinalizer: PrayerCheckInFinalizer,
-    private val prayerCheckInHandler: PrayerCheckInHandler,
+    private val prayerStatusEditor: PrayerStatusEditor,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PrayerLogUiState())
@@ -124,18 +125,12 @@ class PrayerLogViewModel @Inject constructor(
     ) {
         val date = _uiState.value.selectedDate
         viewModelScope.launch {
-            prayerLogRepository.setPrayerStatus(date, prayer, status)
-            prayerCheckInHandler.onPrayerStatusEdited(prayer, date, status)
+            prayerStatusEditor.setStatus(date, prayer, status)
         }
     }
 
     private fun togglePrayerStatus(prayer: Prayer) {
-        val currentStatus = _uiState.value.currentRecord?.statusFor(prayer)
-        val nextStatus = when (currentStatus) {
-            null -> PrayerRecordStatus.Prayed
-            PrayerRecordStatus.Prayed -> PrayerRecordStatus.Missed
-            PrayerRecordStatus.Missed -> null
-        }
+        val nextStatus = nextPrayerStatus(_uiState.value.currentRecord?.statusFor(prayer))
         setPrayerStatus(prayer, nextStatus)
     }
 

@@ -6,7 +6,13 @@ import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.counter.ensureDefaultCounters
 import com.github.meypod.al_azan.core.domain.model.counter.isDefaultCounter
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
+import com.github.meypod.al_azan.core.domain.repository.PrayerLogRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
+import com.github.meypod.al_azan.core.domain.util.toLocalDate
+import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.core.presentation.navigation.Route
+import com.github.meypod.al_azan.prayer_checkin.PrayerStatusEditor
+import com.github.meypod.al_azan.prayer_checkin.nextPrayerStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,11 +21,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.time.Clock
 
 @HiltViewModel
 class CounterViewModel @Inject constructor(
     private val counterRepository: CounterRepository,
     private val settingsRepository: SettingsRepository,
+    private val prayerLogRepository: PrayerLogRepository,
+    private val prayerStatusEditor: PrayerStatusEditor,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CounterUiState())
     val uiState = _uiState.asStateFlow()
@@ -27,6 +36,12 @@ class CounterViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             counterRepository.update { ensureDefaultCounters(it) }
+        }
+        viewModelScope.launch {
+            prayerLogRepository.data.collect { records ->
+                val today = Clock.System.now().toLocalDate()
+                _uiState.update { it.copy(todayRecord = records.firstOrNull { r -> r.date == today }) }
+            }
         }
         viewModelScope.launch {
             combine(counterRepository.data, settingsRepository.data) { c, s -> c to s }
@@ -45,6 +60,8 @@ class CounterViewModel @Inject constructor(
 
     fun onAction(action: CounterUiAction) {
         when (action) {
+            is CounterUiAction.OnTogglePrayer -> onTogglePrayer(action)
+            CounterUiAction.OnOpenPrayerLog -> NavigationController.navigateTo(Route.Main.PrayerLog)
             CounterUiAction.OnAddClick -> onAddClick()
             is CounterUiAction.OnAddLabelChange -> onAddLabelChange(action)
             CounterUiAction.OnAddDialogDismiss -> onAddDialogDismiss()
@@ -62,6 +79,12 @@ class CounterViewModel @Inject constructor(
             CounterUiAction.OnEditDeleteCancel -> onEditDeleteCancel()
             CounterUiAction.OnEditDialogDelete -> onEditDialogDelete()
         }
+    }
+
+    private fun onTogglePrayer(action: CounterUiAction.OnTogglePrayer) {
+        val today = Clock.System.now().toLocalDate()
+        val next = nextPrayerStatus(_uiState.value.todayRecord?.statusFor(action.prayer))
+        viewModelScope.launch { prayerStatusEditor.setStatus(today, action.prayer, next) }
     }
 
     private fun onAddClick() = _uiState.update { it.copy(addDialog = AddCounterDraft()) }

@@ -37,3 +37,19 @@ fun counterIdForPrayer(prayer: Prayer): String? =
         Prayer.Isha -> COUNTER_ID_ISHA
         else -> null
     }
+
+/** Returns [existing] with the counter [counterId] moved by [delta], never dropping below zero. */
+fun adjustCounter(
+    existing: List<Counter>,
+    counterId: String,
+    delta: Int,
+    nowMs: Long,
+): List<Counter> =
+    ensureDefaultCounters(existing).map { counter ->
+        if (counter.id != counterId) {
+            counter
+        } else {
+            val next = (counter.count + delta).coerceAtLeast(0)
+            if (next == counter.count) counter else counter.copy(count = next, lastCount = counter.count, lastModified = nowMs)
+        }
+    }
