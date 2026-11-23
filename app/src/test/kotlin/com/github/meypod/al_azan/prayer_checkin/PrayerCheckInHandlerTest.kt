@@ -1,8 +1,6 @@
 package com.github.meypod.al_azan.prayer_checkin
 
 import android.app.Application
-import android.content.res.Resources
-import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.data.locale.LocalizedResources
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
@@ -47,6 +45,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.time.Instant
 
@@ -212,11 +211,7 @@ class PrayerCheckInHandlerTest {
         val getShariaTimes = GetShariaTimesUseCase()
         val reminderScheduler = mock(ReminderScheduler::class.java)
 
-        val resources = mock(Resources::class.java)
-        `when`(resources.getString(Prayer.Dhuhr.stringRes)).thenReturn("Dhuhr")
-        `when`(resources.getString(Prayer.Fajr.stringRes)).thenReturn("Fajr")
-        `when`(resources.getString(R.string.have_you_prayed_format, "Dhuhr")).thenReturn("Have you prayed Dhuhr?")
-        `when`(resources.getString(R.string.have_you_prayed_format, "Fajr")).thenReturn("Have you prayed Fajr?")
+        val resources = RuntimeEnvironment.getApplication().resources
         val localizedResources = mock(LocalizedResources::class.java)
         `when`(localizedResources.current).thenReturn(resources)
 
