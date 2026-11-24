@@ -14,9 +14,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.Switch
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,10 +36,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.meypod.al_azan.R
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
+import com.github.meypod.al_azan.core.domain.model.prayer_log.LOGGABLE_DAILY_PRAYERS
+import com.github.meypod.al_azan.core.domain.model.prayer_log.PrayerRecordStatus
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 import com.github.meypod.al_azan.core.domain.util.DateDiff
 import com.github.meypod.al_azan.core.domain.util.formatWithUnicodeDigits
@@ -44,6 +53,7 @@ import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyCol
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.prayer_checkin.performedLabelRes
 import com.github.meypod.al_azan.main.counter.components.AddCounterDialog
 import com.github.meypod.al_azan.main.counter.components.EditCounterDialog
 import kotlinx.coroutines.delay
@@ -69,6 +79,21 @@ fun CounterScreen(
         modifier = modifier,
         scrollable = false,
         contentPadding = PaddingValues(0.dp),
+        actions = {
+            var menuOpen by remember { mutableStateOf(false) }
+            Box {
+                IconButton(onClick = { menuOpen = true }) {
+                    Icon(painterResource(R.drawable.menu_more_h), contentDescription = stringResource(R.string.show_last_change_time))
+                }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.show_last_change_time)) },
+                        trailingIcon = { Switch(checked = uiState.showLastChangeTime, onCheckedChange = null) },
+                        onClick = { onAction(CounterUiAction.OnShowLastChangeToggle(!uiState.showLastChangeTime)) },
+                    )
+                }
+            }
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onAction(CounterUiAction.OnAddClick) },
@@ -80,20 +105,6 @@ fun CounterScreen(
         },
     ) {
         val pagePadding = dimensionResource(R.dimen.page_padding)
-        Column(
-            Modifier.padding(start = pagePadding, end = pagePadding, top = pagePadding),
-        ) {
-            ACard { cardPadding ->
-                Box(Modifier.padding(cardPadding)) {
-                    SettingSwitch(
-                        title = stringResource(R.string.show_last_change_time),
-                        subtitle = null,
-                        checked = uiState.showLastChangeTime,
-                        onCheckedChange = { onAction(CounterUiAction.OnShowLastChangeToggle(it)) },
-                    )
-                }
-            }
-        }
 
         uiState.addDialog?.let { AddCounterDialog(draft = it, onAction = onAction) }
         uiState.editDialog?.let { EditCounterDialog(draft = it, onAction = onAction) }
@@ -105,7 +116,7 @@ fun CounterScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = pagePadding),
+            contentPadding = PaddingValues(start = pagePadding, end = pagePadding, top = pagePadding),
             itemContent = { counter, isPlaceholder, itemModifier, dragHandleModifier ->
                 CounterRow(
                     counter = counter,
@@ -119,8 +130,83 @@ fun CounterScreen(
                 )
             },
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding)),
+            headerContent = { TodayPrayerStrip(uiState = uiState, onAction = onAction) },
             footerContent = { Spacer(Modifier.height(62.dp)) },
         )
+    }
+}
+
+@Composable
+private fun TodayPrayerStrip(
+    uiState: CounterUiState,
+    onAction: (CounterUiAction) -> Unit,
+) {
+    ACard { cardPadding ->
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(cardPadding),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = stringResource(R.string.today),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                TextButton(onClick = { onAction(CounterUiAction.OnOpenPrayerLog) }) {
+                    Text(stringResource(R.string.prayer_log_title))
+                }
+            }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                LOGGABLE_DAILY_PRAYERS.forEach { prayer ->
+                    val status = uiState.todayRecord?.statusFor(prayer)
+                    val (container, content, icon) = when (status) {
+                        PrayerRecordStatus.Prayed -> Triple(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.onPrimaryContainer,
+                            R.drawable.baseline_check_24,
+                        )
+                        PrayerRecordStatus.Missed -> Triple(
+                            MaterialTheme.colorScheme.errorContainer,
+                            MaterialTheme.colorScheme.onErrorContainer,
+                            R.drawable.baseline_close_24,
+                        )
+                        null -> Triple(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.colorScheme.onSurfaceVariant,
+                            null,
+                        )
+                    }
+                    Surface(
+                        onClick = { onAction(CounterUiAction.OnTogglePrayer(prayer)) },
+                        shape = MaterialTheme.shapes.medium,
+                        color = container,
+                        contentColor = content,
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Column(
+                            Modifier.padding(vertical = 8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                        ) {
+                            Box(Modifier.size(18.dp), contentAlignment = Alignment.Center) {
+                                if (icon != null) Icon(painterResource(icon), null, Modifier.size(16.dp))
+                            }
+                            Text(
+                                text = stringResource(prayer.performedLabelRes),
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1,
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

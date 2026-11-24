@@ -33,6 +33,7 @@
     <string name="next_button">다음</string>
     <string name="finish_button">완료</string>
     <string name="fajr">파즈르</string>
+    <string name="fajr_prayer">파즈르</string>
     <string name="sunrise">일출</string>
     <string name="dhuhr">두흐르</string>
     <string name="asr">아스르</string>
@@ -513,4 +514,32 @@
     <string name="moazen_zade">모아젠 자데</string>
     <string name="show_notification_widget">알림 위젯 보이기</string>
     <string name="show_countdown_timer">카운트다운 타이머 보이기</string>
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">기도 체크인</string>
+    <string name="prayer_checkin_help">기도 시간마다 기도했는지 묻는 알림을 표시합니다.</string>
+    <string name="auto_qada_title">놓친 기도를 자동으로 까다에 추가</string>
+    <string name="auto_qada_help">기도 시간이 기도 완료로 표시되지 않은 채 끝나면 까다 계수기를 자동으로 늘립니다.</string>
+    <string name="open_prayer_log">기도 기록 열기</string>
+    <string name="prayer_log_title">기도 기록</string>
+    <string name="prayer_status_prayed">기도함</string>
+    <string name="prayer_status_missed">놓침</string>
+    <string name="prayer_status_pending">대기 중</string>
+    <string name="have_you_prayed_format">%1$s 기도를 하셨나요?</string>
+    <string name="prayer_action_prayed">기도함</string>
+    <string name="prayer_action_not_yet">아직 안 함</string>
+    <string name="prayer_checkin_channel_name">기도 체크인</string>
+    <string name="prayer_checkin_channel_description">현재 기도를 했는지 묻는 알림입니다.</string>
+    <string name="prayer_log_streak">일일 기도</string>
+    <string name="prayed_count_format">%1$d/%2$d 기도함</string>
+    <string name="prayer_log_recent_history">최근 기록</string>
+    <string name="mark_as_prayed">기도함으로 표시</string>
+    <string name="mark_as_missed">놓침으로 표시</string>
+    <string name="clear_status">상태 지우기</string>
+    <string name="prayer_checkin_disabled_hint">알림을 받고 놓친 기도를 자동으로 기록하려면 소리 및 알림 설정에서 기도 체크인을 켜세요.</string>
+    <string name="prayer_checkin_open_settings">알림 설정 열기</string>
+    <string name="prayer_checkin_notification_permission_rationale">기도 체크인은 기도 시간마다 알림을 보냅니다. 켜려면 알림을 허용하세요.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">기도 체크인 알림에는 알림 권한이 필요합니다.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">기도 체크인 알림과 기도 시간 종료 확인은 정시에 실행되어야 합니다. 켜려면 정확한 알람을 허용하세요.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">정시 기도 체크인에는 정확한 알람 권한이 필요합니다.</string>
 </resources>

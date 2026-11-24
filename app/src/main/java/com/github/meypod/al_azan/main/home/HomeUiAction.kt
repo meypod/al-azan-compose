@@ -23,5 +23,6 @@ sealed interface HomeUiAction {
     object OnUpcomingAlarmsClick : HomeUiAction
     object OnAboutLinkClick : HomeUiAction
     object OnMonthlyViewClick : HomeUiAction
+    object OnPrayerLogLinkClick : HomeUiAction
     object OnDeveloperLinkClick : HomeUiAction
 }

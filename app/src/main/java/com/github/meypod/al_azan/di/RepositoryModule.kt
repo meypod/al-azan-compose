@@ -18,6 +18,7 @@ import com.github.meypod.al_azan.core.data.repository.FavoriteLocationsRepositor
 import com.github.meypod.al_azan.core.data.repository.GeoInfoRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationChannelManagerImpl
 import com.github.meypod.al_azan.core.data.repository.NotificationRepositoryImpl
+import com.github.meypod.al_azan.core.data.repository.PrayerLogRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.ReminderRepositoryImpl
 import com.github.meypod.al_azan.core.data.repository.RestoreApplier
 import com.github.meypod.al_azan.core.data.repository.RingtoneRepositoryImpl
@@ -30,6 +31,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.ScheduledAlarm
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.prayer_log.DailyPrayerRecord
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
@@ -45,12 +47,14 @@ import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsReposit
 import com.github.meypod.al_azan.core.domain.repository.GeoInfoRepository
 import com.github.meypod.al_azan.core.domain.repository.NotificationChannelManager
 import com.github.meypod.al_azan.core.domain.repository.NotificationRepository
+import com.github.meypod.al_azan.core.domain.repository.PrayerLogRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.RingtoneRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.core.domain.repository.SystemChangeRepository
 import com.github.meypod.al_azan.core.domain.usecase.WidgetFormatter
 import com.github.meypod.al_azan.core.util.storage.MMKVDataStore
+import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import com.tencent.mmkv.MMKV
@@ -71,6 +75,7 @@ private object StorageKeysV2 {
     const val COUNTER = "COUNTER_STORAGE_V2"
     const val REMINDER = "REMINDER_STORAGE_V2"
     const val FAVORITE_LOCATIONS = "FAVORITE_LOCATIONS_STORAGE_V2"
+    const val PRAYER_LOG = "PRAYER_LOG_STORAGE_V2"
     const val SCHEDULED_ALARMS = "SCHEDULED_ALARMS_V2"
     const val CUSTOM_WIDGET = "CUSTOM_WIDGET_STORAGE_V2"
 }
@@ -205,6 +210,23 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun providePrayerLogRepository(
+        mmkv: MMKV,
+        @Named("storage") storageJson: Json,
+    ): PrayerLogRepository =
+        PrayerLogRepositoryImpl(
+            prayerLogDatastore =
+                MMKVDataStore(
+                    mmkv = mmkv,
+                    key = StorageKeysV2.PRAYER_LOG,
+                    serializer = ListSerializer(DailyPrayerRecord.serializer()),
+                    defaultValue = emptyList(),
+                    json = storageJson,
+                ),
+        )
+
+    @Provides
+    @Singleton
     fun provideBackupRepository(
         @ApplicationContext context: Context,
         @Named("storage") storageJson: Json,
@@ -216,10 +238,12 @@ object RepositoryModule {
         reminderRepository: ReminderRepository,
         favoriteLocationsRepository: FavoriteLocationsRepository,
         customWidgetConfigRepository: CustomWidgetConfigRepository,
+        prayerLogRepository: PrayerLogRepository,
         restoreApplier: RestoreApplier,
         diyanetChangeNoticePoster: DiyanetChangeNoticePoster,
         adhanScheduler: AdhanScheduler,
         reminderScheduler: ReminderScheduler,
+        prayerCheckInScheduler: PrayerCheckInScheduler,
         widgetUpdater: WidgetUpdater,
     ): BackupRepository =
         BackupRepositoryImpl(
@@ -233,10 +257,12 @@ object RepositoryModule {
             reminderRepository = reminderRepository,
             favoriteLocationsRepository = favoriteLocationsRepository,
             customWidgetConfigRepository = customWidgetConfigRepository,
+            prayerLogRepository = prayerLogRepository,
             restoreApplier = restoreApplier,
             diyanetChangeNoticePoster = diyanetChangeNoticePoster,
             adhanScheduler = adhanScheduler,
             reminderScheduler = reminderScheduler,
+            prayerCheckInScheduler = prayerCheckInScheduler,
             widgetUpdater = widgetUpdater,
         )
 

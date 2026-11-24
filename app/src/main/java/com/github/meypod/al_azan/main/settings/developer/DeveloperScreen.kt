@@ -71,6 +71,9 @@ fun DeveloperScreen(
             DevActionRow(R.string.dev_fire_reminder_now, R.string.dev_run) {
                 guardedSchedule(DeveloperUiAction.OnFireReminderNow)
             }
+            DevActionRow(R.string.dev_fire_checkin_now, R.string.dev_run) {
+                guardedSchedule(DeveloperUiAction.OnFireCheckInNow)
+            }
             DevActionRow(R.string.dev_schedule_adhan_sound, R.string.dev_run) {
                 guardedSchedule(DeveloperUiAction.OnScheduleAdhanWithSound)
             }

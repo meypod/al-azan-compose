@@ -89,6 +89,7 @@ class HomeViewModel
         val alarmSettings = alarmSettingsRepository.data.first()
         return HomePermissionCheck(
             adhanScheduled = alarmSettings.hasAnyEnabledSchedule(),
+            checkInScheduled = alarmSettings.prayerCheckInEnabled,
             hasScheduledAlarms = alarmRepository.getScheduled().isNotEmpty(),
             fullScreenRequired = alarmSettings.hasAnySoundSchedule(),
             // Both "bypass DND" and "auto-silent on dismiss" rely on notification-policy access.
@@ -165,6 +166,7 @@ class HomeViewModel
             HomeUiAction.OnUpcomingAlarmsClick -> onUpcomingAlarmsClick()
             HomeUiAction.OnAboutLinkClick -> onAboutLinkClick()
             HomeUiAction.OnMonthlyViewClick -> onMonthlyViewClick()
+            HomeUiAction.OnPrayerLogLinkClick -> onPrayerLogLinkClick()
             HomeUiAction.OnDeveloperLinkClick -> onDeveloperLinkClick()
         }
     }
@@ -179,6 +181,10 @@ class HomeViewModel
 
     private fun onMonthlyViewClick() {
         NavigationController.navigateTo(Route.Main.MonthlyView)
+    }
+
+    private fun onPrayerLogLinkClick() {
+        NavigationController.navigateTo(Route.Main.PrayerLog)
     }
 
     private fun onDeveloperLinkClick() {

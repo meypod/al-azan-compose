@@ -15,7 +15,7 @@ import com.github.meypod.al_azan.core.domain.model.counter.Counter
 fun counterDisplayLabel(counter: Counter): String {
     counter.label?.takeIf { it.isNotBlank() }?.let { return it }
     val res = when (counter.id) {
-        COUNTER_ID_FAJR -> R.string.fajr
+        COUNTER_ID_FAJR -> R.string.fajr_prayer
         COUNTER_ID_DHUHR -> R.string.dhuhr
         COUNTER_ID_ASR -> R.string.asr
         COUNTER_ID_MAGHRIB -> R.string.maghrib

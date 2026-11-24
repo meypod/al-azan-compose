@@ -25,9 +25,11 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
         const val DND_ACTIVE_CHANNEL_ID = "dnd_active_channel_id"
         const val RAMADAN_NOTICE_CHANNEL_ID = "ramadan_notice_channel_id"
         const val IMPORTANT_NOTICE_CHANNEL_ID = "important_notice_channel_id"
+        const val PRAYER_CHECKIN_CHANNEL_ID = "prayer_checkin_prompt_channel_id"
     }
 
     operator fun invoke() {
+        channelManager.deleteChannel("prayer_checkin_channel_id")
         channelManager.ensureChannelsExist(
             configs = listOf(
                 NotificationChannelConfig(
@@ -139,6 +141,12 @@ class EnsureNotificationChannelsUseCase @Inject constructor(
                     id = IMPORTANT_NOTICE_CHANNEL_ID,
                     name = TextResource.StringResId(R.string.important_notice_channel_name),
                     description = TextResource.StringResId(R.string.important_notice_channel_description),
+                    importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
+                ),
+                NotificationChannelConfig(
+                    id = PRAYER_CHECKIN_CHANNEL_ID,
+                    name = TextResource.StringResId(R.string.prayer_checkin_channel_name),
+                    description = TextResource.StringResId(R.string.prayer_checkin_channel_description),
                     importanceLevel = AndroidNotificationImportance.IMPORTANCE_HIGH,
                 ),
             ),

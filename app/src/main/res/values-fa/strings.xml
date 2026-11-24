@@ -45,6 +45,7 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">فجر</string>
+    <string name="fajr_prayer">فجر</string>
     <string name="sunrise">طلوع</string>
     <string name="dhuhr">ظهر</string>
     <string name="asr">عصر</string>
@@ -783,4 +784,32 @@
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
 
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">پیگیری نماز</string>
+    <string name="prayer_checkin_help">در هر وقت نماز اعلانی نمایش بده که می‌پرسد نماز خوانده‌ای یا نه.</string>
+    <string name="auto_qada_title">افزودن خودکار نمازهای قضاشده به قضا</string>
+    <string name="auto_qada_help">وقتی وقت نماز بدون علامت‌گذاری به‌عنوان خوانده‌شده تمام شود، شمارنده قضا به‌طور خودکار افزایش یابد.</string>
+    <string name="open_prayer_log">باز کردن گزارش نماز</string>
+    <string name="prayer_log_title">گزارش نماز</string>
+    <string name="prayer_status_prayed">خوانده شد</string>
+    <string name="prayer_status_missed">قضا شد</string>
+    <string name="prayer_status_pending">در انتظار</string>
+    <string name="have_you_prayed_format">آیا نماز %1$s را خوانده‌اید؟</string>
+    <string name="prayer_action_prayed">خواندم</string>
+    <string name="prayer_action_not_yet">هنوز نه</string>
+    <string name="prayer_checkin_channel_name">پیگیری نماز</string>
+    <string name="prayer_checkin_channel_description">اعلان‌هایی که می‌پرسند نماز فعلی را خوانده‌اید یا نه.</string>
+    <string name="prayer_log_streak">نمازهای روزانه</string>
+    <string name="prayed_count_format">%1$d/%2$d خوانده شد</string>
+    <string name="prayer_log_recent_history">سابقه اخیر</string>
+    <string name="mark_as_prayed">علامت‌گذاری به‌عنوان خوانده‌شده</string>
+    <string name="mark_as_missed">علامت‌گذاری به‌عنوان قضاشده</string>
+    <string name="clear_status">پاک کردن وضعیت</string>
+    <string name="prayer_checkin_disabled_hint">برای دریافت یادآوری و ثبت خودکار نمازهای قضاشده، پیگیری نماز را در تنظیمات صدا و اعلان‌ها فعال کنید.</string>
+    <string name="prayer_checkin_open_settings">باز کردن تنظیمات اعلان</string>
+    <string name="prayer_checkin_notification_permission_rationale">پیگیری نماز در هر وقت نماز یک اعلان نمایش می‌دهد. برای فعال‌سازی، اجازه اعلان بدهید.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">برای یادآوری‌های پیگیری نماز، اعلان‌ها لازم است.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">یادآوری‌ها و بررسی پایان وقت نماز باید سر وقت انجام شوند. برای فعال‌سازی، اجازه آلارم دقیق بدهید.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">برای پیگیری به‌موقع نماز، مجوز آلارم دقیق لازم است.</string>
 </resources>

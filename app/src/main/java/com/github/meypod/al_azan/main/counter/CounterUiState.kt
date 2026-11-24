@@ -2,6 +2,7 @@ package com.github.meypod.al_azan.main.counter
 
 import androidx.compose.runtime.Immutable
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
+import com.github.meypod.al_azan.core.domain.model.prayer_log.DailyPrayerRecord
 import com.github.meypod.al_azan.core.domain.model.settings.NumberingSystem
 
 @Immutable
@@ -10,6 +11,7 @@ data class CounterUiState(
     val showLastChangeTime: Boolean = false,
     val numberingSystem: NumberingSystem = NumberingSystem.Default,
     val locale: String = "",
+    val todayRecord: DailyPrayerRecord? = null,
     val addDialog: AddCounterDraft? = null,
     val editDialog: EditCounterDraft? = null,
 )

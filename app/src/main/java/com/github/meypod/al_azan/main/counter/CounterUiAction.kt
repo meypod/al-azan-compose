@@ -1,11 +1,16 @@
 package com.github.meypod.al_azan.main.counter
 
+import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
+
 sealed interface CounterUiAction {
     object OnAddClick : CounterUiAction
     data class OnIncrement(val id: String) : CounterUiAction
     data class OnDecrement(val id: String) : CounterUiAction
     data class OnMove(val from: Int, val to: Int) : CounterUiAction
     data class OnShowLastChangeToggle(val value: Boolean) : CounterUiAction
+
+    data class OnTogglePrayer(val prayer: Prayer) : CounterUiAction
+    object OnOpenPrayerLog : CounterUiAction
 
     data class OnAddLabelChange(val value: String) : CounterUiAction
     object OnAddDialogDismiss : CounterUiAction

@@ -45,6 +45,7 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">Fajr</string>
+    <string name="fajr_prayer">Fajr</string>
     <string name="sunrise">Mọc (mặt trời)</string>
     <string name="dhuhr">Dhuhr</string>
     <string name="asr">Asr</string>
@@ -782,4 +783,32 @@
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
 
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">Xác nhận cầu nguyện</string>
+    <string name="prayer_checkin_help">Hiển thị thông báo vào mỗi giờ cầu nguyện để hỏi bạn đã cầu nguyện chưa.</string>
+    <string name="auto_qada_title">Tự động thêm các buổi cầu nguyện bị lỡ vào Qada</string>
+    <string name="auto_qada_help">Tự động tăng bộ đếm Qada khi khung giờ cầu nguyện kết thúc mà chưa được đánh dấu là đã cầu nguyện.</string>
+    <string name="open_prayer_log">Mở nhật ký cầu nguyện</string>
+    <string name="prayer_log_title">Nhật ký cầu nguyện</string>
+    <string name="prayer_status_prayed">Đã cầu nguyện</string>
+    <string name="prayer_status_missed">Bị lỡ</string>
+    <string name="prayer_status_pending">Đang chờ</string>
+    <string name="have_you_prayed_format">Bạn đã cầu nguyện %1$s chưa?</string>
+    <string name="prayer_action_prayed">Đã cầu nguyện</string>
+    <string name="prayer_action_not_yet">Chưa</string>
+    <string name="prayer_checkin_channel_name">Xác nhận cầu nguyện</string>
+    <string name="prayer_checkin_channel_description">Thông báo hỏi bạn đã cầu nguyện buổi hiện tại chưa.</string>
+    <string name="prayer_log_streak">Cầu nguyện hằng ngày</string>
+    <string name="prayed_count_format">%1$d/%2$d đã cầu nguyện</string>
+    <string name="prayer_log_recent_history">Lịch sử gần đây</string>
+    <string name="mark_as_prayed">Đánh dấu đã cầu nguyện</string>
+    <string name="mark_as_missed">Đánh dấu bị lỡ</string>
+    <string name="clear_status">Xóa trạng thái</string>
+    <string name="prayer_checkin_disabled_hint">Bật xác nhận cầu nguyện trong cài đặt âm thanh và thông báo để nhận lời nhắc và tự động ghi lại các buổi bị lỡ.</string>
+    <string name="prayer_checkin_open_settings">Mở cài đặt thông báo</string>
+    <string name="prayer_checkin_notification_permission_rationale">Xác nhận cầu nguyện gửi thông báo vào mỗi giờ cầu nguyện. Hãy cho phép thông báo để bật.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">Cần có thông báo cho lời nhắc xác nhận cầu nguyện.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">Lời nhắc xác nhận cầu nguyện và kiểm tra cuối khung giờ phải hiển thị đúng giờ. Hãy cho phép báo thức chính xác để bật.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">Cần quyền báo thức chính xác để xác nhận cầu nguyện đúng giờ.</string>
 </resources>

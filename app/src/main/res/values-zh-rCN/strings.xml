@@ -92,6 +92,7 @@
     <string name="show_prayer_times_help">选择要在主屏幕上显示的祈祷时间。</string>
     <string name="show_prayer_times_title">显示祈祷时间</string>
     <string name="fajr">晨礼</string>
+    <string name="fajr_prayer">晨礼</string>
     <string name="dhuhr">晌礼</string>
     <string name="asr">晡礼</string>
     <string name="maghrib">昏礼</string>
@@ -249,4 +250,32 @@
     <string name="see_options">参见选项</string>
     <string name="edit_label">编辑标签</string>
     <string name="coordinates_copied">坐标已复制至剪贴板。</string>
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">礼拜打卡</string>
+    <string name="prayer_checkin_help">每个礼拜时间弹出通知，询问你是否已礼拜。</string>
+    <string name="auto_qada_title">自动将错过的礼拜计入补拜</string>
+    <string name="auto_qada_help">当礼拜时段结束而未标记为已礼拜时，自动增加补拜计数。</string>
+    <string name="open_prayer_log">打开礼拜记录</string>
+    <string name="prayer_log_title">礼拜记录</string>
+    <string name="prayer_status_prayed">已礼拜</string>
+    <string name="prayer_status_missed">已错过</string>
+    <string name="prayer_status_pending">待确认</string>
+    <string name="have_you_prayed_format">你已经礼拜 %1$s 了吗？</string>
+    <string name="prayer_action_prayed">已礼拜</string>
+    <string name="prayer_action_not_yet">还没有</string>
+    <string name="prayer_checkin_channel_name">礼拜打卡</string>
+    <string name="prayer_checkin_channel_description">询问你是否已完成当前礼拜的通知。</string>
+    <string name="prayer_log_streak">每日礼拜</string>
+    <string name="prayed_count_format">已礼拜 %1$d/%2$d</string>
+    <string name="prayer_log_recent_history">最近记录</string>
+    <string name="mark_as_prayed">标记为已礼拜</string>
+    <string name="mark_as_missed">标记为已错过</string>
+    <string name="clear_status">清除状态</string>
+    <string name="prayer_checkin_disabled_hint">请在声音和通知设置中开启礼拜打卡，以接收提醒并自动记录错过的礼拜。</string>
+    <string name="prayer_checkin_open_settings">打开通知设置</string>
+    <string name="prayer_checkin_notification_permission_rationale">礼拜打卡会在每个礼拜时间发送通知。请允许通知以启用。</string>
+    <string name="prayer_checkin_notification_permission_denied_text">礼拜打卡提醒需要通知权限。</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">礼拜打卡提醒和时段结束检查必须准时触发。请允许精确闹钟以启用。</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">准时礼拜打卡需要精确闹钟权限。</string>
 </resources>

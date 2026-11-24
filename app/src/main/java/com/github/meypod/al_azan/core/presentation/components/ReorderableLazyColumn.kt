@@ -99,6 +99,8 @@ fun <T> ReorderableLazyColumn(
     overlayContent: (@Composable (item: T, modifier: Modifier) -> Unit)? = null,
     reverseLayout: Boolean = false,
     verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    /** Optional non-reorderable item shown before [items]; scrolls with the list. Lazy mode only. */
+    headerContent: (@Composable () -> Unit)? = null,
     footerContent: (@Composable () -> Unit)? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -110,6 +112,7 @@ fun <T> ReorderableLazyColumn(
         coroutineScope = coroutineScope,
         lazyMode = scrollable,
     )
+    reorderState.headerItemCount = if (scrollable && headerContent != null) 1 else 0
     reorderState.updatePageScrollState(if (scrollable) null else pageScrollState)
     reorderState.updateViewportBounds(if (scrollable) null else LocalPageScrollViewportBounds.current)
 
@@ -128,6 +131,9 @@ fun <T> ReorderableLazyColumn(
                 reverseLayout = reverseLayout,
                 verticalArrangement = verticalArrangement,
             ) {
+                headerContent?.let {
+                    item(key = "__header__") { it() }
+                }
                 itemsIndexed(
                     items = items,
                     key = { _, item -> key(item) },
@@ -347,6 +353,9 @@ private class ReorderState(
     private val lazyMode: Boolean,
 ) {
     private var onMove: (fromIndex: Int, toIndex: Int) -> Unit = { _, _ -> }
+
+    /** Count of leading non-reorderable LazyColumn items; layout indices are shifted by this much. */
+    var headerItemCount: Int = 0
     private var pageScrollState: ScrollState? = null
     private var viewportBounds: PageScrollViewportBounds? = null
 
@@ -533,10 +542,11 @@ private class ReorderState(
 
         val targetIndex = if (lazyMode) {
             listState.layoutInfo.visibleItemsInfo.firstOrNull { itemInfo ->
-                itemInfo.index != currentIndex &&
+                itemInfo.index >= headerItemCount &&
+                    itemInfo.index - headerItemCount != currentIndex &&
                     currentItemCenter >= itemInfo.offset &&
                     currentItemCenter <= (itemInfo.offset + itemInfo.size)
-            }?.index
+            }?.let { it.index - headerItemCount }
         } else {
             // No LazyListState viewport in non-lazy mode; hit-test against tracked item coords,
             // mapped into the same container-local space as currentItemCenter.

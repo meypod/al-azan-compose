@@ -9,6 +9,8 @@ import com.github.meypod.al_azan.adhan.AdhanFiringHandler
 import com.github.meypod.al_azan.core.data.audio.SoftSoundPlayer
 import com.github.meypod.al_azan.core.domain.model.adhan.Prayer
 import com.github.meypod.al_azan.playback.SoftSoundContract
+import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInContract
+import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInHandler
 import com.github.meypod.al_azan.ramadan.RamadanNoticeContract
 import com.github.meypod.al_azan.ramadan.RamadanNoticeHandler
 import com.github.meypod.al_azan.reminder.ReminderContract
@@ -19,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import javax.inject.Inject
 
 /**
@@ -48,6 +51,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var softSoundPlayer: SoftSoundPlayer
+
+    @Inject
+    lateinit var prayerCheckInHandler: PrayerCheckInHandler
 
     override fun onReceive(
         context: Context,
@@ -109,11 +115,42 @@ class AlarmReceiver : BroadcastReceiver() {
             RamadanNoticeContract.ACTION_RAMADAN_REMIND_NEXT_YEAR -> async { ramadanNoticeHandler.onRemindNextYear() }
 
             RamadanNoticeContract.ACTION_RAMADAN_DONT_SHOW_AGAIN -> async { ramadanNoticeHandler.onDontShowAgain() }
+
+            PrayerCheckInContract.ACTION_CHECKIN_PROMPT -> {
+                val prayer = intent.prayer() ?: return
+                val date = intent.checkInDate() ?: return
+                val timestamp = intent.getStringExtra(PrayerCheckInContract.EXTRA_TIMESTAMP)?.toLongOrNull()
+                    ?: System.currentTimeMillis()
+                async { prayerCheckInHandler.onPromptFired(prayer, date, timestamp) }
+            }
+
+            PrayerCheckInContract.ACTION_CHECKIN_PRAYED -> {
+                val prayer = intent.prayer() ?: return
+                val date = intent.checkInDate() ?: return
+                async { prayerCheckInHandler.onPrayed(prayer, date) }
+            }
+
+            PrayerCheckInContract.ACTION_CHECKIN_NOT_YET -> {
+                val prayer = intent.prayer() ?: return
+                val date = intent.checkInDate() ?: return
+                async { prayerCheckInHandler.onNotYet(prayer, date) }
+            }
+
+            PrayerCheckInContract.ACTION_CHECKIN_EXPIRED -> {
+                val prayer = intent.prayer() ?: return
+                val date = intent.checkInDate() ?: return
+                async { prayerCheckInHandler.onExpired(prayer, date) }
+            }
         }
     }
 
     private fun Intent.prayer(): Prayer? =
-        getStringExtra(AdhanContract.EXTRA_PRAYER)?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
+        (getStringExtra(AdhanContract.EXTRA_PRAYER) ?: getStringExtra(PrayerCheckInContract.EXTRA_PRAYER))
+            ?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
+
+    private fun Intent.checkInDate(): LocalDate? =
+        getStringExtra(PrayerCheckInContract.EXTRA_DATE)
+            ?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
 
     /** Runs [block] off the main thread while keeping the broadcast alive via goAsync(). */
     private fun async(block: suspend () -> Unit) {

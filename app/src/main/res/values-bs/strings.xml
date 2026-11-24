@@ -45,6 +45,7 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">Sabah</string>
+    <string name="fajr_prayer">Sabah</string>
     <string name="sunrise">Izlazak</string>
     <string name="dhuhr">Podne</string>
     <string name="asr">Ikindija</string>
@@ -784,4 +785,32 @@
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
 
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">Provjera namaza</string>
+    <string name="prayer_checkin_help">Prikaži obavijest u svako vrijeme namaza i pitaj jesi li klanjao.</string>
+    <string name="auto_qada_title">Automatski dodaj propuštene namaze u kadu</string>
+    <string name="auto_qada_help">Automatski povećaj brojač kade kada vrijeme namaza istekne a nije označen kao klanjan.</string>
+    <string name="open_prayer_log">Otvori dnevnik namaza</string>
+    <string name="prayer_log_title">Dnevnik namaza</string>
+    <string name="prayer_status_prayed">Klanjano</string>
+    <string name="prayer_status_missed">Propušteno</string>
+    <string name="prayer_status_pending">Na čekanju</string>
+    <string name="have_you_prayed_format">Jesi li klanjao %1$s?</string>
+    <string name="prayer_action_prayed">Klanjao sam</string>
+    <string name="prayer_action_not_yet">Još nisam</string>
+    <string name="prayer_checkin_channel_name">Provjera namaza</string>
+    <string name="prayer_checkin_channel_description">Obavijesti koje pitaju jesi li klanjao trenutni namaz.</string>
+    <string name="prayer_log_streak">Dnevni namazi</string>
+    <string name="prayed_count_format">%1$d/%2$d klanjano</string>
+    <string name="prayer_log_recent_history">Nedavna historija</string>
+    <string name="mark_as_prayed">Označi kao klanjano</string>
+    <string name="mark_as_missed">Označi kao propušteno</string>
+    <string name="clear_status">Očisti status</string>
+    <string name="prayer_checkin_disabled_hint">Uključi provjeru namaza u postavkama zvuka i obavijesti da primaš podsjetnike i automatski bilježiš propuštene namaze.</string>
+    <string name="prayer_checkin_open_settings">Otvori postavke obavijesti</string>
+    <string name="prayer_checkin_notification_permission_rationale">Provjera namaza šalje obavijest u svako vrijeme namaza. Dozvoli obavijesti da je uključiš.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">Obavijesti su potrebne za podsjetnike provjere namaza.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">Podsjetnici provjere namaza i provjere na kraju vremena moraju stići na vrijeme. Dozvoli tačne alarme da je uključiš.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">Dozvola za tačne alarme potrebna je za pravovremenu provjeru namaza.</string>
 </resources>

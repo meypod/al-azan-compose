@@ -39,6 +39,8 @@ import com.github.meypod.al_azan.main.location.LocationScreen
 import com.github.meypod.al_azan.main.location.LocationViewModel
 import com.github.meypod.al_azan.main.monthly.MonthlyViewScreen
 import com.github.meypod.al_azan.main.monthly.MonthlyViewViewModel
+import com.github.meypod.al_azan.main.prayer_log.PrayerLogScreen
+import com.github.meypod.al_azan.main.prayer_log.PrayerLogViewModel
 import com.github.meypod.al_azan.main.qibla.QiblaCompassRoute
 import com.github.meypod.al_azan.main.qibla.QiblaCompassViewModel
 import com.github.meypod.al_azan.main.qibla.QiblaScreen
@@ -188,6 +190,11 @@ fun MainNavigation(
                 val vm = hiltViewModel<CounterViewModel>()
                 val s by vm.uiState.collectAsStateWithLifecycle()
                 CounterScreen(s, vm::onAction)
+            }
+            entry<Route.Main.PrayerLog> {
+                val vm = hiltViewModel<PrayerLogViewModel>()
+                val s by vm.uiState.collectAsStateWithLifecycle()
+                PrayerLogScreen(s, vm::onAction)
             }
             entry<Route.Main.Settings.InterfaceSettings> {
                 val vm = hiltViewModel<InterfaceSettingsViewModel>()

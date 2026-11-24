@@ -20,9 +20,11 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.domain.repository.PrayerLogRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import com.github.meypod.al_azan.di.DiyanetChangeNoticePoster
+import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
 import com.tencent.mmkv.MMKV
@@ -48,9 +50,11 @@ class BackupRepositoryImpl(
     private val reminderRepository: ReminderRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val customWidgetConfigRepository: CustomWidgetConfigRepository,
+    private val prayerLogRepository: PrayerLogRepository,
     private val restoreApplier: RestoreApplier,
     private val adhanScheduler: AdhanScheduler,
     private val reminderScheduler: ReminderScheduler,
+    private val prayerCheckInScheduler: PrayerCheckInScheduler,
     private val widgetUpdater: WidgetUpdater,
     private val diyanetChangeNoticePoster: DiyanetChangeNoticePoster,
 ) : BackupRepository {
@@ -72,6 +76,7 @@ class BackupRepositoryImpl(
             reminders = stripCustomSounds(reminderRepository.fetch()),
             favoriteLocations = favoriteLocationsRepository.fetch(),
             customWidget = customWidgetConfigRepository.fetch(),
+            prayerLog = prayerLogRepository.fetch(),
         )
         val content = json.encodeToString(ExportedSettingsV2.serializer(), exported)
         writeToUri(uri, content)
@@ -128,6 +133,7 @@ class BackupRepositoryImpl(
         // so alarms, reminders and widgets always reflect the restored state.
         adhanScheduler.schedule()
         reminderScheduler.schedule()
+        prayerCheckInScheduler.schedule()
         widgetUpdater.update()
 
         // Restoring a bundle from before the adhan 0.0.13 Diyanet fix corrects it on the way in, which

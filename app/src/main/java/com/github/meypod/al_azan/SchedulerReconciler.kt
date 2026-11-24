@@ -3,6 +3,7 @@ package com.github.meypod.al_azan
 import com.github.meypod.al_azan.adhan.AdhanScheduler
 import com.github.meypod.al_azan.alarm.DndSilenceController
 import com.github.meypod.al_azan.alarm.MissedAlarmCatchUp
+import com.github.meypod.al_azan.prayer_checkin.PrayerCheckInScheduler
 import com.github.meypod.al_azan.ramadan.RamadanNoticeScheduler
 import com.github.meypod.al_azan.reminder.ReminderScheduler
 import com.github.meypod.al_azan.widget.WidgetUpdater
@@ -27,6 +28,7 @@ class SchedulerReconciler @Inject constructor(
     private val widgetUpdater: WidgetUpdater,
     private val dndSilenceController: DndSilenceController,
     private val missedAlarmCatchUp: MissedAlarmCatchUp,
+    private val prayerCheckInScheduler: PrayerCheckInScheduler,
 ) {
     /**
      * @param catchUpMissed when true (boot only), first post "missed" notices for alarms that elapsed
@@ -36,6 +38,7 @@ class SchedulerReconciler @Inject constructor(
         if (catchUpMissed) missedAlarmCatchUp.catchUpMissed()
         adhanScheduler.schedule()
         reminderScheduler.schedule()
+        prayerCheckInScheduler.schedule()
         ramadanNoticeScheduler.schedule()
         widgetUpdater.update()
         // Reboot strips the silence window's unsilence alarm + control notice while the suppression

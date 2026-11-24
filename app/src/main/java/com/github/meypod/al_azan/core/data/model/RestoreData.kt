@@ -4,6 +4,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.prayer_log.DailyPrayerRecord
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
@@ -25,6 +26,7 @@ data class RestoreData(
     val favoriteLocations: List<FavoriteLocation>,
     // Defaulted so the legacy-migration path (no custom widget) and older callers still compile.
     val customWidget: CustomWidgetConfig = CustomWidgetConfig(),
+    val prayerLog: List<DailyPrayerRecord> = emptyList(),
 )
 
 fun ExportedSettingsV2.toRestoreData(): RestoreData =
@@ -36,4 +38,5 @@ fun ExportedSettingsV2.toRestoreData(): RestoreData =
         reminders = reminders,
         favoriteLocations = favoriteLocations,
         customWidget = customWidget,
+        prayerLog = prayerLog,
     )

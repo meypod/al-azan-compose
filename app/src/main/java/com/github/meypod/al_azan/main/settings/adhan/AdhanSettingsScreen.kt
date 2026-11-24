@@ -48,6 +48,7 @@ import com.github.meypod.al_azan.core.presentation.components.SettingHeader
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermission
 import com.github.meypod.al_azan.core.presentation.dialog.SchedulingPermissionSteps
+import com.github.meypod.al_azan.core.presentation.dialog.isDontAskAgain
 import com.github.meypod.al_azan.core.presentation.dialog.isSchedulingPermissionGranted
 import com.github.meypod.al_azan.core.presentation.dialog.rememberSchedulingPermissionRequest
 import com.github.meypod.al_azan.core.presentation.mapper.stringRes
@@ -83,6 +84,7 @@ private fun ColumnScope.AdhanSettingsContent(
     onAction: (AdhanSettingsUiAction) -> Unit,
 ) {
     NotificationsCard(uiState, onAction)
+    PrayerCheckInCard(uiState, onAction)
     AutoDismissCard(uiState, onAction)
     VibrationCard(uiState, onAction)
     PlaybackCard(uiState, onAction)
@@ -235,6 +237,60 @@ private fun NotificationsCard(
             checked = uiState.alarmSettings.notifyOnSkippedAdhan,
             onCheckedChange = { onAction(AdhanSettingsUiAction.OnNotifyOnSkippedAdhanToggle(it)) },
         )
+    }
+}
+
+@Composable
+private fun PrayerCheckInCard(
+    uiState: AdhanSettingsUiState,
+    onAction: (AdhanSettingsUiAction) -> Unit,
+) {
+    val context = LocalContext.current
+    val requestPermissions = rememberSchedulingPermissionRequest(
+        isDontAskAgain = { uiState.settings.isDontAskAgain(it) },
+        onDontAskAgain = { onAction(AdhanSettingsUiAction.OnPermissionDontAskAgain(it)) },
+        onComplete = { results ->
+            if (results.requiredAllGranted()) {
+                onAction(AdhanSettingsUiAction.OnPrayerCheckInToggle(true))
+            }
+        },
+    )
+    SettingsCard {
+        SettingSwitch(
+            title = stringResource(R.string.prayer_checkin_title),
+            subtitle = stringResource(R.string.prayer_checkin_help),
+            checked = uiState.alarmSettings.prayerCheckInEnabled,
+            onCheckedChange = { enabled ->
+                if (!enabled) {
+                    onAction(AdhanSettingsUiAction.OnPrayerCheckInToggle(false))
+                } else {
+                    val hasAll =
+                        isSchedulingPermissionGranted(context, SchedulingPermission.Notification) &&
+                            isSchedulingPermissionGranted(context, SchedulingPermission.ExactAlarm)
+                    if (hasAll) {
+                        onAction(AdhanSettingsUiAction.OnPrayerCheckInToggle(true))
+                    } else {
+                        requestPermissions(SchedulingPermissionSteps.prayerCheckIn)
+                    }
+                }
+            },
+        )
+        AnimatedVisibility(visible = uiState.alarmSettings.prayerCheckInEnabled) {
+            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.element_padding))) {
+                SettingSwitch(
+                    title = stringResource(R.string.auto_qada_title),
+                    subtitle = stringResource(R.string.auto_qada_help),
+                    checked = uiState.alarmSettings.autoQadaOnMissedPrayer,
+                    onCheckedChange = { onAction(AdhanSettingsUiAction.OnAutoQadaToggle(it)) },
+                )
+                PrimaryButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { onAction(AdhanSettingsUiAction.OnOpenPrayerLogClick) },
+                ) {
+                    Text(stringResource(R.string.open_prayer_log))
+                }
+            }
+        }
     }
 }
 

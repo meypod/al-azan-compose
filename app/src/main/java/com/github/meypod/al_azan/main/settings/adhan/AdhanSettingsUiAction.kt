@@ -143,6 +143,16 @@ sealed interface AdhanSettingsUiAction {
         val enabled: Boolean,
     ) : AdhanSettingsUiAction
 
+    data class OnPrayerCheckInToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    data class OnAutoQadaToggle(
+        val enabled: Boolean,
+    ) : AdhanSettingsUiAction
+
+    object OnOpenPrayerLogClick : AdhanSettingsUiAction
+
     object OnNotificationSettingsClick : AdhanSettingsUiAction
     object OnPlaybackSettingsClick : AdhanSettingsUiAction
 

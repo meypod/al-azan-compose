@@ -286,6 +286,7 @@ fun HomeScreen(
                         HomeShortcut.Reminders -> R.drawable.alarm to HomeUiAction.OnReminderLinkClick
                         HomeShortcut.MonthlyView -> R.drawable.calendar_month_outline to HomeUiAction.OnMonthlyViewClick
                         HomeShortcut.UpcomingAlarms -> R.drawable.outline_calendar_month_24 to HomeUiAction.OnUpcomingAlarmsClick
+                        HomeShortcut.PrayerLog -> R.drawable.clipboard to HomeUiAction.OnPrayerLogLinkClick
                     }
                     IconButton(onClick = { onAction(action) }) {
                         Icon(

@@ -12,6 +12,7 @@ import com.github.meypod.al_azan.core.domain.repository.CalculationSettingsRepos
 import com.github.meypod.al_azan.core.domain.repository.CounterRepository
 import com.github.meypod.al_azan.core.domain.repository.CustomWidgetConfigRepository
 import com.github.meypod.al_azan.core.domain.repository.FavoriteLocationsRepository
+import com.github.meypod.al_azan.core.domain.repository.PrayerLogRepository
 import com.github.meypod.al_azan.core.domain.repository.ReminderRepository
 import com.github.meypod.al_azan.core.domain.repository.SettingsRepository
 import javax.inject.Inject
@@ -35,6 +36,7 @@ constructor(
     private val reminderRepository: ReminderRepository,
     private val favoriteLocationsRepository: FavoriteLocationsRepository,
     private val customWidgetConfigRepository: CustomWidgetConfigRepository,
+    private val prayerLogRepository: PrayerLogRepository,
     private val appLocaleManager: AppLocaleManager,
 ) {
     suspend fun apply(data: RestoreData) {
@@ -57,6 +59,7 @@ constructor(
         reminderRepository.update { healReminders(data.reminders) }
         favoriteLocationsRepository.update { data.favoriteLocations }
         customWidgetConfigRepository.update { data.customWidget }
+        prayerLogRepository.update { data.prayerLog }
 
         appLocaleManager.apply(settings.selectedLocale)
     }

@@ -41,6 +41,7 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">İmsak</string>
+    <string name="fajr_prayer">Sabah namazı</string>
     <string name="sunrise">Güneş</string>
     <string name="dhuhr">Öğle</string>
     <string name="asr">İkindi</string>
@@ -749,4 +750,35 @@
     <string name="tomorrow">Yarın</string>
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
+    <!-- ============================================================
+         Prayer check-in & Prayer log
+         ============================================================ -->
+    <string name="prayer_checkin_title">Namaz takibi</string>
+    <string name="prayer_checkin_help">Her namaz vaktinde namazınızı kılıp kılmadığınızı soran bir bildirim alın.</string>
+    <string name="auto_qada_title">Kaçırılanları kaza sayacına ekle</string>
+    <string name="auto_qada_help">Namaz vakti kılındı olarak işaretlenmeden sona erdiğinde kaza sayacını otomatik artırın.</string>
+    <string name="open_prayer_log">Namaz günlüğünü aç</string>
+    <string name="prayer_log_title">Namaz günlüğü</string>
+    <string name="prayer_status_prayed">Kılındı</string>
+    <string name="prayer_status_missed">Kaçırıldı</string>
+    <string name="prayer_status_pending">Bekliyor</string>
+    <string name="have_you_prayed_format">%1$s namazını kıldınız mı?</string>
+    <string name="prayer_action_prayed">Kıldım</string>
+    <string name="prayer_action_not_yet">Henüz değil</string>
+    <string name="prayer_checkin_channel_name">Namaz takibi</string>
+    <string name="prayer_checkin_channel_description">Namazı kılıp kılmadığınızı soran bildirimler.</string>
+    <string name="prayer_log_streak">Günlük namazlar</string>
+    <string name="prayed_count_format">%1$d/%2$d kılındı</string>
+    <string name="prayer_log_recent_history">Son geçmiş</string>
+    <string name="mark_as_prayed">Kılındı olarak işaretle</string>
+    <string name="mark_as_missed">Kaçırıldı olarak işaretle</string>
+    <string name="clear_status">Durumu temizle</string>
+    <string name="prayer_checkin_disabled_hint">Vakit bildirimleri ve otomatik kaza takibi için Ses ve bildirimler ayarından Namaz takibini açabilirsiniz.</string>
+    <string name="prayer_checkin_open_settings">Bildirim ayarlarını aç</string>
+    <string name="prayer_checkin_notification_permission_rationale">Namaz takibi her vakitte bildirim gösterir. Açmak için bildirimlere izin verin.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">Namaz takibi bildirimleri için bildirim izni gereklidir.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">Namaz takibi bildirimlerinin vaktinde çalışması için tam zamanlı alarm izni verin.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">Zamanında namaz takibi için tam zamanlı alarm izni gereklidir.</string>
+    <string name="dev_fire_checkin_now">Namaz takibi bildirimini şimdi gönder</string>
 </resources>

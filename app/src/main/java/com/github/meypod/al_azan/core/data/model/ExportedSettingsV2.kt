@@ -4,6 +4,7 @@ import com.github.meypod.al_azan.core.domain.model.alarm.AlarmSettings
 import com.github.meypod.al_azan.core.domain.model.calculation.CalculationSettings
 import com.github.meypod.al_azan.core.domain.model.counter.Counter
 import com.github.meypod.al_azan.core.domain.model.favorite_location.FavoriteLocation
+import com.github.meypod.al_azan.core.domain.model.prayer_log.DailyPrayerRecord
 import com.github.meypod.al_azan.core.domain.model.reminder.Reminder
 import com.github.meypod.al_azan.core.domain.model.settings.Settings
 import com.github.meypod.al_azan.core.domain.model.widget.CustomWidgetConfig
@@ -34,4 +35,6 @@ data class ExportedSettingsV2(
     // Defaulted so backup files written before the custom widget existed still decode.
     @SerialName("CUSTOM_WIDGET_STORAGE_V2")
     val customWidget: CustomWidgetConfig = CustomWidgetConfig(),
+    @SerialName("PRAYER_LOG_STORAGE_V2")
+    val prayerLog: List<DailyPrayerRecord> = emptyList(),
 )

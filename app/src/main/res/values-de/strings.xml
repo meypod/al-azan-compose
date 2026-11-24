@@ -41,6 +41,7 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">Fajr</string>
+    <string name="fajr_prayer">Fajr</string>
     <string name="sunrise">Sonnenaufgang</string>
     <string name="dhuhr">Dhuhr</string>
     <string name="asr">Asr</string>
@@ -747,4 +748,32 @@
     <string name="tomorrow">Morgen</string>
     <!-- "%1$s" = day (Today / Tomorrow / weekday), "%2$s" = clock time -->
     <string name="upcoming_alarm_when">%1$s · %2$s</string>
+
+    <!-- Prayer check-in & Prayer log -->
+    <string name="prayer_checkin_title">Gebets-Check-in</string>
+    <string name="prayer_checkin_help">Zu jeder Gebetszeit eine Benachrichtigung anzeigen, ob du gebetet hast.</string>
+    <string name="auto_qada_title">Verpasste Gebete automatisch zu Qada hinzufügen</string>
+    <string name="auto_qada_help">Den Qada-Zähler automatisch erhöhen, wenn ein Gebetsfenster endet, ohne als gebetet markiert zu sein.</string>
+    <string name="open_prayer_log">Gebetsprotokoll öffnen</string>
+    <string name="prayer_log_title">Gebetsprotokoll</string>
+    <string name="prayer_status_prayed">Gebetet</string>
+    <string name="prayer_status_missed">Verpasst</string>
+    <string name="prayer_status_pending">Offen</string>
+    <string name="have_you_prayed_format">Hast du %1$s gebetet?</string>
+    <string name="prayer_action_prayed">Gebetet</string>
+    <string name="prayer_action_not_yet">Noch nicht</string>
+    <string name="prayer_checkin_channel_name">Gebets-Check-in</string>
+    <string name="prayer_checkin_channel_description">Benachrichtigungen, die fragen, ob du das aktuelle Gebet verrichtet hast.</string>
+    <string name="prayer_log_streak">Tägliche Gebete</string>
+    <string name="prayed_count_format">%1$d/%2$d gebetet</string>
+    <string name="prayer_log_recent_history">Letzte Einträge</string>
+    <string name="mark_as_prayed">Als gebetet markieren</string>
+    <string name="mark_as_missed">Als verpasst markieren</string>
+    <string name="clear_status">Status löschen</string>
+    <string name="prayer_checkin_disabled_hint">Aktiviere den Gebets-Check-in in den Ton- und Benachrichtigungseinstellungen, um Abfragen zu erhalten und verpasste Gebete automatisch zu protokollieren.</string>
+    <string name="prayer_checkin_open_settings">Benachrichtigungseinstellungen öffnen</string>
+    <string name="prayer_checkin_notification_permission_rationale">Der Gebets-Check-in sendet zu jeder Gebetszeit eine Benachrichtigung. Erlaube Benachrichtigungen, um ihn zu aktivieren.</string>
+    <string name="prayer_checkin_notification_permission_denied_text">Für Gebets-Check-in-Abfragen sind Benachrichtigungen erforderlich.</string>
+    <string name="prayer_checkin_exact_alarm_permission_rationale">Gebets-Check-in-Abfragen und Prüfungen am Ende des Gebetsfensters müssen pünktlich erfolgen. Erlaube exakte Alarme, um ihn zu aktivieren.</string>
+    <string name="prayer_checkin_exact_alarm_permission_denied_text">Für pünktliche Gebets-Check-ins ist die Berechtigung für exakte Alarme erforderlich.</string>
 </resources>

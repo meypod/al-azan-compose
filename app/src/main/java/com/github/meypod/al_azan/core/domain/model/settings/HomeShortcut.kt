@@ -26,6 +26,9 @@ enum class HomeShortcut(
 
     @SerialName("upcoming_alarms")
     UpcomingAlarms(R.string.upcoming_alarms),
+
+    @SerialName("prayer_log")
+    PrayerLog(R.string.prayer_log_title),
 }
 
 @Composable

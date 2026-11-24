@@ -9,6 +9,7 @@ import com.github.meypod.al_azan.di.DiyanetFixInitializer
 import com.github.meypod.al_azan.di.DndSyncInitializer
 import com.github.meypod.al_azan.di.MigrationEntryPoint
 import com.github.meypod.al_azan.di.NotificationChannelInitializer
+import com.github.meypod.al_azan.di.PrayerCheckInSyncInitializer
 import com.github.meypod.al_azan.di.RamadanNoticeInitializer
 import com.github.meypod.al_azan.di.ReminderSyncInitializer
 import com.github.meypod.al_azan.di.WidgetSyncInitializer
@@ -52,6 +53,9 @@ class App :
     @Inject
     lateinit var diyanetFixInitializer: dagger.Lazy<DiyanetFixInitializer>
 
+    @Inject
+    lateinit var prayerCheckInSyncInitializer: dagger.Lazy<PrayerCheckInSyncInitializer>
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
 
@@ -83,5 +87,6 @@ class App :
         ramadanNoticeInitializer.get().start()
         dndSyncInitializer.get().start()
         diyanetFixInitializer.get().start()
+        prayerCheckInSyncInitializer.get().start()
     }
 }
