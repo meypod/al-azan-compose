@@ -45,6 +45,7 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">Subuh</string>
+    <string name="fajr_prayer">Subuh</string>
     <string name="sunrise">Terbit</string>
     <string name="dhuhr">Dzuhur</string>
     <string name="asr">Ashar</string>

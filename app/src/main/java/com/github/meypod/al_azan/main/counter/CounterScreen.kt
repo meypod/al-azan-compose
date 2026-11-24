@@ -53,6 +53,7 @@ import com.github.meypod.al_azan.core.presentation.components.ReorderableLazyCol
 import com.github.meypod.al_azan.core.presentation.components.ScreenScaffold
 import com.github.meypod.al_azan.core.presentation.components.SettingSwitch
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
+import com.github.meypod.al_azan.prayer_checkin.performedLabelRes
 import com.github.meypod.al_azan.main.counter.components.AddCounterDialog
 import com.github.meypod.al_azan.main.counter.components.EditCounterDialog
 import kotlinx.coroutines.delay
@@ -197,7 +198,7 @@ private fun TodayPrayerStrip(
                                 if (icon != null) Icon(painterResource(icon), null, Modifier.size(16.dp))
                             }
                             Text(
-                                text = stringResource(prayer.stringRes),
+                                text = stringResource(prayer.performedLabelRes),
                                 style = MaterialTheme.typography.labelSmall,
                                 maxLines = 1,
                             )

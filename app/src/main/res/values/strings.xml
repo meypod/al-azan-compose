@@ -45,6 +45,8 @@
          Prayer names  (core/domain/model/adhan)
          ============================================================ -->
     <string name="fajr">Fajr</string>
+    <!-- Fajr as a prayer to be performed (check-in, log, Qada); the plain "fajr" string is the time name, e.g. Imsak in Turkish -->
+    <string name="fajr_prayer">Fajr</string>
     <string name="sunrise">Sunrise</string>
     <string name="dhuhr">Dhuhr</string>
     <string name="asr">Asr</string>

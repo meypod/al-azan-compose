@@ -71,13 +71,13 @@ class PrayerCheckInNotifier @Inject constructor(
         prayer: Prayer,
         date: LocalDate,
     ) {
-        val prayerName = localizedResources.current.getString(prayer.stringRes)
+        val prayerName = localizedResources.current.getString(prayer.performedLabelRes)
         val question = localizedResources.current.getString(R.string.have_you_prayed_format, prayerName)
 
         notificationRepository.notify(
             NotificationConfig(
                 id = PrayerCheckInContract.notificationId(prayer),
-                title = TextResource.StringResId(prayer.stringRes),
+                title = TextResource.StringResId(prayer.performedLabelRes),
                 body = TextResource.Literal(question),
                 android = AndroidNotificationConfig(
                     channelId = EnsureNotificationChannelsUseCase.PRAYER_CHECKIN_CHANNEL_ID,

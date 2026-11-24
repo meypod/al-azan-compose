@@ -33,6 +33,7 @@
     <string name="next_button">다음</string>
     <string name="finish_button">완료</string>
     <string name="fajr">파즈르</string>
+    <string name="fajr_prayer">파즈르</string>
     <string name="sunrise">일출</string>
     <string name="dhuhr">두흐르</string>
     <string name="asr">아스르</string>

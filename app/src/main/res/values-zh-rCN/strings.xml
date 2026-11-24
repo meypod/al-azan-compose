@@ -92,6 +92,7 @@
     <string name="show_prayer_times_help">选择要在主屏幕上显示的祈祷时间。</string>
     <string name="show_prayer_times_title">显示祈祷时间</string>
     <string name="fajr">晨礼</string>
+    <string name="fajr_prayer">晨礼</string>
     <string name="dhuhr">晌礼</string>
     <string name="asr">晡礼</string>
     <string name="maghrib">昏礼</string>

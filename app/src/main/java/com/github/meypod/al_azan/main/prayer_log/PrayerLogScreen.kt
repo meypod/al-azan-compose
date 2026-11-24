@@ -49,6 +49,7 @@ import com.github.meypod.al_azan.core.presentation.components.calendar.CalendarP
 import com.github.meypod.al_azan.core.presentation.components.calendar.rememberUserPickerCalendars
 import com.github.meypod.al_azan.core.presentation.navigation.NavigationController
 import com.github.meypod.al_azan.prayer_checkin.localNoonInstant
+import com.github.meypod.al_azan.prayer_checkin.performedLabelRes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -221,7 +222,7 @@ private fun PrayerRow(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = stringResource(prayer.stringRes),
+                text = stringResource(prayer.performedLabelRes),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
             )
